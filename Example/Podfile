@@ -1,13 +1,27 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'RxBluetoothKit_Example', :exclusive => true do
+target 'RxBluetoothKit_Example' do
+  pod 'RxSwift', '~> 2.0'
   pod 'RxBluetoothKit', :path => '../'
 end
 
-target 'RxBluetoothKit_Tests', :exclusive => true do
+target 'RxBluetoothKit_Tests' do
   pod 'RxBluetoothKit', :path => '../'
 
-  pod 'Quick', '~> 0.8.0'
-  pod 'Nimble', '3.0.0'
+  pod 'RxSwift', '~> 2.0'
+  pod 'RxTests', '~> 2.0'
+  pod 'Quick', '~> 0.9.1'
+  pod 'Nimble', '3.1.0'
+end
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        if target.name == "RxTests"
+            puts "Setting bitcode"
+            target.build_configurations.each do |config|
+                config.build_settings['ENABLE_BITCODE'] = 'NO'
+            end
+        end
+    end
 end
