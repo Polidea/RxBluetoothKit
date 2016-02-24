@@ -1,0 +1,13 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'RxBluetoothKit_Example', :exclusive => true do
+  pod 'RxBluetoothKit', :path => '../'
+end
+
+target 'RxBluetoothKit_Tests', :exclusive => true do
+  pod 'RxBluetoothKit', :path => '../'
+
+  pod 'Quick', '~> 0.8.0'
+  pod 'Nimble', '3.0.0'
+end
