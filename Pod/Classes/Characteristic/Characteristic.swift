@@ -35,31 +35,30 @@ public class Characteristic {
         self.characteristic = characteristic
         self.service = service
     }
-
+    //MARK: Writing characteristic values
     public func monitorWrite() -> Observable<Characteristic> {
-        return Observable.never()
+        return service.peripheral.monitorWriteForCharacteristic(self)
     }
 
     public func writeValue(data: NSData, type: CBCharacteristicWriteType) -> Observable<Characteristic> {
-        return Observable.never()
+        return service.peripheral.writeValue(data, forCharacteristic: self, type: type)
     }
 
     func setNotifyValue(enabled: Bool) -> Observable<Characteristic> {
-        return Observable.never()
+        return service.peripheral.setNotifyValue(enabled, forCharacteristic: self)
     }
 
     //MARK: Reading characteristic values
     func monitorValueUpdate() -> Observable<Characteristic> {
-        return Observable.never()
+        return service.peripheral.monitorValueUpdateForCharacteristic(self)
     }
 
     func readValue() -> Observable<Characteristic> {
-        return Observable.never()
+        return service.peripheral.readValueForCharacteristic(self)
     }
 }
 
-extension Characteristic: Equatable {
-}
+extension Characteristic: Equatable {}
 
 public func ==(lhs: Characteristic, rhs: Characteristic) -> Bool {
     return lhs.characteristic == rhs.characteristic
