@@ -12,48 +12,54 @@ import CoreBluetooth
 
 
 public class Peripheral {
-    
-    
+
+
     /// Implementation of peripheral
     let peripheral: RxPeripheralType
 
-    
+
     var isConnected: Bool {
         return peripheral.state == .Connected
     }
-    
+
     // Current state of peripheral
     public var state: CBPeripheralState {
         return peripheral.state
     }
-    
+
     /// Name of a peripheral
-    public var name: String? { return peripheral.name }
-    
+    public var name: String? {
+        return peripheral.name
+    }
+
     // Peripheral identifier
-    public var identifier: NSUUID {  return peripheral.identifier }
-    
+    public var identifier: NSUUID {
+        return peripheral.identifier
+    }
+
     // Currently hold services
     public var services: [Service]? {
-        return peripheral.services?.map { Service(peripheral: self, service: $0) }
+        return peripheral.services?.map {
+            Service(peripheral: self, service: $0)
+        }
     }
-    
+
     let manager: BluetoothManager
 
     init(manager: BluetoothManager, peripheral: RxPeripheralType) {
         self.manager = manager
         self.peripheral = peripheral
     }
-    
+
     /**
      Establishes connection with BLE Peripheral
      - Parameter options: Connection options
      - Returns: Observation which emits next event after connection is established
      */
-    public func connect(options: [String : AnyObject]? = nil) -> Observable<Peripheral> {
+    public func connect(options: [String:AnyObject]? = nil) -> Observable<Peripheral> {
         return manager.connectToPeripheral(self, options: options)
     }
-    
+
     /**
      Connects to BLE Peripheral
      - Returns: Observation which emits next event after peripheral is disconnected
@@ -61,29 +67,30 @@ public class Peripheral {
     public func cancelConnection() -> Observable<Peripheral> {
         return manager.cancelConnectionToPeripheral(self)
     }
-    
+
     /**
      Triggers services discovery.
      - Parameter identifiers: Identifiers of wanted services
      - Returns: Array of discovered services
      */
     public func discoverServices(identifiers: [CBUUID]) -> Observable<[Service]> {
-        let observable =  peripheral.rx_didDiscoverServices
-            .flatMap({ (services, error) -> Observable<[Service]> in
-                if let discoveredServices = services {
-                    let mapped = discoveredServices
-                        .filter { identifiers.isEmpty || identifiers.contains($0.uuid) }
-                        .map { Service(peripheral: self, service: $0) as Service }
-                    return Observable.just(mapped)
-                }
-                return Observable.error(BluetoothError.ServicesDiscoveryFailed(self, error))
-            })
+        let observable = peripheral.rx_didDiscoverServices
+        .flatMap({
+            (services, error) -> Observable<[Service]> in
+            if let discoveredServices = services {
+                let mapped = discoveredServices
+                .filter { identifiers.isEmpty || identifiers.contains($0.uuid) }
+                .map { Service(peripheral: self, service: $0) as Service }
+                return Observable.just(mapped)
+            }
+            return Observable.error(BluetoothError.ServicesDiscoveryFailed(self, error))
+        })
         return Observable.deferred {
             self.peripheral.discoverServices(identifiers.isEmpty ? nil : identifiers)
             return self.ensureValidPeripheralState(observable)
         }
     }
-    
+
     /**
      Triggers included services discovery.
      - Parameter identifiers: Array of  services identifiers
@@ -92,15 +99,15 @@ public class Peripheral {
      */
     public func discoverIncludedServices(includedServiceUUIDs: [CBUUID], forService service: Service) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverIncludedServicesForService
-            .flatMap({ (service, error) -> Observable<[Service]> in
-                if let includedServices = service.includedServices where error == nil {
-                    let services = includedServices
-                        .filter{ includedServiceUUIDs.isEmpty || includedServiceUUIDs.contains($0.uuid) }
-                        .map {Service(peripheral: self, service: $0)}
-                    return Observable.just(services)
-                }
-                return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
-            })
+        .flatMap{ (service, error) -> Observable<[Service]> in
+            if let includedServices = service.includedServices where error == nil {
+                let services = includedServices
+                .filter { includedServiceUUIDs.isEmpty || includedServiceUUIDs.contains($0.uuid) }
+                .map { Service(peripheral: self, service: $0) }
+                return Observable.just(services)
+            }
+            return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
+        }
         return Observable.deferred {
             self.peripheral.discoverIncludedServices(includedServiceUUIDs.isEmpty ? nil : includedServiceUUIDs, forService: service.service)
             return self.ensureValidPeripheralState(observable)
@@ -108,7 +115,7 @@ public class Peripheral {
     }
 
     //MARK: Characteristics
-    
+
     /**
      Triggers characteristics discovery for specified service.
     - Parameter identifiers: Identifiers of wanted characteristics
@@ -116,21 +123,21 @@ public class Peripheral {
     */
     public func discoverCharacteristics(identifiers: [CBUUID], service: Service) -> Observable<[Characteristic]> {
         let observable = peripheral.rx_didDiscoverCharacteristicsForService
-            .flatMap { (cbService, error) -> Observable<[Characteristic]> in
-                if let characteristics = cbService.characteristics where error == nil {
-                    let filtered = characteristics
-                        .filter { identifiers.isEmpty || identifiers.contains($0.uuid) }
-                        .map { Characteristic(characteristic: $0, service: service) }
-                    return Observable.just(filtered)
-                }
-                return Observable.error(BluetoothError.CharacteristicsDiscoveryFailed(service, error))
+        .flatMap { (cbService, error) -> Observable<[Characteristic]> in
+            if let characteristics = cbService.characteristics where error == nil {
+                let filtered = characteristics
+                .filter { identifiers.isEmpty || identifiers.contains($0.uuid) }
+                .map { Characteristic(characteristic: $0, service: service) }
+                return Observable.just(filtered)
+            }
+            return Observable.error(BluetoothError.CharacteristicsDiscoveryFailed(service, error))
         }
         return Observable.deferred {
             self.peripheral.discoverCharacteristics(identifiers.isEmpty ? nil : identifiers, forService: service.service)
             return self.ensureValidPeripheralState(observable)
         }
     }
-    
+
     /**
      It connects to events of writes for characteristics.
      - Parameter characteristic: Characteristic to connect
@@ -138,15 +145,16 @@ public class Peripheral {
      */
     public func monitorWriteForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic> {
         return peripheral.rx_didWriteValueForCharacteristic
-            .filter { return $0.0 == characteristic.characteristic }
-            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
-                if let error = error {
-                    return Observable.error(BluetoothError.CharacteristicWriteFailed(characteristic, error))
-                }
-                return Observable.just(characteristic)
+        .filter { return $0.0 == characteristic.characteristic
+        }
+        .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
+            if let error = error {
+                return Observable.error(BluetoothError.CharacteristicWriteFailed(characteristic, error))
             }
+            return Observable.just(characteristic)
+        }
     }
-    
+
     /**
      Writes given data to characteristic
      - Parameter characteristic: Characteristic to connect
@@ -159,7 +167,7 @@ public class Peripheral {
             return self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic))
         }
     }
-    
+
     /**
      It connects to events of value updates for characteristics.
      - Parameter characteristic: Characteristic to connect
@@ -167,17 +175,17 @@ public class Peripheral {
      */
     public func monitorValueUpdateForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic> {
         let observable = peripheral.rx_didUpdateValueForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
-            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
-                if let error = error {
-                    return Observable.error(BluetoothError.CharacteristicReadFailed(characteristic, error))
-                }
-                return Observable.just(characteristic)
+        .filter { $0.0 == characteristic.characteristic }
+        .flatMap {(rxCharacteristic, error) -> Observable<Characteristic> in
+            if let error = error {
+                return Observable.error(BluetoothError.CharacteristicReadFailed(characteristic, error))
+            }
+            return Observable.just(characteristic)
         }
         return self.ensureValidPeripheralState(observable)
     }
-    
-    
+
+
     /**
      Reads data from characteristic.
      - Parameter characteristic: Characteristic to read value from
@@ -190,9 +198,9 @@ public class Peripheral {
             return self.monitorValueUpdateForCharacteristic(characteristic)
         }
     }
-    
+
     //MARK: Descriptors
-    
+
     /**
       Triggers descriptors discovery for characteristics
     - Parameter characteristic: Characteristic for which descriptors will be discovered
@@ -201,17 +209,17 @@ public class Peripheral {
     public func discoverDescriptorsForCharacteristic(characteristic: Characteristic) -> Observable<[Descriptor]> {
         return Observable.unimplemented()
     }
-    
 
-     /**
-      It connects to events of writes for  descriptor.
-     - Parameter characteristic: Descriptor to connect
-     - Returns: Stream of characteristic, for which value write was detected
-     */
+
+    /**
+     It connects to events of writes for  descriptor.
+    - Parameter characteristic: Descriptor to connect
+    - Returns: Stream of characteristic, for which value write was detected
+    */
     public func monitorWriteForDescriptor(descriptor: Descriptor) -> Observable<Characteristic> {
         return Observable.unimplemented()
     }
-    
+
     /**
       Writes given data to descriptor
      - Parameter data: Characteristic to connect
@@ -221,7 +229,7 @@ public class Peripheral {
     public func writeValue(data: NSData, forDescriptor descriptor: Descriptor) -> Observable<Descriptor> {
         return Observable.unimplemented()
     }
-    
+
     /**
      It connects to events of value updates for descriptor.
      - Parameter characteristic: Descriptor to connect
@@ -239,7 +247,7 @@ public class Peripheral {
     public func readValueForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
         return Observable.unimplemented()
     }
-    
+
     /**
      detectErrorsObservable: Function that merges given observable with error streams. Helps propagate errors with connection, while calling another functions
      - Parameter observable: observation to be transformed
@@ -247,14 +255,14 @@ public class Peripheral {
      */
     func ensureValidPeripheralState<T>(observable: Observable<T>) -> Observable<T> {
         return Observable.deferred {
-            if !self.isConnected {
+            guard self.isConnected else {
                 return Observable.error(BluetoothError.PeripheralDisconnected(self, nil))
             }
             return Observable.of(self.manager.ensurePeripheralIsConnected(self),
-                                 self.manager.ensureState(.PoweredOn, observable: observable)).merge()
+                    self.manager.ensureState(.PoweredOn, observable: observable)).merge()
         }
     }
-    
+
     /**
      Changes state of characteristic notify mode
     - Parameter enabled: state to set
@@ -263,12 +271,13 @@ public class Peripheral {
     */
     public func setNotifyValue(enabled: Bool, forCharacteristic characteristic: Characteristic) -> Observable<Characteristic> {
         let observable = peripheral.rx_didUpdateNotificationStateForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
-            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
-                if let error = error {
-                    return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
-                }
-                return Observable.just(characteristic)
+        .filter { $0.0 == characteristic.characteristic
+        }
+        .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
+            if let error = error {
+                return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
+            }
+            return Observable.just(characteristic)
         }
         return Observable.deferred {
             //TODO: Check state before call?
@@ -276,18 +285,18 @@ public class Peripheral {
             return self.ensureValidPeripheralState(observable).take(1)
         }
     }
-    
+
     /**
      Triggers read RSSI from peripheral
      - Returns: Peripheral which value is up-to date and current RSSI.
      */
-    public func readRSSI() -> Observable<(Peripheral, NSNumber)> {
+    public func readRSSI() -> Observable<(Peripheral, Int)> {
         let observable = peripheral.rx_didReadRSSI
-            .flatMap { (rssi, error) -> Observable<(Peripheral, NSNumber)> in
-                if error != nil {
-                    return Observable.error(BluetoothError.PeripheralRSSIReadFailed(self, error))
-                }
-                return Observable.just(self, rssi)
+        .flatMap { (rssi, error) -> Observable<(Peripheral, Int)> in
+            if let error = error {
+                return Observable.error(BluetoothError.PeripheralRSSIReadFailed(self, error))
+            }
+            return Observable.just(self, rssi)
         }
         return Observable.deferred {
             self.peripheral.readRSSI()
@@ -301,25 +310,24 @@ public class Peripheral {
      */
     public func monitorUpdateName() -> Observable<(Peripheral, String?)> {
         return peripheral.rx_didUpdateName
-            .map { return (self, $0) }
+        .map { return (self, $0) }
     }
 
-     /**
-     Connects to services modification events
-     - Returns: stream of arrays services that have been modificated
-     */
+    /**
+    Connects to services modification events
+    - Returns: stream of arrays services that have been modificated
+    */
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {
         let observable = peripheral.rx_didModifyServices
-            .map {
-                $0.map { Service(peripheral: self, service: $0) }
-            }
-            .map { (self, $0) }
+        .map { $0.map { Service(peripheral: self, service: $0) } }
+        .map { (self, $0) }
         return ensureValidPeripheralState(observable)
     }
-
 }
 
-extension Peripheral: Equatable {}
-public func ==(lhs: Peripheral, rhs: Peripheral) -> Bool {
+extension Peripheral: Equatable {
+}
+
+public func == (lhs: Peripheral, rhs: Peripheral) -> Bool {
     return lhs.peripheral == rhs.peripheral
 }

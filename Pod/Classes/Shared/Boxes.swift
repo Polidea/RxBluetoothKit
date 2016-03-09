@@ -10,8 +10,7 @@ import Foundation
 
 
 class MutableBox<T> : CustomDebugStringConvertible {
-    var value : T?
-    
+    var value: T?
     init() {}
     init(value: T) {
         self.value = value

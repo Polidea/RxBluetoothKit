@@ -12,8 +12,8 @@ import CoreBluetooth
 import RxSwift
 
 struct ScanOperation {
-    
+
     let UUIDs: [CBUUID]
     let observable: Observable<ScannedPeripheral>
-    
+
 }

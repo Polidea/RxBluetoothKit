@@ -11,10 +11,10 @@ import RxBluetoothKit
 import CoreBluetooth
 
 class FakeService: RxServiceType {
-    
-    var uuid: CBUUID  = CBUUID()
-    
-    var characteristics: [RxCharacteristicType]?  = nil
-    var includedServices: [RxServiceType]?  = nil
+
+    var uuid: CBUUID = CBUUID()
+
+    var characteristics: [RxCharacteristicType]? = nil
+    var includedServices: [RxServiceType]? = nil
     var isPrimary: Bool = false
 }

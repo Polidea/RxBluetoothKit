@@ -8,11 +8,10 @@
 
 import Foundation
 import CoreBluetooth
-
+///Represents instance of scanned peripheral - containing it's advertisment data, rssi and peripheral itself
 public class ScannedPeripheral {
-    
 
-    
+
     public let peripheral: Peripheral
     public let advertisementData: AdvertisementData
     public let RSSI: NSNumber

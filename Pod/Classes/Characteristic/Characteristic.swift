@@ -26,32 +26,41 @@ public class Characteristic {
         return characteristic.properties
     }
     public var descriptors: [Descriptor]? {
-        return characteristic.descriptors?.map { Descriptor(descriptor: $0, characteristic: self) }
+        return characteristic.descriptors?.map {
+            Descriptor(descriptor: $0, characteristic: self)
+        }
     }
-    
+
     init(characteristic: RxCharacteristicType, service: Service) {
         self.characteristic = characteristic
         self.service = service
     }
-    public func monitorWrite() -> Observable<Characteristic>{
+
+    public func monitorWrite() -> Observable<Characteristic> {
         return Observable.never()
     }
-    public func writeValue(data: NSData,type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+
+    public func writeValue(data: NSData, type: CBCharacteristicWriteType) -> Observable<Characteristic> {
         return Observable.never()
     }
-    func setNotifyValue(enabled: Bool) -> Observable<Characteristic>{
+
+    func setNotifyValue(enabled: Bool) -> Observable<Characteristic> {
         return Observable.never()
     }
-    
+
     //MARK: Reading characteristic values
     func monitorValueUpdate() -> Observable<Characteristic> {
         return Observable.never()
     }
-    func readValue() -> Observable<Characteristic>{
+
+    func readValue() -> Observable<Characteristic> {
         return Observable.never()
     }
 }
-extension Characteristic: Equatable {}
+
+extension Characteristic: Equatable {
+}
+
 public func ==(lhs: Characteristic, rhs: Characteristic) -> Bool {
     return lhs.characteristic == rhs.characteristic
 }

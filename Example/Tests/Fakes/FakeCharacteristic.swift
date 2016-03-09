@@ -11,18 +11,18 @@ import RxBluetoothKit
 import CoreBluetooth
 
 class FakeCharacteristic: RxCharacteristicType {
-    
+
     var uuid: CBUUID = CBUUID()
     var value: NSData? = nil
-    var isNotifying: Bool  = false
+    var isNotifying: Bool = false
     var properties: CBCharacteristicProperties = .Notify
-    
+
     var descriptors: [RxDescriptorType]? = nil
-    
+
     let service: RxServiceType
-    
+
     init(service: RxServiceType) {
         self.service = service
     }
-    
+
 }

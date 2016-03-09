@@ -10,14 +10,18 @@ import Foundation
 import CoreBluetooth
 
 public class Descriptor {
-    
+
     let descriptor: RxDescriptorType
-    
+
     public let characteristic: Characteristic
-    
-    public var UUID: CBUUID { return descriptor.UUID }
-    public var value: AnyObject? { return descriptor.value }
-    
+
+    public var UUID: CBUUID {
+        return descriptor.UUID
+    }
+    public var value: AnyObject? {
+        return descriptor.value
+    }
+
     init(descriptor: RxDescriptorType, characteristic: Characteristic) {
         self.descriptor = descriptor
         self.characteristic = characteristic

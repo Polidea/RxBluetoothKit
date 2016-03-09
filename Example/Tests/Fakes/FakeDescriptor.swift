@@ -7,3 +7,16 @@
 //
 
 import Foundation
+@testable
+import RxBluetoothKit
+import CoreBluetooth
+
+class FakeDescriptor: RxDescriptorType {
+
+    var UUID = CBUUID()
+    var characteristic: RxCharacteristicType
+    var value: AnyObject? = nil
+    init(characteristic: RxCharacteristicType) {
+        self.characteristic = characteristic
+    }
+}

@@ -11,33 +11,55 @@ import CoreBluetooth
 
 
 public struct AdvertisementData {
-    private let advertisementData : [String : AnyObject]
-    
-    public init(advertisementData: [String : AnyObject]) {
+    private let advertisementData: [String:AnyObject]
+
+    public init(advertisementData: [String:AnyObject]) {
         self.advertisementData = advertisementData
     }
-    public var localName : String? {
+    ///A string containing the local name of a peripheral.
+    public var localName: String? {
         return advertisementData[CBAdvertisementDataLocalNameKey] as? String
     }
-    public var manufacturerData : NSData? {
+    ///A NSData object containing the manufacturer data of a peripheral.
+    public var manufacturerData: NSData? {
         return advertisementData[CBAdvertisementDataManufacturerDataKey] as? NSData
     }
-    public var serviceData : [CBUUID: NSData]? {
-        return advertisementData[CBAdvertisementDataServiceDataKey] as? [CBUUID: NSData]
+    /**
+    A dictionary containing service-specific advertisement data.
+    The keys are CBUUID objects, representing CBService UUIDs. The values are NSData objects,
+    representing service-specific data.
+    */
+    public var serviceData: [CBUUID:NSData]? {
+        return advertisementData[CBAdvertisementDataServiceDataKey] as? [CBUUID:NSData]
     }
-    public var serviceUUIDs : [CBUUID]? {
+    ///An array of service UUIDs.
+    public var serviceUUIDs: [CBUUID]? {
         return advertisementData[CBAdvertisementDataServiceUUIDsKey] as? [CBUUID]
     }
-    public var overflowServiceUUIDs : [CBUUID]? {
+    ///An array of one or more CBUUID objects, representing CBService UUIDs that were found in the “overflow”
+    ///area of the advertisement data.
+    public var overflowServiceUUIDs: [CBUUID]? {
         return advertisementData[CBAdvertisementDataOverflowServiceUUIDsKey] as? [CBUUID]
     }
-    public var txPowerLevel : NSNumber? {
+    /**
+    A number (an instance of NSNumber) containing the transmit power of a peripheral.
+    This key and value are available if the broadcaster (peripheral)
+    provides its Tx power level in its advertising packet.
+    Using the RSSI value and the Tx power level, it is possible to calculate path loss.
+    */
+    public var txPowerLevel: NSNumber? {
         return advertisementData[CBAdvertisementDataTxPowerLevelKey] as? NSNumber
     }
-    public var isConnectable : Bool? {
+    /**
+     A Boolean value that indicates whether the advertising event type is connectable.
+     The value for this key is an NSNumber object. You can use this value to determine whether
+     a peripheral is connectable at a particular moment.
+    */
+    public var isConnectable: Bool? {
         return advertisementData[CBAdvertisementDataIsConnectable] as? Bool
     }
-    public var solicitedServiceUUIDs : [CBUUID]? {
+    ///An array of one or more CBUUID objects, representing CBService UUIDs.
+    public var solicitedServiceUUIDs: [CBUUID]? {
         return advertisementData[CBAdvertisementDataSolicitedServiceUUIDsKey] as? [CBUUID]
     }
 }

@@ -14,7 +14,8 @@ func unimplementedFunction(file: String = __FILE__, function: String = __FUNCTIO
 }
 
 extension Observable {
-    static func unimplemented(file: String = __FILE__, function: String = __FUNCTION__, line: Int = __LINE__) -> Observable<Element> {
+    static func unimplemented(file: String = __FILE__, function: String = __FUNCTION__, line: Int = __LINE__)
+        -> Observable<Element> {
         unimplementedFunction(file, function: function, line: line)
         return Observable<Element>.empty()
     }

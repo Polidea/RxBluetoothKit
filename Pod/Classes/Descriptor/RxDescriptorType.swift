@@ -11,10 +11,9 @@ import CoreBluetooth
 
 
 public protocol RxDescriptorType {
-    
-    
+
     var UUID: CBUUID { get }
     var characteristic: RxCharacteristicType { get }
     var value: AnyObject? { get }
-    
+
 }
