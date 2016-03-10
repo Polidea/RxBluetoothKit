@@ -24,6 +24,7 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		72B1A0EDA344062F5F4794AD /* Pods_RxBluetoothKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE9373E3F0A9E06F4BBC24D /* Pods_RxBluetoothKit_Tests.framework */; };
 		D7304C541C9071E500C71CCF /* ObservableSpec+From.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7304C521C9071D300C71CCF /* ObservableSpec+From.swift */; };
+		D7612C311C8DBE560070CB34 /* ObservableSpec+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7612C2F1C8DB9F50070CB34 /* ObservableSpec+QueueSubscribeOn.swift */; };
 		D7F8043B1C7DFD0700BDA198 /* FakeCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8043A1C7DFD0700BDA198 /* FakeCentralManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		C37C289CD8239251A18D6D90 /* Pods-RxBluetoothKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBluetoothKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxBluetoothKit_Tests/Pods-RxBluetoothKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		D69E263E7DA204DABD9084C4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D7304C521C9071D300C71CCF /* ObservableSpec+From.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableSpec+From.swift"; sourceTree = "<group>"; };
+		D7612C2F1C8DB9F50070CB34 /* ObservableSpec+QueueSubscribeOn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableSpec+QueueSubscribeOn.swift"; sourceTree = "<group>"; };
 		D7F8043A1C7DFD0700BDA198 /* FakeCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeCentralManager.swift; sourceTree = "<group>"; };
 		F13742F6B8F4630D234879E1 /* Pods-RxBluetoothKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxBluetoothKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxBluetoothKit_Tests/Pods-RxBluetoothKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		F1755B6F4B4F1691B0F27175 /* RxBluetoothKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RxBluetoothKit.podspec; path = ../RxBluetoothKit.podspec; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				D7304C521C9071D300C71CCF /* ObservableSpec+From.swift */,
+				D7612C2F1C8DB9F50070CB34 /* ObservableSpec+QueueSubscribeOn.swift */,
 				26B664991C7F0D4000B839B4 /* Utilities.swift */,
 			);
 			path = Shared;
@@ -416,6 +419,7 @@
 			files = (
 				26B6649A1C7F0D4000B839B4 /* Utilities.swift in Sources */,
 				D7304C541C9071E500C71CCF /* ObservableSpec+From.swift in Sources */,
+				D7612C311C8DBE560070CB34 /* ObservableSpec+QueueSubscribeOn.swift in Sources */,
 				26F9302F1C7DFAF000CCAC5E /* BluetoothManagerSpec.swift in Sources */,
 				26DD50401C85AA7100D47B37 /* BluetoothManagerSpec+Scanning.swift in Sources */,
 				267E905B1C7E09FC0022BBF5 /* FakePeripheral.swift in Sources */,
