@@ -10,15 +10,13 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
-
 public class BluetoothManager {
 
     /// Implementation of Central Manager
     private let centralManager: RxCentralManagerType
 
-    // TODO: To be completed: seealso: scanForPeripherals
-    /// Scheduler on which all serialized operations should be performed
-    private let queueScheduler: SchedulerType
+    // Queue on which all stream are serialized
+    private let subscriptionQueue: SerializedSubscriptionQueue
 
     /// Internal structures lock
     private let lock = NSLock()
@@ -42,7 +40,7 @@ public class BluetoothManager {
     public init(centralManager: RxCentralManagerType,
                 queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
         self.centralManager = centralManager
-        self.queueScheduler = queueScheduler
+        self.subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
     }
 
     /**
@@ -53,40 +51,48 @@ public class BluetoothManager {
         self.init(centralManager: RxCBCentralManager(queue: dispatch_get_main_queue()))
     }
 
-    // TODO: Currently simulaneous scanning is not working properly.
-    //       - add tests for concurrent scanning of two users
-    //       - add tests for scanning which has to be queued
-    
-
-
    /**
-    Starts BLE scan for peripherals with given service UUIDs. When scan with the same
-set of UUIDs is in progress you will bind to it. Otherwise new scan will be queued.
-    - parameter serviceUUIDs: Services of peripherals to search for
-    - returns: Stream of scanned peripherals.
+     Starts BLE scan for peripherals with given service UUIDs. When scan with the same set of UUIDs is
+     in progress you will bind to it. Otherwise new scan will be queued.
+
+     - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
+     - parameter options: Optional scanning options
+     - returns: Stream of scanned peripherals.
     */
-    public func scanForPeripherals(serviceUUIDs: [CBUUID], options: [String:AnyObject]? = nil)
+    public func scanForPeripherals(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]? = nil)
         -> Observable<ScannedPeripheral> {
 
         return Observable.deferred {
-            let observable: Observable<ScannedPeripheral> = {
-                Void -> Observable<ScannedPeripheral> in
+            let observable: Observable<ScannedPeripheral> = { Void -> Observable<ScannedPeripheral> in
                 // If it's possible use existing scan - take if from the queue
                 self.lock.lock(); defer { self.lock.unlock() }
-                if let elem = self.scanQueue.findElement({ Set(serviceUUIDs).isSubsetOf($0.UUIDs) }) {
-                    return elem.observable
+                if let elem = self.scanQueue.findElement({ $0.acceptUUIDs(serviceUUIDs) }) {
+                    guard serviceUUIDs != nil else {
+                        return elem.observable
+                    }
+
+                    // When binding to existing scan we need to make sure that services are
+                    // filtered properly
+                    return elem.observable.filter { scannedPeripheral in
+                        if let services = scannedPeripheral.advertisementData.serviceUUIDs {
+                            return Set(services).isSupersetOf(serviceUUIDs!)
+                        }
+                        return false
+                    }
                 }
 
                 let operationBox = MutableBox<Observable<ScannedPeripheral>>()
 
                 // Create new scan which will be processed in a queue
                 let operation = Observable.create { (element: AnyObserver<ScannedPeripheral>) -> Disposable in
+
+                    let operation = ScanOperation(UUIDs: serviceUUIDs, observable: operationBox.value!)
                     do { self.lock.lock(); defer { self.lock.unlock() }
-                        self.scanQueue.append(ScanOperation(UUIDs: serviceUUIDs, observable: operationBox.value!))
+                        self.scanQueue.append(operation)
                     }
+
                     // Start scanning for devices
-                    self.centralManager.scanForPeripheralsWithServices(serviceUUIDs.isEmpty ? nil : Array(serviceUUIDs),
-                        options: options)
+                    self.centralManager.scanForPeripheralsWithServices(serviceUUIDs, options: options)
 
                     // Observable which will emit next element, when peripheral is discovered.
                     self.centralManager.rx_didDiscoverPeripheral
@@ -97,18 +103,19 @@ set of UUIDs is in progress you will bind to it. Otherwise new scan will be queu
                                           advertisementData: advertismentData, RSSI: rssi)
                     }
                     .subscribe(element)
+
                     return AnonymousDisposable {
                         //When disposed, stop all scans, and remove scanning operation from queue
                         self.centralManager.stopScan()
                         do { self.lock.lock(); defer { self.lock.unlock() }
-                            if let index = self.scanQueue.indexOf({ $0.UUIDs == serviceUUIDs }) {
+                            if let index = self.scanQueue.indexOf({ $0 == operation }) {
                                 self.scanQueue.removeAtIndex(index)
                             }
                         }
                     }
 
                 }
-                .subscribeOn(self.queueScheduler)
+                .queueSubscribeOn(self.subscriptionQueue)
                 .publish()
                 .refCount()
 

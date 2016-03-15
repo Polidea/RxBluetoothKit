@@ -13,7 +13,7 @@ import RxBluetoothKit
 import RxTests
 import RxSwift
 
-class BluetoothManagerSpecScanning: QuickSpec {
+class BluetoothManagerScanningSpec: QuickSpec {
 
     override func spec() {
 
@@ -25,11 +25,11 @@ class BluetoothManagerSpecScanning: QuickSpec {
         beforeEach {
             fakePeripheral = FakePeripheral()
             fakeCentralManager = FakeCentralManager()
-            manager = BluetoothManager(centralManager: fakeCentralManager)
             testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
+            manager = BluetoothManager(centralManager: fakeCentralManager, queueScheduler: testScheduler)
         }
 
-        describe("scanning devices test") {
+        describe("scanning devices") {
             var scanObservers: [ScheduledObservable<ScannedPeripheral>]!
 
             var scanCallObserver: TestableObserver<([CBUUID]?, [String:AnyObject]?)>!
@@ -42,28 +42,20 @@ class BluetoothManagerSpecScanning: QuickSpec {
                 stopScanCallObserver = testScheduler.createObserver(Void)
                 fakeCentralManager.stopScanTO = stopScanCallObserver
 
-                scanObservers = [testScheduler.scheduleObservable {
-                    manager.scanForPeripherals([])
-                }]
+                scanObservers = []
             }
 
-            context("before scanning") {
-
-                it("contains valid time for test scheduler") {
-                    expect(testScheduler.clock).to(equal(0))
-                }
-
-                it("didn't call scan function for any observer") {
-                    for observer in scanObservers {
-                        expect(observer.events).to(beEmpty())
-                    }
-                }
-            }
-
+            // For every invalid bluetooth state:
+            // .PoweredOff,
+            // .Resetting,
+            // .Unauthorized,
+            // .Unknown,
+            // .Unsupported
             for (cberror, bleerror) in BluetoothError.invalidStateErrors {
                 context("when bluetooth manager has state: \(bleerror) and user is subscribed for scanning") {
                     beforeEach {
                         fakeCentralManager.state = cberror
+                        scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(nil)})
                         testScheduler.advanceTo(scanObservers[0].subscribeTime)
                     }
 
@@ -73,17 +65,22 @@ class BluetoothManagerSpecScanning: QuickSpec {
                     }
                 }
 
-                context("when bluetooth manager has state: \(bleerror)") {
+                context("when bluetooth changes state to: \(bleerror) during scanning of services") {
                     let firstScanTime = 550
                     let errorPropagationTime = 600
 
                     beforeEach {
                         fakeCentralManager.state = .PoweredOn
+                        scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(nil)})
+
                         let errors: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: errorPropagationTime, event: .Next(cberror))]
                         testScheduler.scheduleAt(errorPropagationTime - 1, action: { fakeCentralManager.state = cberror })
+
                         fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(errors).asObservable()
                         fakeCentralManager.rx_didDiscoverPeripheral = testScheduler.createHotObservable(
-                        [Recorded(time: firstScanTime, event: .Next(FakePeripheral() as RxPeripheralType, [String: AnyObject](), NSNumber(double: 0)))]).asObservable()
+                            [Recorded(time: firstScanTime, event: .Next(FakePeripheral() as RxPeripheralType,
+                                                                        [String: AnyObject](),
+                                                                        NSNumber(double: 0)))]).asObservable()
                     }
 
                     context("when first device is scanned") {
@@ -91,7 +88,7 @@ class BluetoothManagerSpecScanning: QuickSpec {
                             testScheduler.advanceTo(firstScanTime)
                         }
 
-                        it("it should find one scanned device") {
+                        it("should find one scanned device") {
                             expect(scanObservers[0].events.count).to(equal(1))
                             expect(scanObservers[0].events[0].value.isStopEvent).to(beFalse())
                         }
@@ -102,7 +99,7 @@ class BluetoothManagerSpecScanning: QuickSpec {
                             testScheduler.advanceTo(errorPropagationTime)
                         }
 
-                        it("it should find one scanned device and emit error") {
+                        it("should find one scanned device and emit error") {
                             expect(scanObservers[0].events.count).to(equal(2))
                             expect(scanObservers[0].events[0].value.isStopEvent).to(beFalse())
                             expectError(scanObservers[0].events[1].value, errorType: bleerror)
@@ -112,20 +109,24 @@ class BluetoothManagerSpecScanning: QuickSpec {
             }
 
             context("when bluetooth manager is powered on and there are 3 devices to be scanned") {
-                var recordsTime: [Int]!
-                var recordsRSSI: [Double]!
-
-                func expectRecordsFor(records: [Recorded<Event<ScannedPeripheral>>], rssis: [Double], file: String = __FILE__, line: UInt = __LINE__) {
-                    expect(records.count, file: file, line: line).to(equal(rssis.count))
-                    for (i, record) in records.enumerate() {
+                func expectMatchPeripherals(fromRecords: [Recorded<Event<ScannedPeripheral>>],
+                                            withRSSIs: [Double],
+                                            inFile: String = __FILE__,
+                                            inLine: UInt = __LINE__) {
+                    expect(fromRecords.count, file: inFile, line: inLine).to(equal(withRSSIs.count))
+                    for (i, record) in fromRecords.enumerate() {
                         expect(record.value.isStopEvent).to(beFalse())
                         let args: ScannedPeripheral = record.value.element!
-                        expect(args.RSSI).to(equal(rssis[i]))
+                        expect(args.RSSI).to(equal(withRSSIs[i]))
                     }
                 }
 
+                var recordsTime: [Int]!
+                var recordsRSSI: [Double]!
+
                 beforeEach {
                     fakeCentralManager.state = .PoweredOn
+                    scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(nil)})
                     var scans: [Recorded<Event<(RxPeripheralType, [String:AnyObject], NSNumber)>>] = []
 
                     recordsRSSI = []
@@ -162,7 +163,7 @@ class BluetoothManagerSpecScanning: QuickSpec {
                         expect(scanCallObserver.events.count).to(equal(1))
                     }
                     it("should have only one scanned device registered") {
-                        expectRecordsFor(scanObservers[0].events, rssis: [recordsRSSI[0]])
+                        expectMatchPeripherals(scanObservers[0].events, withRSSIs: [recordsRSSI[0]])
                     }
                 }
                 context("after all detected scanned devices") {
@@ -173,7 +174,7 @@ class BluetoothManagerSpecScanning: QuickSpec {
                         expect(scanCallObserver.events.count).to(equal(1))
                     }
                     it("should register all scanned devices detected before disposal and don't complete it's stream ") {
-                        expectRecordsFor(scanObservers[0].events, rssis: [recordsRSSI[0], recordsRSSI[1]])
+                        expectMatchPeripherals(scanObservers[0].events, withRSSIs: [recordsRSSI[0], recordsRSSI[1]])
                     }
                 }
 
@@ -181,10 +182,10 @@ class BluetoothManagerSpecScanning: QuickSpec {
 
                     beforeEach {
                         let times = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
-                        scanObservers.append(testScheduler.scheduleObservable(times, create: { manager.scanForPeripherals([]) }))
+                        scanObservers.append(testScheduler.scheduleObservable(times, create: { manager.scanForPeripherals(nil) }))
                     }
 
-                    context("and only first user is subscribed and one peripheral was discovered") {
+                    context("when only first user is subscribed and one peripheral was discovered") {
                         beforeEach {
                             testScheduler.advanceTo(recordsTime[0])
                         }
@@ -192,9 +193,9 @@ class BluetoothManagerSpecScanning: QuickSpec {
                             expect(scanCallObserver.events.count).to(equal(1))
                         }
                         it("should contain one event for first observer") {
-                            expectRecordsFor(scanObservers[0].events, rssis: [recordsRSSI[0]])
+                            expectMatchPeripherals(scanObservers[0].events, withRSSIs: [recordsRSSI[0]])
                         }
-                        it("shoudn't contain any event for second observer") {
+                        it("shouldn't contain any events for second observer") {
                             expect(scanObservers[1].events).to(beEmpty())
                         }
                     }
@@ -207,10 +208,10 @@ class BluetoothManagerSpecScanning: QuickSpec {
                             expect(scanCallObserver.events.count).to(equal(1))
                         }
                         it("should emit two events for first user") {
-                            expectRecordsFor(scanObservers[0].events, rssis: [recordsRSSI[0], recordsRSSI[1]])
+                            expectMatchPeripherals(scanObservers[0].events, withRSSIs: [recordsRSSI[0], recordsRSSI[1]])
                         }
                         it("should emit one event for second user") {
-                            expectRecordsFor(scanObservers[1].events, rssis: [recordsRSSI[1]])
+                            expectMatchPeripherals(scanObservers[1].events, withRSSIs: [recordsRSSI[1]])
                         }
                     }
                     context("when first user is unsubsribed and last scan is delivered") {
@@ -221,7 +222,7 @@ class BluetoothManagerSpecScanning: QuickSpec {
                             expect(stopScanCallObserver.events).to(beEmpty())
                         }
                         it("should emit two events for third user") {
-                            expectRecordsFor(scanObservers[1].events, rssis: [recordsRSSI[1], recordsRSSI[2]])
+                            expectMatchPeripherals(scanObservers[1].events, withRSSIs: [recordsRSSI[1], recordsRSSI[2]])
                         }
                     }
 
@@ -232,6 +233,138 @@ class BluetoothManagerSpecScanning: QuickSpec {
                         it("shoud call stop scan function") {
                             expect(stopScanCallObserver.events.count).to(equal(1))
                         }
+                    }
+                }
+            }
+
+            context("when there are two users scanning for different UUIDs") {
+                beforeEach {
+                    let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
+                    let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
+                    scanObservers.append(testScheduler.scheduleObservable(times,
+                        create: {manager.scanForPeripherals([CBUUID(string: "aaff"), CBUUID(string: "dfff")])}))
+                    scanObservers.append(testScheduler.scheduleObservable(times2,
+                        create: {manager.scanForPeripherals([CBUUID(string: "dfff")])}))
+                }
+
+                context("when first user subscribed") {
+                    beforeEach {
+                        testScheduler.advanceTo(scanObservers[0].subscribeTime)
+                    }
+                    it("should call scan function once") {
+                        expect(scanCallObserver.events.count).to(equal(1))
+                    }
+                    it("shouldn't call stop function") {
+                        expect(stopScanCallObserver.events).to(beEmpty())
+                    }
+                }
+
+                context("when second user subscribed") {
+                    beforeEach {
+                        testScheduler.advanceTo(scanObservers[1].subscribeTime)
+                    }
+                    it("should call scan function once because first user didn't finish scanning") {
+                        expect(scanCallObserver.events.count).to(equal(1))
+                    }
+                    it("shouldn't call stop function because first user didn't finish scanning") {
+                        expect(stopScanCallObserver.events).to(beEmpty())
+                    }
+                }
+
+                context("when first user finished scanning") {
+                    beforeEach {
+                        testScheduler.advanceTo(scanObservers[0].disposeTime)
+                    }
+                    it("should call scan function twice because second user started scanning") {
+                        expect(scanCallObserver.events.count).to(equal(2))
+                    }
+                    it("should call stop function for first scan") {
+                        expect(stopScanCallObserver.events.count).to(equal(1))
+                    }
+                }
+
+                context("when second user finished scanning") {
+                    beforeEach {
+                        testScheduler.advanceTo(scanObservers[1].disposeTime)
+                    }
+                    it("should call scan function twice because second user started scanning") {
+                        expect(scanCallObserver.events.count).to(equal(2))
+                    }
+                    it("should call stop function for both scans") {
+                        expect(stopScanCallObserver.events.count).to(equal(2))
+                    }
+                }
+            }
+
+            context("when there are two users scanning where one is using existing scan") {
+                typealias ScanType = (RxPeripheralType, [String:AnyObject], NSNumber)
+
+                func createPeripheralEvents(events: (Int, [String], Int)... ) -> [Recorded<Event<ScanType>>] {
+                    var records : [Recorded<Event<ScanType>>] = []
+                    for event in events {
+                        var advertisment = [String:AnyObject]()
+                        advertisment[CBAdvertisementDataServiceUUIDsKey] = event.1.map { CBUUID(string: $0) }
+                        let device = (FakePeripheral() as RxPeripheralType, advertisment, NSNumber(int: Int32(event.2)))
+                        records.append(Recorded(time: event.0, event: .Next(device)))
+                    }
+                    return records
+                }
+
+                beforeEach {
+                    let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
+                    let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
+                    scanObservers.append(testScheduler.scheduleObservable(times,
+                        create: {manager.scanForPeripherals([CBUUID(string: "aaff")])}))
+                    scanObservers.append(testScheduler.scheduleObservable(times2,
+                        create: {manager.scanForPeripherals([CBUUID(string: "dfff"), CBUUID(string: "aaff")])}))
+
+                    let scans = testScheduler.createHotObservable(createPeripheralEvents(
+                        (400, ["aaff", "dfff", "ccaa"], 90),
+                        (600, ["aaff", "dfff"], 100),
+                        (900, ["aaff", "ccaa"], 120),
+                        (1200, ["aaff", "dfff", "efff"], 130)
+                        ))
+
+                    fakeCentralManager.rx_didDiscoverPeripheral = scans.asObservable()
+                }
+
+                context("when two users are subscribed") {
+                    beforeEach {
+                        testScheduler.advanceTo(scanObservers[1].subscribeTime)
+                    }
+
+                    it("should call scan function once") {
+                        expect(scanCallObserver.events.count).to(equal(1))
+                    }
+
+                    it("should register two scan events for first user") {
+                        expect(scanObservers[0].events.count).to(equal(2))
+                    }
+
+                    it("should register one scan event for second user") {
+                        expect(scanObservers[1].events.count).to(equal(1))
+                    }
+                }
+
+                context("when both users compleded theirs streams") {
+                    beforeEach {
+                        testScheduler.start()
+                    }
+
+                    it("should call scan function once") {
+                        expect(scanCallObserver.events.count).to(equal(1))
+                    }
+
+                    it("should call stop function once") {
+                        expect(stopScanCallObserver.events.count).to(equal(1))
+                    }
+
+                    it("should register three events for first user") {
+                        expect(scanObservers[0].events.count).to(equal(3))
+                    }
+
+                    it("should register two events for second user, third one should be filtered out") {
+                        expect(scanObservers[1].events.count).to(equal(2))
                     }
                 }
             }
