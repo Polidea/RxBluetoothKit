@@ -44,16 +44,16 @@ public class Characteristic {
         return service.peripheral.writeValue(data, forCharacteristic: self, type: type)
     }
 
-    func setNotifyValue(enabled: Bool) -> Observable<Characteristic> {
+    public func setNotifyValue(enabled: Bool) -> Observable<Characteristic> {
         return service.peripheral.setNotifyValue(enabled, forCharacteristic: self)
     }
 
     //MARK: Reading characteristic values
-    func monitorValueUpdate() -> Observable<Characteristic> {
+    public func monitorValueUpdate() -> Observable<Characteristic> {
         return service.peripheral.monitorValueUpdateForCharacteristic(self)
     }
 
-    func readValue() -> Observable<Characteristic> {
+    public func readValue() -> Observable<Characteristic> {
         return service.peripheral.readValueForCharacteristic(self)
     }
 }

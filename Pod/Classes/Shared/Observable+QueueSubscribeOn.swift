@@ -111,7 +111,9 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
 
     // Delayed subscription must be called after original subscription so that observer will be stored by that time.
     func delayedSubscribe(scheduler: ImmediateSchedulerType) {
-        serialDisposable.disposable = scheduler.schedule(()) {
+        let cancelDisposable = SingleAssignmentDisposable()
+        serialDisposable.disposable = cancelDisposable
+        cancelDisposable.disposable = scheduler.schedule(()) {
             self.serialDisposable.disposable = self.source.subscribe(self)
             return NopDisposable.instance
         }

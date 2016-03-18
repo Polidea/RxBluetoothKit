@@ -13,16 +13,21 @@ import RxSwift
 public class RxCBPeripheral: RxPeripheralType {
 
     let peripheral: CBPeripheral
+    private let internalDelegate: InternalPeripheralDelegate
 
-    private let internalDelegate = InternalPeripheralDelegate()
     init(peripheral: CBPeripheral) {
         self.peripheral = peripheral
-        peripheral.delegate = internalDelegate
+        self.internalDelegate = RxCBPeripheral.getInternalPeripheralDelegateRef(peripheral)
+    }
+
+    deinit {
+        RxCBPeripheral.putInternalPeripheralDelegateRef(peripheral)
     }
     
     public var identifier: NSUUID {
         return peripheral.identifier
     }
+
     public var name: String? {
         return peripheral.name
     }
@@ -122,8 +127,7 @@ public class RxCBPeripheral: RxPeripheralType {
         peripheral.readRSSI()
     }
 
-
-    private class InternalPeripheralDelegate: NSObject, CBPeripheralDelegate {
+    @objc private class InternalPeripheralDelegate: NSObject, CBPeripheralDelegate {
         let peripheralDidUpdateNameSubject = PublishSubject<String?>()
         let peripheralDidModifyServicesSubject = PublishSubject<([RxServiceType])>()
         let peripheralDidReadRSSISubject = PublishSubject<(Int, NSError?)>()
@@ -189,14 +193,48 @@ public class RxCBPeripheral: RxPeripheralType {
 
         @objc func peripheral(peripheral: CBPeripheral, didWriteValueForDescriptor descriptor: CBDescriptor, error: NSError?) {
             peripheralDidWriteValueForDescriptorSubject.onNext((RxCBDescriptor(descriptor: descriptor), error))
-
         }
-
     }
 
+    private class InternalPeripheralDelegateWrapper {
+        private let delegate: InternalPeripheralDelegate
+        private var refCount: Int
+
+        private init(delegate: InternalPeripheralDelegate) {
+            self.delegate = delegate
+            self.refCount = 1
+        }
+    }
+
+    private static let internalPeripheralDelegateWrappersLock = NSLock()
+    private static var internalPeripheralDelegateWrappers = [CBPeripheral:InternalPeripheralDelegateWrapper]()
+
+    private static func getInternalPeripheralDelegateRef(cbPeripheral: CBPeripheral) -> InternalPeripheralDelegate {
+        internalPeripheralDelegateWrappersLock.lock(); defer { internalPeripheralDelegateWrappersLock.unlock() }
+
+        if let wrapper = internalPeripheralDelegateWrappers[cbPeripheral] {
+            wrapper.refCount += 1
+            return wrapper.delegate
+        } else {
+            let delegate = InternalPeripheralDelegate()
+            cbPeripheral.delegate = delegate
+            let wrapper = InternalPeripheralDelegateWrapper(delegate: delegate)
+            internalPeripheralDelegateWrappers[cbPeripheral] = InternalPeripheralDelegateWrapper(delegate: delegate)
+            return delegate
+        }
+    }
+
+    private static func putInternalPeripheralDelegateRef(cbPeripheral: CBPeripheral) {
+        internalPeripheralDelegateWrappersLock.lock(); defer { internalPeripheralDelegateWrappersLock.unlock() }
+
+        if let wrapper = internalPeripheralDelegateWrappers[cbPeripheral] {
+            wrapper.refCount -= 1
+            if wrapper.refCount == 0 {
+                cbPeripheral.delegate = nil
+                internalPeripheralDelegateWrappers[cbPeripheral] = nil
+            }
+        } else {
+            fatalError("Implementation error: internal delegate for CBPeripheral is cached in memory")
+        }
+    }
 }
-
-
-
-
-
