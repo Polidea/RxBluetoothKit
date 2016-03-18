@@ -218,7 +218,6 @@ public class RxCBPeripheral: RxPeripheralType {
         } else {
             let delegate = InternalPeripheralDelegate()
             cbPeripheral.delegate = delegate
-            let wrapper = InternalPeripheralDelegateWrapper(delegate: delegate)
             internalPeripheralDelegateWrappers[cbPeripheral] = InternalPeripheralDelegateWrapper(delegate: delegate)
             return delegate
         }
