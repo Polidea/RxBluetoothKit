@@ -73,23 +73,25 @@ public class Peripheral {
      - Parameter identifiers: Identifiers of wanted services
      - Returns: Array of discovered services
      */
-    public func discoverServices(identifiers: [CBUUID]) -> Observable<[Service]> {
+    public func discoverServices(identifiers: [CBUUID]?) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverServices
         .flatMap({
             (services, error) -> Observable<[Service]> in
             if let discoveredServices = services {
                 let mapped = discoveredServices
-                .filter { identifiers.isEmpty || identifiers.contains($0.uuid) }
+                .filter { self.shouldBeIdentifierIncluded($0.uuid, forIdentifiers: identifiers) }
                 .map { Service(peripheral: self, service: $0) as Service }
                 return Observable.just(mapped)
             }
             return Observable.error(BluetoothError.ServicesDiscoveryFailed(self, error))
         })
         return Observable.deferred {
-            self.peripheral.discoverServices(identifiers.isEmpty ? nil : identifiers)
+            self.peripheral.discoverServices(identifiers)
             return self.ensureValidPeripheralState(observable)
         }
     }
+
+
 
     /**
      Triggers included services discovery.
@@ -97,19 +99,19 @@ public class Peripheral {
      - Parameter service: The service whose included services you want to discover.
      - Returns: Returns array of included discovered services.
      */
-    public func discoverIncludedServices(includedServiceUUIDs: [CBUUID], forService service: Service) -> Observable<[Service]> {
+    public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?, forService service: Service) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverIncludedServicesForService
-        .flatMap{ (service, error) -> Observable<[Service]> in
+        .flatMap{ (service, error) ->Observable<[Service]> in
             if let includedServices = service.includedServices where error == nil {
                 let services = includedServices
-                .filter { includedServiceUUIDs.isEmpty || includedServiceUUIDs.contains($0.uuid) }
+                .filter { self.shouldBeIdentifierIncluded($0.uuid, forIdentifiers: includedServiceUUIDs) }
                 .map { Service(peripheral: self, service: $0) }
                 return Observable.just(services)
             }
             return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
         }
         return Observable.deferred {
-            self.peripheral.discoverIncludedServices(includedServiceUUIDs.isEmpty ? nil : includedServiceUUIDs, forService: service.service)
+            self.peripheral.discoverIncludedServices(includedServiceUUIDs, forService: service.service)
             return self.ensureValidPeripheralState(observable)
         }
     }
@@ -121,19 +123,19 @@ public class Peripheral {
     - Parameter identifiers: Identifiers of wanted characteristics
     - Returns: Stream of characteristics
     */
-    public func discoverCharacteristics(identifiers: [CBUUID], service: Service) -> Observable<[Characteristic]> {
+    public func discoverCharacteristics(identifiers: [CBUUID]?, service: Service) -> Observable<[Characteristic]> {
         let observable = peripheral.rx_didDiscoverCharacteristicsForService
         .flatMap { (cbService, error) -> Observable<[Characteristic]> in
             if let characteristics = cbService.characteristics where error == nil {
                 let filtered = characteristics
-                .filter { identifiers.isEmpty || identifiers.contains($0.uuid) }
+                .filter { self.shouldBeIdentifierIncluded($0.uuid, forIdentifiers: identifiers) }
                 .map { Characteristic(characteristic: $0, service: service) }
                 return Observable.just(filtered)
             }
             return Observable.error(BluetoothError.CharacteristicsDiscoveryFailed(service, error))
         }
         return Observable.deferred {
-            self.peripheral.discoverCharacteristics(identifiers.isEmpty ? nil : identifiers, forService: service.service)
+            self.peripheral.discoverCharacteristics(identifiers, forService: service.service)
             return self.ensureValidPeripheralState(observable)
         }
     }
@@ -322,6 +324,13 @@ public class Peripheral {
         .map { $0.map { Service(peripheral: self, service: $0) } }
         .map { (self, $0) }
         return ensureValidPeripheralState(observable)
+    }
+
+    private func shouldBeIdentifierIncluded(identifier: CBUUID, forIdentifiers identifiers: [CBUUID]?) -> Bool {
+        if let identifiers = identifiers {
+            return identifiers.contains(identifier)
+        }
+        return true
     }
 }
 
