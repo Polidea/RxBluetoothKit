@@ -1,15 +1,18 @@
 //
 //  BluetoothManager.swift
-//  Pods
+//  RxBluetoothKit
 //
 //  Created by Przemysław Lenart on 24/02/16.
-//
 //
 
 import Foundation
 import RxSwift
 import CoreBluetooth
 
+/**
+ BluetoothManager is the main class which allows to use Bluetooth low energy to scan and connect to
+ retrieved peripherals.
+ */
 public class BluetoothManager {
 
     /// Implementation of Central Manager
@@ -28,7 +31,6 @@ public class BluetoothManager {
     private let disposeBag = DisposeBag()
 
     //MARK: Public interfaces
-
 
     /**
      Create new Bluetooth Manager with specified implemention of Bluetooth Central Manager which will execute operations
@@ -129,6 +131,7 @@ public class BluetoothManager {
 
     /**
      Returns current state of BLE Central Manager.
+
      - Returns: Current state of BLE Central Manager.
      */
     public var state: CBCentralManagerState {
@@ -137,6 +140,7 @@ public class BluetoothManager {
 
     /**
      Starts observing state changes for BLE. It starts emitting current state first.
+
      - Returns: Stream of BLE states
      */
     public func monitorState() -> Observable<CBCentralManagerState> {
@@ -147,13 +151,13 @@ public class BluetoothManager {
 
     /**
      Establishes connection with BLE Peripheral
-     
-     - Parameter device: Device to connect to
-     - Returns: Observation which emits next event after connection is established
+
+     - parameter peripheral: Peripheral to connect to
+     - parameter options: Connection options
+     - returns: Observation which emits next event after connection is established
      */
     public func connectToPeripheral(peripheral: Peripheral, options: [String:AnyObject]? = nil)
         -> Observable<Peripheral> {
-
         //TODO: Is it possible to connect simultaneously to two devices. If not we should consider
         //      doing this call in serialized queue.
         let success = centralManager.rx_didConnectPeripheral
@@ -163,7 +167,8 @@ public class BluetoothManager {
         let error = centralManager.rx_didFailToConnectPeripheral
         .filter { $0.0 == peripheral.peripheral }
         .flatMap { (peripheral, error) -> Observable<Peripheral> in
-            Observable.error(BluetoothError.PeripheralConnectionFailed(Peripheral(manager: self, peripheral: peripheral),error))
+            Observable.error(BluetoothError.PeripheralConnectionFailed(
+                Peripheral(manager: self, peripheral: peripheral), error))
         }
         //Defer any action to moment of subscription
         let observable = Observable<Peripheral>.deferred {
@@ -181,12 +186,13 @@ public class BluetoothManager {
     }
 
     /**
-     Cancels an active or pending local connection to a peripheral.    
-     - Parameter device: The peripheral to which the central manager is either trying to connect or has already connected.
-     - Returns: Observation which emits next event when peripheral canceled connection
+     Cancels an active or pending local connection to a peripheral.
+
+     - parameter peripheral: The peripheral to which the central manager is either trying to
+                             connect or has already connected.
+     - returns: Observation which emits next event when peripheral canceled connection
      */
     public func cancelConnectionToPeripheral(peripheral: Peripheral) -> Observable<Peripheral> {
-
         let observable = Observable<Peripheral>.deferred {
             //TODO: What if not connected? leave it to the OS?
             self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
@@ -196,11 +202,12 @@ public class BluetoothManager {
     }
 
     /**
-     Returns observable list of the peripherals containing any of the specified services currently connected to the system
-     - Parameter serviceUUIDs: A list of service UUIDs
-     - Returns: Observation which emits next when peripherals are retrieved. Peripheral 
-     to be included in this event has
-     to be connected to the system and has to contain any of the services specified in the serviceUUID parameter.
+     Returns observable list of the peripherals containing any of the specified services currently
+     connected to the system
+
+     - parameter serviceUUIDs: A list of service UUIDs
+     - returns: Observation which emits retrieved peripherals. Emited peripherals has to be connected to the system and
+                has to contain any of the services specified in the serviceUUIDs parameter.
      */
     public func retrieveConnectedPeripheralsWithServices(serviceUUIDs: [CBUUID]) -> Observable<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {
@@ -235,11 +242,12 @@ public class BluetoothManager {
 
     /**
      Ensure that state is preserved. It there is other state present error will be merged into stream.
-     - Parameter state: Central Manager State which should be ensured
-     - Parameter observable: Observable into which potential errors should be merged
+
+     - parameter state: Central Manager State which should be ensured
+     - parameter observable: Observable into which potential errors should be merged
+     - returns: New observable which merges errors with source observable.
      */
     func ensureState<T>(state: CBCentralManagerState, observable: Observable<T>) -> Observable<T> {
-
         let statesObservable = monitorState()
         .filter { $0 != state && BluetoothError.errorFromState($0) != nil }
         .map { state -> T in throw BluetoothError.errorFromState(state)! }
@@ -248,6 +256,7 @@ public class BluetoothManager {
 
     /**
      This function injects emits errors when peripheral is in disconnected state.
+
      - Parameter peripheral: Peripheral for which errors should be emitted when disconnected
      - Returns: Stream of disconnection errors
      */
@@ -265,6 +274,7 @@ public class BluetoothManager {
     }
     /**
      Observe peripheral disconnection event
+
      - Parameter peripheral: Peripheral which disconnection events should be observed
      - Returns: Observation which emits next events when peripheral was disconnected
     */

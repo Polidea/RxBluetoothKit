@@ -9,11 +9,21 @@
 import Foundation
 import CoreBluetooth
 
+/**
+ Protocol which wraps bluetooth service.
+ */
 public protocol RxServiceType {
 
+    /// Service's UUID
     var uuid: CBUUID { get }
+
+    /// Service's characteristics
     var characteristics: [RxCharacteristicType]? { get }
+
+    /// Service's included services
     var includedServices: [RxServiceType]? { get }
+
+    /// True if service is a primary service
     var isPrimary: Bool { get }
 }
 

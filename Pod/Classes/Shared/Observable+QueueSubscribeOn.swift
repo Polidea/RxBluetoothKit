@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-
+/// Queue which is used for queueing subscriptions for queueSubscribeOn operator.
 public class SerializedSubscriptionQueue {
     let scheduler: ImmediateSchedulerType
     let lock = NSLock()

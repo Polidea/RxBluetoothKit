@@ -9,7 +9,6 @@
 import Foundation
 import CoreBluetooth
 
-
 class RxCBDescriptor: RxDescriptorType {
 
     let descriptor: CBDescriptor

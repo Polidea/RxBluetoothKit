@@ -9,15 +9,22 @@
 import Foundation
 import CoreBluetooth
 
+/**
+ Class which describes characteristic's descriptor
+ */
 public class Descriptor {
 
     let descriptor: RxDescriptorType
 
+    /// Characteristic to which this descriptor belongs
     public let characteristic: Characteristic
 
+    /// Descriptor UUID
     public var UUID: CBUUID {
         return descriptor.UUID
     }
+
+    /// Descriptor value
     public var value: AnyObject? {
         return descriptor.value
     }
@@ -26,5 +33,4 @@ public class Descriptor {
         self.descriptor = descriptor
         self.characteristic = characteristic
     }
-
 }

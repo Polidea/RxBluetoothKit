@@ -9,11 +9,17 @@
 import Foundation
 import CoreBluetooth
 
-
+/**
+ Protocol which wraps characteristic's descriptor for bluetooth devices.
+ */
 public protocol RxDescriptorType {
 
+    /// Descriptor UUID
     var UUID: CBUUID { get }
-    var characteristic: RxCharacteristicType { get }
-    var value: AnyObject? { get }
 
+    /// Descriptor's characteristic
+    var characteristic: RxCharacteristicType { get }
+
+    /// Descriptor's value
+    var value: AnyObject? { get }
 }

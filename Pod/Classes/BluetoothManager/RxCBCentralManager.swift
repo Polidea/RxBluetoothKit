@@ -10,10 +10,20 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
+/**
+ Core Bluetooth implementation of RxCentralManagerType. This is a lightweight wrapper which allows
+ to hide all implementation details.
+ */
 public class RxCBCentralManager: RxCentralManagerType {
     private let centralManager: CBCentralManager
     private let internalDelegate = InternalDelegate()
 
+    /**
+     Create Core Bluetooth implementation of RxCentralManagerType which is used by BluetoothManager class.
+     User can specify on which thread all bluetooth events are collected.
+
+     - parameter queue: Dispatch queue on which callbacks are received.
+     */
     public init(queue: dispatch_queue_t) {
         centralManager = CBCentralManager(delegate: internalDelegate, queue: queue)
     }
@@ -34,7 +44,10 @@ public class RxCBCentralManager: RxCentralManagerType {
             willRestoreStateSubject.onNext(dict)
         }
 
-        @objc func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String:AnyObject], RSSI: NSNumber) {
+        @objc func centralManager(central: CBCentralManager,
+                                  didDiscoverPeripheral peripheral: CBPeripheral,
+                                  advertisementData: [String:AnyObject],
+                                  RSSI: NSNumber) {
             didDiscoverPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), advertisementData, RSSI))
         }
 
@@ -42,60 +55,107 @@ public class RxCBCentralManager: RxCentralManagerType {
             didConnectPerihperalSubject.onNext(RxCBPeripheral(peripheral: peripheral))
         }
 
-        @objc func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        @objc func centralManager(central: CBCentralManager,
+                                  didFailToConnectPeripheral peripheral: CBPeripheral,
+                                  error: NSError?) {
             didFailToConnectPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), error))
         }
 
-        @objc func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        @objc func centralManager(central: CBCentralManager,
+                                  didDisconnectPeripheral peripheral: CBPeripheral,
+                                  error: NSError?) {
             didDisconnectPeripheral.onNext((RxCBPeripheral(peripheral: peripheral), error))
         }
     }
 
+
+    /// Observable which infroms when central manager did change its state
     public var rx_didUpdateState: Observable<CBCentralManagerState> {
         return internalDelegate.didUpdateStateSubject
     }
+    /// Observable which infroms when central manager is about to restore its state
     public var rx_willRestoreState: Observable<[String:AnyObject]> {
         return internalDelegate.willRestoreStateSubject
     }
+    /// Observable which infroms when central manage discovered peripheral
     public var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:AnyObject], NSNumber)> {
         return internalDelegate.didDiscoverPeripheralSubject
     }
+    /// Observable which infroms when central manager connected to peripheral
     public var rx_didConnectPeripheral: Observable<RxPeripheralType> {
         return internalDelegate.didConnectPerihperalSubject
     }
+    /// Observable which infroms when central manager failed to connect to peripheral
     public var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, NSError?)> {
         return internalDelegate.didFailToConnectPeripheralSubject
     }
+    /// Observable which infroms when central manager disconnected from peripheral
     public var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> {
         return internalDelegate.didDisconnectPeripheral
     }
 
+    /// Current central manager state
     public var state: CBCentralManagerState {
         return centralManager.state
     }
 
+    /**
+     Start scanning for peripherals with specified services. Results will be available on rx_didDiscoverPeripheral
+     observable.
+
+     - parameter serviceUUIDs: Services which peripherals needs to implement. When nil is passed all
+                               available peripherals will be discovered.
+     - parameter options: Central Manager specific options for scanning
+     */
     public func scanForPeripheralsWithServices(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?) {
         return centralManager.scanForPeripheralsWithServices(serviceUUIDs, options: options)
     }
 
+    /**
+     Connect to specified peripheral. If connection is successful peripheral will be emitted in rx_didConnectPeripheral
+     observable. In case of any error it will be emitted on rx_didFailToConnectPeripheral.
+
+     - parameter peripheral: Peripheral to connect to.
+     - parameter options: Central Manager specific connection options.
+     */
     public func connectPeripheral(peripheral: RxPeripheralType, options: [String:AnyObject]?) {
         return centralManager.connectPeripheral((peripheral as! RxCBPeripheral).peripheral, options: options)
     }
 
+    /**
+     Cancel peripheral connection. If successful observable rx_didDisconnectPeripheral will emit disconnected
+     peripheral with NSError set to nil.
+
+     - parameter peripheral: Peripheral to be disconnected.
+     */
     public func cancelPeripheralConnection(peripheral: RxPeripheralType) {
         return centralManager.cancelPeripheralConnection((peripheral as! RxCBPeripheral).peripheral)
     }
 
+    /// Abort peripheral scanning
     public func stopScan() {
         return centralManager.stopScan()
     }
 
+    /**
+     Retrieve list of connected peripherals which implement specified services. Peripherals which meet criteria
+     will be emitted in by returned observable after subscription.
+
+     - parameter serviceUUIDs: List of services which need to be implemented by retrieved peripheral.
+     - returns: Observable wich emits connected peripherals.
+     */
     public func retrieveConnectedPeripheralsWithServices(serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
         return Observable.just(centralManager.retrieveConnectedPeripheralsWithServices(serviceUUIDs).map {
             RxCBPeripheral(peripheral: $0)
         })
     }
 
+    /**
+     Retrieve peripherals with specified identifiers.
+
+     - parameter identifiers: List of identifiers of peripherals for which we are looking for.
+     - returns: Observable which emits peripherals with specified identifiers.
+     */
     public func retrievePeripheralsWithIdentifiers(identifiers: [NSUUID]) -> Observable<[RxPeripheralType]> {
         return Observable.just(centralManager.retrievePeripheralsWithIdentifiers(identifiers).map {
             RxCBPeripheral(peripheral: $0)

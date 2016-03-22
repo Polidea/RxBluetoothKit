@@ -9,22 +9,50 @@
 import Foundation
 import CoreBluetooth
 
+/**
+ Protocol which wraps characteristic for bluetooth devices.
+ */
 public protocol RxCharacteristicType {
 
+    /// Characteristic UUID
     var uuid: CBUUID { get }
-    var value: NSData? { get }
-    var isNotifying: Bool { get }
-    var properties: CBCharacteristicProperties { get }
-    var descriptors: [RxDescriptorType]? { get }
-    var service: RxServiceType { get }
 
+    /// Current characteristic value
+    var value: NSData? { get }
+
+    /// True if characteristic value changes are notified
+    var isNotifying: Bool { get }
+
+    /// Characteristic properties
+    var properties: CBCharacteristicProperties { get }
+
+    /// Characteristic descriptors
+    var descriptors: [RxDescriptorType]? { get }
+
+    /// Characteristic service
+    var service: RxServiceType { get }
 }
 
-public func ==(lhs: RxCharacteristicType, rhs: RxCharacteristicType) -> Bool {
+/**
+ Characteristics are equal if their UUIDs are equal
+
+ - parameter lhs: First characteristic to compare
+ - parameter rhs: Second characteristic to compare
+ - returns: True if characteristics are the same
+ */
+public func == (lhs: RxCharacteristicType, rhs: RxCharacteristicType) -> Bool {
     return lhs.uuid == rhs.uuid
 }
 
-func ==(lhs: [RxCharacteristicType], rhs: [RxCharacteristicType]) -> Bool {
+/**
+ Function compares if two characteristic arrays are the same, which is true if
+ both of them in sequence are equal and their size is the same.
+
+ - parameter lhs: First array of characteristics to compare
+ - parameter rhs: Second array of characteristics to compare
+ - returns: True if both arrays contain same characteristics
+ */
+func == (lhs: [RxCharacteristicType], rhs: [RxCharacteristicType]) -> Bool {
     guard lhs.count == rhs.count else {
         return false
     }

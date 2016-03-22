@@ -48,7 +48,7 @@ class ViewController: UIViewController {
             .take(1)
             .flatMap { service -> Observable<Characteristic> in
                 print("Discovers characteristic for service: \(service.uuid)")
-                return Observable.from(service.discoverCharacteristics([]))
+                return Observable.from(service.discoverCharacteristics([characteristicUUID]))
             }
             .flatMap { characteristic -> Observable<Characteristic> in
                 print("Read characteristic: \(characteristic.uuid.UUIDString)")

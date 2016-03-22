@@ -15,7 +15,7 @@ class ArrayObserverProxy<Element>: ObserverType {
     init(toObserver: AnyObserver<Element>) {
         self.toObserver = toObserver
     }
-    
+
     func on(event: Event<[Element]>) {
         switch event {
         case .Next(let elements):

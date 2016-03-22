@@ -9,6 +9,7 @@
 import Foundation
 import CoreBluetooth
 
+/// Bluetooth error which can be emitted by RxBluetoothKit created observables.
 public enum BluetoothError: ErrorType {
     // States
     case BluetoothUnsupported
@@ -33,6 +34,8 @@ public enum BluetoothError: ErrorType {
 }
 
 extension BluetoothError : CustomStringConvertible {
+
+    /// Human readable description of bluetooth error
     public var description: String {
         switch self {
         case .BluetoothUnsupported:
@@ -91,10 +94,16 @@ extension BluetoothError {
     }
 }
 
-
-
-
 extension BluetoothError: Equatable {}
+
+//swiftlint:disable cyclomatic_complexity
+/**
+ Compares two Bluetooth erros if they are the same.
+
+ - parameter lhs: First bluetooth error
+ - parameter rhs: Second bluetooth error
+ - returns: True if both bluetooth errors are the same
+ */
 public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     switch (lhs, rhs) {
     case (.BluetoothUnsupported, .BluetoothUnsupported): return true
@@ -120,3 +129,4 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     default: return false
     }
 }
+//swiftlint:enable cyclomatic_complexity
