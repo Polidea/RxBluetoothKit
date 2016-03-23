@@ -64,7 +64,7 @@ class BluetoothManagerSpec: QuickSpec {
                         expect(retrieveWithIdentifiersCallObserver.events.count).to(equal(1))
                     }
                     it("should call it with proper identifiers") {
-                        expect(retrieveWithIdentifiersCallObserver.events[0].value.element! == uuids)
+                        expect(retrieveWithIdentifiersCallObserver.events[0].value.element!).to(equal(uuids))
                     }
                     it("should receive event in return") {
                         expect(peripheralsObserver.events.count).to(equal(1))
@@ -79,14 +79,14 @@ class BluetoothManagerSpec: QuickSpec {
                         expect(peripheralsObserver.events[0].value.element![0].peripheral == fakePeripheral)
                     }
                 }
-                describe("error propagation in wrong bluetooth state") {
+
+                for stateWithError in statesWithErrors {
+                describe("error propagation in wrong bluetooth state: \(stateWithError.0)") {
                     var state: CBCentralManagerState!
                     var error: BluetoothError!
-                    for i in statesWithErrors {
                         beforeEach {
-                            let (s, e) = i
-                            state = s
-                            error = e
+                            state = stateWithError.0
+                            error = stateWithError.1
                         }
                         context("before subscribe") {
                             it("should not call before subscribe") {
@@ -101,7 +101,7 @@ class BluetoothManagerSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get error") {
-                                    expect(peripheralsObserver.events.count > 0)
+                                    expect(peripheralsObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should get proper error") {
                                     expectError(peripheralsObserver.events[0].value, errorType: error)
@@ -115,11 +115,11 @@ class BluetoothManagerSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call on central manager") {
-                                    expect(retrieveWithIdentifiersCallObserver.events.count == 1)
+                                    expect(retrieveWithIdentifiersCallObserver.events.count).to(equal(1))
                                 }
 
                                 it("should get event") {
-                                    expect(peripheralsObserver.events.count > 0)
+                                    expect(peripheralsObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should get proper error") {
                                     expectError(peripheralsObserver.events[0].value, errorType: error)
@@ -135,7 +135,12 @@ class BluetoothManagerSpec: QuickSpec {
                 var cbuuids: [CBUUID]!
                 beforeEach {
                     cbuuids = [CBUUID()]
-                    fakeCentralManager.retrieveConnectedPeripheralsWithServicesResult = Observable.just([fakePeripheral])
+
+                    let scans: [Recorded<Event<[RxPeripheralType]>>] = [
+                        Recorded(time: 245, event: .Next([fakePeripheral])),
+                        Recorded(time: 245, event: .Completed)
+                    ]
+                    fakeCentralManager.retrieveConnectedPeripheralsWithServicesResult = testScheduler.createHotObservable(scans).asObservable()
                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesTO = testScheduler.createObserver([CBUUID])
                     retrieveWithServicesCallObserver = fakeCentralManager.retrieveConnectedPeripheralsWithServicesTO
                     peripheralsObserver = testScheduler.scheduleObservable {
@@ -150,17 +155,16 @@ class BluetoothManagerSpec: QuickSpec {
                 }
                 context("after subscription") {
                     beforeEach {
-                        fakeCentralManager.retrievePeripheralsWithIdentifiersResult = Observable.just([fakePeripheral])
                         testScheduler.advanceTo(250)
                     }
                     it("should call retrieve method on central manager") {
                         expect(retrieveWithServicesCallObserver.events.count).to(equal(1))
                     }
                     it("should call with proper identifiers") {
-                        expect(retrieveWithServicesCallObserver.events[0].value.element! == cbuuids)
+                        expect(retrieveWithServicesCallObserver.events[0].value.element!).to(equal(cbuuids))
                     }
-                    it("should receive event") {
-                        expect(peripheralsObserver.events.count).to(equal(1))
+                    it("should receive event and complete") {
+                        expect(peripheralsObserver.events.count).to(equal(2))
                     }
                     it("should retrieve peripherals table") {
                         expect(peripheralsObserver.events[0].value.element).toNot(beNil())
@@ -172,10 +176,11 @@ class BluetoothManagerSpec: QuickSpec {
                         expect(peripheralsObserver.events[0].value.element![0].peripheral == fakePeripheral)
                     }
                 }
+
+                for stateWithError in statesWithErrors {
                 describe("error propagation") {
                     var state: CBCentralManagerState!
                     var error: BluetoothError!
-                    for stateWithError in statesWithErrors {
                         beforeEach {
                             state = stateWithError.0
                             error = stateWithError.1
@@ -192,7 +197,7 @@ class BluetoothManagerSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get more than one event") {
-                                    expect(peripheralsObserver.events.count > 0)
+                                    expect(peripheralsObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(peripheralsObserver.events[0].value, errorType: error)
@@ -200,19 +205,26 @@ class BluetoothManagerSpec: QuickSpec {
                             }
                             context("got wrong state after retrieve peripherals function was called") {
                                 beforeEach {
+                                    
+                                    let events: [Recorded<Event<[RxPeripheralType]>>] = [
+                                        Recorded(time: 255, event: .Next([fakePeripheral])),
+                                        Recorded(time: 255, event: .Completed)
+                                    ]
+                                    fakeCentralManager.retrieveConnectedPeripheralsWithServicesResult = testScheduler.createHotObservable(events).asObservable()
+
                                     fakeCentralManager.state = .PoweredOn
                                     let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call method on central manager once") {
-                                    expect(retrieveWithServicesCallObserver.events.count == 1)
+                                    expect(retrieveWithServicesCallObserver.events.count).to(equal(1))
                                 }
-                                it("should get two events") {
-                                    expect(peripheralsObserver.events.count == 2)
+                                it("should get event") {
+                                    expect(peripheralsObserver.events.count).to(equal(1))
                                 }
                                 it("should return proper error") {
-                                    expectError(peripheralsObserver.events[1].value, errorType: error)
+                                    expectError(peripheralsObserver.events[0].value, errorType: error)
                                 }
                             }
                         }
@@ -238,10 +250,12 @@ class BluetoothManagerSpec: QuickSpec {
                 var cancelConnectionObserver: TestableObserver<RxPeripheralType>!
 
                 describe("connecting to peripheral") {
-                    context("while bluetooth is forbidden/disallowed/restricted") {
+                    for stateWithError in statesWithErrors {
+
+                    context("while bluetooth is \(stateWithError.0)") {
                         var connectObserver: TestableObserver<(RxPeripheralType, [String:AnyObject]?)>!
-                        for stateWithError in statesWithErrors {
                             beforeEach {
+                                fakePeripheral.state = .Disconnected
                                 fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: AnyObject]?))
                                 connectObserver = fakeCentralManager.connectPeripheralOptionsTO
                                 peripheralObserver = testScheduler.scheduleObservable {
@@ -261,7 +275,7 @@ class BluetoothManagerSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
-                                    expect(peripheralObserver.events.count > 0)
+                                    expect(peripheralObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(peripheralObserver.events[0].value, errorType: error)
@@ -276,14 +290,14 @@ class BluetoothManagerSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call connect on central manager") {
-                                    expect(connectObserver.events.count == 1)
+                                    expect(connectObserver.events.count).to(equal(1))
                                 }
 
                                 it("should get events") {
-                                    expect(peripheralObserver.events.count > 0)
+                                    expect(peripheralObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error after peripheral") {
-                                    expectError(peripheralObserver.events[1].value, errorType: error)
+                                    expectError(peripheralObserver.events[0].value, errorType: error)
                                 }
                             }
                         }
@@ -294,7 +308,6 @@ class BluetoothManagerSpec: QuickSpec {
                         var connectObserver: TestableObserver<(RxPeripheralType, [String:AnyObject]?)>!
 
                         beforeEach {
-                            fakeCentralManager.rx_didUpdateState = Observable.just(.PoweredOn)
                             fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: AnyObject]?))
                             connectObserver = fakeCentralManager.connectPeripheralOptionsTO
                             peripheralObserver = testScheduler.scheduleObservable {
@@ -374,8 +387,8 @@ class BluetoothManagerSpec: QuickSpec {
                     }
                 }
                 describe("disconnecting from peripheral") {
-                    context("while bluetooth is forbidden/disallowed/restricted") {
-                        for stateWithError in statesWithErrors {
+                    for stateWithError in statesWithErrors {
+                    context("while bluetooth is in state \(stateWithError)") {
                             beforeEach {
                                 fakeCentralManager.cancelPeripheralConnectionTO = testScheduler.createObserver(RxPeripheralType)
                                 cancelConnectionObserver = fakeCentralManager.cancelPeripheralConnectionTO
@@ -403,12 +416,12 @@ class BluetoothManagerSpec: QuickSpec {
 
                                 beforeEach {
                                     fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
-                                    fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
+                                    let stateChanges: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(stateChanges).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
-                                it("should call connect on central manager") {
-                                    expect(cancelConnectionObserver.events.count == 1)
+                                it("should call cancel on central manager") {
+                                    expect(cancelConnectionObserver.events.count).to(equal(1))
                                 }
                                 it("should return proper error") {
                                     expectError(peripheralObserver.events[0].value, errorType: error)
@@ -422,7 +435,6 @@ class BluetoothManagerSpec: QuickSpec {
 
 
                         beforeEach {
-                            fakeCentralManager.rx_didUpdateState = Observable.just(.PoweredOn)
                             fakeCentralManager.cancelPeripheralConnectionTO = testScheduler.createObserver(RxPeripheralType)
                             disconnectObserver = fakeCentralManager.cancelPeripheralConnectionTO
                             peripheralObserver = testScheduler.scheduleObservable {

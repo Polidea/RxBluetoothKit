@@ -142,7 +142,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
-                                    expect(characteristicsDiscoverObserver.events.count > 0)
+                                    expect(characteristicsDiscoverObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicsDiscoverObserver.events[0].value, errorType: error)
@@ -156,10 +156,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call connect on central manager") {
-                                    expect(discoverCharacteristicsMethodObserver.events.count == 1)
+                                    expect(discoverCharacteristicsMethodObserver.events.count).to(equal(1))
                                 }
                                 it("should get at least one event") {
-                                    expect(characteristicsDiscoverObserver.events.count > 0)
+                                    expect(characteristicsDiscoverObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicsDiscoverObserver.events[0].value, errorType: error)
@@ -181,7 +181,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
-                                expect(characteristicsDiscoverObserver.events.count > 0)
+                                expect(characteristicsDiscoverObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(characteristicsDiscoverObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -197,11 +197,11 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should call discover characteristics method") {
-                                expect(discoverCharacteristicsMethodObserver.events.count == 1)
+                                expect(discoverCharacteristicsMethodObserver.events.count).to(equal(1))
                             }
                             context("getting wrong state in the middle of discover") {
                                 it("should get event error") {
-                                    expect(characteristicsDiscoverObserver.events.count > 0)
+                                    expect(characteristicsDiscoverObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicsDiscoverObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -311,7 +311,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: error)
@@ -325,10 +325,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call connect on central manager") {
-                                    expect(writeValueForCharacteristicMethodObserver.events.count == 1)
+                                    expect(writeValueForCharacteristicMethodObserver.events.count).to(equal(1))
                                 }
                                 it("should get event error") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: error)
@@ -351,7 +351,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should get at least one event") {
-                                expect(characteristicObserver.events.count > 0)
+                                expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -369,11 +369,11 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should call discover services") {
-                                expect(writeValueForCharacteristicMethodObserver.events.count == 1)
+                                expect(writeValueForCharacteristicMethodObserver.events.count).to(equal(1))
                             }
 
                             it("should get at least one event") {
-                                expect(characteristicObserver.events.count > 0)
+                                expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -464,7 +464,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: error)
@@ -478,10 +478,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call connect on central manager") {
-                                    expect(readValueForCharacteristicMethodObserver.events.count == 1)
+                                    expect(readValueForCharacteristicMethodObserver.events.count).to(equal(1))
                                 }
                                 it("should get event error") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: error)
@@ -503,7 +503,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
-                                expect(characteristicObserver.events.count > 0)
+                                expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -519,14 +519,14 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should call discover services") {
-                                expect(readValueForCharacteristicMethodObserver.events.count == 1)
+                                expect(readValueForCharacteristicMethodObserver.events.count).to(equal(1))
                             }
                             context("getting wrong state in the middle of discover") {
                                 beforeEach {
                                     fakeCentralManager.rx_didDisconnectPeripheral = Observable.just((fakePeripheral, nil))
                                 }
                                 it("should get at least one event") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -616,7 +616,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: error)
@@ -631,10 +631,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call set notify on central manager") {
-                                    expect(setNotifyCharacteristicMethodObserver.events.count == 1)
+                                    expect(setNotifyCharacteristicMethodObserver.events.count).to(equal(1))
                                 }
                                 it("should get at least one event") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: error)
@@ -658,7 +658,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
-                                expect(characteristicObserver.events.count > 0)
+                                expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -674,10 +674,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("Should call discover services") {
-                                expect(setNotifyCharacteristicMethodObserver.events.count == 1)
+                                expect(setNotifyCharacteristicMethodObserver.events.count).to(equal(1))
                             }
                             it("should get event error") {
-                                expect(characteristicObserver.events.count > 0)
+                                expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -747,10 +747,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         }
                     }
                 }
+                for stateWithError in statesWithErrors {
                 context("when bluetooth failed/unauthorized/restricted") {
                     var state: CBCentralManagerState!
                     var error: BluetoothError!
-                    for stateWithError in statesWithErrors {
                         beforeEach {
                             state = stateWithError.0
                             error = stateWithError.1
@@ -768,7 +768,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: error)
@@ -783,10 +783,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("Should call monitor on central manager") {
-                                    expect(setNotifyCharacteristicMethodObserver.events.count == 1)
+                                    expect(setNotifyCharacteristicMethodObserver.events.count).to(equal(1))
                                 }
                                 it("should get event") {
-                                    expect(characteristicObserver.events.count > 0)
+                                    expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(characteristicObserver.events[0].value, errorType: error)
@@ -808,7 +808,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
-                                expect(characteristicObserver.events.count > 0)
+                                expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -824,10 +824,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("Should call discover services") {
-                                expect(setNotifyCharacteristicMethodObserver.events.count == 1)
+                                expect(setNotifyCharacteristicMethodObserver.events.count).to(equal(1))
                             }
                             it("should get event error") {
-                                expect(characteristicObserver.events.count > 0)
+                                expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
