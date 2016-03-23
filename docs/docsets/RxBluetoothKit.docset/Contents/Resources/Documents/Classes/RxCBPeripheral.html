@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RxCBPeripheral Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/RxCBPeripheral" class="dashAnchor"></a>
+    <a title="RxCBPeripheral Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (92% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">RxBluetoothKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        RxCBPeripheral Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/BluetoothManager.html">BluetoothManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Characteristic.html">Characteristic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Descriptor.html">Descriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Peripheral.html">Peripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxCBCentralManager.html">RxCBCentralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxCBPeripheral.html">RxCBPeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SerializedSubscriptionQueue.html">SerializedSubscriptionQueue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Service.html">Service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothError.html">BluetoothError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/ObservableType.html">ObservableType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF14RxBluetoothKitoi2eeFTOS_14BluetoothErrorS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF14RxBluetoothKitoi2eeFTCS_14CharacteristicS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF14RxBluetoothKitoi2eeFTCS_10PeripheralS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF14RxBluetoothKitoi2eeFTPS_20RxCharacteristicType_PS0___Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF14RxBluetoothKitoi2eeFTPS_16RxPeripheralType_PS0___Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF14RxBluetoothKitoi2eeFTCS_7ServiceS0__Sb">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/RxCentralManagerType.html">RxCentralManagerType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RxCharacteristicType.html">RxCharacteristicType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RxDescriptorType.html">RxDescriptorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RxPeripheralType.html">RxPeripheralType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RxServiceType.html">RxServiceType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>RxCBPeripheral</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RxCBPeripheral</span><span class="p">:</span> <span class="kt">RxPeripheralType</span></code></pre>
+
+                </div>
+              </div>
+            <p>Core Bluetooth implementation of RxPeripheralType. This is a lightweight wrapper which allows
+to hide all implementation details.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral10identifierCSo6NSUUID"></a>
+                    <a name="//apple_ref/swift/Property/identifier" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral10identifierCSo6NSUUID">identifier</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Peripheral&rsquo;s identifier</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">NSUUID</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral4nameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral4nameGSqSS_">name</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Peripheral&rsquo;s name</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral5stateOSC17CBPeripheralState"></a>
+                    <a name="//apple_ref/swift/Property/state" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral5stateOSC17CBPeripheralState">state</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Peripheral&rsquo;s state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">CBPeripheralState</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral8servicesGSqGSaPS_13RxServiceType___"></a>
+                    <a name="//apple_ref/swift/Property/services" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral8servicesGSqGSaPS_13RxServiceType___">services</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Peripheral&rsquo;s services</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">services</span><span class="p">:</span> <span class="p">[</span><span class="kt">RxServiceType</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral16rx_didUpdateNameGC7RxSwift10ObservableGSqSS__"></a>
+                    <a name="//apple_ref/swift/Property/rx_didUpdateName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral16rx_didUpdateNameGC7RxSwift10ObservableGSqSS__">rx_didUpdateName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits peripheral&rsquo;s name changes</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didUpdateName</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">?</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral20rx_didModifyServicesGC7RxSwift10ObservableGSaPS_13RxServiceType___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didModifyServices" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral20rx_didModifyServicesGC7RxSwift10ObservableGSaPS_13RxServiceType___">rx_didModifyServices</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits when service&rsquo;s are modified</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didModifyServices</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">([</span><span class="kt">RxServiceType</span><span class="p">])</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral14rx_didReadRSSIGC7RxSwift10ObservableTSiGSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didReadRSSI" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral14rx_didReadRSSIGC7RxSwift10ObservableTSiGSqCSo7NSError___">rx_didReadRSSI</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits when RSSI was read</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didReadRSSI</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral22rx_didDiscoverServicesGC7RxSwift10ObservableTGSqGSaPS_13RxServiceType___GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didDiscoverServices" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral22rx_didDiscoverServicesGC7RxSwift10ObservableTGSqGSaPS_13RxServiceType___GSqCSo7NSError___">rx_didDiscoverServices</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits discovered serivices during discovery</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didDiscoverServices</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">([</span><span class="kt">RxServiceType</span><span class="p">]?,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral40rx_didDiscoverIncludedServicesForServiceGC7RxSwift10ObservableTPS_13RxServiceType_GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didDiscoverIncludedServicesForService" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral40rx_didDiscoverIncludedServicesForServiceGC7RxSwift10ObservableTPS_13RxServiceType_GSqCSo7NSError___">rx_didDiscoverIncludedServicesForService</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits service for which included services were discovered</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didDiscoverIncludedServicesForService</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">RxServiceType</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral39rx_didDiscoverCharacteristicsForServiceGC7RxSwift10ObservableTPS_13RxServiceType_GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didDiscoverCharacteristicsForService" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral39rx_didDiscoverCharacteristicsForServiceGC7RxSwift10ObservableTPS_13RxServiceType_GSqCSo7NSError___">rx_didDiscoverCharacteristicsForService</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits service for which characteristics were discovered</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didDiscoverCharacteristicsForService</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">RxServiceType</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral34rx_didUpdateValueForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didUpdateValueForCharacteristic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral34rx_didUpdateValueForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___">rx_didUpdateValueForCharacteristic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits characteristic which value has been updated</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didUpdateValueForCharacteristic</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">RxCharacteristicType</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral33rx_didWriteValueForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didWriteValueForCharacteristic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral33rx_didWriteValueForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___">rx_didWriteValueForCharacteristic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits characteristic for which value was written successfully</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didWriteValueForCharacteristic</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">RxCharacteristicType</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral46rx_didUpdateNotificationStateForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didUpdateNotificationStateForCharacteristic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral46rx_didUpdateNotificationStateForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___">rx_didUpdateNotificationStateForCharacteristic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits characteristic which notification value was successfully modified</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didUpdateNotificationStateForCharacteristic</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">RxCharacteristicType</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral42rx_didDiscoverDescriptorsForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didDiscoverDescriptorsForCharacteristic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral42rx_didDiscoverDescriptorsForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___">rx_didDiscoverDescriptorsForCharacteristic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits characteristic for which descriptors were discovered</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didDiscoverDescriptorsForCharacteristic</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">RxCharacteristicType</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral30rx_didUpdateValueForDescriptorGC7RxSwift10ObservableTPS_16RxDescriptorType_GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didUpdateValueForDescriptor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral30rx_didUpdateValueForDescriptorGC7RxSwift10ObservableTPS_16RxDescriptorType_GSqCSo7NSError___">rx_didUpdateValueForDescriptor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits descriptor which value was updated</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didUpdateValueForDescriptor</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">RxDescriptorType</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC14RxBluetoothKit14RxCBPeripheral29rx_didWriteValueForDescriptorGC7RxSwift10ObservableTPS_16RxDescriptorType_GSqCSo7NSError___"></a>
+                    <a name="//apple_ref/swift/Property/rx_didWriteValueForDescriptor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC14RxBluetoothKit14RxCBPeripheral29rx_didWriteValueForDescriptorGC7RxSwift10ObservableTPS_16RxDescriptorType_GSqCSo7NSError___">rx_didWriteValueForDescriptor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Observable which emits descriptor which completed sucessfully its write operation</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_didWriteValueForDescriptor</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">RxDescriptorType</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral16discoverServicesFS0_FGSqGSaCSo6CBUUID__T_"></a>
+                    <a name="//apple_ref/swift/Method/discoverServices(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral16discoverServicesFS0_FGSqGSaCSo6CBUUID__T_">discoverServices(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Discover services with specified optional list of UUIDs. Passing <code>nil</code> will show all available services for
+peripheral. Results are returned by <code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral22rx_didDiscoverServicesGC7RxSwift10ObservableTGSqGSaPS_13RxServiceType___GSqCSo7NSError___">rx_didDiscoverServices</a></code> observable after subscription.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverServices</span><span class="p">(</span><span class="nv">serviceUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serviceUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of UUIDS which must be implemented by a peripheral</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral23discoverCharacteristicsFS0_FTGSqGSaCSo6CBUUID__10forServicePS_13RxServiceType__T_"></a>
+                    <a name="//apple_ref/swift/Method/discoverCharacteristics(_:forService:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral23discoverCharacteristicsFS0_FTGSqGSaCSo6CBUUID__10forServicePS_13RxServiceType__T_">discoverCharacteristics(_:forService:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Discover characteristics for peripheral&rsquo;s service. If list is passed only characteristics with certain UUID are
+returned during discovery, otherwise all characteristics will be discovered for certain service. Results are
+returned by <code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral39rx_didDiscoverCharacteristicsForServiceGC7RxSwift10ObservableTPS_13RxServiceType_GSqCSo7NSError___">rx_didDiscoverCharacteristicsForService</a></code> observable after subscription.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverCharacteristics</span><span class="p">(</span><span class="nv">characteristicUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?,</span> <span class="n">forService</span> <span class="nv">service</span><span class="p">:</span> <span class="kt">RxServiceType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristicUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of UUIDs of characteristics which should be returned.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forService</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Serivce which includes characteristics</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral24discoverIncludedServicesFS0_FTGSqGSaCSo6CBUUID__10forServicePS_13RxServiceType__T_"></a>
+                    <a name="//apple_ref/swift/Method/discoverIncludedServices(_:forService:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral24discoverIncludedServicesFS0_FTGSqGSaCSo6CBUUID__10forServicePS_13RxServiceType__T_">discoverIncludedServices(_:forService:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Discover included services inside of another service. Values are returned
+by <code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral40rx_didDiscoverIncludedServicesForServiceGC7RxSwift10ObservableTPS_13RxServiceType_GSqCSo7NSError___">rx_didDiscoverIncludedServicesForService</a></code> observable which emits retults of this call after subscription.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverIncludedServices</span><span class="p">(</span><span class="nv">includedServiceUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?,</span> <span class="n">forService</span> <span class="nv">service</span><span class="p">:</span> <span class="kt">RxServiceType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>includedServiceUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of included serive&rsquo;s UUID for which we are looking for. If <code>nil</code> is passed all included services will be discovered</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forService</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Service which contains included services.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral26readValueForCharacteristicFS0_FPS_20RxCharacteristicType_T_"></a>
+                    <a name="//apple_ref/swift/Method/readValueForCharacteristic(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral26readValueForCharacteristicFS0_FPS_20RxCharacteristicType_T_">readValueForCharacteristic(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Read value for characteristic. Result will be available in <code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral34rx_didUpdateValueForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___">rx_didUpdateValueForCharacteristic</a></code> observable after
+subscibe.
+- parameter characteristic: Characteristic from which we are reading</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValueForCharacteristic</span><span class="p">(</span><span class="nv">characteristic</span><span class="p">:</span> <span class="kt">RxCharacteristicType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Characteristic from which we are reading</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral10writeValueFS0_FTCSo6NSData17forCharacteristicPS_20RxCharacteristicType_4typeOSC25CBCharacteristicWriteType_T_"></a>
+                    <a name="//apple_ref/swift/Method/writeValue(_:forCharacteristic:type:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral10writeValueFS0_FTCSo6NSData17forCharacteristicPS_20RxCharacteristicType_4typeOSC25CBCharacteristicWriteType_T_">writeValue(_:forCharacteristic:type:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Write value to characteristic. Confirmation that characteristic was read will be available in
+<code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral33rx_didWriteValueForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___">rx_didWriteValueForCharacteristic</a></code> observable after subscribe.
+- parameter data: Data which will be written in characteristic
+- parameter forCharacteristic: Characteristic to which new value will be written.
+- parameter type: Type of write operation</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">,</span>
+                           <span class="n">forCharacteristic</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt">RxCharacteristicType</span><span class="p">,</span>
+                           <span class="nv">type</span><span class="p">:</span> <span class="kt">CBCharacteristicWriteType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Data which will be written in characteristic</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forCharacteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Characteristic to which new value will be written.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of write operation</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral14setNotifyValueFS0_FTSb17forCharacteristicPS_20RxCharacteristicType__T_"></a>
+                    <a name="//apple_ref/swift/Method/setNotifyValue(_:forCharacteristic:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral14setNotifyValueFS0_FTSb17forCharacteristicPS_20RxCharacteristicType__T_">setNotifyValue(_:forCharacteristic:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set if notifications for characteristic value changes should be monitored on <code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral34rx_didUpdateValueForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___">rx_didUpdateValueForCharacteristic</a></code>
+- parameter enabled: True if notifications for value changes should be enabled
+- parameter forCharacteristic: Characteristic for which notifications will be enabled or disabled</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setNotifyValue</span><span class="p">(</span><span class="nv">enabled</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">forCharacteristic</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt">RxCharacteristicType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>enabled</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>True if notifications for value changes should be enabled</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forCharacteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Characteristic for which notifications will be enabled or disabled</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral36discoverDescriptorsForCharacteristicFS0_FPS_20RxCharacteristicType_T_"></a>
+                    <a name="//apple_ref/swift/Method/discoverDescriptorsForCharacteristic(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral36discoverDescriptorsForCharacteristicFS0_FPS_20RxCharacteristicType_T_">discoverDescriptorsForCharacteristic(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Discover descriptors for specific characteristic. Successful operation will be indicated in
+<code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral42rx_didDiscoverDescriptorsForCharacteristicGC7RxSwift10ObservableTPS_20RxCharacteristicType_GSqCSo7NSError___">rx_didDiscoverDescriptorsForCharacteristic</a></code> observable in subscription.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverDescriptorsForCharacteristic</span><span class="p">(</span><span class="nv">characteristic</span><span class="p">:</span> <span class="kt">RxCharacteristicType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Characteristic for which descriptors will be discovered</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral22readValueForDescriptorFS0_FPS_16RxDescriptorType_T_"></a>
+                    <a name="//apple_ref/swift/Method/readValueForDescriptor(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral22readValueForDescriptorFS0_FPS_16RxDescriptorType_T_">readValueForDescriptor(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Read value for descriptor. Results will be available in <code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral30rx_didUpdateValueForDescriptorGC7RxSwift10ObservableTPS_16RxDescriptorType_GSqCSo7NSError___">rx_didUpdateValueForDescriptor</a></code> observable after
+subscription.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValueForDescriptor</span><span class="p">(</span><span class="nv">descriptor</span><span class="p">:</span> <span class="kt">RxDescriptorType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>descriptor</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Descriptor which value will be read.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral10writeValueFS0_FTCSo6NSData13forDescriptorPS_16RxDescriptorType__T_"></a>
+                    <a name="//apple_ref/swift/Method/writeValue(_:forDescriptor:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral10writeValueFS0_FTCSo6NSData13forDescriptorPS_16RxDescriptorType__T_">writeValue(_:forDescriptor:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Write value to descriptor. Results will be available in <code><a href="../Classes/RxCBPeripheral.html#/s:vC14RxBluetoothKit14RxCBPeripheral29rx_didWriteValueForDescriptorGC7RxSwift10ObservableTPS_16RxDescriptorType_GSqCSo7NSError___">rx_didWriteValueForDescriptor</a></code> observable after
+subscription.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">,</span> <span class="n">forDescriptor</span> <span class="nv">descriptor</span><span class="p">:</span> <span class="kt">RxDescriptorType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Data to be write to descriptor.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forDescriptor</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Descriptor which value will be written.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14RxBluetoothKit14RxCBPeripheral8readRSSIFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/readRSSI()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14RxBluetoothKit14RxCBPeripheral8readRSSIFS0_FT_T_">readRSSI()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Read RSSI from peripheral</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readRSSI</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="https://github.com/<GITHUB_USERNAME>/RxBluetoothKit" target="_blank" rel="external">Przemysław Lenart</a>. All rights reserved. (Last updated: 2016-03-22)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

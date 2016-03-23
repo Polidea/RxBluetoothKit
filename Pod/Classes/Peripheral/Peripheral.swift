@@ -177,7 +177,11 @@ public class Peripheral {
         return Observable.deferred {
             //TODO: Check state before call?
             self.peripheral.writeValue(data, forCharacteristic: characteristic.characteristic, type: type)
-            return self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic))
+            switch type {
+            case .WithoutResponse: return self.ensureValidPeripheralState(Observable.just(characteristic))
+            case .WithResponse: return self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic))
+            }
+
         }
     }
 
