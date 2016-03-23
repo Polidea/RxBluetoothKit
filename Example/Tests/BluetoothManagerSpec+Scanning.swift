@@ -111,8 +111,8 @@ class BluetoothManagerScanningSpec: QuickSpec {
             context("when bluetooth manager is powered on and there are 3 devices to be scanned") {
                 func expectMatchPeripherals(fromRecords: [Recorded<Event<ScannedPeripheral>>],
                                             withRSSIs: [Double],
-                                            inFile: String = __FILE__,
-                                            inLine: UInt = __LINE__) {
+                                            inFile: String = #file,
+                                            inLine: UInt = #line) {
                     expect(fromRecords.count, file: inFile, line: inLine).to(equal(withRSSIs.count))
                     for (i, record) in fromRecords.enumerate() {
                         expect(record.value.isStopEvent).to(beFalse())

@@ -276,8 +276,8 @@ public class Peripheral {
             guard self.isConnected else {
                 return Observable.error(BluetoothError.PeripheralDisconnected(self, nil))
             }
-            return Observable.of(self.manager.ensurePeripheralIsConnected(self),
-                    self.manager.ensureState(.PoweredOn, observable: observable)).merge()
+            return Observable.absorb(self.manager.ensurePeripheralIsConnected(self),
+                                     self.manager.ensureState(.PoweredOn, observable: observable))
         }
     }
 

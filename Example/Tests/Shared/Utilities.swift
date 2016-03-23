@@ -23,7 +23,7 @@ final class Box<T> {
     }
 }
 
-func expectError<ErrorType : Equatable, Element>(event: Event<Element>, errorType: ErrorType, file: String = __FILE__, line: UInt = __LINE__) {
+func expectError<ErrorType : Equatable, Element>(event: Event<Element>, errorType: ErrorType, file: String = #file, line: UInt = #line) {
     expect(event.isStopEvent, file: file, line: line).to(beTrue())
     expect(event.error, file: file, line: line).toNot(beNil())
     expect(event.error is ErrorType, file: file, line: line).to(beTrue())

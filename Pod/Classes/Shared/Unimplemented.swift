@@ -9,12 +9,12 @@
 import Foundation
 import RxSwift
 
-func unimplementedFunction(file: String = __FILE__, function: String = __FUNCTION__, line: Int = __LINE__) {
+func unimplementedFunction(file: String = #file, function: String = #function, line: Int = #line) {
     fatalError("Unimplemented function \(function) in \(file):\(line)")
 }
 
 extension Observable {
-    static func unimplemented(file: String = __FILE__, function: String = __FUNCTION__, line: Int = __LINE__)
+    static func unimplemented(file: String = #file, function: String = #function, line: Int = #line)
         -> Observable<Element> {
         unimplementedFunction(file, function: function, line: line)
         return Observable<Element>.empty()

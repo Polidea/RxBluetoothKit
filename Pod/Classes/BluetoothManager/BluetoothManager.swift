@@ -251,7 +251,7 @@ public class BluetoothManager {
         let statesObservable = monitorState()
         .filter { $0 != state && BluetoothError.errorFromState($0) != nil }
         .map { state -> T in throw BluetoothError.errorFromState(state)! }
-        return Observable.of(statesObservable, observable).merge()
+        return Observable.absorb(statesObservable, observable)
     }
 
     /**
