@@ -178,8 +178,10 @@ public class Peripheral {
             //TODO: Check state before call?
             self.peripheral.writeValue(data, forCharacteristic: characteristic.characteristic, type: type)
             switch type {
-            case .WithoutResponse: return self.ensureValidPeripheralState(Observable.just(characteristic))
-            case .WithResponse: return self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic))
+            case .WithoutResponse:
+                return self.ensureValidPeripheralState(Observable.just(characteristic))
+            case .WithResponse:
+                return self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic).take(1))
             }
 
         }
