@@ -27,9 +27,12 @@ public protocol RxServiceType {
     var isPrimary: Bool { get }
 }
 
+extension Equatable where Self: RxServiceType {}
+
 func == (lhs: RxServiceType, rhs: RxServiceType) -> Bool {
     return lhs.uuid == rhs.uuid
 }
+
 
 func == (lhs: [RxServiceType], rhs: [RxServiceType]) -> Bool {
     guard lhs.count == rhs.count else {

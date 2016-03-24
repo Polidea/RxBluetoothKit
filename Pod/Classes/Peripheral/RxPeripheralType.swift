@@ -146,6 +146,9 @@ public protocol RxPeripheralType {
 
 }
 
+
+extension Equatable where Self: RxPeripheralType {}
+
 /**
  Compares two peripherals. They are equal when theirs identifiers are the same.
 

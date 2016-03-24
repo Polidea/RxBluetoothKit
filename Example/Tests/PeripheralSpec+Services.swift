@@ -128,7 +128,7 @@ class PeripheralServicesSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event") {
-                                    expect(servicesObserver.events.count > 0)
+                                    expect(servicesObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(servicesObserver.events[0].value, errorType: error)
@@ -142,10 +142,10 @@ class PeripheralServicesSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call connect on central manager") {
-                                    expect(discoverServicesMethodObserver.events.count == 1)
+                                    expect(discoverServicesMethodObserver.events.count).to(equal(1))
                                 }
                                 it("should get event error") {
-                                    expect(servicesObserver.events.count > 0)
+                                    expect(servicesObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(servicesObserver.events[0].value, errorType: error)
@@ -167,7 +167,7 @@ class PeripheralServicesSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should get error") {
-                                expect(servicesObserver.events.count > 0)
+                                expect(servicesObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(servicesObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -183,7 +183,7 @@ class PeripheralServicesSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
-                                expect(servicesObserver.events.count > 0)
+                                expect(servicesObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
                                 expectError(servicesObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -281,7 +281,7 @@ class PeripheralServicesSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
-                                    expect(servicesObserver.events.count > 0)
+                                    expect(servicesObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(servicesObserver.events[0].value, errorType: error)
@@ -296,10 +296,10 @@ class PeripheralServicesSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should call connect on central manager") {
-                                    expect(discoverIncludedServicesMethodObserver.events.count == 1)
+                                    expect(discoverIncludedServicesMethodObserver.events.count).to(equal(1))
                                 }
                                 it("should get event error") {
-                                    expect(servicesObserver.events.count > 0)
+                                    expect(servicesObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
                                     expectError(servicesObserver.events[0].value, errorType: error)
@@ -320,7 +320,7 @@ class PeripheralServicesSpec: QuickSpec {
                             testScheduler.advanceTo(250)
                         }
                         it("should get event error") {
-                            expect(servicesObserver.events.count > 0)
+                            expect(servicesObserver.events.count).to(beGreaterThan(0))
                         }
                         it("should return proper error") {
                             expectError(servicesObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
@@ -336,10 +336,10 @@ class PeripheralServicesSpec: QuickSpec {
                             testScheduler.advanceTo(250)
                         }
                         it("should call discover services") {
-                            expect(discoverIncludedServicesMethodObserver.events.count == 1)
+                            expect(discoverIncludedServicesMethodObserver.events.count).to(equal(1))
                         }
                         it("should get event error") {
-                            expect(servicesObserver.events.count > 0)
+                            expect(servicesObserver.events.count).to(beGreaterThan(0))
                         }
                         it("should return proper error") {
                             expectError(servicesObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))

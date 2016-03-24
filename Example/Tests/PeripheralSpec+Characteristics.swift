@@ -85,7 +85,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             expect(discoverCharacteristicsMethodObserver.events[0].value.element!.0).to(equal(identifiers))
                         }
                         it("should discover characteristic  for proper service") {
-                            expect(discoverCharacteristicsMethodObserver.events[0].value.element!.1 == fakeService)
+                            expect(discoverCharacteristicsMethodObserver.events[0].value.element!.1 == fakeService as RxServiceType)
                         }
                         describe("discovered characteristic") {
                             var characteristicsDiscovered: [Characteristic]?
