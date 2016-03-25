@@ -76,8 +76,6 @@ public class Peripheral {
      */
     public func discoverServices(identifiers: [CBUUID]?) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverServices
-        //TODO: Make sure that correct services are filtered(FILTER)
-        .take(1)
         .flatMap({
             (services, error) -> Observable<[Service]> in
             if let discoveredServices = services {
@@ -88,6 +86,8 @@ public class Peripheral {
             }
             return Observable.error(BluetoothError.ServicesDiscoveryFailed(self, error))
         })
+        .take(1)
+
         return Observable.deferred {
             self.peripheral.discoverServices(identifiers)
             return self.ensureValidPeripheralState(observable)
@@ -104,8 +104,7 @@ public class Peripheral {
     public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?,
                                          forService service: Service) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverIncludedServicesForService
-            //TODO: Make sure that correct services are filtered(FILTER)
-            .take(1)
+            .filter { $0.0 == service.service }
             .flatMap {(service, error) -> Observable<[Service]> in
                 if let includedServices = service.includedServices where error == nil {
                     let services = includedServices
@@ -115,6 +114,7 @@ public class Peripheral {
                 }
                 return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
             }
+            .take(1)
 
         return Observable.deferred {
             self.peripheral.discoverIncludedServices(includedServiceUUIDs, forService: service.service)
@@ -133,8 +133,7 @@ public class Peripheral {
     */
     public func discoverCharacteristics(identifiers: [CBUUID]?, service: Service) -> Observable<[Characteristic]> {
         let observable = peripheral.rx_didDiscoverCharacteristicsForService
-        //TODO: Make sure that correct characteristics are filtered(FILTER)
-        .take(1)
+        .filter { $0.0 == service.service }
         .flatMap { (cbService, error) -> Observable<[Characteristic]> in
             if let characteristics = cbService.characteristics where error == nil {
                 let filtered = characteristics
@@ -144,6 +143,8 @@ public class Peripheral {
             }
             return Observable.error(BluetoothError.CharacteristicsDiscoveryFailed(service, error))
         }
+        .take(1)
+
         return Observable.deferred {
             self.peripheral.discoverCharacteristics(identifiers, forService: service.service)
             return self.ensureValidPeripheralState(observable)

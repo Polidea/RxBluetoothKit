@@ -15,4 +15,11 @@ extension SequenceType {
         }
         return nil
     }
+
+    func all(@noescape match: Generator.Element -> Bool) -> Bool {
+        for elem in self where !match(elem) {
+            return false
+        }
+        return true
+    }
 }
