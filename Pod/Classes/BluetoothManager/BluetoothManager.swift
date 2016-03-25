@@ -154,7 +154,7 @@ public class BluetoothManager {
 
      - parameter peripheral: Peripheral to connect to
      - parameter options: Connection options
-     - returns: Observation which emits next event after connection is established
+     - returns: Observation which emits next and complete events after connection is established.
      */
     public func connectToPeripheral(peripheral: Peripheral, options: [String:AnyObject]? = nil)
         -> Observable<Peripheral> {
@@ -162,10 +162,12 @@ public class BluetoothManager {
         //      doing this call in serialized queue.
         let success = centralManager.rx_didConnectPeripheral
         .filter { $0 == peripheral.peripheral }
+        .take(1)
         .map { _ in return peripheral }
 
         let error = centralManager.rx_didFailToConnectPeripheral
         .filter { $0.0 == peripheral.peripheral }
+        .take(1)
         .flatMap { (peripheral, error) -> Observable<Peripheral> in
             Observable.error(BluetoothError.PeripheralConnectionFailed(
                 Peripheral(manager: self, peripheral: peripheral), error))
@@ -196,7 +198,7 @@ public class BluetoothManager {
         let observable = Observable<Peripheral>.deferred {
             //TODO: What if not connected? leave it to the OS?
             self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-            return self.monitorPeripheralDisconnection(peripheral)
+            return self.monitorPeripheralDisconnection(peripheral).take(1)
         }
         return ensureState(.PoweredOn, observable: observable)
     }

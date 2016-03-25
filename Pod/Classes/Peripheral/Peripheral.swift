@@ -70,12 +70,14 @@ public class Peripheral {
     }
 
     /**
-     Triggers services discovery.
+     Triggers services discovery. Completes right after first discovery.
      - Parameter identifiers: Identifiers of wanted services
      - Returns: Array of discovered services
      */
     public func discoverServices(identifiers: [CBUUID]?) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverServices
+        //TODO: Make sure that correct services are filtered(FILTER)
+        .take(1)
         .flatMap({
             (services, error) -> Observable<[Service]> in
             if let discoveredServices = services {
@@ -92,10 +94,8 @@ public class Peripheral {
         }
     }
 
-
-
     /**
-     Triggers included services discovery.
+     Triggers included services discovery. Completes right after first discovery.
 
      - parameter includedServiceUUIDs: Array of  services identifiers
      - parameter forService: The service whose included services you want to discover.
@@ -104,6 +104,8 @@ public class Peripheral {
     public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?,
                                          forService service: Service) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverIncludedServicesForService
+            //TODO: Make sure that correct services are filtered(FILTER)
+            .take(1)
             .flatMap {(service, error) -> Observable<[Service]> in
                 if let includedServices = service.includedServices where error == nil {
                     let services = includedServices
@@ -131,6 +133,8 @@ public class Peripheral {
     */
     public func discoverCharacteristics(identifiers: [CBUUID]?, service: Service) -> Observable<[Characteristic]> {
         let observable = peripheral.rx_didDiscoverCharacteristicsForService
+        //TODO: Make sure that correct characteristics are filtered(FILTER)
+        .take(1)
         .flatMap { (cbService, error) -> Observable<[Characteristic]> in
             if let characteristics = cbService.characteristics where error == nil {
                 let filtered = characteristics
@@ -214,7 +218,7 @@ public class Peripheral {
         return Observable.deferred {
             // TODO: check state before call?
             self.peripheral.readValueForCharacteristic(characteristic.characteristic)
-            return self.monitorValueUpdateForCharacteristic(characteristic)
+            return self.monitorValueUpdateForCharacteristic(characteristic).take(1)
         }
     }
 
@@ -293,6 +297,7 @@ public class Peripheral {
                                forCharacteristic characteristic: Characteristic) -> Observable<Characteristic> {
         let observable = peripheral.rx_didUpdateNotificationStateForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
+            .take(1)
             .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
                 if let error = error {
                     return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
