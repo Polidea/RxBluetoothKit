@@ -144,7 +144,9 @@ public class BluetoothManager {
      - Returns: Stream of BLE states
      */
     public func monitorState() -> Observable<CBCentralManagerState> {
-        return centralManager.rx_didUpdateState.startWith(centralManager.state)
+        return Observable.deferred {
+            return self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
+        }
     }
 
     // TODO: Consider adding monitorStateChange() without emitting current state. @maciek

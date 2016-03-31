@@ -31,6 +31,8 @@ public enum BluetoothError: ErrorType {
     case CharacteristicNotifyChangeFailed(Characteristic, NSError?)
     // Descriptors
     case DescriptorsDiscoveryFailed(Characteristic, NSError?)
+    case DescriptorWriteFailed(Descriptor, NSError?)
+    case DescriptorReadFailed(Descriptor, NSError?)
 }
 
 extension BluetoothError : CustomStringConvertible {
@@ -72,6 +74,10 @@ extension BluetoothError : CustomStringConvertible {
         //Descriptors
         case .DescriptorsDiscoveryFailed(_, let err):
             return "Descriptor discovery error has occured: \(err?.description ?? "-")"
+        case .DescriptorWriteFailed(_, let err):
+            return "Descriptor write error has occured: \(err?.description ?? "-")"
+        case .DescriptorReadFailed(_, let err):
+            return "Descriptor read error has occured: \(err?.description ?? "-")"
         }
     }
 }
@@ -125,7 +131,8 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case (.CharacteristicNotifyChangeFailed(let l, _), .CharacteristicNotifyChangeFailed(let r, _)): return l == r
     // Descriptors
     case (.DescriptorsDiscoveryFailed(let l, _), .DescriptorsDiscoveryFailed(let r, _)): return l == r
-
+    case (.DescriptorWriteFailed(let l, _), .DescriptorWriteFailed(let r, _)): return l == r
+    case (.DescriptorReadFailed(let l, _), .DescriptorReadFailed(let r, _)): return l == r
     default: return false
     }
 }

@@ -34,3 +34,8 @@ public class Descriptor {
         self.characteristic = characteristic
     }
 }
+extension Descriptor: Equatable { }
+
+public func == (lhs: Descriptor, rhs: Descriptor) -> Bool {
+    return lhs.descriptor == rhs.descriptor
+}

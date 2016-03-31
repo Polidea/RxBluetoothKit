@@ -23,3 +23,7 @@ public protocol RxDescriptorType {
     /// Descriptor's value
     var value: AnyObject? { get }
 }
+
+public func == (lhs: RxDescriptorType, rhs: RxDescriptorType) -> Bool {
+    return lhs.UUID == rhs.UUID
+}
