@@ -160,8 +160,7 @@ public class BluetoothManager {
      */
     public func connectToPeripheral(peripheral: Peripheral, options: [String:AnyObject]? = nil)
         -> Observable<Peripheral> {
-        //TODO: Is it possible to connect simultaneously to two devices. If not we should consider
-        //      doing this call in serialized queue.
+
         let success = centralManager.rx_didConnectPeripheral
         .filter { $0 == peripheral.peripheral }
         .take(1)
@@ -174,16 +173,26 @@ public class BluetoothManager {
             Observable.error(BluetoothError.PeripheralConnectionFailed(
                 Peripheral(manager: self, peripheral: peripheral), error))
         }
-        //Defer any action to moment of subscription
-        let observable = Observable<Peripheral>.deferred {
+
+        let observable = Observable<Peripheral>.create { observer in
             if let error = BluetoothError.errorFromState(self.state) {
-                return Observable.error(error)
+                observer.onError(error)
+                return NopDisposable.instance
             }
+
             guard !peripheral.isConnected else {
-                return Observable.just(peripheral)
+                observer.onNext(peripheral)
+                observer.onCompleted()
+                return NopDisposable.instance
             }
+
             self.centralManager.connectPeripheral(peripheral.peripheral, options: options)
-            return success.amb(error)
+            success.amb(error).subscribe(observer)
+            return AnonymousDisposable {
+                if !peripheral.isConnected {
+                    self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+                }
+            }
         }
 
         return ensureState(.PoweredOn, observable: observable)
