@@ -111,20 +111,20 @@ manager.monitorState()
 .filter { $0 == .PoweredOn }
 .timeout(3.0, scheduler)
 .take(1)
-//We received proper state, let's do some action!
 .flatMap { manager.scanForPeripherals([serviceId]) }
 ```
 Firstly, filter .PoweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use **take** to be sure, that after getting .PoweredOn state, nothing else ever will be emitted by the observable.
+In last `flatMap` operation bluetooth is ready to perform further operations.
 
 ### Connecting
 After receiving scanned peripheral, to do something with it, we need to first call connect.
 It's really straightforward: just flatMap result into another Observable!
 ```swift
 manager.scanForPeripherals([serviceId]).take(1)
-	.flatMap { $0.peripheral.connect() }
-	.subscribeNext { peripheral in
-		print("Connected to: \(peripheral)")
-	}
+.flatMap { $0.peripheral.connect() }
+.subscribeNext { peripheral in
+	print("Connected to: \(peripheral)")
+}
 ```
 
 ### Discovering services
@@ -248,7 +248,7 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 
 ## Contributing
 If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request.
-To keep code in order, we advice you to use SwiftLint. In repository, we provide configured .swiftlint.yml file, that matches our criteria of clean and "Swifty" code.  
+To keep code in order, we advice you to use SwiftLint. In repository, we provide configured ``.swiftlint.yml` file, that matches our criteria of clean and "Swifty" code.  
 
 ## License
 
