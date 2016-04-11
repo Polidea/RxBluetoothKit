@@ -1,13 +1,15 @@
 # RxBluetoothKit
 
-[![CI Status](http://img.shields.io/travis/Przemysław Lenart/RxBluetoothKit.svg?style=flat)](https://travis-ci.org/Przemysław Lenart/RxBluetoothKit)
+[![CI Status](http://img.shields.io/travis/Przemysław Lenart/RxBluetoothKit.svg?style=flat)](https://travis-ci.org/Polidea/RxBluetoothKit)
 [![Version](https://img.shields.io/cocoapods/v/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
+[![License](https://img.shields.io/cocoapods/l/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
+[![Platform](https://img.shields.io/cocoapods/p/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices much more pleasant. It's backed by RxSwift and CoreBluetooth.
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
-For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxioxble?sort=active), or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on Github.
+For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxandroidble?sort=active), or open [an issue](https://github.com/Polidea/RxAndroidBle/issues/new) on Github.
 
 ## Features
 - [x] CBCentralManger RxSwift support
@@ -23,12 +25,29 @@ In Example folder you can find application we've provided to you. It's a great p
 
 ## Installation
 
-RxBluetoothKit is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
+### CocoaPods
+[CocoaPods](http://cocoapods.org) is a dependency manager for CocoaProjects.
+To integrate RxBluetoothKit into your Xcode project using CocoaPods specify it in your `Podfile`:
 ```ruby
-pod "RxBluetoothKit"
+platform :
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '9.0'
+use_frameworks!
+
+pod 'RxBluetoothKit', '~> 0.1'
 ```
+Then, run following command:
+`$ pod install`
+
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+To integrate RxBluetoothKit into your Xcode project using Carthage  specify it in your `Cartfile`:
+```
+github "Polidea/RxBluetoothKit" ~> 0.1
+```
+Then, run `carthage update` to build framework and drag `RxBluetoothKit.framework` into your Xcode project.
+
 
 ## Architecture
 Library is built on top of Apple's CoreBluetooth.
@@ -57,9 +76,9 @@ To start any interaction, with bluetooth devices, you have to first scan some of
 #### Basic
 ```
 manager.scanForPeripherals([serviceIds])
-	.flatMap { scannedPeripheral
-		let advertisement = scannedPeripheral.advertisement
-	}
+.flatMap { scannedPeripheral
+	let advertisement = scannedPeripheral.advertisement
+}
 ```
 This is the simplest version of this operation. After subscription to observable, scan is performed infinitely.  What you receive from method is ScannedPeripheral instance, that provides access to following information:
 - Peripheral: object that you can use, to perform actions like connecting, discovering services etc.
@@ -70,7 +89,8 @@ This is the simplest version of this operation. After subscription to observable
 By default scanning operation is not cancelled. It's the user's responsibility to do that in situations where scanning in not needed anymore.
 Fortunately, this is also really easy to do, thanks to awesome RxSwift operators.
 ```
-manager.scanForPeripherals([serviceIds]).take(1) //Doing this, after first received result, scan is immediately cancelled.
+manager.scanForPeripherals([serviceIds]).take(1)
+//Doing this, after first received result, scan is immediately cancelled.
 ```
 Ok, that's fun, but what if you also want to apply timeout policy? That's also easy to do:
 ```
@@ -82,14 +102,11 @@ As you can see: thanks to all available RxSwift operators, in a simple way you m
 #### Waiting for proper BluetoothState
 In a following scenario: just after app launch, you want to perform scans. But, there are some problems with this approach - in order to perform work with bluetooth, you're manager should be in **.PoweredOn** state. Specially for this case, our library provides you with another observable, that you should use for monitoring state.
 ```
-/* After subscribe, this observable will immediately emit next event with current value of BluetoothManager state, and later will fire every time state changes
-*/
 let monitorState = manager.monitorState()
 ```
+After subscribe, this observable will immediately emit next event with current value of BluetoothManager state, and later will fire every time state changes.
 You could easily chain it with operation you want to perform after changing to proper state. Let's see how it looks with scanning:
 ```
-/*Firstly, filter .PoweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use **take** to be sure, that after getting .PoweredOn state, nothing else ever will be emitted by the observable.
-*/
 manager.monitorState()
 .filter { $0 == .PoweredOn }
 .timeout(3.0, scheduler)
@@ -97,6 +114,7 @@ manager.monitorState()
 //We received proper state, let's do some action!
 .flatMap { manager.scanForPeripherals([serviceId]) }
 ```
+Firstly, filter .PoweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use **take** to be sure, that after getting .PoweredOn state, nothing else ever will be emitted by the observable.
 
 ### Connecting
 After receiving scanned peripheral, to do something with it, we need to first call connect.
@@ -104,7 +122,9 @@ It's really straightforward: just flatMap result into another Observable!
 ```swift
 manager.scanForPeripherals([serviceId]).take(1)
 	.flatMap { $0.peripheral.connect() }
-	.flatMap { //Peripheral is now connected and ready }
+	.subscribeNext { peripheral in
+		print("Connected to: \(peripheral)")
+	}
 ```
 
 ### Discovering services
@@ -115,7 +135,9 @@ Here's how it works in RxBluetoothKit:
 ```swift
 peripheral.connect()
 .flatMap { Observable.from($0.discoverServices([serviceId])) }
-.flatMap { //Discovered service is ready to work with }
+.subscribeNext { service in
+	print("Discovered service: \(service)")
+}
 ```
 
 ### Discovering characteristics
@@ -126,6 +148,9 @@ characteristic at a time, you need to once again use `Observable.from()`
 peripheral.connect()
 .flatMap { Observable.from($0.discoverServices([serviceId])) }
 .flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
+.subscribeNext { characteristic
+		print("Discovered characteristic: \(characteristic)")
+}
 ```
 
 ### Reading value of characteristic
@@ -163,7 +188,7 @@ On the other hand - if you decided to go with `WithoutResponse` - you're receivi
 Let's jump over to the code:
 ```swift
 characteristic.writeValue(data, type: .WithResponse)
-.subscriben { event in
+.subscribe { event in
 	//respond to errors / successful read
 }
 ```
