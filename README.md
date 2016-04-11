@@ -2,14 +2,12 @@
 
 [![CI Status](http://img.shields.io/travis/Przemysław Lenart/RxBluetoothKit.svg?style=flat)](https://travis-ci.org/Przemysław Lenart/RxBluetoothKit)
 [![Version](https://img.shields.io/cocoapods/v/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
-[![License](https://img.shields.io/cocoapods/l/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
-[![Platform](https://img.shields.io/cocoapods/p/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices much more pleasant. It's backed by RxSwift and CoreBluetooth.
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
-For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxandroidble?sort=active), or open [an issue](https://github.com/Polidea/RxAndroidBle/issues/new) on Github.
+For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxioxble?sort=active), or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on Github.
 
 ## Features
 - [x] CBCentralManger RxSwift support
@@ -31,8 +29,6 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "RxBluetoothKit"
 ```
-
-
 
 ## Architecture
 Library is built on top of Apple's CoreBluetooth.
