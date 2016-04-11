@@ -46,11 +46,11 @@ public class BluetoothManager {
     }
 
     /**
-     Create new Bluetooth Manager with default implmentation of Core Bluetooth Central Manager which callbacks are
-     handled on main thread.
+     Create new Bluetooth Manager with default implementation of Core Bluetooth Central Manager which callbacks are
+     handled on specified queue. Default value of queue is main queue.
      */
-    convenience public init() {
-        self.init(centralManager: RxCBCentralManager(queue: dispatch_get_main_queue()))
+    convenience public init(queue: dispatch_queue_t = dispatch_get_main_queue()) {
+        self.init(centralManager: RxCBCentralManager(queue: queue))
     }
 
    /**

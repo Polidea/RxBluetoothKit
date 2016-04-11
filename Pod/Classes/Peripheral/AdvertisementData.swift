@@ -14,7 +14,7 @@ import CoreBluetooth
  */
 public struct AdvertisementData {
 
-    private let advertisementData: [String:AnyObject]
+    public let advertisementData: [String:AnyObject]
 
     /**
      Creates advertisement data based on CoreBluetooth's dictionary
