@@ -1,6 +1,6 @@
 # RxBluetoothKit
 
-[![CI Status](http://img.shields.io/travis/Przemysław Lenart/RxBluetoothKit.svg?style=flat)](https://travis-ci.org/Przemysław Lenart/RxBluetoothKit)
+[![CI Status](http://img.shields.io/travis/Polidea/RxBluetoothKit.svg?style=flat)](https://travis-ci.org/Polidea/RxBluetoothKit)
 [![Version](https://img.shields.io/cocoapods/v/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
