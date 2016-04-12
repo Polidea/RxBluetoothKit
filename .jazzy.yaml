@@ -1,0 +1,10 @@
+github_url: https://github.com/Polidea/RxBluetoothKit
+module: RxBluetoothKit
+author_url: https://polidea.com
+author: Polidea
+source_directory: Example
+xcodebuild_arguments: 
+  - -workspace
+  - RxBluetoothKit.xcworkspace
+  - -scheme
+  - RxBluetoothKit

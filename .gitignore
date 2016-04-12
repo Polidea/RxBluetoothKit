@@ -2,6 +2,7 @@
 #
 build/
 Build/
+docs/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
