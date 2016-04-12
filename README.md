@@ -15,7 +15,7 @@ For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rx
 - [x] Scan sharing
 - [x] Scan queueing
 - [x] Bluetooth error bubbling
-- [x] Documentation // TODO: Link to CocoaDocs.
+- [x] Documentation
 
 ## Sample
 In Example folder you can find application we've provided to you. It's a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.
@@ -26,12 +26,7 @@ In Example folder you can find application we've provided to you. It's a great p
 [CocoaPods](http://cocoapods.org) is a dependency manager for CocoaProjects.
 To integrate RxBluetoothKit into your Xcode project using CocoaPods specify it in your `Podfile`:
 ```ruby
-platform :
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
-use_frameworks!
-
-pod 'RxBluetoothKit', '~> 0.1'
+pod 'RxBluetoothKit'
 ```
 Then, run following command:
 `$ pod install`
