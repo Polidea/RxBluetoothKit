@@ -71,7 +71,8 @@ You are responsible for maintaining instance of manager object, and passing it b
 ### Scanning peripherals
 To start any interaction, with bluetooth devices, you have to first scan some of them. So - get ready!
 #### Basic
-```
+
+```swift
 manager.scanForPeripherals([serviceIds])
 .flatMap { scannedPeripheral
 	let advertisement = scannedPeripheral.advertisement
@@ -85,12 +86,14 @@ This is the simplest version of this operation. After subscription to observable
 #### Cancelling
 By default scanning operation is not cancelled. It's the user's responsibility to do that in situations where scanning in not needed anymore.
 Fortunately, this is also really easy to do, thanks to awesome RxSwift operators.
-```
+
+```swift
 manager.scanForPeripherals([serviceIds]).take(1)
 //Doing this, after first received result, scan is immediately cancelled.
 ```
 Ok, that's fun, but what if you also want to apply timeout policy? That's also easy to do:
-```
+
+```swift
 manager.scanForPeripherals([serviceIds]).timeout(3.0, timerScheduler)
 ```
 
@@ -98,17 +101,17 @@ As you can see: thanks to all available RxSwift operators, in a simple way you m
 
 #### Waiting for proper BluetoothState
 In a following scenario: just after app launch, you want to perform scans. But, there are some problems with this approach - in order to perform work with bluetooth, you're manager should be in **.PoweredOn** state. Specially for this case, our library provides you with another observable, that you should use for monitoring state.
-```
+```swift
 let monitorState = manager.monitorState()
 ```
 After subscribe, this observable will immediately emit next event with current value of BluetoothManager state, and later will fire every time state changes.
 You could easily chain it with operation you want to perform after changing to proper state. Let's see how it looks with scanning:
-```
+```swift
 manager.monitorState()
-.filter { $0 == .PoweredOn }
-.timeout(3.0, scheduler)
-.take(1)
-.flatMap { manager.scanForPeripherals([serviceId]) }
+	.filter { $0 == .PoweredOn }
+	.timeout(3.0, scheduler)
+	.take(1)
+	.flatMap { manager.scanForPeripherals([serviceId]) }
 ```
 Firstly, filter .PoweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use **take** to be sure, that after getting .PoweredOn state, nothing else ever will be emitted by the observable.
 In last `flatMap` operation bluetooth is ready to perform further operations.
@@ -118,10 +121,10 @@ After receiving scanned peripheral, to do something with it, we need to first ca
 It's really straightforward: just flatMap result into another Observable!
 ```swift
 manager.scanForPeripherals([serviceId]).take(1)
-.flatMap { $0.peripheral.connect() }
-.subscribeNext { peripheral in
-	print("Connected to: \(peripheral)")
-}
+	.flatMap { $0.peripheral.connect() }
+	.subscribeNext { peripheral in
+		print("Connected to: \(peripheral)")
+	}
 ```
 
 ### Discovering services
@@ -131,10 +134,10 @@ Because all of wanted services are discovered at once, method returns `Observabl
 Here's how it works in RxBluetoothKit:
 ```swift
 peripheral.connect()
-.flatMap { Observable.from($0.discoverServices([serviceId])) }
-.subscribeNext { service in
-	print("Discovered service: \(service)")
-}
+	.flatMap { Observable.from($0.discoverServices([serviceId])) }
+	.subscribeNext { service in
+		print("Discovered service: \(service)")
+	}
 ```
 
 ### Discovering characteristics
@@ -143,11 +146,11 @@ This time API's returning `Observable<[Characteristic]>` and to process one
 characteristic at a time, you need to once again use `Observable.from()`
 ```swift
 peripheral.connect()
-.flatMap { Observable.from($0.discoverServices([serviceId])) }
-.flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
-.subscribeNext { characteristic
+	.flatMap { Observable.from($0.discoverServices([serviceId])) }
+	.flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
+	.subscribeNext { characteristic
 		print("Discovered characteristic: \(characteristic)")
-}
+	}
 ```
 
 ### Reading value of characteristic
@@ -156,12 +159,12 @@ In order to do that, you should use `readValue()` function defined on `Character
 We decided to return `Characteristic` instead of `NSData` due to one purpose - to allow you chain operations on characteristic in easy way.
 ```swift
 peripheral.connect()
-.flatMap { Observable.from($0.discoverServices([serviceId])) }
-.flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
-.flatMap { $0.readValue }
-.subscribeNext {
-	let data = $0.value
-}
+	.flatMap { Observable.from($0.discoverServices([serviceId])) }
+	.flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
+	.flatMap { $0.readValue }
+	.subscribeNext {
+		let data = $0.value
+	}
 ```
 
 ### Notifying on characteristic changes
@@ -169,10 +172,10 @@ Notifying on characteristic value changes? Nothing easier.
 First, you should set notify on characteristic on true. Later, just call monitoring on characteristic and you're ready to go!
 ```swift
 characteristic.setNotifyValue(true)
-.flatMap { $0.monitorValueUpdate() }
-.subscribeNext {
-	let newValue = $0.value
-}
+	.flatMap { $0.monitorValueUpdate() }
+	.subscribeNext {
+		let newValue = $0.value
+	}
 ```
 
 ### Writing value to characteristic
@@ -185,9 +188,9 @@ On the other hand - if you decided to go with `WithoutResponse` - you're receivi
 Let's jump over to the code:
 ```swift
 characteristic.writeValue(data, type: .WithResponse)
-.subscribe { event in
-	//respond to errors / successful read
-}
+	.subscribe { event in
+		//respond to errors / successful read
+	}
 ```
 
 
@@ -221,8 +224,6 @@ Call `monitorUpdateName() -> Observable<(Peripheral, String?)>` in order to know
 #### Monitoring write
 By calling `monitorWriteForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic>` you're able to receive event each time, when value is being written to characteristic.
 
-
-
 ### Additional features
 
 #### Scan sharing & queueing
@@ -232,7 +233,6 @@ Also, thanks to queueing, if it's not subset - it'll be queued until scan A will
 
 #### Error bubbling
 Library supports **complex** Bluetooth error handling functionalities. Errors from Bluetooth delegate methods are propagated into all of the API calls. So for example - if during services discovery bluetooth state changes to `.PoweredOff`, proper error containing this information will be propagated into `discoverServices` call.
-
 
 ## Requirements
 - iOS 8.0+
