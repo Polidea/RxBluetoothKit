@@ -17,7 +17,7 @@
                BlueprintIdentifier = "3354B1396525B5D24471C8C8BA95E481"
                BuildableName = "RxBluetoothKit.framework"
                BlueprintName = "RxBluetoothKit"
-               ReferencedContainer = "container:Pods/Pods.xcodeproj">
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "3354B1396525B5D24471C8C8BA95E481"
             BuildableName = "RxBluetoothKit.framework"
             BlueprintName = "RxBluetoothKit"
-            ReferencedContainer = "container:Pods/Pods.xcodeproj">
+            ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>

@@ -1,0 +1,28 @@
+PODS:
+  - Nimble (3.2.0)
+  - Quick (0.9.1)
+  - RxBluetoothKit (0.2.3):
+    - RxSwift (~> 2.0)
+  - RxSwift (2.3.1)
+  - RxTests (2.3.1):
+    - RxSwift (~> 2.3.1)
+
+DEPENDENCIES:
+  - Nimble (~> 3.2.0)
+  - Quick (~> 0.9.1)
+  - RxBluetoothKit (from `../`)
+  - RxSwift (~> 2.0)
+  - RxTests (~> 2.0)
+
+EXTERNAL SOURCES:
+  RxBluetoothKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
+  Quick: a5221fc21788b6aeda934805e68b061839bc3165
+  RxBluetoothKit: 697cefba0380bcbaa47280b6e91e3ce7fd95f9ba
+  RxSwift: 829b2843e9eddc77a02cb3f5117f0d55f8f646f1
+  RxTests: 86e059f7257a92be9baf124975c71297555daf53
+
+COCOAPODS: 0.39.0

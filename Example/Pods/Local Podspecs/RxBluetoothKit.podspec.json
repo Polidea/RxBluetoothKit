@@ -1,0 +1,30 @@
+{
+  "name": "RxBluetoothKit",
+  "version": "0.2.3",
+  "summary": "A short description of RxBluetoothKit.",
+  "description": "",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/RxBluetoothKit",
+  "license": "MIT",
+  "authors": {
+    "Przemysław Lenart": "przemek.lenart@polidea.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/RxBluetoothKit.git",
+    "tag": "0.2.3"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "RxBluetoothKit": [
+      "Pod/Assets/*.png"
+    ]
+  },
+  "dependencies": {
+    "RxSwift": [
+      "~> 2.0"
+    ]
+  }
+}
