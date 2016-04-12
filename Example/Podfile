@@ -2,15 +2,15 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 target 'RxBluetoothKit_Example' do
-  pod 'RxSwift', '~> 2.0'
+  pod 'RxSwift', '2.3.1'
   pod 'RxBluetoothKit', :path => '../'
 end
 
 target 'RxBluetoothKit_Tests' do
   pod 'RxBluetoothKit', :path => '../'
 
-  pod 'RxSwift', '~> 2.0'
-  pod 'RxTests', '~> 2.0'
+  pod 'RxSwift', '2.3.1'
+  pod 'RxTests', '2.3.1'
   pod 'Quick', '~> 0.9.1'
   pod 'Nimble', '3.2.0'
 end
