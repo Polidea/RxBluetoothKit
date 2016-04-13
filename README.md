@@ -240,7 +240,7 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 
 ## Contributing
 If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request.
-To keep code in order, we advice you to use SwiftLint. In repository, we provide configured ``.swiftlint.yml` file, that matches our criteria of clean and "Swifty" code.  
+To keep code in order, we advice you to use SwiftLint. In repository, we provide configured `.swiftlint.yml` file, that matches our criteria of clean and "Swifty" code.  
 
 ## License
 

@@ -69,7 +69,7 @@ class ScansTableViewController: UIViewController {
         guard let identifier = segue.identifier, let cell = sender as? UITableViewCell
             where identifier == "PresentPeripheralDetails" else { return }
         guard let navigationVC = segue.destinationViewController as? UINavigationController,
-        let peripheralDetails = navigationVC.topViewController as? PeripheralDetailsViewController else { return }
+        let peripheralDetails = navigationVC.topViewController as? PeripheralServicesViewController else { return }
 
         if let indexPath = scansTableView.indexPathForCell(cell) {
             peripheralDetails.scannedPeripheral = peripheralsArray[indexPath.row]
@@ -115,7 +115,7 @@ extension ScansTableViewController: UISplitViewControllerDelegate {
                              ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
         //TODO: Check how this works on both devices.
         guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? PeripheralDetailsViewController else { return false }
+        guard let topAsDetailController = secondaryAsNavController.topViewController as? PeripheralServicesViewController else { return false }
         if topAsDetailController.scannedPeripheral == nil {
             // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
             return true
