@@ -36,7 +36,7 @@ Then, run following command:
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 To integrate RxBluetoothKit into your Xcode project using Carthage  specify it in your `Cartfile`:
 ```
-github "Polidea/RxBluetoothKit" ~> 0.1
+github "Polidea/RxBluetoothKit"
 ```
 Then, run `carthage update` to build framework and drag `RxBluetoothKit.framework` into your Xcode project.
 
