@@ -109,7 +109,7 @@ public class Peripheral {
         let observable = peripheral.rx_didDiscoverIncludedServicesForService
             .filter { $0.0 == service.service }
             .flatMap {(service, error) -> Observable<[Service]> in
-                guard let includedServices = service.includedServices where error == nil else  {
+                guard let includedServices = service.includedServices where error == nil else {
                     return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
                 }
                 let mapped = includedServices.map { Service(peripheral: self, service: $0) }
@@ -237,7 +237,8 @@ public class Peripheral {
             .take(1)
             .flatMap { (cbCharacteristic, error) -> Observable<[Descriptor]> in
                 if let descriptors = cbCharacteristic.descriptors where error == nil {
-                        return Observable.just(descriptors.map { Descriptor(descriptor: $0, characteristic: characteristic) })
+                        return Observable.just(descriptors.map {
+                            Descriptor(descriptor: $0, characteristic: characteristic)})
                     }
                     return Observable.error(BluetoothError.DescriptorsDiscoveryFailed(characteristic, error))
                 }
