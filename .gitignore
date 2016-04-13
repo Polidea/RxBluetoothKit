@@ -20,9 +20,8 @@ DerivedData
 *.xcuserstate
 
 timeline.xctimeline
-
+Pods
 Carthage/Checkouts
-
 Carthage/Build
 .idea
 Podfile.lock
