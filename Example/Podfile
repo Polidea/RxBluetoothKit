@@ -1,0 +1,9 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+inhibit_all_warnings!
+
+target 'Example' do
+  pod 'RxSwift'
+  pod 'RxBluetoothKit'
+end
+
