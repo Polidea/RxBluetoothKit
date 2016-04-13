@@ -4,4 +4,4 @@ xcode_project: RxBluetoothKit.xcodeproj
 xcode_scheme: RxBluetoothKitTests
 xcode_sdk: iphonesimulator9.3
 before_script:
-  - carthage bootstrap  
+  - carthage bootstrap --no-use-binaries --platform iOS
