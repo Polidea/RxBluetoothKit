@@ -200,7 +200,7 @@ public class BluetoothManager {
     }
 
     /**
-     Emits current state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState) after subscription and further state changes.
+     After subscription emits current state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState). Later, whenever state changes next element is emitted.
 
      - returns: Observable emitting state of `BluetoothManager` as `CBCentralManagerState`.
      */
@@ -280,7 +280,7 @@ public class BluetoothManager {
 
      - parameter peripheral: The `Peripheral` to which the `BluetoothManager` is either trying to
                              connect or has already connected.
-     - returns: Observable which emits next event when peripheral successfully cancelled connection.
+     - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
     public func cancelConnectionToPeripheral(peripheral: Peripheral) -> Observable<Peripheral> {
         let observable = Observable<Peripheral>.deferred {
@@ -299,7 +299,7 @@ public class BluetoothManager {
 
      - parameter serviceUUIDs: A list of `Service` UUIDs
      - returns: Observable which emits retrieved `Peripheral`s. They are in connected state and contain all of the
-                `Service`s with UUIDs specified in the `serviceUUIDs` parameter.
+                `Service`s with UUIDs specified in the `serviceUUIDs` parameter. Just after that complete event is emitted
      */
     public func retrieveConnectedPeripheralsWithServices(serviceUUIDs: [CBUUID]) -> Observable<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {
@@ -317,7 +317,7 @@ public class BluetoothManager {
      Returns observable list of `Peripheral`s by their identifiers which are known to `BluetoothManager`.
 
     - parameter identifiers: List of `Peripheral`'s identifiers which should be retrieved.
-    - returns: Observable which emits next event when list of `Peripheral`s are retrieved.
+    - returns: Observable which emits next and complete events when list of `Peripheral`s are retrieved.
     */
     public func retrievePeripheralsWithIdentifiers(identifiers: [NSUUID]) -> Observable<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {

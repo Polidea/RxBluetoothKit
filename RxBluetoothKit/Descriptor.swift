@@ -50,6 +50,13 @@ public class Descriptor {
 }
 extension Descriptor: Equatable { }
 
+/**
+ Compare two descriptors. Descriptors are the same when their UUIDs are the same.
+
+ - parameter lhs: First descriptor to compare
+ - parameter rhs: Second descriptor to compare
+ - returns: True if both descriptor are the same.
+ */
 public func == (lhs: Descriptor, rhs: Descriptor) -> Bool {
     return lhs.descriptor == rhs.descriptor
 }
