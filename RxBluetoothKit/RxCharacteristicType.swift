@@ -26,7 +26,7 @@ import CoreBluetooth
 /**
  Protocol which wraps characteristic for bluetooth devices.
  */
-public protocol RxCharacteristicType {
+protocol RxCharacteristicType {
 
     /// Characteristic UUID
     var uuid: CBUUID { get }
@@ -54,7 +54,7 @@ public protocol RxCharacteristicType {
  - parameter rhs: Second characteristic to compare
  - returns: True if characteristics are the same
  */
-public func == (lhs: RxCharacteristicType, rhs: RxCharacteristicType) -> Bool {
+func == (lhs: RxCharacteristicType, rhs: RxCharacteristicType) -> Bool {
     return lhs.uuid == rhs.uuid
 }
 

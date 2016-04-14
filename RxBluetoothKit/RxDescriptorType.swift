@@ -26,7 +26,7 @@ import CoreBluetooth
 /**
  Protocol which wraps characteristic's descriptor for bluetooth devices.
  */
-public protocol RxDescriptorType {
+protocol RxDescriptorType {
 
     /// Descriptor UUID
     var UUID: CBUUID { get }
@@ -38,6 +38,6 @@ public protocol RxDescriptorType {
     var value: AnyObject? { get }
 }
 
-public func == (lhs: RxDescriptorType, rhs: RxDescriptorType) -> Bool {
+func == (lhs: RxDescriptorType, rhs: RxDescriptorType) -> Bool {
     return lhs.UUID == rhs.UUID
 }

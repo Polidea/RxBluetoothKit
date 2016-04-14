@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 import Foundation
+@testable
 import RxBluetoothKit
 import CoreBluetooth
 

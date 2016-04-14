@@ -70,20 +70,24 @@ public class BluetoothManager {
      - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default
                                  main thread is used.
      */
-    public init(centralManager: RxCentralManagerType,
-                queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
+    init(centralManager: RxCentralManagerType,
+         queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
         self.centralManager = centralManager
         self.subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
     }
 
     /**
-     Creates new `BluetoothManager` instance with default `RxCBCentralManager` implementation of `RxCentralManagerType`
-     protocol. By default all operations and events are executed and received on main thread.
+     Creates new `BluetoothManager` instance. By default all operations and events are executed and received on
+     main thread.
 
-     - parameter queue: Queue on which bluetooth callback are received. By default main thread is used.
+     - warning: If you pass background queue to the method make sure to observe results on main thread for UI related
+     code.
+
+     - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
      */
     convenience public init(queue: dispatch_queue_t = dispatch_get_main_queue()) {
-        self.init(centralManager: RxCBCentralManager(queue: queue))
+        self.init(centralManager: RxCBCentralManager(queue: queue),
+                  queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
     }
 
     // MARK: Scanning
@@ -114,7 +118,7 @@ public class BluetoothManager {
 
      - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
      - parameter options: Optional scanning options.
-     - returns: Stream of scanned peripherals.
+     - returns: Infinite stream of scanned peripherals.
     */
     public func scanForPeripherals(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]? = nil)
         -> Observable<ScannedPeripheral> {

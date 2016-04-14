@@ -27,7 +27,7 @@ import CoreBluetooth
 /**
  Protocol which wraps Central Manager for bluetooth devices. It is used directly by BluetoothManager
 */
-public protocol RxCentralManagerType {
+protocol RxCentralManagerType {
 
     /// Observable which emits state changes of central manager after subscriptions
     var rx_didUpdateState: Observable<CBCentralManagerState> { get }

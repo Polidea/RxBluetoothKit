@@ -24,6 +24,7 @@ import Quick
 import Nimble
 
 import CoreBluetooth
+@testable
 import RxBluetoothKit
 import RxTests
 import RxSwift

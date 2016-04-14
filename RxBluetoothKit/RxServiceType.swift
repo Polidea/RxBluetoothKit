@@ -26,7 +26,7 @@ import CoreBluetooth
 /**
  Protocol which wraps bluetooth service.
  */
-public protocol RxServiceType {
+protocol RxServiceType {
 
     /// Service's UUID
     var uuid: CBUUID { get }
