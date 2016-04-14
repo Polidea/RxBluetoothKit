@@ -157,6 +157,73 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		265CD5F91CBED2E4007120AB /* BluetoothManager */ = {
+			isa = PBXGroup;
+			children = (
+				A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */,
+				A1299C1C1CBE3DEE005DEA5B /* RxCentralManagerType.swift */,
+				A1299C171CBE3DEE005DEA5B /* RxCBCentralManager.swift */,
+				A1299C0E1CBE3DEE005DEA5B /* BluetoothManager.swift */,
+				A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */,
+			);
+			name = BluetoothManager;
+			sourceTree = "<group>";
+		};
+		265CD5FA1CBED323007120AB /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */,
+				A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */,
+				A1299C141CBE3DEE005DEA5B /* Observable+From.swift */,
+				A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */,
+				A1299C111CBE3DEE005DEA5B /* CollectionUtils.swift */,
+				A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */,
+				A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
+		265CD5FB1CBED333007120AB /* Characteristic */ = {
+			isa = PBXGroup;
+			children = (
+				A1299C1D1CBE3DEE005DEA5B /* RxCharacteristicType.swift */,
+				A1299C181CBE3DEE005DEA5B /* RxCBCharacteristic.swift */,
+				A1299C101CBE3DEE005DEA5B /* Characteristic.swift */,
+			);
+			name = Characteristic;
+			sourceTree = "<group>";
+		};
+		265CD5FC1CBED339007120AB /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				A1299C201CBE3DEE005DEA5B /* RxServiceType.swift */,
+				A1299C231CBE3DEE005DEA5B /* Service.swift */,
+				A1299C1B1CBE3DEE005DEA5B /* RxCBService.swift */,
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
+		265CD5FD1CBED33D007120AB /* Peripheral */ = {
+			isa = PBXGroup;
+			children = (
+				A1299C1F1CBE3DEE005DEA5B /* RxPeripheralType.swift */,
+				A1299C211CBE3DEE005DEA5B /* ScannedPeripheral.swift */,
+				A1299C161CBE3DEE005DEA5B /* Peripheral.swift */,
+				A1299C1A1CBE3DEE005DEA5B /* RxCBPeripheral.swift */,
+			);
+			name = Peripheral;
+			sourceTree = "<group>";
+		};
+		265CD5FE1CBED348007120AB /* Descriptor */ = {
+			isa = PBXGroup;
+			children = (
+				A1299C1E1CBE3DEE005DEA5B /* RxDescriptorType.swift */,
+				A1299C191CBE3DEE005DEA5B /* RxCBDescriptor.swift */,
+				A1299C121CBE3DEE005DEA5B /* Descriptor.swift */,
+			);
+			name = Descriptor;
+			sourceTree = "<group>";
+		};
 		A1299BB31CBE3D52005DEA5B = {
 			isa = PBXGroup;
 			children = (
@@ -204,31 +271,12 @@
 		A1299BD71CBE3D61005DEA5B /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */,
-				A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */,
-				A1299C0E1CBE3DEE005DEA5B /* BluetoothManager.swift */,
-				A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */,
-				A1299C101CBE3DEE005DEA5B /* Characteristic.swift */,
-				A1299C111CBE3DEE005DEA5B /* CollectionUtils.swift */,
-				A1299C121CBE3DEE005DEA5B /* Descriptor.swift */,
-				A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */,
-				A1299C141CBE3DEE005DEA5B /* Observable+From.swift */,
-				A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */,
-				A1299C161CBE3DEE005DEA5B /* Peripheral.swift */,
-				A1299C171CBE3DEE005DEA5B /* RxCBCentralManager.swift */,
-				A1299C181CBE3DEE005DEA5B /* RxCBCharacteristic.swift */,
-				A1299C191CBE3DEE005DEA5B /* RxCBDescriptor.swift */,
-				A1299C1A1CBE3DEE005DEA5B /* RxCBPeripheral.swift */,
-				A1299C1B1CBE3DEE005DEA5B /* RxCBService.swift */,
-				A1299C1C1CBE3DEE005DEA5B /* RxCentralManagerType.swift */,
-				A1299C1D1CBE3DEE005DEA5B /* RxCharacteristicType.swift */,
-				A1299C1E1CBE3DEE005DEA5B /* RxDescriptorType.swift */,
-				A1299C1F1CBE3DEE005DEA5B /* RxPeripheralType.swift */,
-				A1299C201CBE3DEE005DEA5B /* RxServiceType.swift */,
-				A1299C211CBE3DEE005DEA5B /* ScannedPeripheral.swift */,
-				A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */,
-				A1299C231CBE3DEE005DEA5B /* Service.swift */,
-				A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */,
+				265CD5FE1CBED348007120AB /* Descriptor */,
+				265CD5FD1CBED33D007120AB /* Peripheral */,
+				265CD5FC1CBED339007120AB /* Service */,
+				265CD5FB1CBED333007120AB /* Characteristic */,
+				265CD5FA1CBED323007120AB /* Shared */,
+				265CD5F91CBED2E4007120AB /* BluetoothManager */,
 			);
 			name = Source;
 			sourceTree = "<group>";
