@@ -1,16 +1,30 @@
+// The MIT License (MIT)
 //
-//  Observable+QueueSubscribeOn.swift
-//  Pods
+// Copyright (c) 2016 Polidea
 //
-//  Created by Przemysław Lenart on 04/03/16.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
 //
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import Foundation
 import RxSwift
 
 /// Queue which is used for queueing subscriptions for queueSubscribeOn operator.
-public class SerializedSubscriptionQueue {
+class SerializedSubscriptionQueue {
     let scheduler: ImmediateSchedulerType
     let lock = NSLock()
 
@@ -24,7 +38,7 @@ public class SerializedSubscriptionQueue {
 
     - parameter scheduler: Scheduler on which subscribption will be scheduled
     */
-    public init(scheduler: ImmediateSchedulerType) {
+    init(scheduler: ImmediateSchedulerType) {
         self.scheduler = scheduler
     }
 
@@ -145,7 +159,7 @@ extension ObservableType {
      - returns: The source which will be subscribe when queue is empty or previous observable was completed or disposed.
      */
     @warn_unused_result(message="http://git.io/rxs.uo")
-    public func queueSubscribeOn(queue: SerializedSubscriptionQueue) -> Observable<E> {
+    func queueSubscribeOn(queue: SerializedSubscriptionQueue) -> Observable<E> {
         return QueueSubscribeOn(source: self.asObservable(), queue: queue).asObservable()
     }
     // swiftlint:enable missing_docs

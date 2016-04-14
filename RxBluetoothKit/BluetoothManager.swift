@@ -1,65 +1,124 @@
+// The MIT License (MIT)
 //
-//  BluetoothManager.swift
-//  RxBluetoothKit
+// Copyright (c) 2016 Polidea
 //
-//  Created by Przemysław Lenart on 24/02/16.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import Foundation
 import RxSwift
 import CoreBluetooth
 
+// swiftlint:disable line_length
+
 /**
- BluetoothManager is the main class which allows to use Bluetooth low energy to scan and connect to
- retrieved peripherals.
+ BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
+ discover or connect to remote peripheral devices. It's using thin layer behind `RxCentralManagerType` protocol which is
+ implemented by `RxCBCentralManager` and should not be used directly by the user of a RxBluetoothKit library.
+
+ You can start using this class by discovering available services of nearby peripherals. Before calling any
+ public `BluetoothManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
+ by calling and observing returned value of `monitorState()` and then chaining it with `scanForPeripherals(_:options:)`:
+
+     bluetoothManager.monitorState()
+         .filter { $0 == .PoweredOn }
+         .take(1)
+         .flatMap { manager.scanForPeripherals(nil) }
+
+ As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
+ peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other operations.
+
+ - seealso: `Peripheral`
  */
 public class BluetoothManager {
 
     /// Implementation of Central Manager
     private let centralManager: RxCentralManagerType
 
-    // Queue on which all stream are serialized
+    /// Queue on which all observables are serialised if needed
     private let subscriptionQueue: SerializedSubscriptionQueue
 
-    /// Internal structures lock
+    /// Lock which should be used before accessing any internal structures
     private let lock = NSLock()
 
-    // TODO: To be completed: seealso: scanForPeripherals
-    /// Queue of scan operations to be completed
+    /// Queue of scan operations which are waiting for an execution
     private var scanQueue: [ScanOperation] = []
-
     private let disposeBag = DisposeBag()
 
-    //MARK: Public interfaces
+    // MARK: Initialization
 
     /**
-     Create new Bluetooth Manager with specified implemention of Bluetooth Central Manager which will execute operations
-     by default on main thread.
+     Creates new `BluetoothManager` instance with specified implementation of `RxCentralManagerType` protocol which will be
+     used by this class. Most of a time `RxCBCentralManager` should be chosen by the user.
 
-     - Parameter centralManager: implementation of Central Manager
-     - Parameter queueScheduler: scheduler on which serialized work will be executed
+     - parameter centralManager: Implementation of `RxCentralManagerType` protocol used by this class.
+     - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default
+                                 main thread is used.
      */
-    public init(centralManager: RxCentralManagerType,
-                queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
+    init(centralManager: RxCentralManagerType,
+         queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
         self.centralManager = centralManager
         self.subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
     }
 
     /**
-     Create new Bluetooth Manager with default implementation of Core Bluetooth Central Manager which callbacks are
-     handled on specified queue. Default value of queue is main queue.
+     Creates new `BluetoothManager` instance. By default all operations and events are executed and received on
+     main thread.
+
+     - warning: If you pass background queue to the method make sure to observe results on main thread for UI related
+     code.
+
+     - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
      */
     convenience public init(queue: dispatch_queue_t = dispatch_get_main_queue()) {
-        self.init(centralManager: RxCBCentralManager(queue: queue))
+        self.init(centralManager: RxCBCentralManager(queue: queue),
+                  queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
     }
 
-   /**
-     Starts BLE scan for peripherals with given service UUIDs. When scan with the same set of UUIDs is
-     in progress you will bind to it. Otherwise new scan will be queued.
+    // MARK: Scanning
+
+    /**
+     Scans for `Peripheral`s after subscription to returned observable. First parameter `serviceUUIDs` is
+     an array of `Service` UUIDs which needs to be implemented by a peripheral to be discovered. If user don't want to
+     filter any peripherals, `nil` can be used instead. Additionally dictionary of
+     [`CBCentralManager` specific options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Scanning_Options)
+     can be passed to allow further customisation.
+
+     Scans by default are infinite streams of `ScannedPeripheral` structures which need to be stopped by the user. For
+     example this can be done by limiting scanning to certain number of peripherals or time:
+
+         bluetoothManager.scanForPeripherals(nil)
+             .timeout(3.0, timeoutScheduler)
+             .take(2)
+
+     If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
+     shared. Otherwise scan is queued on thread specified in `init(centralManager:queueScheduler:)` and will be executed
+     when other scans finished with complete/error event or were unsubscribed.
+
+     As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
+     peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other
+     operations.
+
+     - seealso: `Peripheral`
 
      - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
-     - parameter options: Optional scanning options
-     - returns: Stream of scanned peripherals.
+     - parameter options: Optional scanning options.
+     - returns: Infinite stream of scanned peripherals.
     */
     public func scanForPeripherals(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]? = nil)
         -> Observable<ScannedPeripheral> {
@@ -129,19 +188,21 @@ public class BluetoothManager {
         }
     }
 
-    /**
-     Returns current state of BLE Central Manager.
+    // MARK: State
 
-     - Returns: Current state of BLE Central Manager.
+    /**
+     Current state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
+
+     - returns: Current state of `BluetoothManager` as `CBCentralManagerState`.
      */
     public var state: CBCentralManagerState {
         return centralManager.state
     }
 
     /**
-     Starts observing state changes for BLE. It starts emitting current state first.
+     After subscription emits current state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState). Later, whenever state changes next element is emitted.
 
-     - Returns: Stream of BLE states
+     - returns: Observable emitting state of `BluetoothManager` as `CBCentralManagerState`.
      */
     public func monitorState() -> Observable<CBCentralManagerState> {
         return Observable.deferred {
@@ -149,14 +210,29 @@ public class BluetoothManager {
         }
     }
 
-    // TODO: Consider adding monitorStateChange() without emitting current state. @maciek
+    /**
+     Emits state changes of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
+
+     - returns: Observable emitting state of `BluetoothManager` as `CBCentralManagerState`.
+     */
+    public func monitorStateChange() -> Observable<CBCentralManagerState> {
+        return self.centralManager.rx_didUpdateState
+    }
+
+    // MARK: Peripheral's Connection Management
 
     /**
-     Establishes connection with BLE Peripheral
+     Establishes connection with `Peripheral` after subscription to returned observable. It's user responsibility
+     to close connection with `cancelConnectionToPeripheral(_:)` after subscription was completed. Unsubscribing from
+     returned observable cancels connection attempt. By default observable is waiting infinitely for successful
+     connection.
 
-     - parameter peripheral: Peripheral to connect to
-     - parameter options: Connection options
-     - returns: Observation which emits next and complete events after connection is established.
+     Additionally you can pass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
+     to customise the behaviour of connection.
+
+     - parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
+     - parameter options: Dictionary to customise the behaviour of connection.
+     - returns: Observable which emits next and complete events after connection is established.
      */
     public func connectToPeripheral(peripheral: Peripheral, options: [String:AnyObject]? = nil)
         -> Observable<Peripheral> {
@@ -199,11 +275,12 @@ public class BluetoothManager {
     }
 
     /**
-     Cancels an active or pending local connection to a peripheral.
+     Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
+     that physical connection will be closed immediately as well and all pending commands will not be executed.
 
-     - parameter peripheral: The peripheral to which the central manager is either trying to
+     - parameter peripheral: The `Peripheral` to which the `BluetoothManager` is either trying to
                              connect or has already connected.
-     - returns: Observation which emits next event when peripheral canceled connection
+     - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
     public func cancelConnectionToPeripheral(peripheral: Peripheral) -> Observable<Peripheral> {
         let observable = Observable<Peripheral>.deferred {
@@ -214,13 +291,15 @@ public class BluetoothManager {
         return ensureState(.PoweredOn, observable: observable)
     }
 
-    /**
-     Returns observable list of the peripherals containing any of the specified services currently
-     connected to the system
+    // MARK: Retrieving Lists of Peripherals
 
-     - parameter serviceUUIDs: A list of service UUIDs
-     - returns: Observation which emits retrieved peripherals. Emited peripherals has to be connected to the system and
-                has to contain any of the services specified in the serviceUUIDs parameter.
+    /**
+     Returns observable list of the `Peripheral`s which are currently connected to the `BluetoothManager` and contain
+     all of the specified `Service`'s UUIDs.
+
+     - parameter serviceUUIDs: A list of `Service` UUIDs
+     - returns: Observable which emits retrieved `Peripheral`s. They are in connected state and contain all of the
+                `Service`s with UUIDs specified in the `serviceUUIDs` parameter. Just after that complete event is emitted
      */
     public func retrieveConnectedPeripheralsWithServices(serviceUUIDs: [CBUUID]) -> Observable<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {
@@ -235,9 +314,10 @@ public class BluetoothManager {
     }
 
     /**
-    Returns observable list of known peripherals by their identifiers
-    - Parameter identifiers: List of peripheral identifiers from which CBPeripheral objects can be retrieved
-    - Returns: Observation which emits next when peripherals are retrieved
+     Returns observable list of `Peripheral`s by their identifiers which are known to `BluetoothManager`.
+
+    - parameter identifiers: List of `Peripheral`'s identifiers which should be retrieved.
+    - returns: Observable which emits next and complete events when list of `Peripheral`s are retrieved.
     */
     public func retrievePeripheralsWithIdentifiers(identifiers: [NSUUID]) -> Observable<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {
@@ -251,13 +331,14 @@ public class BluetoothManager {
         return ensureState(.PoweredOn, observable: observable)
     }
 
-    ///MARK:  Internal functions
+    // MARK:  Internal functions
 
     /**
-     Ensure that state is preserved. It there is other state present error will be merged into stream.
+     Ensure that `state` is and will be the only state of `BluetoothManager` during subscription.
+     Otherwise error is emitted.
 
-     - parameter state: Central Manager State which should be ensured
-     - parameter observable: Observable into which potential errors should be merged
+     - parameter state: `CBCentralManagerState` which should be present during subscription.
+     - parameter observable: Observable into which potential errors should be merged.
      - returns: New observable which merges errors with source observable.
      */
     func ensureState<T>(state: CBCentralManagerState, observable: Observable<T>) -> Observable<T> {
@@ -268,10 +349,10 @@ public class BluetoothManager {
     }
 
     /**
-     This function injects emits errors when peripheral is in disconnected state.
+     Ensure that specified `peripheral` is connected during subscription.
 
-     - Parameter peripheral: Peripheral for which errors should be emitted when disconnected
-     - Returns: Stream of disconnection errors
+     - parameter peripheral: `Peripheral` which should be connected during subscription.
+     - returns: Observable which emits error when `peripheral` is disconnected during subscription.
      */
     func ensurePeripheralIsConnected<T>(peripheral: Peripheral) -> Observable<T> {
         return Observable.deferred {
@@ -285,11 +366,12 @@ public class BluetoothManager {
             }
         }
     }
-    /**
-     Observe peripheral disconnection event
 
-     - Parameter peripheral: Peripheral which disconnection events should be observed
-     - Returns: Observation which emits next events when peripheral was disconnected
+    /**
+     Emits `Peripheral` instance when it's disconnected.
+
+     - Parameter peripheral: `Peripheral` which is monitored for disconnection.
+     - Returns: Observable which emits next events when `peripheral` was disconnected.
     */
     func monitorPeripheralDisconnection(peripheral: Peripheral) -> Observable<Peripheral> {
         return centralManager
