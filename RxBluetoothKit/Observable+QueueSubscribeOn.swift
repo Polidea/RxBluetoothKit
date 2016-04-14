@@ -24,7 +24,7 @@ import Foundation
 import RxSwift
 
 /// Queue which is used for queueing subscriptions for queueSubscribeOn operator.
-public class SerializedSubscriptionQueue {
+class SerializedSubscriptionQueue {
     let scheduler: ImmediateSchedulerType
     let lock = NSLock()
 
@@ -38,7 +38,7 @@ public class SerializedSubscriptionQueue {
 
     - parameter scheduler: Scheduler on which subscribption will be scheduled
     */
-    public init(scheduler: ImmediateSchedulerType) {
+    init(scheduler: ImmediateSchedulerType) {
         self.scheduler = scheduler
     }
 

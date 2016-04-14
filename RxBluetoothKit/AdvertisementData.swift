@@ -27,7 +27,7 @@ import CoreBluetooth
  Convenience class which helps reading advertisement data
  */
 public struct AdvertisementData {
-
+    ///Advertisement data dictionary that contains all information advertised by peripheral.
     public let advertisementData: [String:AnyObject]
 
     /**
