@@ -28,7 +28,7 @@ import CoreBluetooth
  Core Bluetooth implementation of RxCentralManagerType. This is a lightweight wrapper which allows
  to hide all implementation details.
  */
-public class RxCBCentralManager: RxCentralManagerType {
+class RxCBCentralManager: RxCentralManagerType {
     private let centralManager: CBCentralManager
     private let internalDelegate = InternalDelegate()
 
@@ -38,7 +38,7 @@ public class RxCBCentralManager: RxCentralManagerType {
 
      - parameter queue: Dispatch queue on which callbacks are received.
      */
-    public init(queue: dispatch_queue_t) {
+    init(queue: dispatch_queue_t) {
         centralManager = CBCentralManager(delegate: internalDelegate, queue: queue)
     }
 
@@ -84,32 +84,32 @@ public class RxCBCentralManager: RxCentralManagerType {
 
 
     /// Observable which infroms when central manager did change its state
-    public var rx_didUpdateState: Observable<CBCentralManagerState> {
+    var rx_didUpdateState: Observable<CBCentralManagerState> {
         return internalDelegate.didUpdateStateSubject
     }
     /// Observable which infroms when central manager is about to restore its state
-    public var rx_willRestoreState: Observable<[String:AnyObject]> {
+    var rx_willRestoreState: Observable<[String:AnyObject]> {
         return internalDelegate.willRestoreStateSubject
     }
     /// Observable which infroms when central manage discovered peripheral
-    public var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:AnyObject], NSNumber)> {
+    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:AnyObject], NSNumber)> {
         return internalDelegate.didDiscoverPeripheralSubject
     }
     /// Observable which infroms when central manager connected to peripheral
-    public var rx_didConnectPeripheral: Observable<RxPeripheralType> {
+    var rx_didConnectPeripheral: Observable<RxPeripheralType> {
         return internalDelegate.didConnectPerihperalSubject
     }
     /// Observable which infroms when central manager failed to connect to peripheral
-    public var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, NSError?)> {
+    var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, NSError?)> {
         return internalDelegate.didFailToConnectPeripheralSubject
     }
     /// Observable which infroms when central manager disconnected from peripheral
-    public var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> {
+    var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> {
         return internalDelegate.didDisconnectPeripheral
     }
 
     /// Current central manager state
-    public var state: CBCentralManagerState {
+    var state: CBCentralManagerState {
         return centralManager.state
     }
 
@@ -121,7 +121,7 @@ public class RxCBCentralManager: RxCentralManagerType {
                                available peripherals will be discovered.
      - parameter options: Central Manager specific options for scanning
      */
-    public func scanForPeripheralsWithServices(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?) {
+    func scanForPeripheralsWithServices(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?) {
         return centralManager.scanForPeripheralsWithServices(serviceUUIDs, options: options)
     }
 
@@ -132,7 +132,7 @@ public class RxCBCentralManager: RxCentralManagerType {
      - parameter peripheral: Peripheral to connect to.
      - parameter options: Central Manager specific connection options.
      */
-    public func connectPeripheral(peripheral: RxPeripheralType, options: [String:AnyObject]?) {
+    func connectPeripheral(peripheral: RxPeripheralType, options: [String:AnyObject]?) {
         return centralManager.connectPeripheral((peripheral as! RxCBPeripheral).peripheral, options: options)
     }
 
@@ -142,12 +142,12 @@ public class RxCBCentralManager: RxCentralManagerType {
 
      - parameter peripheral: Peripheral to be disconnected.
      */
-    public func cancelPeripheralConnection(peripheral: RxPeripheralType) {
+    func cancelPeripheralConnection(peripheral: RxPeripheralType) {
         return centralManager.cancelPeripheralConnection((peripheral as! RxCBPeripheral).peripheral)
     }
 
     /// Abort peripheral scanning
-    public func stopScan() {
+    func stopScan() {
         return centralManager.stopScan()
     }
 
@@ -158,7 +158,7 @@ public class RxCBCentralManager: RxCentralManagerType {
      - parameter serviceUUIDs: List of services which need to be implemented by retrieved peripheral.
      - returns: Observable wich emits connected peripherals.
      */
-    public func retrieveConnectedPeripheralsWithServices(serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
+    func retrieveConnectedPeripheralsWithServices(serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
         return Observable.just(centralManager.retrieveConnectedPeripheralsWithServices(serviceUUIDs).map {
             RxCBPeripheral(peripheral: $0)
         })
@@ -170,7 +170,7 @@ public class RxCBCentralManager: RxCentralManagerType {
      - parameter identifiers: List of identifiers of peripherals for which we are looking for.
      - returns: Observable which emits peripherals with specified identifiers.
      */
-    public func retrievePeripheralsWithIdentifiers(identifiers: [NSUUID]) -> Observable<[RxPeripheralType]> {
+    func retrievePeripheralsWithIdentifiers(identifiers: [NSUUID]) -> Observable<[RxPeripheralType]> {
         return Observable.just(centralManager.retrievePeripheralsWithIdentifiers(identifiers).map {
             RxCBPeripheral(peripheral: $0)
         })

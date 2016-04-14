@@ -27,7 +27,7 @@ import CoreBluetooth
 /**
  Protocol which wraps bluetooth peripheral.
  */
-public protocol RxPeripheralType {
+protocol RxPeripheralType {
 
     /// Peripheral's name
     var name: String? { get }
@@ -170,6 +170,6 @@ extension Equatable where Self: RxPeripheralType {}
  - parameter rhs: Second peripheral
  - returns: True if both peripherals are the same.
  */
-public func == (lhs: RxPeripheralType, rhs: RxPeripheralType) -> Bool {
+func == (lhs: RxPeripheralType, rhs: RxPeripheralType) -> Bool {
     return lhs.identifier == rhs.identifier
 }

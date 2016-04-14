@@ -62,7 +62,7 @@ public class Service {
      - parameter peripheral: Peripheral to which this service belongs.
      - parameter service: Service implementation.
      */
-    public init(peripheral: Peripheral, service: RxServiceType) {
+    init(peripheral: Peripheral, service: RxServiceType) {
         self.service = service
         self.peripheral = peripheral
     }

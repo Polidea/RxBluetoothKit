@@ -22,6 +22,7 @@
 
 import Foundation
 
+@testable
 import RxBluetoothKit
 import RxSwift
 import RxTests

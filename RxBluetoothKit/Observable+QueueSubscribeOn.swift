@@ -159,7 +159,7 @@ extension ObservableType {
      - returns: The source which will be subscribe when queue is empty or previous observable was completed or disposed.
      */
     @warn_unused_result(message="http://git.io/rxs.uo")
-    public func queueSubscribeOn(queue: SerializedSubscriptionQueue) -> Observable<E> {
+    func queueSubscribeOn(queue: SerializedSubscriptionQueue) -> Observable<E> {
         return QueueSubscribeOn(source: self.asObservable(), queue: queue).asObservable()
     }
     // swiftlint:enable missing_docs

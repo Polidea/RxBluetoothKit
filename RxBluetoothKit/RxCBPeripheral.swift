@@ -28,7 +28,7 @@ import RxSwift
  Core Bluetooth implementation of RxPeripheralType. This is a lightweight wrapper which allows
  to hide all implementation details.
  */
-public class RxCBPeripheral: RxPeripheralType {
+class RxCBPeripheral: RxPeripheralType {
 
     let peripheral: CBPeripheral
     private let internalDelegate: InternalPeripheralDelegate
@@ -43,22 +43,22 @@ public class RxCBPeripheral: RxPeripheralType {
     }
 
     /// Peripheral's identifier
-    public var identifier: NSUUID {
+    var identifier: NSUUID {
         return peripheral.identifier
     }
 
     /// Peripheral's name
-    public var name: String? {
+    var name: String? {
         return peripheral.name
     }
 
     /// Peripheral's state
-    public var state: CBPeripheralState {
+    var state: CBPeripheralState {
         return peripheral.state
     }
 
     /// Peripheral's services
-    public var services: [RxServiceType]? {
+    var services: [RxServiceType]? {
         guard let services = peripheral.services else {
             return nil
         }
@@ -68,62 +68,62 @@ public class RxCBPeripheral: RxPeripheralType {
     }
 
     /// Observable which emits peripheral's name changes
-    public var rx_didUpdateName: Observable<String?> {
+    var rx_didUpdateName: Observable<String?> {
         return internalDelegate.peripheralDidUpdateNameSubject
     }
 
     /// Observable which emits when service's are modified
-    public var rx_didModifyServices: Observable<([RxServiceType])> {
+    var rx_didModifyServices: Observable<([RxServiceType])> {
         return internalDelegate.peripheralDidModifyServicesSubject
     }
 
     /// Observable which emits when RSSI was read
-    public var rx_didReadRSSI: Observable<(Int, NSError?)> {
+    var rx_didReadRSSI: Observable<(Int, NSError?)> {
         return internalDelegate.peripheralDidReadRSSISubject
     }
 
     /// Observable which emits discovered serivices during discovery
-    public var rx_didDiscoverServices: Observable<([RxServiceType]?, NSError?)> {
+    var rx_didDiscoverServices: Observable<([RxServiceType]?, NSError?)> {
         return internalDelegate.peripheralDidDiscoverServicesSubject
     }
 
     /// Observable which emits service for which included services were discovered
-    public var rx_didDiscoverIncludedServicesForService: Observable<(RxServiceType, NSError?)> {
+    var rx_didDiscoverIncludedServicesForService: Observable<(RxServiceType, NSError?)> {
         return internalDelegate.peripheralDidDiscoverIncludedServicesForServiceSubject
     }
 
     /// Observable which emits service for which characteristics were discovered
-    public var rx_didDiscoverCharacteristicsForService: Observable<(RxServiceType, NSError?)> {
+    var rx_didDiscoverCharacteristicsForService: Observable<(RxServiceType, NSError?)> {
         return internalDelegate.peripheralDidDiscoverCharacteristicsForServiceSubject
     }
 
     /// Observable which emits characteristic which value has been updated
-    public var rx_didUpdateValueForCharacteristic: Observable<(RxCharacteristicType, NSError?)> {
+    var rx_didUpdateValueForCharacteristic: Observable<(RxCharacteristicType, NSError?)> {
         return internalDelegate.peripheralDidUpdateValueForCharacteristicSubject
     }
 
     /// Observable which emits characteristic for which value was written successfully
-    public var rx_didWriteValueForCharacteristic: Observable<(RxCharacteristicType, NSError?)> {
+    var rx_didWriteValueForCharacteristic: Observable<(RxCharacteristicType, NSError?)> {
         return internalDelegate.peripheralDidWriteValueForCharacteristicSubject
     }
 
     /// Observable which emits characteristic which notification value was successfully modified
-    public var rx_didUpdateNotificationStateForCharacteristic: Observable<(RxCharacteristicType, NSError?)> {
+    var rx_didUpdateNotificationStateForCharacteristic: Observable<(RxCharacteristicType, NSError?)> {
         return internalDelegate.peripheralDidUpdateNotificationStateForCharacteristicSubject
     }
 
     /// Observable which emits characteristic for which descriptors were discovered
-    public var rx_didDiscoverDescriptorsForCharacteristic: Observable<(RxCharacteristicType, NSError?)> {
+    var rx_didDiscoverDescriptorsForCharacteristic: Observable<(RxCharacteristicType, NSError?)> {
         return internalDelegate.peripheralDidDiscoverDescriptorsForCharacteristicSubject
     }
 
     /// Observable which emits descriptor which value was updated
-    public var rx_didUpdateValueForDescriptor: Observable<(RxDescriptorType, NSError?)> {
+    var rx_didUpdateValueForDescriptor: Observable<(RxDescriptorType, NSError?)> {
         return internalDelegate.peripheralDidUpdateValueForDescriptorSubject
     }
 
     /// Observable which emits descriptor which completed sucessfully its write operation
-    public var rx_didWriteValueForDescriptor: Observable<(RxDescriptorType, NSError?)> {
+    var rx_didWriteValueForDescriptor: Observable<(RxDescriptorType, NSError?)> {
         return internalDelegate.peripheralDidWriteValueForDescriptorSubject
     }
 
@@ -133,7 +133,7 @@ public class RxCBPeripheral: RxPeripheralType {
 
      - parameter serviceUUIDs: List of UUIDS which must be implemented by a peripheral
      */
-    public func discoverServices(serviceUUIDs: [CBUUID]?) {
+    func discoverServices(serviceUUIDs: [CBUUID]?) {
         peripheral.discoverServices(serviceUUIDs)
     }
 
@@ -145,7 +145,7 @@ public class RxCBPeripheral: RxPeripheralType {
      - parameter characteristicUUIDs: List of UUIDs of characteristics which should be returned.
      - parameter forService: Serivce which includes characteristics
      */
-    public func discoverCharacteristics(characteristicUUIDs: [CBUUID]?, forService service: RxServiceType) {
+    func discoverCharacteristics(characteristicUUIDs: [CBUUID]?, forService service: RxServiceType) {
         peripheral.discoverCharacteristics(characteristicUUIDs, forService: (service as! RxCBService).service)
     }
 
@@ -157,7 +157,7 @@ public class RxCBPeripheral: RxPeripheralType {
                                        all included services will be discovered
      - parameter forService: Service which contains included services.
      */
-    public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?, forService service: RxServiceType) {
+    func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?, forService service: RxServiceType) {
         peripheral.discoverIncludedServices(includedServiceUUIDs, forService: (service as! RxCBService).service)
     }
 
@@ -166,7 +166,7 @@ public class RxCBPeripheral: RxPeripheralType {
      subscibe.
      - parameter characteristic: Characteristic from which we are reading
      */
-    public func readValueForCharacteristic(characteristic: RxCharacteristicType) {
+    func readValueForCharacteristic(characteristic: RxCharacteristicType) {
         peripheral.readValueForCharacteristic((characteristic as! RxCBCharacteristic).characteristic)
     }
 
@@ -177,7 +177,7 @@ public class RxCBPeripheral: RxPeripheralType {
      - parameter forCharacteristic: Characteristic to which new value will be written.
      - parameter type: Type of write operation
      */
-    public func writeValue(data: NSData,
+    func writeValue(data: NSData,
                            forCharacteristic characteristic: RxCharacteristicType,
                            type: CBCharacteristicWriteType) {
         peripheral.writeValue(data, forCharacteristic: (characteristic as! RxCBCharacteristic).characteristic,
@@ -189,7 +189,7 @@ public class RxCBPeripheral: RxPeripheralType {
      - parameter enabled: True if notifications for value changes should be enabled
      - parameter forCharacteristic: Characteristic for which notifications will be enabled or disabled
      */
-    public func setNotifyValue(enabled: Bool, forCharacteristic characteristic: RxCharacteristicType) {
+    func setNotifyValue(enabled: Bool, forCharacteristic characteristic: RxCharacteristicType) {
         peripheral.setNotifyValue(enabled, forCharacteristic: (characteristic as! RxCBCharacteristic).characteristic)
     }
 
@@ -199,7 +199,7 @@ public class RxCBPeripheral: RxPeripheralType {
 
      - parameter characteristic: Characteristic for which descriptors will be discovered
      */
-    public func discoverDescriptorsForCharacteristic(characteristic: RxCharacteristicType) {
+    func discoverDescriptorsForCharacteristic(characteristic: RxCharacteristicType) {
         peripheral.discoverDescriptorsForCharacteristic((characteristic as! RxCBCharacteristic).characteristic)
     }
 
@@ -209,7 +209,7 @@ public class RxCBPeripheral: RxPeripheralType {
 
      - parameter descriptor: Descriptor which value will be read.
      */
-    public func readValueForDescriptor(descriptor: RxDescriptorType) {
+    func readValueForDescriptor(descriptor: RxDescriptorType) {
         peripheral.readValueForDescriptor((descriptor as! RxCBDescriptor).descriptor)
     }
 
@@ -220,12 +220,12 @@ public class RxCBPeripheral: RxPeripheralType {
      - parameter data: Data to be write to descriptor.
      - parameter forDescriptor: Descriptor which value will be written.
      */
-    public func writeValue(data: NSData, forDescriptor descriptor: RxDescriptorType) {
+    func writeValue(data: NSData, forDescriptor descriptor: RxDescriptorType) {
         peripheral.writeValue(data, forDescriptor: (descriptor as! RxCBDescriptor).descriptor)
     }
 
     /// Read RSSI from peripheral
-    public func readRSSI() {
+    func readRSSI() {
         peripheral.readRSSI()
     }
 

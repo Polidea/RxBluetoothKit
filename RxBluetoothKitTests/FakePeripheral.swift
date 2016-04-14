@@ -24,6 +24,7 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 import RxTests
+@testable
 import RxBluetoothKit
 
 class FakePeripheral: RxPeripheralType {
