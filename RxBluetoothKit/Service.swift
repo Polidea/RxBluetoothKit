@@ -39,7 +39,7 @@ public class Service {
     }
 
     /// Service's UUID
-    public var uuid: CBUUID {
+    public var UUID: CBUUID {
         return service.uuid
     }
 

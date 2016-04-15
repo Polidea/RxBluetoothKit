@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26509A771CC1270100EBA319 /* DeviceIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */; };
+		26509A791CC1275E00EBA319 /* Peripheral+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */; };
 		A1299BC11CBE3D52005DEA5B /* RxBluetoothKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A1299BC01CBE3D52005DEA5B /* RxBluetoothKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A1299BC81CBE3D52005DEA5B /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1299BBD1CBE3D52005DEA5B /* RxBluetoothKit.framework */; };
 		A1299C251CBE3DEE005DEA5B /* AdvertisementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */; };
@@ -84,6 +86,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceIdentifiers.swift; sourceTree = "<group>"; };
+		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; };
 		A1299BBD1CBE3D52005DEA5B /* RxBluetoothKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxBluetoothKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1299BC01CBE3D52005DEA5B /* RxBluetoothKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RxBluetoothKit.h; sourceTree = "<group>"; };
 		A1299BC21CBE3D52005DEA5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -210,6 +214,8 @@
 				A1299C211CBE3DEE005DEA5B /* ScannedPeripheral.swift */,
 				A1299C161CBE3DEE005DEA5B /* Peripheral.swift */,
 				A1299C1A1CBE3DEE005DEA5B /* RxCBPeripheral.swift */,
+				26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */,
+				26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */,
 			);
 			name = Peripheral;
 			sourceTree = "<group>";
@@ -454,6 +460,7 @@
 				A1299C2B1CBE3DEE005DEA5B /* Descriptor.swift in Sources */,
 				A1299C331CBE3DEE005DEA5B /* RxCBPeripheral.swift in Sources */,
 				A1299C2A1CBE3DEE005DEA5B /* CollectionUtils.swift in Sources */,
+				26509A791CC1275E00EBA319 /* Peripheral+Convenience.swift in Sources */,
 				A1299C3B1CBE3DEE005DEA5B /* ScanOperation.swift in Sources */,
 				A1299C311CBE3DEE005DEA5B /* RxCBCharacteristic.swift in Sources */,
 				A1299C2C1CBE3DEE005DEA5B /* Observable+Absorb.swift in Sources */,
@@ -468,6 +475,7 @@
 				A1299C291CBE3DEE005DEA5B /* Characteristic.swift in Sources */,
 				A1299C3C1CBE3DEE005DEA5B /* Service.swift in Sources */,
 				A1299C341CBE3DEE005DEA5B /* RxCBService.swift in Sources */,
+				26509A771CC1270100EBA319 /* DeviceIdentifiers.swift in Sources */,
 				A1299C261CBE3DEE005DEA5B /* BluetoothError.swift in Sources */,
 				A1299C371CBE3DEE005DEA5B /* RxDescriptorType.swift in Sources */,
 				A1299C351CBE3DEE005DEA5B /* RxCentralManagerType.swift in Sources */,

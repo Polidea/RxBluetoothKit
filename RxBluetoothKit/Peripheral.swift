@@ -144,7 +144,7 @@ public class Peripheral {
                 let mapped = includedServices.map { Service(peripheral: self, service: $0) }
                 guard includedServiceUUIDs != nil else { return Observable.just(mapped) }
                 return Observable.just(mapped
-                .filter { self.shouldBeIdentifierIncluded($0.uuid, forIdentifiers: includedServiceUUIDs) })
+                .filter { self.shouldBeIdentifierIncluded($0.UUID, forIdentifiers: includedServiceUUIDs) })
             }
             .take(1)
 
@@ -173,7 +173,7 @@ public class Peripheral {
             let mapped = characteristics.map { Characteristic(characteristic: $0, service: service) }
             guard identifiers != nil else { return Observable.just(mapped) }
             return Observable.just(mapped
-                .filter { self.shouldBeIdentifierIncluded($0.uuid, forIdentifiers: identifiers) })
+                .filter { self.shouldBeIdentifierIncluded($0.UUID, forIdentifiers: identifiers) })
         }
         .take(1)
 

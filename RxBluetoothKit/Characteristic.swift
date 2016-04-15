@@ -39,7 +39,7 @@ public class Characteristic {
     }
 
     /// Characteristic UUID
-    public var uuid: CBUUID {
+    public var UUID: CBUUID {
         return characteristic.uuid
     }
 
@@ -76,6 +76,10 @@ public class Characteristic {
      */
     public func monitorWrite() -> Observable<Characteristic> {
         return service.peripheral.monitorWriteForCharacteristic(self)
+    }
+    //TODO: Add documentation
+    public func discoverDescriptors(identifiers: [CBUUID]) -> Observable<[Descriptor]> {
+        return self.service.peripheral.discoverDescriptorsForCharacteristic(self)
     }
 
     /**
