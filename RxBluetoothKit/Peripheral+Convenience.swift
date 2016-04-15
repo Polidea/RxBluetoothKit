@@ -26,111 +26,115 @@ import RxSwift
 
 extension Peripheral {
 
-    private func getService(id: ServiceIdentifier) -> Observable<Service> {
+    private func serviceWithIdentifier(identifier: ServiceIdentifier) -> Observable<Service> {
         return Observable.deferred {
             if let services = self.services,
-                let service = services.findElement({ $0.UUID == id.UUID  }) {
+                let service = services.findElement({ $0.UUID == identifier.UUID  }) {
                 return Observable.just(service)
             } else {
-                return Observable.from(self.discoverServices([id.UUID]))
+                return Observable.from(self.discoverServices([identifier.UUID]))
             }
         }
     }
 
-    func getCharacteristic(id: CharacteristicIdentifier) -> Observable<Characteristic> {
+    func characteristicWithIdentifier(identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return Observable.deferred {
-            return self.getService(id.service)
+            return self.serviceWithIdentifier(identifier.service)
                 .flatMap { service -> Observable<Characteristic> in
                     if let characteristics = service.characteristics, let characteristic = characteristics.findElement({
-                        $0.UUID == id.UUID
+                        $0.UUID == identifier.UUID
                     }) {
                         return Observable.just(characteristic)
                     } else {
-                        return Observable.from(service.discoverCharacteristics([id.UUID]))
+                        return Observable.from(service.discoverCharacteristics([identifier.UUID]))
                     }
             }
         }
     }
 
-    func getDescriptor(id: DescriptorIdentifier) -> Observable<Descriptor> {
+    func descriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return Observable.deferred {
-            return self.getCharacteristic(id.characteristic)
+            return self.characteristicWithIdentifier(identifier.characteristic)
                 .flatMap { characteristic -> Observable<Descriptor> in
                     if let descriptors = characteristic.descriptors,
-                        let descriptor = descriptors.findElement({ $0.UUID == id.UUID }) {
+                        let descriptor = descriptors.findElement({ $0.UUID == identifier.UUID }) {
                         return Observable.just(descriptor)
                     } else {
-                        return Observable.from(characteristic.discoverDescriptors([id.UUID]))
+                        return Observable.from(characteristic.discoverDescriptors([identifier.UUID]))
                     }
             }
         }
     }
 
-    func monitorWriteForCharacteristicWithId(id: CharacteristicIdentifier) -> Observable<Characteristic> {
-        return getCharacteristic(id)
+    func monitorWriteForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier)
+        -> Observable<Characteristic> {
+        return characteristicWithIdentifier(identifier)
             .flatMap {
                 return self.monitorWriteForCharacteristic($0)
         }
     }
 
-    func writeValue(data: NSData, forCharacteristicWithId id: CharacteristicIdentifier, type: CBCharacteristicWriteType)
-        -> Observable<Characteristic> {
-        return getCharacteristic(id)
+    func writeValue(data: NSData, forCharacteristicWithIdentifier identifier: CharacteristicIdentifier,
+                    type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+        return characteristicWithIdentifier(identifier)
             .flatMap {
                 return self.writeValue(data, forCharacteristic: $0, type: type)
         }
     }
 
-    func monitorValueUpdateForCharacteristicWithId(id: CharacteristicIdentifier) -> Observable<Characteristic> {
-        return getCharacteristic(id)
+    func monitorValueUpdateForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier)
+        -> Observable<Characteristic> {
+        return characteristicWithIdentifier(identifier)
             .flatMap {
                 return self.monitorValueUpdateForCharacteristic($0)
         }
     }
 
-    func readValueForCharacteristicWithId(id: CharacteristicIdentifier) -> Observable<Characteristic> {
-        return getCharacteristic(id)
+    func readValueForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+        return characteristicWithIdentifier(identifier)
             .flatMap {
                 return self.readValueForCharacteristic($0)
         }
     }
 
-    func discoverDescriptorsForCharacteristicWithId(id: CharacteristicIdentifier) -> Observable<[Descriptor]> {
-        return getCharacteristic(id)
+    func discoverDescriptorsForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier) ->
+        Observable<[Descriptor]> {
+        return characteristicWithIdentifier(identifier)
             .flatMap {
                 return self.discoverDescriptorsForCharacteristic($0)
         }
     }
 
-    func monitorWriteForDescriptorWithId(id: DescriptorIdentifier) -> Observable<Descriptor> {
-        return getDescriptor(id)
+    func monitorWriteForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+        return descriptorWithIdentifier(identifier)
             .flatMap {
                 return self.monitorWriteForDescriptor($0)
         }
     }
 
-    func writeValue(data: NSData, forDescriptorWithId id: DescriptorIdentifier) -> Observable<Descriptor> {
-        return getDescriptor(id)
+    func writeValue(data: NSData, forDescriptorWithIdentifier identifier: DescriptorIdentifier)
+        -> Observable<Descriptor> {
+        return descriptorWithIdentifier(identifier)
             .flatMap {
                 return self.writeValue(data, forDescriptor: $0)
         }
     }
 
-    func monitorValueUpdateForDescriptorWithId(id: DescriptorIdentifier) -> Observable<Descriptor> {
-        return getDescriptor(id)
+    func monitorValueUpdateForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+        return descriptorWithIdentifier(identifier)
             .flatMap {
                 return self.monitorValueUpdateForDescriptor($0)
         }
     }
-    func readValueForDescriptorWithId(id: DescriptorIdentifier) -> Observable<Descriptor> {
-        return getDescriptor(id)
+    func readValueForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+        return descriptorWithIdentifier(identifier)
             .flatMap {
                 return self.readValueForDescriptor($0)
         }
     }
-    func setNotifyValue(enabled: Bool,
-                        forCharacteristicWithId id: CharacteristicIdentifier) -> Observable<Characteristic> {
-        return getCharacteristic(id)
+    func setNotifyValue(enabled: Bool, forCharacteristicWithIdentifier identifier: CharacteristicIdentifier)
+        -> Observable<Characteristic> {
+        return characteristicWithIdentifier(identifier)
             .flatMap {
                 return self.setNotifyValue(enabled, forCharacteristic: $0)
         }

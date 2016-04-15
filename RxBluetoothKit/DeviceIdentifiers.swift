@@ -35,3 +35,4 @@ protocol CharacteristicIdentifier {
     var UUID: CBUUID { get }
     var service: ServiceIdentifier { get }
 }
+
