@@ -28,7 +28,7 @@ import CoreBluetooth
 
 /**
  BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
- discover or connect to remote peripheral devices. It's using thin layer behind `RxCentralManagerType` protocol which is
+ discover, connect to remote peripheral devices and more. It's using thin layer behind `RxCentralManagerType` protocol which is
  implemented by `RxCBCentralManager` and should not be used directly by the user of a RxBluetoothKit library.
 
  You can start using this class by discovering available services of nearby peripherals. Before calling any

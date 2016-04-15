@@ -25,34 +25,44 @@ import RxSwift
 import CoreBluetooth
 
 /**
- Bluetooth manager's peripheral
+ Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 */
 public class Peripheral {
 
     /// Implementation of peripheral
     let peripheral: RxPeripheralType
-
-
-    var isConnected: Bool {
+    /** Value indicating if peripheral is currently in connected state
+     */
+    public var isConnected: Bool {
         return peripheral.state == .Connected
     }
 
-    /// Current state of peripheral
+    /**
+     Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
+
+     - returns: Current state of `Peripheral` as `CBPeripheralState`.
+     */
     public var state: CBPeripheralState {
         return peripheral.state
     }
 
-    /// Name of a peripheral
+    /**
+     Current name of `Peripheral` instance. Analogous to   [`name`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
+     */
     public var name: String? {
         return peripheral.name
     }
 
-    /// Peripheral identifier
+    /**
+     Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
+     */
     public var identifier: NSUUID {
         return peripheral.identifier
     }
 
-    /// Currently hold services
+    /**
+     A list of services that have been discovered. Analogous to   [`services`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
+     */
     public var services: [Service]? {
         return peripheral.services?.map {
             Service(peripheral: self, service: $0)
@@ -67,8 +77,10 @@ public class Peripheral {
     }
 
     /**
-     Establishes connection with BLE Peripheral
-     - Parameter options: Connection options
+     Establishes local connection to the peripheral.
+     For more information look into `BluetoothManager.connectToPeripheral(_:options:)` because this method calls it directly.
+     - Parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
+     - Parameter options: Dictionary to customise the behaviour of connection.
      - Returns: Observation which emits next event after connection is established
      */
     public func connect(options: [String:AnyObject]? = nil) -> Observable<Peripheral> {
@@ -76,25 +88,28 @@ public class Peripheral {
     }
 
     /**
-     Connects to BLE Peripheral
-     - Returns: Observation which emits next event after peripheral is disconnected
+     Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
+     that physical connection will be closed immediately as well and all pending commands will not be executed.
+
+     - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
     public func cancelConnection() -> Observable<Peripheral> {
         return manager.cancelConnectionToPeripheral(self)
     }
 
     /**
-     Triggers services discovery. Completes right after first discovery.
-     - Parameter identifiers: Identifiers of wanted services
-     - Returns: Array of discovered services
+     Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
+
+     - Parameter serviceUUIDs: An array of [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) object represents a UUID that identifies the type of service you want to discover.
+     - Returns: Observable which emits next and complete events after specified services are discoverd
      */
-    public func discoverServices(identifiers: [CBUUID]?) -> Observable<[Service]> {
+    public func discoverServices(serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverServices
         .flatMap({
             (services, error) -> Observable<[Service]> in
             if let discoveredServices = services {
                 let mapped = discoveredServices.map { Service(peripheral: self, service: $0) }
-                guard let identifiers = identifiers else { return Observable.just(mapped) }
+                guard let identifiers = serviceUUIDs else { return Observable.just(mapped) }
                 let uuids = discoveredServices.map { $0.uuid }
                 if Set(uuids) == Set(identifiers) {
                     return Observable.just(mapped)
@@ -106,7 +121,7 @@ public class Peripheral {
         .take(1)
 
         return Observable.deferred {
-            self.peripheral.discoverServices(identifiers)
+            self.peripheral.discoverServices(serviceUUIDs)
             return self.ensureValidPeripheralState(observable)
         }
     }
