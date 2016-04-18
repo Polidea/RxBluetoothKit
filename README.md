@@ -188,6 +188,56 @@ characteristic.writeValue(data, type: .WithResponse)
 	}
 ```
 
+### Convenience calling methods
+In order to enable even easier interaction with RxBluetooth, we've provided custom protocols we advice you to implement.
+Thats `ServiceIdentifier`, `CharacteristicIdentifier` and `DescriptorIdentifier`. Most of the time you're writing Bluetooth code to communicate with specific device, while knowing its specification like services and characteristic. Thats exactly the case, where you should implement these protocols. Sample implementation might look like:
+```swift
+enum DeviceCharacteristic: String, CharacteristicIdentifier {
+    case ManufacturerName = "2A29"
+
+    var UUID: CBUUID {
+        return CBUUID(string: self.rawValue)
+    }
+		//Service to which characteristic belongs
+    var service: ServiceIdentifier {
+        switch self {
+        case .ManufacturerName:
+            return XXXService.DeviceInformation
+        }
+    }
+}
+enum DeviceService: String, ServiceIdentifier {
+    case DeviceInformation = "180A"
+
+    var UUID: CBUUID {
+        return CBUUID(string: self.rawValue)
+    }
+}
+```
+After implementing these types, whole set of new new methods is becoming available.
+Earlier implementation of reading from characteristic looked like that:
+```swift
+peripheral.connect()
+    .flatMap { Observable.from($0.discoverServices([serviceId])) }
+    .flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
+    .flatMap { $0.readValue }
+    .subscribeNext {
+        let data = $0.value
+    }
+```
+
+When you use new `CharacteristicIdentifier` protocol, you could do it way simpler:
+
+```swift
+peripheral.connect()
+    .flatMap { $0.readValueFromCharacteristicWithIdentifier(DeviceCharacteristic.ManufacturerName)
+    .subscribeNext {
+        let data = $0.value
+    }
+```
+
+Set of methods that are taking instances conforming `CharacteristicIdentifier` or `DescriptorIdentifier` does all of the heavy lifting like discovering services, characteristics and descriptors for you. Moreover, in order to optimise - when one of these is available in cache, discovery is not called at all.
+We really encourage you to use these versions of methods in order to make your code even shorter and cleaner.
 
 ### Other useful functionalities
 Here you'll find other useful functionalities of library
