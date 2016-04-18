@@ -191,7 +191,7 @@ characteristic.writeValue(data, type: .WithResponse)
 ### Convenience calling methods
 In order to enable even easier interaction with RxBluetooth, we've provided custom protocols we advice you to implement.
 Thats `ServiceIdentifier`, `CharacteristicIdentifier` and `DescriptorIdentifier`. Most of the time you're writing Bluetooth code to communicate with specific device, while knowing its specification like services and characteristic. Thats exactly the case, where you should implement these protocols. Sample implementation might look like:
-```
+```swift
 enum DeviceCharacteristic: String, CharacteristicIdentifier {
     case ManufacturerName = "2A29"
 
@@ -216,7 +216,7 @@ enum DeviceService: String, ServiceIdentifier {
 ```
 After implementing these types, whole set of new new methods is becoming available.
 Earlier implementation of reading from characteristic looked like that:
-```
+```swift
 peripheral.connect()
     .flatMap { Observable.from($0.discoverServices([serviceId])) }
     .flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
@@ -228,7 +228,7 @@ peripheral.connect()
 
 When you use new `CharacteristicIdentifier` protocol, you could do it way simpler:
 
-```
+```swift
 peripheral.connect()
     .flatMap { $0.readValueFromCharacteristicWithIdentifier(DeviceCharacteristic.ManufacturerName)
     .subscribeNext {
