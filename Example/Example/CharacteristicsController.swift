@@ -73,8 +73,6 @@ class CharacteristicsController: UIViewController, UITableViewDelegate, UITableV
         actionSheet.addAction(turnNotificationOnAction)
         actionSheet.addAction(readValueNotificationAction)
 
-        if characteristic.properties = .
-
         self.presentViewController(actionSheet, animated: true, completion: nil)
     }
 
