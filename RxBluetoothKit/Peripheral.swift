@@ -25,44 +25,34 @@ import RxSwift
 import CoreBluetooth
 
 /**
- Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
+ Bluetooth manager's peripheral
 */
 public class Peripheral {
 
     /// Implementation of peripheral
     let peripheral: RxPeripheralType
-    /** Value indicating if peripheral is currently in connected state
-     */
-    public var isConnected: Bool {
+
+
+    var isConnected: Bool {
         return peripheral.state == .Connected
     }
 
-    /**
-     Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
-
-     - returns: Current state of `Peripheral` as `CBPeripheralState`.
-     */
+    /// Current state of peripheral
     public var state: CBPeripheralState {
         return peripheral.state
     }
 
-    /**
-     Current name of `Peripheral` instance. Analogous to   [`name`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
-     */
+    /// Name of a peripheral
     public var name: String? {
         return peripheral.name
     }
 
-    /**
-     Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
-     */
+    /// Peripheral identifier
     public var identifier: NSUUID {
         return peripheral.identifier
     }
 
-    /**
-     A list of services that have been discovered. Analogous to   [`services`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
-     */
+    /// Currently hold services
     public var services: [Service]? {
         return peripheral.services?.map {
             Service(peripheral: self, service: $0)
