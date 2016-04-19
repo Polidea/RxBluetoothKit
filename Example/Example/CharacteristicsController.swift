@@ -17,13 +17,7 @@ class CharacteristicsController: UIViewController {
     private let disposeBag = DisposeBag()
 
     @IBOutlet weak var characteristicsTableView: UITableView!
-    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView! {
-        didSet {
-            activityIndicatorView.hidesWhenStopped = true
-            activityIndicatorView.hidden = true
-        }
-    }
-    var manager: BluetoothManager!
+    
     private var characteristicsList: [Characteristic] = []
     private let characteristicCellId = "CharacteristicCell"
 
@@ -44,13 +38,8 @@ class CharacteristicsController: UIViewController {
         service.discoverCharacteristics(nil)
             .subscribeNext { characteristics in
                 self.characteristicsList = characteristics
-
                 self.characteristicsTableView.reloadData()
             }.addDisposableTo(disposeBag)
-    }
-
-    private func setupCharacterisics(characteristics: [Characteristic]) {
-
     }
 }
 
@@ -63,14 +52,49 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         let cell = tableView.dequeueReusableCellWithIdentifier(characteristicCellId, forIndexPath: indexPath)
         let characteristic = characteristicsList[indexPath.row]
         if let cell = cell as? CharacteristicTableViewCell {
-            cell.UUIDLabel = characteristic.uuid.UUIDString
-
+            cell.updateWithCharacteristic(characteristic)
         }
         return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let characteristic = characteristicsList[indexPath.row]
+        let actionSheet = UIAlertController(title: "Choose action", message: nil, preferredStyle: .ActionSheet)
+        let turnNotificationOffAction = UIAlertAction(title: "Turn OFF notifications", style: .Default) { _ in
+            self.setNotificationsState(enabled: false, characteristic: characteristic)
+        }
+        let turnNotificationOnAction = UIAlertAction(title: "Turn ON notifications", style: .Default) { _ in
+            self.setNotificationsState(enabled: false, characteristic: characteristic)
+        }
 
+        let readValueNotificationAction = UIAlertAction(title: "Trigger value read", style: .Default) { _ in
+            self.triggerValueReadForCharacteristic(characteristic)
+        }
+
+        actionSheet.addAction(turnNotificationOffAction)
+        actionSheet.addAction(turnNotificationOnAction)
+        actionSheet.addAction(readValueNotificationAction)
+
+        self.presentViewController(actionSheet, animated: true, completion: nil)
+    }
+
+    private func setNotificationsState(enabled enabled: Bool, characteristic: Characteristic) {
+        characteristic.setNotifyValue(enabled)
+            .subscribeNext {
+            self.refreshCharacteristic($0)
+        }.addDisposableTo(disposeBag)
+    }
+
+
+    private func triggerValueReadForCharacteristic(characteristic: Characteristic) {
+        characteristic.readValue()
+            .subscribeNext {
+                self.refreshCharacteristic($0)
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func refreshCharacteristic(characteristic: Characteristic) {
+        characteristicsTableView.reloadData()
     }
 
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -78,9 +102,18 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "SERVICES"
+        return "CHARACTERISTICS"
     }
 }
-    
+
+extension CharacteristicTableViewCell {
+    func updateWithCharacteristic(characteristic: Characteristic) {
+        self.UUIDLabel.text = characteristic.uuid.UUIDString
+        self.isNotifyingLabel.text = characteristic.isNotifying ? "true" : "false"
+        self.valueLabel.text = characteristic.value?.hexadecimalString ?? "Empty"
+    }
+}
+
+
 
 
