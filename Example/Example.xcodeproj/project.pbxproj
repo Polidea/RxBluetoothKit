@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		242918F343575934F15B531C /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D927B3E10B3E0FE8B5BDC85C /* Pods_Example.framework */; };
-		265CD6011CBFE421007120AB /* CharacteristicsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265CD6001CBFE421007120AB /* CharacteristicsTableViewController.swift */; };
+		265CD6011CBFE421007120AB /* CharacteristicsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265CD6001CBFE421007120AB /* CharacteristicsController.swift */; };
 		265CD6031CBFE42D007120AB /* CharacteristicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265CD6021CBFE42D007120AB /* CharacteristicTableViewCell.swift */; };
 		26CE004D1CBE71600072B0AA /* ServiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CE004C1CBE71600072B0AA /* ServiceTableViewCell.swift */; };
 		A1299C6C1CBE41C5005DEA5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1299C6B1CBE41C5005DEA5B /* Assets.xcassets */; };
@@ -23,7 +23,7 @@
 /* Begin PBXFileReference section */
 		09B46DA28E322F26B6E527B7 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		1EA6CFD69B761E24F06FCC1A /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
-		265CD6001CBFE421007120AB /* CharacteristicsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsTableViewController.swift; sourceTree = "<group>"; };
+		265CD6001CBFE421007120AB /* CharacteristicsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsController.swift; sourceTree = "<group>"; };
 		265CD6021CBFE42D007120AB /* CharacteristicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicTableViewCell.swift; sourceTree = "<group>"; };
 		26CE004C1CBE71600072B0AA /* ServiceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTableViewCell.swift; sourceTree = "<group>"; };
 		A1299C611CBE41C5005DEA5B /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,7 +53,7 @@
 		265CD5FF1CBFE339007120AB /* CharacteristicsTable */ = {
 			isa = PBXGroup;
 			children = (
-				265CD6001CBFE421007120AB /* CharacteristicsTableViewController.swift */,
+				265CD6001CBFE421007120AB /* CharacteristicsController.swift */,
 				265CD6021CBFE42D007120AB /* CharacteristicTableViewCell.swift */,
 			);
 			name = CharacteristicsTable;
@@ -81,7 +81,6 @@
 			isa = PBXGroup;
 			children = (
 				265CD5FF1CBFE339007120AB /* CharacteristicsTable */,
-				A1299C831CBE42B8005DEA5B /* CharacteristicsDetails */,
 				A1299C821CBE42AE005DEA5B /* ServicesDetails */,
 				A1299C7F1CBE429E005DEA5B /* PeripheralServices */,
 				A1299C7A1CBE4289005DEA5B /* ScanTable */,
@@ -117,13 +116,6 @@
 			children = (
 			);
 			name = ServicesDetails;
-			sourceTree = "<group>";
-		};
-		A1299C831CBE42B8005DEA5B /* CharacteristicsDetails */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = CharacteristicsDetails;
 			sourceTree = "<group>";
 		};
 		AA0C3576AADD27FCF4290138 /* Pods */ = {
@@ -270,7 +262,7 @@
 				26CE004D1CBE71600072B0AA /* ServiceTableViewCell.swift in Sources */,
 				265CD6031CBFE42D007120AB /* CharacteristicTableViewCell.swift in Sources */,
 				A1299C791CBE427E005DEA5B /* AppDelegate.swift in Sources */,
-				265CD6011CBFE421007120AB /* CharacteristicsTableViewController.swift in Sources */,
+				265CD6011CBFE421007120AB /* CharacteristicsController.swift in Sources */,
 				A1299C7E1CBE4295005DEA5B /* ScannedPeripheralCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

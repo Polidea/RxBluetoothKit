@@ -52,6 +52,16 @@ class PeripheralServicesViewController: UIViewController {
         activityIndicatorView.startAnimating()
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        guard let identifier = segue.identifier, let cell = sender as? UITableViewCell
+            where identifier == "PresentCharacteristics" else { return }
+        guard let characteristicsVc = segue.destinationViewController as? CharacteristicsController else { return }
+
+        if let indexPath = servicesTableView.indexPathForCell(cell) {
+            characteristicsVc.service = servicesList[indexPath.row]
+        }
+    }
+
     private func downloadServicesOfPeripheral(peripheral: Peripheral) {
         peripheral.discoverServices(nil)
             .subscribeNext { services in
@@ -59,6 +69,7 @@ class PeripheralServicesViewController: UIViewController {
                 self.servicesTableView.reloadData()
             }.addDisposableTo(disposeBag)
     }
+
 
 }
 
