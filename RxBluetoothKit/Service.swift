@@ -60,7 +60,7 @@ public class Service {
                               user wants to discover all characteristics for this service.
      - returns: Observable which emits array of discovered characteristics after subscription.
      */
-    public func discoverCharacteristics(identifiers: [CBUUID]) -> Observable<[Characteristic]> {
+    public func discoverCharacteristics(identifiers: [CBUUID]?) -> Observable<[Characteristic]> {
         return peripheral.discoverCharacteristics(identifiers, service: self)
     }
 }

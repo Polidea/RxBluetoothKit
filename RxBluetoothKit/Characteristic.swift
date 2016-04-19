@@ -98,6 +98,13 @@ public class Characteristic {
     public func monitorValueUpdate() -> Observable<Characteristic> {
         return service.peripheral.monitorValueUpdateForCharacteristic(self)
     }
+    /**
+     Discovers descriptors for given characteristic
+     - returns: Observable which emits array of descriptors, once they will be discovered.
+     */
+    public func discoverDescriptors() -> Observable<[Descriptor]> {
+        return service.peripheral.discoverDescriptorsForCharacteristic(self)
+    }
 
     /**
      This funciton request read from a characteristic. When this characteristic is emitted by returned
