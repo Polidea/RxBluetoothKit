@@ -25,34 +25,44 @@ import RxSwift
 import CoreBluetooth
 
 /**
- Bluetooth manager's peripheral
+ Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 */
 public class Peripheral {
 
     /// Implementation of peripheral
     let peripheral: RxPeripheralType
-
-
-    var isConnected: Bool {
+    /** Value indicating if peripheral is currently in connected state
+     */
+    public var isConnected: Bool {
         return peripheral.state == .Connected
     }
 
-    /// Current state of peripheral
+    /**
+     Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
+
+     - returns: Current state of `Peripheral` as `CBPeripheralState`.
+     */
     public var state: CBPeripheralState {
         return peripheral.state
     }
 
-    /// Name of a peripheral
+    /**
+     Current name of `Peripheral` instance. Analogous to   [`name`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
+     */
     public var name: String? {
         return peripheral.name
     }
 
-    /// Peripheral identifier
+    /**
+     Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
+     */
     public var identifier: NSUUID {
         return peripheral.identifier
     }
 
-    /// Currently hold services
+    /**
+     A list of services that have been discovered. Analogous to   [`services`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
+     */
     public var services: [Service]? {
         return peripheral.services?.map {
             Service(peripheral: self, service: $0)
@@ -368,7 +378,7 @@ public class Peripheral {
     }
 
     /**
-     Read peripheral's RSSI
+     Function that triggers read of `Peripheral` RSSI value. Later it
      returns: Observable which after subscribe execute operation to read peripheral's RSSI and emits given result
      */
     public func readRSSI() -> Observable<(Peripheral, Int)> {
@@ -386,8 +396,8 @@ public class Peripheral {
     }
 
     /**
-     Monitor name changes of peripheral
-     returns: Observable which after subscribe returns
+      Function that returns observable, which fire when name of `Peripheral` has changed.
+     returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed. It's `optional String` because peripheral could also lost his name. It's **infinite** stream of values, so .Complete is never emitted.
      */
     public func monitorUpdateName() -> Observable<(Peripheral, String?)> {
         return peripheral.rx_didUpdateName
@@ -395,9 +405,9 @@ public class Peripheral {
     }
 
     /**
-     Monitor peripheral's serices modification
-     returns: Observable which after subcribe listens for serives modifications. As a result array
-              of new services is returned.
+     Function that returns observable, which fire when peripheral services have changed. In case you're interested what exact changes might occur - please refer to [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
+
+     - returns: Observable that emits tuples: `(Peripheral, [Service])` when services were modified. It's **infinite** stream of values, so .Complete is never emitted.
     */
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {
         let observable = peripheral.rx_didModifyServices
