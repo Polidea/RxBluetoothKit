@@ -21,4 +21,22 @@ extension NSData {
         }
         return NSString(string: hexString) as String
     }
+
+    public class func createFromHexString(string: String) -> NSData {
+        let data = NSMutableData()
+
+        var temp = ""
+        for char in string.characters {
+            temp += String(char)
+            if string.characters.count == 2 {
+                let scanner = NSScanner(string: temp)
+                var value: CUnsignedInt = 0
+                scanner.scanHexInt(&value)
+                data.appendBytes(&value, length: 1)
+                temp = ""
+            }
+        }
+        return data as NSData
+    }
+
 }

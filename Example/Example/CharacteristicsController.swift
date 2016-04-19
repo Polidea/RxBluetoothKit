@@ -10,7 +10,7 @@ import UIKit
 import RxBluetoothKit
 import RxSwift
 
-class CharacteristicsController: UIViewController {
+class CharacteristicsController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var service: Service!
 
@@ -41,9 +41,7 @@ class CharacteristicsController: UIViewController {
                 self.characteristicsTableView.reloadData()
             }.addDisposableTo(disposeBag)
     }
-}
 
-extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return characteristicsList.count
     }
@@ -64,7 +62,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
             self.setNotificationsState(enabled: false, characteristic: characteristic)
         }
         let turnNotificationOnAction = UIAlertAction(title: "Turn ON notifications", style: .Default) { _ in
-            self.setNotificationsState(enabled: false, characteristic: characteristic)
+            self.setNotificationsState(enabled: true, characteristic: characteristic)
         }
 
         let readValueNotificationAction = UIAlertAction(title: "Trigger value read", style: .Default) { _ in
@@ -75,14 +73,21 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         actionSheet.addAction(turnNotificationOnAction)
         actionSheet.addAction(readValueNotificationAction)
 
+        if characteristic.properties = .
+
         self.presentViewController(actionSheet, animated: true, completion: nil)
     }
 
+    private var monitorValueUpdateDisposable: Disposable?
     private func setNotificationsState(enabled enabled: Bool, characteristic: Characteristic) {
-        characteristic.setNotifyValue(enabled)
+        monitorValueUpdateDisposable?.dispose()
+
+        monitorValueUpdateDisposable = characteristic.setNotifyValue(enabled)
+            .doOnNext { self.refreshCharacteristic($0) }
+            .flatMap { $0.monitorValueUpdate() }
             .subscribeNext {
-            self.refreshCharacteristic($0)
-        }.addDisposableTo(disposeBag)
+                self.refreshCharacteristic($0)
+            }
     }
 
 
@@ -90,7 +95,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         characteristic.readValue()
             .subscribeNext {
                 self.refreshCharacteristic($0)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func refreshCharacteristic(characteristic: Characteristic) {
@@ -105,6 +110,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         return "CHARACTERISTICS"
     }
 }
+
 
 extension CharacteristicTableViewCell {
     func updateWithCharacteristic(characteristic: Characteristic) {

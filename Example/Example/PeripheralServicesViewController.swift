@@ -35,10 +35,6 @@ class PeripheralServicesViewController: UIViewController {
         servicesTableView.dataSource = self
         servicesTableView.estimatedRowHeight = 40.0
         servicesTableView.rowHeight = UITableViewAutomaticDimension
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         title = "Connecting"
         manager.connectToPeripheral(scannedPeripheral.peripheral)
             .subscribe(onNext: {
@@ -69,8 +65,6 @@ class PeripheralServicesViewController: UIViewController {
                 self.servicesTableView.reloadData()
             }.addDisposableTo(disposeBag)
     }
-
-
 }
 
 extension PeripheralServicesViewController: UITableViewDataSource, UITableViewDelegate {
