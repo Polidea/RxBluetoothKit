@@ -43,11 +43,25 @@ protocol RxServiceType {
 
 extension Equatable where Self: RxServiceType {}
 
+/**
+ Services are equal if their UUIDs are equal
+
+ - parameter lhs: First service to compare
+ - parameter rhs: Second service to compare
+ - returns: True if services UUIDs are the same.
+ */
 func == (lhs: RxServiceType, rhs: RxServiceType) -> Bool {
     return lhs.uuid == rhs.uuid
 }
 
+/**
+ Function compares if two services arrays are the same, which is true if
+ both of them in sequence are equal and their size is the same.
 
+ - parameter lhs: First array of services to compare
+ - parameter rhs: Second array of services to compare
+ - returns: True if both arrays contain same services
+ */
 func == (lhs: [RxServiceType], rhs: [RxServiceType]) -> Bool {
     guard lhs.count == rhs.count else {
         return false
