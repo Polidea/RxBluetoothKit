@@ -164,12 +164,18 @@ peripheral.connect()
 
 ### Notifying on characteristic changes
 Notifying on characteristic value changes? Nothing easier.
-First, you should set notify on characteristic on true. Later, just call monitoring on characteristic and you're ready to go!
+After subscribing observable returned by this method, you will get proper message every single time:
 ```swift
-characteristic.setNotifyValue(true)
-	.flatMap { $0.monitorValueUpdate() }
+characteristic.setNotificationAndMonitorUpdates()
 	.subscribeNext {
 		let newValue = $0.value
+	}
+```
+If you are not interested anymore in updates, just use this:
+```swift
+characteristic.setNotifyValue(false)
+	.subscribe { characteristic in
+		//Notification are now disabled.
 	}
 ```
 
@@ -288,9 +294,15 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 - Przemysław Lenart, przemek.lenart@polidea.com
 - Kacper Harasim, kacper.harasim@polidea.com
 
+
+
 ## Contributing
 If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request.
-To keep code in order, we advice you to use SwiftLint. In repository, we provide configured `.swiftlint.yml` file, that matches our criteria of clean and "Swifty" code.  
+To keep code in order, we advice you to use SwiftLint. In repository, we provide configured `.swiftlint.yml` file, that matches our criteria of clean and "Swifty" code.
+
+### Contributors, thanks!
+
+Maciek Oczko (maciek.oczko@polidea.com)
 
 ## License
 
