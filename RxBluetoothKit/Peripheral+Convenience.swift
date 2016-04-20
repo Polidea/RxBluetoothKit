@@ -26,7 +26,7 @@ import RxSwift
 
 extension Peripheral {
 
-    private func serviceWithIdentifier(identifier: ServiceIdentifier) -> Observable<Service> {
+    public func serviceWithIdentifier(identifier: ServiceIdentifier) -> Observable<Service> {
         return Observable.deferred {
             if let services = self.services,
                 let service = services.findElement({ $0.UUID == identifier.UUID  }) {
@@ -37,7 +37,7 @@ extension Peripheral {
         }
     }
 
-    func characteristicWithIdentifier(identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+    public func characteristicWithIdentifier(identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return Observable.deferred {
             return self.serviceWithIdentifier(identifier.service)
                 .flatMap { service -> Observable<Characteristic> in
@@ -52,7 +52,7 @@ extension Peripheral {
         }
     }
 
-    func descriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func descriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return Observable.deferred {
             return self.characteristicWithIdentifier(identifier.characteristic)
                 .flatMap { characteristic -> Observable<Descriptor> in
@@ -66,7 +66,7 @@ extension Peripheral {
         }
     }
 
-    func monitorWriteForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier)
+    public func monitorWriteForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristicWithIdentifier(identifier)
             .flatMap {
@@ -74,7 +74,7 @@ extension Peripheral {
         }
     }
 
-    func writeValue(data: NSData, forCharacteristicWithIdentifier identifier: CharacteristicIdentifier,
+    public func writeValue(data: NSData, forCharacteristicWithIdentifier identifier: CharacteristicIdentifier,
                     type: CBCharacteristicWriteType) -> Observable<Characteristic> {
         return characteristicWithIdentifier(identifier)
             .flatMap {
@@ -82,7 +82,7 @@ extension Peripheral {
         }
     }
 
-    func monitorValueUpdateForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier)
+    public func monitorValueUpdateForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristicWithIdentifier(identifier)
             .flatMap {
@@ -90,14 +90,14 @@ extension Peripheral {
         }
     }
 
-    func readValueForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+    public func readValueForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return characteristicWithIdentifier(identifier)
             .flatMap {
                 return self.readValueForCharacteristic($0)
         }
     }
 
-    func discoverDescriptorsForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier) ->
+    public func discoverDescriptorsForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier) ->
         Observable<[Descriptor]> {
         return characteristicWithIdentifier(identifier)
             .flatMap {
@@ -105,14 +105,14 @@ extension Peripheral {
         }
     }
 
-    func monitorWriteForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func monitorWriteForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptorWithIdentifier(identifier)
             .flatMap {
                 return self.monitorWriteForDescriptor($0)
         }
     }
 
-    func writeValue(data: NSData, forDescriptorWithIdentifier identifier: DescriptorIdentifier)
+    public func writeValue(data: NSData, forDescriptorWithIdentifier identifier: DescriptorIdentifier)
         -> Observable<Descriptor> {
         return descriptorWithIdentifier(identifier)
             .flatMap {
@@ -120,19 +120,19 @@ extension Peripheral {
         }
     }
 
-    func monitorValueUpdateForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func monitorValueUpdateForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptorWithIdentifier(identifier)
             .flatMap {
                 return self.monitorValueUpdateForDescriptor($0)
         }
     }
-    func readValueForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func readValueForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptorWithIdentifier(identifier)
             .flatMap {
                 return self.readValueForDescriptor($0)
         }
     }
-    func setNotifyValue(enabled: Bool, forCharacteristicWithIdentifier identifier: CharacteristicIdentifier)
+    public func setNotifyValue(enabled: Bool, forCharacteristicWithIdentifier identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristicWithIdentifier(identifier)
             .flatMap {

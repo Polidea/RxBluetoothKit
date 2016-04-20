@@ -24,8 +24,10 @@ import Foundation
 import CoreBluetooth
 import RxSwift
 
+// swiftlint:disable line_length
+
 /**
- Class which represents peripheral's service
+ Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [`CBService`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
  */
 public class Service {
     let service: RxServiceType
@@ -57,30 +59,37 @@ public class Service {
         } ?? nil
     }
 
-    /**
-     Create new service.
-     - parameter peripheral: Peripheral to which this service belongs.
-     - parameter service: Service implementation.
-     */
     init(peripheral: Peripheral, service: RxServiceType) {
         self.service = service
         self.peripheral = peripheral
     }
 
     /**
-     Wrapper function which allows to discover characteristics form a service class.
-
-     - parameter identifiers: Indentifiers of characteristics which should be discovered. Should be `nil` if
-                              user wants to discover all characteristics for this service.
-     - returns: Observable which emits array of discovered characteristics after subscription.
+     Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
+     subscribtion to `Observable` is made.
+     - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the
+     characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
+     - Returns: Observable that emits `Next` with array of `Characteristic` instances, once they're discovered.
+     Immediately after that `.Complete` is emitted.
      */
     public func discoverCharacteristics(identifiers: [CBUUID]) -> Observable<[Characteristic]> {
         return peripheral.discoverCharacteristics(identifiers, service: self)
     }
+
+    /**
+     Function that triggers included services discovery for specified services. Discovery is called after
+     subscribtion to `Observable` is made.
+     - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
+     included services will be discovered. If you'll pass empty array - none of them will be discovered.
+     - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
+     Immediately after that `.Complete` is emitted.
+     */
+    public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?) -> Observable<[Service]> {
+        return peripheral.discoverIncludedServices(includedServiceUUIDs, forService: self)
+    }
 }
 
-extension Service: Equatable {
-}
+extension Service: Equatable {}
 
 /**
  Compare if services are equal. They are if theirs uuids are the same.

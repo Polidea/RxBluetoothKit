@@ -23,16 +23,24 @@
 import Foundation
 import CoreBluetooth
 
-/// Represents instance of scanned peripheral - containing it's advertisment data, rssi and peripheral itself
+/** Represents instance of scanned peripheral - containing it's advertisment data, rssi and peripheral itself.
+    To perform further actions `peripheral` instance variable can be used ia. to maintain connection.
+ */
 public class ScannedPeripheral {
 
-    /// Scanned peripheral
+    /**
+    `Peripheral` instance, that allows to perform further bluetooth actions.
+    */
     public let peripheral: Peripheral
 
-    /// Advertisement data of scanned peripheral
+    /**
+    Advertisement data of scanned peripheral
+    */
     public let advertisementData: AdvertisementData
 
-    /// Scanned peripheral's RSSI
+    /**
+    Scanned peripheral's RSSI value.
+    */
     public let RSSI: NSNumber
 
     /**
@@ -41,7 +49,7 @@ public class ScannedPeripheral {
      - parameter advertisementData: Advertisement data of scanned peripheral
      - parameter RSSI: RSSI of scanned peripheral
      */
-    public init(peripheral: Peripheral, advertisementData: AdvertisementData, RSSI: NSNumber) {
+    init(peripheral: Peripheral, advertisementData: AdvertisementData, RSSI: NSNumber) {
         self.peripheral = peripheral
         self.advertisementData = advertisementData
         self.RSSI = RSSI
