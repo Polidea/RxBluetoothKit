@@ -80,13 +80,13 @@ public class Characteristic {
         self.service = service
     }
 
-    //MARK: Descriptors
+
     /**
      Function that triggers descriptors discovery for characteristic.
-     - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
+     - returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverDescriptors(identifiers: [CBUUID]) -> Observable<[Descriptor]> {
+    public func discoverDescriptors() -> Observable<[Descriptor]> {
         return self.service.peripheral.discoverDescriptorsForCharacteristic(self)
     }
 
@@ -125,13 +125,6 @@ public class Characteristic {
     public func monitorValueUpdate() -> Observable<Characteristic> {
         return service.peripheral.monitorValueUpdateForCharacteristic(self)
     }
-    /**
-     Discovers descriptors for given characteristic
-     - returns: Observable which emits array of descriptors, once they will be discovered.
-     */
-    public func discoverDescriptors() -> Observable<[Descriptor]> {
-        return service.peripheral.discoverDescriptorsForCharacteristic(self)
-    }
 
     /**
      Function that triggers read of current value of the `Characteristic` instance.
@@ -154,6 +147,16 @@ public class Characteristic {
      */
     public func setNotifyValue(enabled: Bool) -> Observable<Characteristic> {
         return service.peripheral.setNotifyValue(enabled, forCharacteristic: self)
+    }
+
+    /**
+     Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
+     Notification is set after subscribtion to `Observable` is made.
+     - returns: Observable which emits `.Next`, when characteristic value is updated.
+     This is **infinite** stream of values.
+     */
+    public func setNotificationAndMonitorUpdates() -> Observable<Characteristic> {
+        return service.peripheral.setNotificationAndMonitorUpdatesForCharacteristic(self)
     }
 }
 

@@ -47,6 +47,7 @@ class PeripheralServicesViewController: UIViewController {
                 self.connectedPeripheral = $0
                 self.downloadServicesOfPeripheral($0)
                 }, onError: { error in
+                    self.activityIndicatorView.stopAnimating()
             }).addDisposableTo(disposeBag)
         activityIndicatorView.hidden = false
         activityIndicatorView.startAnimating()
