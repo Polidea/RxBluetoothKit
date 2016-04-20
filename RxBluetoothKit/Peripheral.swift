@@ -24,6 +24,8 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
+// swiftlint:disable line_length
+
 /**
  Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
  allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
@@ -134,6 +136,7 @@ public class Peripheral {
      subscribtion to `Observable` is made.
      - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
      included services will be discovered. If you'll pass empty array - none of them will be discovered.
+     - Parameter forService: Service of which included services should be discovered.
      - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
@@ -165,6 +168,7 @@ public class Peripheral {
      subscribtion to `Observable` is made.
      - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the 
      characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
+     - Parameter service: Service of which characteristics should be discovered.
      - Returns: Observable that emits `Next` with array of `Characteristic` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
@@ -208,7 +212,7 @@ public class Peripheral {
     }
 
     /**
-     Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
+     Function that triggers write of data to characteristic. Write is called after subscribtion to `Observable` is made.
      Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType), so be sure to check this out before usage of the method.
      - parameter data: Data that'll be written  written to `Characteristic` instance
      - parameter forCharacteristic: `Descriptor` instance to write value to.
@@ -261,13 +265,42 @@ public class Peripheral {
      Function that triggers read of current value of the `Characteristic` instance.
      Read is called after subscription to `Observable` is made.
      - Parameter characteristic: `Characteristic` to read value from
-     - Returns: Observable which emits `.Next` with given characteristic when value is read from it. Immediately after that
+     - Returns: Observable which emits `.Next` with given characteristic when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
     public func readValueForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic> {
         return Observable.create { observer in
             self.monitorValueUpdateForCharacteristic(characteristic).take(1).subscribe(observer)
             self.peripheral.readValueForCharacteristic(characteristic.characteristic)
+            return NopDisposable.instance
+        }
+    }
+
+
+    /**
+     Function that triggers set of notification state of the `Characteristic`.
+     This change is called after subscribtion to `Observable` is made.
+     - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
+     For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
+     - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
+     - parameter forCharacteristic: Characterististic of which notification state needs to be changed
+     - returns: Observable which emits `.Next` with Characteristic that state was changed. Immediately after `.Complete`
+     is emitted
+     */
+    public func setNotifyValue(enabled: Bool,
+                               forCharacteristic characteristic: Characteristic) -> Observable<Characteristic> {
+        let observable = peripheral.rx_didUpdateNotificationStateForCharacteristic
+            .filter { $0.0 == characteristic.characteristic }
+            .take(1)
+            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
+                if let error = error {
+                    return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
+                }
+                return Observable.just(characteristic)
+        }
+        return Observable.create { observer in
+            self.ensureValidPeripheralState(observable).take(1).subscribe(observer)
+            self.peripheral.setNotifyValue(enabled, forCharacteristic: characteristic.characteristic)
             return NopDisposable.instance
         }
     }
@@ -353,7 +386,7 @@ public class Peripheral {
      Function that triggers read of current value of the `Descriptor` instance.
      Read is called after subscription to `Observable` is made.
      - Parameter descriptor: `Descriptor` to read value from
-     - Returns: Observable which emits `.Next` with given descriptor when value is read from it. Immediately after that
+     - Returns: Observable which emits `.Next` with given descriptor when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
     public func readValueForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
@@ -376,34 +409,6 @@ public class Peripheral {
             }
             return Observable.absorb(self.manager.ensurePeripheralIsConnected(self),
                                      self.manager.ensureState(.PoweredOn, observable: observable))
-        }
-    }
-
-    /**
-     Function that triggers set of notification state of the `Characteristic`. 
-     This change is called after subscribtion to `Observable` is made.
-    - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
-     For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
-    - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
-    - parameter forCharacteristic: Characterististic of which notification state needs to be changed
-    - returns: Observable which emits `.Next` with Characteristic that state was changed. Immediately after `.Complete`
-     is emitted
-    */
-    public func setNotifyValue(enabled: Bool,
-                               forCharacteristic characteristic: Characteristic) -> Observable<Characteristic> {
-        let observable = peripheral.rx_didUpdateNotificationStateForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
-            .take(1)
-            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
-                if let error = error {
-                    return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
-                }
-                return Observable.just(characteristic)
-            }
-        return Observable.create { observer in
-            self.ensureValidPeripheralState(observable).take(1).subscribe(observer)
-            self.peripheral.setNotifyValue(enabled, forCharacteristic: characteristic.characteristic)
-            return NopDisposable.instance
         }
     }
 
