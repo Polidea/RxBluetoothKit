@@ -43,12 +43,6 @@ public class ScannedPeripheral {
     */
     public let RSSI: NSNumber
 
-    /**
-     Create new scanned peripheral.
-     - parameter peripheral: Scanned peripheral
-     - parameter advertisementData: Advertisement data of scanned peripheral
-     - parameter RSSI: RSSI of scanned peripheral
-     */
     init(peripheral: Peripheral, advertisementData: AdvertisementData, RSSI: NSNumber) {
         self.peripheral = peripheral
         self.advertisementData = advertisementData
