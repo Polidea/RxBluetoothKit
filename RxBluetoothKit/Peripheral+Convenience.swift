@@ -178,6 +178,21 @@ extension Peripheral {
     }
 
     /**
+     Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
+     Notification is set after subscribtion to `Observable` is made.
+   - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
+     - returns: Observable which emits `.Next`, when characteristic value is updated.
+     This is **infinite** stream of values.
+     */
+    public func setNotificationAndMonitorUpdatesForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier)
+        -> Observable<Characteristic> {
+            return characteristicWithIdentifier(identifier)
+                .flatMap {
+                    return self.setNotificationAndMonitorUpdatesForCharacteristic($0)
+            }
+    }
+
+    /**
      Function that triggers descriptors discovery for characteristic
      - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
       - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
