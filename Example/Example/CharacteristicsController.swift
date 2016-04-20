@@ -58,20 +58,29 @@ class CharacteristicsController: UIViewController, UITableViewDelegate, UITableV
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let characteristic = characteristicsList[indexPath.row]
         let actionSheet = UIAlertController(title: "Choose action", message: nil, preferredStyle: .ActionSheet)
-        let turnNotificationOffAction = UIAlertAction(title: "Turn OFF notifications", style: .Default) { _ in
-            self.setNotificationsState(enabled: false, characteristic: characteristic)
+
+        if characteristic.properties == .Notify {
+            let turnNotificationOffAction = UIAlertAction(title: "Turn OFF notifications", style: .Default) { _ in
+                self.setNotificationsState(enabled: false, characteristic: characteristic)
+            }
+            let turnNotificationOnAction = UIAlertAction(title: "Turn ON notifications", style: .Default) { _ in
+                self.setNotificationsState(enabled: true, characteristic: characteristic)
+            }
+            actionSheet.addAction(turnNotificationOffAction)
+            actionSheet.addAction(turnNotificationOnAction)
         }
-        let turnNotificationOnAction = UIAlertAction(title: "Turn ON notifications", style: .Default) { _ in
-            self.setNotificationsState(enabled: true, characteristic: characteristic)
+        if characteristic.properties == .Read {
+            let readValueNotificationAction = UIAlertAction(title: "Trigger value read", style: .Default) { _ in
+                self.triggerValueReadForCharacteristic(characteristic)
+            }
+            actionSheet.addAction(readValueNotificationAction)
         }
 
-        let readValueNotificationAction = UIAlertAction(title: "Trigger value read", style: .Default) { _ in
-            self.triggerValueReadForCharacteristic(characteristic)
-        }
+        if characteristic.properties == .Write {
+            let writeValueAction = UIAlertAction(title: "Write value", style: .Default) { _ in
 
-        actionSheet.addAction(turnNotificationOffAction)
-        actionSheet.addAction(turnNotificationOnAction)
-        actionSheet.addAction(readValueNotificationAction)
+            }
+        }
 
         self.presentViewController(actionSheet, animated: true, completion: nil)
     }
@@ -88,6 +97,17 @@ class CharacteristicsController: UIViewController, UITableViewDelegate, UITableV
             }
     }
 
+    private func showWriteFieldForCharacteristic(characteristic: Characteristic) {
+        let valueWriteController = UIAlertController(title: "Write value", message: "Specify value in HEX to write ",
+                                                     preferredStyle: .Alert)
+        valueWriteController.addTextFieldWithConfigurationHandler { textField in
+
+        }
+        valueWriteController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        valueWriteController.addAction(UIAlertAction(title: "Write", style: .Default) { _ in
+            print("")
+        })
+    }
 
     private func triggerValueReadForCharacteristic(characteristic: Characteristic) {
         characteristic.readValue()

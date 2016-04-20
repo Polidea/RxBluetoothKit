@@ -215,7 +215,7 @@ public class Peripheral {
      Function that triggers write of data to characteristic. Write is called after subscribtion to `Observable` is made.
      Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType), so be sure to check this out before usage of the method.
      - parameter data: Data that'll be written  written to `Characteristic` instance
-     - parameter forCharacteristic: `Descriptor` instance to write value to.
+     - parameter forCharacteristic: `Characteristic` instance to write value to.
      - parameter type: Type of write operation. Possible values: `.WithResponse`, `.WithoutResponse`
      - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
      Behavior is following:
@@ -303,6 +303,19 @@ public class Peripheral {
             self.peripheral.setNotifyValue(enabled, forCharacteristic: characteristic.characteristic)
             return NopDisposable.instance
         }
+    }
+
+    /**
+     Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
+     Notification is set after subscribtion to `Observable` is made.
+    - parameter characteristic: Characterististic on which notification should be made.
+     - returns: Observable which emits `.Next`, when characteristic value is updated.
+     This is **infinite** stream of values.
+     */
+    public func setNotificationAndMonitorUpdatesForCharacteristic(characteristic: Characteristic)
+        -> Observable<Characteristic> {
+            return Observable.of(setNotifyValue(true, forCharacteristic: characteristic).ignoreElements(),
+                                 monitorValueUpdateForCharacteristic(characteristic)).merge()
     }
 
     //MARK: Descriptors
