@@ -246,9 +246,11 @@ public class Peripheral {
     }
 
     /**
-     Reads data from characteristic.
-     - Parameter characteristic: Characteristic to read value from
-     - Returns: Stream of characteristic, for which value write was detected
+     Function that triggers read of current value of the `Characteristic` instance.
+     Read is called after subscription to `Observable` is made.
+     - Parameter characteristic: `Characteristic` to read value from
+     - Returns: Observable which emits `.Next` with given characteristic when value is read from it. Immediately after that
+     `.Complete` is emitted.
      */
     public func readValueForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic> {
         return Observable.create { observer in
@@ -260,9 +262,10 @@ public class Peripheral {
 
     //MARK: Descriptors
     /**
-      Triggers descriptors discovery for characteristics
-    - Parameter characteristic: Characteristic for which descriptors will be discovered
-    - Returns: Array of descriptors
+      Function that triggers descriptors discovery for characteristic
+    - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
+     - Returns: Observable that emits `Next` with array `Descriptor` instances, once they're discovered.
+     Immediately after that `.Complete` is emitted.
     */
     public func discoverDescriptorsForCharacteristic(characteristic: Characteristic) -> Observable<[Descriptor]> {
         let observable = peripheral.rx_didDiscoverDescriptorsForCharacteristic
@@ -284,10 +287,11 @@ public class Peripheral {
     }
 
     /**
-     It connects to events of writes for  descriptor.
-    - Parameter descriptor: Descriptor to connect
-    - Returns: Stream of descriptors for which value write was detected
-    */
+     Function that allow to monitor writes that happened for descriptor.
+     - Parameter descriptor: Descriptor of which value writes should be monitored.
+     - Returns: Observable that emits `.Next` with `Descriptor` instance every time when write has happened.
+     It's **infinite** stream, so `.Complete` is never called.
+     */
     public func monitorWriteForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
         return peripheral.rx_didWriteValueForDescriptor
             .filter { $0.0 == descriptor.descriptor }
@@ -300,10 +304,11 @@ public class Peripheral {
     }
 
     /**
-      Writes given data to descriptor
-     - Parameter data: Characteristic to connect
-     - Parameter descriptor: descriptor to write value to
-     - Returns: Stream of descriptor
+      Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
+     - Parameter data: `NSData` that'll be written to `Descriptor` instance
+     - Parameter descriptor: `Descriptor` instance to write value to.
+     - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully. 
+     Immediately after that `.Complete` is emitted.
      */
     public func writeValue(data: NSData, forDescriptor descriptor: Descriptor) -> Observable<Descriptor> {
         return Observable.create { observer in
@@ -315,9 +320,10 @@ public class Peripheral {
     }
 
     /**
-     It connects to events of value updates for descriptor.
-     - Parameter descriptor: Descriptor to connect
-     - Returns: Stream of characteristic, for which value change was detected
+     Function that allow to monitor value updates for descriptor.
+     - Parameter descriptor: Descriptor of which value changes should be monitored.
+     - Returns: Observable that emits `.Next` with `Descriptor` instance every time when value has changed.
+     It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdateForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
         let observable = peripheral.rx_didUpdateValueForDescriptor
@@ -332,9 +338,11 @@ public class Peripheral {
     }
 
     /**
-     Reads data from given descriptor.
-     - Parameter descriptor: Descriptor to read value from
-     - Returns: Observable which emits given descriptor when value is read from it
+     Function that triggers read of current value of the `Descriptor` instance.
+     Read is called after subscription to `Observable` is made.
+     - Parameter descriptor: `Descriptor` to read value from
+     - Returns: Observable which emits `.Next` with given descriptor when value is read from it. Immediately after that
+     `.Complete` is emitted.
      */
     public func readValueForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
         return Observable.create { observer in
@@ -346,9 +354,8 @@ public class Peripheral {
 
     /**
      Function that merges given observable with error streams of invalid Central Manager states.
-
-     - Parameter observable: observation to be transformed
-     - Returns: Source observable which listens on state chnage errors as well
+     - parameter observable: observation to be transformed
+     - returns: Source observable which listens on state chnage errors as well
      */
     func ensureValidPeripheralState<T>(observable: Observable<T>) -> Observable<T> {
         return Observable.deferred {
@@ -361,10 +368,14 @@ public class Peripheral {
     }
 
     /**
-     Changes state of characteristic notify mode
-    - Parameter enabled: state to set
-    - Parameter forCharacteristic: Characteristic to change state
-    - Returns: Observable which emits given characteristic when notification option has changed.
+     Function that triggers set of notification state of the `Characteristic`. 
+     This change is called after subscribtion to `Observable` is made.
+    - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
+     For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
+    - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
+    - parameter forCharacteristic: Characterististic of which notification state needs to be changed
+    - returns: Observable which emits `.Next` with Characteristic that state was changed. Immediately after `.Complete`
+     is emitted
     */
     public func setNotifyValue(enabled: Bool,
                                forCharacteristic characteristic: Characteristic) -> Observable<Characteristic> {
@@ -385,9 +396,9 @@ public class Peripheral {
     }
 
     /**
-     Function that triggers read of `Peripheral` RSSI value. Returns observable, which fire .Next once new RSSI value
-     is read. ReadRSSI from
-     returns: Observable which after subscribe execute operation to read peripheral's RSSI and emits given result
+     Function that triggers read of `Peripheral` RSSI value. Read is called after subscription to `Observable` is made.
+     - returns: Observable that emits tuple: `(Peripheral, Int)` once new RSSI value is read, and just after that
+     `.Complete` event. `Int` is new RSSI value, `Peripheral` is returned to allow easier chaining.
      */
     public func readRSSI() -> Observable<(Peripheral, Int)> {
         let observable = peripheral.rx_didReadRSSI
@@ -406,8 +417,8 @@ public class Peripheral {
     }
 
     /**
-      Function that returns observable, which fire .Next when name of `Peripheral` has changed.
-     returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed. It's `optional String` because peripheral could also lost his name. It's **infinite** stream of values, so .Complete is never emitted.
+      Function that allow user to monitor incoming `name` property changes of `Peripheral` instance.
+     - returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed. It's `optional String` because peripheral could also lost his name. It's **infinite** stream of values, so `.Complete` is never emitted.
      */
     public func monitorUpdateName() -> Observable<(Peripheral, String?)> {
         return peripheral.rx_didUpdateName
@@ -415,10 +426,10 @@ public class Peripheral {
     }
 
     /**
-     Function that returns observable, which fire when peripheral services have changed. In case you're interested what exact changes might occur - please refer to 
+     Function that allow to monitor incoming service modifications for `Peripheral` instance. In case you're interested what exact changes might occur - please refer to
      [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
 
-     - returns: Observable that emits tuples: `(Peripheral, [Service])` when services were modified. It's **infinite** stream of values, so .Complete is never emitted.
+     - returns: Observable that emits tuples: `(Peripheral, [Service])` when services were modified. It's **infinite** stream of values, so `.Complete` is never emitted.
     */
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {
         let observable = peripheral.rx_didModifyServices
