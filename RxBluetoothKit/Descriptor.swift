@@ -61,7 +61,7 @@ public class Descriptor {
 
     /**
      Function that allow to monitor writes that happened for descriptor.
-     - Returns: Observable that emits `.Next` with `Descriptor` instance every time when write has happened.
+     - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWrite() -> Observable<Descriptor> {
@@ -80,7 +80,7 @@ public class Descriptor {
 
     /**
      Function that allow to monitor value updates for `Descriptor` instance.
-     - Returns: Observable that emits `.Next` with `Descriptor` instance every time when value has changed.
+     - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdate() -> Observable<Descriptor> {
@@ -90,7 +90,7 @@ public class Descriptor {
     /**
      Function that triggers read of current value of the `Descriptor` instance.
      Read is called after subscription to `Observable` is made.
-     - Returns: Observable which emits `.Next` with given descriptor when value is ready to read. Immediately after that
+     - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
     public func readValue() -> Observable<Descriptor> {

@@ -93,7 +93,7 @@ public class Characteristic {
 
     /**
      Function that allow to monitor writes that happened for characteristic.
-     - Returns: Observable that emits `.Next` with `Characteristic` instance every time when write has happened.
+     - Returns: Observable that emits `Next` with `Characteristic` instance every time when write has happened.
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWrite() -> Observable<Characteristic> {
@@ -108,9 +108,9 @@ public class Characteristic {
      - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
      Behavior is following:
 
-     - `WithResponse` -  Observable emits `.Next` with `Characteristic` instance write was confirmed without any errors.
+     - `WithResponse` -  Observable emits `Next` with `Characteristic` instance write was confirmed without any errors.
      Immediately after that `Complete` is called. If any problem has happened, errors are emitted.
-     - `WithoutResponse` - Observable emits `.Next` with `Characteristic` instance once write was called.
+     - `WithoutResponse` - Observable emits `Next` with `Characteristic` instance once write was called.
      Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
      if everything completed successfully. Errors are not emitted
      */
@@ -120,7 +120,7 @@ public class Characteristic {
 
     /**
      Function that allow to monitor value updates for `Characteristic` instance.
-     - Returns: Observable that emits `.Next` with `Characteristic` instance every time when value has changed.
+     - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdate() -> Observable<Characteristic> {
@@ -130,7 +130,7 @@ public class Characteristic {
     /**
      Function that triggers read of current value of the `Characteristic` instance.
      Read is called after subscription to `Observable` is made.
-     - Returns: Observable which emits `.Next` with given characteristic when value is ready to read. Immediately after that
+     - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
     public func readValue() -> Observable<Characteristic> {
@@ -143,7 +143,7 @@ public class Characteristic {
      - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
      For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
      - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
-     - returns: Observable which emits `.Next` with Characteristic that state was changed. Immediately after `.Complete`
+     - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
      is emitted
      */
     public func setNotifyValue(enabled: Bool) -> Observable<Characteristic> {
@@ -153,7 +153,7 @@ public class Characteristic {
     /**
      Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
      Notification is set after subscribtion to `Observable` is made.
-     - returns: Observable which emits `.Next`, when characteristic value is updated.
+     - returns: Observable which emits `Next`, when characteristic value is updated.
      This is **infinite** stream of values.
      */
     public func setNotificationAndMonitorUpdates() -> Observable<Characteristic> {
