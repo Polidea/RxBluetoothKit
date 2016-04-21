@@ -111,7 +111,6 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
 
         if characteristic.properties == .Write {
             let writeValueAction = UIAlertAction(title: "Write value", style: .Default) { _ in
-
             }
         }
         self.presentViewController(actionSheet, animated: true, completion: nil)

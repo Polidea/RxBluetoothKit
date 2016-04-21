@@ -153,7 +153,7 @@ public class BluetoothManager {
                     }
 
                     // Observable which will emit next element, when peripheral is discovered.
-                    self.centralManager.rx_didDiscoverPeripheral
+                    let disposable = self.centralManager.rx_didDiscoverPeripheral
                     .map { (peripheral, advertisment, rssi) -> ScannedPeripheral in
                         let peripheral = Peripheral(manager: self, peripheral: peripheral)
                         let advertismentData = AdvertisementData(advertisementData: advertisment)
@@ -168,6 +168,7 @@ public class BluetoothManager {
                     return AnonymousDisposable {
                         //When disposed, stop all scans, and remove scanning operation from queue
                         self.centralManager.stopScan()
+                        disposable.dispose()
                         do { self.lock.lock(); defer { self.lock.unlock() }
                             if let index = self.scanQueue.indexOf({ $0 == operation }) {
                                 self.scanQueue.removeAtIndex(index)
@@ -261,11 +262,12 @@ public class BluetoothManager {
                 observer.onCompleted()
                 return NopDisposable.instance
             }
-            success.amb(error).subscribe(observer)
+            let disposable = success.amb(error).subscribe(observer)
             self.centralManager.connectPeripheral(peripheral.peripheral, options: options)
             return AnonymousDisposable {
                 if !peripheral.isConnected {
                     self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+                    disposable.dispose()
                 }
             }
         }
@@ -283,9 +285,11 @@ public class BluetoothManager {
      */
     public func cancelConnectionToPeripheral(peripheral: Peripheral) -> Observable<Peripheral> {
         let observable = Observable<Peripheral>.create { observer in
-            self.monitorPeripheralDisconnection(peripheral).take(1).subscribe(observer)
+            let disposable = self.monitorPeripheralDisconnection(peripheral).take(1).subscribe(observer)
             self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
         return ensureState(.PoweredOn, observable: observable)
     }
