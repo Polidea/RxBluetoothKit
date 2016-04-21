@@ -78,7 +78,6 @@ class CharacteristicsController: UIViewController, UITableViewDelegate, UITableV
 
         if characteristic.properties == .Write {
             let writeValueAction = UIAlertAction(title: "Write value", style: .Default) { _ in
-
             }
         }
 

@@ -125,9 +125,11 @@ public class Peripheral {
         .take(1)
 
         return Observable.create { observer in
-            self.ensureValidPeripheralState(observable).subscribe(observer)
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
             self.peripheral.discoverServices(serviceUUIDs)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -156,9 +158,11 @@ public class Peripheral {
             .take(1)
 
         return Observable.create { observer in
-            self.ensureValidPeripheralState(observable).subscribe(observer)
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
             self.peripheral.discoverIncludedServices(includedServiceUUIDs, forService: service.service)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -187,9 +191,11 @@ public class Peripheral {
         .take(1)
 
         return Observable.create { observer in
-            self.ensureValidPeripheralState(observable).subscribe(observer)
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
             self.peripheral.discoverCharacteristics(identifiers, forService: service.service)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -230,16 +236,19 @@ public class Peripheral {
                            forCharacteristic characteristic: Characteristic,
                            type: CBCharacteristicWriteType) -> Observable<Characteristic> {
         return Observable.create { observer in
+            let disposable: Disposable
             switch type {
             case .WithoutResponse:
+                disposable = self.ensureValidPeripheralState(Observable.just(characteristic)).subscribe(observer)
                 self.peripheral.writeValue(data, forCharacteristic: characteristic.characteristic, type: type)
-                self.ensureValidPeripheralState(Observable.just(characteristic)).subscribe(observer)
             case .WithResponse:
-                self.peripheral.writeValue(data, forCharacteristic: characteristic.characteristic, type: type)
-                self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic).take(1))
+                disposable = self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic).take(1))
                     .subscribe(observer)
+                self.peripheral.writeValue(data, forCharacteristic: characteristic.characteristic, type: type)
             }
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -270,9 +279,11 @@ public class Peripheral {
      */
     public func readValueForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic> {
         return Observable.create { observer in
-            self.monitorValueUpdateForCharacteristic(characteristic).take(1).subscribe(observer)
+            let disposable = self.monitorValueUpdateForCharacteristic(characteristic).take(1).subscribe(observer)
             self.peripheral.readValueForCharacteristic(characteristic.characteristic)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -299,9 +310,11 @@ public class Peripheral {
                 return Observable.just(characteristic)
         }
         return Observable.create { observer in
-            self.ensureValidPeripheralState(observable).take(1).subscribe(observer)
+            let disposable = self.ensureValidPeripheralState(observable).take(1).subscribe(observer)
             self.peripheral.setNotifyValue(enabled, forCharacteristic: characteristic.characteristic)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -314,8 +327,8 @@ public class Peripheral {
      */
     public func setNotificationAndMonitorUpdatesForCharacteristic(characteristic: Characteristic)
         -> Observable<Characteristic> {
-            return Observable.of(setNotifyValue(true, forCharacteristic: characteristic).ignoreElements(),
-                                 monitorValueUpdateForCharacteristic(characteristic)).merge()
+            return Observable.of(monitorValueUpdateForCharacteristic(characteristic),
+            setNotifyValue(true, forCharacteristic: characteristic).ignoreElements()).merge()
     }
 
     //MARK: Descriptors
@@ -338,9 +351,11 @@ public class Peripheral {
                 }
 
         return Observable.create { observer in
-            self.ensureValidPeripheralState(observable).subscribe(observer)
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
             self.peripheral.discoverDescriptorsForCharacteristic(characteristic.characteristic)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -370,10 +385,12 @@ public class Peripheral {
      */
     public func writeValue(data: NSData, forDescriptor descriptor: Descriptor) -> Observable<Descriptor> {
         return Observable.create { observer in
-            self.ensureValidPeripheralState(self.monitorWriteForDescriptor(descriptor).take(1))
+            let disposable = self.ensureValidPeripheralState(self.monitorWriteForDescriptor(descriptor).take(1))
                 .subscribe(observer)
             self.peripheral.writeValue(data, forDescriptor: descriptor.descriptor)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -404,9 +421,11 @@ public class Peripheral {
      */
     public func readValueForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
         return Observable.create { observer in
-            self.monitorValueUpdateForDescriptor(descriptor).take(1).subscribe(observer)
+            let disposable = self.monitorValueUpdateForDescriptor(descriptor).take(1).subscribe(observer)
             self.peripheral.readValueForDescriptor(descriptor.descriptor)
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
@@ -440,9 +459,11 @@ public class Peripheral {
                 return Observable.just(self, rssi)
             }
         return Observable.create { observer in
-            self.ensureValidPeripheralState(observable).subscribe(observer)
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
             self.peripheral.readRSSI()
-            return NopDisposable.instance
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
