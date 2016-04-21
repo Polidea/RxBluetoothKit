@@ -24,35 +24,48 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
+// swiftlint:disable line_length
+
 /**
- Bluetooth manager's peripheral
+ Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
+ allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 */
 public class Peripheral {
 
     /// Implementation of peripheral
     let peripheral: RxPeripheralType
-
-
-    var isConnected: Bool {
+    /** Value indicating if peripheral is currently in connected state
+     */
+    public var isConnected: Bool {
         return peripheral.state == .Connected
     }
 
-    /// Current state of peripheral
+    /**
+     Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
+
+     - returns: Current state of `Peripheral` as `CBPeripheralState`.
+     */
     public var state: CBPeripheralState {
         return peripheral.state
     }
 
-    /// Name of a peripheral
+    /**
+     Current name of `Peripheral` instance. Analogous to   [`name`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
+     */
     public var name: String? {
         return peripheral.name
     }
 
-    /// Peripheral identifier
+    /**
+     Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
+     */
     public var identifier: NSUUID {
         return peripheral.identifier
     }
 
-    /// Currently hold services
+    /**
+     A list of services that have been discovered. Analogous to   [`services`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
+     */
     public var services: [Service]? {
         return peripheral.services?.map {
             Service(peripheral: self, service: $0)
@@ -67,8 +80,10 @@ public class Peripheral {
     }
 
     /**
-     Establishes connection with BLE Peripheral
-     - Parameter options: Connection options
+     Establishes local connection to the peripheral.
+     For more information look into `BluetoothManager.connectToPeripheral(_:options:)` because this method calls it directly.
+     - Parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
+     - Parameter options: Dictionary to customise the behaviour of connection.
      - Returns: Observation which emits next event after connection is established
      */
     public func connect(options: [String:AnyObject]? = nil) -> Observable<Peripheral> {
@@ -76,25 +91,29 @@ public class Peripheral {
     }
 
     /**
-     Connects to BLE Peripheral
-     - Returns: Observation which emits next event after peripheral is disconnected
+     Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
+     that physical connection will be closed immediately as well and all pending commands will not be executed.
+
+     - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
     public func cancelConnection() -> Observable<Peripheral> {
         return manager.cancelConnectionToPeripheral(self)
     }
 
     /**
-     Triggers services discovery. Completes right after first discovery.
-     - Parameter identifiers: Identifiers of wanted services
-     - Returns: Array of discovered services
+     Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
+
+     - Parameter serviceUUIDs: An array of [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) object represents a UUID that identifies the type of service you want to discover.
+     - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
+     Immediately after that `.Complete` is emitted.
      */
-    public func discoverServices(identifiers: [CBUUID]?) -> Observable<[Service]> {
+    public func discoverServices(serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
         let observable = peripheral.rx_didDiscoverServices
         .flatMap({
             (services, error) -> Observable<[Service]> in
             if let discoveredServices = services {
                 let mapped = discoveredServices.map { Service(peripheral: self, service: $0) }
-                guard let identifiers = identifiers else { return Observable.just(mapped) }
+                guard let identifiers = serviceUUIDs else { return Observable.just(mapped) }
                 let uuids = discoveredServices.map { $0.uuid }
                 if Set(uuids) == Set(identifiers) {
                     return Observable.just(mapped)
@@ -105,18 +124,23 @@ public class Peripheral {
         })
         .take(1)
 
-        return Observable.deferred {
-            self.peripheral.discoverServices(identifiers)
-            return self.ensureValidPeripheralState(observable)
+        return Observable.create { observer in
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
+            self.peripheral.discoverServices(serviceUUIDs)
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
     /**
-     Triggers included services discovery. Completes right after first discovery.
-
-     - parameter includedServiceUUIDs: Array of  services identifiers
-     - parameter forService: The service whose included services you want to discover.
-     - returns: An array of included discovered services.
+     Function that triggers included services discovery for specified services. Discovery is called after
+     subscribtion to `Observable` is made.
+     - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
+     included services will be discovered. If you'll pass empty array - none of them will be discovered.
+     - Parameter forService: Service of which included services should be discovered.
+     - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
+     Immediately after that `.Complete` is emitted.
      */
     public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?,
                                          forService service: Service) -> Observable<[Service]> {
@@ -133,21 +157,25 @@ public class Peripheral {
             }
             .take(1)
 
-        return Observable.deferred {
+        return Observable.create { observer in
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
             self.peripheral.discoverIncludedServices(includedServiceUUIDs, forService: service.service)
-            return self.ensureValidPeripheralState(observable)
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
     //MARK: Characteristics
-
     /**
-     Triggers characteristics discovery for specified service.
-
-    - parameter identifiers: Identifiers of wanted characteristics
-    - parameter service: Service which includes characteristics to be discovered
-    - returns: Stream of characteristics
-    */
+     Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
+     subscribtion to `Observable` is made.
+     - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the 
+     characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
+     - Parameter service: Service of which characteristics should be discovered.
+     - Returns: Observable that emits `Next` with array of `Characteristic` instances, once they're discovered.
+     Immediately after that `.Complete` is emitted.
+     */
     public func discoverCharacteristics(identifiers: [CBUUID]?, service: Service) -> Observable<[Characteristic]> {
         let observable = peripheral.rx_didDiscoverCharacteristicsForService
         .filter { $0.0 == service.service }
@@ -162,16 +190,20 @@ public class Peripheral {
         }
         .take(1)
 
-        return Observable.deferred {
+        return Observable.create { observer in
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
             self.peripheral.discoverCharacteristics(identifiers, forService: service.service)
-            return self.ensureValidPeripheralState(observable)
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
     /**
-     It connects to events of writes for characteristics.
-     - Parameter characteristic: Characteristic to connect
-     - Returns: Stream of characteristic, for which value write was detected
+     Function that allow to monitor writes that happened for characteristic.
+     - Parameter characteristic: Characteristic of which value writes should be monitored.
+     - Returns: Observable that emits `Next` with `Characteristic` instance every time when write has happened.
+     It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWriteForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic> {
         return peripheral.rx_didWriteValueForCharacteristic
@@ -186,32 +218,45 @@ public class Peripheral {
     }
 
     /**
-     Writes given data to characteristic
+     Function that triggers write of data to characteristic. Write is called after subscribtion to `Observable` is made.
+     Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType), so be sure to check this out before usage of the method.
+     - parameter data: Data that'll be written  written to `Characteristic` instance
+     - parameter forCharacteristic: `Characteristic` instance to write value to.
+     - parameter type: Type of write operation. Possible values: `.WithResponse`, `.WithoutResponse`
+     - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
+     Behavior is following:
 
-     - parameter data: Data to be written to characteristic
-     - parameter forCharacteristic: Characteristic into which data will be written
-     - parameter type: Type of write operation
-     - returns: Observable which emit characteristic to which value was written
+     - `WithResponse` -  Observable emits `Next` with `Characteristic` instance write was confirmed without any errors.
+     Immediately after that `Complete` is called. If any problem has happened, errors are emitted.
+     - `WithoutResponse` - Observable emits `Next` with `Characteristic` instance once write was called.
+     Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
+     if everything completed successfully. Errors are not emitted
      */
     public func writeValue(data: NSData,
                            forCharacteristic characteristic: Characteristic,
                            type: CBCharacteristicWriteType) -> Observable<Characteristic> {
-        return Observable.deferred {
-            //TODO: Check state before call?
-            self.peripheral.writeValue(data, forCharacteristic: characteristic.characteristic, type: type)
+        return Observable.create { observer in
+            let disposable: Disposable
             switch type {
             case .WithoutResponse:
-                return self.ensureValidPeripheralState(Observable.just(characteristic))
+                disposable = self.ensureValidPeripheralState(Observable.just(characteristic)).subscribe(observer)
+                self.peripheral.writeValue(data, forCharacteristic: characteristic.characteristic, type: type)
             case .WithResponse:
-                return self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic).take(1))
+                disposable = self.ensureValidPeripheralState(self.monitorWriteForCharacteristic(characteristic).take(1))
+                    .subscribe(observer)
+                self.peripheral.writeValue(data, forCharacteristic: characteristic.characteristic, type: type)
+            }
+            return AnonymousDisposable {
+                disposable.dispose()
             }
         }
     }
 
     /**
-     It connects to events of value updates for characteristics.
-     - Parameter characteristic: Characteristic to connect
-     - Returns: Stream of characteristic, for which value change was detected
+     Function that allow to monitor value updates for `Characteristic` instance.
+     - Parameter characteristic: Characteristic of which value changes should be monitored.
+     - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
+     It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdateForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic> {
         let observable = peripheral.rx_didUpdateValueForCharacteristic
@@ -225,25 +270,73 @@ public class Peripheral {
         return self.ensureValidPeripheralState(observable)
     }
 
-
     /**
-     Reads data from characteristic.
-     - Parameter characteristic: Characteristic to read value from
-     - Returns: Stream of characteristic, for which value write was detected
+     Function that triggers read of current value of the `Characteristic` instance.
+     Read is called after subscription to `Observable` is made.
+     - Parameter characteristic: `Characteristic` to read value from
+     - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
+     `.Complete` is emitted.
      */
     public func readValueForCharacteristic(characteristic: Characteristic) -> Observable<Characteristic> {
-        return Observable.deferred {
-            // TODO: check state before call?
+        return Observable.create { observer in
+            let disposable = self.monitorValueUpdateForCharacteristic(characteristic).take(1).subscribe(observer)
             self.peripheral.readValueForCharacteristic(characteristic.characteristic)
-            return self.monitorValueUpdateForCharacteristic(characteristic).take(1)
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
+    }
+
+
+    /**
+     Function that triggers set of notification state of the `Characteristic`.
+     This change is called after subscribtion to `Observable` is made.
+     - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
+     For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
+     - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
+     - parameter forCharacteristic: Characterististic of which notification state needs to be changed
+     - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
+     is emitted
+     */
+    public func setNotifyValue(enabled: Bool,
+                               forCharacteristic characteristic: Characteristic) -> Observable<Characteristic> {
+        let observable = peripheral.rx_didUpdateNotificationStateForCharacteristic
+            .filter { $0.0 == characteristic.characteristic }
+            .take(1)
+            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
+                if let error = error {
+                    return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
+                }
+                return Observable.just(characteristic)
+        }
+        return Observable.create { observer in
+            let disposable = self.ensureValidPeripheralState(observable).take(1).subscribe(observer)
+            self.peripheral.setNotifyValue(enabled, forCharacteristic: characteristic.characteristic)
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
+        }
+    }
+
+    /**
+     Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
+     Notification is set after subscribtion to `Observable` is made.
+    - parameter characteristic: Characterististic on which notification should be made.
+     - returns: Observable which emits `Next`, when characteristic value is updated.
+     This is **infinite** stream of values.
+     */
+    public func setNotificationAndMonitorUpdatesForCharacteristic(characteristic: Characteristic)
+        -> Observable<Characteristic> {
+            return Observable.of(monitorValueUpdateForCharacteristic(characteristic),
+            setNotifyValue(true, forCharacteristic: characteristic).ignoreElements()).merge()
     }
 
     //MARK: Descriptors
     /**
-      Triggers descriptors discovery for characteristics
-    - Parameter characteristic: Characteristic for which descriptors will be discovered
-    - Returns: Array of descriptors
+      Function that triggers descriptors discovery for characteristic
+    - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
+     - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
+     Immediately after that `.Complete` is emitted.
     */
     public func discoverDescriptorsForCharacteristic(characteristic: Characteristic) -> Observable<[Descriptor]> {
         let observable = peripheral.rx_didDiscoverDescriptorsForCharacteristic
@@ -257,17 +350,21 @@ public class Peripheral {
                     return Observable.error(BluetoothError.DescriptorsDiscoveryFailed(characteristic, error))
                 }
 
-            return Observable.deferred {
-                self.peripheral.discoverDescriptorsForCharacteristic(characteristic.characteristic)
-                return self.ensureValidPeripheralState(observable)
+        return Observable.create { observer in
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
+            self.peripheral.discoverDescriptorsForCharacteristic(characteristic.characteristic)
+            return AnonymousDisposable {
+                disposable.dispose()
             }
+        }
     }
 
     /**
-     It connects to events of writes for  descriptor.
-    - Parameter descriptor: Descriptor to connect
-    - Returns: Stream of descriptors for which value write was detected
-    */
+     Function that allow to monitor writes that happened for descriptor.
+     - Parameter descriptor: Descriptor of which value writes should be monitored.
+     - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
+     It's **infinite** stream, so `.Complete` is never called.
+     */
     public func monitorWriteForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
         return peripheral.rx_didWriteValueForDescriptor
             .filter { $0.0 == descriptor.descriptor }
@@ -280,23 +377,28 @@ public class Peripheral {
     }
 
     /**
-      Writes given data to descriptor
-     - Parameter data: Characteristic to connect
-     - Parameter descriptor: descriptor to write value to
-     - Returns: Stream of descriptor
+      Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
+     - Parameter data: `NSData` that'll be written to `Descriptor` instance
+     - Parameter descriptor: `Descriptor` instance to write value to.
+     - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully. 
+     Immediately after that `.Complete` is emitted.
      */
     public func writeValue(data: NSData, forDescriptor descriptor: Descriptor) -> Observable<Descriptor> {
-        return Observable.deferred {
-            //TODO: Check state before call?
+        return Observable.create { observer in
+            let disposable = self.ensureValidPeripheralState(self.monitorWriteForDescriptor(descriptor).take(1))
+                .subscribe(observer)
             self.peripheral.writeValue(data, forDescriptor: descriptor.descriptor)
-            return self.ensureValidPeripheralState(self.monitorWriteForDescriptor(descriptor).take(1))
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
     /**
-     It connects to events of value updates for descriptor.
-     - Parameter descriptor: Descriptor to connect
-     - Returns: Stream of characteristic, for which value change was detected
+     Function that allow to monitor value updates for `Descriptor` instance.
+     - Parameter descriptor: Descriptor of which value changes should be monitored.
+     - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
+     It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdateForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
         let observable = peripheral.rx_didUpdateValueForDescriptor
@@ -311,22 +413,26 @@ public class Peripheral {
     }
 
     /**
-     Reads data from given descriptor.
-     - Parameter descriptor: Descriptor to read value from
-     - Returns: Observable which emits given descriptor when value is read from it
+     Function that triggers read of current value of the `Descriptor` instance.
+     Read is called after subscription to `Observable` is made.
+     - Parameter descriptor: `Descriptor` to read value from
+     - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
+     `.Complete` is emitted.
      */
     public func readValueForDescriptor(descriptor: Descriptor) -> Observable<Descriptor> {
-        return Observable.deferred {
+        return Observable.create { observer in
+            let disposable = self.monitorValueUpdateForDescriptor(descriptor).take(1).subscribe(observer)
             self.peripheral.readValueForDescriptor(descriptor.descriptor)
-            return self.monitorValueUpdateForDescriptor(descriptor).take(1)
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
     /**
      Function that merges given observable with error streams of invalid Central Manager states.
-
-     - Parameter observable: observation to be transformed
-     - Returns: Source observable which listens on state chnage errors as well
+     - parameter observable: observation to be transformed
+     - returns: Source observable which listens on state chnage errors as well
      */
     func ensureValidPeripheralState<T>(observable: Observable<T>) -> Observable<T> {
         return Observable.deferred {
@@ -339,50 +445,31 @@ public class Peripheral {
     }
 
     /**
-     Changes state of characteristic notify mode
-    - Parameter enabled: state to set
-    - Parameter forCharacteristic: Characteristic to change state
-    - Returns: Observable which emits given characteristic when notification option has changed.
-    */
-    public func setNotifyValue(enabled: Bool,
-                               forCharacteristic characteristic: Characteristic) -> Observable<Characteristic> {
-        let observable = peripheral.rx_didUpdateNotificationStateForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
-            .take(1)
-            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
-                if let error = error {
-                    return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
-                }
-                return Observable.just(characteristic)
-            }
-        return Observable.deferred {
-            //TODO: Check state before call?
-            self.peripheral.setNotifyValue(enabled, forCharacteristic: characteristic.characteristic)
-            return self.ensureValidPeripheralState(observable).take(1)
-        }
-    }
-
-    /**
-     Read peripheral's RSSI
-     returns: Observable which after subscribe execute operation to read peripheral's RSSI and emits given result
+     Function that triggers read of `Peripheral` RSSI value. Read is called after subscription to `Observable` is made.
+     - returns: Observable that emits tuple: `(Peripheral, Int)` once new RSSI value is read, and just after that
+     `.Complete` event. `Int` is new RSSI value, `Peripheral` is returned to allow easier chaining.
      */
     public func readRSSI() -> Observable<(Peripheral, Int)> {
         let observable = peripheral.rx_didReadRSSI
-        .flatMap { (rssi, error) -> Observable<(Peripheral, Int)> in
-            if let error = error {
-                return Observable.error(BluetoothError.PeripheralRSSIReadFailed(self, error))
+            .take(1)
+            .flatMap { (rssi, error) -> Observable<(Peripheral, Int)> in
+                if let error = error {
+                    return Observable.error(BluetoothError.PeripheralRSSIReadFailed(self, error))
+                }
+                return Observable.just(self, rssi)
             }
-            return Observable.just(self, rssi)
-        }
-        return Observable.deferred {
+        return Observable.create { observer in
+            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
             self.peripheral.readRSSI()
-            return self.ensureValidPeripheralState(observable)
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
     }
 
     /**
-     Monitor name changes of peripheral
-     returns: Observable which after subscribe returns
+      Function that allow user to monitor incoming `name` property changes of `Peripheral` instance.
+     - returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed. It's `optional String` because peripheral could also lost his name. It's **infinite** stream of values, so `.Complete` is never emitted.
      */
     public func monitorUpdateName() -> Observable<(Peripheral, String?)> {
         return peripheral.rx_didUpdateName
@@ -390,9 +477,10 @@ public class Peripheral {
     }
 
     /**
-     Monitor peripheral's serices modification
-     returns: Observable which after subcribe listens for serives modifications. As a result array
-              of new services is returned.
+     Function that allow to monitor incoming service modifications for `Peripheral` instance. In case you're interested what exact changes might occur - please refer to
+     [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
+
+     - returns: Observable that emits tuples: `(Peripheral, [Service])` when services were modified. It's **infinite** stream of values, so `.Complete` is never emitted.
     */
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {
         let observable = peripheral.rx_didModifyServices

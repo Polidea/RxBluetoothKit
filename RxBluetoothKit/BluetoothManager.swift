@@ -28,7 +28,7 @@ import CoreBluetooth
 
 /**
  BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
- discover or connect to remote peripheral devices. It's using thin layer behind `RxCentralManagerType` protocol which is
+ discover, connect to remote peripheral devices and more. It's using thin layer behind `RxCentralManagerType` protocol which is
  implemented by `RxCBCentralManager` and should not be used directly by the user of a RxBluetoothKit library.
 
  You can start using this class by discovering available services of nearby peripherals. Before calling any
@@ -152,11 +152,8 @@ public class BluetoothManager {
                         self.scanQueue.append(operation)
                     }
 
-                    // Start scanning for devices
-                    self.centralManager.scanForPeripheralsWithServices(serviceUUIDs, options: options)
-
                     // Observable which will emit next element, when peripheral is discovered.
-                    self.centralManager.rx_didDiscoverPeripheral
+                    let disposable = self.centralManager.rx_didDiscoverPeripheral
                     .map { (peripheral, advertisment, rssi) -> ScannedPeripheral in
                         let peripheral = Peripheral(manager: self, peripheral: peripheral)
                         let advertismentData = AdvertisementData(advertisementData: advertisment)
@@ -165,9 +162,13 @@ public class BluetoothManager {
                     }
                     .subscribe(element)
 
+                    // Start scanning for devices
+                    self.centralManager.scanForPeripheralsWithServices(serviceUUIDs, options: options)
+
                     return AnonymousDisposable {
                         //When disposed, stop all scans, and remove scanning operation from queue
                         self.centralManager.stopScan()
+                        disposable.dispose()
                         do { self.lock.lock(); defer { self.lock.unlock() }
                             if let index = self.scanQueue.indexOf({ $0 == operation }) {
                                 self.scanQueue.removeAtIndex(index)
@@ -261,12 +262,12 @@ public class BluetoothManager {
                 observer.onCompleted()
                 return NopDisposable.instance
             }
-
+            let disposable = success.amb(error).subscribe(observer)
             self.centralManager.connectPeripheral(peripheral.peripheral, options: options)
-            success.amb(error).subscribe(observer)
             return AnonymousDisposable {
                 if !peripheral.isConnected {
                     self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+                    disposable.dispose()
                 }
             }
         }
@@ -283,10 +284,12 @@ public class BluetoothManager {
      - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
     public func cancelConnectionToPeripheral(peripheral: Peripheral) -> Observable<Peripheral> {
-        let observable = Observable<Peripheral>.deferred {
-            //TODO: What if not connected? leave it to the OS?
+        let observable = Observable<Peripheral>.create { observer in
+            let disposable = self.monitorPeripheralDisconnection(peripheral).take(1).subscribe(observer)
             self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-            return self.monitorPeripheralDisconnection(peripheral).take(1)
+            return AnonymousDisposable {
+                disposable.dispose()
+            }
         }
         return ensureState(.PoweredOn, observable: observable)
     }

@@ -35,10 +35,6 @@ class PeripheralServicesViewController: UIViewController {
         servicesTableView.dataSource = self
         servicesTableView.estimatedRowHeight = 40.0
         servicesTableView.rowHeight = UITableViewAutomaticDimension
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
         title = "Connecting"
         manager.connectToPeripheral(scannedPeripheral.peripheral)
             .subscribe(onNext: {
@@ -47,9 +43,20 @@ class PeripheralServicesViewController: UIViewController {
                 self.connectedPeripheral = $0
                 self.downloadServicesOfPeripheral($0)
                 }, onError: { error in
+                    self.activityIndicatorView.stopAnimating()
             }).addDisposableTo(disposeBag)
         activityIndicatorView.hidden = false
         activityIndicatorView.startAnimating()
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        guard let identifier = segue.identifier, let cell = sender as? UITableViewCell
+            where identifier == "PresentCharacteristics" else { return }
+        guard let characteristicsVc = segue.destinationViewController as? CharacteristicsController else { return }
+
+        if let indexPath = servicesTableView.indexPathForCell(cell) {
+            characteristicsVc.service = servicesList[indexPath.row]
+        }
     }
 
     private func downloadServicesOfPeripheral(peripheral: Peripheral) {
@@ -59,7 +66,6 @@ class PeripheralServicesViewController: UIViewController {
                 self.servicesTableView.reloadData()
             }.addDisposableTo(disposeBag)
     }
-
 }
 
 extension PeripheralServicesViewController: UITableViewDataSource, UITableViewDelegate {

@@ -40,5 +40,4 @@ class RxCBDescriptor: RxDescriptorType {
     var value: AnyObject? {
         return descriptor.value
     }
-
 }
