@@ -1,3 +1,5 @@
+#0.4.1
+- Fixed possinle race condition in `setNotifyAndMonitor` function
 #0.4.0
 - Documentation updated
 - Use cases added to example app

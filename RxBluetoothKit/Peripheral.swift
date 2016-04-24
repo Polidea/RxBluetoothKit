@@ -328,7 +328,8 @@ public class Peripheral {
     public func setNotificationAndMonitorUpdatesForCharacteristic(characteristic: Characteristic)
         -> Observable<Characteristic> {
             return Observable.of(monitorValueUpdateForCharacteristic(characteristic),
-            setNotifyValue(true, forCharacteristic: characteristic).ignoreElements()).merge()
+            setNotifyValue(true, forCharacteristic: characteristic).ignoreElements()
+                .subscribeOn(CurrentThreadScheduler.instance)).merge()
     }
 
     //MARK: Descriptors
