@@ -1,4 +1,4 @@
-![RxBluetoothKit Swift](http://i.imgur.com/Olkensg.png)
+![RxBluetoothKit Swift](http://i.imgur.com/aeT4p5o.png)
 
 [![CI Status](http://img.shields.io/travis/Polidea/RxBluetoothKit.svg?style=flat)](https://travis-ci.org/Polidea/RxBluetoothKit)
 [![Platform](https://img.shields.io/cocoapods/p/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
