@@ -287,6 +287,7 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 
 ## Requirements
 - iOS 8.0+
+- OSX 10.10+
 - Xcode 7.3+
 
 ## Authors
