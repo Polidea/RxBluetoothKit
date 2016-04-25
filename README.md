@@ -15,7 +15,7 @@ For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rx
 - [x] Scan sharing
 - [x] Scan queueing
 - [x] Bluetooth error bubbling
-- [x] Documentation
+- [x] [Documentation](http://cocoadocs.org/docsets/RxBluetoothKit/0.4.1/)
 
 ## Sample
 In Example folder you can find application we've provided to you. It's a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.
