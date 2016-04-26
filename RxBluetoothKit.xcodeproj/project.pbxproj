@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2666FD8E1CCE457C005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */; };
 		2666FD9D1CCE45E3005E81CE /* RxBluetoothKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2666FDAD1CCE4626005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */; };
 		2666FDD61CCE46E1005E81CE /* ObservableSpec+From.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666FD091CCE431B005E81CE /* ObservableSpec+From.swift */; };
@@ -89,9 +88,16 @@
 		2666FE491CCE4732005E81CE /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0E1CBE3DEE005DEA5B /* BluetoothManager.swift */; };
 		2666FE4A1CCE4732005E81CE /* AdvertisementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */; };
 		2666FE5B1CCE65CD005E81CE /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
-		2666FE5C1CCE65CD005E81CE /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		2666FE5F1CCE65EE005E81CE /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
 		2666FE611CCE6626005E81CE /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
+		4674B0671CD0BC4200F84E96 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1673B691CBE48F5008A3D30 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4674B0681CD0BC4200F84E96 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1673B6A1CBE48F5008A3D30 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4674B0691CD0BC4200F84E96 /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1673B6B1CBE48F5008A3D30 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4674B06A1CD0BC4200F84E96 /* RxTests.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A1673B6C1CBE48F5008A3D30 /* RxTests.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4674B06B1CD0BCD200F84E96 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1673B691CBE48F5008A3D30 /* Nimble.framework */; };
+		4674B06C1CD0BCD200F84E96 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1673B6A1CBE48F5008A3D30 /* Quick.framework */; };
+		4674B06D1CD0BCD200F84E96 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1673B6B1CBE48F5008A3D30 /* RxSwift.framework */; };
+		4674B06E1CD0BCD200F84E96 /* RxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1673B6C1CBE48F5008A3D30 /* RxTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +116,22 @@
 			remoteInfo = "RxBluetoothKit OSX";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4674B0661CD0BC3700F84E96 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4674B0671CD0BC4200F84E96 /* Nimble.framework in CopyFiles */,
+				4674B0681CD0BC4200F84E96 /* Quick.framework in CopyFiles */,
+				4674B0691CD0BC4200F84E96 /* RxSwift.framework in CopyFiles */,
+				4674B06A1CD0BC4200F84E96 /* RxTests.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceIdentifiers.swift; sourceTree = "<group>"; };
@@ -179,8 +201,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2666FE5C1CCE65CD005E81CE /* RxSwift.framework in Frameworks */,
-				2666FD8E1CCE457C005E81CE /* RxBluetoothKit.framework in Frameworks */,
+				4674B06B1CD0BCD200F84E96 /* Nimble.framework in Frameworks */,
+				4674B06C1CD0BCD200F84E96 /* Quick.framework in Frameworks */,
+				4674B06D1CD0BCD200F84E96 /* RxSwift.framework in Frameworks */,
+				4674B06E1CD0BCD200F84E96 /* RxTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,6 +477,7 @@
 				2666FD8A1CCE457C005E81CE /* Frameworks */,
 				2666FD8B1CCE457C005E81CE /* Resources */,
 				2666FD9C1CCE45DD005E81CE /* Headers */,
+				4674B0661CD0BC3700F84E96 /* CopyFiles */,
 			);
 			buildRules = (
 			);
