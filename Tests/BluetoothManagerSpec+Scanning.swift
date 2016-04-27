@@ -254,20 +254,20 @@ class BluetoothManagerScanningSpec: QuickSpec {
             }
 
             context("when there are two users scanning for different UUIDs and scans should be serialized") {
-                let pairs: [([CBUUID]?, [CBUUID]?)] = [
+                let peripheralIdentifiersPairs: [([CBUUID]?, [CBUUID]?)] = [
                     ([CBUUID(string: "dfff")], [CBUUID(string: "aaff"), CBUUID(string: "dfff")]),
                     ([CBUUID(string: "dfff")], nil),
                     ([CBUUID(string: "dfff")], [CBUUID(string: "aaaa")])
                 ]
-                for (a, b) in pairs {
+                for (firstScanPeripheralIdentifiers, secondScanPeripheralIdentifiers) in peripheralIdentifiersPairs {
                     context("examinating different uuid pairs") {
                         beforeEach {
                             let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
                             let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
                             scanObservers.append(testScheduler.scheduleObservable(times,
-                                create: {manager.scanForPeripherals(a)}))
+                                create: {manager.scanForPeripherals(firstScanPeripheralIdentifiers)}))
                             scanObservers.append(testScheduler.scheduleObservable(times2,
-                                create: {manager.scanForPeripherals(b)}))
+                                create: {manager.scanForPeripherals(secondScanPeripheralIdentifiers)}))
                         }
 
                         context("when first user subscribed") {
@@ -322,20 +322,20 @@ class BluetoothManagerScanningSpec: QuickSpec {
             }
 
             context("when there are two users scanning where one is using existing scan") {
-                let pairs : [([CBUUID]?, [CBUUID]?)] = [
+                let peripheralIdentifiersPairs : [([CBUUID]?, [CBUUID]?)] = [
                     ([CBUUID(string: "aaaa"), CBUUID(string: "bbbb")], [CBUUID(string: "aaaa")]),
                     (nil, nil),
                     (nil, [CBUUID(string: "aaaa")])
                 ]
 
-                for (a,b) in pairs {
+                for (firstScanPeripheralIdentifiers, secondScanPeripheralIdentifiers) in peripheralIdentifiersPairs {
                     beforeEach {
                         let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
                         let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
                         scanObservers.append(testScheduler.scheduleObservable(times,
-                            create: {manager.scanForPeripherals(a)}))
+                            create: {manager.scanForPeripherals(firstScanPeripheralIdentifiers)}))
                         scanObservers.append(testScheduler.scheduleObservable(times2,
-                            create: {manager.scanForPeripherals(b)}))
+                            create: {manager.scanForPeripherals(secondScanPeripheralIdentifiers)}))
                     }
 
                     context("when first user subscribed") {
