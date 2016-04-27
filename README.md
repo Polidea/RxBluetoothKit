@@ -173,7 +173,9 @@ characteristic.setNotificationAndMonitorUpdates()
 		let newValue = $0.value
 	}
 ```
-If you are not interested anymore in updates, just use this:
+If you are not interested anymore in updates, just use dispose this subscription - it will automatically set notification state on `false`.
+When you want to set notification state without monitoring updates, you should subscribe to: `characteristic.setNotifyValue(true)` method. Similarly: if you want to manually set notification state on `false` : subscribe to `characteristic.setNotifyValue(false)`
+
 ```swift
 characteristic.setNotifyValue(false)
 	.subscribe { characteristic in
