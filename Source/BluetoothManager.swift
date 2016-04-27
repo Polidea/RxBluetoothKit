@@ -128,7 +128,10 @@ public class BluetoothManager {
                 // If it's possible use existing scan - take if from the queue
                 self.lock.lock(); defer { self.lock.unlock() }
                 if let elem = self.scanQueue.findElement({ $0.acceptUUIDs(serviceUUIDs) }) {
-                    guard serviceUUIDs != nil else {
+                    guard elem.UUIDs != nil else {
+                        return elem.observable
+                    }
+                    guard let serviceUUIDs = serviceUUIDs else {
                         return elem.observable
                     }
 
@@ -136,7 +139,7 @@ public class BluetoothManager {
                     // filtered properly
                     return elem.observable.filter { scannedPeripheral in
                         if let services = scannedPeripheral.advertisementData.serviceUUIDs {
-                            return Set(services).isSupersetOf(serviceUUIDs!)
+                            return !serviceUUIDs.isEmpty && Set(services).isSupersetOf(serviceUUIDs)
                         }
                         return false
                     }

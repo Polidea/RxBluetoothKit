@@ -253,134 +253,137 @@ class BluetoothManagerScanningSpec: QuickSpec {
                 }
             }
 
-            context("when there are two users scanning for different UUIDs") {
-                beforeEach {
-                    let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
-                    let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
-                    scanObservers.append(testScheduler.scheduleObservable(times,
-                        create: {manager.scanForPeripherals([CBUUID(string: "aaff"), CBUUID(string: "dfff")])}))
-                    scanObservers.append(testScheduler.scheduleObservable(times2,
-                        create: {manager.scanForPeripherals([CBUUID(string: "dfff")])}))
-                }
+            context("when there are two users scanning for different UUIDs and scans should be serialized") {
+                let pairs: [([CBUUID]?, [CBUUID]?)] = [
+                    ([CBUUID(string: "dfff")], [CBUUID(string: "aaff"), CBUUID(string: "dfff")]),
+                    ([CBUUID(string: "dfff")], nil),
+                    ([CBUUID(string: "dfff")], [CBUUID(string: "aaaa")])
+                ]
+                for (a, b) in pairs {
+                    context("examinating different uuid pairs") {
+                        beforeEach {
+                            let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
+                            let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
+                            scanObservers.append(testScheduler.scheduleObservable(times,
+                                create: {manager.scanForPeripherals(a)}))
+                            scanObservers.append(testScheduler.scheduleObservable(times2,
+                                create: {manager.scanForPeripherals(b)}))
+                        }
 
-                context("when first user subscribed") {
-                    beforeEach {
-                        testScheduler.advanceTo(scanObservers[0].subscribeTime)
-                    }
-                    it("should call scan function once") {
-                        expect(scanCallObserver.events.count).to(equal(1))
-                    }
-                    it("shouldn't call stop function") {
-                        expect(stopScanCallObserver.events).to(beEmpty())
-                    }
-                }
+                        context("when first user subscribed") {
+                            beforeEach {
+                                testScheduler.advanceTo(scanObservers[0].subscribeTime)
+                            }
+                            it("should call scan function once") {
+                                expect(scanCallObserver.events.count).to(equal(1))
+                            }
+                            it("shouldn't call stop function") {
+                                expect(stopScanCallObserver.events).to(beEmpty())
+                            }
+                        }
 
-                context("when second user subscribed") {
-                    beforeEach {
-                        testScheduler.advanceTo(scanObservers[1].subscribeTime)
-                    }
-                    it("should call scan function once because first user didn't finish scanning") {
-                        expect(scanCallObserver.events.count).to(equal(1))
-                    }
-                    it("shouldn't call stop function because first user didn't finish scanning") {
-                        expect(stopScanCallObserver.events).to(beEmpty())
-                    }
-                }
+                        context("when second user subscribed") {
+                            beforeEach {
+                                testScheduler.advanceTo(scanObservers[1].subscribeTime)
+                            }
+                            it("should call scan function once because first user didn't finish scanning") {
+                                expect(scanCallObserver.events.count).to(equal(1))
+                            }
+                            it("shouldn't call stop function because first user didn't finish scanning") {
+                                expect(stopScanCallObserver.events).to(beEmpty())
+                            }
+                        }
 
-                context("when first user finished scanning") {
-                    beforeEach {
-                        testScheduler.advanceTo(scanObservers[0].disposeTime)
-                    }
-                    it("should call scan function twice because second user started scanning") {
-                        expect(scanCallObserver.events.count).to(equal(2))
-                    }
-                    it("should call stop function for first scan") {
-                        expect(stopScanCallObserver.events.count).to(equal(1))
-                    }
-                }
+                        context("when first user finished scanning") {
+                            beforeEach {
+                                testScheduler.advanceTo(scanObservers[0].disposeTime)
+                            }
+                            it("should call scan function twice because second user started scanning") {
+                                expect(scanCallObserver.events.count).to(equal(2))
+                            }
+                            it("should call stop function for first scan") {
+                                expect(stopScanCallObserver.events.count).to(equal(1))
+                            }
+                        }
 
-                context("when second user finished scanning") {
-                    beforeEach {
-                        testScheduler.advanceTo(scanObservers[1].disposeTime)
-                    }
-                    it("should call scan function twice because second user started scanning") {
-                        expect(scanCallObserver.events.count).to(equal(2))
-                    }
-                    it("should call stop function for both scans") {
-                        expect(stopScanCallObserver.events.count).to(equal(2))
+                        context("when second user finished scanning") {
+                            beforeEach {
+                                testScheduler.advanceTo(scanObservers[1].disposeTime)
+                            }
+                            it("should call scan function twice because second user started scanning") {
+                                expect(scanCallObserver.events.count).to(equal(2))
+                            }
+                            it("should call stop function for both scans") {
+                                expect(stopScanCallObserver.events.count).to(equal(2))
+                            }
+                        }
                     }
                 }
             }
 
             context("when there are two users scanning where one is using existing scan") {
-                typealias ScanType = (RxPeripheralType, [String:AnyObject], NSNumber)
+                let pairs : [([CBUUID]?, [CBUUID]?)] = [
+                    ([CBUUID(string: "aaaa"), CBUUID(string: "bbbb")], [CBUUID(string: "aaaa")]),
+                    (nil, nil),
+                    (nil, [CBUUID(string: "aaaa")])
+                ]
 
-                func createPeripheralEvents(events: (Int, [String], Int)... ) -> [Recorded<Event<ScanType>>] {
-                    var records : [Recorded<Event<ScanType>>] = []
-                    for event in events {
-                        var advertisment = [String:AnyObject]()
-                        advertisment[CBAdvertisementDataServiceUUIDsKey] = event.1.map { CBUUID(string: $0) }
-                        let device = (FakePeripheral() as RxPeripheralType, advertisment, NSNumber(int: Int32(event.2)))
-                        records.append(Recorded(time: event.0, event: .Next(device)))
-                    }
-                    return records
-                }
-
-                beforeEach {
-                    let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
-                    let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
-                    scanObservers.append(testScheduler.scheduleObservable(times,
-                        create: {manager.scanForPeripherals([CBUUID(string: "aaff")])}))
-                    scanObservers.append(testScheduler.scheduleObservable(times2,
-                        create: {manager.scanForPeripherals([CBUUID(string: "dfff"), CBUUID(string: "aaff")])}))
-
-                    let scans = testScheduler.createHotObservable(createPeripheralEvents(
-                        (400, ["aaff", "dfff", "ccaa"], 90),
-                        (600, ["aaff", "dfff"], 100),
-                        (900, ["aaff", "ccaa"], 120),
-                        (1200, ["aaff", "dfff", "efff"], 130)
-                        ))
-
-                    fakeCentralManager.rx_didDiscoverPeripheral = scans.asObservable()
-                }
-
-                context("when two users are subscribed") {
+                for (a,b) in pairs {
                     beforeEach {
-                        testScheduler.advanceTo(scanObservers[1].subscribeTime)
+                        let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
+                        let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
+                        scanObservers.append(testScheduler.scheduleObservable(times,
+                            create: {manager.scanForPeripherals(a)}))
+                        scanObservers.append(testScheduler.scheduleObservable(times2,
+                            create: {manager.scanForPeripherals(b)}))
                     }
 
-                    it("should call scan function once") {
-                        expect(scanCallObserver.events.count).to(equal(1))
+                    context("when first user subscribed") {
+                        beforeEach {
+                            testScheduler.advanceTo(scanObservers[0].subscribeTime)
+                        }
+                        it("should call scan function once") {
+                            expect(scanCallObserver.events.count).to(equal(1))
+                        }
+                        it("shouldn't call stop function") {
+                            expect(stopScanCallObserver.events).to(beEmpty())
+                        }
                     }
 
-                    it("should register two scan events for first user") {
-                        expect(scanObservers[0].events.count).to(equal(2))
+                    context("when two users are subscribed") {
+                        beforeEach {
+                            testScheduler.advanceTo(scanObservers[1].subscribeTime)
+                        }
+                        it("should call scan function once") {
+                            expect(scanCallObserver.events.count).to(equal(1))
+                        }
+                        it("shouldn't call stop function") {
+                            expect(stopScanCallObserver.events).to(beEmpty())
+                        }
                     }
 
-                    it("should register one scan event for second user") {
-                        expect(scanObservers[1].events.count).to(equal(1))
-                    }
-                }
-
-                context("when both users compleded theirs streams") {
-                    beforeEach {
-                        testScheduler.start()
-                    }
-
-                    it("should call scan function once") {
-                        expect(scanCallObserver.events.count).to(equal(1))
+                    context("when first user finished scanning") {
+                        beforeEach {
+                            testScheduler.advanceTo(scanObservers[0].disposeTime)
+                        }
+                        it("should call scan function once because it's used by another user") {
+                            expect(scanCallObserver.events.count).to(equal(1))
+                        }
+                        it("shouldn't call stop function") {
+                            expect(stopScanCallObserver.events).to(beEmpty())
+                        }
                     }
 
-                    it("should call stop function once") {
-                        expect(stopScanCallObserver.events.count).to(equal(1))
-                    }
-
-                    it("should register three events for first user") {
-                        expect(scanObservers[0].events.count).to(equal(3))
-                    }
-
-                    it("should register two events for second user, third one should be filtered out") {
-                        expect(scanObservers[1].events.count).to(equal(2))
+                    context("when both users compleded theirs streams") {
+                        beforeEach {
+                            testScheduler.start()
+                        }
+                        it("should call scan function once") {
+                            expect(scanCallObserver.events.count).to(equal(1))
+                        }
+                        it("should call stop function once") {
+                            expect(stopScanCallObserver.events.count).to(equal(1))
+                        }
                     }
                 }
             }
