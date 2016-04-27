@@ -327,9 +327,15 @@ public class Peripheral {
      */
     public func setNotificationAndMonitorUpdatesForCharacteristic(characteristic: Characteristic)
         -> Observable<Characteristic> {
-            return Observable.of(monitorValueUpdateForCharacteristic(characteristic),
-            setNotifyValue(true, forCharacteristic: characteristic).ignoreElements()
-                .subscribeOn(CurrentThreadScheduler.instance)).merge()
+        return Observable.create { observer in
+            let disposable = Observable.of(self.monitorValueUpdateForCharacteristic(characteristic),
+                self.setNotifyValue(true, forCharacteristic: characteristic).ignoreElements()
+                    .subscribeOn(CurrentThreadScheduler.instance)).merge().subscribe(observer)
+            return AnonymousDisposable {
+                disposable.dispose()
+                self.peripheral.setNotifyValue(false, forCharacteristic: characteristic.characteristic)
+            }
+        }
     }
 
     //MARK: Descriptors
