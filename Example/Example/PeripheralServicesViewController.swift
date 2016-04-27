@@ -70,8 +70,6 @@ class PeripheralServicesViewController: UIViewController {
                 self.servicesTableView.reloadData()
             }.addDisposableTo(disposeBag)
     }
-
-
 }
 
 extension PeripheralServicesViewController: UITableViewDataSource, UITableViewDelegate {
@@ -100,6 +98,6 @@ extension PeripheralServicesViewController: UITableViewDataSource, UITableViewDe
 extension ServiceTableViewCell {
     func updateWithService(service: Service) {
         self.isPrimaryLabel.text = service.isPrimary ? "True" : "False"
-        self.uuidLabel.text = service.uuid.UUIDString
+        self.uuidLabel.text = service.UUID.UUIDString
     }
 }

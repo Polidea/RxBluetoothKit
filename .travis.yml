@@ -2,8 +2,14 @@ language: objective-c
 osx_image: xcode7.3
 xcode_project: RxBluetoothKit.xcodeproj
 xcode_scheme: RxBluetoothKit
-xcode_sdk: iphonesimulator9.3
+# RxSwift times out on travis with carthage version higher than 0.14
+# Highest checked not-working version: 0.16.2
+# `brew install` manually installs carthage 0.14
 before_script:
-  - carthage bootstrap --no-use-binaries --platform ios
+- brew uninstall carthage
+- brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/d70c21cbd277de9ac16497618f15a88ce03690b8/Formula/carthage.rb
+- carthage checkout --no-use-binaries
+- travis_retry carthage build --platform iOS
 script:
-- set -o pipefail && xcodebuild test -project RxBluetoothKit.xcodeproj -scheme RxBluetoothKit -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -project RxBluetoothKit.xcodeproj -scheme "RxBluetoothKit iOS" -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
+

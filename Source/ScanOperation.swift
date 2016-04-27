@@ -30,8 +30,14 @@ struct ScanOperation {
 }
 
 extension ScanOperation {
-    func acceptUUIDs(uuids: [CBUUID]?) -> Bool {
-        return UUIDs == nil || Set(UUIDs!).isSubsetOf(uuids ?? [])
+    func acceptUUIDs(newUUIDs: [CBUUID]?) -> Bool {
+        guard let UUIDs = UUIDs else {
+            return true
+        }
+        guard let newUUIDs = newUUIDs else {
+            return false
+        }
+        return Set(UUIDs).isSupersetOf(newUUIDs)
     }
 }
 
