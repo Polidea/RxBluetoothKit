@@ -108,11 +108,6 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
             }
             actionSheet.addAction(readValueNotificationAction)
         }
-
-        if characteristic.properties == .Write {
-            let writeValueAction = UIAlertAction(title: "Write value", style: .Default) { _ in
-            }
-        }
         self.presentViewController(actionSheet, animated: true, completion: nil)
     }
 
@@ -127,7 +122,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
 
 extension CharacteristicTableViewCell {
     func updateWithCharacteristic(characteristic: Characteristic) {
-        self.UUIDLabel.text = characteristic.uuid.UUIDString
+        self.UUIDLabel.text = characteristic.UUID.UUIDString
         self.isNotifyingLabel.text = characteristic.isNotifying ? "true" : "false"
         self.valueLabel.text = characteristic.value?.hexadecimalString ?? "Empty"
     }

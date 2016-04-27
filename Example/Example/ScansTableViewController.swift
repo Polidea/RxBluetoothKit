@@ -18,7 +18,7 @@ class ScansTableViewController: UIViewController {
     private var isScanInProgress = false
     private var peripheralsArray: [ScannedPeripheral] = []
     private var scheduler: ConcurrentDispatchQueueScheduler!
-    private let manager = BluetoothManager(centralManager: RxCBCentralManager(queue: dispatch_get_main_queue()))
+    private let manager = BluetoothManager(queue: dispatch_get_main_queue())
     private var scanningDisposable: Disposable?
     private let scannedPeripheralCellIdentifier = "peripheralCellId"
 

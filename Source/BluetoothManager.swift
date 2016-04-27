@@ -142,25 +142,20 @@ public class BluetoothManager {
                     }
                 }
 
-                let operationBox = MutableBox<Observable<ScannedPeripheral>>()
+                let scanOperationBox = MutableBox<ScanOperation>()
 
                 // Create new scan which will be processed in a queue
                 let operation = Observable.create { (element: AnyObserver<ScannedPeripheral>) -> Disposable in
 
-                    let operation = ScanOperation(UUIDs: serviceUUIDs, observable: operationBox.value!)
-                    do { self.lock.lock(); defer { self.lock.unlock() }
-                        self.scanQueue.append(operation)
-                    }
-
                     // Observable which will emit next element, when peripheral is discovered.
                     let disposable = self.centralManager.rx_didDiscoverPeripheral
-                    .map { (peripheral, advertisment, rssi) -> ScannedPeripheral in
-                        let peripheral = Peripheral(manager: self, peripheral: peripheral)
-                        let advertismentData = AdvertisementData(advertisementData: advertisment)
-                        return ScannedPeripheral(peripheral: peripheral,
-                                          advertisementData: advertismentData, RSSI: rssi)
-                    }
-                    .subscribe(element)
+                        .map { (peripheral, advertisment, rssi) -> ScannedPeripheral in
+                            let peripheral = Peripheral(manager: self, peripheral: peripheral)
+                            let advertismentData = AdvertisementData(advertisementData: advertisment)
+                            return ScannedPeripheral(peripheral: peripheral,
+                                advertisementData: advertismentData, RSSI: rssi)
+                        }
+                        .subscribe(element)
 
                     // Start scanning for devices
                     self.centralManager.scanForPeripheralsWithServices(serviceUUIDs, options: options)
@@ -170,24 +165,27 @@ public class BluetoothManager {
                         self.centralManager.stopScan()
                         disposable.dispose()
                         do { self.lock.lock(); defer { self.lock.unlock() }
-                            if let index = self.scanQueue.indexOf({ $0 == operation }) {
+                            if let index = self.scanQueue.indexOf({ $0 == scanOperationBox.value! }) {
                                 self.scanQueue.removeAtIndex(index)
                             }
                         }
                     }
-
                 }
                 .queueSubscribeOn(self.subscriptionQueue)
                 .publish()
                 .refCount()
 
-                operationBox.value = operation
+                let scanOperation = ScanOperation(UUIDs: serviceUUIDs, observable: operation)
+                self.scanQueue.append(scanOperation)
+                
+                scanOperationBox.value = scanOperation
                 return operation
             }()
             // Allow scanning as long as bluetooth is powered on
             return self.ensureState(.PoweredOn, observable: observable)
         }
     }
+
 
     // MARK: State
 
