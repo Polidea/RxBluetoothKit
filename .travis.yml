@@ -4,6 +4,6 @@ xcode_project: RxBluetoothKit.xcodeproj
 xcode_scheme: RxBluetoothKit
 xcode_sdk: iphonesimulator9.3
 before_script:
-  - carthage bootstrap --no-use-binaries --platform iOS
+  - carthage bootstrap --no-use-binaries --platform ios
 script:
 - set -o pipefail && xcodebuild test -project RxBluetoothKit.xcodeproj -scheme RxBluetoothKit -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
