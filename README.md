@@ -9,6 +9,8 @@ Provides nice API to work with, and makes your code more readable, reliable and 
 
 For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active), or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
 
+Read the official announcement at [Polidea Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/).
+
 ## Features
 - [x] CBCentralManger RxSwift support
 - [x] CBPeripheral RxSwift support
