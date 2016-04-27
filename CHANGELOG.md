@@ -1,3 +1,5 @@
+#1.0.1
+- Fixed issues related to scan sharing
 #1.0.0
 - Added OSX support. Official 1.0 release
 #0.4.1
