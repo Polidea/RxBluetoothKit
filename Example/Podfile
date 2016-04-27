@@ -4,6 +4,6 @@ inhibit_all_warnings!
 
 target 'Example' do
   pod 'RxSwift'
-  pod 'RxBluetoothKit', :git => 'https://github.com/Polidea/RxBluetoothKit.git', :branch => 'feature/sharing_problem_fix'
+  pod 'RxBluetoothKit'
 end
 

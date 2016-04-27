@@ -24,7 +24,6 @@ class ScansTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("DID LOAD")
         splitViewController?.delegate = self
         let timerQueue = dispatch_queue_create("com.polidea.rxbluetoothkit.timer", nil)
         scheduler = ConcurrentDispatchQueueScheduler(queue: timerQueue)
@@ -32,28 +31,6 @@ class ScansTableViewController: UIViewController {
         scansTableView.dataSource = self
         scansTableView.estimatedRowHeight = 80.0
         scansTableView.rowHeight = UITableViewAutomaticDimension
-        connectPeripherals()
-
-    }
-
-    func connect(name: String) -> Observable<Peripheral> {
-        print("COnnect")
-        return manager.monitorState()
-            .filter { state in state == .PoweredOn }
-            .take(1)
-            .doOnNext { _ in print(name) }
-            .flatMap { _ in self.manager.scanForPeripherals(nil, options: nil) }
-            .doOnNext { print("DEVICE \($0.peripheral.identifier)") }
-            .filter { peripheral in peripheral.peripheral.name == name }
-            .doOnNext { print("DEVICE \($0.peripheral.identifier)") }
-            .map { $0.peripheral }
-    }
-
-    func connectPeripherals() {
-        let left = connect("StandUp_Mat")
-        let right = connect("StandUp_Mat")
-        Observable.zip(left, right, resultSelector: { (leftConnected, rightConnected) in return (leftConnected, rightConnected) })
-            .subscribeNext { _ in print("both connected  now you can watch 🐱 videos") }
     }
 
     private func stopScanning() {
