@@ -104,8 +104,8 @@ public class BluetoothManager {
 	 example this can be done by limiting scanning to certain number of peripherals or time:
 
 	 bluetoothManager.scanForPeripherals(nil)
-	 .timeout(3.0, timeoutScheduler)
-	 .take(2)
+        .timeout(3.0, timeoutScheduler)
+        .take(2)
 
 	 If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
 	 shared. Otherwise scan is queued on thread specified in `init(centralManager:queueScheduler:)` and will be executed
@@ -190,7 +190,7 @@ public class BluetoothManager {
 	// MARK: State
 
 	/**
-	 Current state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
+	 Continuous state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
 
 	 - returns: Current state of `BluetoothManager` as `CBCentralManagerState`.
 	 */
@@ -203,7 +203,6 @@ public class BluetoothManager {
 
 	 - returns: Current state of `BluetoothManager` as `CBCentralManagerState`.
 	 */
-	@available( *, deprecated, message = "Use rx_state property instead.")
 	public var state: CBCentralManagerState {
 		return centralManager.state
 	}

@@ -123,7 +123,8 @@ class RxCBCentralManager: RxCentralManagerType {
 					return Observable.error(BluetoothError.BluetoothInUnknownState)
 				}
 				return Observable.just(state)
-		}
+            }
+            .replay(1)
 	}
 
 	/**
