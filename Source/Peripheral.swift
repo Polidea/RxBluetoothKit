@@ -39,12 +39,22 @@ public class Peripheral {
     public var isConnected: Bool {
         return peripheral.state == .Connected
     }
+    
+    /**
+     Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
+     
+     - returns: Current state of `Peripheral` as `CBPeripheralState`.
+     */
+    public var rx_state: Observable<CBPeripheralState> {
+        return peripheral.rx_state
+    }
 
     /**
      Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
 
      - returns: Current state of `Peripheral` as `CBPeripheralState`.
      */
+    @available( *, deprecated, message = "Use rx_state property instead.")
     public var state: CBPeripheralState {
         return peripheral.state
     }

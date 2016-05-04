@@ -38,6 +38,7 @@ class FakeCentralManager: RxCentralManagerType {
     var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> = .never()
 
     var state: CBCentralManagerState = CBCentralManagerState.PoweredOn
+    var rx_state: Observable<CBCentralManagerState> = .never()
 
     var scanForPeripheralsWithServicesTO: TestableObserver<([CBUUID]?, [String:AnyObject]?)>?
     func scanForPeripheralsWithServices(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?) {
