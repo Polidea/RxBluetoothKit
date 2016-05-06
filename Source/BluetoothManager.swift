@@ -36,7 +36,7 @@ import CoreBluetooth
  public `BluetoothManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
  by calling and observing returned value of `monitorState()` and then chaining it with `scanForPeripherals(_:options:)`:
 
- bluetoothManager.monitorState()
+ bluetoothManager.rx_state
  .filter { $0 == .PoweredOn }
  .take(1)
  .flatMap { manager.scanForPeripherals(nil) }
@@ -192,7 +192,8 @@ public class BluetoothManager {
 	/**
 	 Continuous state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
 
-	 - returns: Current state of `BluetoothManager` as `CBCentralManagerState`.
+	 - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
+     whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
 	 */
 	public var rx_state: Observable<CBCentralManagerState> {
 		return centralManager.rx_state

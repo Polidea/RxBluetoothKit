@@ -52,7 +52,8 @@ public class Peripheral {
 	/**
 	 Continuous state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
 
-	 - returns: Current state of `Peripheral` as `CBPeripheralState`.
+     - returns: Current state of `Peripheral` as `CBPeripheralState`immediately after subscribtion with current state of
+     Peripheral. Later, whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
 	 */
 	public var rx_state: Observable<CBPeripheralState> {
 		return peripheral.rx_state
