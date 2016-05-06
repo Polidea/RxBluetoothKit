@@ -44,6 +44,9 @@ protocol RxCentralManagerType {
 
     /// Current state of Central Manager
     var state: CBCentralManagerState { get }
+    
+    /// Current continuous state of Central Manager
+    var rx_state: Observable<CBCentralManagerState> { get }
 
     /**
      Start scanning for peripherals with specified services. Results will be available on rx_didDiscoverPeripheral

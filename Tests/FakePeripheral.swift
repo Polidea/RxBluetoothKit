@@ -32,6 +32,7 @@ class FakePeripheral: RxPeripheralType {
 
     var name: String? = nil
     var state: CBPeripheralState = CBPeripheralState.Connected
+    var rx_state: Observable<CBPeripheralState> = .never()
     var services: [RxServiceType]? = nil
     var identifier: NSUUID = NSUUID()
 
