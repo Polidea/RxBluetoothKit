@@ -26,6 +26,7 @@ import Nimble
 import RxBluetoothKit
 import RxTests
 import RxSwift
+import RxCocoa
 import CoreBluetooth
 
 
@@ -66,12 +67,12 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 identifiers = [CBUUID()]
             }
             describe("discover") {
-                var characteristicsDiscoverObserver: ScheduledObservable<[Characteristic]>!
+                var characteristicsDiscoverObservable: ScheduledObservable<[Characteristic]>!
                 var discoverCharacteristicsMethodObserver: TestableObserver<([CBUUID]?, RxServiceType)>!
                 beforeEach {
                     fakePeripheral.discoverCharacteristicsTO = testScheduler.createObserver(([CBUUID]?, RxServiceType))
                     discoverCharacteristicsMethodObserver = fakePeripheral.discoverCharacteristicsTO
-                    characteristicsDiscoverObserver = testScheduler.scheduleObservable {
+                    characteristicsDiscoverObservable = testScheduler.scheduleObservable {
                         return peripheral.discoverCharacteristics(identifiers, service: service)
                     }
                 }
@@ -106,7 +107,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             var characteristicsDiscovered: [Characteristic]?
 
                             beforeEach {
-                                if let c = characteristicsDiscoverObserver.events.first?.value.element {
+                                if let c = characteristicsDiscoverObservable.events.first?.value.element {
                                     characteristicsDiscovered = c
                                 }
                             }
@@ -128,10 +129,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         }
                         describe("error returned") {
                             it("should return one event") {
-                                expect(characteristicsDiscoverObserver.events.count).to(equal(1))
+                                expect(characteristicsDiscoverObservable.events.count).to(equal(1))
                             }
                             it("should return connection failed error") {
-                                expectError(characteristicsDiscoverObserver.events[0].value, errorType: BluetoothError.CharacteristicsDiscoveryFailed(service, nil))
+                                expectError(characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.CharacteristicsDiscoveryFailed(service, nil))
                             }
                         }
                     }
@@ -157,10 +158,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
-                                    expect(characteristicsDiscoverObserver.events.count).to(beGreaterThan(0))
+                                    expect(characteristicsDiscoverObservable.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicsDiscoverObserver.events[0].value, errorType: error)
+                                    expectError(characteristicsDiscoverObservable.events[0].value, errorType: error)
                                 }
                             }
                             context("when wrong state after calling") {
@@ -174,10 +175,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(discoverCharacteristicsMethodObserver.events.count).to(equal(1))
                                 }
                                 it("should get at least one event") {
-                                    expect(characteristicsDiscoverObserver.events.count).to(beGreaterThan(0))
+                                    expect(characteristicsDiscoverObservable.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicsDiscoverObserver.events[0].value, errorType: error)
+                                    expectError(characteristicsDiscoverObservable.events[0].value, errorType: error)
                                 }
                             }
                         }
@@ -196,10 +197,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
-                                expect(characteristicsDiscoverObserver.events.count).to(beGreaterThan(0))
+                                expect(characteristicsDiscoverObservable.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicsDiscoverObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
                             }
                         }
                         context("when disconnect after calling") {
@@ -216,10 +217,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             }
                             context("getting wrong state in the middle of discover") {
                                 it("should get event error") {
-                                    expect(characteristicsDiscoverObserver.events.count).to(beGreaterThan(0))
+                                    expect(characteristicsDiscoverObservable.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicsDiscoverObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                    expectError(characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
                                 }
                             }
                         }

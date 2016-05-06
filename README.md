@@ -99,12 +99,12 @@ As you can see: thanks to all available RxSwift operators, in a simple way you m
 #### Waiting for proper BluetoothState
 In a following scenario: just after app launch, you want to perform scans. But, there are some problems with this approach - in order to perform work with bluetooth, you're manager should be in **.PoweredOn** state. Specially for this case, our library provides you with another observable, that you should use for monitoring state.
 ```swift
-let monitorState = manager.monitorState()
+let stateObservable = manager.rx_state
 ```
 After subscribe, this observable will immediately emit next event with current value of BluetoothManager state, and later will fire every time state changes.
 You could easily chain it with operation you want to perform after changing to proper state. Let's see how it looks with scanning:
 ```swift
-manager.monitorState()
+manager.rx_state
 	.filter { $0 == .PoweredOn }
 	.timeout(3.0, scheduler)
 	.take(1)
@@ -250,9 +250,12 @@ We really encourage you to use these versions of methods in order to make your c
 ### Other useful functionalities
 Here you'll find other useful functionalities of library
 
-#### Monitoring state
-Used earlier `monitorState()` is very useful function on `BluetoothManager`. While subscribed, it emits .Next immediately with current `CBCentralManagerState`.
+#### Monitoring state of Bluetooth
+Used earlier `rx_state` is very useful function on `BluetoothManager`. While subscribed, it emits `Next` immediately with current `CBCentralManagerState`.
 After that, it emits new element after state changes.
+
+#### Monitor connection state of Peripheral
+Property `rx_state` on `Peripheral` instance allows monitoring for changes in Peripheral connection state. Immediately after subscribtion `Next` with current state is emitted. After that, it emits new element after connection state changes.
 
 #### Retrieving Peripherals
 `BluetoothManager` also lets to retrieve peripherals in two ways:
@@ -294,7 +297,7 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 
 ## Authors
 
-- Przemysław Lenart, przemek.lenart@polidea.com
+- Przemysław Lenart, przemek.lenart@polidea.com~
 - Kacper Harasim, kacper.harasim@polidea.com
 
 
