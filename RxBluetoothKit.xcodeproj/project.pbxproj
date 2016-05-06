@@ -88,10 +88,20 @@
 		2666FE481CCE4732005E81CE /* RxCBCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C171CBE3DEE005DEA5B /* RxCBCentralManager.swift */; };
 		2666FE491CCE4732005E81CE /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0E1CBE3DEE005DEA5B /* BluetoothManager.swift */; };
 		2666FE4A1CCE4732005E81CE /* AdvertisementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */; };
-		2666FE5B1CCE65CD005E81CE /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
-		2666FE5C1CCE65CD005E81CE /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
-		2666FE5F1CCE65EE005E81CE /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
-		2666FE611CCE6626005E81CE /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
+		A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
+		A10F298B1CDCD6E400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
+		A10F29A11CDCD74B00593284 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29921CDCD72200593284 /* Nimble.framework */; };
+		A10F29A21CDCD74F00593284 /* RxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29901CDCD72200593284 /* RxTests.framework */; };
+		A10F29A31CDCD75200593284 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29911CDCD72200593284 /* Quick.framework */; };
+		A10F29A41CDCD75600593284 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F299A1CDCD73A00593284 /* Nimble.framework */; };
+		A10F29A51CDCD75900593284 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29991CDCD73A00593284 /* Quick.framework */; };
+		A10F29A61CDCD75C00593284 /* RxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29981CDCD73A00593284 /* RxTests.framework */; };
+		A10F29AB1CDCD7AA00593284 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29A71CDCD77100593284 /* RxCocoa.framework */; };
+		A10F29AC1CDCD7B200593284 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29A91CDCD78300593284 /* RxCocoa.framework */; };
+		A10F29AD1CDCD98400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
+		A10F29AE1CDCD98700593284 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29A71CDCD77100593284 /* RxCocoa.framework */; };
+		A10F29AF1CDCD99700593284 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29A91CDCD78300593284 /* RxCocoa.framework */; };
+		A10F29B01CDCD99900593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +120,28 @@
 			remoteInfo = "RxBluetoothKit OSX";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A10F29801CDCD63100593284 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10F29851CDCD6B200593284 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceIdentifiers.swift; sourceTree = "<group>"; };
@@ -135,6 +167,14 @@
 		2666FDAC1CCE4626005E81CE /* RxBluetoothKit OSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RxBluetoothKit OSXTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2666FE5A1CCE65CD005E81CE /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = SOURCE_ROOT; };
 		2666FE5E1CCE65EE005E81CE /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/Mac/RxSwift.framework; sourceTree = SOURCE_ROOT; };
+		A10F29901CDCD72200593284 /* RxTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTests.framework; path = Carthage/Build/Mac/RxTests.framework; sourceTree = SOURCE_ROOT; };
+		A10F29911CDCD72200593284 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = SOURCE_ROOT; };
+		A10F29921CDCD72200593284 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = SOURCE_ROOT; };
+		A10F29981CDCD73A00593284 /* RxTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTests.framework; path = Carthage/Build/iOS/RxTests.framework; sourceTree = SOURCE_ROOT; };
+		A10F29991CDCD73A00593284 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
+		A10F299A1CDCD73A00593284 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
+		A10F29A71CDCD77100593284 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = SOURCE_ROOT; };
+		A10F29A91CDCD78300593284 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/Mac/RxCocoa.framework; sourceTree = SOURCE_ROOT; };
 		A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisementData.swift; sourceTree = "<group>"; };
 		A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothError.swift; sourceTree = "<group>"; };
 		A1299C0E1CBE3DEE005DEA5B /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BluetoothManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -160,10 +200,6 @@
 		A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanOperation.swift; sourceTree = "<group>"; };
 		A1299C231CBE3DEE005DEA5B /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unimplemented.swift; sourceTree = "<group>"; };
-		A1673B691CBE48F5008A3D30 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
-		A1673B6A1CBE48F5008A3D30 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
-		A1673B6B1CBE48F5008A3D30 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = SOURCE_ROOT; };
-		A1673B6C1CBE48F5008A3D30 /* RxTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTests.framework; path = Carthage/Build/iOS/RxTests.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,7 +207,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2666FE5B1CCE65CD005E81CE /* RxSwift.framework in Frameworks */,
+				A10F29AB1CDCD7AA00593284 /* RxCocoa.framework in Frameworks */,
+				A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,8 +216,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2666FE5C1CCE65CD005E81CE /* RxSwift.framework in Frameworks */,
+				A10F29AE1CDCD98700593284 /* RxCocoa.framework in Frameworks */,
+				A10F29AD1CDCD98400593284 /* RxSwift.framework in Frameworks */,
 				2666FD8E1CCE457C005E81CE /* RxBluetoothKit.framework in Frameworks */,
+				A10F29A41CDCD75600593284 /* Nimble.framework in Frameworks */,
+				A10F29A61CDCD75C00593284 /* RxTests.framework in Frameworks */,
+				A10F29A51CDCD75900593284 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,7 +229,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2666FE5F1CCE65EE005E81CE /* RxSwift.framework in Frameworks */,
+				A10F29AC1CDCD7B200593284 /* RxCocoa.framework in Frameworks */,
+				A10F298B1CDCD6E400593284 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,8 +238,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2666FE611CCE6626005E81CE /* RxSwift.framework in Frameworks */,
+				A10F29A31CDCD75200593284 /* Quick.framework in Frameworks */,
 				2666FDAD1CCE4626005E81CE /* RxBluetoothKit.framework in Frameworks */,
+				A10F29B01CDCD99900593284 /* RxSwift.framework in Frameworks */,
+				A10F29A21CDCD74F00593284 /* RxTests.framework in Frameworks */,
+				A10F29AF1CDCD99700593284 /* RxCocoa.framework in Frameworks */,
+				A10F29A11CDCD74B00593284 /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,10 +346,8 @@
 		2666FCF91CCE42D8005E81CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A1673B691CBE48F5008A3D30 /* Nimble.framework */,
-				A1673B6A1CBE48F5008A3D30 /* Quick.framework */,
-				A1673B6B1CBE48F5008A3D30 /* RxSwift.framework */,
-				A1673B6C1CBE48F5008A3D30 /* RxTests.framework */,
+				A10F298D1CDCD6F200593284 /* iOS */,
+				A10F298C1CDCD6EB00593284 /* OSX */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -341,6 +385,7 @@
 		2666FE591CCE65A9005E81CE /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				A10F29A71CDCD77100593284 /* RxCocoa.framework */,
 				2666FE5A1CCE65CD005E81CE /* RxSwift.framework */,
 			);
 			name = iOS;
@@ -349,9 +394,30 @@
 		2666FE5D1CCE65D1005E81CE /* OSX */ = {
 			isa = PBXGroup;
 			children = (
+				A10F29A91CDCD78300593284 /* RxCocoa.framework */,
 				2666FE5E1CCE65EE005E81CE /* RxSwift.framework */,
 			);
 			name = OSX;
+			sourceTree = "<group>";
+		};
+		A10F298C1CDCD6EB00593284 /* OSX */ = {
+			isa = PBXGroup;
+			children = (
+				A10F29901CDCD72200593284 /* RxTests.framework */,
+				A10F29911CDCD72200593284 /* Quick.framework */,
+				A10F29921CDCD72200593284 /* Nimble.framework */,
+			);
+			name = OSX;
+			sourceTree = "<group>";
+		};
+		A10F298D1CDCD6F200593284 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				A10F29981CDCD73A00593284 /* RxTests.framework */,
+				A10F29991CDCD73A00593284 /* Quick.framework */,
+				A10F299A1CDCD73A00593284 /* Nimble.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		A1299BB31CBE3D52005DEA5B = {
@@ -451,6 +517,7 @@
 			buildPhases = (
 				2666FD891CCE457C005E81CE /* Sources */,
 				2666FD8A1CCE457C005E81CE /* Frameworks */,
+				A10F29801CDCD63100593284 /* Copy Frameworks */,
 				2666FD8B1CCE457C005E81CE /* Resources */,
 				2666FD9C1CCE45DD005E81CE /* Headers */,
 			);
@@ -489,6 +556,7 @@
 				2666FDA81CCE4626005E81CE /* Sources */,
 				2666FDA91CCE4626005E81CE /* Frameworks */,
 				2666FDAA1CCE4626005E81CE /* Resources */,
+				A10F29851CDCD6B200593284 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -709,6 +777,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -731,6 +800,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -748,7 +818,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
@@ -763,7 +832,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
@@ -831,7 +899,6 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -850,7 +917,6 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
