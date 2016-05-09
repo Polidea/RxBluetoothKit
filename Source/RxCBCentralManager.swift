@@ -116,7 +116,7 @@ class RxCBCentralManager: RxCentralManagerType {
 	/// Current continuous state of Central Manager
 	var rx_state: Observable<CBCentralManagerState> {
 		return centralManager
-			.rx_observe(CBCentralManagerState.self, "state")
+			.rx_observeWeakly(CBCentralManagerState.self, "state")
 			.flatMap {
                 state -> Observable<CBCentralManagerState> in
 				guard let state = state else {

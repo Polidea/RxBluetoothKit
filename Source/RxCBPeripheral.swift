@@ -56,7 +56,7 @@ class RxCBPeripheral: RxPeripheralType {
 	/// Peripheral's state
 	var rx_state: Observable<CBPeripheralState> {
 		return peripheral
-			.rx_observe(CBPeripheralState.self, "state")
+			.rx_observeWeakly(CBPeripheralState.self, "state")
 			.flatMap {
 				state -> Observable<CBPeripheralState> in
 				guard let state = state else {
