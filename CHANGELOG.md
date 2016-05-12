@@ -1,3 +1,6 @@
+#1.1.1
+- Fixed a bug regarding `rx_state` behavior
+
 #1.1.0
 
 - New API in `BluetoothManager`: `rx_state` to monitor `CBCentralManager` state changes

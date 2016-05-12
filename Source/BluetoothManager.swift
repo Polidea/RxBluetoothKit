@@ -196,7 +196,7 @@ public class BluetoothManager {
      whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
 	 */
 	public var rx_state: Observable<CBCentralManagerState> {
-		return centralManager.rx_state
+		return self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
 	}
 
 	/**
