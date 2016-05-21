@@ -86,7 +86,8 @@ public class BluetoothManager {
 
 	 - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
 	 */
-	convenience public init(queue: dispatch_queue_t = dispatch_get_main_queue()) {
+	convenience public init(queue: dispatch_queue_t = dispatch_get_main_queue(),
+	                        options: [String : AnyObject]? = nil) {
 		self.init(centralManager: RxCBCentralManager(queue: queue),
 			queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
 	}
@@ -394,4 +395,10 @@ public class BluetoothManager {
 				return Observable.just(peripheral)
 		}
 	}
+
+    func listenOnRestoredState() -> Observable<RestoredState> {
+        return centralManager
+            .rx_willRestoreState
+            .map { RestoredState(restoredStateDictionary: $0)  }
+    }
 }

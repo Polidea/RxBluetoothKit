@@ -39,8 +39,8 @@ class RxCBCentralManager: RxCentralManagerType {
 
 	 - parameter queue: Dispatch queue on which callbacks are received.
 	 */
-	init(queue: dispatch_queue_t) {
-		centralManager = CBCentralManager(delegate: internalDelegate, queue: queue)
+    init(queue: dispatch_queue_t, options: [String : AnyObject]? = nil) {
+		centralManager = CBCentralManager(delegate: internalDelegate, queue: queue, options: options)
 	}
 
 	@objc private class InternalDelegate: NSObject, CBCentralManagerDelegate {
