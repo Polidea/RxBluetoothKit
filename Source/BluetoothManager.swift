@@ -399,6 +399,6 @@ public class BluetoothManager {
     func listenOnRestoredState() -> Observable<RestoredState> {
         return centralManager
             .rx_willRestoreState
-            .map { RestoredState(restoredStateDictionary: $0)  }
+            .map { RestoredState(restoredStateDictionary: $0, bluetoothManager: self) }
     }
 }
