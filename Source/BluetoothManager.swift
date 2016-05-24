@@ -85,6 +85,9 @@ public class BluetoothManager {
 	 code.
 
 	 - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
+
+     - parameter options: An optional dictionary containing initialization options for a central manager.
+     For more info about it please refer to [`Central Manager initialization options`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
 	 */
 	convenience public init(queue: dispatch_queue_t = dispatch_get_main_queue(),
 	                        options: [String : AnyObject]? = nil) {
@@ -396,9 +399,14 @@ public class BluetoothManager {
 		}
 	}
 
+    /**
+     Emits `RestoredState` instance, when state of `BluetoothManager` has been restored
+     - Returns: Observable which emits next events state has been restored
+     */
     func listenOnRestoredState() -> Observable<RestoredState> {
         return centralManager
             .rx_willRestoreState
+            .take(1)
             .map { RestoredState(restoredStateDictionary: $0, bluetoothManager: self) }
     }
 }
