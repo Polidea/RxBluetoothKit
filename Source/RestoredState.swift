@@ -15,11 +15,11 @@ import CoreBluetooth
 public struct RestoredState {
 
     /**
-     Internal restored state dictionary
+    Restored state dictionary
     */
     public let restoredStateData: [String:AnyObject]
 
-    let bluetoothManager: BluetoothManager
+    public unowned let bluetoothManager: BluetoothManager
     /**
      Creates restored state information based on CoreBluetooth's dictionary
      - parameter restoredState: Core Bluetooth's restored state data
