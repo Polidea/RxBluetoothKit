@@ -35,7 +35,7 @@ public struct AdvertisementData {
 
      - parameter advertisementData: Core Bluetooth's advertisement data
      */
-    init(advertisementData: [String:AnyObject]) {
+    public init(advertisementData: [String:AnyObject]) {
         self.advertisementData = advertisementData
     }
 
