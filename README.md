@@ -250,6 +250,9 @@ We really encourage you to use these versions of methods in order to make your c
 ### Other useful functionalities
 Here you'll find other useful functionalities of library
 
+#### Bluetooth state restoration
+By giving proper identifier to `BluetoothManager` in constructor(`options` property), you can achieve state restoration functionality. Later, just make sure to subscribe to `listenOnRestoredState` observable, and inspect `RestoredState` instance, which consists any useful info about restored state.
+
 #### Monitoring state of Bluetooth
 Used earlier `rx_state` is very useful function on `BluetoothManager`. While subscribed, it emits `Next` immediately with current `CBCentralManagerState`.
 After that, it emits new element after state changes.
