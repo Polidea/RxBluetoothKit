@@ -15,7 +15,49 @@ class RxCBPeripheralManager: RxPeripheralManagerType {
     private let peripheralManager: CBPeripheralManager
     private let internalDelegate = InternalDelegate()
     
-    init() {}
+    init(queue: dispatch_queue_t, options: [String : AnyObject]? = nil) {
+        peripheralManager = CBPeripheralManager(delegate: internalDelegate, queue: queue, options: options)
+    }
+}
+
+extension RxCBPeripheralManager {
+    
+    var rx_didUpdateState: Observable<CBPeripheralManagerState> {
+        return internalDelegate.didUpdateStateSubject
+    }
+    
+    var rx_willRestoreState: Observable<[String: AnyObject]> {
+        return internalDelegate.willRestoreStateSubject
+    }
+    
+    var rx_didStartAdvertising: Observable<NSError?> {
+        return internalDelegate.didStartAdvertisingSubject
+    }
+    
+    var rx_didAddService: Observable<(Service, NSError?)> {
+        return internalDelegate.didAddServiceSubject
+    }
+    
+    var rx_didSubscribeToCharacteristic: Observable<(Central, Characteristic)> {
+        return internalDelegate.didSubscribeToCharacteristicSubject
+    }
+    
+    var rx_didUnsubscrubeFromCharacteristic: Observable<(Central, Characteristic)> {
+        return internalDelegate.didUnsubscribeFromCharacteristicSubject
+    }
+    
+    var rx_didRecieveReadRequst: Observable<Request> {
+        return internalDelegate.didRecieveReadRequestSubject
+    }
+    
+    var rx_didRecieveWriteRequests: Observable<[Request]> {
+        return internalDelegate.didRecieveWriteRequestsSubject
+    }
+    
+    var rx_readyToUpdateSubscribers: Observable<Void> {
+        return internalDelegate.readyToUpdateSubscribersSubject
+    }
+    
 }
 
 extension RxCBPeripheralManager {
@@ -48,10 +90,16 @@ extension RxCBPeripheralManager {
         }
         
         @objc func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
-            didSubscribeToCharacteristicSubject.onNext(
-                (Central(central: RxCBCentral(central: central)),
-                Characteristic(characteristic: RxCBCharacteristic(characteristic: characteristic), service: <#T##Service#>))
-            )
+            let central = Central(central: RxCBCentral(central: central))
+            let cbCharacteristic = RxCBCharacteristic(characteristic: characteristic)
+            let cbService = RxCBService(service: characteristic.service)
+            let cbPeripheral = RxCBPeripheral(peripheral: characteristic.service.peripheral)
+            let peripheral = Peripheral(manager: <#T##BluetoothManager#>, peripheral: cbPeripheral)
+            
+            let service = Service(peripheral: peripheral, service: cbService)
+            let characteristic = Characteristic(characteristic: RxCBCharacteristic(characteristic: characteristic), service: service)
+            
+            didSubscribeToCharacteristicSubject.onNext((central, characteristic))
         }
         
         @objc func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFromCharacteristic characteristic: CBCharacteristic) {
