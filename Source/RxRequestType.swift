@@ -12,7 +12,7 @@ protocol RxRequestType {
 
     var central: Central { get }
     
-    var characteristic: Characteristic { get }
+//    var characteristic: Characteristic { get }
     
     var offset: Int { get }
     

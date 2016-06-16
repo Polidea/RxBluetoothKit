@@ -58,6 +58,77 @@ extension RxCBPeripheralManager {
         return internalDelegate.readyToUpdateSubscribersSubject
     }
     
+    /// Current continous state of manager state
+    var rx_state: Observable<CBPeripheralManagerState> {
+        return peripheralManager
+            .rx_observeWeakly(CBPeripheralManagerState.self, "state")
+            .flatMap {
+                state -> Observable<CBPeripheralManagerState> in
+                guard let state = state else {
+                    return Observable.error(BluetoothError.BluetoothInUnknownState)
+                }
+                return Observable.just(state)
+            }
+            .replay(1)
+    }
+    
+    // should this be renamed to rx_advertising?
+    var rx_isAdvertising: Observable<Bool> {
+        return peripheralManager
+            .rx_observeWeakly(Bool.self, "isAdvertising")
+            .flatMap {
+                advertising -> Observable<Bool> in
+                guard let advertising = advertising else {
+                    return .error(BluetoothError.BluetoothInUnknownState) // is this the right error to throw? Should a new one be created? Should we instead force unwrap this?? The only case where advertising is nil is when the weak observer is observing on a peripheralManager that is nil - will that ever even happen?
+                }
+                return .just(advertising)
+            }
+            .replay(1)
+    }
+}
+
+extension RxCBPeripheralManager {
+    
+    func startAdvertising(advertismentData: AdvertisementData) {
+        return peripheralManager.startAdvertising(advertismentData.advertisementData)
+    }
+    
+    func stopAdvertising() {
+        return peripheralManager.stopAdvertising()
+    }
+    
+    func setDesiredConnectionLatency(latency: CBPeripheralManagerConnectionLatency, forCentral central: RxCentralType) {
+        return peripheralManager.setDesiredConnectionLatency(latency, forCentral: (central as! RxCBCentral).central)
+    }
+    
+    func addService(service: RxServiceType) {
+        let srvc = (service as! RxCBService).service
+        let mutableService = CBMutableService(type: srvc.UUID, primary: srvc.isPrimary)
+        
+        return peripheralManager.addService(mutableService)
+    }
+    
+    func removeService(service: RxServiceType) {
+        let srvc = (service as! RxCBService).service
+        let mutableService = CBMutableService(type: srvc.UUID, primary: srvc.isPrimary)
+        
+        return peripheralManager.removeService(mutableService)
+    }
+    
+    func removeAllServices() {
+        return peripheralManager.removeAllServices()
+    }
+    
+    func respondToRequest(request: RxRequestType, withResult result: CBATTError) {
+        return peripheralManager.respondToRequest((request as! RxCBRequest).request, withResult: result)
+    }
+    
+    func updateValue(value: NSData, forCharacteristic characteristic: RxCharacteristicType, onSubscribedCentrals centrals: [RxCentralType]?) {
+        let chrctrstc = (characteristic as! RxCBCharacteristic).characteristic
+//        let mutableCharacteristic = CBMutableCharacteristic(type: chrctrstc.UUID, properties: chrctrstc.properties, value: chrctrstc.value, permissions: chrctrstc)
+//        
+//        return peripheralManager.updateValue(value, forCharacteristic: (characteristic as! RxCBCharacteristic).characteristic, onSubscribedCentrals: centrals.map { $0 as! RxCBCentral }.map { $0.central })
+    }
 }
 
 extension RxCBPeripheralManager {
@@ -86,7 +157,7 @@ extension RxCBPeripheralManager {
         }
         
         @objc func peripheralManager(peripheral: CBPeripheralManager, didAddService service: CBService, error: NSError?) {
-            didAddServiceSubject.onNext((Service(peripheral: <#T##Peripheral#>, service: RxCBService(service: service)), error))
+        //    didAddServiceSubject.onNext((Service(peripheral: <#T##Peripheral#>, service: RxCBService(service: service)), error))
         }
         
         @objc func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
@@ -94,19 +165,19 @@ extension RxCBPeripheralManager {
             let cbCharacteristic = RxCBCharacteristic(characteristic: characteristic)
             let cbService = RxCBService(service: characteristic.service)
             let cbPeripheral = RxCBPeripheral(peripheral: characteristic.service.peripheral)
-            let peripheral = Peripheral(manager: <#T##BluetoothManager#>, peripheral: cbPeripheral)
-            
-            let service = Service(peripheral: peripheral, service: cbService)
-            let characteristic = Characteristic(characteristic: RxCBCharacteristic(characteristic: characteristic), service: service)
-            
-            didSubscribeToCharacteristicSubject.onNext((central, characteristic))
+//            let peripheral = Peripheral(manager: <#T##BluetoothManager#>, peripheral: cbPeripheral)
+//            
+//            let service = Service(peripheral: peripheral, service: cbService)
+//            let characteristic = Characteristic(characteristic: RxCBCharacteristic(characteristic: characteristic), service: service)
+//            
+//            didSubscribeToCharacteristicSubject.onNext((central, characteristic))
         }
         
         @objc func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFromCharacteristic characteristic: CBCharacteristic) {
-            didUnsubscribeFromCharacteristicSubject.onNext(
-                (Central(central: RxCBCentral(central: central)),
-                Characteristic(characteristic: RxCBCharacteristic(characteristic: characteristic), service: <#T##Service#>))
-            )
+//            didUnsubscribeFromCharacteristicSubject.onNext(
+//                (Central(central: RxCBCentral(central: central)),
+//                Characteristic(characteristic: RxCBCharacteristic(characteristic: characteristic), service: <#T##Service#>))
+//            )
         }
         
         @objc func peripheralManager(peripheral: CBPeripheralManager, didReceiveReadRequest request: CBATTRequest) {

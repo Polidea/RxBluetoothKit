@@ -17,12 +17,12 @@ class RxCBRequest: RxRequestType {
     init(request: CBATTRequest) {
         self.request = request
         self.central = Central(central: RxCBCentral(central: request.central))
-        self.characteristic = Characteristic(characteristic: RxCBCharacteristic(characteristic: request.characteristic), service: <#T##Service#>)
+//        self.characteristic = Characteristic(characteristic: RxCBCharacteristic(characteristic: request.characteristic), service: Service(peripheral: <#T##Peripheral#>, service: FakeService())
     }
     
     var central: Central
     
-    var characteristic: Characteristic
+//    var characteristic: Characteristic
     
     var offset: Int {
         return request.offset
