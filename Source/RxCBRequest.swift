@@ -17,6 +17,8 @@ class RxCBRequest: RxRequestType {
     init(request: CBATTRequest) {
         self.request = request
         self.central = Central(central: RxCBCentral(central: request.central))
+        
+//        Service(peripheral: RxCBMutablePeripheral, service: <#T##RxServiceType#>)
 //        self.characteristic = Characteristic(characteristic: RxCBCharacteristic(characteristic: request.characteristic), service: Service(peripheral: <#T##Peripheral#>, service: FakeService())
     }
     
