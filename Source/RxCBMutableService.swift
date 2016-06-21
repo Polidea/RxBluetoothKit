@@ -21,12 +21,12 @@ class RxCBMutableService: RxMutableServiceType {
         return service.UUID
     }
     
-    var characteristics: [RxCharacteristicType]? {
+    var characteristics: [RxMutableCharacteristicType]? {
         guard let chars = service.characteristics else {
             return nil
         }
         return chars.map {
-            RxCBCharacteristic(characteristic: $0)
+            RxCBMutableCharacteristic(characteristic: $0)
         }
     }
     var includedServices: [RxMutableServiceType]? {

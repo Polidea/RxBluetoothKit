@@ -46,9 +46,9 @@ public class MutableCharacteristic {
      Value of this property is an array of `Descriptor` objects. They provide more detailed information
      about characteristics value.
      */
-    public var descriptors: [Descriptor]? {
+    public var descriptors: [MutableDescriptor]? {
         return characteristic.descriptors?.map {
-            Descriptor(descriptor: $0, characteristic: self)
+            MutableDescriptor(descriptor: $0, characteristic: self)
         }
     }
     

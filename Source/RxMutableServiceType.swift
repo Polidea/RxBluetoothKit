@@ -15,7 +15,7 @@ protocol RxMutableServiceType {
     var uuid: CBUUID { get }
     
     /// Service's characteristics
-    var characteristics: [RxCharacteristicType]? { get }
+    var characteristics: [RxMutableCharacteristicType]? { get }
     
     /// Service's included services
     // this is the only thing MutableService needs to override from Service

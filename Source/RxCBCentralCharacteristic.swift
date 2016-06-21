@@ -29,12 +29,12 @@ class RxCBMutableCharacteristic: RxMutableCharacteristicType {
     var properties: CBCharacteristicProperties {
         return characteristic.properties
     }
-    var descriptors: [RxDescriptorType]? {
+    var descriptors: [RxMutableDescriptorType]? {
         guard let descriptors = characteristic.descriptors else {
             return nil
         }
         return descriptors.map {
-            RxCBDescriptor(descriptor: $0)
+            RxCBMutableDescriptor(descriptor: $0)
         }
     }
     var service: RxServiceType {

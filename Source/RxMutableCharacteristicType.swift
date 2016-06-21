@@ -24,7 +24,7 @@ protocol RxMutableCharacteristicType {
     var properties: CBCharacteristicProperties { get }
     
     /// Characteristic descriptors
-    var descriptors: [RxDescriptorType]? { get }
+    var descriptors: [RxMutableDescriptorType]? { get }
     
     /// Characteristic service
     var service: RxServiceType { get }

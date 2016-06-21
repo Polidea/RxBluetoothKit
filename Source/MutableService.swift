@@ -31,9 +31,9 @@ public class MutableService {
     }
     
     /// Service's characteristics
-    public var characteristics: [Characteristic]? {
+    public var characteristics: [MutableCharacteristic]? {
         return service.characteristics?.map {
-            Characteristic(characteristic: $0, service: self)
+            MutableCharacteristic(characteristic: $0, service: self)
             } ?? nil
     }
     
