@@ -22,10 +22,12 @@ class RxCBMutableService: RxMutableServiceType {
     }
     
     var characteristics: [RxMutableCharacteristicType]? {
-        guard let chars = service.characteristics else {
+        guard
+            let chars = service.characteristics,
+            let mutableCharacteristics = chars as? [CBMutableCharacteristic] else {
             return nil
         }
-        return chars.map {
+        return mutableCharacteristics.map {
             RxCBMutableCharacteristic(characteristic: $0)
         }
     }
