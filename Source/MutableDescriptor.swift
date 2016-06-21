@@ -9,7 +9,7 @@
 import Foundation
 import CoreBluetooth
 
-public class MutableDescriptor {
+public class MutableDescriptor: RxMutableDescriptorType {
     
     let descriptor: RxMutableDescriptorType
     

@@ -15,7 +15,7 @@ protocol RxMutableDescriptorType {
     var UUID: CBUUID { get }
     
     /// Descriptor's characteristic
-    var characteristic: RxCharacteristicType { get }
+    var characteristic: RxMutableCharacteristicType { get }
     
     /// Descriptor's value
     var value: AnyObject? { get }

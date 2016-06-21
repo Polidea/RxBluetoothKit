@@ -12,7 +12,7 @@ import CoreBluetooth
 protocol RxMutableServiceType {
     
     /// Service's UUID
-    var uuid: CBUUID { get }
+    var UUID: CBUUID { get }
     
     /// Service's characteristics
     var characteristics: [RxMutableCharacteristicType]? { get }

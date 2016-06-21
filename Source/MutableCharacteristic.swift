@@ -9,7 +9,7 @@
 import Foundation
 import CoreBluetooth
 
-public class MutableCharacteristic {
+public class MutableCharacteristic: RxMutableCharacteristicType {
     let characteristic: RxMutableCharacteristicType
     
     public let service: MutableService
@@ -25,7 +25,7 @@ public class MutableCharacteristic {
      The Bluetooth UUID of the `Characteristic` instance.
      */
     public var UUID: CBUUID {
-        return characteristic.uuid
+        return characteristic.UUID
     }
     
     /**
@@ -50,6 +50,10 @@ public class MutableCharacteristic {
         return characteristic.descriptors?.map {
             MutableDescriptor(descriptor: $0, characteristic: self)
         }
+    }
+    
+    public var permissions: CBAttributePermissions {
+        return characteristic.permissions
     }
     
     init(characteristic: RxMutableCharacteristicType, service: MutableService) {

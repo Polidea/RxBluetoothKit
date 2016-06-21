@@ -9,7 +9,8 @@
 import Foundation
 import CoreBluetooth
 
-public class MutableService {
+public class MutableService: RxMutableServiceType {
+    
     let service: RxMutableServiceType
     init(service: RxMutableServiceType) {
         self.service = service
@@ -22,7 +23,7 @@ public class MutableService {
     
     /// Service's UUID
     public var UUID: CBUUID {
-        return service.uuid
+        return service.UUID
     }
     
     /// Service's included services

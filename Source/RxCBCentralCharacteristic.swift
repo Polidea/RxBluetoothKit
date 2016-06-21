@@ -17,7 +17,7 @@ class RxCBMutableCharacteristic: RxMutableCharacteristicType {
         self.characteristic = characteristic
     }
     
-    var uuid: CBUUID {
+    var UUID: CBUUID {
         return characteristic.UUID
     }
     var value: NSData? {
@@ -39,8 +39,17 @@ class RxCBMutableCharacteristic: RxMutableCharacteristicType {
             RxCBMutableDescriptor(descriptor: $0)
         }
     }
-    var service: RxServiceType {
-        return RxCBService(service: characteristic.service)
+    var permissions: CBAttributePermissions {
+        return characteristic.permissions
     }
+    var service: RxMutableServiceType {
+        guard let mutableService = characteristic.service as? CBMutableService else {
+            assertionFailure()
+            return RxCBMutableService(service: CBMutableService(type: characteristic.service.UUID, primary: characteristic.service.isPrimary)) // maybe this should be the default
+        }
+        
+        return RxCBMutableService(service: mutableService)
+    }
+    
     
 }

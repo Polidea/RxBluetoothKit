@@ -17,7 +17,7 @@ class RxCBMutableService: RxMutableServiceType {
         self.service = service
     }
     
-    var uuid: CBUUID {
+    var UUID: CBUUID {
         return service.UUID
     }
     

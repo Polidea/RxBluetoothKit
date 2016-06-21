@@ -12,7 +12,7 @@ import CoreBluetooth
 protocol RxMutableCharacteristicType {
     
     /// Characteristic UUID
-    var uuid: CBUUID { get }
+    var UUID: CBUUID { get }
     
     /// Current characteristic value
     var value: NSData? { get }
@@ -26,8 +26,10 @@ protocol RxMutableCharacteristicType {
     /// Characteristic descriptors
     var descriptors: [RxMutableDescriptorType]? { get }
     
+    var permissions: CBAttributePermissions { get }
+    
     /// Characteristic service
-    var service: RxServiceType { get }
+    var service: RxMutableServiceType { get }
     
 }
 
@@ -39,7 +41,7 @@ protocol RxMutableCharacteristicType {
  - returns: True if characteristics are the same
  */
 func == (lhs: RxMutableCharacteristicType, rhs: RxMutableCharacteristicType) -> Bool {
-    return lhs.uuid == rhs.uuid
+    return lhs.UUID == rhs.UUID
 }
 
 /**
