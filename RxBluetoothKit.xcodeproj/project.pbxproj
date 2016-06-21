@@ -101,6 +101,9 @@
 		46C97AD11D18A26000C3BD97 /* MutableService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97AD01D18A26000C3BD97 /* MutableService.swift */; };
 		46C97AD31D18A26900C3BD97 /* RxMutableServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97AD21D18A26900C3BD97 /* RxMutableServiceType.swift */; };
 		46C97AD51D18A27000C3BD97 /* RxCBMutableService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97AD41D18A27000C3BD97 /* RxCBMutableService.swift */; };
+		46C97ADB1D18BE4600C3BD97 /* MutableCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97ADA1D18BE4600C3BD97 /* MutableCharacteristic.swift */; };
+		46C97ADD1D18BE4E00C3BD97 /* RxMutableCharacteristicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97ADC1D18BE4E00C3BD97 /* RxMutableCharacteristicType.swift */; };
+		46C97ADF1D18BE5B00C3BD97 /* RxCBCentralCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97ADE1D18BE5B00C3BD97 /* RxCBCentralCharacteristic.swift */; };
 		A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F298B1CDCD6E400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
 		A10F29A11CDCD74B00593284 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29921CDCD72200593284 /* Nimble.framework */; };
@@ -193,6 +196,9 @@
 		46C97AD01D18A26000C3BD97 /* MutableService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableService.swift; sourceTree = "<group>"; };
 		46C97AD21D18A26900C3BD97 /* RxMutableServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMutableServiceType.swift; sourceTree = "<group>"; };
 		46C97AD41D18A27000C3BD97 /* RxCBMutableService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBMutableService.swift; sourceTree = "<group>"; };
+		46C97ADA1D18BE4600C3BD97 /* MutableCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableCharacteristic.swift; sourceTree = "<group>"; };
+		46C97ADC1D18BE4E00C3BD97 /* RxMutableCharacteristicType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMutableCharacteristicType.swift; sourceTree = "<group>"; };
+		46C97ADE1D18BE5B00C3BD97 /* RxCBCentralCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBCentralCharacteristic.swift; sourceTree = "<group>"; };
 		A10F29901CDCD72200593284 /* RxTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTests.framework; path = Carthage/Build/Mac/RxTests.framework; sourceTree = SOURCE_ROOT; };
 		A10F29911CDCD72200593284 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = SOURCE_ROOT; };
 		A10F29921CDCD72200593284 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = SOURCE_ROOT; };
@@ -467,6 +473,16 @@
 			name = MutableService;
 			sourceTree = "<group>";
 		};
+		46C97AD91D18BE1B00C3BD97 /* MutableCharacteristic */ = {
+			isa = PBXGroup;
+			children = (
+				46C97ADA1D18BE4600C3BD97 /* MutableCharacteristic.swift */,
+				46C97ADC1D18BE4E00C3BD97 /* RxMutableCharacteristicType.swift */,
+				46C97ADE1D18BE5B00C3BD97 /* RxCBCentralCharacteristic.swift */,
+			);
+			name = MutableCharacteristic;
+			sourceTree = "<group>";
+		};
 		A10F298C1CDCD6EB00593284 /* OSX */ = {
 			isa = PBXGroup;
 			children = (
@@ -519,6 +535,7 @@
 				265CD5FC1CBED339007120AB /* Service */,
 				46C97ACF1D18A25200C3BD97 /* MutableService */,
 				265CD5FB1CBED333007120AB /* Characteristic */,
+				46C97AD91D18BE1B00C3BD97 /* MutableCharacteristic */,
 				265CD5FA1CBED323007120AB /* Shared */,
 				46AE7ED81D108D5C0004DB02 /* BluetoothPeripheralManager */,
 				265CD5F91CBED2E4007120AB /* BluetoothManager */,
@@ -732,6 +749,7 @@
 				46AE7EEA1D1095020004DB02 /* Central.swift in Sources */,
 				46AE7EDA1D108D9E0004DB02 /* BluetoothPeripheralManager.swift in Sources */,
 				2666FE371CCE4732005E81CE /* DeviceIdentifiers.swift in Sources */,
+				46C97ADF1D18BE5B00C3BD97 /* RxCBCentralCharacteristic.swift in Sources */,
 				2666FE471CCE4732005E81CE /* RxCentralManagerType.swift in Sources */,
 				2666FE301CCE4732005E81CE /* RxDescriptorType.swift in Sources */,
 				2666FE461CCE4732005E81CE /* ScanOperation.swift in Sources */,
@@ -740,9 +758,11 @@
 				46C97AD11D18A26000C3BD97 /* MutableService.swift in Sources */,
 				2666FE351CCE4732005E81CE /* Peripheral.swift in Sources */,
 				2666FE331CCE4732005E81CE /* RxPeripheralType.swift in Sources */,
+				46C97ADB1D18BE4600C3BD97 /* MutableCharacteristic.swift in Sources */,
 				2666FE441CCE4732005E81CE /* Boxes.swift in Sources */,
 				2666FE311CCE4732005E81CE /* RxCBDescriptor.swift in Sources */,
 				2666FE361CCE4732005E81CE /* RxCBPeripheral.swift in Sources */,
+				46C97ADD1D18BE4E00C3BD97 /* RxMutableCharacteristicType.swift in Sources */,
 				2666FE381CCE4732005E81CE /* Peripheral+Convenience.swift in Sources */,
 				2666FE391CCE4732005E81CE /* RxServiceType.swift in Sources */,
 				46AE7EF11D10976C0004DB02 /* Request.swift in Sources */,
