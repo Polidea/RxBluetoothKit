@@ -104,6 +104,9 @@
 		46C97ADB1D18BE4600C3BD97 /* MutableCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97ADA1D18BE4600C3BD97 /* MutableCharacteristic.swift */; };
 		46C97ADD1D18BE4E00C3BD97 /* RxMutableCharacteristicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97ADC1D18BE4E00C3BD97 /* RxMutableCharacteristicType.swift */; };
 		46C97ADF1D18BE5B00C3BD97 /* RxCBCentralCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97ADE1D18BE5B00C3BD97 /* RxCBCentralCharacteristic.swift */; };
+		46C97AE21D18C0D500C3BD97 /* RxMutableDescriptorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97AE11D18C0D500C3BD97 /* RxMutableDescriptorType.swift */; };
+		46C97AE41D18C0DC00C3BD97 /* RxCBMutableDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97AE31D18C0DC00C3BD97 /* RxCBMutableDescriptor.swift */; };
+		46C97AE61D18C0E100C3BD97 /* MutableDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C97AE51D18C0E100C3BD97 /* MutableDescriptor.swift */; };
 		A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F298B1CDCD6E400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
 		A10F29A11CDCD74B00593284 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29921CDCD72200593284 /* Nimble.framework */; };
@@ -199,6 +202,9 @@
 		46C97ADA1D18BE4600C3BD97 /* MutableCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableCharacteristic.swift; sourceTree = "<group>"; };
 		46C97ADC1D18BE4E00C3BD97 /* RxMutableCharacteristicType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMutableCharacteristicType.swift; sourceTree = "<group>"; };
 		46C97ADE1D18BE5B00C3BD97 /* RxCBCentralCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBCentralCharacteristic.swift; sourceTree = "<group>"; };
+		46C97AE11D18C0D500C3BD97 /* RxMutableDescriptorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMutableDescriptorType.swift; sourceTree = "<group>"; };
+		46C97AE31D18C0DC00C3BD97 /* RxCBMutableDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBMutableDescriptor.swift; sourceTree = "<group>"; };
+		46C97AE51D18C0E100C3BD97 /* MutableDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableDescriptor.swift; sourceTree = "<group>"; };
 		A10F29901CDCD72200593284 /* RxTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTests.framework; path = Carthage/Build/Mac/RxTests.framework; sourceTree = SOURCE_ROOT; };
 		A10F29911CDCD72200593284 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = SOURCE_ROOT; };
 		A10F29921CDCD72200593284 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = SOURCE_ROOT; };
@@ -483,6 +489,16 @@
 			name = MutableCharacteristic;
 			sourceTree = "<group>";
 		};
+		46C97AE01D18C0BF00C3BD97 /* MutableDescriptor */ = {
+			isa = PBXGroup;
+			children = (
+				46C97AE11D18C0D500C3BD97 /* RxMutableDescriptorType.swift */,
+				46C97AE31D18C0DC00C3BD97 /* RxCBMutableDescriptor.swift */,
+				46C97AE51D18C0E100C3BD97 /* MutableDescriptor.swift */,
+			);
+			name = MutableDescriptor;
+			sourceTree = "<group>";
+		};
 		A10F298C1CDCD6EB00593284 /* OSX */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +544,7 @@
 		A1299BD71CBE3D61005DEA5B /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				46C97AE01D18C0BF00C3BD97 /* MutableDescriptor */,
 				265CD5FE1CBED348007120AB /* Descriptor */,
 				265CD5FD1CBED33D007120AB /* Peripheral */,
 				46AE7EDF1D10933C0004DB02 /* Central */,
@@ -737,6 +754,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46AE7EEF1D1097670004DB02 /* RxCBRequest.swift in Sources */,
+				46C97AE21D18C0D500C3BD97 /* RxMutableDescriptorType.swift in Sources */,
 				2666FE3F1CCE4732005E81CE /* Observable+QueueSubscribeOn.swift in Sources */,
 				2666FE431CCE4732005E81CE /* CollectionUtils.swift in Sources */,
 				46AE7EDE1D108E320004DB02 /* RxCBPeripheralManager.swift in Sources */,
@@ -756,6 +774,7 @@
 				2666FE3D1CCE4732005E81CE /* RxCBCharacteristic.swift in Sources */,
 				2666FE3C1CCE4732005E81CE /* RxCharacteristicType.swift in Sources */,
 				46C97AD11D18A26000C3BD97 /* MutableService.swift in Sources */,
+				46C97AE61D18C0E100C3BD97 /* MutableDescriptor.swift in Sources */,
 				2666FE351CCE4732005E81CE /* Peripheral.swift in Sources */,
 				2666FE331CCE4732005E81CE /* RxPeripheralType.swift in Sources */,
 				46C97ADB1D18BE4600C3BD97 /* MutableCharacteristic.swift in Sources */,
@@ -768,6 +787,7 @@
 				46AE7EF11D10976C0004DB02 /* Request.swift in Sources */,
 				2666FE3A1CCE4732005E81CE /* Service.swift in Sources */,
 				2666FE411CCE4732005E81CE /* Observable+From.swift in Sources */,
+				46C97AE41D18C0DC00C3BD97 /* RxCBMutableDescriptor.swift in Sources */,
 				2666FE451CCE4732005E81CE /* BluetoothError.swift in Sources */,
 				2666FE3E1CCE4732005E81CE /* Characteristic.swift in Sources */,
 				46AE7EDC1D108E280004DB02 /* RxPeripheralManagerType.swift in Sources */,
