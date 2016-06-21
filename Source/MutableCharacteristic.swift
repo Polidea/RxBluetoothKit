@@ -15,17 +15,17 @@ public class MutableCharacteristic: RxMutableCharacteristicType {
     public let service: MutableService
     
     /**
-     Current value of characteristic. If value is not present - it's `nil`.
-     */
-    public var value: NSData? {
-        return characteristic.value
-    }
-    
-    /**
      The Bluetooth UUID of the `Characteristic` instance.
      */
     public var UUID: CBUUID {
         return characteristic.UUID
+    }
+    
+    /**
+     Current value of characteristic. If value is not present - it's `nil`.
+     */
+    public var value: NSData? {
+        return characteristic.value
     }
     
     /**

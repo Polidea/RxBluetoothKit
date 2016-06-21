@@ -11,6 +11,9 @@ import CoreBluetooth
 
 protocol RxMutableCharacteristicType {
     
+    /// Characteristic service
+    var service: RxMutableServiceType { get }
+    
     /// Characteristic UUID
     var UUID: CBUUID { get }
     
@@ -27,9 +30,6 @@ protocol RxMutableCharacteristicType {
     var descriptors: [RxMutableDescriptorType]? { get }
     
     var permissions: CBAttributePermissions { get }
-    
-    /// Characteristic service
-    var service: RxMutableServiceType { get }
     
 }
 

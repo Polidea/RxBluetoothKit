@@ -7,8 +7,13 @@
 //
 
 import Foundation
+import CoreBluetooth
 
 protocol RxCentralType {
+    
+    var central: CBCentral { get }
+    
+    var maximumUpdateValueLength: Int { get }
     
     var identifier: NSUUID { get }
     

@@ -19,5 +19,5 @@ public class Central {
     init(central: RxCentralType) {
         self.central = central
     }
-    
+        
 }

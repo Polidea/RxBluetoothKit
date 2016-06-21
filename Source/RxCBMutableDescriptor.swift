@@ -20,8 +20,13 @@ class RxCBMutableDescriptor: RxMutableDescriptorType {
     var UUID: CBUUID {
         return descriptor.UUID
     }
-    var characteristic: RxCharacteristicType {
-        return RxCBCharacteristic(characteristic: descriptor.characteristic)
+    var characteristic: RxMutableCharacteristicType {
+        guard let mutableCharacteristic = descriptor.characteristic as? CBMutableCharacteristic else {
+            assertionFailure()
+            return RxCBMutableCharacteristic(characteristic: descriptor.characteristic as! CBMutableCharacteristic)
+        }
+        
+        return RxCBMutableCharacteristic(characteristic: mutableCharacteristic)
     }
     var value: AnyObject? {
         return descriptor.value

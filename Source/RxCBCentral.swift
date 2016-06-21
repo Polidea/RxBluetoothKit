@@ -13,11 +13,15 @@ class RxCBCentral: RxCentralType {
     
     let central: CBCentral
     
+    init(central: CBCentral) {
+        self.central = central
+    }
+    
     var identifier: NSUUID {
         return central.identifier
     }
     
-    init(central: CBCentral) {
-        self.central = central
+    var maximumUpdateValueLength: Int {
+        return central.maximumUpdateValueLength
     }
 }

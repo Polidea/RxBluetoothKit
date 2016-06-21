@@ -34,15 +34,15 @@ extension RxCBPeripheralManager {
         return internalDelegate.didStartAdvertisingSubject
     }
     
-    var rx_didAddService: Observable<(Service, NSError?)> {
+    var rx_didAddService: Observable<(MutableService, NSError?)> {
         return internalDelegate.didAddServiceSubject
     }
     
-    var rx_didSubscribeToCharacteristic: Observable<(Central, Characteristic)> {
+    var rx_didSubscribeToCharacteristic: Observable<(Central, MutableCharacteristic)> {
         return internalDelegate.didSubscribeToCharacteristicSubject
     }
     
-    var rx_didUnsubscrubeFromCharacteristic: Observable<(Central, Characteristic)> {
+    var rx_didUnsubscrubeFromCharacteristic: Observable<(Central, MutableCharacteristic)> {
         return internalDelegate.didUnsubscribeFromCharacteristicSubject
     }
     
@@ -123,11 +123,10 @@ extension RxCBPeripheralManager {
         return peripheralManager.respondToRequest((request as! RxCBRequest).request, withResult: result)
     }
     
-    func updateValue(value: NSData, forCharacteristic characteristic: RxCharacteristicType, onSubscribedCentrals centrals: [RxCentralType]?) {
-        let chrctrstc = (characteristic as! RxCBCharacteristic).characteristic
-//        let mutableCharacteristic = CBMutableCharacteristic(type: chrctrstc.UUID, properties: chrctrstc.properties, value: chrctrstc.value, permissions: chrctrstc)
-//        
-//        return peripheralManager.updateValue(value, forCharacteristic: (characteristic as! RxCBCharacteristic).characteristic, onSubscribedCentrals: centrals.map { $0 as! RxCBCentral }.map { $0.central })
+    func updateValue(value: NSData, forCharacteristic characteristic: RxMutableCharacteristicType, onSubscribedCentrals centrals: [RxCentralType]?) -> Bool {
+        return peripheralManager.updateValue(value,
+                                             forCharacteristic: CBMutableCharacteristic(type: characteristic.UUID, properties: characteristic.properties, value: characteristic.value, permissions: characteristic.permissions),
+                                             onSubscribedCentrals: centrals?.map { $0.central })
     }
 }
 
@@ -137,9 +136,9 @@ extension RxCBPeripheralManager {
         let didUpdateStateSubject = PublishSubject<CBPeripheralManagerState>()
         let willRestoreStateSubject = PublishSubject<[String: AnyObject]>()
         let didStartAdvertisingSubject = PublishSubject<NSError?>()
-        let didAddServiceSubject = PublishSubject<(Service, NSError?)>()
-        let didSubscribeToCharacteristicSubject = PublishSubject<(Central, Characteristic)>()
-        let didUnsubscribeFromCharacteristicSubject = PublishSubject<(Central, Characteristic)>()
+        let didAddServiceSubject = PublishSubject<(MutableService, NSError?)>()
+        let didSubscribeToCharacteristicSubject = PublishSubject<(Central, MutableCharacteristic)>()
+        let didUnsubscribeFromCharacteristicSubject = PublishSubject<(Central, MutableCharacteristic)>()
         let didRecieveReadRequestSubject = PublishSubject<Request>()
         let didRecieveWriteRequestsSubject = PublishSubject<[Request]>()
         let readyToUpdateSubscribersSubject = PublishSubject<Void>()
@@ -157,7 +156,10 @@ extension RxCBPeripheralManager {
         }
         
         @objc func peripheralManager(peripheral: CBPeripheralManager, didAddService service: CBService, error: NSError?) {
-        //    didAddServiceSubject.onNext((Service(peripheral: <#T##Peripheral#>, service: RxCBService(service: service)), error))
+            guard let mutableService = service as? CBMutableService
+                else { assertionFailure(); return }
+            
+            didAddServiceSubject.onNext((MutableService(service: mutableService), error))
         }
         
         @objc func peripheralManager(peripheral: CBPeripheralManager, central: CBCentral, didSubscribeToCharacteristic characteristic: CBCharacteristic) {
