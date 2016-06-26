@@ -134,7 +134,7 @@ public class Peripheral {
 					let mapped = discoveredServices.map { Service(peripheral: self, service: $0) }
 					guard let identifiers = serviceUUIDs else { return Observable.just(mapped) }
 					let uuids = discoveredServices.map { $0.uuid }
-					if Set(uuids) == Set(identifiers) {
+					if Set(identifiers).isSubsetOf(Set(uuids)) {
 						return Observable.just(mapped)
 					}
 					return Observable.empty()
