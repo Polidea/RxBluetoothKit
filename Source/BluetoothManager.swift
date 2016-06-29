@@ -390,7 +390,7 @@ public class BluetoothManager {
 	 - Parameter peripheral: `Peripheral` which is monitored for disconnection.
 	 - Returns: Observable which emits next events when `peripheral` was disconnected.
 	 */
-	func monitorPeripheralDisconnection(peripheral: Peripheral) -> Observable<Peripheral> {
+	public func monitorPeripheralDisconnection(peripheral: Peripheral) -> Observable<Peripheral> {
 		return centralManager
 			.rx_didDisconnectPeripheral
 			.filter { $0.0 == peripheral.peripheral }
@@ -403,7 +403,7 @@ public class BluetoothManager {
      Emits `RestoredState` instance, when state of `BluetoothManager` has been restored
      - Returns: Observable which emits next events state has been restored
      */
-    func listenOnRestoredState() -> Observable<RestoredState> {
+    public func listenOnRestoredState() -> Observable<RestoredState> {
         return centralManager
             .rx_willRestoreState
             .take(1)

@@ -1,4 +1,7 @@
 
+# 1.2.1 
+- `listenOnRestoredState` method made public
+
 # 1.2.0
 - Added support for Core Bluetooth state restoration
 
