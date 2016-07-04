@@ -512,6 +512,14 @@ public class Peripheral {
 		return peripheral.rx_didUpdateName.map { return (self, $0) }
 	}
 
+    /**
+     Emits next when it's disconnected.
+     - Returns: Observable which emits next events when `peripheral` was disconnected.
+     */
+    public func monitorDisconnection(peripheral: Peripheral) -> Observable<Peripheral> {
+        return peripheral.manager.monitorPeripheralDisconnection(self)
+    }
+
 	/**
 	 Function that allow to monitor incoming service modifications for `Peripheral` instance. In case you're interested what exact changes might occur - please refer to
 	 [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
