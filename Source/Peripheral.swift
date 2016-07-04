@@ -134,7 +134,7 @@ public class Peripheral {
 					let mapped = discoveredServices.map { Service(peripheral: self, service: $0) }
 					guard let identifiers = serviceUUIDs else { return Observable.just(mapped) }
 					let uuids = discoveredServices.map { $0.uuid }
-					if Set(uuids).isSubsetOf(Set(identifiers)) {
+					if Set(uuids) == Set(identifiers) {
 						return Observable.just(mapped)
 					}
 					return Observable.empty()
@@ -171,14 +171,10 @@ public class Peripheral {
 						return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
 					}
 					let mapped = includedServices.map { Service(peripheral: self, service: $0) }
-					guard let includedServiceUUIDs = includedServiceUUIDs else { return Observable.just(mapped) }
-                    let uuids = includedServices.map { $0.uuid }
-                    if Set(uuids).isSubsetOf(Set(includedServiceUUIDs)) {
-                        return Observable.just(mapped)
-                    }
-                    return Observable.empty()
+					guard includedServiceUUIDs != nil else { return Observable.just(mapped) }
+					return Observable
+						.just(mapped.filter { self.shouldBeIdentifierIncluded($0.UUID, forIdentifiers: includedServiceUUIDs) }) }
 				.take(1)
-                }
 
 			return Observable.create { observer in
 				let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
@@ -208,12 +204,9 @@ public class Peripheral {
 					return Observable.error(BluetoothError.CharacteristicsDiscoveryFailed(service, error))
 				}
 				let mapped = characteristics.map { Characteristic(characteristic: $0, service: service) }
-				guard let identifiers = identifiers else { return Observable.just(mapped) }
-                let uuids = characteristics.map { $0.uuid }
-                if Set(uuids).isSubsetOf(Set(identifiers)) {
-                    return Observable.just(mapped)
-                }
-                return Observable.empty()
+				guard identifiers != nil else { return Observable.just(mapped) }
+				return Observable.just(mapped
+						.filter { self.shouldBeIdentifierIncluded($0.UUID, forIdentifiers: identifiers) })
             }
 			.take(1)
 
