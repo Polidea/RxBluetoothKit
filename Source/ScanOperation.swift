@@ -24,9 +24,13 @@ import Foundation
 import CoreBluetooth
 import RxSwift
 
-struct ScanOperation {
+class ScanOperation {
     let UUIDs: [CBUUID]?
     let observable: Observable<ScannedPeripheral>
+    init(UUIDs: [CBUUID]?, observable: Observable<ScannedPeripheral>) {
+        self.UUIDs = UUIDs
+        self.observable = observable
+    }
 }
 
 extension ScanOperation {

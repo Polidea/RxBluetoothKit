@@ -23,18 +23,18 @@
 import Foundation
 
 
-class MutableBox<T> : CustomDebugStringConvertible {
-    var value: T?
+class WeakBox<T: AnyObject> : CustomDebugStringConvertible {
+    weak var value: T?
     init() {}
     init(value: T) {
         self.value = value
     }
 }
 
-extension MutableBox {
+extension WeakBox {
     var debugDescription: String {
         get {
-            return "MutatingBox(\(self.value))"
+            return "WeakBox(\(self.value))"
         }
     }
 }

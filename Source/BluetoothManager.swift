@@ -59,7 +59,7 @@ public class BluetoothManager {
 
 	/// Queue of scan operations which are waiting for an execution
 	private var scanQueue: [ScanOperation] = []
-	private let disposeBag = DisposeBag()
+
 
 	// MARK: Initialization
 
@@ -147,7 +147,7 @@ public class BluetoothManager {
 						}
 					}
 
-					let scanOperationBox = MutableBox<ScanOperation>()
+					let scanOperationBox = WeakBox<ScanOperation>()
 
 					// Create new scan which will be processed in a queue
 					let operation = Observable.create { (element: AnyObserver<ScannedPeripheral>) -> Disposable in
