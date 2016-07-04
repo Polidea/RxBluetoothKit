@@ -127,7 +127,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     func delayedSubscribe(scheduler: ImmediateSchedulerType) {
         let cancelDisposable = SingleAssignmentDisposable()
         serialDisposable.disposable = cancelDisposable
-        cancelDisposable.disposable = scheduler.schedule(()) { [unowned self] in
+        cancelDisposable.disposable = scheduler.schedule(()) {
             self.serialDisposable.disposable = self.source.subscribe(self)
             return NopDisposable.instance
         }
