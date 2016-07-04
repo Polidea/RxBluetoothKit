@@ -128,7 +128,7 @@ public class Peripheral {
 	 */
 	public func discoverServices(serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
         if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.UUID) })
-            where identifiers.count == services.count {
+                                           where identifiers.count == services.count {
             return ensureValidPeripheralState(Observable.just(services))
         } else {
             let observable = peripheral.rx_didDiscoverServices
@@ -167,10 +167,9 @@ public class Peripheral {
 	 - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
 	 Immediately after that `.Complete` is emitted.
 	 */
-	public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?,
-		forService service: Service) -> Observable<[Service]> {
+	public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?, forService service: Service) -> Observable<[Service]> {
         if let identifiers = includedServiceUUIDs, let services = service.includedServices?.filter({ identifiers.contains($0.UUID) })
-            where identifiers.count == services.count {
+                                                   where identifiers.count == services.count {
             return ensureValidPeripheralState(Observable.just(services))
         } else {
 			let observable = peripheral
@@ -209,7 +208,7 @@ public class Peripheral {
 	 */
 	public func discoverCharacteristics(identifiers: [CBUUID]?, service: Service) -> Observable<[Characteristic]> {
         if let identifiers = identifiers, let characteristics = service.characteristics?.filter({ identifiers.contains($0.UUID) })
-            where identifiers.count == characteristics.count {
+                                          where identifiers.count == characteristics.count {
             return ensureValidPeripheralState(Observable.just(characteristics))
         } else {
             let observable = peripheral

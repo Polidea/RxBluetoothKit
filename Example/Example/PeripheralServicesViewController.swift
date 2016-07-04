@@ -42,11 +42,12 @@ class PeripheralServicesViewController: UIViewController {
         title = "Connecting"
         manager.connectToPeripheral(scannedPeripheral.peripheral)
             .subscribe(onNext: { [weak self] in
-                self?.title = "Connected"
-                self?.activityIndicatorView.stopAnimating()
-                self?.connectedPeripheral = $0
-                self?.monitorDisconnectionOfPeripheral($0)
-                self?.downloadServicesOfPeripheral($0)
+                guard let strongSelf = self else { return }
+                strongSelf.title = "Connected"
+                strongSelf.activityIndicatorView.stopAnimating()
+                strongSelf.connectedPeripheral = $0
+                strongSelf.monitorDisconnectionOfPeripheral($0)
+                strongSelf.downloadServicesOfPeripheral($0)
                 }, onError: { [weak self] error in
                     self?.activityIndicatorView.stopAnimating()
             }).addDisposableTo(disposeBag)
