@@ -399,6 +399,7 @@ public class BluetoothManager {
 		}
 	}
 
+    #if os(iOS)
     /**
      Emits `RestoredState` instance, when state of `BluetoothManager` has been restored
      - Returns: Observable which emits next events state has been restored
@@ -409,4 +410,5 @@ public class BluetoothManager {
             .take(1)
             .map { RestoredState(restoredStateDictionary: $0, bluetoothManager: self) }
     }
+    #endif
 }
