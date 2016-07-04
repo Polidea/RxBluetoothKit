@@ -79,6 +79,7 @@ class PeripheralServicesSpec: QuickSpec {
                     context("on success result") {
                         beforeEach {
                             fakePeripheral.rx_didDiscoverServices = Observable.just(([fakeService], nil))
+                            fakePeripheral.services = [fakeService]
                             testScheduler.advanceTo(250)
                         }
                         
