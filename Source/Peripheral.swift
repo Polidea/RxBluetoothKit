@@ -120,7 +120,9 @@ public class Peripheral {
 	}
 
 	/**
-	 Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
+	 Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the
+	 peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
+	If all of the specified services are already discovered - these are returned without doing any underlying Bluetooth operations.
 
 	 - Parameter serviceUUIDs: An array of [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) object represents a UUID that identifies the type of service you want to discover.
 	 - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
@@ -159,6 +161,7 @@ public class Peripheral {
 	/**
 	 Function that triggers included services discovery for specified services. Discovery is called after
 	 subscribtion to `Observable` is made.
+	If all of the specified included services are already discovered - these are returned without doing any underlying Bluetooth operations.
 	 - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
 	 included services will be discovered. If you'll pass empty array - none of them will be discovered.
 	 - Parameter forService: Service of which included services should be discovered.
@@ -198,6 +201,7 @@ public class Peripheral {
 	/**
 	 Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
 	 subscribtion to `Observable` is made.
+	If all of the specified characteristics are already discovered - these are returned without doing any underlying Bluetooth operations.
 	 - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the
 	 characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
 	 - Parameter service: Service of which characteristics should be discovered.
