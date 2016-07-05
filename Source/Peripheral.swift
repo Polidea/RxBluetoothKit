@@ -126,34 +126,34 @@ public class Peripheral {
 	 - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
 	 Immediately after that `.Complete` is emitted.
 	 */
-    public func discoverServices(serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
-        if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.UUID) })
-           where identifiers.count == services.count {
-            return ensureValidPeripheralState(Observable.just(services))
-        }
-        let observable = peripheral.rx_didDiscoverServices
-        .flatMap { (_, error) -> Observable<[Service]> in
-            if let cachedServices = self.services where error == nil {
-                guard let identifiers = serviceUUIDs else { return Observable.just(cachedServices) }
-                let uuids = cachedServices.map { $0.service.uuid }
-                if Set(identifiers).isSubsetOf(Set(uuids)) {
-                    let filteredServices = cachedServices
-                        .filter { identifiers.contains($0.UUID)}
-                    return Observable.just(filteredServices)
-                }
-                return Observable.empty()
-            }
-            return Observable.error(BluetoothError.ServicesDiscoveryFailed(self, error))
-        }
-        .take(1)
+	public func discoverServices(serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
+		if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.UUID) })
+		   where identifiers.count == services.count {
+			return ensureValidPeripheralState(Observable.just(services))
+		}
+		let observable = peripheral.rx_didDiscoverServices
+		.flatMap { (_, error) -> Observable<[Service]> in
+			if let cachedServices = self.services where error == nil {
+				guard let identifiers = serviceUUIDs else { return Observable.just(cachedServices) }
+				let uuids = cachedServices.map { $0.service.uuid }
+				if Set(identifiers).isSubsetOf(Set(uuids)) {
+					let filteredServices = cachedServices
+						.filter { identifiers.contains($0.UUID)}
+					return Observable.just(filteredServices)
+				}
+				return Observable.empty()
+			}
+			return Observable.error(BluetoothError.ServicesDiscoveryFailed(self, error))
+		}
+		.take(1)
 
-        return Observable.create { observer in
-            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
-            self.peripheral.discoverServices(serviceUUIDs)
-            return AnonymousDisposable {
-                disposable.dispose()
-            }
-        }
+		return Observable.create { observer in
+			let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
+			self.peripheral.discoverServices(serviceUUIDs)
+			return AnonymousDisposable {
+				disposable.dispose()
+			}
+		}
 	}
 
 	/**
@@ -166,33 +166,33 @@ public class Peripheral {
 	 Immediately after that `.Complete` is emitted.
 	 */
 	public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?, forService service: Service) -> Observable<[Service]> {
-        if let identifiers = includedServiceUUIDs, let services = service.includedServices?.filter({ identifiers.contains($0.UUID) })
-           where identifiers.count == services.count {
-            return ensureValidPeripheralState(Observable.just(services))
-        }
-        let observable = peripheral
-            .rx_didDiscoverIncludedServicesForService
-            .filter { $0.0 == service.service }
-            .flatMap { (service, error) -> Observable<[Service]> in
-                guard let includedRxServices = service.includedServices where error == nil else {
-                    return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
-                }
-                let includedServices = includedRxServices.map { Service(peripheral: self, service: $0) }
-                guard let includedServiceUUIDs = includedServiceUUIDs else { return Observable.just(includedServices) }
-                let filteredServices = includedServices.filter { includedServiceUUIDs.contains($0.UUID) }
-                if filteredServices.count == includedServiceUUIDs.count { return Observable.just(filteredServices) }
-                return Observable.empty()
-            }
-            .take(1)
+		if let identifiers = includedServiceUUIDs, let services = service.includedServices?.filter({ identifiers.contains($0.UUID) })
+		   where identifiers.count == services.count {
+			return ensureValidPeripheralState(Observable.just(services))
+		}
+		let observable = peripheral
+			.rx_didDiscoverIncludedServicesForService
+			.filter { $0.0 == service.service }
+			.flatMap { (service, error) -> Observable<[Service]> in
+				guard let includedRxServices = service.includedServices where error == nil else {
+					return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
+				}
+				let includedServices = includedRxServices.map { Service(peripheral: self, service: $0) }
+				guard let includedServiceUUIDs = includedServiceUUIDs else { return Observable.just(includedServices) }
+				let filteredServices = includedServices.filter { includedServiceUUIDs.contains($0.UUID) }
+				if filteredServices.count == includedServiceUUIDs.count { return Observable.just(filteredServices) }
+				return Observable.empty()
+			}
+			.take(1)
 
-        return Observable.create { observer in
-            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
-            self.peripheral.discoverIncludedServices(includedServiceUUIDs, forService: service.service)
-            return AnonymousDisposable {
-                disposable.dispose()
-            }
-        }
-    }
+		return Observable.create { observer in
+			let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
+			self.peripheral.discoverIncludedServices(includedServiceUUIDs, forService: service.service)
+			return AnonymousDisposable {
+				disposable.dispose()
+			}
+		}
+	}
 
 	// MARK: Characteristics
 	/**
@@ -204,32 +204,32 @@ public class Peripheral {
 	 Immediately after that `.Complete` is emitted.
 	 */
 	public func discoverCharacteristics(identifiers: [CBUUID]?, service: Service) -> Observable<[Characteristic]> {
-        if let identifiers = identifiers, let characteristics = service.characteristics?.filter({ identifiers.contains($0.UUID) })
-           where identifiers.count == characteristics.count {
-            return ensureValidPeripheralState(Observable.just(characteristics))
-        }
-        let observable = peripheral
-            .rx_didDiscoverCharacteristicsForService
-            .filter { $0.0 == service.service }
-            .flatMap { (cbService, error) -> Observable<[Characteristic]> in
-                guard let rxCharacteristics = cbService.characteristics where error == nil else {
-                    return Observable.error(BluetoothError.CharacteristicsDiscoveryFailed(service, error))
-                }
-                let characteristics = rxCharacteristics.map { Characteristic(characteristic: $0, service: service) }
-                guard let characteristicIdentifiers = identifiers else { return Observable.just(characteristics) }
-                let filteredCharacteristics = characteristics.filter { characteristicIdentifiers.contains($0.UUID) }
-                if filteredCharacteristics.count == characteristicIdentifiers.count { return Observable.just(filteredCharacteristics) }
-                return Observable.empty()
-            }
-            .take(1)
+		if let identifiers = identifiers, let characteristics = service.characteristics?.filter({ identifiers.contains($0.UUID) })
+		   where identifiers.count == characteristics.count {
+			return ensureValidPeripheralState(Observable.just(characteristics))
+		}
+		let observable = peripheral
+			.rx_didDiscoverCharacteristicsForService
+			.filter { $0.0 == service.service }
+			.flatMap { (cbService, error) -> Observable<[Characteristic]> in
+				guard let rxCharacteristics = cbService.characteristics where error == nil else {
+					return Observable.error(BluetoothError.CharacteristicsDiscoveryFailed(service, error))
+				}
+				let characteristics = rxCharacteristics.map { Characteristic(characteristic: $0, service: service) }
+				guard let characteristicIdentifiers = identifiers else { return Observable.just(characteristics) }
+				let filteredCharacteristics = characteristics.filter { characteristicIdentifiers.contains($0.UUID) }
+				if filteredCharacteristics.count == characteristicIdentifiers.count { return Observable.just(filteredCharacteristics) }
+				return Observable.empty()
+			}
+			.take(1)
 
-        return Observable.create { observer in
-            let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
-            self.peripheral.discoverCharacteristics(identifiers, forService: service.service)
-            return AnonymousDisposable {
-                disposable.dispose()
-            }
-        }
+		return Observable.create { observer in
+			let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
+			self.peripheral.discoverCharacteristics(identifiers, forService: service.service)
+			return AnonymousDisposable {
+				disposable.dispose()
+			}
+		}
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class Peripheral {
 					return Observable.error(BluetoothError.CharacteristicWriteFailed(characteristic, error))
 				}
 				return Observable.just(characteristic)
-            }
+			}
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class Peripheral {
 					return Observable.error(BluetoothError.CharacteristicReadFailed(characteristic, error))
 				}
 				return Observable.just(characteristic)
-            }
+			}
 		return self.ensureValidPeripheralState(observable)
 	}
 
@@ -342,7 +342,7 @@ public class Peripheral {
 						return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
 					}
 					return Observable.just(characteristic)
-                }
+				}
 			return Observable.create { observer in
 				let disposable = self.ensureValidPeripheralState(observable).take(1).subscribe(observer)
 				self.peripheral.setNotifyValue(enabled, forCharacteristic: characteristic.characteristic)
