@@ -1,4 +1,7 @@
-
+# 1.2.2
+- Fixed memory leak, that was visible while calling scan
+- Fixed behavior of discoverServices method.
+- Added monitoring of disconnection on Peripheral example to the Example app
 # 1.2.1 
 - `listenOnRestoredState` method made public
 
