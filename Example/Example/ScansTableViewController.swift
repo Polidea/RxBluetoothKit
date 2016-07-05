@@ -42,7 +42,7 @@ class ScansTableViewController: UIViewController {
     private func startScanning() {
         isScanInProgress = true
         self.title = "Scanning..."
-        scanningDisposable = manager.monitorState()
+        scanningDisposable = manager.rx_state
         .timeout(4.0, scheduler: scheduler)
         .take(1)
         .flatMap { _ in self.manager.scanForPeripherals(nil, options:nil) }

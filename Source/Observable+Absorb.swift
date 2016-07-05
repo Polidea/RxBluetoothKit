@@ -35,7 +35,7 @@ extension ObservableType {
     @warn_unused_result(message="http://git.io/rxs.uo")
     static func absorb(a: Observable<E>, _ b: Observable<E>) -> Observable<E> {
         return Observable.create { observer in
-            let disposableBox = MutableBox<CompositeDisposable>()
+            let disposableBox = WeakBox<CompositeDisposable>()
             let innerObserver: AnyObserver<E> = AnyObserver.init { event in
                 observer.on(event)
                 if event.isStopEvent {

@@ -41,16 +41,27 @@ class PeripheralServicesViewController: UIViewController {
         super.viewWillAppear(animated)
         title = "Connecting"
         manager.connectToPeripheral(scannedPeripheral.peripheral)
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self] in
+                guard let `self` = self else { return }
                 self.title = "Connected"
                 self.activityIndicatorView.stopAnimating()
                 self.connectedPeripheral = $0
+                self.monitorDisconnectionOfPeripheral($0)
                 self.downloadServicesOfPeripheral($0)
-                }, onError: { error in
-                    self.activityIndicatorView.stopAnimating()
+                }, onError: { [weak self] error in
+                    self?.activityIndicatorView.stopAnimating()
             }).addDisposableTo(disposeBag)
         activityIndicatorView.hidden = false
         activityIndicatorView.startAnimating()
+    }
+
+    private func monitorDisconnectionOfPeripheral(peripheral: Peripheral) {
+        manager.monitorPeripheralDisconnection(peripheral)
+            .subscribeNext { [weak self] (peripheral) in
+                let alert = UIAlertController(title: "Disconnected!", message: "Peripheral Disconnected", preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                self?.presentViewController(alert, animated: true, completion: nil)
+        }.addDisposableTo(disposeBag)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

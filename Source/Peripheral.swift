@@ -120,28 +120,35 @@ public class Peripheral {
 	}
 
 	/**
-	 Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
+	 Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the
+	 peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
+	 If all of the specified services are already discovered - these are returned without doing any underlying Bluetooth operations.
+	 Next on returned `Observable` is emitted only when all of the requested services are discovered.
 
 	 - Parameter serviceUUIDs: An array of [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) object represents a UUID that identifies the type of service you want to discover.
 	 - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
 	 Immediately after that `.Complete` is emitted.
 	 */
 	public func discoverServices(serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
+		if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.UUID) })
+		   where identifiers.count == services.count {
+			return ensureValidPeripheralState(Observable.just(services))
+		}
 		let observable = peripheral.rx_didDiscoverServices
-			.flatMap {
-				(services, error) -> Observable<[Service]> in
-				if let discoveredServices = services {
-					let mapped = discoveredServices.map { Service(peripheral: self, service: $0) }
-					guard let identifiers = serviceUUIDs else { return Observable.just(mapped) }
-					let uuids = discoveredServices.map { $0.uuid }
-					if Set(uuids) == Set(identifiers) {
-						return Observable.just(mapped)
-					}
-					return Observable.empty()
+		.flatMap { (_, error) -> Observable<[Service]> in
+			if let cachedServices = self.services where error == nil {
+				guard let identifiers = serviceUUIDs else { return Observable.just(cachedServices) }
+				let uuids = cachedServices.map { $0.service.uuid }
+				if Set(identifiers).isSubsetOf(Set(uuids)) {
+					let filteredServices = cachedServices
+						.filter { identifiers.contains($0.UUID)}
+					return Observable.just(filteredServices)
 				}
-				return Observable.error(BluetoothError.ServicesDiscoveryFailed(self, error))
-            }
-			.take(1)
+				return Observable.empty()
+			}
+			return Observable.error(BluetoothError.ServicesDiscoveryFailed(self, error))
+		}
+		.take(1)
 
 		return Observable.create { observer in
 			let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
@@ -155,59 +162,75 @@ public class Peripheral {
 	/**
 	 Function that triggers included services discovery for specified services. Discovery is called after
 	 subscribtion to `Observable` is made.
+	 If all of the specified included services are already discovered - these are returned without doing any underlying Bluetooth
+	 operations.
+	 Next on returned `Observable` is emitted only when all of the requested included services are discovered.
+
 	 - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
 	 included services will be discovered. If you'll pass empty array - none of them will be discovered.
 	 - Parameter forService: Service of which included services should be discovered.
 	 - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
 	 Immediately after that `.Complete` is emitted.
 	 */
-	public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?,
-		forService service: Service) -> Observable<[Service]> {
-			let observable = peripheral
-				.rx_didDiscoverIncludedServicesForService
-				.filter { $0.0 == service.service }
-				.flatMap { (service, error) -> Observable<[Service]> in
-					guard let includedServices = service.includedServices where error == nil else {
-						return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
-					}
-					let mapped = includedServices.map { Service(peripheral: self, service: $0) }
-					guard includedServiceUUIDs != nil else { return Observable.just(mapped) }
-					return Observable
-						.just(mapped.filter { self.shouldBeIdentifierIncluded($0.UUID, forIdentifiers: includedServiceUUIDs) }) }
-				.take(1)
-
-			return Observable.create { observer in
-				let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
-				self.peripheral.discoverIncludedServices(includedServiceUUIDs, forService: service.service)
-				return AnonymousDisposable {
-					disposable.dispose()
+	public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?, forService service: Service) -> Observable<[Service]> {
+		if let identifiers = includedServiceUUIDs, let services = service.includedServices?.filter({ identifiers.contains($0.UUID) })
+		   where identifiers.count == services.count {
+			return ensureValidPeripheralState(Observable.just(services))
+		}
+		let observable = peripheral
+			.rx_didDiscoverIncludedServicesForService
+			.filter { $0.0 == service.service }
+			.flatMap { (service, error) -> Observable<[Service]> in
+				guard let includedRxServices = service.includedServices where error == nil else {
+					return Observable.error(BluetoothError.IncludedServicesDiscoveryFailed(self, error))
 				}
+				let includedServices = includedRxServices.map { Service(peripheral: self, service: $0) }
+				guard let includedServiceUUIDs = includedServiceUUIDs else { return Observable.just(includedServices) }
+				let filteredServices = includedServices.filter { includedServiceUUIDs.contains($0.UUID) }
+				if filteredServices.count == includedServiceUUIDs.count { return Observable.just(filteredServices) }
+				return Observable.empty()
 			}
+			.take(1)
+
+		return Observable.create { observer in
+			let disposable = self.ensureValidPeripheralState(observable).subscribe(observer)
+			self.peripheral.discoverIncludedServices(includedServiceUUIDs, forService: service.service)
+			return AnonymousDisposable {
+				disposable.dispose()
+			}
+		}
 	}
 
 	// MARK: Characteristics
 	/**
 	 Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
 	 subscribtion to `Observable` is made.
+	 If all of the specified characteristics are already discovered - these are returned without doing any underlying Bluetooth operations.
+	 Next on returned `Observable` is emitted only when all of the requested characteristics are discovered.
+
 	 - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the
 	 characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
 	 - Parameter service: Service of which characteristics should be discovered.
-	 - Returns: Observable that emits `Next` with array of `Characteristic` instances, once they're discovered.
 	 Immediately after that `.Complete` is emitted.
 	 */
 	public func discoverCharacteristics(identifiers: [CBUUID]?, service: Service) -> Observable<[Characteristic]> {
+		if let identifiers = identifiers, let characteristics = service.characteristics?.filter({ identifiers.contains($0.UUID) })
+		   where identifiers.count == characteristics.count {
+			return ensureValidPeripheralState(Observable.just(characteristics))
+		}
 		let observable = peripheral
 			.rx_didDiscoverCharacteristicsForService
 			.filter { $0.0 == service.service }
 			.flatMap { (cbService, error) -> Observable<[Characteristic]> in
-				guard let characteristics = cbService.characteristics where error == nil else {
+				guard let rxCharacteristics = cbService.characteristics where error == nil else {
 					return Observable.error(BluetoothError.CharacteristicsDiscoveryFailed(service, error))
 				}
-				let mapped = characteristics.map { Characteristic(characteristic: $0, service: service) }
-				guard identifiers != nil else { return Observable.just(mapped) }
-				return Observable.just(mapped
-						.filter { self.shouldBeIdentifierIncluded($0.UUID, forIdentifiers: identifiers) })
-            }
+				let characteristics = rxCharacteristics.map { Characteristic(characteristic: $0, service: service) }
+				guard let characteristicIdentifiers = identifiers else { return Observable.just(characteristics) }
+				let filteredCharacteristics = characteristics.filter { characteristicIdentifiers.contains($0.UUID) }
+				if filteredCharacteristics.count == characteristicIdentifiers.count { return Observable.just(filteredCharacteristics) }
+				return Observable.empty()
+			}
 			.take(1)
 
 		return Observable.create { observer in
@@ -234,7 +257,7 @@ public class Peripheral {
 					return Observable.error(BluetoothError.CharacteristicWriteFailed(characteristic, error))
 				}
 				return Observable.just(characteristic)
-            }
+			}
 	}
 
 	/**
@@ -287,7 +310,7 @@ public class Peripheral {
 					return Observable.error(BluetoothError.CharacteristicReadFailed(characteristic, error))
 				}
 				return Observable.just(characteristic)
-            }
+			}
 		return self.ensureValidPeripheralState(observable)
 	}
 
@@ -329,7 +352,7 @@ public class Peripheral {
 						return Observable.error(BluetoothError.CharacteristicNotifyChangeFailed(characteristic, error))
 					}
 					return Observable.just(characteristic)
-                }
+				}
 			return Observable.create { observer in
 				let disposable = self.ensureValidPeripheralState(observable).take(1).subscribe(observer)
 				self.peripheral.setNotifyValue(enabled, forCharacteristic: characteristic.characteristic)
@@ -516,13 +539,6 @@ public class Peripheral {
 			.map { $0.map { Service(peripheral: self, service: $0) } }
 			.map { (self, $0) }
 		return ensureValidPeripheralState(observable)
-	}
-
-	private func shouldBeIdentifierIncluded(identifier: CBUUID, forIdentifiers identifiers: [CBUUID]?) -> Bool {
-		if let identifiers = identifiers {
-			return identifiers.contains(identifier)
-		}
-		return true
 	}
 }
 

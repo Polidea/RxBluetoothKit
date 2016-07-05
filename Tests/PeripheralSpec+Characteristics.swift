@@ -86,11 +86,11 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         var fakeCharacteristics: [FakeCharacteristic]!
                         beforeEach {
                             fakeCharacteristics = [FakeCharacteristic(service: fakeService)]
-                            fakeService.characteristics = fakeCharacteristics.map { $0 as RxCharacteristicType }
                             let event: Event<(RxServiceType, NSError?)> = Event.Next(fakeService as RxServiceType, nil)
                             let service: [Recorded<Event<(RxServiceType, NSError?)>>] = [Recorded(time: eventTime, event: event)]
                             fakePeripheral.rx_didDiscoverCharacteristicsForService = testScheduler.createHotObservable(service).asObservable()
-
+                            testScheduler.advanceTo(eventTime - 1)
+                            fakeService.characteristics = fakeCharacteristics.map { $0 as RxCharacteristicType }
                             testScheduler.advanceTo(250)
                         }
 

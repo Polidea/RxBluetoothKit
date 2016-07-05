@@ -78,7 +78,13 @@ class PeripheralServicesSpec: QuickSpec {
                 context("after subscribe ") {
                     context("on success result") {
                         beforeEach {
-                            fakePeripheral.rx_didDiscoverServices = Observable.just(([fakeService], nil))
+                            let servicesArray: [RxServiceType]? = [fakeService]
+                            let event = Event<([RxServiceType]?, NSError?)>.Next(servicesArray, nil)
+                            let discoveredServices: [Recorded<Event<([RxServiceType]?, NSError?)>>] = [Recorded(time: 240,
+                                event: event)]
+                            fakePeripheral.rx_didDiscoverServices = testScheduler.createHotObservable(discoveredServices).asObservable()
+                            testScheduler.advanceTo(230)
+                            fakePeripheral.services = [fakeService]
                             testScheduler.advanceTo(250)
                         }
                         
@@ -227,12 +233,14 @@ class PeripheralServicesSpec: QuickSpec {
                 context("after subscribe") {
                     context("on success") {
                         var includedServices: [FakeService]!
+                        let eventTime: Int = 230
                         beforeEach {
                             includedServices = [FakeService()]
-                            fakeService.includedServices = includedServices.map { $0 as RxServiceType }
                             let event: Event<(RxServiceType, NSError?)> = Event.Next(fakeService as RxServiceType, nil)
-                            let services: [Recorded<Event<(RxServiceType, NSError?)>>] = [Recorded(time: 230, event: event)]
+                            let services: [Recorded<Event<(RxServiceType, NSError?)>>] = [Recorded(time: eventTime, event: event)]
                             fakePeripheral.rx_didDiscoverIncludedServicesForService = testScheduler.createHotObservable(services).asObservable()
+                            testScheduler.advanceTo(eventTime - 1)
+                            fakeService.includedServices = includedServices.map { $0 as RxServiceType }
                             testScheduler.advanceTo(250)
                         }
                         it("should call discover") {
