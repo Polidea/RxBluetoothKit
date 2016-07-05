@@ -133,7 +133,7 @@ public class Peripheral {
         } else {
             let observable = peripheral.rx_didDiscoverServices
 			.flatMap {
-				(_, error) -> Observable<[Service]> in
+				(temp, error) -> Observable<[Service]> in
 				if let cachedServices = self.services  {
 					guard let identifiers = serviceUUIDs else { return Observable.just(cachedServices) }
 					let uuids = cachedServices.map { $0.service.uuid }

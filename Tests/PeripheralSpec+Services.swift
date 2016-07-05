@@ -78,8 +78,12 @@ class PeripheralServicesSpec: QuickSpec {
                 context("after subscribe ") {
                     context("on success result") {
                         beforeEach {
-                            fakePeripheral.rx_didDiscoverServices = Observable.just(([fakeService], nil))
-                            testScheduler.advanceTo(229)
+                            let servicesArray: [RxServiceType]? = [fakeService]
+                            let event = Event<([RxServiceType]?, NSError?)>.Next(servicesArray, nil)
+                            let discoveredServices: [Recorded<Event<([RxServiceType]?, NSError?)>>] = [Recorded(time: 240,
+                                event: event)]
+                            fakePeripheral.rx_didDiscoverServices = testScheduler.createHotObservable(discoveredServices).asObservable()
+                            testScheduler.advanceTo(230)
                             fakePeripheral.services = [fakeService]
                             testScheduler.advanceTo(250)
                         }
