@@ -92,7 +92,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         let characteristic = characteristicsList[indexPath.row]
         let actionSheet = UIAlertController(title: "Choose action", message: nil, preferredStyle: .ActionSheet)
 
-        if characteristic.properties == .Notify {
+        if characteristic.properties.contains(.Notify) {
             let turnNotificationOffAction = UIAlertAction(title: "Turn OFF notifications", style: .Default) { _ in
                 self.setNotificationsState(enabled: false, characteristic: characteristic)
             }
@@ -102,7 +102,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
             actionSheet.addAction(turnNotificationOffAction)
             actionSheet.addAction(turnNotificationOnAction)
         }
-        if characteristic.properties == .Read {
+        if characteristic.properties.contains(.Read) {
             let readValueNotificationAction = UIAlertAction(title: "Trigger value read", style: .Default) { _ in
                 self.triggerValueReadForCharacteristic(characteristic)
             }
