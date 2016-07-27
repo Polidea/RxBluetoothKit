@@ -1,3 +1,6 @@
+# 1.2.3
+- Bubbling of errors added to `monitorPeripheralDisconnection` method
+
 # 1.2.2
 - Fixed memory leak, that was visible while calling scan
 - Fixed behavior of discoverServices method.

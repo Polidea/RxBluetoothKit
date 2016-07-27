@@ -391,12 +391,13 @@ public class BluetoothManager {
 	 - Returns: Observable which emits next events when `peripheral` was disconnected.
 	 */
 	public func monitorPeripheralDisconnection(peripheral: Peripheral) -> Observable<Peripheral> {
-		return centralManager
+		let observable = centralManager
 			.rx_didDisconnectPeripheral
 			.filter { $0.0 == peripheral.peripheral }
 			.flatMap { (_, error) -> Observable<Peripheral> in
 				return Observable.just(peripheral)
-		}
+            }
+        return ensureState(.PoweredOn, observable: observable)
 	}
 
     #if os(iOS)
