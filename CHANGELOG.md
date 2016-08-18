@@ -1,3 +1,6 @@
+# 1.2.4
+- Removed `platform` specifier from podpspec
+
 # 1.2.3
 - Bubbling of errors added to `monitorPeripheralDisconnection` method
 
