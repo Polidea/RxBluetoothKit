@@ -4,6 +4,8 @@
 [![Platform](https://img.shields.io/cocoapods/p/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
+**WARNING** This is development branch, which is not intended to use. 
+
 RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices much more pleasant. It's backed by RxSwift and CoreBluetooth.
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
