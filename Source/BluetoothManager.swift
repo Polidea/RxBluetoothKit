@@ -46,6 +46,7 @@ import CoreBluetooth
 
  - seealso: `Peripheral`
  */
+
 public class BluetoothManager {
 
 	/// Implementation of Central Manager
@@ -199,7 +200,7 @@ public class BluetoothManager {
 	 - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
      whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
 	 */
-	public var rx_state: Observable<CBCentralManagerState> {
+	public var rx_state: Observable<CBManagerState> {
 		return self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
 	}
 
@@ -208,7 +209,8 @@ public class BluetoothManager {
 
 	 - returns: Current state of `BluetoothManager` as `CBCentralManagerState`.
 	 */
-	public var state: CBCentralManagerState {
+    
+	public var state: CBManagerState {
 		return centralManager.state
 	}
 
@@ -218,7 +220,7 @@ public class BluetoothManager {
 	 - returns: Observable emitting state of `BluetoothManager` as `CBCentralManagerState`.
 	 */
 	@available( *, deprecated, message = "Use rx_state property instead.")
-	public func monitorState() -> Observable<CBCentralManagerState> {
+	public func monitorState() -> Observable<CBManagerState> {
 		return Observable.deferred {
 			return self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
 		}
@@ -230,7 +232,7 @@ public class BluetoothManager {
 	 - returns: Observable emitting state of `BluetoothManager` as `CBCentralManagerState`.
 	 */
 	@available( *, deprecated, message = "Use rx_state property instead.")
-	public func monitorStateChange() -> Observable<CBCentralManagerState> {
+	public func monitorStateChange() -> Observable<CBManagerState> {
 		return self.centralManager.rx_didUpdateState
 	}
 
@@ -358,7 +360,7 @@ public class BluetoothManager {
 	 - parameter observable: Observable into which potential errors should be merged.
 	 - returns: New observable which merges errors with source observable.
 	 */
-	func ensureState<T>(state: CBCentralManagerState, observable: Observable<T>) -> Observable<T> {
+	func ensureState<T>(state: CBManagerState, observable: Observable<T>) -> Observable<T> {
 		let statesObservable = rx_state
 			.filter { $0 != state && BluetoothError.errorFromState($0) != nil }
 			.map { state -> T in throw BluetoothError.errorFromState(state)! }

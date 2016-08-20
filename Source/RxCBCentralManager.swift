@@ -25,6 +25,10 @@ import RxSwift
 import RxCocoa
 import CoreBluetooth
 
+#if !swift(>=2.3)
+    public typealias CBManagerState = CBCentralManagerState
+#endif
+
 /**
  Core Bluetooth implementation of RxCentralManagerType. This is a lightweight wrapper which allows
  to hide all implementation details.
@@ -44,7 +48,7 @@ class RxCBCentralManager: RxCentralManagerType {
 	}
 
 	@objc private class InternalDelegate: NSObject, CBCentralManagerDelegate {
-		let didUpdateStateSubject = PublishSubject<CBCentralManagerState>()
+		let didUpdateStateSubject = PublishSubject<CBManagerState>()
 		let willRestoreStateSubject = PublishSubject<[String: AnyObject]>()
 		let didDiscoverPeripheralSubject = PublishSubject<(RxPeripheralType, [String: AnyObject], NSNumber)>()
 		let didConnectPerihperalSubject = PublishSubject<RxPeripheralType>()
@@ -84,7 +88,7 @@ class RxCBCentralManager: RxCentralManagerType {
 	}
 
 	/// Observable which infroms when central manager did change its state
-	var rx_didUpdateState: Observable<CBCentralManagerState> {
+	var rx_didUpdateState: Observable<CBManagerState> {
 		return internalDelegate.didUpdateStateSubject
 	}
 	/// Observable which infroms when central manager is about to restore its state
@@ -109,16 +113,16 @@ class RxCBCentralManager: RxCentralManagerType {
 	}
 
 	/// Current central manager state
-	var state: CBCentralManagerState {
+	var state: CBManagerState {
 		return centralManager.state
 	}
 
 	/// Current continuous state of Central Manager
-	var rx_state: Observable<CBCentralManagerState> {
+	var rx_state: Observable<CBManagerState> {
 		return centralManager
-			.rx_observeWeakly(CBCentralManagerState.self, "state")
+			.rx_observeWeakly(CBManagerState.self, "state")
 			.flatMap {
-                state -> Observable<CBCentralManagerState> in
+                state -> Observable<CBManagerState> in
 				guard let state = state else {
 					return Observable.error(BluetoothError.BluetoothInUnknownState)
 				}
