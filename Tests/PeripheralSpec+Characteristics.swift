@@ -26,7 +26,6 @@ import Nimble
 import RxBluetoothKit
 import RxTests
 import RxSwift
-import RxCocoa
 import CoreBluetooth
 
 

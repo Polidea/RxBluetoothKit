@@ -37,9 +37,6 @@ protocol RxPeripheralType {
 
     /// Peripheral's state
     var state: CBPeripheralState { get }
-    
-    /// Peripheral's state
-    var rx_state: Observable<CBPeripheralState> { get }
 
     /// Peripheral's services
     var services: [RxServiceType]? { get }

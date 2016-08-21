@@ -31,72 +31,63 @@ import CoreBluetooth
  allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
  */
 public class Peripheral {
-
-	/// Implementation of peripheral
-	let peripheral: RxPeripheralType
-
-	/**
-	 Continuous value indicating if peripheral is in connected state.
-	 */
-	public var rx_isConnected: Observable<Bool> {
-		return peripheral.rx_state.map { $0 == .Connected }
-	}
-
-	/**
-	 Value indicating if peripheral is currently in connected state.
-	 */
-	public var isConnected: Bool {
-		return peripheral.state == .Connected
-	}
-
-	/**
-	 Continuous state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
-
-     - returns: Current state of `Peripheral` as `CBPeripheralState`immediately after subscribtion with current state of
-     Peripheral. Later, whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
-	 */
-	public var rx_state: Observable<CBPeripheralState> {
-		return peripheral.rx_state
-	}
-
-	/**
-	 Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
-
-	 - returns: Current state of `Peripheral` as `CBPeripheralState`.
-	 */
-	public var state: CBPeripheralState {
-		return peripheral.state
-	}
-
-	/**
-	 Current name of `Peripheral` instance. Analogous to   [`name`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
-	 */
-	public var name: String? {
-		return peripheral.name
-	}
-
-	/**
-	 Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
-	 */
-	public var identifier: NSUUID {
-		return peripheral.identifier
-	}
-
-	/**
-	 A list of services that have been discovered. Analogous to   [`services`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
-	 */
-	public var services: [Service]? {
-		return peripheral.services?.map {
-			Service(peripheral: self, service: $0)
-		}
-	}
-
 	let manager: BluetoothManager
 
 	init(manager: BluetoothManager, peripheral: RxPeripheralType) {
 		self.manager = manager
 		self.peripheral = peripheral
 	}
+
+    /// Implementation of peripheral
+    let peripheral: RxPeripheralType
+
+    /**
+     Continuous value indicating if peripheral is in connected state. This is continuous value
+     */
+    public var rx_isConnected: Observable<Bool> {
+        let disconnected = manager.monitorPeripheralDisconnection(self).map { _ in false }
+        let connected = manager.monitorPeripheralConnection(self).map { _ in true }
+        return Observable.absorb(disconnected, connected)
+    }
+
+    /**
+     Value indicating if peripheral is currently in connected state.
+     */
+    public var isConnected: Bool {
+        return peripheral.state == .Connected
+    }
+
+    /**
+     Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
+
+     - returns: Current state of `Peripheral` as `CBPeripheralState`.
+     */
+    public var state: CBPeripheralState {
+        return peripheral.state
+    }
+
+    /**
+     Current name of `Peripheral` instance. Analogous to   [`name`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
+     */
+    public var name: String? {
+        return peripheral.name
+    }
+
+    /**
+     Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
+     */
+    public var identifier: NSUUID {
+        return peripheral.identifier
+    }
+
+    /**
+     A list of services that have been discovered. Analogous to   [`services`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
+     */
+    public var services: [Service]? {
+        return peripheral.services?.map {
+            Service(peripheral: self, service: $0)
+        }
+    }
 
 	/**
 	 Establishes local connection to the peripheral.

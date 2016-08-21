@@ -22,7 +22,6 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
 import CoreBluetooth
 
 // swiftlint:disable line_length
@@ -386,6 +385,10 @@ public class BluetoothManager {
 		}
 	}
 
+    func monitorPeripheralConnection(peripheral: Peripheral) -> Observable<Peripheral> {
+        return monitorPeripheralAction(centralManager.rx_didConnectPeripheral, peripheral: peripheral)
+    }
+
 	/**
 	 Emits `Peripheral` instance when it's disconnected.
 
@@ -393,14 +396,17 @@ public class BluetoothManager {
 	 - Returns: Observable which emits next events when `peripheral` was disconnected.
 	 */
 	public func monitorPeripheralDisconnection(peripheral: Peripheral) -> Observable<Peripheral> {
-		let observable = centralManager
-			.rx_didDisconnectPeripheral
-			.filter { $0.0 == peripheral.peripheral }
-			.flatMap { (_, error) -> Observable<Peripheral> in
-				return Observable.just(peripheral)
-            }
-        return ensureState(.PoweredOn, observable: observable)
+        return monitorPeripheralAction(centralManager.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
 	}
+
+    func monitorPeripheralAction(peripheralAction: Observable<RxPeripheralType>, peripheral: Peripheral)
+        -> Observable<Peripheral> {
+        let observable =
+            peripheralAction
+            .filter { $0 == peripheral.peripheral }
+            .map { _ in peripheral }
+        return ensureState(.PoweredOn, observable: observable)
+    }
 
     #if os(iOS)
     /**

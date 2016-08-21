@@ -22,7 +22,6 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
 import CoreBluetooth
 
 #if !swift(>=2.3)
@@ -115,20 +114,6 @@ class RxCBCentralManager: RxCentralManagerType {
 	/// Current central manager state
 	var state: CBManagerState {
 		return centralManager.state
-	}
-
-	/// Current continuous state of Central Manager
-	var rx_state: Observable<CBManagerState> {
-		return centralManager
-			.rx_observeWeakly(CBManagerState.self, "state")
-			.flatMap {
-                state -> Observable<CBManagerState> in
-				guard let state = state else {
-					return Observable.error(BluetoothError.BluetoothInUnknownState)
-				}
-				return Observable.just(state)
-            }
-            .replay(1)
 	}
 
 	/**

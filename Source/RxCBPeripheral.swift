@@ -23,7 +23,6 @@
 import Foundation
 import CoreBluetooth
 import RxSwift
-import RxCocoa
 
 /**
  Core Bluetooth implementation of RxPeripheralType. This is a lightweight wrapper which allows
@@ -51,19 +50,6 @@ class RxCBPeripheral: RxPeripheralType {
 	/// Peripheral's name
 	var name: String? {
 		return peripheral.name
-	}
-
-	/// Peripheral's state
-	var rx_state: Observable<CBPeripheralState> {
-		return peripheral
-			.rx_observeWeakly(CBPeripheralState.self, "state")
-			.flatMap {
-				state -> Observable<CBPeripheralState> in
-				guard let state = state else {
-					return Observable.error(BluetoothError.BluetoothInUnknownState)
-				}
-				return Observable.just(state)
-		}
 	}
 
 	/// Peripheral's state
