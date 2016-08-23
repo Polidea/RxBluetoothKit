@@ -47,7 +47,7 @@ public class Peripheral {
     public var rx_isConnected: Observable<Bool> {
         let disconnected = manager.monitorPeripheralDisconnection(self).map { _ in false }
         let connected = manager.monitorPeripheralConnection(self).map { _ in true }
-        return Observable.absorb(disconnected, connected)
+        return Observable.of(disconnected, connected).merge()
     }
 
     /**
@@ -55,6 +55,17 @@ public class Peripheral {
      */
     public var isConnected: Bool {
         return peripheral.state == .Connected
+    }
+
+    /**
+     Continuous state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
+
+     - returns: Current state of `Peripheral` as `CBPeripheralState`immediately after subscribtion with current state of
+     Peripheral. Later, whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
+     */
+    @available( *, deprecated, message = "Don't use this property, currently it doesn't work. If you want to be informed about connectivity of device, use rx_isConnected instead")
+    public var rx_state: Observable<CBPeripheralState> {
+        return .empty()
     }
 
     /**
