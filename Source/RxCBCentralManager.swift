@@ -24,9 +24,7 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
-#if !swift(>=2.3)
-    public typealias CBManagerState = CBCentralManagerState
-#endif
+public typealias BluetoothState = CBManagerState
 
 /**
  Core Bluetooth implementation of RxCentralManagerType. This is a lightweight wrapper which allows
@@ -47,7 +45,7 @@ class RxCBCentralManager: RxCentralManagerType {
 	}
 
 	@objc private class InternalDelegate: NSObject, CBCentralManagerDelegate {
-		let didUpdateStateSubject = PublishSubject<CBManagerState>()
+		let didUpdateStateSubject = PublishSubject<BluetoothState>()
 		let willRestoreStateSubject = PublishSubject<[String: AnyObject]>()
 		let didDiscoverPeripheralSubject = PublishSubject<(RxPeripheralType, [String: AnyObject], NSNumber)>()
 		let didConnectPerihperalSubject = PublishSubject<RxPeripheralType>()
@@ -87,7 +85,7 @@ class RxCBCentralManager: RxCentralManagerType {
 	}
 
 	/// Observable which infroms when central manager did change its state
-	var rx_didUpdateState: Observable<CBManagerState> {
+	var rx_didUpdateState: Observable<BluetoothState> {
 		return internalDelegate.didUpdateStateSubject
 	}
 	/// Observable which infroms when central manager is about to restore its state
@@ -112,7 +110,7 @@ class RxCBCentralManager: RxCentralManagerType {
 	}
 
 	/// Current central manager state
-	var state: CBManagerState {
+	var state: BluetoothState {
 		return centralManager.state
 	}
 

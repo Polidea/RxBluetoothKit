@@ -30,7 +30,7 @@ import CoreBluetooth
 protocol RxCentralManagerType {
 
     /// Observable which emits state changes of central manager after subscriptions
-    var rx_didUpdateState: Observable<CBManagerState> { get }
+    var rx_didUpdateState: Observable<BluetoothState> { get }
     /// Observable which emits elements after subsciption when central manager want to restore its state
     var rx_willRestoreState: Observable<[String:AnyObject]> { get }
     /// Observable which emits peripherals which were discovered after subscription
@@ -43,7 +43,7 @@ protocol RxCentralManagerType {
     var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> { get }
 
     /// Current state of Central Manager
-    var state: CBManagerState { get }
+    var state: BluetoothState { get }
     
     /**
      Start scanning for peripherals with specified services. Results will be available on rx_didDiscoverPeripheral
