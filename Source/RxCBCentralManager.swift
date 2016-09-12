@@ -24,8 +24,6 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
-public typealias BluetoothState = CBManagerState
-
 /**
  Core Bluetooth implementation of RxCentralManagerType. This is a lightweight wrapper which allows
  to hide all implementation details.
@@ -53,7 +51,8 @@ class RxCBCentralManager: RxCentralManagerType {
 		let didDisconnectPeripheral = PublishSubject<(RxPeripheralType, NSError?)>()
 
 		@objc func centralManagerDidUpdateState(central: CBCentralManager) {
-			didUpdateStateSubject.onNext(central.state)
+            guard let bleState = BluetoothState(rawValue: central.state.rawValue) else { return }
+            didUpdateStateSubject.onNext(bleState)
 		}
 
 		@objc func centralManager(central: CBCentralManager, willRestoreState dict: [String: AnyObject]) {
@@ -111,7 +110,8 @@ class RxCBCentralManager: RxCentralManagerType {
 
 	/// Current central manager state
 	var state: BluetoothState {
-		return centralManager.state
+        guard let bleState = BluetoothState(rawValue: centralManager.state.rawValue) else { return .Unsupported }
+		return bleState
 	}
 
 	/**
