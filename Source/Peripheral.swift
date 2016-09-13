@@ -58,17 +58,6 @@ public class Peripheral {
     }
 
     /**
-     Continuous state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
-
-     - returns: Current state of `Peripheral` as `CBPeripheralState`immediately after subscribtion with current state of
-     Peripheral. Later, whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
-     */
-    @available( *, deprecated, message = "Don't use this property, currently it doesn't work. If you want to be informed about connectivity of device, use rx_isConnected instead")
-    public var rx_state: Observable<CBPeripheralState> {
-        return .empty()
-    }
-
-    /**
      Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
 
      - returns: Current state of `Peripheral` as `CBPeripheralState`.

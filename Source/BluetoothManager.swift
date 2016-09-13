@@ -194,7 +194,7 @@ public class BluetoothManager {
 	// MARK: State
 
 	/**
-	 Continuous state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
+	 Continuous state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to  [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
 
 	 - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
      whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
@@ -204,37 +204,14 @@ public class BluetoothManager {
 	}
 
 	/**
-	 Current state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
+	 Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
 
-	 - returns: Current state of `BluetoothManager` as `CBCentralManagerState`.
+	 - returns: Current state of `BluetoothManager` as `BluetoothState`.
 	 */
     
 	public var state: BluetoothState {
 		return centralManager.state
 	}
-
-	/**
-	 After subscription emits current state of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState). Later, whenever state changes next element is emitted.
-
-	 - returns: Observable emitting state of `BluetoothManager` as `CBCentralManagerState`.
-	 */
-	@available( *, deprecated, message = "Use rx_state property instead.")
-	public func monitorState() -> Observable<BluetoothState> {
-		return Observable.deferred {
-			return self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
-		}
-	}
-
-	/**
-	 Emits state changes of `BluetoothManager` instance described by [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
-
-	 - returns: Observable emitting state of `BluetoothManager` as `CBCentralManagerState`.
-	 */
-	@available( *, deprecated, message = "Use rx_state property instead.")
-	public func monitorStateChange() -> Observable<BluetoothState> {
-		return self.centralManager.rx_didUpdateState
-	}
-
 	// MARK: Peripheral's Connection Management
 
 	/**
@@ -355,7 +332,7 @@ public class BluetoothManager {
 	 Ensure that `state` is and will be the only state of `BluetoothManager` during subscription.
 	 Otherwise error is emitted.
 
-	 - parameter state: `CBCentralManagerState` which should be present during subscription.
+	 - parameter state: `BluetoothState` which should be present during subscription.
 	 - parameter observable: Observable into which potential errors should be merged.
 	 - returns: New observable which merges errors with source observable.
 	 */
