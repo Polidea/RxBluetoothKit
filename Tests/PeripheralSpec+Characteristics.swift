@@ -100,7 +100,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             expect(discoverCharacteristicsMethodObserver.events[0].value.element!.0).to(equal(identifiers))
                         }
                         it("should discover characteristic  for proper service") {
-                            expect(discoverCharacteristicsMethodObserver.events[0].value.element!.1 == fakeService as RxServiceType)
+                            expect(discoverCharacteristicsMethodObserver.events[0].value.element!.1 == fakeService as RxServiceType).to(beTrue())
                         }
                         describe("discovered characteristic") {
                             var characteristicsDiscovered: [Characteristic]?
@@ -114,7 +114,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicsDiscovered).toNot(beNil())
                             }
                             it("should be the same as given to peripheral") {
-                                expect(characteristicsDiscovered!.map { $0.characteristic } == fakeService.characteristics!)
+                                expect(characteristicsDiscovered!.map { $0.characteristic } == fakeService.characteristics!).to(beTrue())
                             }
                         }
                     }
@@ -137,7 +137,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     }
                 }
                 context("when bluetooth failed/unauthorized/restricted") {
-                    var state: CBCentralManagerState!
+                    var state: BluetoothState!
                     var error: BluetoothError!
                     //statesWithErrors are bluetooth state errors: Unknown, Unauthorized, Unsupported, PoweredOff, Unknown
                     for stateWithError in statesWithErrors {
@@ -166,7 +166,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             context("when wrong state after calling") {
                                 beforeEach {
                                     fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: errorTime, event: .Next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorTime, event: .Next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -265,10 +265,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             expect(writeValueForCharacteristicMethodObserver.events[0].value.element!.0).to(equal(data))
                         }
                         it("should write to proper characteristic") {
-                            expect(writeValueForCharacteristicMethodObserver.events[0].value.element!.1 == fakeCharacteristic)
+                            expect(writeValueForCharacteristicMethodObserver.events[0].value.element!.1 == fakeCharacteristic).to(beTrue())
                         }
                         it("should write with proper write type") {
-                            expect(writeValueForCharacteristicMethodObserver.events[0].value.element!.2 == writeType)
+                            expect(writeValueForCharacteristicMethodObserver.events[0].value.element!.2 == writeType).to(beTrue())
 
                         }
 
@@ -284,7 +284,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicWrittenTo).toNot(beNil())
                             }
                             it("should be same as given to peripheral") {
-                                expect(characteristicWrittenTo!.characteristic == fakeCharacteristic)
+                                expect(characteristicWrittenTo!.characteristic == fakeCharacteristic).to(beTrue())
                             }
                         }
                     }
@@ -307,7 +307,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 }
 
                 context("when bluetooth failed/unauthorized/restricted") {
-                    var state: CBCentralManagerState!
+                    var state: BluetoothState!
                     var error: BluetoothError!
                     for stateWithError in statesWithErrors {
                         beforeEach {
@@ -335,7 +335,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             context("when wrong state after calling") {
                                 beforeEach {
                                     fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -425,7 +425,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             expect(readValueForCharacteristicMethodObserver.events.count).to(equal(1))
                         }
                         it("should read proper characteristic") {
-                            expect(readValueForCharacteristicMethodObserver.events[0].value.element! == fakeCharacteristic)
+                            expect(readValueForCharacteristicMethodObserver.events[0].value.element! == fakeCharacteristic).to(beTrue())
                         }
 
                         describe("read characteristic") {
@@ -439,7 +439,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicToRead).toNot(beNil())
                             }
                             it("should return proper characteristic") {
-                                expect(characteristicToRead!.characteristic == fakeCharacteristic)
+                                expect(characteristicToRead!.characteristic == fakeCharacteristic).to(beTrue())
                             }
                         }
                     }
@@ -459,7 +459,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     }
                 }
                 context("when bluetooth failed/unauthorized/restricted") {
-                    var state: CBCentralManagerState!
+                    var state: BluetoothState!
                     var error: BluetoothError!
                     for stateWithError in statesWithErrors {
                         beforeEach {
@@ -488,7 +488,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             context("when wrong state after calling ") {
                                 beforeEach {
                                     fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -578,7 +578,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             expect(setNotifyCharacteristicMethodObserver.events.count).to(equal(1))
                         }
                         it("should read proper characteristic") {
-                            expect(setNotifyCharacteristicMethodObserver.events[0].value.element!.1 == fakeCharacteristic)
+                            expect(setNotifyCharacteristicMethodObserver.events[0].value.element!.1 == fakeCharacteristic).to(beTrue())
                         }
                         describe("characteristic to read") {
                             var characteristicToRead: Characteristic?
@@ -591,7 +591,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicToRead).toNot(beNil())
                             }
                             it("should be same as given to peripheral") {
-                                expect(characteristicToRead!.characteristic == fakeCharacteristic)
+                                expect(characteristicToRead!.characteristic == fakeCharacteristic).to(beTrue())
                             }
                         }
                     }
@@ -611,7 +611,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     }
                 }
                 context("when bluetooth failed/unauthorized/restricted") {
-                    var state: CBCentralManagerState!
+                    var state: BluetoothState!
                     var error: BluetoothError!
                     for stateWithError in statesWithErrors {
                         beforeEach {
@@ -641,7 +641,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             context("when wrong state after calling") {
                                 beforeEach {
                                     fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -728,7 +728,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             expect(setNotifyCharacteristicMethodObserver.events.count).to(equal(1))
                         }
                         it("should read proper characteristic") {
-                            expect(setNotifyCharacteristicMethodObserver.events[0].value.element!.1 == fakeCharacteristic)
+                            expect(setNotifyCharacteristicMethodObserver.events[0].value.element!.1 == fakeCharacteristic).to(beTrue())
                         }
 
                         describe("read characteristic") {
@@ -743,7 +743,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicToRead).toNot(beNil())
                             }
                             it("should return proper characteristic") {
-                                expect(characteristicToRead!.characteristic == fakeCharacteristic)
+                                expect(characteristicToRead!.characteristic == fakeCharacteristic).to(beTrue())
                             }
                         }
                     }
@@ -764,7 +764,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 }
                 for stateWithError in statesWithErrors {
                 context("when bluetooth failed/unauthorized/restricted") {
-                    var state: CBCentralManagerState!
+                    var state: BluetoothState!
                     var error: BluetoothError!
                         beforeEach {
                             state = stateWithError.0
@@ -793,7 +793,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             context("when wrong state after calling") {
                                 beforeEach {
                                     fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
