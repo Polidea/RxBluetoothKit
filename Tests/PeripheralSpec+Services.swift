@@ -28,7 +28,6 @@ import RxTests
 import RxSwift
 import CoreBluetooth
 
-extension Equatable where Self : SequenceType {}
 
 class PeripheralServicesSpec: QuickSpec {
 
