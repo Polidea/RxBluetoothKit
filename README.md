@@ -4,8 +4,6 @@
 [![Platform](https://img.shields.io/cocoapods/p/RxBluetoothKit.svg?style=flat)](http://cocoapods.org/pods/RxBluetoothKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-**WARNING** This is development branch, which is not intended to use. 
-
 RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices much more pleasant. It's backed by RxSwift and CoreBluetooth.
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
@@ -73,7 +71,7 @@ To start any interaction, with bluetooth devices, you have to first scan some of
 
 ```swift
 manager.scanForPeripherals([serviceIds])
-.flatMap { scannedPeripheral
+.flatMap { scannedPeripheral in
 	let advertisement = scannedPeripheral.advertisement
 }
 ```
@@ -147,7 +145,7 @@ characteristic at a time, you need to once again use `Observable.from()`
 peripheral.connect()
 	.flatMap { Observable.from($0.discoverServices([serviceId])) }
 	.flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
-	.subscribeNext { characteristic
+	.subscribeNext { characteristic in
 		print("Discovered characteristic: \(characteristic)")
 	}
 ```
@@ -260,7 +258,7 @@ Used earlier `rx_state` is very useful function on `BluetoothManager`. While sub
 After that, it emits new element after state changes.
 
 #### Monitor connection state of Peripheral
-Property `rx_state` on `Peripheral` instance allows monitoring for changes in Peripheral connection state. Immediately after subscribtion `Next` with current state is emitted. After that, it emits new element after connection state changes.
+Property `rx_isConnected` on `Peripheral` instance allows monitoring for changes in Peripheral connection state. Immediately after subscribtion `Next` with current state is emitted. After that, it emits new element after connection state changes.
 
 #### Retrieving Peripherals
 `BluetoothManager` also lets to retrieve peripherals in two ways:

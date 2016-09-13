@@ -42,12 +42,14 @@ public class Peripheral {
     let peripheral: RxPeripheralType
 
     /**
-     Continuous value indicating if peripheral is in connected state. This is continuous value
+     Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
      */
     public var rx_isConnected: Observable<Bool> {
-        let disconnected = manager.monitorPeripheralDisconnection(self).map { _ in false }
-        let connected = manager.monitorPeripheralConnection(self).map { _ in true }
-        return Observable.of(disconnected, connected).merge()
+        return Observable.deferred {
+            let disconnected = self.manager.monitorPeripheralDisconnection(self).map { _ in false }
+            let connected = self.manager.monitorPeripheralConnection(self).map { _ in true }
+            return Observable.of(disconnected, connected).merge().startWith(self.isConnected)
+        }
     }
 
     /**
