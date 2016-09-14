@@ -89,7 +89,7 @@ public class BluetoothManager {
      - parameter options: An optional dictionary containing initialization options for a central manager.
      For more info about it please refer to [`Central Manager initialization options`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
      */
-    convenience public init(queue: dispatch_queue_t = dispatch_get_main_queue(),
+    convenience public init(queue: DispatchQueue = .main,
                             options: [String : AnyObject]? = nil) {
         self.init(centralManager: RxCBCentralManager(queue: queue),
             queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
@@ -132,7 +132,7 @@ public class BluetoothManager {
                 let observable: Observable<ScannedPeripheral> = { Void -> Observable<ScannedPeripheral> in
                     // If it's possible use existing scan - take if from the queue
                     self.lock.lock(); defer { self.lock.unlock() }
-                    if let elem = self.scanQueue.findElement({ $0.acceptUUIDs(serviceUUIDs) }) {
+                    if let elem = self.scanQueue.find({ $0.acceptUUIDs(serviceUUIDs) }) {
                         guard serviceUUIDs != nil else {
                             return elem.observable
                         }
@@ -241,24 +241,24 @@ public class BluetoothManager {
                 .filter { $0.0 == peripheral.peripheral }
                 .take(1)
                 .flatMap { (peripheral, error) -> Observable<Peripheral> in
-                    Observable.error(BluetoothError.PeripheralConnectionFailed(
+                    Observable.error(BluetoothError.peripheralConnectionFailed(
                         Peripheral(manager: self, peripheral: peripheral), error))
             }
 
             let observable = Observable<Peripheral>.create { observer in
                 if let error = BluetoothError.errorFromState(self.centralManager.state) {
                     observer.onError(error)
-                    return NopDisposable.instance
+                    return Disposables.create()
                 }
 
                 guard !peripheral.isConnected else {
                     observer.onNext(peripheral)
                     observer.onCompleted()
-                    return NopDisposable.instance
+                    return Disposables.create()
                 }
                 let disposable = success.amb(error).subscribe(observer)
                 self.centralManager.connectPeripheral(peripheral.peripheral, options: options)
-                return AnonymousDisposable {
+                return Disposables.create {
                     if !peripheral.isConnected {
                         self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
                         disposable.dispose()
@@ -354,12 +354,12 @@ public class BluetoothManager {
     func ensurePeripheralIsConnected<T>(peripheral: Peripheral) -> Observable<T> {
         return Observable.deferred {
             if !peripheral.isConnected {
-                return Observable.error(BluetoothError.PeripheralDisconnected(peripheral, nil))
+                return Observable.error(BluetoothError.peripheralDisconnected(peripheral, nil))
             }
             return self.centralManager.rx_didDisconnectPeripheral
                 .filter { $0.0 == peripheral.peripheral }
                 .flatMap { (_, error) -> Observable<T> in
-                    return Observable.error(BluetoothError.PeripheralDisconnected(peripheral, error))
+                    return Observable.error(BluetoothError.peripheralDisconnected(peripheral, error))
             }
         }
     }

@@ -38,7 +38,7 @@ class RxCBCentralManager: RxCentralManagerType {
 
      - parameter queue: Dispatch queue on which callbacks are received.
      */
-    init(queue: dispatch_queue_t, options: [String : AnyObject]? = nil) {
+    init(queue: DispatchQueue, options: [String : AnyObject]? = nil) {
         centralManager = CBCentralManager(delegate: internalDelegate, queue: queue, options: options)
     }
 
@@ -50,7 +50,7 @@ class RxCBCentralManager: RxCentralManagerType {
         let didFailToConnectPeripheralSubject = PublishSubject<(RxPeripheralType, NSError?)>()
         let didDisconnectPeripheral = PublishSubject<(RxPeripheralType, NSError?)>()
 
-        @objc func centralManagerDidUpdateState(central: CBCentralManager) {
+        @objc func centralManagerDidUpdateState(_ central: CBCentralManager) {
             guard let bleState = BluetoothState(rawValue: central.state.rawValue) else { return }
             didUpdateStateSubject.onNext(bleState)
         }
@@ -170,7 +170,7 @@ class RxCBCentralManager: RxCentralManagerType {
      - parameter identifiers: List of identifiers of peripherals for which we are looking for.
      - returns: Observable which emits peripherals with specified identifiers.
      */
-    func retrievePeripheralsWithIdentifiers(identifiers: [NSUUID]) -> Observable<[RxPeripheralType]> {
+    func retrievePeripheralsWithIdentifiers(identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
         return Observable.just(centralManager.retrievePeripheralsWithIdentifiers(identifiers).map {
             RxCBPeripheral(peripheral: $0)
         })

@@ -60,8 +60,8 @@ class SerializedSubscriptionQueue {
 
         // Find index of observable which should be unsubscribed
         // and remove it from queue
-        if let index = queue.indexOf({ $0 === observable }) {
-            queue.removeAtIndex(index)
+        if let index = queue.index(where: { $0 === observable }) {
+            queue.remove(at: index)
             // If first item was unsubscribed, subscribe on next one
             // if available
             if index == 0 {
@@ -106,7 +106,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
 
     // Part of producer implementation. We need to make sure that we can optimize
     // scheduling of a work (taken from RxSwift source code)
-    func subscribe<O: ObserverType where O.E == Element>(observer: O) -> Disposable {
+    func subscribe<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
         if !CurrentThreadScheduler.isScheduleRequired {
             return run(observer)
         } else {
@@ -117,7 +117,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     }
 
     // After original subscription we need to place it on queue for delayed execution if required.
-    func run<O: ObserverType where O.E == Element>(observer: O) -> Disposable {
+    func run<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
         self.observer = observer.asObserver()
         queue.queueSubscription(self)
         return self
@@ -129,7 +129,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
         serialDisposable.disposable = cancelDisposable
         cancelDisposable.disposable = scheduler.schedule(()) {
             self.serialDisposable.disposable = self.source.subscribe(self)
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -141,7 +141,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
             queue.scheduler.schedule(()) {
                 self.queue.unsubscribe(self)
                 self.serialDisposable.dispose()
-                return NopDisposable.instance
+                return Disposables.create()
             }
         }
     }
@@ -158,7 +158,7 @@ extension ObservableType {
      - parameter queue: Queue on which scheduled subscriptions will be executed in sequentially.
      - returns: The source which will be subscribe when queue is empty or previous observable was completed or disposed.
      */
-    @warn_unused_result(message="http://git.io/rxs.uo")
+
     func queueSubscribeOn(queue: SerializedSubscriptionQueue) -> Observable<E> {
         return QueueSubscribeOn(source: self.asObservable(), queue: queue).asObservable()
     }

@@ -43,7 +43,7 @@ class RxCBPeripheral: RxPeripheralType {
     }
 
     /// Peripheral's identifier
-    var identifier: NSUUID {
+    var identifier: UUID {
         return peripheral.identifier
     }
 
@@ -145,8 +145,8 @@ class RxCBPeripheral: RxPeripheralType {
      - parameter characteristicUUIDs: List of UUIDs of characteristics which should be returned.
      - parameter forService: Serivce which includes characteristics
      */
-    func discoverCharacteristics(characteristicUUIDs: [CBUUID]?, forService service: RxServiceType) {
-        peripheral.discoverCharacteristics(characteristicUUIDs, forService: (service as! RxCBService).service)
+    func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: RxServiceType) {
+        peripheral.discoverCharacteristics(characteristicUUIDs, for: (service as! RxCBService).service)
     }
 
     /**
@@ -157,8 +157,8 @@ class RxCBPeripheral: RxPeripheralType {
      all included services will be discovered
      - parameter forService: Service which contains included services.
      */
-    func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?, forService service: RxServiceType) {
-        peripheral.discoverIncludedServices(includedServiceUUIDs, forService: (service as! RxCBService).service)
+    func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: RxServiceType) {
+        peripheral.discoverIncludedServices(includedServiceUUIDs, for: (service as! RxCBService).service)
     }
 
     /**
@@ -166,8 +166,8 @@ class RxCBPeripheral: RxPeripheralType {
      subscibe.
      - parameter characteristic: Characteristic from which we are reading
      */
-    func readValueForCharacteristic(characteristic: RxCharacteristicType) {
-        peripheral.readValueForCharacteristic((characteristic as! RxCBCharacteristic).characteristic)
+    func readValue(for characteristic: RxCharacteristicType) {
+        peripheral.readValue(for: (characteristic as! RxCBCharacteristic).characteristic)
     }
 
     /**
@@ -177,10 +177,10 @@ class RxCBPeripheral: RxPeripheralType {
      - parameter forCharacteristic: Characteristic to which new value will be written.
      - parameter type: Type of write operation
      */
-    func writeValue(data: NSData,
-        forCharacteristic characteristic: RxCharacteristicType,
+    func writeValue(data: Data,
+        for characteristic: RxCharacteristicType,
         type: CBCharacteristicWriteType) {
-            peripheral.writeValue(data, forCharacteristic: (characteristic as! RxCBCharacteristic).characteristic,
+            peripheral.writeValue(data, for: (characteristic as! RxCBCharacteristic).characteristic,
                 type: type)
     }
 
@@ -189,8 +189,8 @@ class RxCBPeripheral: RxPeripheralType {
      - parameter enabled: True if notifications for value changes should be enabled
      - parameter forCharacteristic: Characteristic for which notifications will be enabled or disabled
      */
-    func setNotifyValue(enabled: Bool, forCharacteristic characteristic: RxCharacteristicType) {
-        peripheral.setNotifyValue(enabled, forCharacteristic: (characteristic as! RxCBCharacteristic).characteristic)
+    func setNotifyValue(enabled: Bool, for characteristic: RxCharacteristicType) {
+        peripheral.setNotifyValue(enabled, for: (characteristic as! RxCBCharacteristic).characteristic)
     }
 
     /**
@@ -199,8 +199,8 @@ class RxCBPeripheral: RxPeripheralType {
 
      - parameter characteristic: Characteristic for which descriptors will be discovered
      */
-    func discoverDescriptorsForCharacteristic(characteristic: RxCharacteristicType) {
-        peripheral.discoverDescriptorsForCharacteristic((characteristic as! RxCBCharacteristic).characteristic)
+    func discoverDescriptors(for characteristic: RxCharacteristicType) {
+        peripheral.discoverDescriptors(for: (characteristic as! RxCBCharacteristic).characteristic)
     }
 
     /**
@@ -209,8 +209,8 @@ class RxCBPeripheral: RxPeripheralType {
 
      - parameter descriptor: Descriptor which value will be read.
      */
-    func readValueForDescriptor(descriptor: RxDescriptorType) {
-        peripheral.readValueForDescriptor((descriptor as! RxCBDescriptor).descriptor)
+    func readValue(for descriptor: RxDescriptorType) {
+        peripheral.readValue(for: (descriptor as! RxCBDescriptor).descriptor)
     }
 
     /**
@@ -220,8 +220,8 @@ class RxCBPeripheral: RxPeripheralType {
      - parameter data: Data to be write to descriptor.
      - parameter forDescriptor: Descriptor which value will be written.
      */
-    func writeValue(data: NSData, forDescriptor descriptor: RxDescriptorType) {
-        peripheral.writeValue(data, forDescriptor: (descriptor as! RxCBDescriptor).descriptor)
+    func writeValue(data: Data, for descriptor: RxDescriptorType) {
+        peripheral.writeValue(data, for: (descriptor as! RxCBDescriptor).descriptor)
     }
 
     /// Read RSSI from peripheral
@@ -256,7 +256,7 @@ class RxCBPeripheral: RxPeripheralType {
         }
 
         @objc func peripheral(peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: NSError?) {
-            peripheralDidReadRSSISubject.onNext((RSSI.integerValue, error))
+            peripheralDidReadRSSISubject.onNext((RSSI.intValue, error))
         }
 
         @objc func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
