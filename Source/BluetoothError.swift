@@ -96,7 +96,7 @@ extension BluetoothError : CustomStringConvertible {
     }
 }
 extension BluetoothError {
-    static func errorFromState(state: CBCentralManagerState) -> BluetoothError? {
+    static func errorFromState(state: BluetoothState) -> BluetoothError? {
         switch state {
         case .Unsupported:
             return .BluetoothUnsupported

@@ -89,7 +89,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                         fakeCentralManager.state = .PoweredOn
                         scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(nil)})
 
-                        let errors: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: errorPropagationTime, event: .Next(cberror))]
+                        let errors: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorPropagationTime, event: .Next(cberror))]
                         testScheduler.scheduleAt(errorPropagationTime - 1, action: { fakeCentralManager.state = cberror })
 
                         fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(errors).asObservable()

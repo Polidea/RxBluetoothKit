@@ -25,28 +25,19 @@ import Foundation
 @testable
 import RxBluetoothKit
 import RxSwift
-import RxCocoa
 import RxTests
 import CoreBluetooth
 
 class FakeCentralManager: RxCentralManagerType {
 
-    var rx_didUpdateState: Observable<CBCentralManagerState> = .never()
+    var rx_didUpdateState: Observable<BluetoothState> = .never()
     var rx_willRestoreState: Observable<[String:AnyObject]> = .never()
     var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:AnyObject], NSNumber)> = .never()
     var rx_didConnectPeripheral: Observable<RxPeripheralType> = .never()
     var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, NSError?)> = .never()
     var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> = .never()
 
-    var state: CBCentralManagerState = CBCentralManagerState.PoweredOn
-    var rx_state: Observable<CBCentralManagerState> {
-        return Observable.create {
-            observer in
-            self.rx_didUpdateState.subscribe(observer)
-            observer.onNext(self.state)
-            return NopDisposable.instance
-        }
-    }
+    var state: BluetoothState = BluetoothState.PoweredOn
 
     var scanForPeripheralsWithServicesTO: TestableObserver<([CBUUID]?, [String:AnyObject]?)>?
     func scanForPeripheralsWithServices(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?) {

@@ -107,7 +107,7 @@ class PeripheralServicesSpec: QuickSpec {
                                 expect(servicesDiscovered).toNot(beNil())
                             }
                             it("should be same as given to central manager") {
-                                expect(servicesDiscovered!.map { $0.service } == [fakeService])
+                                expect(servicesDiscovered!.map { $0.service } == [fakeService]).to(beTrue())
                             }
                         }
                     }
@@ -129,7 +129,7 @@ class PeripheralServicesSpec: QuickSpec {
                 }
 
                 context("when bluetooth failed/unauthorized/restricted") {
-                    var state: CBCentralManagerState!
+                    var state: BluetoothState!
                     var error: BluetoothError!
                     for stateWithError in statesWithErrors {
                         beforeEach {
@@ -157,7 +157,7 @@ class PeripheralServicesSpec: QuickSpec {
                             context("when wrong state after calling") {
                                 beforeEach {
                                     fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -250,7 +250,7 @@ class PeripheralServicesSpec: QuickSpec {
                             expect(discoverIncludedServicesMethodObserver.events[0].value.element!.0).to(equal(cbuuids))
                         }
                         it("should discover included with proper service") {
-                            expect(discoverIncludedServicesMethodObserver.events[0].value.element!.1 == service.service)
+                            expect(discoverIncludedServicesMethodObserver.events[0].value.element!.1 == service.service).to(beTrue())
                         }
                         describe("discovered service") {
                             var servicesDiscovered: [Service]?
@@ -264,7 +264,7 @@ class PeripheralServicesSpec: QuickSpec {
                                 expect(servicesDiscovered).toNot(beNil())
                             }
                             it("should return proper service") {
-                                expect(servicesDiscovered!.map { $0.service } == includedServices)
+                                _ = expect(servicesDiscovered!.map { $0.service } == includedServices)
                             }
                         }
                     }
@@ -284,7 +284,7 @@ class PeripheralServicesSpec: QuickSpec {
                     }
                 }
                 context("when bluetooth failed/unauthorized/restricted") {
-                    var state: CBCentralManagerState!
+                    var state: BluetoothState!
                     var error: BluetoothError!
                     for stateWithError in statesWithErrors {
                         beforeEach {
@@ -313,7 +313,7 @@ class PeripheralServicesSpec: QuickSpec {
                             context("when wrong state after calling") {
                                 beforeEach {
                                     fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<CBCentralManagerState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }

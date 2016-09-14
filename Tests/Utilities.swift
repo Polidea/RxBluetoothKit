@@ -123,7 +123,7 @@ extension ObservableScheduleTimes {
 }
 
 extension BluetoothError {
-    static var invalidStateErrors : [(CBCentralManagerState, BluetoothError)] {
+    static var invalidStateErrors : [(BluetoothState, BluetoothError)] {
         return [(.PoweredOff,   .BluetoothPoweredOff),
                 (.Resetting,    .BluetoothResetting),
                 (.Unauthorized, .BluetoothUnauthorized),

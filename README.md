@@ -7,6 +7,11 @@
 RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices much more pleasant. It's backed by RxSwift and CoreBluetooth.
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
+** Recommended to use version of library is 2.0, which supports Swift 2.2 and Swift 2.3. It contains also several fixes and couple of minor API changes.
+Breaking compatibility was necessary due to [CoreBluetooth changes in iOS10 SDK](https://developer.apple.com/library/content/releasenotes/General/iOS10APIDiffs/Objective-C/CoreBluetooth.html).**
+
+** Swift 3.0 version is under development and will be released soon. **
+
 For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active), or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
 
 Read the official announcement at [Polidea Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/).
@@ -71,7 +76,7 @@ To start any interaction, with bluetooth devices, you have to first scan some of
 
 ```swift
 manager.scanForPeripherals([serviceIds])
-.flatMap { scannedPeripheral
+.flatMap { scannedPeripheral in
 	let advertisement = scannedPeripheral.advertisement
 }
 ```
@@ -145,7 +150,7 @@ characteristic at a time, you need to once again use `Observable.from()`
 peripheral.connect()
 	.flatMap { Observable.from($0.discoverServices([serviceId])) }
 	.flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
-	.subscribeNext { characteristic
+	.subscribeNext { characteristic in
 		print("Discovered characteristic: \(characteristic)")
 	}
 ```
@@ -258,7 +263,7 @@ Used earlier `rx_state` is very useful function on `BluetoothManager`. While sub
 After that, it emits new element after state changes.
 
 #### Monitor connection state of Peripheral
-Property `rx_state` on `Peripheral` instance allows monitoring for changes in Peripheral connection state. Immediately after subscribtion `Next` with current state is emitted. After that, it emits new element after connection state changes.
+Property `rx_isConnected` on `Peripheral` instance allows monitoring for changes in Peripheral connection state. Immediately after subscribtion `Next` with current state is emitted. After that, it emits new element after connection state changes.
 
 #### Retrieving Peripherals
 `BluetoothManager` also lets to retrieve peripherals in two ways:
