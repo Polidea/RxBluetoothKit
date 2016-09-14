@@ -364,6 +364,12 @@ public class BluetoothManager {
         }
     }
 
+    /**
+     Emits `Peripheral` instance when it's connected.
+
+     - Parameter peripheral: `Peripheral` which is monitored for connection.
+     - Returns: Observable which emits next events when `peripheral` was connected.
+     */
     public func monitorPeripheralConnection(peripheral: Peripheral) -> Observable<Peripheral> {
         return monitorPeripheralAction(centralManager.rx_didConnectPeripheral, peripheral: peripheral)
     }
