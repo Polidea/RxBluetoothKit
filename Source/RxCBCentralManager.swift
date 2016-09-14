@@ -110,8 +110,7 @@ class RxCBCentralManager: RxCentralManagerType {
 
     /// Current central manager state
     var state: BluetoothState {
-        guard let bleState = BluetoothState(rawValue: centralManager.state.rawValue) else { return .Unsupported }
-        return bleState
+        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .Unsupported
     }
 
     /**

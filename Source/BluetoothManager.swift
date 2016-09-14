@@ -194,7 +194,7 @@ public class BluetoothManager {
     // MARK: State
 
     /**
-     Continuous state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to  [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
+     Continuous state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to  [`CBCentralManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
 
      - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
      whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
@@ -206,7 +206,7 @@ public class BluetoothManager {
     }
 
     /**
-     Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [`CBCentralManagerState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/c/tdef/CBCentralManagerState).
+     Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [`CBCentralManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
 
      - returns: Current state of `BluetoothManager` as `BluetoothState`.
      */
@@ -364,7 +364,7 @@ public class BluetoothManager {
         }
     }
 
-    func monitorPeripheralConnection(peripheral: Peripheral) -> Observable<Peripheral> {
+    public func monitorPeripheralConnection(peripheral: Peripheral) -> Observable<Peripheral> {
         return monitorPeripheralAction(centralManager.rx_didConnectPeripheral, peripheral: peripheral)
     }
 
