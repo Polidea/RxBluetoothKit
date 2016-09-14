@@ -132,7 +132,7 @@ public class BluetoothManager {
                 let observable: Observable<ScannedPeripheral> = { Void -> Observable<ScannedPeripheral> in
                     // If it's possible use existing scan - take if from the queue
                     self.lock.lock(); defer { self.lock.unlock() }
-                    if let elem = self.scanQueue.find({ $0.acceptUUIDs(serviceUUIDs) }) {
+                    if let elem = self.scanQueue.find({ $0.shouldAccept(serviceUUIDs) }) {
                         guard serviceUUIDs != nil else {
                             return elem.observable
                         }
@@ -246,7 +246,7 @@ public class BluetoothManager {
             }
 
             let observable = Observable<Peripheral>.create { observer in
-                if let error = BluetoothError.errorFromState(self.centralManager.state) {
+                if let error = BluetoothError(state: self.centralManager.state) {
                     observer.onError(error)
                     return Disposables.create()
                 }

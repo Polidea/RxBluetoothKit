@@ -32,13 +32,13 @@ class ArrayObserverProxy<Element>: ObserverType {
 
     func on(event: Event<[Element]>) {
         switch event {
-        case .Next(let elements):
+        case .next(let elements):
             for e in elements {
                 toObserver.onNext(e)
             }
-        case .Error(let error):
+        case .error(let error):
             toObserver.onError(error)
-        case .Completed:
+        case .completed:
             toObserver.onCompleted()
         }
     }
@@ -52,7 +52,7 @@ class FromArrayObservable<Element>: ObservableType {
         self.source = source
     }
 
-    func subscribe<O: ObserverType where O.E == E>(observer: O) -> Disposable {
+    func subscribe<O: ObserverType>(observer: O) -> Disposable where O.E == E {
         let proxy = ArrayObserverProxy(toObserver: observer.asObserver())
         return source.subscribe(proxy)
     }

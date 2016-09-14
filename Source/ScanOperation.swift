@@ -34,14 +34,14 @@ final class ScanOperation {
 }
 
 extension ScanOperation {
-    func acceptUUIDs(newUUIDs: [CBUUID]?) -> Bool {
+    func shouldAccept(_ newUUIDs: [CBUUID]?) -> Bool {
         guard let UUIDs = UUIDs else {
             return true
         }
         guard let newUUIDs = newUUIDs else {
             return false
         }
-        return Set(UUIDs).isSupersetOf(newUUIDs)
+        return Set(UUIDs).isSuperset(of: Set(newUUIDs))
     }
 }
 

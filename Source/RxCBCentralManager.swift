@@ -121,8 +121,8 @@ class RxCBCentralManager: RxCentralManagerType {
      available peripherals will be discovered.
      - parameter options: Central Manager specific options for scanning
      */
-    func scanForPeripheralsWithServices(serviceUUIDs: [CBUUID]?, options: [String: AnyObject]?) {
-        return centralManager.scanForPeripheralsWithServices(serviceUUIDs, options: options)
+    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: AnyObject]?) {
+        return centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
     }
 
     /**
@@ -132,8 +132,8 @@ class RxCBCentralManager: RxCentralManagerType {
      - parameter peripheral: Peripheral to connect to.
      - parameter options: Central Manager specific connection options.
      */
-    func connectPeripheral(peripheral: RxPeripheralType, options: [String: AnyObject]?) {
-        return centralManager.connectPeripheral((peripheral as! RxCBPeripheral).peripheral, options: options)
+    func connect(_ peripheral: RxPeripheralType, options: [String: AnyObject]?) {
+        return centralManager.connect((peripheral as! RxCBPeripheral).peripheral, options: options)
     }
 
     /**
@@ -142,7 +142,7 @@ class RxCBCentralManager: RxCentralManagerType {
 
      - parameter peripheral: Peripheral to be disconnected.
      */
-    func cancelPeripheralConnection(peripheral: RxPeripheralType) {
+    func cancelConnection(_ peripheral: RxPeripheralType) {
         return centralManager.cancelPeripheralConnection((peripheral as! RxCBPeripheral).peripheral)
     }
 
@@ -158,7 +158,7 @@ class RxCBCentralManager: RxCentralManagerType {
      - parameter serviceUUIDs: List of services which need to be implemented by retrieved peripheral.
      - returns: Observable wich emits connected peripherals.
      */
-    func retrieveConnectedPeripheralsWithServices(serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
+    func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
         return Observable.just(centralManager.retrieveConnectedPeripheralsWithServices(serviceUUIDs).map {
             RxCBPeripheral(peripheral: $0)
         })

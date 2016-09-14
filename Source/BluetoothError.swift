@@ -96,22 +96,23 @@ extension BluetoothError : CustomStringConvertible {
     }
 }
 extension BluetoothError {
-    static func errorFromState(state: BluetoothState) -> BluetoothError? {
+    init?(state: BluetoothState) {
         switch state {
         case .Unsupported:
-            return .bluetoothUnsupported
+            self = .bluetoothUnsupported
         case .Unauthorized:
-            return .bluetoothUnauthorized
+            self = .bluetoothUnauthorized
         case .PoweredOff:
-            return .bluetoothPoweredOff
+            self = .bluetoothPoweredOff
         case .Unknown:
-            return .bluetoothInUnknownState
+            self = .bluetoothInUnknownState
         case .Resetting:
-            return .bluetoothResetting
+            self = .bluetoothResetting
         default:
             return nil
         }
     }
+
 }
 
 extension BluetoothError: Equatable {}

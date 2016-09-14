@@ -83,7 +83,7 @@ protocol RxPeripheralType {
 
      - parameter serviceUUIDs: List of UUIDS which must be implemented by a peripheral
      */
-    func discoverServices(serviceUUIDs: [CBUUID]?)
+    func discoverServices(_ serviceUUIDs: [CBUUID]?)
 
     /**
      Discover characteristics for peripheral's service. If list is passed only characteristics with certain UUID are
@@ -119,7 +119,7 @@ protocol RxPeripheralType {
      - parameter forCharacteristic: Characteristic to which new value will be written.
      - parameter type: Type of write operation
      */
-    func writeValue(data: Data,
+    func writeValue(_ data: Data,
                     for characteristic: RxCharacteristicType,
                     type: CBCharacteristicWriteType)
 
@@ -128,7 +128,7 @@ protocol RxPeripheralType {
      - parameter enabled: True if notifications for value changes should be enabled
      - parameter forCharacteristic: Characteristic for which notifications will be enabled or disabled
      */
-    func setNotifyValue(enabled: Bool, for characteristic: RxCharacteristicType)
+    func setNotifyValue(_ enabled: Bool, for characteristic: RxCharacteristicType)
 
     /**
      Discover descriptors for specific characteristic. Successful operation will be indicated in
@@ -153,7 +153,7 @@ protocol RxPeripheralType {
      - parameter data: Data to be write to descriptor.
      - parameter forDescriptor: Descriptor which value will be written.
      */
-    func writeValue(data: Data, forDescriptor descriptor: RxDescriptorType)
+    func writeValue(_ data: Data, for descriptor: RxDescriptorType)
 
     /// Read RSSI from peripheral
     func readRSSI()

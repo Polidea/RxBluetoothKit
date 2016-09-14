@@ -32,7 +32,7 @@ class RxCBService: RxServiceType {
     }
 
     var uuid: CBUUID {
-        return service.UUID
+        return service.uuid
     }
     var characteristics: [RxCharacteristicType]? {
         guard let chars = service.characteristics else {

@@ -35,13 +35,13 @@ extension Peripheral {
      - Returns: Observation which emits `Next` event, when specified service has been found.
      Immediately after that `.Complete` is emitted.
      */
-    public func serviceWithIdentifier(identifier: ServiceIdentifier) -> Observable<Service> {
+    public func service(withIdentifier identifier: ServiceIdentifier) -> Observable<Service> {
         return Observable.deferred {
             if let services = self.services,
-                let service = services.findElement({ $0.UUID == identifier.UUID  }) {
+                let service = services.find({ $0.UUID == identifier.UUID  }) {
                 return Observable.just(service)
             } else {
-                return Observable.from(self.discoverServices([identifier.UUID]))
+                return Observable.from(self.discoverServices(serviceUUIDs: [identifier.UUID]))
             }
         }
     }
@@ -54,11 +54,11 @@ extension Peripheral {
      - Returns: Observation which emits `Next` event, when specified characteristic has been found.
      Immediately after that `.Complete` is emitted.
      */
-    public func characteristicWithIdentifier(identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+    public func characteristic(withIdentifier identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return Observable.deferred {
-            return self.serviceWithIdentifier(identifier.service)
+            return self.service(withIdentifier: identifier.service)
                 .flatMap { service -> Observable<Characteristic> in
-                    if let characteristics = service.characteristics, let characteristic = characteristics.findElement({
+                    if let characteristics = service.characteristics, let characteristic = characteristics.find({
                         $0.UUID == identifier.UUID
                     }) {
                         return Observable.just(characteristic)

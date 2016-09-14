@@ -23,14 +23,14 @@
 import Foundation
 
 extension Sequence {
-    func find(match: (Iterator.Element) -> Bool) -> Iterator.Element? {
+    func find(_ match: (Iterator.Element) -> Bool) -> Iterator.Element? {
         for elem in self where match(elem) {
             return elem
         }
         return nil
     }
 
-    func all(match: (Iterator.Element) -> Bool) -> Bool {
+    func all(_ match: (Iterator.Element) -> Bool) -> Bool {
         for elem in self where !match(elem) {
             return false
         }

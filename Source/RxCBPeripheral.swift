@@ -177,7 +177,7 @@ class RxCBPeripheral: RxPeripheralType {
      - parameter forCharacteristic: Characteristic to which new value will be written.
      - parameter type: Type of write operation
      */
-    func writeValue(data: Data,
+    func writeValue(_ data: Data,
         for characteristic: RxCharacteristicType,
         type: CBCharacteristicWriteType) {
             peripheral.writeValue(data, for: (characteristic as! RxCBCharacteristic).characteristic,
@@ -189,7 +189,7 @@ class RxCBPeripheral: RxPeripheralType {
      - parameter enabled: True if notifications for value changes should be enabled
      - parameter forCharacteristic: Characteristic for which notifications will be enabled or disabled
      */
-    func setNotifyValue(enabled: Bool, for characteristic: RxCharacteristicType) {
+    func setNotifyValue(_ enabled: Bool, for characteristic: RxCharacteristicType) {
         peripheral.setNotifyValue(enabled, for: (characteristic as! RxCBCharacteristic).characteristic)
     }
 
@@ -220,7 +220,7 @@ class RxCBPeripheral: RxPeripheralType {
      - parameter data: Data to be write to descriptor.
      - parameter forDescriptor: Descriptor which value will be written.
      */
-    func writeValue(data: Data, for descriptor: RxDescriptorType) {
+    func writeValue(_ data: Data, for descriptor: RxDescriptorType) {
         peripheral.writeValue(data, for: (descriptor as! RxCBDescriptor).descriptor)
     }
 
