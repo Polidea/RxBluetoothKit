@@ -194,7 +194,7 @@ public class BluetoothManager {
     // MARK: State
 
     /**
-     Continuous state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to  [`CBCentralManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+     Continuous state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to  [`CBManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
 
      - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
      whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
@@ -206,7 +206,7 @@ public class BluetoothManager {
     }
 
     /**
-     Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [`CBCentralManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+     Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [`CBManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
 
      - returns: Current state of `BluetoothManager` as `BluetoothState`.
      */
