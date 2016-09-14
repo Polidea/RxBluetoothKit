@@ -96,7 +96,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     // All event needs to be passed to original observer
     // if subscription was not disposed. If stream is completed
     // cleanup should occur.
-    func on(event: Event<Element>) {
+    func on(_ event: Event<Element>) {
         guard !disposed else { return }
         observer?.on(event)
         if event.isStopEvent {
