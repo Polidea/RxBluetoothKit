@@ -12,6 +12,7 @@ import CoreBluetooth
 /**
  Convenience class which helps reading state of restored BluetoothManager
  */
+#if os(iOS)
 public struct RestoredState {
 
     /**
@@ -60,3 +61,4 @@ public struct RestoredState {
                 peripheral: RxCBPeripheral(peripheral: $0.service.peripheral)), service: $0) }
     }
 }
+#endif
