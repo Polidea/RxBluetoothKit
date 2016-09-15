@@ -90,5 +90,5 @@ protocol RxCentralManagerType {
      - parameter identifiers: List of identifiers of peripherals for which we are looking for.
      - returns: Observable which emits peripherals with specified identifiers.
      */
-    func retrievePeripherals(with identifiers: [NSUUID]) -> Observable<[RxPeripheralType]>
+    func retrievePeripherals(withIdentifiers identifiers: [NSUUID]) -> Observable<[RxPeripheralType]>
 }

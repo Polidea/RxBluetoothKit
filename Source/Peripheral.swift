@@ -314,7 +314,7 @@ public class Peripheral {
      - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
-    public func readValue(for characteristic: Characteristic) -> Observable<Characteristic> {
+    public func readValue(from characteristic: Characteristic) -> Observable<Characteristic> {
         return Observable.create { observer in
             let disposable = self.monitorValueUpdate(for: characteristic).take(1).subscribe(observer)
             self.peripheral.readValue(for: characteristic.characteristic)

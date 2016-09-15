@@ -51,7 +51,7 @@ class SerializedSubscriptionQueue {
         queue.append(observable)
         if execute {
             // Observable is scheduled immidiately
-            queue.first?.delayedSubscribe(scheduler)
+            queue.first?.delayedSubscribe(on: scheduler)
         }
     }
 
@@ -65,14 +65,14 @@ class SerializedSubscriptionQueue {
             // If first item was unsubscribed, subscribe on next one
             // if available
             if index == 0 {
-                queue.first?.delayedSubscribe(scheduler)
+                queue.first?.delayedSubscribe(on: scheduler)
             }
         }
     }
 }
 
 protocol DelayedObservableType: class {
-    func delayedSubscribe(scheduler: ImmediateSchedulerType)
+    func delayedSubscribe(on scheduler: ImmediateSchedulerType)
 }
 
 class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, DelayedObservableType {
@@ -83,10 +83,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     var observer: AnyObserver<Element>?
 
     let serialDisposable = SerialDisposable()
-    var isDisposed: Int32 = 0
-    var disposed: Bool {
-        return isDisposed == 1
-    }
+    var isDisposed: Bool = false
 
     init(source: Observable<Element>, queue: SerializedSubscriptionQueue) {
         self.source = source
@@ -97,7 +94,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     // if subscription was not disposed. If stream is completed
     // cleanup should occur.
     func on(_ event: Event<Element>) {
-        guard !disposed else { return }
+        guard !isDisposed else { return }
         observer?.on(event)
         if event.isStopEvent {
             dispose()
