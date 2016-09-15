@@ -50,7 +50,7 @@ public class Descriptor {
     /**
      The value of the descriptor. It can be written and read through functions on `Descriptor` instance.
     */
-    public var value: AnyObject? {
+    public var value: Any? {
         return descriptor.value
     }
 
@@ -65,7 +65,7 @@ public class Descriptor {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWrite() -> Observable<Descriptor> {
-        return characteristic.service.peripheral.monitorWriteForDescriptor(self)
+        return characteristic.service.peripheral.monitorWrite(for: self)
     }
 
     /**
@@ -75,7 +75,7 @@ public class Descriptor {
      Immediately after that `.Complete` is emitted.
      */
     public func writeValue(data: NSData) -> Observable<Descriptor> {
-        return characteristic.service.peripheral.writeValue(data, forDescriptor: self)
+        return characteristic.service.peripheral.writeValue(data: data as Data, forDescriptor: self)
     }
 
     /**
@@ -84,7 +84,7 @@ public class Descriptor {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdate() -> Observable<Descriptor> {
-        return characteristic.service.peripheral.monitorValueUpdateForDescriptor(self)
+        return characteristic.service.peripheral.monitorValueUpdate(for: self)
     }
 
     /**
@@ -94,7 +94,7 @@ public class Descriptor {
      `.Complete` is emitted.
      */
     public func readValue() -> Observable<Descriptor> {
-        return characteristic.service.peripheral.readValueForDescriptor(self)
+        return characteristic.service.peripheral.readValue(for: self)
     }
 }
 extension Descriptor: Equatable { }

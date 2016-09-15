@@ -33,10 +33,13 @@ class RxCBCharacteristic: RxCharacteristicType {
     }
 
     var uuid: CBUUID {
-        return characteristic.UUID
+        return characteristic.uuid
     }
     var value: NSData? {
-        return characteristic.value
+        if let value = characteristic.value {
+            return NSData(data: value)
+        }
+        return nil
     }
     var isNotifying: Bool {
         return characteristic.isNotifying

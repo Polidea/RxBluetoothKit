@@ -48,34 +48,34 @@ protocol RxPeripheralType {
     var rx_didModifyServices: Observable<([RxServiceType])> { get }
 
     /// Observable which emits when RSSI was read
-    var rx_didReadRSSI: Observable<(Int, NSError?)> { get }
+    var rx_didReadRSSI: Observable<(Int, Error?)> { get }
 
     /// Observable which emits discovered serivices during discovery
-    var rx_didDiscoverServices: Observable<([RxServiceType]?, NSError?)> { get }
+    var rx_didDiscoverServices: Observable<([RxServiceType]?, Error?)> { get }
 
     /// Observable which emits service for which included services were discovered
-    var rx_didDiscoverIncludedServicesForService: Observable<(RxServiceType, NSError?)> { get }
+    var rx_didDiscoverIncludedServicesForService: Observable<(RxServiceType, Error?)> { get }
 
     /// Observable which emits service for which characteristics were discovered
-    var rx_didDiscoverCharacteristicsForService: Observable<(RxServiceType, NSError?)> { get }
+    var rx_didDiscoverCharacteristicsForService: Observable<(RxServiceType, Error?)> { get }
 
     /// Observable which emits characteristic which value has been updated
-    var rx_didUpdateValueForCharacteristic: Observable<(RxCharacteristicType, NSError?)> { get }
+    var rx_didUpdateValueForCharacteristic: Observable<(RxCharacteristicType, Error?)> { get }
 
     /// Observable which emits characteristic for which value was written successfully
-    var rx_didWriteValueForCharacteristic: Observable<(RxCharacteristicType, NSError?)> { get }
+    var rx_didWriteValueForCharacteristic: Observable<(RxCharacteristicType, Error?)> { get }
 
     /// Observable which emits characteristic which notification value was successfully modified
-    var rx_didUpdateNotificationStateForCharacteristic: Observable<(RxCharacteristicType, NSError?)> { get }
+    var rx_didUpdateNotificationStateForCharacteristic: Observable<(RxCharacteristicType, Error?)> { get }
 
     /// Observable which emits characteristic for which descriptors were discovered
-    var rx_didDiscoverDescriptorsForCharacteristic: Observable<(RxCharacteristicType, NSError?)> { get }
+    var rx_didDiscoverDescriptorsForCharacteristic: Observable<(RxCharacteristicType, Error?)> { get }
 
     /// Observable which emits descriptor which value was updated
-    var rx_didUpdateValueForDescriptor: Observable<(RxDescriptorType, NSError?)> { get }
+    var rx_didUpdateValueForDescriptor: Observable<(RxDescriptorType, Error?)> { get }
 
     /// Observable which emits descriptor which completed sucessfully its write operation
-    var rx_didWriteValueForDescriptor: Observable<(RxDescriptorType, NSError?)> { get }
+    var rx_didWriteValueForDescriptor: Observable<(RxDescriptorType, Error?)> { get }
 
     /**
      Discover services with specified optional list of UUIDs. Passing `nil` will show all available services for

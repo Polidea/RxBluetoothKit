@@ -28,14 +28,14 @@ import CoreBluetooth
  */
 public struct AdvertisementData {
     ///Advertisement data dictionary that contains all information advertised by peripheral.
-    public let advertisementData: [String:AnyObject]
+    public let advertisementData: [String:Any]
 
     /**
      Creates advertisement data based on CoreBluetooth's dictionary
 
      - parameter advertisementData: Core Bluetooth's advertisement data
      */
-    public init(advertisementData: [String:AnyObject]) {
+    public init(advertisementData: [String:Any]) {
         self.advertisementData = advertisementData
     }
 
@@ -45,8 +45,8 @@ public struct AdvertisementData {
     }
 
     /// A NSData object containing the manufacturer data of a peripheral.
-    public var manufacturerData: NSData? {
-        return advertisementData[CBAdvertisementDataManufacturerDataKey] as? NSData
+    public var manufacturerData: Data? {
+        return advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data
     }
 
     /**
@@ -54,8 +54,8 @@ public struct AdvertisementData {
      The keys are CBUUID objects, representing CBService UUIDs. The values are NSData objects,
      representing service-specific data.
     */
-    public var serviceData: [CBUUID:NSData]? {
-        return advertisementData[CBAdvertisementDataServiceDataKey] as? [CBUUID:NSData]
+    public var serviceData: [CBUUID:Data]? {
+        return advertisementData[CBAdvertisementDataServiceDataKey] as? [CBUUID:Data]
     }
 
     /// An array of service UUIDs.

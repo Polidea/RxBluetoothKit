@@ -87,7 +87,7 @@ public class Characteristic {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverDescriptors() -> Observable<[Descriptor]> {
-        return self.service.peripheral.discoverDescriptorsForCharacteristic(self)
+        return self.service.peripheral.discoverDescriptors(for: self)
     }
 
     /**
@@ -96,7 +96,7 @@ public class Characteristic {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWrite() -> Observable<Characteristic> {
-        return service.peripheral.monitorWriteForCharacteristic(self)
+        return service.peripheral.monitorWrite(for: self)
     }
 
     /**
@@ -113,8 +113,8 @@ public class Characteristic {
      Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
      if everything completed successfully. Errors are not emitted
      */
-    public func writeValue(data: NSData, type: CBCharacteristicWriteType) -> Observable<Characteristic> {
-        return service.peripheral.writeValue(data, forCharacteristic: self, type: type)
+    public func writeValue(data: Data, type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+        return service.peripheral.writeValue(data, for: self, type: type)
     }
 
     /**
@@ -123,7 +123,7 @@ public class Characteristic {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdate() -> Observable<Characteristic> {
-        return service.peripheral.monitorValueUpdateForCharacteristic(self)
+        return service.peripheral.monitorValueUpdate(for: self)
     }
 
     /**
@@ -133,7 +133,7 @@ public class Characteristic {
      `.Complete` is emitted.
      */
     public func readValue() -> Observable<Characteristic> {
-        return service.peripheral.readValueForCharacteristic(self)
+        return service.peripheral.readValue(for: self)
     }
 
     /**
@@ -146,7 +146,7 @@ public class Characteristic {
      is emitted
      */
     public func setNotifyValue(enabled: Bool) -> Observable<Characteristic> {
-        return service.peripheral.setNotifyValue(enabled, forCharacteristic: self)
+        return service.peripheral.setNotifyValue(enabled: enabled, forCharacteristic: self)
     }
 
     /**
@@ -156,7 +156,7 @@ public class Characteristic {
      This is **infinite** stream of values.
      */
     public func setNotificationAndMonitorUpdates() -> Observable<Characteristic> {
-        return service.peripheral.setNotificationAndMonitorUpdatesForCharacteristic(self)
+        return service.peripheral.setNotificationAndMonitorUpdatesForCharacteristic(characteristic: self)
     }
 }
 

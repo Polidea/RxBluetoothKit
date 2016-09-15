@@ -18,7 +18,7 @@ public struct RestoredState {
     /**
     Restored state dictionary
     */
-    public let restoredStateData: [String:AnyObject]
+    public let restoredStateData: [String:Any]
 
     public unowned let bluetoothManager: BluetoothManager
     /**
@@ -26,7 +26,7 @@ public struct RestoredState {
      - parameter restoredState: Core Bluetooth's restored state data
      - parameter bluetoothManager: `BluetoothManager` instance of which state has been restored.
      */
-    init(restoredStateDictionary: [String:AnyObject], bluetoothManager: BluetoothManager) {
+    init(restoredStateDictionary: [String:Any], bluetoothManager: BluetoothManager) {
         self.restoredStateData = restoredStateDictionary
         self.bluetoothManager = bluetoothManager
     }

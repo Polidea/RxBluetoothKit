@@ -32,12 +32,12 @@ class RxCBDescriptor: RxDescriptorType {
     }
 
     var UUID: CBUUID {
-        return descriptor.UUID
+        return descriptor.uuid
     }
     var characteristic: RxCharacteristicType {
         return RxCBCharacteristic(characteristic: descriptor.characteristic)
     }
-    var value: AnyObject? {
+    var value: Any? {
         return descriptor.value
     }
 }

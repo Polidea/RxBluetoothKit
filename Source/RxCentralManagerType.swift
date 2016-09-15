@@ -32,15 +32,15 @@ protocol RxCentralManagerType {
     /// Observable which emits state changes of central manager after subscriptions
     var rx_didUpdateState: Observable<BluetoothState> { get }
     /// Observable which emits elements after subsciption when central manager want to restore its state
-    var rx_willRestoreState: Observable<[String:AnyObject]> { get }
+    var rx_willRestoreState: Observable<[String:Any]> { get }
     /// Observable which emits peripherals which were discovered after subscription
-    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:AnyObject], NSNumber)> { get }
+    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:Any], NSNumber)> { get }
     /// Observable which emits peripherals which were connected after subscription
     var rx_didConnectPeripheral: Observable<RxPeripheralType> { get }
     /// Observable which emits peripherals which failed to connect after subscriptions
-    var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, NSError?)> { get }
+    var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, Error?)> { get }
     /// Observable which emits peripherals which were disconnected after subscription
-    var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> { get }
+    var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, Error?)> { get }
 
     /// Current state of Central Manager
     var state: BluetoothState { get }
@@ -90,5 +90,5 @@ protocol RxCentralManagerType {
      - parameter identifiers: List of identifiers of peripherals for which we are looking for.
      - returns: Observable which emits peripherals with specified identifiers.
      */
-    func retrievePeripherals(with identifiers: [NSUUID]) -> Observable<[RxPeripheralType]>
+    func retrievePeripherals(with identifiers: [UUID]) -> Observable<[RxPeripheralType]>
 }

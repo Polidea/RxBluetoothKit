@@ -51,7 +51,7 @@ class SerializedSubscriptionQueue {
         queue.append(observable)
         if execute {
             // Observable is scheduled immidiately
-            queue.first?.delayedSubscribe(scheduler)
+            queue.first?.delayedSubscribe(scheduler: scheduler)
         }
     }
 
@@ -65,7 +65,7 @@ class SerializedSubscriptionQueue {
             // If first item was unsubscribed, subscribe on next one
             // if available
             if index == 0 {
-                queue.first?.delayedSubscribe(scheduler)
+                queue.first?.delayedSubscribe(scheduler: scheduler)
             }
         }
     }
@@ -83,9 +83,12 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     var observer: AnyObserver<Element>?
 
     let serialDisposable = SerialDisposable()
-    var isDisposed: Int32 = 0
+    var _isDisposed: Int32 = 0
+    var isDisposed: Bool {
+        return _isDisposed == 1
+    }
     var disposed: Bool {
-        return isDisposed == 1
+        return _isDisposed == 1
     }
 
     init(source: Observable<Element>, queue: SerializedSubscriptionQueue) {
@@ -106,20 +109,33 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
 
     // Part of producer implementation. We need to make sure that we can optimize
     // scheduling of a work (taken from RxSwift source code)
-    func subscribe<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
+    func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         if !CurrentThreadScheduler.isScheduleRequired {
-            return run(observer)
+            return run(observer: observer)
         } else {
             return CurrentThreadScheduler.instance.schedule(()) { _ in
-                return self.run(observer)
+                return self.run(observer: observer)
             }
         }
+
     }
+    
+    // Part of producer implementation. We need to make sure that we can optimize
+    // scheduling of a work (taken from RxSwift source code)
+    //func subscribe<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
+    //    if !CurrentThreadScheduler.isScheduleRequired {
+    //        return run(observer: observer)
+    //    } else {
+    //        return CurrentThreadScheduler.instance.schedule(()) { _ in
+    //            return self.run(observer: observer)
+    //        }
+    //    }
+    //}
 
     // After original subscription we need to place it on queue for delayed execution if required.
     func run<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
         self.observer = observer.asObserver()
-        queue.queueSubscription(self)
+        queue.queueSubscription(observable: self)
         return self
     }
 
@@ -137,9 +153,9 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     // observables to be able to subscribe. We are doing it on the same thread as
     // subscription.
     func dispose() {
-        if OSAtomicCompareAndSwap32(0, 1, &isDisposed) {
-            queue.scheduler.schedule(()) {
-                self.queue.unsubscribe(self)
+        if OSAtomicCompareAndSwap32(0, 1, &_isDisposed) {
+            _ = queue.scheduler.schedule(()) {
+                self.queue.unsubscribe(observable: self)
                 self.serialDisposable.dispose()
                 return Disposables.create()
             }

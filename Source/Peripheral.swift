@@ -46,8 +46,8 @@ public class Peripheral {
      */
     public var rx_isConnected: Observable<Bool> {
         return Observable.deferred {
-            let disconnected = self.manager.monitorPeripheralDisconnection(self).map { _ in false }
-            let connected = self.manager.monitorPeripheralConnection(self).map { _ in true }
+            let disconnected = self.manager.monitorPeripheralDisconnection(peripheral: self).map { _ in false }
+            let connected = self.manager.monitorPeripheralConnection(peripheral: self).map { _ in true }
             return Observable.of(disconnected, connected).merge().startWith(self.isConnected)
         }
     }
@@ -78,7 +78,7 @@ public class Peripheral {
     /**
      Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
      */
-    public var identifier: NSUUID {
+    public var identifier: UUID {
         return peripheral.identifier
     }
 
@@ -99,7 +99,7 @@ public class Peripheral {
      - Returns: Observation which emits next event after connection is established
      */
     public func connect(options: [String: AnyObject]? = nil) -> Observable<Peripheral> {
-        return manager.connectToPeripheral(self, options: options)
+        return manager.connectToPeripheral(peripheral: self, options: options)
     }
 
     /**
@@ -109,7 +109,7 @@ public class Peripheral {
      - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
     public func cancelConnection() -> Observable<Peripheral> {
-        return manager.cancelConnectionToPeripheral(self)
+        return manager.cancelConnectionToPeripheral(peripheral: self)
     }
 
     /**
@@ -145,7 +145,7 @@ public class Peripheral {
         return Observable.create { observer in
             let disposable = self.ensureValidPeripheralState(for: observable).subscribe(observer)
             self.peripheral.discoverServices(serviceUUIDs)
-            return AnonymousDisposable {
+            return Disposables.create {
                 disposable.dispose()
             }
         }
@@ -318,7 +318,7 @@ public class Peripheral {
         return Observable.create { observer in
             let disposable = self.monitorValueUpdate(for: characteristic).take(1).subscribe(observer)
             self.peripheral.readValue(for: characteristic.characteristic)
-            return AnonymousDisposable {
+            return Disposables.create {
                 disposable.dispose()
             }
         }
@@ -367,7 +367,7 @@ public class Peripheral {
             return Observable
                 .of(
                     monitorValueUpdate(for: characteristic),
-                    setNotifyValue(true, forCharacteristic: characteristic)
+                    setNotifyValue(enabled: true, forCharacteristic: characteristic)
                         .ignoreElements()
                         .subscribeOn(CurrentThreadScheduler.instance))
                 .merge()
@@ -432,7 +432,7 @@ public class Peripheral {
             let disposable = self.ensureValidPeripheralState(for: self.monitorWrite(for: descriptor).take(1))
                 .subscribe(observer)
             self.peripheral.writeValue(data, for: descriptor.descriptor)
-            return AnonymousDisposable {
+            return Disposables.create {
                 disposable.dispose()
             }
         }
@@ -453,7 +453,7 @@ public class Peripheral {
                 }
                 return Observable.just(descriptor)
             }
-        return self.ensureValidPeripheralState(observable)
+        return self.ensureValidPeripheralState(for: observable)
     }
 
     /**
@@ -465,9 +465,9 @@ public class Peripheral {
      */
     public func readValue(for descriptor: Descriptor) -> Observable<Descriptor> {
         return Observable.create { observer in
-            let disposable = self.monitorValueUpdateForDescriptor(descriptor).take(1).subscribe(observer)
-            self.peripheral.readValueForDescriptor(descriptor.descriptor)
-            return AnonymousDisposable {
+            let disposable = self.monitorValueUpdate(for: descriptor).take(1).subscribe(observer)
+            self.peripheral.readValue(for: descriptor.descriptor)
+            return Disposables.create {
                 disposable.dispose()
             }
         }
@@ -484,8 +484,8 @@ public class Peripheral {
                 return Observable.error(BluetoothError.peripheralDisconnected(self, nil))
             }
             return Observable.absorb(
-                self.manager.ensurePeripheralIsConnected(self),
-                self.manager.ensureState(.PoweredOn, observable: observable)
+                a: self.manager.ensurePeripheralIsConnected(peripheral: self),
+                self.manager.ensureState(state: .PoweredOn, observable: observable)
             )
         }
     }
@@ -502,12 +502,12 @@ public class Peripheral {
                 if let error = error {
                     return Observable.error(BluetoothError.peripheralRSSIReadFailed(self, error))
                 }
-                return Observable.just(self, rssi)
+                return Observable.just((self, rssi))
         }
         return Observable.create { observer in
             let disposable = self.ensureValidPeripheralState(for: observable).subscribe(observer)
             self.peripheral.readRSSI()
-            return AnonymousDisposable {
+            return Disposables.create {
                 disposable.dispose()
             }
         }

@@ -23,18 +23,19 @@
 import Foundation
 import RxSwift
 
-class ArrayObserverProxy<Element>: ObserverType {
+/*class ArrayObserverProxy<Element>: ObserverType {
+    typealias E = Element
     let toObserver: AnyObserver<Element>
 
     init(toObserver: AnyObserver<Element>) {
         self.toObserver = toObserver
     }
 
-    func on(event: Event<[Element]>) {
+    func on(_ event: Event<[Element]>) {
         switch event {
         case .next(let elements):
-            for e in elements {
-                toObserver.onNext(e)
+            for element in elements {
+                toObserver.onNext(element)
             }
         case .error(let error):
             toObserver.onError(error)
@@ -46,15 +47,23 @@ class ArrayObserverProxy<Element>: ObserverType {
 
 class FromArrayObservable<Element>: ObservableType {
     typealias E = Element
-
-    let source: Observable<[Element]>
-    init(source: Observable<[Element]>) {
+    let source: Observable<[E]>
+    init(source: Observable<[E]>) {
         self.source = source
     }
 
-    func subscribe<O: ObserverType>(observer: O) -> Disposable where O.E == E {
+    func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == E {
         let proxy = ArrayObserverProxy(toObserver: observer.asObserver())
-        return source.subscribe(proxy)
+        
+        
+        let test: AnyObserver<E> = proxy.asObserver()
+        let obs = Observable<E>.error(RxError.argumentOutOfRange)
+        obs.subscribe(test)
+        
+        //source.subscribe(test)
+        
+        return Disposables.create()
+        //return source.subscribe(proxy.asObserver() as! O)
     }
 }
 
@@ -66,9 +75,13 @@ extension ObservableType {
     - parameter queue: Observable which emits array objects
     - returns: New observable which emits elements from array individually from source observable.
     */
-    @warn_unused_result(message="http://git.io/rxs.uo")
+    
     public static func from(arrayObservable: Observable<[E]>) -> Observable<E> {
-        return FromArrayObservable(source: arrayObservable).asObservable()
+        return arrayObservable.flatMap { array -> E in
+            return Observable<E>.from(array)
+        }
+        //return FromArrayObservable(source: arrayObservable).asObservable()
     }
     // swiftlint:enable missing_docs
 }
+*/

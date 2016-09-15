@@ -85,7 +85,7 @@ public class Service {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverIncludedServices(includedServiceUUIDs: [CBUUID]?) -> Observable<[Service]> {
-        return peripheral.discoverIncludedServices(includedServiceUUIDs, forService: self)
+        return peripheral.discoverIncludedServices(includedServiceUUIDs, for: self)
     }
 }
 

@@ -35,7 +35,7 @@ protocol RxDescriptorType {
     var characteristic: RxCharacteristicType { get }
 
     /// Descriptor's value
-    var value: AnyObject? { get }
+    var value: Any? { get }
 }
 
 func == (lhs: RxDescriptorType, rhs: RxDescriptorType) -> Bool {
