@@ -125,14 +125,14 @@ public class BluetoothManager {
      - parameter options: Optional scanning options.
      - returns: Infinite stream of scanned peripherals.
      */
-    public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: AnyObject]? = nil)
+    public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
         -> Observable<ScannedPeripheral> {
 
             return Observable.deferred {
                 let observable: Observable<ScannedPeripheral> = { Void -> Observable<ScannedPeripheral> in
                     // If it's possible use existing scan - take if from the queue
                     self.lock.lock(); defer { self.lock.unlock() }
-                    if let elem = self.scanQueue.find({ $0.shouldAccept(serviceUUIDs) }) {
+                    if let elem = self.scanQueue.first(where: { $0.shouldAccept(serviceUUIDs) }) {
                         guard let serviceUUIDs = serviceUUIDs else {
                             return elem.observable
                         }
@@ -158,7 +158,7 @@ public class BluetoothManager {
                                 let peripheral = Peripheral(manager: self, peripheral: peripheral)
                                 let advertismentData = AdvertisementData(advertisementData: advertisment)
                                 return ScannedPeripheral(peripheral: peripheral,
-                                    advertisementData: advertismentData, RSSI: rssi)
+                                    advertisementData: advertismentData, rssi: rssi)
                         }
                             .subscribe(element)
 
@@ -176,7 +176,7 @@ public class BluetoothManager {
                             }
                         }
                     }
-                        .queueSubscribeOn(queue: self.subscriptionQueue)
+                        .queueSubscribe(on: self.subscriptionQueue)
                         .publish()
                         .refCount()
 
@@ -187,7 +187,7 @@ public class BluetoothManager {
                     return operation
                 }()
                 // Allow scanning as long as bluetooth is powered on
-                return self.ensure(state: .poweredOn, observable: observable)
+                return self.ensure(.poweredOn, observable: observable)
             }
     }
 
@@ -229,7 +229,7 @@ public class BluetoothManager {
      - parameter options: Dictionary to customise the behaviour of connection.
      - returns: Observable which emits next and complete events after connection is established.
      */
-    public func connect(_ peripheral: Peripheral, options: [String: AnyObject]? = nil)
+    public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
         -> Observable<Peripheral> {
 
             let success = centralManager.rx_didConnectPeripheral
@@ -266,7 +266,7 @@ public class BluetoothManager {
                 }
             }
 
-            return ensure(state: .poweredOn, observable: observable)
+            return ensure(.poweredOn, observable: observable)
     }
 
     /**
@@ -285,7 +285,7 @@ public class BluetoothManager {
                 disposable.dispose()
             }
         }
-        return ensure(state: .poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable)
     }
 
     // MARK: Retrieving Lists of Peripherals
@@ -307,7 +307,7 @@ public class BluetoothManager {
                 }
             }
         }
-        return ensure(state: .poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable)
     }
 
     /**
@@ -325,7 +325,7 @@ public class BluetoothManager {
                 }
             }
         }
-        return ensure(state: .poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable)
     }
 
     // MARK:  Internal functions
@@ -338,7 +338,7 @@ public class BluetoothManager {
      - parameter observable: Observable into which potential errors should be merged.
      - returns: New observable which merges errors with source observable.
      */
-    func ensure<T>(state: BluetoothState, observable: Observable<T>) -> Observable<T> {
+    func ensure<T>(_ state: BluetoothState, observable: Observable<T>) -> Observable<T> {
         let statesObservable = rx_state
             .filter { $0 != state && BluetoothError(state: $0) != nil }
             .map { state -> T in throw BluetoothError(state: state)! }
@@ -391,7 +391,7 @@ public class BluetoothManager {
             peripheralAction
             .filter { $0 == peripheral.peripheral }
             .map { _ in peripheral }
-        return ensure(state: .poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable)
     }
 
     #if os(iOS)

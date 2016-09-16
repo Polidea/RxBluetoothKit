@@ -39,12 +39,12 @@ class FakeCentralManager: RxCentralManagerType {
 
     var state: BluetoothState = BluetoothState.poweredOn
 
-    var scanForPeripheralsWithServicesTO: TestableObserver<([CBUUID]?, [String:AnyObject]?)>?
-    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?) {
+    var scanForPeripheralsWithServicesTO: TestableObserver<([CBUUID]?, [String:Any]?)>?
+    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:Any]?) {
         scanForPeripheralsWithServicesTO?.onNext((serviceUUIDs, options))
     }
-    var connectPeripheralOptionsTO: TestableObserver<(RxPeripheralType, [String:AnyObject]?)>?
-    func connect(_ peripheral: RxPeripheralType, options: [String:AnyObject]?) {
+    var connectPeripheralOptionsTO: TestableObserver<(RxPeripheralType, [String:Any]?)>?
+    func connect(_ peripheral: RxPeripheralType, options: [String:Any]?) {
         connectPeripheralOptionsTO?.onNext((peripheral, options))
     }
     var cancelPeripheralConnectionTO: TestableObserver<RxPeripheralType>?

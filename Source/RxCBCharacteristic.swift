@@ -36,10 +36,7 @@ class RxCBCharacteristic: RxCharacteristicType {
         return characteristic.uuid
     }
     var value: Data? {
-        if let value = characteristic.value {
-            return value
-        }
-        return nil
+        return characteristic.value
     }
     var isNotifying: Bool {
         return characteristic.isNotifying
@@ -48,10 +45,7 @@ class RxCBCharacteristic: RxCharacteristicType {
         return characteristic.properties
     }
     var descriptors: [RxDescriptorType]? {
-        guard let descriptors = characteristic.descriptors else {
-            return nil
-        }
-        return descriptors.map {
+        return characteristic.descriptors?.map {
             RxCBDescriptor(descriptor: $0)
         }
     }

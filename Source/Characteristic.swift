@@ -47,7 +47,7 @@ public class Characteristic {
     /**
      The Bluetooth UUID of the `Characteristic` instance.
      */
-    public var UUID: CBUUID {
+    public var uuid: CBUUID {
         return characteristic.uuid
     }
 

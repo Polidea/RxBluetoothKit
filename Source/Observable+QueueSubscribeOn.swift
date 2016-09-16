@@ -109,7 +109,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
 
     // Part of producer implementation. We need to make sure that we can optimize
     // scheduling of a work (taken from RxSwift source code)
-    func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element {
+    func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         if !CurrentThreadScheduler.isScheduleRequired {
             return run(observer: observer)
         } else {
@@ -119,18 +119,6 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
         }
 
     }
-    
-    // Part of producer implementation. We need to make sure that we can optimize
-    // scheduling of a work (taken from RxSwift source code)
-    //func subscribe<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
-    //    if !CurrentThreadScheduler.isScheduleRequired {
-    //        return run(observer: observer)
-    //    } else {
-    //        return CurrentThreadScheduler.instance.schedule(()) { _ in
-    //            return self.run(observer: observer)
-    //        }
-    //    }
-    //}
 
     // After original subscription we need to place it on queue for delayed execution if required.
     func run<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
@@ -175,7 +163,7 @@ extension ObservableType {
      - returns: The source which will be subscribe when queue is empty or previous observable was completed or disposed.
      */
 
-    func queueSubscribeOn(queue: SerializedSubscriptionQueue) -> Observable<E> {
+    func queueSubscribe(on queue: SerializedSubscriptionQueue) -> Observable<E> {
         return QueueSubscribeOn(source: self.asObservable(), queue: queue).asObservable()
     }
     // swiftlint:enable missing_docs

@@ -27,7 +27,7 @@ import CoreBluetooth
 
 class FakeDescriptor: RxDescriptorType {
 
-    var UUID = CBUUID()
+    var uuid = CBUUID()
     var characteristic: RxCharacteristicType
     var value: Any? = nil
     init(characteristic: RxCharacteristicType) {

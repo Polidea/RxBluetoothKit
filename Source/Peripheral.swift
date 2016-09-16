@@ -123,7 +123,7 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
-        if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.UUID) }), identifiers.count == services.count {
+        if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.uuid) }), identifiers.count == services.count {
             return ensureValidPeripheralState(for: Observable.just(services))
         }
         let observable = peripheral.rx_didDiscoverServices
@@ -133,7 +133,7 @@ public class Peripheral {
                 let uuids = cachedServices.map { $0.service.uuid }
                 if Set(identifiers).isSubset(of: Set(uuids)) {
                     let filteredServices = cachedServices
-                        .filter { identifiers.contains($0.UUID)}
+                        .filter { identifiers.contains($0.uuid)}
                     return Observable.just(filteredServices)
                 }
                 return Observable.empty()
@@ -166,7 +166,7 @@ public class Peripheral {
      */
     public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: Service) -> Observable<[Service]> {
         if let identifiers = includedServiceUUIDs,
-            let services = service.includedServices?.filter({ identifiers.contains($0.UUID) }),
+            let services = service.includedServices?.filter({ identifiers.contains($0.uuid) }),
             identifiers.count == services.count {
             return ensureValidPeripheralState(for: Observable.just(services))
         }
@@ -179,7 +179,7 @@ public class Peripheral {
                 }
                 let includedServices = includedRxServices.map { Service(peripheral: self, service: $0) }
                 guard let includedServiceUUIDs = includedServiceUUIDs else { return Observable.just(includedServices) }
-                let filteredServices = includedServices.filter { includedServiceUUIDs.contains($0.UUID) }
+                let filteredServices = includedServices.filter { includedServiceUUIDs.contains($0.uuid) }
                 if filteredServices.count == includedServiceUUIDs.count { return Observable.just(filteredServices) }
                 return Observable.empty()
             }
@@ -207,7 +207,7 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverCharacteristics(_ identifiers: [CBUUID]?, for service: Service) -> Observable<[Characteristic]> {
-        if let identifiers = identifiers, let characteristics = service.characteristics?.filter({ identifiers.contains($0.UUID) }),
+        if let identifiers = identifiers, let characteristics = service.characteristics?.filter({ identifiers.contains($0.uuid) }),
             identifiers.count == characteristics.count {
             return ensureValidPeripheralState(for: Observable.just(characteristics))
         }
@@ -220,7 +220,7 @@ public class Peripheral {
                 }
                 let characteristics = rxCharacteristics.map { Characteristic(characteristic: $0, service: service) }
                 guard let characteristicIdentifiers = identifiers else { return Observable.just(characteristics) }
-                let filteredCharacteristics = characteristics.filter { characteristicIdentifiers.contains($0.UUID) }
+                let filteredCharacteristics = characteristics.filter { characteristicIdentifiers.contains($0.uuid) }
                 if filteredCharacteristics.count == characteristicIdentifiers.count { return Observable.just(filteredCharacteristics) }
                 return Observable.empty()
             }
@@ -485,7 +485,7 @@ public class Peripheral {
             }
             return Observable.absorb(
                 self.manager.ensurePeripheralIsConnected(self),
-                self.manager.ensure(state: .poweredOn, observable: observable)
+                self.manager.ensure(.poweredOn, observable: observable)
             )
         }
     }

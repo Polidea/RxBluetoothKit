@@ -31,7 +31,7 @@ class RxCBDescriptor: RxDescriptorType {
         self.descriptor = descriptor
     }
 
-    var UUID: CBUUID {
+    var uuid: CBUUID {
         return descriptor.uuid
     }
     var characteristic: RxCharacteristicType {

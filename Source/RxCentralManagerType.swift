@@ -53,7 +53,7 @@ protocol RxCentralManagerType {
                                available peripherals will be discovered.
      - parameter options: Central Manager specific options for scanning
      */
-    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?)
+    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:Any]?)
 
     /**
      Connect to specified peripheral. If connection is successful peripheral will be emitted in rx_didConnectPeripheral
@@ -62,7 +62,7 @@ protocol RxCentralManagerType {
      - parameter peripheral: Peripheral to connect to.
      - parameter options: Central Manager specific connection options.
      */
-    func connect(_ peripheral: RxPeripheralType, options: [String:AnyObject]?)
+    func connect(_ peripheral: RxPeripheralType, options: [String:Any]?)
 
     /**
      Cancel peripheral connection. If successful observable rx_didDisconnectPeripheral will emit disconnected

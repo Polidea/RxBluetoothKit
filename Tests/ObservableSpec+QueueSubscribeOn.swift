@@ -64,7 +64,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                                            (250, .next(2)),
                                            (300, .completed)))
                     users.append(testScheduler.scheduleObservable {
-                        return ob1.queueSubscribeOn(queue: serializedQueue).asObservable()
+                        return ob1.queueSubscribe(on: serializedQueue).asObservable()
                     })
                     
                     let ob2 = testScheduler.createColdObservable(
@@ -72,7 +72,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                                            (050, .next(1)),
                                            (100, .completed)))
                     users.append(testScheduler.scheduleObservable {
-                        return ob2.queueSubscribeOn(queue: serializedQueue).asObservable()
+                        return ob2.queueSubscribe(on: serializedQueue).asObservable()
                     })
                 }
                 
@@ -105,7 +105,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                                            (250, .next(2)),
                                            (400, .completed)))
                     users.append(testScheduler.scheduleObservable {
-                        return ob1.queueSubscribeOn(queue: serializedQueue).asObservable()
+                        return ob1.queueSubscribe(on: serializedQueue).asObservable()
                     })
                     
                     let ob2 = testScheduler.createHotObservable(
@@ -115,7 +115,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                                            (650, .next(3)),
                                            (800, .completed)))
                     users.append(testScheduler.scheduleObservable {
-                        return ob2.queueSubscribeOn(queue: serializedQueue).asObservable()
+                        return ob2.queueSubscribe(on: serializedQueue).asObservable()
                     })
                 }
                 
@@ -182,7 +182,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                         return Observable.deferred {
                             isSubscribed[0] = true
                             return ob1.asObservable()
-                        }.queueSubscribeOn(queue: serializedQueue)
+                        }.queueSubscribe(on: serializedQueue)
                     })
                     
                     // Second user
@@ -193,7 +193,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                         return Observable.deferred {
                             isSubscribed[1] = true
                             return ob2.asObservable()
-                            }.queueSubscribeOn(queue: serializedQueue)
+                            }.queueSubscribe(on: serializedQueue)
                     })
                     
                     // Third user (it should be disposed even before subscription)
@@ -204,7 +204,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                         return Observable.deferred {
                             isSubscribed[2] = true
                             return ob3.asObservable()
-                            }.queueSubscribeOn(queue: serializedQueue)
+                            }.queueSubscribe(on: serializedQueue)
                     })
                     
                     // Fourth user
@@ -215,7 +215,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                         return Observable.deferred {
                             isSubscribed[3] = true
                             return ob4.asObservable()
-                            }.queueSubscribeOn(queue: serializedQueue)
+                            }.queueSubscribe(on: serializedQueue)
                     })
                 }
                 

@@ -255,8 +255,8 @@ class RxCBPeripheral: RxPeripheralType {
             })
         }
 
-        @objc func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
-            peripheralDidReadRSSISubject.onNext((RSSI.intValue, error))
+        @objc func peripheral(_ peripheral: CBPeripheral, didReadRSSI rssi: NSNumber, error: Error?) {
+            peripheralDidReadRSSISubject.onNext((rssi.intValue, error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {

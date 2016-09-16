@@ -64,8 +64,8 @@ class RxCBCentralManager: RxCentralManagerType {
         @objc func centralManager(_ central: CBCentralManager,
             didDiscover peripheral: CBPeripheral,
             advertisementData: [String: Any],
-            rssi RSSI: NSNumber) {
-                didDiscoverPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), advertisementData, RSSI))
+            rssi: NSNumber) {
+                didDiscoverPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), advertisementData, rssi))
         }
 
         @objc func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -123,7 +123,7 @@ class RxCBCentralManager: RxCentralManagerType {
      available peripherals will be discovered.
      - parameter options: Central Manager specific options for scanning
      */
-    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: AnyObject]?) {
+    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]?) {
         return centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
     }
 
@@ -134,7 +134,7 @@ class RxCBCentralManager: RxCentralManagerType {
      - parameter peripheral: Peripheral to connect to.
      - parameter options: Central Manager specific connection options.
      */
-    func connect(_ peripheral: RxPeripheralType, options: [String: AnyObject]?) {
+    func connect(_ peripheral: RxPeripheralType, options: [String: Any]?) {
         return centralManager.connect((peripheral as! RxCBPeripheral).peripheral, options: options)
     }
 
@@ -153,7 +153,6 @@ class RxCBCentralManager: RxCentralManagerType {
         return centralManager.stopScan()
     }
 
-    
     /**
      Retrieve list of connected peripherals which implement specified services. Peripherals which meet criteria
      will be emitted in by returned observable after subscription.

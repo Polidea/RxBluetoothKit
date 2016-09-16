@@ -38,12 +38,11 @@ extension Peripheral {
     public func service(with identifier: ServiceIdentifier) -> Observable<Service> {
         return Observable.deferred {
             if let services = self.services,
-                let service = services.find({ $0.UUID == identifier.UUID  }) {
+                let service = services.first(where: { $0.uuid == identifier.uuid  }) {
                 return Observable.just(service)
             } else {
-                return self.discoverServices([identifier.UUID]).flatMap({ (services) -> Observable<Service> in
-                    return Observable<Service>.from(services)
-                })
+                return self.discoverServices([identifier.uuid])
+                    .flatMap{Observable.from($0)}
             }
         }
     }
@@ -60,17 +59,15 @@ extension Peripheral {
         return Observable.deferred {
             return self.service(with: identifier.service)
                 .flatMap { service -> Observable<Characteristic> in
-                    if let characteristics = service.characteristics, let characteristic = characteristics.find({
-                        $0.UUID == identifier.UUID
+                    if let characteristics = service.characteristics, let characteristic = characteristics.first(where: {
+                        $0.uuid == identifier.uuid
                     }) {
                         return Observable.just(characteristic)
                     } else {
-                        return service.discoverCharacteristics([identifier.UUID])
-                        .flatMap({ (characteristics) -> Observable<Characteristic> in
-                            return Observable<Characteristic>.from(characteristics)
-                        })
+                        return service.discoverCharacteristics([identifier.uuid])
+                        .flatMap { Observable.from($0)}
                     }
-            }
+                }
         }
     }
 
@@ -87,17 +84,15 @@ extension Peripheral {
             return self.characteristic(with: identifier.characteristic)
                 .flatMap { characteristic -> Observable<Descriptor> in
                     if let descriptors = characteristic.descriptors,
-                        let descriptor = descriptors.find({ $0.UUID == identifier.UUID }) {
+                        let descriptor = descriptors.first(where: { $0.uuid == identifier.uuid }) {
                         return Observable.just(descriptor)
                     } else {
                         return characteristic.discoverDescriptors()
-                            .flatMap({ (descriptors) -> Observable<Descriptor> in
-                                return Observable<Descriptor>.from(descriptors)
-                                .filter { $0.UUID == identifier.UUID }
-                                .take(1)
-                            })
+                            .flatMap {Observable.from($0)}
+                            .filter { $0.uuid == identifier.uuid }
+                            .take(1)
                     }
-            }
+                }
         }
     }
 
@@ -112,7 +107,7 @@ extension Peripheral {
         return characteristic(with: identifier)
             .flatMap {
                 return self.monitorWrite(for: $0)
-        }
+            }
     }
 
     /**
@@ -136,7 +131,7 @@ extension Peripheral {
         return characteristic(with: identifier)
             .flatMap {
                 return self.writeValue(data, for: $0, type: type)
-        }
+            }
     }
 
     /**
@@ -145,12 +140,11 @@ extension Peripheral {
      - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
      It's **infinite** stream, so `.Complete` is never called.
      */
-    public func monitorValueUpdateForCharacteristic(with identifier: CharacteristicIdentifier)
-        -> Observable<Characteristic> {
-            return characteristic(with: identifier)
+    public func monitorValueUpdateForCharacteristic(with identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+        return characteristic(with: identifier)
             .flatMap {
                 return self.monitorValueUpdate(for: $0)
-        }
+            }
     }
 
     /**
@@ -164,7 +158,7 @@ extension Peripheral {
         return characteristic(with: identifier)
             .flatMap { characteristic in
                 return self.readValue(for: characteristic)
-        }
+            }
     }
 
     /**
@@ -182,7 +176,7 @@ extension Peripheral {
             return characteristic(with: identifier)
                 .flatMap {
                     return self.setNotifyValue(enabled, for: $0)
-            }
+                }
     }
 
     /**
@@ -197,7 +191,7 @@ extension Peripheral {
             return characteristic(with: identifier)
                 .flatMap { char in
                     return self.setNotificationAndMonitorUpdates(for: char)
-            }
+                }
     }
 
     /**
@@ -210,9 +204,7 @@ extension Peripheral {
     public func discoverDescriptorsForCharacteristic(with identifier: CharacteristicIdentifier) ->
         Observable<[Descriptor]> {
         return characteristic(with: identifier)
-            .flatMap { char in
-                return self.discoverDescriptors(for: char)
-        }
+            .flatMap {self.discoverDescriptors(for: $0)}
     }
 
     /**
@@ -225,7 +217,7 @@ extension Peripheral {
         return descriptor(with: identifier)
             .flatMap { desc in
                 return self.monitorWrite(for: desc)
-        }
+            }
     }
 
     /**
@@ -240,7 +232,7 @@ extension Peripheral {
         return descriptor(with: identifier)
             .flatMap { desc in
                 return self.writeValue(data, for: desc)
-        }
+            }
     }
 
     /**
@@ -253,7 +245,7 @@ extension Peripheral {
         return descriptor(with: identifier)
             .flatMap { desc in
                 return self.monitorValueUpdate(for: desc)
-        }
+            }
     }
 
     /**
@@ -267,6 +259,6 @@ extension Peripheral {
         return descriptor(with: identifier)
             .flatMap { desc in
                 return self.readValue(for: desc)
-        }
+            }
     }
 }

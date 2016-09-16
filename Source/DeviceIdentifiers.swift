@@ -42,7 +42,7 @@ public protocol ServiceIdentifier {
     /**
      Unique identifier of a service.
     */
-    var UUID: CBUUID { get }
+    var uuid: CBUUID { get }
 }
 
 /**
@@ -69,7 +69,7 @@ public protocol CharacteristicIdentifier {
     /**
      Unique identifier of a characteristic.
      */
-    var UUID: CBUUID { get }
+    var uuid: CBUUID { get }
     /**
      `ServiceIdentifier` instance that this characteristic belongs to.
      */
@@ -83,7 +83,7 @@ public protocol DescriptorIdentifier {
     /**
      Unique identifier of a descriptor.
      */
-    var UUID: CBUUID { get }
+    var uuid: CBUUID { get }
 
     /**
      `CharacteristicIdentifier` instance that this descriptor belongs to.

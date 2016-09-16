@@ -43,8 +43,8 @@ public class Descriptor {
     /**
      The Bluetooth UUID of the `Descriptor` instance.
      */
-    public var UUID: CBUUID {
-        return descriptor.UUID
+    public var uuid: CBUUID {
+        return descriptor.uuid
     }
 
     /**

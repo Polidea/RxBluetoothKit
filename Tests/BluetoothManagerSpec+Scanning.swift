@@ -48,11 +48,11 @@ class BluetoothManagerScanningSpec: QuickSpec {
         describe("scanning devices") {
             var scanObservers: [ScheduledObservable<ScannedPeripheral>]!
             
-            var scanCallObserver: TestableObserver<([CBUUID]?, [String:AnyObject]?)>!
+            var scanCallObserver: TestableObserver<([CBUUID]?, [String:Any]?)>!
             var stopScanCallObserver: TestableObserver<()>!
             
             beforeEach {
-                scanCallObserver = testScheduler.createObserver(([CBUUID]?, [String: AnyObject]?).self)
+                scanCallObserver = testScheduler.createObserver(([CBUUID]?, [String: Any]?).self)
                 fakeCentralManager.scanForPeripheralsWithServicesTO = scanCallObserver
                 
                 stopScanCallObserver = testScheduler.createObserver(Void.self)
@@ -133,7 +133,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                     for (i, record) in fromRecords.enumerated() {
                         expect(record.value.isStopEvent).to(beFalse())
                         let args: ScannedPeripheral = record.value.element!
-                        expect(args.RSSI.doubleValue).to(equal(withRSSIs[i]))
+                        expect(args.rssi.doubleValue).to(equal(withRSSIs[i]))
                     }
                 }
                 

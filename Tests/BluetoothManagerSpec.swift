@@ -268,10 +268,10 @@ class BluetoothManagerSpec: QuickSpec {
                     for stateWithError in statesWithErrors {
 
                     context("while bluetooth is \(stateWithError.0)") {
-                        var connectObserver: TestableObserver<(RxPeripheralType, [String:AnyObject]?)>!
+                        var connectObserver: TestableObserver<(RxPeripheralType, [String:Any]?)>!
                             beforeEach {
                                 fakePeripheral.state = .disconnected
-                                fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: AnyObject]?).self)
+                                fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: Any]?).self)
                                 connectObserver = fakeCentralManager.connectPeripheralOptionsTO
                                 peripheralObserver = testScheduler.scheduleObservable {
                                     manager.connect(peripheral)
@@ -320,10 +320,10 @@ class BluetoothManagerSpec: QuickSpec {
                     context("while bluetooth is on") {
                         var connectionTime: Int!
                         var peripheralObserver: ScheduledObservable<Peripheral>!
-                        var connectObserver: TestableObserver<(RxPeripheralType, [String:AnyObject]?)>!
+                        var connectObserver: TestableObserver<(RxPeripheralType, [String:Any]?)>!
 
                         beforeEach {
-                            fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: AnyObject]?).self)
+                            fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: Any]?).self)
                             connectObserver = fakeCentralManager.connectPeripheralOptionsTO
                             peripheralObserver = testScheduler.scheduleObservable {
                                 manager.connect(peripheral)

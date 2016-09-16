@@ -59,9 +59,7 @@ class ObservableFromSpec: QuickSpec {
                         (350, .completed)))
                     
                     observable = testScheduler.scheduleObservable {
-                        return ob.flatMap({ (array) -> Observable<Int> in
-                            return Observable.from(array)
-                        })
+                        return ob.flatMap {Observable.from($0)}
                     }
                     testScheduler.start()
                 }
@@ -110,9 +108,7 @@ class ObservableFromSpec: QuickSpec {
                         (350, .error(SomeError.error))))
                     
                     observable = testScheduler.scheduleObservable {
-                        return ob.flatMap({ (array) -> Observable<Int> in
-                            return Observable.from(array)
-                        })
+                        return ob.flatMap{Observable.from($0)}
                     }
                     testScheduler.start()
                 }
@@ -141,9 +137,7 @@ class ObservableFromSpec: QuickSpec {
                         (1500, .completed)))
 
                     observable = testScheduler.scheduleObservable {
-                        return ob.flatMap({ (array) -> Observable<Int> in
-                            return Observable.from(array)
-                        })
+                        return ob.flatMap{Observable.from($0)}
                     }
                     testScheduler.start()
                 }
