@@ -82,7 +82,7 @@ extension Peripheral {
      - Returns: Observation which emits `Next` event, when specified descriptor has been found.
      Immediately after that `.Complete` is emitted.
      */
-    public func descriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func descriptor(withIdentifier identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return Observable.deferred {
             return self.characteristic(withIdentifier: identifier.characteristic)
                 .flatMap { characteristic -> Observable<Descriptor> in
@@ -162,8 +162,8 @@ extension Peripheral {
      */
     public func readValueForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return characteristic(withIdentifier: identifier)
-            .flatMap {
-                return self.readValue(for: $0)
+            .flatMap { characteristic in
+                return self.readValue(for: characteristic)
         }
     }
 
@@ -192,11 +192,11 @@ extension Peripheral {
      - returns: Observable which emits `Next`, when characteristic value is updated.
      This is **infinite** stream of values.
      */
-    public func setNotificationAndMonitorUpdatesForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier)
+    public func setNotificationAndMonitorUpdatesForCharacteristic(withIdentifier identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
             return characteristic(withIdentifier: identifier)
-                .flatMap {
-                    return self.setNotificationAndMonitorUpdatesForCharacteristic(characteristic: $0)
+                .flatMap { char in
+                    return self.setNotificationAndMonitorUpdatesForCharacteristic(characteristic: char)
             }
     }
 
@@ -210,8 +210,8 @@ extension Peripheral {
     public func discoverDescriptorsForCharacteristicWithIdentifier(identifier: CharacteristicIdentifier) ->
         Observable<[Descriptor]> {
         return characteristic(withIdentifier: identifier)
-            .flatMap {
-                return self.discoverDescriptors(for: $0)
+            .flatMap { char in
+                return self.discoverDescriptors(for: char)
         }
     }
 
@@ -222,9 +222,9 @@ extension Peripheral {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWriteForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
-        return descriptorWithIdentifier(identifier: identifier)
-            .flatMap {
-                return self.monitorWrite(for: $0)
+        return descriptor(withIdentifier: identifier)
+            .flatMap { desc in
+                return self.monitorWrite(for: desc)
         }
     }
 
@@ -237,9 +237,9 @@ extension Peripheral {
      */
     public func writeValue(data: Data, forDescriptorWithIdentifier identifier: DescriptorIdentifier)
         -> Observable<Descriptor> {
-        return descriptorWithIdentifier(identifier: identifier)
-            .flatMap {
-                return self.writeValue(data: data, forDescriptor: $0)
+        return descriptor(withIdentifier: identifier)
+            .flatMap { desc in
+                return self.writeValue(data: data, forDescriptor: desc)
         }
     }
 
@@ -250,9 +250,9 @@ extension Peripheral {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdateForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
-        return descriptorWithIdentifier(identifier: identifier)
-            .flatMap {
-                return self.monitorValueUpdate(for: $0)
+        return descriptor(withIdentifier: identifier)
+            .flatMap { desc in
+                return self.monitorValueUpdate(for: desc)
         }
     }
 
@@ -264,9 +264,9 @@ extension Peripheral {
      `.Complete` is emitted.
      */
     public func readValueForDescriptorWithIdentifier(identifier: DescriptorIdentifier) -> Observable<Descriptor> {
-        return descriptorWithIdentifier(identifier: identifier)
-            .flatMap {
-                return self.readValue(for: $0)
+        return descriptor(withIdentifier: identifier)
+            .flatMap { desc in
+                return self.readValue(for: desc)
         }
     }
 }

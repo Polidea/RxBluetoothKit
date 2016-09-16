@@ -133,7 +133,7 @@ public class BluetoothManager {
                     // If it's possible use existing scan - take if from the queue
                     self.lock.lock(); defer { self.lock.unlock() }
                     if let elem = self.scanQueue.find({ $0.shouldAccept(serviceUUIDs) }) {
-                        guard serviceUUIDs != nil else {
+                        guard let serviceUUIDs = serviceUUIDs else {
                             return elem.observable
                         }
 
@@ -141,7 +141,7 @@ public class BluetoothManager {
                         // filtered properly
                         return elem.observable.filter { scannedPeripheral in
                             if let services = scannedPeripheral.advertisementData.serviceUUIDs {
-                                return Set(services).isSuperset(of: Set(serviceUUIDs!))
+                                return Set(services).isSuperset(of: Set(serviceUUIDs))
                             }
                             return false
                         }
@@ -187,7 +187,7 @@ public class BluetoothManager {
                     return operation
                 }()
                 // Allow scanning as long as bluetooth is powered on
-                return self.ensureState(state: .PoweredOn, observable: observable)
+                return self.ensure(state: .PoweredOn, observable: observable)
             }
     }
 
@@ -266,7 +266,7 @@ public class BluetoothManager {
                 }
             }
 
-            return ensureState(state: .PoweredOn, observable: observable)
+            return ensure(state: .PoweredOn, observable: observable)
     }
 
     /**
@@ -285,7 +285,7 @@ public class BluetoothManager {
                 disposable.dispose()
             }
         }
-        return ensureState(state: .PoweredOn, observable: observable)
+        return ensure(state: .PoweredOn, observable: observable)
     }
 
     // MARK: Retrieving Lists of Peripherals
@@ -307,7 +307,7 @@ public class BluetoothManager {
                 }
             }
         }
-        return ensureState(state: .PoweredOn, observable: observable)
+        return ensure(state: .PoweredOn, observable: observable)
     }
 
     /**
@@ -325,7 +325,7 @@ public class BluetoothManager {
                 }
             }
         }
-        return ensureState(state: .PoweredOn, observable: observable)
+        return ensure(state: .PoweredOn, observable: observable)
     }
 
     // MARK:  Internal functions
@@ -338,7 +338,7 @@ public class BluetoothManager {
      - parameter observable: Observable into which potential errors should be merged.
      - returns: New observable which merges errors with source observable.
      */
-    func ensureState<T>(state: BluetoothState, observable: Observable<T>) -> Observable<T> {
+    func ensure<T>(state: BluetoothState, observable: Observable<T>) -> Observable<T> {
         let statesObservable = rx_state
             .filter { $0 != state && BluetoothError(state: $0) != nil }
             .map { state -> T in throw BluetoothError(state: state)! }
@@ -371,7 +371,7 @@ public class BluetoothManager {
      - Returns: Observable which emits next events when `peripheral` was connected.
      */
     public func monitorPeripheralConnection(peripheral: Peripheral) -> Observable<Peripheral> {
-        return monitorPeripheralAction(peripheralAction: centralManager.rx_didConnectPeripheral, peripheral: peripheral)
+        return monitorPeripheral(on: centralManager.rx_didConnectPeripheral, peripheral: peripheral)
     }
 
     /**
@@ -381,16 +381,17 @@ public class BluetoothManager {
      - Returns: Observable which emits next events when `peripheral` was disconnected.
      */
     public func monitorPeripheralDisconnection(peripheral: Peripheral) -> Observable<Peripheral> {
-        return monitorPeripheralAction(peripheralAction: centralManager.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
+        //return monitorPeripheralAction(peripheralAction: centralManager.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
+        return monitorPeripheral(on: centralManager.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
     }
 
-    func monitorPeripheralAction(peripheralAction: Observable<RxPeripheralType>, peripheral: Peripheral)
+    func monitorPeripheral(on peripheralAction: Observable<RxPeripheralType>, peripheral: Peripheral)
         -> Observable<Peripheral> {
         let observable =
             peripheralAction
             .filter { $0 == peripheral.peripheral }
             .map { _ in peripheral }
-        return ensureState(state: .PoweredOn, observable: observable)
+        return ensure(state: .PoweredOn, observable: observable)
     }
 
     #if os(iOS)

@@ -485,7 +485,7 @@ public class Peripheral {
             }
             return Observable.absorb(
                 a: self.manager.ensurePeripheralIsConnected(peripheral: self),
-                self.manager.ensureState(state: .PoweredOn, observable: observable)
+                self.manager.ensure(state: .PoweredOn, observable: observable)
             )
         }
     }
