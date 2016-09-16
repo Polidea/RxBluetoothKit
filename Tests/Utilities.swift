@@ -45,24 +45,24 @@ func expectError<ErrorType : Equatable, Element>(event: Event<Element>, errorTyp
 }
 
 extension TestScheduler {
-    func scheduleObservable<Element>(time: ObservableScheduleTimes = ObservableScheduleTimes(), create: () -> Observable<Element>) -> ScheduledObservable<Element> {
+    func scheduleObservable<Element>(time: ObservableScheduleTimes = ObservableScheduleTimes(), create: @escaping () -> Observable<Element>) -> ScheduledObservable<Element> {
         var source : Observable<Element>? = nil
         var subscription : Disposable? = nil
-        let observer = createObserver(Element)
+        let observer = createObserver(Element.self)
         
-        self.scheduleAbsoluteVirtual((), time: time.createTime) {
+        _ = self.scheduleAbsoluteVirtual((), time: time.createTime) {
             source = create()
-            return NopDisposable.instance
+            return Disposables.create()
         }
         
-        self.scheduleAbsoluteVirtual((), time: time.subscribeTime) {
+        _ = self.scheduleAbsoluteVirtual((), time: time.subscribeTime) {
             subscription = source!.subscribe(observer)
-            return NopDisposable.instance
+            return Disposables.create()
         }
         
-        self.scheduleAbsoluteVirtual((), time: time.disposeTime) {
+        _ = self.scheduleAbsoluteVirtual((), time: time.disposeTime) {
             subscription!.dispose()
-            return NopDisposable.instance
+            return Disposables.create()
         }
         
         return ScheduledObservable(observer: observer, time: time)
@@ -124,10 +124,10 @@ extension ObservableScheduleTimes {
 
 extension BluetoothError {
     static var invalidStateErrors : [(BluetoothState, BluetoothError)] {
-        return [(.PoweredOff,   .BluetoothPoweredOff),
-                (.Resetting,    .BluetoothResetting),
-                (.Unauthorized, .BluetoothUnauthorized),
-                (.Unknown,      .BluetoothInUnknownState),
-                (.Unsupported,  .BluetoothUnsupported)]
+        return [(.PoweredOff,   .bluetoothPoweredOff),
+                (.Resetting,    .bluetoothResetting),
+                (.Unauthorized, .bluetoothUnauthorized),
+                (.Unknown,      .bluetoothInUnknownState),
+                (.Unsupported,  .bluetoothUnsupported)]
     }
 }

@@ -29,7 +29,7 @@ class FakeDescriptor: RxDescriptorType {
 
     var UUID = CBUUID()
     var characteristic: RxCharacteristicType
-    var value: AnyObject? = nil
+    var value: Any? = nil
     init(characteristic: RxCharacteristicType) {
         self.characteristic = characteristic
     }

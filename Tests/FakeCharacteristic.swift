@@ -30,7 +30,7 @@ class FakeCharacteristic: RxCharacteristicType {
     var uuid: CBUUID = CBUUID()
     var value: NSData? = nil
     var isNotifying: Bool = false
-    var properties: CBCharacteristicProperties = .Notify
+    var properties: CBCharacteristicProperties = .notify
 
     var descriptors: [RxDescriptorType]? = nil
 
