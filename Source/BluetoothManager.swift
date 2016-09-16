@@ -187,7 +187,7 @@ public class BluetoothManager {
                     return operation
                 }()
                 // Allow scanning as long as bluetooth is powered on
-                return self.ensure(state: .PoweredOn, observable: observable)
+                return self.ensure(state: .poweredOn, observable: observable)
             }
     }
 
@@ -266,7 +266,7 @@ public class BluetoothManager {
                 }
             }
 
-            return ensure(state: .PoweredOn, observable: observable)
+            return ensure(state: .poweredOn, observable: observable)
     }
 
     /**
@@ -285,7 +285,7 @@ public class BluetoothManager {
                 disposable.dispose()
             }
         }
-        return ensure(state: .PoweredOn, observable: observable)
+        return ensure(state: .poweredOn, observable: observable)
     }
 
     // MARK: Retrieving Lists of Peripherals
@@ -307,7 +307,7 @@ public class BluetoothManager {
                 }
             }
         }
-        return ensure(state: .PoweredOn, observable: observable)
+        return ensure(state: .poweredOn, observable: observable)
     }
 
     /**
@@ -325,7 +325,7 @@ public class BluetoothManager {
                 }
             }
         }
-        return ensure(state: .PoweredOn, observable: observable)
+        return ensure(state: .poweredOn, observable: observable)
     }
 
     // MARK:  Internal functions
@@ -391,7 +391,7 @@ public class BluetoothManager {
             peripheralAction
             .filter { $0 == peripheral.peripheral }
             .map { _ in peripheral }
-        return ensure(state: .PoweredOn, observable: observable)
+        return ensure(state: .poweredOn, observable: observable)
     }
 
     #if os(iOS)

@@ -230,7 +230,7 @@ extension Peripheral {
 
     /**
      Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
-     - Parameter data: `NSData` that'll be written to `Descriptor` instance
+     - Parameter data: `Data` that'll be written to `Descriptor` instance
       - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
      - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
      Immediately after that `.Complete` is emitted.
@@ -239,7 +239,7 @@ extension Peripheral {
         -> Observable<Descriptor> {
         return descriptor(withIdentifier: identifier)
             .flatMap { desc in
-                return self.writeValue(data: data, forDescriptor: desc)
+                return self.writeValue(data, for: desc)
         }
     }
 

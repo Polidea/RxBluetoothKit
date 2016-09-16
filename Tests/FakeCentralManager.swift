@@ -37,7 +37,7 @@ class FakeCentralManager: RxCentralManagerType {
     var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, Error?)> = .never()
     var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, Error?)> = .never()
 
-    var state: BluetoothState = BluetoothState.PoweredOn
+    var state: BluetoothState = BluetoothState.poweredOn
 
     var scanForPeripheralsWithServicesTO: TestableObserver<([CBUUID]?, [String:AnyObject]?)>?
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?) {

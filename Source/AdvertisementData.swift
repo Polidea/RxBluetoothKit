@@ -44,14 +44,14 @@ public struct AdvertisementData {
         return advertisementData[CBAdvertisementDataLocalNameKey] as? String
     }
 
-    /// A NSData object containing the manufacturer data of a peripheral.
+    /// A Data object containing the manufacturer data of a peripheral.
     public var manufacturerData: Data? {
         return advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data
     }
 
     /**
      A dictionary containing service-specific advertisement data.
-     The keys are CBUUID objects, representing CBService UUIDs. The values are NSData objects,
+     The keys are CBUUID objects, representing CBService UUIDs. The values are Data objects,
      representing service-specific data.
     */
     public var serviceData: [CBUUID:Data]? {

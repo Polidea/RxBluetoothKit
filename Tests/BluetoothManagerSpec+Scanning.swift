@@ -86,7 +86,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                     let errorPropagationTime = 600
                     
                     beforeEach {
-                        fakeCentralManager.state = .PoweredOn
+                        fakeCentralManager.state = .poweredOn
                         scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(serviceUUIDs: nil)})
                         
                         let errors: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorPropagationTime, event: .next(cberror))]
@@ -141,7 +141,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                 var recordsRSSI: [Double]!
                 
                 beforeEach {
-                    fakeCentralManager.state = .PoweredOn
+                    fakeCentralManager.state = .poweredOn
                     scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(serviceUUIDs: nil)})
                     var scans: [Recorded<Event<(RxPeripheralType, [String:Any], NSNumber)>>] = []
                     

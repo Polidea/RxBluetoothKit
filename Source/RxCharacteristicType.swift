@@ -32,7 +32,7 @@ protocol RxCharacteristicType {
     var uuid: CBUUID { get }
 
     /// Current characteristic value
-    var value: NSData? { get }
+    var value: Data? { get }
 
     /// True if characteristic value changes are notified
     var isNotifying: Bool { get }

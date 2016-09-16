@@ -35,9 +35,9 @@ class RxCBCharacteristic: RxCharacteristicType {
     var uuid: CBUUID {
         return characteristic.uuid
     }
-    var value: NSData? {
+    var value: Data? {
         if let value = characteristic.value {
-            return NSData(data: value)
+            return value
         }
         return nil
     }

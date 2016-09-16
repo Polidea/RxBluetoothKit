@@ -165,7 +165,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             }
                             context("when wrong state after calling") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorTime, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
@@ -204,7 +204,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         }
                         context("when disconnect after calling") {
                             beforeEach {
-                                fakeCentralManager.state = .PoweredOn
+                                fakeCentralManager.state = .poweredOn
                                 fakePeripheral.state = .connected
                                 let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
                                 let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: errorTime, event: event)]
@@ -335,7 +335,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             }
                             context("when wrong state after calling") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
@@ -376,7 +376,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         context("when disconnect after calling") {
                             beforeEach {
                                 //State is good on start.
-                                fakeCentralManager.state = .PoweredOn
+                                fakeCentralManager.state = .poweredOn
                                 fakePeripheral.state = .connected
                                 //Different types of errors ::
                                 let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
@@ -488,7 +488,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             }
                             context("when wrong state after calling ") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
@@ -527,7 +527,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         }
                         context("when wrong state after calling function") {
                             beforeEach {
-                                fakeCentralManager.state = .PoweredOn
+                                fakeCentralManager.state = .poweredOn
                                 fakePeripheral.state = .connected
                                 let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
                                 let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, event: event)]
@@ -641,7 +641,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
 
                             context("when wrong state after calling") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
@@ -682,7 +682,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         }
                         context("when disconnect after calling") {
                             beforeEach {
-                                fakeCentralManager.state = .PoweredOn
+                                fakeCentralManager.state = .poweredOn
                                 fakePeripheral.state = .connected
                                 let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
                                 let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, event: event)]
@@ -793,7 +793,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
 
                             context("when wrong state after calling") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
@@ -832,7 +832,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         }
                         context("when disconnect after calling") {
                             beforeEach {
-                                fakeCentralManager.state = .PoweredOn
+                                fakeCentralManager.state = .poweredOn
                                 fakePeripheral.state = .connected
                                 let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
                                 let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, event: event)]

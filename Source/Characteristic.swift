@@ -40,7 +40,7 @@ public class Characteristic {
     /**
     Current value of characteristic. If value is not present - it's `nil`.
     */
-    public var value: NSData? {
+    public var value: Data? {
         return characteristic.value
     }
 
@@ -113,7 +113,7 @@ public class Characteristic {
      Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
      if everything completed successfully. Errors are not emitted
      */
-    public func writeValue(data: Data, type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+    public func writeValue(_ data: Data, type: CBCharacteristicWriteType) -> Observable<Characteristic> {
         return service.peripheral.writeValue(data, for: self, type: type)
     }
 
@@ -145,7 +145,7 @@ public class Characteristic {
      - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
      is emitted
      */
-    public func setNotifyValue(enabled: Bool) -> Observable<Characteristic> {
+    public func setNotifyValue(_ enabled: Bool) -> Observable<Characteristic> {
         return service.peripheral.setNotifyValue(enabled: enabled, forCharacteristic: self)
     }
 

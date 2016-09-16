@@ -74,8 +74,8 @@ public class Descriptor {
      - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
      Immediately after that `.Complete` is emitted.
      */
-    public func writeValue(data: NSData) -> Observable<Descriptor> {
-        return characteristic.service.peripheral.writeValue(data: data as Data, forDescriptor: self)
+    public func writeValue(_ data: Data) -> Observable<Descriptor> {
+        return characteristic.service.peripheral.writeValue(data, for: self)
     }
 
     /**

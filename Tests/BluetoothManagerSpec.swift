@@ -62,7 +62,7 @@ class BluetoothManagerSpec: QuickSpec {
                     peripheralsObserver = testScheduler.scheduleObservable {
                         manager.retrievePeripheralsWithIdentifiers(identifiers: uuids)
                     }
-                    fakeCentralManager.state = .PoweredOn
+                    fakeCentralManager.state = .poweredOn
                 }
                 context("before subscription") {
                     it("should not call retrieve method") {
@@ -124,7 +124,7 @@ class BluetoothManagerSpec: QuickSpec {
                             }
                             context("got wrong state after retrieve peripherals function was called") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorTime, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
@@ -161,7 +161,7 @@ class BluetoothManagerSpec: QuickSpec {
                     peripheralsObserver = testScheduler.scheduleObservable {
                         manager.retrieveConnectedPeripheralsWithServices(serviceUUIDs: cbuuids)
                     }
-                    fakeCentralManager.state = .PoweredOn
+                    fakeCentralManager.state = .poweredOn
                 }
                 context("before subscription") {
                     it("should not call retrieve method") {
@@ -227,7 +227,7 @@ class BluetoothManagerSpec: QuickSpec {
                                     ]
                                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesResult = testScheduler.createHotObservable(events).asObservable()
 
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
@@ -299,7 +299,7 @@ class BluetoothManagerSpec: QuickSpec {
                             context("after subscribe and getting wrong state after connect is called") {
 
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
@@ -328,7 +328,7 @@ class BluetoothManagerSpec: QuickSpec {
                             peripheralObserver = testScheduler.scheduleObservable {
                                 manager.connectToPeripheral(peripheral: peripheral)
                             }
-                            fakeCentralManager.state = .PoweredOn
+                            fakeCentralManager.state = .poweredOn
                             fakePeripheral.state = .disconnected
                             connectionTime = peripheralObserver.time.after.subscribeTime
                         }
@@ -430,7 +430,7 @@ class BluetoothManagerSpec: QuickSpec {
                             context("after subscribe and getting wrong state after disconnect is called") {
 
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
+                                    fakeCentralManager.state = .poweredOn
                                     let stateChanges: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(stateChanges).asObservable()
                                     testScheduler.advanceTo(250)
@@ -455,7 +455,7 @@ class BluetoothManagerSpec: QuickSpec {
                             peripheralObserver = testScheduler.scheduleObservable {
                                 manager.cancelConnectionToPeripheral(peripheral: peripheral)
                             }
-                            fakeCentralManager.state = .PoweredOn
+                            fakeCentralManager.state = .poweredOn
                         }
                         context("before subscribe") {
                             it("should not call disconnect before subscribe") {

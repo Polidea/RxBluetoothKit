@@ -98,15 +98,15 @@ extension BluetoothError : CustomStringConvertible {
 extension BluetoothError {
     init?(state: BluetoothState) {
         switch state {
-        case .Unsupported:
+        case .unsupported:
             self = .bluetoothUnsupported
-        case .Unauthorized:
+        case .unauthorized:
             self = .bluetoothUnauthorized
-        case .PoweredOff:
+        case .poweredOff:
             self = .bluetoothPoweredOff
-        case .Unknown:
+        case .unknown:
             self = .bluetoothInUnknownState
-        case .Resetting:
+        case .resetting:
             self = .bluetoothResetting
         default:
             return nil

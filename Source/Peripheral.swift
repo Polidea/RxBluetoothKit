@@ -422,12 +422,12 @@ public class Peripheral {
 
     /**
      Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
-     - Parameter data: `NSData` that'll be written to `Descriptor` instance
+     - Parameter data: `Data` that'll be written to `Descriptor` instance
      - Parameter descriptor: `Descriptor` instance to write value to.
      - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
      Immediately after that `.Complete` is emitted.
      */
-    public func writeValue(data: Data, forDescriptor descriptor: Descriptor) -> Observable<Descriptor> {
+    public func writeValue(_ data: Data, for descriptor: Descriptor) -> Observable<Descriptor> {
         return Observable.create { observer in
             let disposable = self.ensureValidPeripheralState(for: self.monitorWrite(for: descriptor).take(1))
                 .subscribe(observer)
@@ -485,7 +485,7 @@ public class Peripheral {
             }
             return Observable.absorb(
                 a: self.manager.ensurePeripheralIsConnected(peripheral: self),
-                self.manager.ensure(state: .PoweredOn, observable: observable)
+                self.manager.ensure(state: .poweredOn, observable: observable)
             )
         }
     }
