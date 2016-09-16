@@ -318,7 +318,7 @@ class RxCBPeripheral: RxPeripheralType {
         }
     }
 
-    private class InternalPeripheralDelegateWrapper {
+    fileprivate class InternalPeripheralDelegateWrapper {
         fileprivate let delegate: InternalPeripheralDelegate
         fileprivate var refCount: Int
 
@@ -328,10 +328,10 @@ class RxCBPeripheral: RxPeripheralType {
         }
     }
 
-    fileprivate static let internalPeripheralDelegateWrappersLock = NSLock()
-    fileprivate static var internalPeripheralDelegateWrappers = [CBPeripheral: InternalPeripheralDelegateWrapper]()
+    private static let internalPeripheralDelegateWrappersLock = NSLock()
+    private static var internalPeripheralDelegateWrappers = [CBPeripheral: InternalPeripheralDelegateWrapper]()
 
-    fileprivate static func getInternalPeripheralDelegateRef(cbPeripheral: CBPeripheral) -> InternalPeripheralDelegate {
+    private static func getInternalPeripheralDelegateRef(cbPeripheral: CBPeripheral) -> InternalPeripheralDelegate {
         internalPeripheralDelegateWrappersLock.lock(); defer { internalPeripheralDelegateWrappersLock.unlock() }
 
         if let wrapper = internalPeripheralDelegateWrappers[cbPeripheral] {

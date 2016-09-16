@@ -72,7 +72,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     fakePeripheral.discoverCharacteristicsTO = testScheduler.createObserver(([CBUUID]?, RxServiceType).self)
                     discoverCharacteristicsMethodObserver = fakePeripheral.discoverCharacteristicsTO
                     characteristicsDiscoverObservable = testScheduler.scheduleObservable {
-                        return peripheral.discoverCharacteristics(identifiers, service: service)
+                        return peripheral.discoverCharacteristics(identifiers, for: service)
                     }
                 }
                 context("before subscribe") {
@@ -139,7 +139,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 context("when bluetooth failed/unauthorized/restricted") {
                     var state: BluetoothState!
                     var error: BluetoothError!
-                    //statesWithErrors are bluetooth state errors: Unknown, Unauthorized, Unsupported, PoweredOff, Unknown
+                    //statesWithErrors are bluetooth state errors: unknown, unauthorized, unsupported, poweredOff, unknown
                     for stateWithError in statesWithErrors {
                         beforeEach {
                             state = stateWithError.0
@@ -560,7 +560,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     fakePeripheral.setNotifyValueForCharacteristicTO = testScheduler.createObserver((Bool, RxCharacteristicType).self)
                     setNotifyCharacteristicMethodObserver = fakePeripheral.setNotifyValueForCharacteristicTO
                     characteristicObserver = testScheduler.scheduleObservable {
-                        return peripheral.setNotifyValue(enabled: true, forCharacteristic: characteristic)
+                        return peripheral.setNotifyValue(true, for: characteristic)
                     }
                 }
 
@@ -710,7 +710,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     fakePeripheral.setNotifyValueForCharacteristicTO = testScheduler.createObserver((Bool, RxCharacteristicType).self)
                     setNotifyCharacteristicMethodObserver = fakePeripheral.setNotifyValueForCharacteristicTO
                     characteristicObserver = testScheduler.scheduleObservable {
-                        return peripheral.setNotifyValue(enabled: true, forCharacteristic: characteristic)
+                        return peripheral.setNotifyValue(true, for: characteristic)
                     }
                 }
 

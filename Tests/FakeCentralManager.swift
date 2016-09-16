@@ -48,7 +48,7 @@ class FakeCentralManager: RxCentralManagerType {
         connectPeripheralOptionsTO?.onNext((peripheral, options))
     }
     var cancelPeripheralConnectionTO: TestableObserver<RxPeripheralType>?
-    func cancelConnection(_ peripheral: RxPeripheralType) {
+    func cancelPeripheralConnection(_ peripheral: RxPeripheralType) {
         cancelPeripheralConnectionTO?.onNext(peripheral)
     }
     var stopScanTO: TestableObserver<()>?
@@ -63,7 +63,7 @@ class FakeCentralManager: RxCentralManagerType {
     }
     var retrievePeripheralsWithIdentifiersTO: TestableObserver<[UUID]>?
     var retrievePeripheralsWithIdentifiersResult: Observable<[RxPeripheralType]> = .never()
-    func retrievePeripherals(with identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
+    func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
         retrievePeripheralsWithIdentifiersTO?.onNext(identifiers)
         return retrievePeripheralsWithIdentifiersResult
     }

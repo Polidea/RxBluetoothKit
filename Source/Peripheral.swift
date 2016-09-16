@@ -46,8 +46,8 @@ public class Peripheral {
      */
     public var rx_isConnected: Observable<Bool> {
         return Observable.deferred {
-            let disconnected = self.manager.monitorPeripheralDisconnection(peripheral: self).map { _ in false }
-            let connected = self.manager.monitorPeripheralConnection(peripheral: self).map { _ in true }
+            let disconnected = self.manager.monitorDisconnection(for: self).map { _ in false }
+            let connected = self.manager.monitorConnection(for: self).map { _ in true }
             return Observable.of(disconnected, connected).merge().startWith(self.isConnected)
         }
     }
@@ -99,7 +99,7 @@ public class Peripheral {
      - Returns: Observation which emits next event after connection is established
      */
     public func connect(options: [String: AnyObject]? = nil) -> Observable<Peripheral> {
-        return manager.connectToPeripheral(peripheral: self, options: options)
+        return manager.connect(self, options: options)
     }
 
     /**
@@ -109,7 +109,7 @@ public class Peripheral {
      - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
     public func cancelConnection() -> Observable<Peripheral> {
-        return manager.cancelConnectionToPeripheral(peripheral: self)
+        return manager.cancelPeripheralConnection(self)
     }
 
     /**
@@ -122,7 +122,7 @@ public class Peripheral {
      - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverServices(serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
+    public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
         if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.UUID) }), identifiers.count == services.count {
             return ensureValidPeripheralState(for: Observable.just(services))
         }
@@ -206,7 +206,7 @@ public class Peripheral {
      - Parameter service: Service of which characteristics should be discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverCharacteristics(_ identifiers: [CBUUID]?, service: Service) -> Observable<[Characteristic]> {
+    public func discoverCharacteristics(_ identifiers: [CBUUID]?, for service: Service) -> Observable<[Characteristic]> {
         if let identifiers = identifiers, let characteristics = service.characteristics?.filter({ identifiers.contains($0.UUID) }),
             identifiers.count == characteristics.count {
             return ensureValidPeripheralState(for: Observable.just(characteristics))
@@ -334,8 +334,8 @@ public class Peripheral {
      - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
      is emitted
      */
-    public func setNotifyValue(enabled: Bool,
-        forCharacteristic characteristic: Characteristic) -> Observable<Characteristic> {
+    public func setNotifyValue(_ enabled: Bool,
+        for characteristic: Characteristic) -> Observable<Characteristic> {
             let observable = peripheral
                 .rx_didUpdateNotificationStateForCharacteristic
                 .filter { $0.0 == characteristic.characteristic }
@@ -362,12 +362,12 @@ public class Peripheral {
      - returns: Observable which emits `Next`, when characteristic value is updated.
      This is **infinite** stream of values.
      */
-    public func setNotificationAndMonitorUpdatesForCharacteristic(characteristic: Characteristic)
+    public func setNotificationAndMonitorUpdates(for characteristic: Characteristic)
         -> Observable<Characteristic> {
             return Observable
                 .of(
                     monitorValueUpdate(for: characteristic),
-                    setNotifyValue(enabled: true, forCharacteristic: characteristic)
+                    setNotifyValue(true, for: characteristic)
                         .ignoreElements()
                         .subscribeOn(CurrentThreadScheduler.instance))
                 .merge()
@@ -484,7 +484,7 @@ public class Peripheral {
                 return Observable.error(BluetoothError.peripheralDisconnected(self, nil))
             }
             return Observable.absorb(
-                a: self.manager.ensurePeripheralIsConnected(peripheral: self),
+                self.manager.ensurePeripheralIsConnected(self),
                 self.manager.ensure(state: .poweredOn, observable: observable)
             )
         }

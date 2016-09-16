@@ -60,7 +60,7 @@ class BluetoothManagerSpec: QuickSpec {
                     fakeCentralManager.retrievePeripheralsWithIdentifiersTO = testScheduler.createObserver([UUID].self)
                     retrieveWithIdentifiersCallObserver = fakeCentralManager.retrievePeripheralsWithIdentifiersTO
                     peripheralsObserver = testScheduler.scheduleObservable {
-                        manager.retrievePeripheralsWithIdentifiers(identifiers: uuids)
+                        manager.retrievePeripherals(withIdentifiers: uuids)
                     }
                     fakeCentralManager.state = .poweredOn
                 }
@@ -159,7 +159,7 @@ class BluetoothManagerSpec: QuickSpec {
                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesTO = testScheduler.createObserver([CBUUID].self)
                     retrieveWithServicesCallObserver = fakeCentralManager.retrieveConnectedPeripheralsWithServicesTO
                     peripheralsObserver = testScheduler.scheduleObservable {
-                        manager.retrieveConnectedPeripheralsWithServices(serviceUUIDs: cbuuids)
+                        manager.retrieveConnectedPeripherals(withServices: cbuuids)
                     }
                     fakeCentralManager.state = .poweredOn
                 }
@@ -274,7 +274,7 @@ class BluetoothManagerSpec: QuickSpec {
                                 fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: AnyObject]?).self)
                                 connectObserver = fakeCentralManager.connectPeripheralOptionsTO
                                 peripheralObserver = testScheduler.scheduleObservable {
-                                    manager.connectToPeripheral(peripheral: peripheral)
+                                    manager.connect(peripheral)
                                 }
                                 state = stateWithError.0
                                 error = stateWithError.1
@@ -326,7 +326,7 @@ class BluetoothManagerSpec: QuickSpec {
                             fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: AnyObject]?).self)
                             connectObserver = fakeCentralManager.connectPeripheralOptionsTO
                             peripheralObserver = testScheduler.scheduleObservable {
-                                manager.connectToPeripheral(peripheral: peripheral)
+                                manager.connect(peripheral)
                             }
                             fakeCentralManager.state = .poweredOn
                             fakePeripheral.state = .disconnected
@@ -408,7 +408,7 @@ class BluetoothManagerSpec: QuickSpec {
                                 fakeCentralManager.cancelPeripheralConnectionTO = testScheduler.createObserver(RxPeripheralType.self)
                                 cancelConnectionObserver = fakeCentralManager.cancelPeripheralConnectionTO
                                 peripheralObserver = testScheduler.scheduleObservable {
-                                    manager.cancelConnectionToPeripheral(peripheral: peripheral)
+                                    manager.cancelPeripheralConnection(peripheral)
                                 }
                                 state = stateWithError.0
                                 error = stateWithError.1
@@ -453,7 +453,7 @@ class BluetoothManagerSpec: QuickSpec {
                             fakeCentralManager.cancelPeripheralConnectionTO = testScheduler.createObserver(RxPeripheralType.self)
                             disconnectObserver = fakeCentralManager.cancelPeripheralConnectionTO
                             peripheralObserver = testScheduler.scheduleObservable {
-                                manager.cancelConnectionToPeripheral(peripheral: peripheral)
+                                manager.cancelPeripheralConnection(peripheral)
                             }
                             fakeCentralManager.state = .poweredOn
                         }

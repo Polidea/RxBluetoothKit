@@ -71,7 +71,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                 context("when bluetooth manager has state: \(bleerror) and user is subscribed for scanning") {
                     beforeEach {
                         fakeCentralManager.state = cberror
-                        scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(serviceUUIDs: nil)})
+                        scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(withServices: nil)})
                         testScheduler.advanceTo(scanObservers[0].subscribeTime)
                     }
                     
@@ -87,7 +87,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                     
                     beforeEach {
                         fakeCentralManager.state = .poweredOn
-                        scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(serviceUUIDs: nil)})
+                        scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(withServices: nil)})
                         
                         let errors: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorPropagationTime, event: .next(cberror))]
                         testScheduler.scheduleAt(errorPropagationTime - 1, action: { fakeCentralManager.state = cberror })
@@ -142,7 +142,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                 
                 beforeEach {
                     fakeCentralManager.state = .poweredOn
-                    scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(serviceUUIDs: nil)})
+                    scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(withServices: nil)})
                     var scans: [Recorded<Event<(RxPeripheralType, [String:Any], NSNumber)>>] = []
                     
                     recordsRSSI = []
@@ -198,7 +198,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                     
                     beforeEach {
                         let times = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
-                        scanObservers.append(testScheduler.scheduleObservable(time: times, create: { manager.scanForPeripherals(serviceUUIDs: nil) }))
+                        scanObservers.append(testScheduler.scheduleObservable(time: times, create: { manager.scanForPeripherals(withServices: nil) }))
                     }
                     
                     context("when only first user is subscribed and one peripheral was discovered") {
@@ -265,9 +265,9 @@ class BluetoothManagerScanningSpec: QuickSpec {
                             let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
                             let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
                             scanObservers.append(testScheduler.scheduleObservable(time: times,
-                                                                                  create: {manager.scanForPeripherals(serviceUUIDs: firstScanPeripheralIdentifiers)}))
+                                                                                  create: {manager.scanForPeripherals(withServices: firstScanPeripheralIdentifiers)}))
                             scanObservers.append(testScheduler.scheduleObservable(time: times2,
-                                                                                  create: {manager.scanForPeripherals(serviceUUIDs: secondScanPeripheralIdentifiers)}))
+                                                                                  create: {manager.scanForPeripherals(withServices: secondScanPeripheralIdentifiers)}))
                         }
                         
                         context("when first user subscribed") {
@@ -333,9 +333,9 @@ class BluetoothManagerScanningSpec: QuickSpec {
                         let times = ObservableScheduleTimes(createTime: 100, subscribeTime: 300, disposeTime: 1000)
                         let times2 = ObservableScheduleTimes(createTime: 150, subscribeTime: 600, disposeTime: 1400)
                         scanObservers.append(testScheduler.scheduleObservable(time: times,
-                                                                              create: {manager.scanForPeripherals(serviceUUIDs: firstScanPeripheralIdentifiers)}))
+                                                                              create: {manager.scanForPeripherals(withServices: firstScanPeripheralIdentifiers)}))
                         scanObservers.append(testScheduler.scheduleObservable(time: times2,
-                                                                              create: {manager.scanForPeripherals(serviceUUIDs: secondScanPeripheralIdentifiers)}))
+                                                                              create: {manager.scanForPeripherals(withServices: secondScanPeripheralIdentifiers)}))
                     }
                     
                     context("when first user subscribed") {

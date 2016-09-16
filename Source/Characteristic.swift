@@ -146,7 +146,7 @@ public class Characteristic {
      is emitted
      */
     public func setNotifyValue(_ enabled: Bool) -> Observable<Characteristic> {
-        return service.peripheral.setNotifyValue(enabled: enabled, forCharacteristic: self)
+        return service.peripheral.setNotifyValue(enabled, for: self)
     }
 
     /**
@@ -156,7 +156,7 @@ public class Characteristic {
      This is **infinite** stream of values.
      */
     public func setNotificationAndMonitorUpdates() -> Observable<Characteristic> {
-        return service.peripheral.setNotificationAndMonitorUpdatesForCharacteristic(characteristic: self)
+        return service.peripheral.setNotificationAndMonitorUpdates(for: self)
     }
 }
 

@@ -70,7 +70,7 @@ protocol RxCentralManagerType {
 
      - parameter peripheral: Peripheral to be disconnected.
      */
-    func cancelConnection(_ peripheral: RxPeripheralType)
+    func cancelPeripheralConnection(_ peripheral: RxPeripheralType)
 
     /// Abort peripheral scanning
     func stopScan()
@@ -90,5 +90,5 @@ protocol RxCentralManagerType {
      - parameter identifiers: List of identifiers of peripherals for which we are looking for.
      - returns: Observable which emits peripherals with specified identifiers.
      */
-    func retrievePeripherals(with identifiers: [UUID]) -> Observable<[RxPeripheralType]>
+    func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]>
 }

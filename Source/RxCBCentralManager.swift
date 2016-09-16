@@ -144,7 +144,7 @@ class RxCBCentralManager: RxCentralManagerType {
 
      - parameter peripheral: Peripheral to be disconnected.
      */
-    func cancelConnection(_ peripheral: RxPeripheralType) {
+    func cancelPeripheralConnection(_ peripheral: RxPeripheralType) {
         return centralManager.cancelPeripheralConnection((peripheral as! RxCBPeripheral).peripheral)
     }
 
@@ -173,7 +173,7 @@ class RxCBCentralManager: RxCentralManagerType {
      - parameter identifiers: List of identifiers of peripherals for which we are looking for.
      - returns: Observable which emits peripherals with specified identifiers.
      */
-    func retrievePeripherals(with identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
+    func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
         return Observable.just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map {
             RxCBPeripheral(peripheral: $0)
         })
