@@ -51,9 +51,7 @@
 		2666FE231CCE4731005E81CE /* Characteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C101CBE3DEE005DEA5B /* Characteristic.swift */; };
 		2666FE241CCE4731005E81CE /* Observable+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */; };
 		2666FE251CCE4731005E81CE /* Unimplemented.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */; };
-		2666FE261CCE4731005E81CE /* Observable+From.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C141CBE3DEE005DEA5B /* Observable+From.swift */; };
 		2666FE271CCE4731005E81CE /* Observable+Absorb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */; };
-		2666FE281CCE4731005E81CE /* CollectionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C111CBE3DEE005DEA5B /* CollectionUtils.swift */; };
 		2666FE291CCE4731005E81CE /* Boxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */; };
 		2666FE2A1CCE4731005E81CE /* BluetoothError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */; };
 		2666FE2B1CCE4731005E81CE /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */; };
@@ -78,9 +76,7 @@
 		2666FE3E1CCE4732005E81CE /* Characteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C101CBE3DEE005DEA5B /* Characteristic.swift */; };
 		2666FE3F1CCE4732005E81CE /* Observable+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */; };
 		2666FE401CCE4732005E81CE /* Unimplemented.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */; };
-		2666FE411CCE4732005E81CE /* Observable+From.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C141CBE3DEE005DEA5B /* Observable+From.swift */; };
 		2666FE421CCE4732005E81CE /* Observable+Absorb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */; };
-		2666FE431CCE4732005E81CE /* CollectionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C111CBE3DEE005DEA5B /* CollectionUtils.swift */; };
 		2666FE441CCE4732005E81CE /* Boxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */; };
 		2666FE451CCE4732005E81CE /* BluetoothError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */; };
 		2666FE461CCE4732005E81CE /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */; };
@@ -179,10 +175,8 @@
 		A1299C0E1CBE3DEE005DEA5B /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BluetoothManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boxes.swift; sourceTree = "<group>"; };
 		A1299C101CBE3DEE005DEA5B /* Characteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Characteristic.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		A1299C111CBE3DEE005DEA5B /* CollectionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionUtils.swift; sourceTree = "<group>"; };
 		A1299C121CBE3DEE005DEA5B /* Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Descriptor.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Absorb.swift"; sourceTree = "<group>"; };
-		A1299C141CBE3DEE005DEA5B /* Observable+From.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Observable+From.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Observable+QueueSubscribeOn.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C161CBE3DEE005DEA5B /* Peripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Peripheral.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C171CBE3DEE005DEA5B /* RxCBCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBCentralManager.swift; sourceTree = "<group>"; };
@@ -264,9 +258,7 @@
 			children = (
 				A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */,
 				A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */,
-				A1299C141CBE3DEE005DEA5B /* Observable+From.swift */,
 				A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */,
-				A1299C111CBE3DEE005DEA5B /* CollectionUtils.swift */,
 				A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */,
 				A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */,
 			);
@@ -646,7 +638,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2666FE3F1CCE4732005E81CE /* Observable+QueueSubscribeOn.swift in Sources */,
-				2666FE431CCE4732005E81CE /* CollectionUtils.swift in Sources */,
 				2666FE491CCE4732005E81CE /* BluetoothManager.swift in Sources */,
 				2666FE401CCE4732005E81CE /* Unimplemented.swift in Sources */,
 				2666FE3B1CCE4732005E81CE /* RxCBService.swift in Sources */,
@@ -665,7 +656,6 @@
 				2666FE381CCE4732005E81CE /* Peripheral+Convenience.swift in Sources */,
 				2666FE391CCE4732005E81CE /* RxServiceType.swift in Sources */,
 				2666FE3A1CCE4732005E81CE /* Service.swift in Sources */,
-				2666FE411CCE4732005E81CE /* Observable+From.swift in Sources */,
 				2666FE451CCE4732005E81CE /* BluetoothError.swift in Sources */,
 				2666FE3E1CCE4732005E81CE /* Characteristic.swift in Sources */,
 				2666FE481CCE4732005E81CE /* RxCBCentralManager.swift in Sources */,
@@ -701,7 +691,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2666FE241CCE4731005E81CE /* Observable+QueueSubscribeOn.swift in Sources */,
-				2666FE281CCE4731005E81CE /* CollectionUtils.swift in Sources */,
 				2666FE2E1CCE4731005E81CE /* BluetoothManager.swift in Sources */,
 				2666FE251CCE4731005E81CE /* Unimplemented.swift in Sources */,
 				2666FE201CCE4731005E81CE /* RxCBService.swift in Sources */,
@@ -720,7 +709,6 @@
 				2666FE1E1CCE4731005E81CE /* RxServiceType.swift in Sources */,
 				26752FA61D89C630003D8D38 /* BluetoothState.swift in Sources */,
 				2666FE1F1CCE4731005E81CE /* Service.swift in Sources */,
-				2666FE261CCE4731005E81CE /* Observable+From.swift in Sources */,
 				2666FE2A1CCE4731005E81CE /* BluetoothError.swift in Sources */,
 				2666FE231CCE4731005E81CE /* Characteristic.swift in Sources */,
 				2666FE2D1CCE4731005E81CE /* RxCBCentralManager.swift in Sources */,

@@ -59,20 +59,20 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                     users = []
                     
                     let ob1 = testScheduler.createColdObservable(
-                        self.createRecords((000, .Next(-1)),
-                                           (100, .Next(0)),
-                                           (250, .Next(2)),
-                                           (300, .Completed)))
+                        self.createRecords(records: (000, .next(-1)),
+                                           (100, .next(0)),
+                                           (250, .next(2)),
+                                           (300, .completed)))
                     users.append(testScheduler.scheduleObservable {
-                        return ob1.queueSubscribeOn(serializedQueue).asObservable()
+                        return ob1.queueSubscribe(on: serializedQueue).asObservable()
                     })
                     
                     let ob2 = testScheduler.createColdObservable(
-                        self.createRecords((000, .Next(-1)),
-                                           (050, .Next(1)),
-                                           (100, .Completed)))
+                        self.createRecords(records: (000, .next(-1)),
+                                           (050, .next(1)),
+                                           (100, .completed)))
                     users.append(testScheduler.scheduleObservable {
-                        return ob2.queueSubscribeOn(serializedQueue).asObservable()
+                        return ob2.queueSubscribe(on: serializedQueue).asObservable()
                     })
                 }
                 
@@ -100,22 +100,22 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                     users = []
                     
                     let ob1 = testScheduler.createHotObservable(
-                        self.createRecords((000, .Next(-1)),
-                                           (205, .Next(0)),
-                                           (250, .Next(2)),
-                                           (400, .Completed)))
+                        self.createRecords(records: (000, .next(-1)),
+                                           (205, .next(0)),
+                                           (250, .next(2)),
+                                           (400, .completed)))
                     users.append(testScheduler.scheduleObservable {
-                        return ob1.queueSubscribeOn(serializedQueue).asObservable()
+                        return ob1.queueSubscribe(on: serializedQueue).asObservable()
                     })
                     
                     let ob2 = testScheduler.createHotObservable(
-                        self.createRecords((000, .Next(-1)),
-                                           (250, .Next(1)),
-                                           (500, .Next(2)),
-                                           (650, .Next(3)),
-                                           (800, .Completed)))
+                        self.createRecords(records: (000, .next(-1)),
+                                           (250, .next(1)),
+                                           (500, .next(2)),
+                                           (650, .next(3)),
+                                           (800, .completed)))
                     users.append(testScheduler.scheduleObservable {
-                        return ob2.queueSubscribeOn(serializedQueue).asObservable()
+                        return ob2.queueSubscribe(on: serializedQueue).asObservable()
                     })
                 }
                 
@@ -146,7 +146,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                     }
                     
                     it("should register last event of first user as complete of stream") {
-                        expect(users[0].observer.events.last!.value == .Completed).to(beTrue())
+                        expect(users[0].observer.events.last!.value == .completed).to(beTrue())
                     }
                 }
                 
@@ -168,7 +168,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
             
             context("when there are four users with queued subscriptions") {
                 var isSubscribed : [Bool]!
-                enum SomeError : ErrorType { case Error }
+                enum SomeError : Error { case error }
                 
                 beforeEach {
                     users = []
@@ -176,46 +176,46 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                     
                     // First user
                     let ob1 = testScheduler.createColdObservable(
-                        self.createRecords((300, Event<Int>.Completed)))
+                        self.createRecords(records: (300, Event<Int>.completed)))
                     isSubscribed.append(false)
                     users.append(testScheduler.scheduleObservable {
                         return Observable.deferred {
                             isSubscribed[0] = true
                             return ob1.asObservable()
-                        }.queueSubscribeOn(serializedQueue)
+                        }.queueSubscribe(on: serializedQueue)
                     })
                     
                     // Second user
                     let ob2 = testScheduler.createColdObservable(
-                        self.createRecords((250, Event<Int>.Error(SomeError.Error))))
+                        self.createRecords(records: (250, Event<Int>.error(SomeError.error))))
                     isSubscribed.append(false)
                     users.append(testScheduler.scheduleObservable {
                         return Observable.deferred {
                             isSubscribed[1] = true
                             return ob2.asObservable()
-                            }.queueSubscribeOn(serializedQueue)
+                            }.queueSubscribe(on: serializedQueue)
                     })
                     
                     // Third user (it should be disposed even before subscription)
                     let ob3 = testScheduler.createColdObservable(
-                        self.createRecords((100, Event<Int>.Completed)))
+                        self.createRecords(records: (100, Event<Int>.completed)))
                     isSubscribed.append(false)
-                    users.append(testScheduler.scheduleObservable(ObservableScheduleTimes(createTime: 0, subscribeTime: 200, disposeTime: 500)) {
+                    users.append(testScheduler.scheduleObservable(time: ObservableScheduleTimes(createTime: 0, subscribeTime: 200, disposeTime: 500)) {
                         return Observable.deferred {
                             isSubscribed[2] = true
                             return ob3.asObservable()
-                            }.queueSubscribeOn(serializedQueue)
+                            }.queueSubscribe(on: serializedQueue)
                     })
                     
                     // Fourth user
                     let ob4 = testScheduler.createColdObservable(
-                        self.createRecords((100, Event<Int>.Completed)))
+                        self.createRecords(records: (100, Event<Int>.completed)))
                     isSubscribed.append(false)
                     users.append(testScheduler.scheduleObservable {
                         return Observable.deferred {
                             isSubscribed[3] = true
                             return ob4.asObservable()
-                            }.queueSubscribeOn(serializedQueue)
+                            }.queueSubscribe(on: serializedQueue)
                     })
                 }
                 
@@ -262,7 +262,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                     }
                     
                     it("should register only complete event for first user") {
-                        expect(users[0].events.first!.value == .Completed).to(beTrue())
+                        expect(users[0].events.first!.value == .completed).to(beTrue())
                     }
                     
                     it("shouldn't register any event for second user") {
@@ -283,7 +283,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                     }
                     
                     it ("should register one event for second user") {
-                        expect(users[1].events.first!.value == .Error(SomeError.Error)).to(beTrue())
+                        expect(users[1].events.first!.value == .error(SomeError.error)).to(beTrue())
                     }
                     
                     it ("shouldn't register any event for fourth user") {

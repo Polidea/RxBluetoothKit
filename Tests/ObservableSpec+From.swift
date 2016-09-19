@@ -54,11 +54,13 @@ class ObservableFromSpec: QuickSpec {
             context("when there are two .Next() events with content") {
                 beforeEach {
                     let ob = testScheduler.createColdObservable(self.createRecords(
-                        (100, .Next([1,2,3,4])),
-                        (300, .Next([5,6,7])),
-                        (350, .Completed)))
+                        records: (100, .next([1,2,3,4])),
+                        (300, .next([5,6,7])),
+                        (350, .completed)))
                     
-                    observable = testScheduler.scheduleObservable { return Observable.from(ob.asObservable()) }
+                    observable = testScheduler.scheduleObservable {
+                        return ob.flatMap {Observable.from($0)}
+                    }
                     testScheduler.start()
                 }
                 
@@ -91,21 +93,23 @@ class ObservableFromSpec: QuickSpec {
                 }
                 
                 it("should register last event as complete event") {
-                    expect(observable.events.last!.value == .Completed).to(beTrue())
+                    expect(observable.events.last!.value == .completed).to(beTrue())
                 }
             }
             
             context("when there is a stream completed with error") {
-                enum SomeError : ErrorType { case Error }
+                enum SomeError : Error { case error }
                 
                 beforeEach {
                     let ob = testScheduler.createColdObservable(self.createRecords(
-                        (100, .Next([1,2])),
-                        (150, .Next([])),
-                        (200, .Next([3,4])),
-                        (350, .Error(SomeError.Error))))
+                        records: (100, .next([1,2])),
+                        (150, .next([])),
+                        (200, .next([3,4])),
+                        (350, .error(SomeError.error))))
                     
-                    observable = testScheduler.scheduleObservable { return Observable.from(ob.asObservable()) }
+                    observable = testScheduler.scheduleObservable {
+                        return ob.flatMap{Observable.from($0)}
+                    }
                     testScheduler.start()
                 }
                 
@@ -120,19 +124,21 @@ class ObservableFromSpec: QuickSpec {
                 }
                 
                 it("should complete with an error") {
-                    expect(observable.events.last!.value == .Error(SomeError.Error)).to(beTrue())
+                    expect(observable.events.last!.value == .error(SomeError.error)).to(beTrue())
                 }
             }
             
             context("when stream is disposed in the middle of processing") {
                 beforeEach {
                     let ob = testScheduler.createColdObservable(self.createRecords(
-                        (400, .Next([1,2])),
-                        (850, .Next([])),
-                        (1200, .Next([3,4])),
-                        (1500, .Completed)))
+                        records: (400, .next([1,2])),
+                        (850, .next([])),
+                        (1200, .next([3,4])),
+                        (1500, .completed)))
 
-                    observable = testScheduler.scheduleObservable { return Observable.from(ob.asObservable()) }
+                    observable = testScheduler.scheduleObservable {
+                        return ob.flatMap{Observable.from($0)}
+                    }
                     testScheduler.start()
                 }
                 

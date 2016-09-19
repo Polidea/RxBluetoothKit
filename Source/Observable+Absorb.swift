@@ -32,8 +32,8 @@ extension ObservableType {
      - returns: New observable which emits all of events from a and b observables.
      If error or complete is received on any of the observables, it's propagates immediately to result observable
      */
-    @warn_unused_result(message="http://git.io/rxs.uo")
-    static func absorb(a: Observable<E>, _ b: Observable<E>) -> Observable<E> {
+    
+    static func absorb(_ a: Observable<E>, _ b: Observable<E>) -> Observable<E> {
         return Observable.create { observer in
             let disposableBox = WeakBox<CompositeDisposable>()
             let innerObserver: AnyObserver<E> = AnyObserver.init { event in

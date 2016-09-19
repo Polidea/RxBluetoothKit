@@ -32,21 +32,21 @@ public enum BluetoothError: Error {
     case bluetoothInUnknownState
     case bluetoothResetting
     // Peripheral
-    case peripheralConnectionFailed(Peripheral, NSError?)
-    case peripheralDisconnected(Peripheral, NSError?)
-    case peripheralRSSIReadFailed(Peripheral, NSError?)
+    case peripheralConnectionFailed(Peripheral, Error?)
+    case peripheralDisconnected(Peripheral, Error?)
+    case peripheralRSSIReadFailed(Peripheral, Error?)
     // Services
-    case servicesDiscoveryFailed(Peripheral, NSError?)
-    case includedServicesDiscoveryFailed(Peripheral, NSError?)
+    case servicesDiscoveryFailed(Peripheral, Error?)
+    case includedServicesDiscoveryFailed(Peripheral, Error?)
     // Characteristics
-    case characteristicsDiscoveryFailed(Service, NSError?)
-    case characteristicWriteFailed(Characteristic, NSError?)
-    case characteristicReadFailed(Characteristic, NSError?)
-    case characteristicNotifyChangeFailed(Characteristic, NSError?)
+    case characteristicsDiscoveryFailed(Service, Error?)
+    case characteristicWriteFailed(Characteristic, Error?)
+    case characteristicReadFailed(Characteristic, Error?)
+    case characteristicNotifyChangeFailed(Characteristic, Error?)
     // Descriptors
-    case descriptorsDiscoveryFailed(Characteristic, NSError?)
-    case descriptorWriteFailed(Descriptor, NSError?)
-    case descriptorReadFailed(Descriptor, NSError?)
+    case descriptorsDiscoveryFailed(Characteristic, Error?)
+    case descriptorWriteFailed(Descriptor, Error?)
+    case descriptorReadFailed(Descriptor, Error?)
 }
 
 extension BluetoothError : CustomStringConvertible {
@@ -66,47 +66,47 @@ extension BluetoothError : CustomStringConvertible {
             return "Bluetooth is resetting"
         // Peripheral
         case .peripheralConnectionFailed(_, let err):
-            return "Connection error has occured: \(err?.description ?? "-")"
+            return "Connection error has occured: \(err?.localizedDescription ?? "-")"
         case .peripheralDisconnected(_, let err):
-            return "Connection error has occured: \(err?.description ?? "-")"
+            return "Connection error has occured: \(err?.localizedDescription ?? "-")"
         case .peripheralRSSIReadFailed(_, let err):
-            return "RSSI read failed : \(err?.description ?? "-")"
+            return "RSSI read failed : \(err?.localizedDescription ?? "-")"
         // Services
         case .servicesDiscoveryFailed(_, let err):
-            return "Services discovery error has occured: \(err?.description ?? "-")"
+            return "Services discovery error has occured: \(err?.localizedDescription ?? "-")"
         case .includedServicesDiscoveryFailed(_, let err):
-            return "Included services discovery error has occured: \(err?.description ?? "-")"
+            return "Included services discovery error has occured: \(err?.localizedDescription ?? "-")"
         // Characteristics
         case .characteristicsDiscoveryFailed(_, let err):
-            return "Characteristics discovery error has occured: \(err?.description ?? "-")"
+            return "Characteristics discovery error has occured: \(err?.localizedDescription ?? "-")"
         case .characteristicWriteFailed(_, let err):
-            return "Characteristic write error has occured: \(err?.description ?? "-")"
+            return "Characteristic write error has occured: \(err?.localizedDescription ?? "-")"
         case .characteristicReadFailed(_, let err):
-            return "Characteristic read error has occured: \(err?.description ?? "-")"
+            return "Characteristic read error has occured: \(err?.localizedDescription ?? "-")"
         case .characteristicNotifyChangeFailed(_, let err):
-            return "Characteristic notify change error has occured: \(err?.description ?? "-")"
+            return "Characteristic notify change error has occured: \(err?.localizedDescription ?? "-")"
         //Descriptors
         case .descriptorsDiscoveryFailed(_, let err):
-            return "Descriptor discovery error has occured: \(err?.description ?? "-")"
+            return "Descriptor discovery error has occured: \(err?.localizedDescription ?? "-")"
         case .descriptorWriteFailed(_, let err):
-            return "Descriptor write error has occured: \(err?.description ?? "-")"
+            return "Descriptor write error has occured: \(err?.localizedDescription ?? "-")"
         case .descriptorReadFailed(_, let err):
-            return "Descriptor read error has occured: \(err?.description ?? "-")"
+            return "Descriptor read error has occured: \(err?.localizedDescription ?? "-")"
         }
     }
 }
 extension BluetoothError {
     init?(state: BluetoothState) {
         switch state {
-        case .Unsupported:
+        case .unsupported:
             self = .bluetoothUnsupported
-        case .Unauthorized:
+        case .unauthorized:
             self = .bluetoothUnauthorized
-        case .PoweredOff:
+        case .poweredOff:
             self = .bluetoothPoweredOff
-        case .Unknown:
+        case .unknown:
             self = .bluetoothInUnknownState
-        case .Resetting:
+        case .resetting:
             self = .bluetoothResetting
         default:
             return nil

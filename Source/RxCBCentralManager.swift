@@ -29,6 +29,7 @@ import CoreBluetooth
  to hide all implementation details.
  */
 class RxCBCentralManager: RxCentralManagerType {
+
     private let centralManager: CBCentralManager
     private let internalDelegate = InternalDelegate()
 
@@ -44,41 +45,42 @@ class RxCBCentralManager: RxCentralManagerType {
 
     @objc private class InternalDelegate: NSObject, CBCentralManagerDelegate {
         let didUpdateStateSubject = PublishSubject<BluetoothState>()
-        let willRestoreStateSubject = PublishSubject<[String: AnyObject]>()
-        let didDiscoverPeripheralSubject = PublishSubject<(RxPeripheralType, [String: AnyObject], NSNumber)>()
+        let willRestoreStateSubject = PublishSubject<[String: Any]>()
+        let didDiscoverPeripheralSubject = PublishSubject<(RxPeripheralType, [String: Any], NSNumber)>()
         let didConnectPerihperalSubject = PublishSubject<RxPeripheralType>()
-        let didFailToConnectPeripheralSubject = PublishSubject<(RxPeripheralType, NSError?)>()
-        let didDisconnectPeripheral = PublishSubject<(RxPeripheralType, NSError?)>()
+        let didFailToConnectPeripheralSubject = PublishSubject<(RxPeripheralType, Error?)>()
+        let didDisconnectPeripheral = PublishSubject<(RxPeripheralType, Error?)>()
 
         @objc func centralManagerDidUpdateState(_ central: CBCentralManager) {
             guard let bleState = BluetoothState(rawValue: central.state.rawValue) else { return }
             didUpdateStateSubject.onNext(bleState)
         }
 
-        @objc func centralManager(central: CBCentralManager, willRestoreState dict: [String: AnyObject]) {
+        
+        @objc func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
             willRestoreStateSubject.onNext(dict)
         }
-
-        @objc func centralManager(central: CBCentralManager,
-            didDiscoverPeripheral peripheral: CBPeripheral,
-            advertisementData: [String: AnyObject],
-            RSSI: NSNumber) {
-                didDiscoverPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), advertisementData, RSSI))
+        
+        @objc func centralManager(_ central: CBCentralManager,
+            didDiscover peripheral: CBPeripheral,
+            advertisementData: [String: Any],
+            rssi: NSNumber) {
+                didDiscoverPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), advertisementData, rssi))
         }
 
-        @objc func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
+        @objc func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
             didConnectPerihperalSubject.onNext(RxCBPeripheral(peripheral: peripheral))
         }
 
-        @objc func centralManager(central: CBCentralManager,
-            didFailToConnectPeripheral peripheral: CBPeripheral,
-            error: NSError?) {
+        @objc func centralManager(_ central: CBCentralManager,
+            didFailToConnect peripheral: CBPeripheral,
+            error: Error?) {
                 didFailToConnectPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), error))
         }
 
-        @objc func centralManager(central: CBCentralManager,
+        @objc func centralManager(_ central: CBCentralManager,
             didDisconnectPeripheral peripheral: CBPeripheral,
-            error: NSError?) {
+            error: Error?) {
                 didDisconnectPeripheral.onNext((RxCBPeripheral(peripheral: peripheral), error))
         }
     }
@@ -88,11 +90,11 @@ class RxCBCentralManager: RxCentralManagerType {
         return internalDelegate.didUpdateStateSubject
     }
     /// Observable which infroms when central manager is about to restore its state
-    var rx_willRestoreState: Observable<[String: AnyObject]> {
+    var rx_willRestoreState: Observable<[String: Any]> {
         return internalDelegate.willRestoreStateSubject
     }
     /// Observable which infroms when central manage discovered peripheral
-    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String: AnyObject], NSNumber)> {
+    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String: Any], NSNumber)> {
         return internalDelegate.didDiscoverPeripheralSubject
     }
     /// Observable which infroms when central manager connected to peripheral
@@ -100,17 +102,17 @@ class RxCBCentralManager: RxCentralManagerType {
         return internalDelegate.didConnectPerihperalSubject
     }
     /// Observable which infroms when central manager failed to connect to peripheral
-    var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, NSError?)> {
+    var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, Error?)> {
         return internalDelegate.didFailToConnectPeripheralSubject
     }
     /// Observable which infroms when central manager disconnected from peripheral
-    var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> {
+    var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, Error?)> {
         return internalDelegate.didDisconnectPeripheral
     }
 
     /// Current central manager state
     var state: BluetoothState {
-        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .Unsupported
+        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
     }
 
     /**
@@ -121,7 +123,7 @@ class RxCBCentralManager: RxCentralManagerType {
      available peripherals will be discovered.
      - parameter options: Central Manager specific options for scanning
      */
-    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: AnyObject]?) {
+    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]?) {
         return centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
     }
 
@@ -132,7 +134,7 @@ class RxCBCentralManager: RxCentralManagerType {
      - parameter peripheral: Peripheral to connect to.
      - parameter options: Central Manager specific connection options.
      */
-    func connect(_ peripheral: RxPeripheralType, options: [String: AnyObject]?) {
+    func connect(_ peripheral: RxPeripheralType, options: [String: Any]?) {
         return centralManager.connect((peripheral as! RxCBPeripheral).peripheral, options: options)
     }
 
@@ -142,7 +144,7 @@ class RxCBCentralManager: RxCentralManagerType {
 
      - parameter peripheral: Peripheral to be disconnected.
      */
-    func cancelConnection(_ peripheral: RxPeripheralType) {
+    func cancelPeripheralConnection(_ peripheral: RxPeripheralType) {
         return centralManager.cancelPeripheralConnection((peripheral as! RxCBPeripheral).peripheral)
     }
 
@@ -163,7 +165,7 @@ class RxCBCentralManager: RxCentralManagerType {
             RxCBPeripheral(peripheral: $0)
         })
     }
-
+    
     /**
      Retrieve peripherals with specified identifiers.
 

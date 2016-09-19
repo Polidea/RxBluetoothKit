@@ -33,9 +33,9 @@ class RxCBCharacteristic: RxCharacteristicType {
     }
 
     var uuid: CBUUID {
-        return characteristic.UUID
+        return characteristic.uuid
     }
-    var value: NSData? {
+    var value: Data? {
         return characteristic.value
     }
     var isNotifying: Bool {
@@ -45,10 +45,7 @@ class RxCBCharacteristic: RxCharacteristicType {
         return characteristic.properties
     }
     var descriptors: [RxDescriptorType]? {
-        guard let descriptors = characteristic.descriptors else {
-            return nil
-        }
-        return descriptors.map {
+        return characteristic.descriptors?.map {
             RxCBDescriptor(descriptor: $0)
         }
     }

@@ -69,10 +69,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 var characteristicsDiscoverObservable: ScheduledObservable<[Characteristic]>!
                 var discoverCharacteristicsMethodObserver: TestableObserver<([CBUUID]?, RxServiceType)>!
                 beforeEach {
-                    fakePeripheral.discoverCharacteristicsTO = testScheduler.createObserver(([CBUUID]?, RxServiceType))
+                    fakePeripheral.discoverCharacteristicsTO = testScheduler.createObserver(([CBUUID]?, RxServiceType).self)
                     discoverCharacteristicsMethodObserver = fakePeripheral.discoverCharacteristicsTO
                     characteristicsDiscoverObservable = testScheduler.scheduleObservable {
-                        return peripheral.discoverCharacteristics(identifiers, service: service)
+                        return peripheral.discoverCharacteristics(identifiers, for: service)
                     }
                 }
                 context("before subscribe") {
@@ -85,8 +85,8 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         var fakeCharacteristics: [FakeCharacteristic]!
                         beforeEach {
                             fakeCharacteristics = [FakeCharacteristic(service: fakeService)]
-                            let event: Event<(RxServiceType, NSError?)> = Event.Next(fakeService as RxServiceType, nil)
-                            let service: [Recorded<Event<(RxServiceType, NSError?)>>] = [Recorded(time: eventTime, event: event)]
+                            let event: Event<(RxServiceType, Error?)> = Event.next(fakeService as RxServiceType, nil)
+                            let service: [Recorded<Event<(RxServiceType, Error?)>>] = [Recorded(time: eventTime, event: event)]
                             fakePeripheral.rx_didDiscoverCharacteristicsForService = testScheduler.createHotObservable(service).asObservable()
                             testScheduler.advanceTo(eventTime - 1)
                             fakeService.characteristics = fakeCharacteristics.map { $0 as RxCharacteristicType }
@@ -120,9 +120,9 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     }
                     context("on failure") {
                         beforeEach {
-                            let tuple: (RxServiceType, NSError?) = (fakeService as RxServiceType, NSError(domain: "ERROR", code: 200, userInfo: nil))
-                            let event: Event<(RxServiceType, NSError?)> = .Next(tuple)
-                            let service: [Recorded<Event<(RxServiceType, NSError?)>>] = [Recorded(time: eventTime, event: event)]
+                            let tuple: (RxServiceType, Error?) = (fakeService as RxServiceType, NSError(domain: "ERROR", code: 200, userInfo: nil))
+                            let event: Event<(RxServiceType, Error?)> = .next(tuple)
+                            let service: [Recorded<Event<(RxServiceType, Error?)>>] = [Recorded(time: eventTime, event: event)]
                             fakePeripheral.rx_didDiscoverCharacteristicsForService = testScheduler.createHotObservable(service).asObservable()
                             testScheduler.advanceTo(250)
                         }
@@ -131,7 +131,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicsDiscoverObservable.events.count).to(equal(1))
                             }
                             it("should return connection failed error") {
-                                expectError(characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.CharacteristicsDiscoveryFailed(service, nil))
+                                expectError(event: characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.characteristicsDiscoveryFailed(service, nil))
                             }
                         }
                     }
@@ -139,7 +139,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 context("when bluetooth failed/unauthorized/restricted") {
                     var state: BluetoothState!
                     var error: BluetoothError!
-                    //statesWithErrors are bluetooth state errors: Unknown, Unauthorized, Unsupported, PoweredOff, Unknown
+                    //statesWithErrors are bluetooth state errors: unknown, unauthorized, unsupported, poweredOff, unknown
                     for stateWithError in statesWithErrors {
                         beforeEach {
                             state = stateWithError.0
@@ -160,13 +160,13 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicsDiscoverObservable.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicsDiscoverObservable.events[0].value, errorType: error)
+                                    expectError(event: characteristicsDiscoverObservable.events[0].value, errorType: error)
                                 }
                             }
                             context("when wrong state after calling") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorTime, event: .Next(state))]
+                                    fakeCentralManager.state = .poweredOn
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorTime, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -177,7 +177,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicsDiscoverObservable.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicsDiscoverObservable.events[0].value, errorType: error)
+                                    expectError(event: characteristicsDiscoverObservable.events[0].value, errorType: error)
                                 }
                             }
                         }
@@ -192,22 +192,22 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     context("after subscribe") {
                         context("when disconnected on start") {
                             beforeEach {
-                                fakePeripheral.state = .Disconnected
+                                fakePeripheral.state = .disconnected
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
                                 expect(characteristicsDiscoverObservable.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(event: characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
                         }
                         context("when disconnect after calling") {
                             beforeEach {
-                                fakeCentralManager.state = .PoweredOn
-                                fakePeripheral.state = .Connected
-                                let event: Event<(RxPeripheralType, NSError?)> = Event.Next(fakePeripheral as RxPeripheralType, nil)
-                                let scans: [Recorded<Event<(RxPeripheralType, NSError?)>>] = [Recorded(time: errorTime, event: event)]
+                                fakeCentralManager.state = .poweredOn
+                                fakePeripheral.state = .connected
+                                let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
+                                let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: errorTime, event: event)]
                                 fakeCentralManager.rx_didDisconnectPeripheral = testScheduler.createHotObservable(scans).asObservable()
                                 testScheduler.advanceTo(250)
                             }
@@ -219,7 +219,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicsDiscoverObservable.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                    expectError(event: characteristicsDiscoverObservable.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                                 }
                             }
                         }
@@ -229,17 +229,17 @@ class PeripheralCharacteristicsSpec: QuickSpec {
 
             describe("writing to characteristic") {
 
-                var data: NSData!
-                let writeType: CBCharacteristicWriteType = CBCharacteristicWriteType.WithResponse
+                var data: Data!
+                let writeType: CBCharacteristicWriteType = CBCharacteristicWriteType.withResponse
                 var characteristicObserver: ScheduledObservable<Characteristic>!
-                var writeValueForCharacteristicMethodObserver: TestableObserver<(NSData, RxCharacteristicType, CBCharacteristicWriteType)>!
+                var writeValueForCharacteristicMethodObserver: TestableObserver<(Data, RxCharacteristicType, CBCharacteristicWriteType)>!
 
                 beforeEach {
-                    fakePeripheral.writeValueForCharacteristicTypeTO = testScheduler.createObserver((NSData, RxCharacteristicType, CBCharacteristicWriteType))
+                    fakePeripheral.writeValueForCharacteristicTypeTO = testScheduler.createObserver((Data, RxCharacteristicType, CBCharacteristicWriteType).self)
                     writeValueForCharacteristicMethodObserver = fakePeripheral.writeValueForCharacteristicTypeTO
-                    data = "A".dataUsingEncoding(NSUTF8StringEncoding)
+                    data = "A".data(using: String.Encoding.utf8)
                     characteristicObserver = testScheduler.scheduleObservable {
-                        return peripheral.writeValue(data, forCharacteristic: characteristic, type: writeType)
+                        return peripheral.writeValue(data, for: characteristic, type: writeType)
                     }
                 }
                 context("before subscribe") {
@@ -250,10 +250,11 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 context("after subscribe") {
                     context("on success") {
                         beforeEach {
-                            let disconnect: [Recorded<Event<(RxPeripheralType, NSError?)>>] = [Recorded(time: errorTime, event: .Next(fakePeripheral as RxPeripheralType, nil))]
+                            let disconnect:
+                            [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: errorTime, event: .next(fakePeripheral as RxPeripheralType, nil))]
                             fakeCentralManager.rx_didDisconnectPeripheral = testScheduler.createHotObservable(disconnect).asObservable()
 
-                            let write: [Recorded<Event<(RxCharacteristicType, NSError?)>>] = [Recorded(time: eventTime, event: .Next(fakeCharacteristic as RxCharacteristicType, nil))]
+                            let write: [Recorded<Event<(RxCharacteristicType, Error?)>>] = [Recorded(time: eventTime, event: .next(fakeCharacteristic as RxCharacteristicType, nil))]
                             fakePeripheral.rx_didWriteValueForCharacteristic = testScheduler.createHotObservable(write).asObservable()
                             testScheduler.advanceTo(250)
                         }
@@ -290,8 +291,8 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     }
                     context("on fail") {
                         beforeEach {
-                            let tuple: (RxCharacteristicType, NSError?) = (fakeCharacteristic as RxCharacteristicType, NSError(domain: "ERROR", code: 200, userInfo: nil))
-                            let write: [Recorded<Event<(RxCharacteristicType, NSError?)>>] = [Recorded(time: eventTime, event: .Next(tuple))]
+                            let tuple: (RxCharacteristicType, Error?) = (fakeCharacteristic as RxCharacteristicType, NSError(domain: "ERROR", code: 200, userInfo: nil))
+                            let write: [Recorded<Event<(RxCharacteristicType, Error?)>>] = [Recorded(time: eventTime, event: .next(tuple))]
                             fakePeripheral.rx_didWriteValueForCharacteristic = testScheduler.createHotObservable(write).asObservable()
                             testScheduler.advanceTo(250)
                         }
@@ -300,7 +301,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicObserver.events.count).to(equal(1))
                             }
                             it("should return connection failed error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.CharacteristicWriteFailed(characteristic, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.characteristicWriteFailed(characteristic, nil))
                             }
                         }
                     }
@@ -329,13 +330,13 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: error)
+                                    expectError(event: characteristicObserver.events[0].value, errorType: error)
                                 }
                             }
                             context("when wrong state after calling") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    fakeCentralManager.state = .poweredOn
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -346,7 +347,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: error)
+                                    expectError(event: characteristicObserver.events[0].value, errorType: error)
                                 }
                             }
                         }
@@ -362,24 +363,24 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     context("after subscribe") {
                         context("when disconnect on start") {
                             beforeEach {
-                                fakePeripheral.state = .Disconnected
+                                fakePeripheral.state = .disconnected
                                 testScheduler.advanceTo(250)
                             }
                             it("should get at least one event") {
                                 expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
                         }
                         context("when disconnect after calling") {
                             beforeEach {
                                 //State is good on start.
-                                fakeCentralManager.state = .PoweredOn
-                                fakePeripheral.state = .Connected
+                                fakeCentralManager.state = .poweredOn
+                                fakePeripheral.state = .connected
                                 //Different types of errors ::
-                                let event: Event<(RxPeripheralType, NSError?)> = Event.Next(fakePeripheral as RxPeripheralType, nil)
-                                let scans: [Recorded<Event<(RxPeripheralType, NSError?)>>] = [Recorded(time: 240, event: event)]
+                                let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
+                                let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, event: event)]
                                 fakeCentralManager.rx_didDisconnectPeripheral = testScheduler.createHotObservable(scans).asObservable()
                                 testScheduler.advanceTo(250)
                             }
@@ -391,7 +392,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
                         }
                     }
@@ -403,10 +404,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 var readValueForCharacteristicMethodObserver: TestableObserver<(RxCharacteristicType)>!
 
                 beforeEach {
-                    fakePeripheral.readValueForCharacteristicTO = testScheduler.createObserver(RxCharacteristicType)
+                    fakePeripheral.readValueForCharacteristicTO = testScheduler.createObserver(RxCharacteristicType.self)
                     readValueForCharacteristicMethodObserver = fakePeripheral.readValueForCharacteristicTO
                     characteristicObserver = testScheduler.scheduleObservable {
-                        return peripheral.readValueForCharacteristic(characteristic)
+                        return peripheral.readValue(for: characteristic)
                     }
                 }
                 context("before subscribe") {
@@ -453,7 +454,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicObserver.events.count).to(equal(1))
                             }
                             it("Should return coneection failed error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.CharacteristicReadFailed(characteristic, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.characteristicReadFailed(characteristic, nil))
                             }
                         }
                     }
@@ -482,13 +483,13 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: error)
+                                    expectError(event: characteristicObserver.events[0].value, errorType: error)
                                 }
                             }
                             context("when wrong state after calling ") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    fakeCentralManager.state = .poweredOn
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -499,7 +500,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: error)
+                                    expectError(event: characteristicObserver.events[0].value, errorType: error)
                                 }
                             }
                         }
@@ -514,22 +515,22 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     context("after subscribe") {
                         context("when wrong state on start") {
                             beforeEach {
-                                fakePeripheral.state = .Disconnected
+                                fakePeripheral.state = .disconnected
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
                                 expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
                         }
                         context("when wrong state after calling function") {
                             beforeEach {
-                                fakeCentralManager.state = .PoweredOn
-                                fakePeripheral.state = .Connected
-                                let event: Event<(RxPeripheralType, NSError?)> = Event.Next(fakePeripheral as RxPeripheralType, nil)
-                                let scans: [Recorded<Event<(RxPeripheralType, NSError?)>>] = [Recorded(time: 240, event: event)]
+                                fakeCentralManager.state = .poweredOn
+                                fakePeripheral.state = .connected
+                                let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
+                                let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, event: event)]
                                 fakeCentralManager.rx_didDisconnectPeripheral = testScheduler.createHotObservable(scans).asObservable()
                                 testScheduler.advanceTo(250)
                             }
@@ -544,7 +545,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                    expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                                 }
                             }
                         }
@@ -556,10 +557,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 var characteristicObserver: ScheduledObservable<Characteristic>!
                 var setNotifyCharacteristicMethodObserver: TestableObserver<(Bool, RxCharacteristicType)>!
                 beforeEach {
-                    fakePeripheral.setNotifyValueForCharacteristicTO = testScheduler.createObserver((Bool, RxCharacteristicType))
+                    fakePeripheral.setNotifyValueForCharacteristicTO = testScheduler.createObserver((Bool, RxCharacteristicType).self)
                     setNotifyCharacteristicMethodObserver = fakePeripheral.setNotifyValueForCharacteristicTO
                     characteristicObserver = testScheduler.scheduleObservable {
-                        return peripheral.setNotifyValue(true, forCharacteristic: characteristic)
+                        return peripheral.setNotifyValue(true, for: characteristic)
                     }
                 }
 
@@ -605,7 +606,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicObserver.events.count).to(equal(1))
                             }
                             it("Should return coneection failed error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.CharacteristicNotifyChangeFailed(characteristic, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.characteristicNotifyChangeFailed(characteristic, nil))
                             }
                         }
                     }
@@ -634,14 +635,14 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: error)
+                                    expectError(event: characteristicObserver.events[0].value, errorType: error)
                                 }
                             }
 
                             context("when wrong state after calling") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    fakeCentralManager.state = .poweredOn
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -652,7 +653,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: error)
+                                    expectError(event: characteristicObserver.events[0].value, errorType: error)
                                 }
                             }
                         }
@@ -669,22 +670,22 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     context("after subscribe") {
                         context("when disconnect on start") {
                             beforeEach {
-                                fakePeripheral.state = .Disconnected
+                                fakePeripheral.state = .disconnected
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
                                 expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
                         }
                         context("when disconnect after calling") {
                             beforeEach {
-                                fakeCentralManager.state = .PoweredOn
-                                fakePeripheral.state = .Connected
-                                let event: Event<(RxPeripheralType, NSError?)> = Event.Next(fakePeripheral as RxPeripheralType, nil)
-                                let scans: [Recorded<Event<(RxPeripheralType, NSError?)>>] = [Recorded(time: 240, event: event)]
+                                fakeCentralManager.state = .poweredOn
+                                fakePeripheral.state = .connected
+                                let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
+                                let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, event: event)]
                                 fakeCentralManager.rx_didDisconnectPeripheral = testScheduler.createHotObservable(scans).asObservable()
                                 testScheduler.advanceTo(250)
                             }
@@ -695,7 +696,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
                         }
                     }
@@ -706,10 +707,10 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 var characteristicObserver: ScheduledObservable<Characteristic>!
                 var setNotifyCharacteristicMethodObserver: TestableObserver<(Bool, RxCharacteristicType)>!
                 beforeEach {
-                    fakePeripheral.setNotifyValueForCharacteristicTO = testScheduler.createObserver((Bool, RxCharacteristicType))
+                    fakePeripheral.setNotifyValueForCharacteristicTO = testScheduler.createObserver((Bool, RxCharacteristicType).self)
                     setNotifyCharacteristicMethodObserver = fakePeripheral.setNotifyValueForCharacteristicTO
                     characteristicObserver = testScheduler.scheduleObservable {
-                        return peripheral.setNotifyValue(true, forCharacteristic: characteristic)
+                        return peripheral.setNotifyValue(true, for: characteristic)
                     }
                 }
 
@@ -757,7 +758,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicObserver.events.count).to(equal(1))
                             }
                             it("Should return coneection failed error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.CharacteristicNotifyChangeFailed(characteristic, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.characteristicNotifyChangeFailed(characteristic, nil))
                             }
                         }
                     }
@@ -786,14 +787,14 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: error)
+                                    expectError(event: characteristicObserver.events[0].value, errorType: error)
                                 }
                             }
 
                             context("when wrong state after calling") {
                                 beforeEach {
-                                    fakeCentralManager.state = .PoweredOn
-                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .Next(state))]
+                                    fakeCentralManager.state = .poweredOn
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -804,7 +805,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
                                 }
                                 it("should return proper error") {
-                                    expectError(characteristicObserver.events[0].value, errorType: error)
+                                    expectError(event: characteristicObserver.events[0].value, errorType: error)
                                 }
                             }
                         }
@@ -819,22 +820,22 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     context("after subscribe") {
                         context("when disconnect on start") {
                             beforeEach {
-                                fakePeripheral.state = .Disconnected
+                                fakePeripheral.state = .disconnected
                                 testScheduler.advanceTo(250)
                             }
                             it("should get event error") {
                                 expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
                         }
                         context("when disconnect after calling") {
                             beforeEach {
-                                fakeCentralManager.state = .PoweredOn
-                                fakePeripheral.state = .Connected
-                                let event: Event<(RxPeripheralType, NSError?)> = Event.Next(fakePeripheral as RxPeripheralType, nil)
-                                let scans: [Recorded<Event<(RxPeripheralType, NSError?)>>] = [Recorded(time: 240, event: event)]
+                                fakeCentralManager.state = .poweredOn
+                                fakePeripheral.state = .connected
+                                let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
+                                let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, event: event)]
                                 fakeCentralManager.rx_didDisconnectPeripheral = testScheduler.createHotObservable(scans).asObservable()
                                 testScheduler.advanceTo(250)
                             }
@@ -845,7 +846,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                                 expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
                             it("should return proper error") {
-                                expectError(characteristicObserver.events[0].value, errorType: BluetoothError.PeripheralDisconnected(peripheral, nil))
+                                expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
                         }
                     }
