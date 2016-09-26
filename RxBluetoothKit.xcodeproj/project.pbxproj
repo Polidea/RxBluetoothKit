@@ -140,7 +140,7 @@
 
 /* Begin PBXFileReference section */
 		26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceIdentifiers.swift; sourceTree = "<group>"; };
-		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; };
+		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		2666FCED1CCE42A5005E81CE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
 		2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RxBluetoothKit.h; path = Source/RxBluetoothKit.h; sourceTree = "<group>"; };
 		2666FCF11CCE42D1005E81CE /* BluetoothManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManagerSpec.swift; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 		2666FCFF1CCE42FE005E81CE /* FakeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeService.swift; sourceTree = "<group>"; };
 		2666FD061CCE430F005E81CE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2666FD091CCE431B005E81CE /* ObservableSpec+From.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableSpec+From.swift"; sourceTree = "<group>"; };
-		2666FD0A1CCE431B005E81CE /* ObservableSpec+QueueSubscribeOn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableSpec+QueueSubscribeOn.swift"; sourceTree = "<group>"; };
+		2666FD0A1CCE431B005E81CE /* ObservableSpec+QueueSubscribeOn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "ObservableSpec+QueueSubscribeOn.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		2666FD0B1CCE431B005E81CE /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxBluetoothKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2666FD8D1CCE457C005E81CE /* RxBluetoothKit iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RxBluetoothKit iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,10 +176,10 @@
 		A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boxes.swift; sourceTree = "<group>"; };
 		A1299C101CBE3DEE005DEA5B /* Characteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Characteristic.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C121CBE3DEE005DEA5B /* Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Descriptor.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Absorb.swift"; sourceTree = "<group>"; };
+		A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Observable+Absorb.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Observable+QueueSubscribeOn.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C161CBE3DEE005DEA5B /* Peripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Peripheral.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		A1299C171CBE3DEE005DEA5B /* RxCBCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBCentralManager.swift; sourceTree = "<group>"; };
+		A1299C171CBE3DEE005DEA5B /* RxCBCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RxCBCentralManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C181CBE3DEE005DEA5B /* RxCBCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBCharacteristic.swift; sourceTree = "<group>"; };
 		A1299C191CBE3DEE005DEA5B /* RxCBDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBDescriptor.swift; sourceTree = "<group>"; };
 		A1299C1A1CBE3DEE005DEA5B /* RxCBPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCBPeripheral.swift; sourceTree = "<group>"; };

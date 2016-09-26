@@ -32,7 +32,7 @@ extension ObservableType {
      If error or complete is received on any of the observables, it's propagates immediately to result observable
      */
     static func absorb(_ a: Observable<E>, _ b: Observable<E>) -> Observable<E> {
-        return.create { observer in
+        return .create { observer in
             let disposableBox = WeakBox<CompositeDisposable>()
             let innerObserver: AnyObserver<E> = AnyObserver { event in
                 observer.on(event)

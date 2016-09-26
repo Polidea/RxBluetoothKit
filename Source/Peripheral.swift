@@ -45,7 +45,7 @@ public class Peripheral {
      Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
      */
     public var rx_isConnected: Observable<Bool> {
-        return.deferred {
+        return .deferred {
             let disconnected = self.manager.monitorDisconnection(for: self).map { _ in false }
             let connected = self.manager.monitorConnection(for: self).map { _ in true }
             return Observable.of(disconnected, connected).merge().startWith(self.isConnected)
@@ -142,7 +142,7 @@ public class Peripheral {
         }
         .take(1)
 
-        return.create { observer in
+        return .create { observer in
             let disposable = self.ensureValidPeripheralState(for: observable).subscribe(observer)
             self.peripheral.discoverServices(serviceUUIDs)
             return disposable
@@ -183,7 +183,7 @@ public class Peripheral {
             }
             .take(1)
 
-        return.create { observer in
+        return .create { observer in
             let disposable = self.ensureValidPeripheralState(for: observable).subscribe(observer)
             self.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service)
             return disposable
@@ -222,7 +222,7 @@ public class Peripheral {
             }
             .take(1)
 
-        return.create { observer in
+        return .create { observer in
             let disposable = self.ensureValidPeripheralState(for: observable).subscribe(observer)
             self.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service)
             return disposable
@@ -277,7 +277,7 @@ public class Peripheral {
     public func writeValue(_ data: Data,
         for characteristic: Characteristic,
         type: CBCharacteristicWriteType) -> Observable<Characteristic> {
-            return.create { observer in
+            return .create { observer in
                 let disposable: Disposable
                 switch type {
                 case .withoutResponse:
@@ -319,7 +319,7 @@ public class Peripheral {
      `.Complete` is emitted.
      */
     public func readValue(for characteristic: Characteristic) -> Observable<Characteristic> {
-        return.create { observer in
+        return .create { observer in
             let disposable = self.monitorValueUpdate(for: characteristic).take(1).subscribe(observer)
             self.peripheral.readValue(for: characteristic.characteristic)
             return disposable
@@ -348,7 +348,7 @@ public class Peripheral {
                     }
                     return .just(characteristic)
                 }
-            return.create { observer in
+            return .create { observer in
                 let disposable = self.ensureValidPeripheralState(for: observable).take(1).subscribe(observer)
                 self.peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
                 return disposable
@@ -394,7 +394,7 @@ public class Peripheral {
                 throw BluetoothError.descriptorsDiscoveryFailed(characteristic, error)
             }
 
-        return.create { observer in
+        return .create { observer in
             let disposable = self.ensureValidPeripheralState(for: observable).subscribe(observer)
             self.peripheral.discoverDescriptors(for: characteristic.characteristic)
             return disposable
@@ -445,7 +445,7 @@ public class Peripheral {
      `.Complete` is emitted.
      */
     public func readValue(for descriptor: Descriptor) -> Observable<Descriptor> {
-        return.create { observer in
+        return .create { observer in
             let disposable = self.monitorValueUpdate(for: descriptor).take(1).subscribe(observer)
             self.peripheral.readValue(for: descriptor.descriptor)
             return disposable
@@ -460,7 +460,7 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func writeValue(_ data: Data, for descriptor: Descriptor) -> Observable<Descriptor> {
-        return.create { observer in
+        return .create { observer in
             let disposable = self.ensureValidPeripheralState(for: self.monitorWrite(for: descriptor).take(1))
                 .subscribe(observer)
             self.peripheral.writeValue(data, for: descriptor.descriptor)
@@ -474,11 +474,11 @@ public class Peripheral {
      - returns: Source observable which listens on state chnage errors as well
      */
     func ensureValidPeripheralState<T>(for observable: Observable<T>) -> Observable<T> {
-        return.deferred {
+        return .deferred {
             guard self.isConnected else {
                 throw BluetoothError.peripheralDisconnected(self, nil)
             }
-            return.absorb(
+            return .absorb(
                 self.manager.ensurePeripheralIsConnected(self),
                 self.manager.ensure(.poweredOn, observable: observable)
             )
@@ -499,7 +499,7 @@ public class Peripheral {
                 }
                 return .just((self, rssi))
         }
-        return.create { observer in
+        return .create { observer in
             let disposable = self.ensureValidPeripheralState(for: observable).subscribe(observer)
             self.peripheral.readRSSI()
             return disposable
