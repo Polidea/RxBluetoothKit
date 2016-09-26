@@ -153,7 +153,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         context("after subscribe") {
                             context("when wrong state on start") {
                                 beforeEach {
-                                    fakeCentralManager.rx_didUpdateState = Observable.just(state)
+                                    fakeCentralManager.rx_didUpdateState = .just(state)
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
@@ -323,7 +323,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         context("after subscribe") {
                             context("when wrong state on start") {
                                 beforeEach {
-                                    fakeCentralManager.rx_didUpdateState = Observable.just(state)
+                                    fakeCentralManager.rx_didUpdateState = .just(state)
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
@@ -418,7 +418,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 context("after subscribe with success read") {
                     context("on success") {
                         beforeEach {
-                            fakePeripheral.rx_didUpdateValueForCharacteristic = Observable.just((fakeCharacteristic, nil))
+                            fakePeripheral.rx_didUpdateValueForCharacteristic = .just((fakeCharacteristic, nil))
                             testScheduler.advanceTo(250)
                         }
 
@@ -446,7 +446,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     }
                     context("on fail") {
                         beforeEach {
-                            fakePeripheral.rx_didUpdateValueForCharacteristic = Observable.just((characteristic.characteristic, NSError(domain: "ERROR", code: 200, userInfo: nil)))
+                            fakePeripheral.rx_didUpdateValueForCharacteristic = .just((characteristic.characteristic, NSError(domain: "ERROR", code: 200, userInfo: nil)))
                             testScheduler.advanceTo(250)
                         }
                         describe("error returned") {
@@ -476,7 +476,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         context("after subscribe") {
                             context("when wrong state on start") {
                                 beforeEach {
-                                    fakeCentralManager.rx_didUpdateState = Observable.just(state)
+                                    fakeCentralManager.rx_didUpdateState = .just(state)
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
@@ -539,7 +539,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             }
                             context("getting wrong state in the middle of discover") {
                                 beforeEach {
-                                    fakeCentralManager.rx_didDisconnectPeripheral = Observable.just((fakePeripheral, nil))
+                                    fakeCentralManager.rx_didDisconnectPeripheral = .just((fakePeripheral, nil))
                                 }
                                 it("should get at least one event") {
                                     expect(characteristicObserver.events.count).to(beGreaterThan(0))
@@ -572,7 +572,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 context("after subscribe") {
                     context("on success") {
                         beforeEach {
-                            fakePeripheral.rx_didUpdateNotificationStateForCharacteristic = Observable.just((fakeCharacteristic, nil))
+                            fakePeripheral.rx_didUpdateNotificationStateForCharacteristic = .just((fakeCharacteristic, nil))
                             testScheduler.advanceTo(250)
                         }
                         it("should call read") {
@@ -598,7 +598,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     }
                     context("on fail") {
                         beforeEach {
-                            fakePeripheral.rx_didUpdateNotificationStateForCharacteristic = Observable.just((characteristic.characteristic, NSError(domain: "ERROR", code: 200, userInfo: nil)))
+                            fakePeripheral.rx_didUpdateNotificationStateForCharacteristic = .just((characteristic.characteristic, NSError(domain: "ERROR", code: 200, userInfo: nil)))
                             testScheduler.advanceTo(250)
                         }
                         describe("error returned") {
@@ -628,7 +628,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         context("after subscribe") {
                             context("when wrong state on start") {
                                 beforeEach {
-                                    fakeCentralManager.rx_didUpdateState = Observable.just(state)
+                                    fakeCentralManager.rx_didUpdateState = .just(state)
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {
@@ -722,7 +722,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                 context("after subscribe") {
                     context("on success") {
                         beforeEach {
-                            fakePeripheral.rx_didUpdateNotificationStateForCharacteristic = Observable.just((fakeCharacteristic, nil))
+                            fakePeripheral.rx_didUpdateNotificationStateForCharacteristic = .just((fakeCharacteristic, nil))
                             testScheduler.advanceTo(250)
                         }
                         it("should call read") {
@@ -750,7 +750,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     }
                     context("on fail") {
                         beforeEach {
-                            fakePeripheral.rx_didUpdateNotificationStateForCharacteristic = Observable.just((characteristic.characteristic, NSError(domain: "ERROR", code: 200, userInfo: nil)))
+                            fakePeripheral.rx_didUpdateNotificationStateForCharacteristic = .just((characteristic.characteristic, NSError(domain: "ERROR", code: 200, userInfo: nil)))
                             testScheduler.advanceTo(250)
                         }
                         describe("error returned") {
@@ -780,7 +780,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                         context("after subscribe") {
                             context("when wrong state on start") {
                                 beforeEach {
-                                    fakeCentralManager.rx_didUpdateState = Observable.just(state)
+                                    fakeCentralManager.rx_didUpdateState = .just(state)
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {

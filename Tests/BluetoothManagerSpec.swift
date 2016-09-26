@@ -377,7 +377,7 @@ class BluetoothManagerSpec: QuickSpec {
                             beforeEach {
                                 fakeCentralManager.rx_didConnectPeripheral =
                                         testScheduler.createHotObservable([Recorded(time: connectionTime, event: .next(peripheral.peripheral))]).asObservable()
-                                fakeCentralManager.rx_didFailToConnectPeripheral = Observable.just((peripheral.peripheral, NSError(domain: "Error", code: 200, userInfo: nil)))
+                                fakeCentralManager.rx_didFailToConnectPeripheral = .just((peripheral.peripheral, NSError(domain: "Error", code: 200, userInfo: nil)))
                                 testScheduler.advanceTo(250)
                             }
 
@@ -464,7 +464,7 @@ class BluetoothManagerSpec: QuickSpec {
                         }
                         context("after subscribe with disconnection success") {
                             beforeEach {
-                                fakeCentralManager.rx_didDisconnectPeripheral = Observable.just((peripheral.peripheral, nil))
+                                fakeCentralManager.rx_didDisconnectPeripheral = .just((peripheral.peripheral, nil))
                                 testScheduler.advanceTo(250)
                             }
                             it("should disconnect with from peripheral") {
@@ -489,7 +489,7 @@ class BluetoothManagerSpec: QuickSpec {
                         }
                         context("when peripheral is disconnected with an error (disconnection executed by system)") {
                             beforeEach {
-                                fakeCentralManager.rx_didDisconnectPeripheral = Observable.just((peripheral.peripheral, NSError(domain: "error", code: 200, userInfo: nil)))
+                                fakeCentralManager.rx_didDisconnectPeripheral = .just((peripheral.peripheral, NSError(domain: "error", code: 200, userInfo: nil)))
                                 testScheduler.advanceTo(peripheralObserver.time.after.subscribeTime)
                             }
                             it("should call disconnect with proper peripheral") {

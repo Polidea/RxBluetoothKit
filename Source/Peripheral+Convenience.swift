@@ -36,10 +36,10 @@ extension Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func service(with identifier: ServiceIdentifier) -> Observable<Service> {
-        return Observable.deferred {
+        return .deferred {
             if let services = self.services,
                 let service = services.first(where: { $0.uuid == identifier.uuid  }) {
-                return Observable.just(service)
+                return .just(service)
             } else {
                 return self.discoverServices([identifier.uuid])
                     .flatMap{Observable.from($0)}
@@ -56,16 +56,16 @@ extension Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func characteristic(with identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
-        return Observable.deferred {
+        return.deferred {
             return self.service(with: identifier.service)
                 .flatMap { service -> Observable<Characteristic> in
                     if let characteristics = service.characteristics, let characteristic = characteristics.first(where: {
                         $0.uuid == identifier.uuid
                     }) {
-                        return Observable.just(characteristic)
+                        return.just(characteristic)
                     } else {
                         return service.discoverCharacteristics([identifier.uuid])
-                        .flatMap { Observable.from($0)}
+                            .flatMap { Observable.from($0) }
                     }
                 }
         }
@@ -80,15 +80,15 @@ extension Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func descriptor(with identifier: DescriptorIdentifier) -> Observable<Descriptor> {
-        return Observable.deferred {
+        return.deferred {
             return self.characteristic(with: identifier.characteristic)
                 .flatMap { characteristic -> Observable<Descriptor> in
                     if let descriptors = characteristic.descriptors,
                         let descriptor = descriptors.first(where: { $0.uuid == identifier.uuid }) {
-                        return Observable.just(descriptor)
+                        return.just(descriptor)
                     } else {
                         return characteristic.discoverDescriptors()
-                            .flatMap {Observable.from($0)}
+                            .flatMap { Observable.from($0) }
                             .filter { $0.uuid == identifier.uuid }
                             .take(1)
                     }
@@ -102,12 +102,10 @@ extension Peripheral {
      - Returns: Observable that emits `Next` with `Characteristic` instance every time when write has happened.
      It's **infinite** stream, so `.Complete` is never called.
      */
-    public func monitorWriteForCharacteristic(with identifier: CharacteristicIdentifier)
+    public func monitorWrite(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
-            .flatMap {
-                return self.monitorWrite(for: $0)
-            }
+            .flatMap { return self.monitorWrite(for: $0) }
     }
 
     /**
@@ -126,12 +124,10 @@ extension Peripheral {
      Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
      if everything completed successfully. Errors are not emitted
      */
-    public func writeValue(_ data: Data, forCharacteristicWithIdentifier identifier: CharacteristicIdentifier,
+    public func writeValue(_ data: Data, for identifier: CharacteristicIdentifier,
                     type: CBCharacteristicWriteType) -> Observable<Characteristic> {
         return characteristic(with: identifier)
-            .flatMap {
-                return self.writeValue(data, for: $0, type: type)
-            }
+            .flatMap { return self.writeValue(data, for: $0, type: type) }
     }
 
     /**
@@ -140,11 +136,9 @@ extension Peripheral {
      - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
      It's **infinite** stream, so `.Complete` is never called.
      */
-    public func monitorValueUpdateForCharacteristic(with identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+    public func monitorValueUpdate(for identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return characteristic(with: identifier)
-            .flatMap {
-                return self.monitorValueUpdate(for: $0)
-            }
+            .flatMap { return self.monitorValueUpdate(for: $0) }
     }
 
     /**
@@ -154,11 +148,9 @@ extension Peripheral {
      - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
-    public func readValueForCharacteristic(with identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+    public func readValue(for identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return characteristic(with: identifier)
-            .flatMap { characteristic in
-                return self.readValue(for: characteristic)
-            }
+            .flatMap { characteristic in return self.readValue(for: characteristic) }
     }
 
     /**
@@ -171,12 +163,10 @@ extension Peripheral {
      - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
      is emitted
      */
-    public func setNotifyValue(_ enabled: Bool, forCharacteristicWith identifier: CharacteristicIdentifier)
+    public func setNotifyValue(_ enabled: Bool, for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
             return characteristic(with: identifier)
-                .flatMap {
-                    return self.setNotifyValue(enabled, for: $0)
-                }
+                .flatMap { return self.setNotifyValue(enabled, for: $0) }
     }
 
     /**
@@ -186,12 +176,10 @@ extension Peripheral {
      - returns: Observable which emits `Next`, when characteristic value is updated.
      This is **infinite** stream of values.
      */
-    public func setNotificationAndMonitorUpdatesForCharacteristic(with identifier: CharacteristicIdentifier)
+    public func setNotificationAndMonitorUpdates(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
             return characteristic(with: identifier)
-                .flatMap { char in
-                    return self.setNotificationAndMonitorUpdates(for: char)
-                }
+                .flatMap { return self.setNotificationAndMonitorUpdates(for: $0) }
     }
 
     /**
@@ -201,10 +189,10 @@ extension Peripheral {
      - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverDescriptorsForCharacteristic(with identifier: CharacteristicIdentifier) ->
+    public func discoverDescriptors(for identifier: CharacteristicIdentifier) ->
         Observable<[Descriptor]> {
         return characteristic(with: identifier)
-            .flatMap {self.discoverDescriptors(for: $0)}
+            .flatMap { self.discoverDescriptors(for: $0) }
     }
 
     /**
@@ -213,11 +201,9 @@ extension Peripheral {
      - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
      It's **infinite** stream, so `.Complete` is never called.
      */
-    public func monitorWriteForDescriptor(with identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func monitorWrite(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
-            .flatMap { desc in
-                return self.monitorWrite(for: desc)
-            }
+            .flatMap { return self.monitorWrite(for: $0) }
     }
 
     /**
@@ -227,12 +213,10 @@ extension Peripheral {
      - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
      Immediately after that `.Complete` is emitted.
      */
-    public func writeValue(_ data: Data, forDescriptorWith identifier: DescriptorIdentifier)
+    public func writeValue(_ data: Data, for identifier: DescriptorIdentifier)
         -> Observable<Descriptor> {
         return descriptor(with: identifier)
-            .flatMap { desc in
-                return self.writeValue(data, for: desc)
-            }
+            .flatMap { return self.writeValue(data, for: $0) }
     }
 
     /**
@@ -241,11 +225,9 @@ extension Peripheral {
      - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
      It's **infinite** stream, so `.Complete` is never called.
      */
-    public func monitorValueUpdateForDescriptor(with identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func monitorValueUpdate(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
-            .flatMap { desc in
-                return self.monitorValueUpdate(for: desc)
-            }
+            .flatMap { return self.monitorValueUpdate(for: $0) }
     }
 
     /**
@@ -255,10 +237,8 @@ extension Peripheral {
      - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
-    public func readValueForDescriptor(with identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func readValue(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
-            .flatMap { desc in
-                return self.readValue(for: desc)
-            }
+            .flatMap { return self.readValue(for: $0) }
     }
 }

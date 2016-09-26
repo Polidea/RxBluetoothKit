@@ -112,6 +112,16 @@ protocol RxPeripheralType {
      */
     func readValue(for characteristic: RxCharacteristicType)
 
+    /*!
+     *  @method		maximumWriteValueLengthForType:
+     *
+     *  @discussion	The maximum amount of data, in bytes, that can be sent to a characteristic in a single write type.
+     *
+     *  @see		writeValue:forCharacteristic:type:
+     */
+    @available(OSX 10.12, iOS 9.0, *)
+    func maximumWriteValueLength(for type: CBCharacteristicWriteType) -> Int
+
     /**
      Write value to characteristic. Confirmation that characteristic was read will be available in
      `rx_didWriteValueForCharacteristic` observable after subscribe.
