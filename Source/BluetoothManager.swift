@@ -241,9 +241,8 @@ public class BluetoothManager {
                 .filter { $0.0 == peripheral.peripheral }
                 .take(1)
                 .flatMap { (peripheral, error) -> Observable<Peripheral> in
-                    Observable.error(BluetoothError.peripheralConnectionFailed(
-                        Peripheral(manager: self, peripheral: peripheral), error))
-            }
+                    throw BluetoothError.peripheralConnectionFailed(Peripheral(manager: self, peripheral: peripheral), error)
+                }
 
             let observable = Observable<Peripheral>.create { observer in
                 if let error = BluetoothError(state: self.centralManager.state) {
@@ -256,8 +255,11 @@ public class BluetoothManager {
                     observer.onCompleted()
                     return Disposables.create()
                 }
+                
                 let disposable = success.amb(error).subscribe(observer)
+                
                 self.centralManager.connect(peripheral.peripheral, options: options)
+                
                 return Disposables.create {
                     if !peripheral.isConnected {
                         self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
@@ -354,12 +356,12 @@ public class BluetoothManager {
     func ensurePeripheralIsConnected<T>(_ peripheral: Peripheral) -> Observable<T> {
         return Observable.deferred {
             if !peripheral.isConnected {
-                return Observable.error(BluetoothError.peripheralDisconnected(peripheral, nil))
+                throw BluetoothError.peripheralDisconnected(peripheral, nil)
             }
             return self.centralManager.rx_didDisconnectPeripheral
                 .filter { $0.0 == peripheral.peripheral }
                 .flatMap { (_, error) -> Observable<T> in
-                    return Observable.error(BluetoothError.peripheralDisconnected(peripheral, error))
+                    throw BluetoothError.peripheralDisconnected(peripheral, error)
             }
         }
     }
