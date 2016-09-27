@@ -179,7 +179,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                         self.createRecords(records: (300, Event<Int>.completed)))
                     isSubscribed.append(false)
                     users.append(testScheduler.scheduleObservable {
-                        return .deferred {
+                        return Observable.deferred {
                             isSubscribed[0] = true
                             return ob1.asObservable()
                         }.queueSubscribe(on: serializedQueue)
@@ -190,7 +190,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                         self.createRecords(records: (250, Event<Int>.error(SomeError.error))))
                     isSubscribed.append(false)
                     users.append(testScheduler.scheduleObservable {
-                        return .deferred {
+                        return Observable.deferred {
                             isSubscribed[1] = true
                             return ob2.asObservable()
                             }.queueSubscribe(on: serializedQueue)
@@ -201,7 +201,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                         self.createRecords(records: (100, Event<Int>.completed)))
                     isSubscribed.append(false)
                     users.append(testScheduler.scheduleObservable(time: ObservableScheduleTimes(createTime: 0, subscribeTime: 200, disposeTime: 500)) {
-                        return .deferred {
+                        return Observable.deferred {
                             isSubscribed[2] = true
                             return ob3.asObservable()
                             }.queueSubscribe(on: serializedQueue)
@@ -212,7 +212,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
                         self.createRecords(records: (100, Event<Int>.completed)))
                     isSubscribed.append(false)
                     users.append(testScheduler.scheduleObservable {
-                        return .deferred {
+                        return Observable.deferred {
                             isSubscribed[3] = true
                             return ob4.asObservable()
                             }.queueSubscribe(on: serializedQueue)
