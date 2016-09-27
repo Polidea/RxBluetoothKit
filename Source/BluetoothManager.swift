@@ -107,7 +107,7 @@ public class BluetoothManager {
      Scans by default are infinite streams of `ScannedPeripheral` structures which need to be stopped by the user. For
      example this can be done by limiting scanning to certain number of peripherals or time:
 
-     bluetoothManager.scanForPeripherals(nil)
+     bluetoothManager.scanForPeripherals(withServices: nil)
         .timeout(3.0, timeoutScheduler)
         .take(2)
 

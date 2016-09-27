@@ -510,7 +510,7 @@ public class Peripheral {
      Function that allow user to monitor incoming `name` property changes of `Peripheral` instance.
      - returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed. It's `optional String` because peripheral could also lost his name. It's **infinite** stream of values, so `.Complete` is never emitted.
      */
-    public func monitorUpdateName() -> Observable<(Peripheral, String?)> {
+    public func monitorNameUpdate() -> Observable<(Peripheral, String?)> {
         return peripheral.rx_didUpdateName.map { return (self, $0) }
     }
 
