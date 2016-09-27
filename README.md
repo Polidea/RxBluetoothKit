@@ -78,7 +78,7 @@ manager.scanForPeripherals(withServices: [serviceIds])
 	let advertisement = scannedPeripheral.advertisement
 }
 ```
-This is the simplest version of this operation. After subscription to observable, scan is performed infinitely.  What you receive from method is ScannedPeripheral instance, that provides access to following information:
+This is the simplest version of this operation. After subscription to observable, scan is performed infinitely.  What you receive from method is `ScannedPeripheral` instance, that provides access to following information:
 - Peripheral: object that you can use, to perform actions like connecting, discovering services etc.
 - AdvertisementData: strongly typed wrapper around CBPeripheral advertisement data dictionary.. Thanks to it, you no longer have to worry about all of the keys needed to pull out information.
 - RSSI
@@ -189,8 +189,8 @@ While deciding to write to characteristic you have two writing options, that det
 - WithResponse
 - WithoutResponse
 
-Choosing `WithResponse`, you're waiting to receive .Next event on Observable while device has confirmed that value has been written to it. Also, if any error has ocurred - you will receive `.error` on Observable.
-On the other hand - if you decided to go with `WithoutResponse` - you're receiving Characteristic just after write command has been called. Also, no errors will be emitted.
+Choosing `withResponse`, you're waiting to receive .next event on Observable while device has confirmed that value has been written to it. Also, if any error has ocurred - you will receive `.error` on Observable.
+On the other hand - if you decided to go with `withoutResponse` - you're receiving Characteristic just after write command has been called. Also, no errors will be emitted.
 Let's jump over to the code:
 ```swift
 characteristic.writeValue(data, type: .withResponse)
@@ -204,9 +204,9 @@ In order to enable even easier interaction with RxBluetooth, we've provided cust
 Thats `ServiceIdentifier`, `CharacteristicIdentifier` and `DescriptorIdentifier`. Most of the time you're writing Bluetooth code to communicate with specific device, while knowing its specification like services and characteristic. Thats exactly the case, where you should implement these protocols. Sample implementation might look like:
 ```swift
 enum DeviceCharacteristic: String, CharacteristicIdentifier {
-    case ManufacturerName = "2A29"
+    case manufacturerName = "2A29"
 
-    var UUID: CBUUID {
+    var uuid: CBUUID {
         return CBUUID(string: self.rawValue)
     }
 		//Service to which characteristic belongs
@@ -218,9 +218,9 @@ enum DeviceCharacteristic: String, CharacteristicIdentifier {
     }
 }
 enum DeviceService: String, ServiceIdentifier {
-    case DeviceInformation = "180A"
+    case deviceInformation = "180A"
 
-    var UUID: CBUUID {
+    var uuid: CBUUID {
         return CBUUID(string: self.rawValue)
     }
 }
@@ -241,7 +241,7 @@ When you use new `CharacteristicIdentifier` protocol, you could do it way simple
 
 ```swift
 peripheral.connect()
-    .flatMap { $0.readValue(for: DeviceCharacteristic.ManufacturerName)
+    .flatMap { $0.readValue(for: DeviceCharacteristic.manufacturerName)
     .subscribeNext {
         let data = $0.value
     }
@@ -257,7 +257,7 @@ Here you'll find other useful functionalities of library
 By giving proper identifier to `BluetoothManager` in constructor(`options` property), you can achieve state restoration functionality. Later, just make sure to subscribe to `listenOnRestoredState` observable, and inspect `RestoredState` instance, which consists any useful info about restored state.
 
 #### Monitoring state of Bluetooth
-Used earlier `rx_state` is very useful function on `BluetoothManager`. While subscribed, it emits `Next` immediately with current `BluetoothState`.
+Used earlier `rx_state` is very useful function on `BluetoothManager`. While subscribed, it emits `next` immediately with current `BluetoothState`.
 After that, it emits new element after state changes.
 
 #### Monitor connection state of Peripheral
