@@ -7,8 +7,8 @@
 RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices much more pleasant. It's backed by RxSwift and CoreBluetooth.
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
-** 2.0 version of the library is intented to use if you support 2.3 and/or 2.2 **
-** 3.0 version supports Swift 3.0 and adopts Swift 3 Design Guidelines**
+** 3.0 version supports Swift 3.0 **
+** 2.0 version of the library supports Swift 2.2 and Swift 2.3 **
 
 For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active), or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
 
