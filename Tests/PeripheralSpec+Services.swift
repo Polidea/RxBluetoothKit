@@ -113,7 +113,7 @@ class PeripheralServicesSpec: QuickSpec {
                     }
                     context("on failure") {
                         beforeEach {
-                            fakePeripheral.rx_didDiscoverServices = Observable.just((nil, NSError(domain: "ERROR", code: 200, userInfo: nil)))
+                            fakePeripheral.rx_didDiscoverServices = .just((nil, NSError(domain: "ERROR", code: 200, userInfo: nil)))
                             testScheduler.advanceTo(250)
                         }
                         describe("error returned") {
@@ -144,7 +144,7 @@ class PeripheralServicesSpec: QuickSpec {
                         context("after subscribe") {
                             context("when wrong state on start") {
                                 beforeEach {
-                                    fakeCentralManager.rx_didUpdateState = Observable.just(state)
+                                    fakeCentralManager.rx_didUpdateState = .just(state)
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event") {
@@ -270,7 +270,7 @@ class PeripheralServicesSpec: QuickSpec {
                     }
                     context("on failure") {
                         beforeEach {
-                            fakePeripheral.rx_didDiscoverIncludedServicesForService = Observable.just((fakeService, NSError(domain: "ERROR", code: 200, userInfo: nil)))
+                            fakePeripheral.rx_didDiscoverIncludedServicesForService = .just((fakeService, NSError(domain: "ERROR", code: 200, userInfo: nil)))
                             testScheduler.advanceTo(250)
                         }
                         describe("error returned") {
@@ -299,7 +299,7 @@ class PeripheralServicesSpec: QuickSpec {
                         context("after subscribe") {
                             context("when wrong state on start") {
                                 beforeEach {
-                                    fakeCentralManager.rx_didUpdateState = Observable.just(state)
+                                    fakeCentralManager.rx_didUpdateState = .just(state)
                                     testScheduler.advanceTo(250)
                                 }
                                 it("should get event error") {

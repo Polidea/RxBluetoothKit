@@ -70,9 +70,7 @@ public class Characteristic {
      about characteristics value.
     */
     public var descriptors: [Descriptor]? {
-        return characteristic.descriptors?.map {
-            Descriptor(descriptor: $0, characteristic: self)
-        }
+        return characteristic.descriptors?.map { Descriptor(descriptor: $0, characteristic: self) }
     }
 
     init(characteristic: RxCharacteristicType, service: Service) {

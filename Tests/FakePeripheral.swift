@@ -35,6 +35,7 @@ class FakePeripheral: RxPeripheralType {
     var rx_state: Observable<CBPeripheralState> = .never()
     var services: [RxServiceType]? = nil
     var identifier: UUID = UUID()
+    var maximumWriteValueLength = 0
 
     var RSSI: Int? = nil
 
@@ -71,6 +72,11 @@ class FakePeripheral: RxPeripheralType {
     var readValueForCharacteristicTO: TestableObserver<RxCharacteristicType>?
     func readValue(for characteristic: RxCharacteristicType) {
         readValueForCharacteristicTO?.onNext(characteristic)
+    }
+
+    @available(OSX 10.12, iOS 9.0, *)
+    public func maximumWriteValueLength(for type: CBCharacteristicWriteType) -> Int {
+        return maximumWriteValueLength
     }
 
     var writeValueForCharacteristicTypeTO: TestableObserver<(Data, RxCharacteristicType, CBCharacteristicWriteType)>?

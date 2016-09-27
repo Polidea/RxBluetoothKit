@@ -1,3 +1,8 @@
+# 3.0.0
+- Implemented compatibility for Swift 3.0. This includes adoption of Swift Design Guidelines and new Value Types in Cocoa.
+- Implemented function `maximumWriteValueLength` on `Peripheral` instance that is available from OSX 10.12 and iOS 9.0
+- Couple of minor code cleanups in order to make source more concise and easier to read
+
 # 2.0.0
 - Implemented compatibility for Swift 2.3. This version is supposed to work with Xcode 7.3 and Xcode 8.
 - Introduced `BluetoothState` which is same as `CBCentralManagerState` and `CBManagerState` and help us achieve compatibility with 8.0 and 10.0 CoreBluetooth SDKs.

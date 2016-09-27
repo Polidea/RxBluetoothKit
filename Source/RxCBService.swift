@@ -35,20 +35,10 @@ class RxCBService: RxServiceType {
         return service.uuid
     }
     var characteristics: [RxCharacteristicType]? {
-        guard let chars = service.characteristics else {
-            return nil
-        }
-        return chars.map {
-            RxCBCharacteristic(characteristic: $0)
-        }
+        return service.characteristics?.map { RxCBCharacteristic(characteristic: $0) }
     }
     var includedServices: [RxServiceType]? {
-        guard let services = service.includedServices else {
-            return nil
-        }
-        return services.map {
-            RxCBService(service: $0)
-        }
+        return service.includedServices?.map { RxCBService(service: $0) }
     }
     var isPrimary: Bool {
         return service.isPrimary

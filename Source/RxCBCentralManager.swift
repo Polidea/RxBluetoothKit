@@ -161,7 +161,7 @@ class RxCBCentralManager: RxCentralManagerType {
      - returns: Observable wich emits connected peripherals.
      */
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
-        return Observable.just(centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map {
+        return .just(centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map {
             RxCBPeripheral(peripheral: $0)
         })
     }
@@ -173,7 +173,7 @@ class RxCBCentralManager: RxCentralManagerType {
      - returns: Observable which emits peripherals with specified identifiers.
      */
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
-        return Observable.just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map {
+        return .just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map {
             RxCBPeripheral(peripheral: $0)
         })
     }

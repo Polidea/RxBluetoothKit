@@ -59,12 +59,7 @@ class RxCBPeripheral: RxPeripheralType {
 
     /// Peripheral's services
     var services: [RxServiceType]? {
-        guard let services = peripheral.services else {
-            return nil
-        }
-        return services.map {
-            RxCBService(service: $0)
-        }
+        return peripheral.services?.map { RxCBService(service: $0) }
     }
 
     /// Observable which emits peripheral's name changes
@@ -211,6 +206,18 @@ class RxCBPeripheral: RxPeripheralType {
      */
     func readValue(for descriptor: RxDescriptorType) {
         peripheral.readValue(for: (descriptor as! RxCBDescriptor).descriptor)
+    }
+
+    /*!
+     *  @method		maximumWriteValueLengthForType:
+     *
+     *  @discussion	The maximum amount of data, in bytes, that can be sent to a characteristic in a single write type.
+     *
+     *  @see		writeValue:forCharacteristic:type:
+     */
+    @available(OSX 10.12, iOS 9.0, *)
+    func maximumWriteValueLength(for type: CBCharacteristicWriteType) -> Int {
+        return peripheral.maximumWriteValueLength(for: type)
     }
 
     /**
