@@ -51,7 +51,7 @@ class SerializedSubscriptionQueue {
         queue.append(observable)
         if execute {
             // Observable is scheduled immidiately
-            queue.first?.delayedSubscribe(scheduler)
+            queue.first?.delayedSubscribe(on: scheduler)
         }
     }
 
@@ -60,19 +60,19 @@ class SerializedSubscriptionQueue {
 
         // Find index of observable which should be unsubscribed
         // and remove it from queue
-        if let index = queue.indexOf({ $0 === observable }) {
-            queue.removeAtIndex(index)
+        if let index = queue.index(where: { $0 === observable }) {
+            queue.remove(at: index)
             // If first item was unsubscribed, subscribe on next one
             // if available
             if index == 0 {
-                queue.first?.delayedSubscribe(scheduler)
+                queue.first?.delayedSubscribe(on: scheduler)
             }
         }
     }
 }
 
 protocol DelayedObservableType: class {
-    func delayedSubscribe(scheduler: ImmediateSchedulerType)
+    func delayedSubscribe(on scheduler: ImmediateSchedulerType)
 }
 
 class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, DelayedObservableType {
@@ -83,9 +83,12 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     var observer: AnyObserver<Element>?
 
     let serialDisposable = SerialDisposable()
-    var isDisposed: Int32 = 0
+    var _isDisposed: Int32 = 0
+    var isDisposed: Bool {
+        return _isDisposed == 1
+    }
     var disposed: Bool {
-        return isDisposed == 1
+        return _isDisposed == 1
     }
 
     init(source: Observable<Element>, queue: SerializedSubscriptionQueue) {
@@ -96,8 +99,8 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     // All event needs to be passed to original observer
     // if subscription was not disposed. If stream is completed
     // cleanup should occur.
-    func on(event: Event<Element>) {
-        guard !disposed else { return }
+    func on(_ event: Event<Element>) {
+        guard !isDisposed else { return }
         observer?.on(event)
         if event.isStopEvent {
             dispose()
@@ -106,30 +109,31 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
 
     // Part of producer implementation. We need to make sure that we can optimize
     // scheduling of a work (taken from RxSwift source code)
-    func subscribe<O: ObserverType where O.E == Element>(observer: O) -> Disposable {
+    func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         if !CurrentThreadScheduler.isScheduleRequired {
-            return run(observer)
+            return run(observer: observer)
         } else {
             return CurrentThreadScheduler.instance.schedule(()) { _ in
-                return self.run(observer)
+                return self.run(observer: observer)
             }
         }
+
     }
 
     // After original subscription we need to place it on queue for delayed execution if required.
-    func run<O: ObserverType where O.E == Element>(observer: O) -> Disposable {
+    func run<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
         self.observer = observer.asObserver()
-        queue.queueSubscription(self)
+        queue.queueSubscription(observable: self)
         return self
     }
 
     // Delayed subscription must be called after original subscription so that observer will be stored by that time.
-    func delayedSubscribe(scheduler: ImmediateSchedulerType) {
+    func delayedSubscribe(on scheduler: ImmediateSchedulerType) {
         let cancelDisposable = SingleAssignmentDisposable()
         serialDisposable.disposable = cancelDisposable
         cancelDisposable.disposable = scheduler.schedule(()) {
             self.serialDisposable.disposable = self.source.subscribe(self)
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -137,11 +141,11 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     // observables to be able to subscribe. We are doing it on the same thread as
     // subscription.
     func dispose() {
-        if OSAtomicCompareAndSwap32(0, 1, &isDisposed) {
-            queue.scheduler.schedule(()) {
-                self.queue.unsubscribe(self)
+        if OSAtomicCompareAndSwap32(0, 1, &_isDisposed) {
+            _ = queue.scheduler.schedule(()) {
+                self.queue.unsubscribe(observable: self)
                 self.serialDisposable.dispose()
-                return NopDisposable.instance
+                return Disposables.create()
             }
         }
     }
@@ -158,8 +162,8 @@ extension ObservableType {
      - parameter queue: Queue on which scheduled subscriptions will be executed in sequentially.
      - returns: The source which will be subscribe when queue is empty or previous observable was completed or disposed.
      */
-    @warn_unused_result(message="http://git.io/rxs.uo")
-    func queueSubscribeOn(queue: SerializedSubscriptionQueue) -> Observable<E> {
+
+    func queueSubscribe(on queue: SerializedSubscriptionQueue) -> Observable<E> {
         return QueueSubscribeOn(source: self.asObservable(), queue: queue).asObservable()
     }
     // swiftlint:enable missing_docs

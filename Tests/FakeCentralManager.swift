@@ -31,24 +31,24 @@ import CoreBluetooth
 class FakeCentralManager: RxCentralManagerType {
 
     var rx_didUpdateState: Observable<BluetoothState> = .never()
-    var rx_willRestoreState: Observable<[String:AnyObject]> = .never()
-    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:AnyObject], NSNumber)> = .never()
+    var rx_willRestoreState: Observable<[String:Any]> = .never()
+    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:Any], NSNumber)> = .never()
     var rx_didConnectPeripheral: Observable<RxPeripheralType> = .never()
-    var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, NSError?)> = .never()
-    var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, NSError?)> = .never()
+    var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, Error?)> = .never()
+    var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, Error?)> = .never()
 
-    var state: BluetoothState = BluetoothState.PoweredOn
+    var state: BluetoothState = BluetoothState.poweredOn
 
-    var scanForPeripheralsWithServicesTO: TestableObserver<([CBUUID]?, [String:AnyObject]?)>?
-    func scanForPeripheralsWithServices(serviceUUIDs: [CBUUID]?, options: [String:AnyObject]?) {
+    var scanForPeripheralsWithServicesTO: TestableObserver<([CBUUID]?, [String:Any]?)>?
+    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:Any]?) {
         scanForPeripheralsWithServicesTO?.onNext((serviceUUIDs, options))
     }
-    var connectPeripheralOptionsTO: TestableObserver<(RxPeripheralType, [String:AnyObject]?)>?
-    func connectPeripheral(peripheral: RxPeripheralType, options: [String:AnyObject]?) {
+    var connectPeripheralOptionsTO: TestableObserver<(RxPeripheralType, [String:Any]?)>?
+    func connect(_ peripheral: RxPeripheralType, options: [String:Any]?) {
         connectPeripheralOptionsTO?.onNext((peripheral, options))
     }
     var cancelPeripheralConnectionTO: TestableObserver<RxPeripheralType>?
-    func cancelPeripheralConnection(peripheral: RxPeripheralType) {
+    func cancelPeripheralConnection(_ peripheral: RxPeripheralType) {
         cancelPeripheralConnectionTO?.onNext(peripheral)
     }
     var stopScanTO: TestableObserver<()>?
@@ -57,13 +57,13 @@ class FakeCentralManager: RxCentralManagerType {
     }
     var retrieveConnectedPeripheralsWithServicesTO: TestableObserver<[CBUUID]>?
     var retrieveConnectedPeripheralsWithServicesResult: Observable<[RxPeripheralType]> = .never()
-    func retrieveConnectedPeripheralsWithServices(serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
+    func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
         retrieveConnectedPeripheralsWithServicesTO?.onNext(serviceUUIDs)
         return retrieveConnectedPeripheralsWithServicesResult
     }
-    var retrievePeripheralsWithIdentifiersTO: TestableObserver<[NSUUID]>?
+    var retrievePeripheralsWithIdentifiersTO: TestableObserver<[UUID]>?
     var retrievePeripheralsWithIdentifiersResult: Observable<[RxPeripheralType]> = .never()
-    func retrievePeripheralsWithIdentifiers(identifiers: [NSUUID]) -> Observable<[RxPeripheralType]> {
+    func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
         retrievePeripheralsWithIdentifiersTO?.onNext(identifiers)
         return retrievePeripheralsWithIdentifiersResult
     }

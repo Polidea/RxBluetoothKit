@@ -29,15 +29,15 @@ import CoreBluetooth
 protocol RxDescriptorType {
 
     /// Descriptor UUID
-    var UUID: CBUUID { get }
+    var uuid: CBUUID { get }
 
     /// Descriptor's characteristic
     var characteristic: RxCharacteristicType { get }
 
     /// Descriptor's value
-    var value: AnyObject? { get }
+    var value: Any? { get }
 }
 
 func == (lhs: RxDescriptorType, rhs: RxDescriptorType) -> Bool {
-    return lhs.UUID == rhs.UUID
+    return lhs.uuid == rhs.uuid
 }

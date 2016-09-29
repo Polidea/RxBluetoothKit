@@ -18,7 +18,7 @@ class PeripheralServicesViewController: UIViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView! {
         didSet {
             activityIndicatorView.hidesWhenStopped = true
-            activityIndicatorView.hidden = true
+            activityIndicatorView.isHidden = true
         }
     }
     @IBOutlet weak var connectionStateLabel: UILabel!
@@ -26,8 +26,8 @@ class PeripheralServicesViewController: UIViewController {
     var scannedPeripheral: ScannedPeripheral!
     var manager: BluetoothManager!
     private var connectedPeripheral: Peripheral?
-    private var servicesList: [Service] = []
-    private let serviceCellId = "ServiceCell"
+    fileprivate var servicesList: [Service] = []
+    fileprivate let serviceCellId = "ServiceCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,78 +37,78 @@ class PeripheralServicesViewController: UIViewController {
         servicesTableView.rowHeight = UITableViewAutomaticDimension
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         title = "Connecting"
-        manager.connectToPeripheral(scannedPeripheral.peripheral)
+        manager.connect(scannedPeripheral.peripheral)
             .subscribe(onNext: { [weak self] in
                 guard let `self` = self else { return }
                 self.title = "Connected"
                 self.activityIndicatorView.stopAnimating()
                 self.connectedPeripheral = $0
-                self.monitorDisconnectionOfPeripheral($0)
-                self.downloadServicesOfPeripheral($0)
+                self.monitorDisconnection(for: $0)
+                self.downloadServices(for: $0)
                 }, onError: { [weak self] error in
                     self?.activityIndicatorView.stopAnimating()
             }).addDisposableTo(disposeBag)
-        activityIndicatorView.hidden = false
+        activityIndicatorView.isHidden = false
         activityIndicatorView.startAnimating()
     }
 
-    private func monitorDisconnectionOfPeripheral(peripheral: Peripheral) {
-        manager.monitorPeripheralDisconnection(peripheral)
-            .subscribeNext { [weak self] (peripheral) in
-                let alert = UIAlertController(title: "Disconnected!", message: "Peripheral Disconnected", preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-                self?.presentViewController(alert, animated: true, completion: nil)
-        }.addDisposableTo(disposeBag)
+    private func monitorDisconnection(for peripheral: Peripheral) {
+        manager.monitorDisconnection(for: peripheral)
+            .subscribe(onNext: { [weak self] (peripheral) in
+                let alert = UIAlertController(title: "Disconnected!", message: "Peripheral Disconnected", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self?.present(alert, animated: true, completion: nil)
+        }).addDisposableTo(disposeBag)
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let identifier = segue.identifier, let cell = sender as? UITableViewCell
-            where identifier == "PresentCharacteristics" else { return }
-        guard let characteristicsVc = segue.destinationViewController as? CharacteristicsController else { return }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier, let cell = sender as? UITableViewCell,
+            identifier == "PresentCharacteristics" else { return }
+        guard let characteristicsVc = segue.destination as? CharacteristicsController else { return }
 
-        if let indexPath = servicesTableView.indexPathForCell(cell) {
+        if let indexPath = servicesTableView.indexPath(for: cell) {
             characteristicsVc.service = servicesList[indexPath.row]
         }
     }
 
-    private func downloadServicesOfPeripheral(peripheral: Peripheral) {
+    private func downloadServices(for peripheral: Peripheral) {
         peripheral.discoverServices(nil)
-            .subscribeNext { services in
+            .subscribe(onNext: { services in
                 self.servicesList = services
                 self.servicesTableView.reloadData()
-            }.addDisposableTo(disposeBag)
+            }).addDisposableTo(disposeBag)
     }
 }
 
 extension PeripheralServicesViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return servicesList.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(serviceCellId, forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: serviceCellId, for: indexPath)
         let service = servicesList[indexPath.row]
         if let cell = cell as? ServiceTableViewCell {
-            cell.updateWithService(service)
+            cell.update(with: service)
         }
         return cell
     }
 
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView(frame: .zero)
     }
-
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "SERVICES"
     }
 }
 
 extension ServiceTableViewCell {
-    func updateWithService(service: Service) {
+    func update(with service: Service) {
         self.isPrimaryLabel.text = service.isPrimary ? "True" : "False"
-        self.uuidLabel.text = service.UUID.UUIDString
+        self.uuidLabel.text = service.uuid.uuidString
     }
 }

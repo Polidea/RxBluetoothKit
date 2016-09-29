@@ -28,8 +28,8 @@ import CoreBluetooth
 
  ```
  enum DeviceService: String, ServiceIdentifier {
-    case DeviceInformation = "180A"
-    var UUID: CBUUID {
+    case deviceInformation = "180A"
+    var uuid: CBUUID {
     return CBUUID(string: self.rawValue)
     }
  }
@@ -42,7 +42,7 @@ public protocol ServiceIdentifier {
     /**
      Unique identifier of a service.
     */
-    var UUID: CBUUID { get }
+    var uuid: CBUUID { get }
 }
 
 /**
@@ -51,9 +51,9 @@ public protocol ServiceIdentifier {
 
  ```
  enum DeviceCharacteristic: String, CharacteristicIdentifier {
-     case ManufacturerName = "2A29"
+     case manufacturerName = "2A29"
 
-     var UUID: CBUUID {
+     var uuid: CBUUID {
          return CBUUID(string: self.rawValue)
      }
      var service: ServiceIdentifier {
@@ -69,7 +69,7 @@ public protocol CharacteristicIdentifier {
     /**
      Unique identifier of a characteristic.
      */
-    var UUID: CBUUID { get }
+    var uuid: CBUUID { get }
     /**
      `ServiceIdentifier` instance that this characteristic belongs to.
      */
@@ -83,7 +83,7 @@ public protocol DescriptorIdentifier {
     /**
      Unique identifier of a descriptor.
      */
-    var UUID: CBUUID { get }
+    var uuid: CBUUID { get }
 
     /**
      `CharacteristicIdentifier` instance that this descriptor belongs to.

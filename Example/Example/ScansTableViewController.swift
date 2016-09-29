@@ -16,16 +16,16 @@ class ScansTableViewController: UIViewController {
     @IBOutlet weak var scansTableView: UITableView!
 
     private var isScanInProgress = false
-    private var peripheralsArray: [ScannedPeripheral] = []
     private var scheduler: ConcurrentDispatchQueueScheduler!
-    private let manager = BluetoothManager(queue: dispatch_get_main_queue())
+    private let manager = BluetoothManager(queue: .main)
     private var scanningDisposable: Disposable?
-    private let scannedPeripheralCellIdentifier = "peripheralCellId"
+    fileprivate var peripheralsArray: [ScannedPeripheral] = []
+    fileprivate let scannedPeripheralCellIdentifier = "peripheralCellId"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         splitViewController?.delegate = self
-        let timerQueue = dispatch_queue_create("com.polidea.rxbluetoothkit.timer", nil)
+        let timerQueue = DispatchQueue(label: "com.polidea.rxbluetoothkit.timer")
         scheduler = ConcurrentDispatchQueueScheduler(queue: timerQueue)
         scansTableView.delegate = self
         scansTableView.dataSource = self
@@ -45,7 +45,7 @@ class ScansTableViewController: UIViewController {
         scanningDisposable = manager.rx_state
         .timeout(4.0, scheduler: scheduler)
         .take(1)
-        .flatMap { _ in self.manager.scanForPeripherals(nil, options:nil) }
+        .flatMap { _ in self.manager.scanForPeripherals(withServices: nil, options:nil) }
         .subscribeOn(MainScheduler.instance)
         .subscribe(onNext: {
             self.addNewScannedPeripheral($0)
@@ -53,25 +53,24 @@ class ScansTableViewController: UIViewController {
         })
     }
 
-    private func addNewScannedPeripheral(peripheral: ScannedPeripheral) {
+    private func addNewScannedPeripheral(_ peripheral: ScannedPeripheral) {
         let mapped = peripheralsArray.map { $0.peripheral }
-        if let indx = mapped.indexOf(peripheral.peripheral) {
+        if let indx = mapped.index(of: peripheral.peripheral) {
             peripheralsArray[indx] = peripheral
         } else {
             self.peripheralsArray.append(peripheral)
         }
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.scansTableView.reloadData()
         }
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier, let cell = sender as? UITableViewCell,
+            identifier == "PresentPeripheralDetails" else { return }
+        guard let navigationVC = segue.destination as? UINavigationController,
+            let peripheralDetails = navigationVC.topViewController as? PeripheralServicesViewController else { return }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let identifier = segue.identifier, let cell = sender as? UITableViewCell
-            where identifier == "PresentPeripheralDetails" else { return }
-        guard let navigationVC = segue.destinationViewController as? UINavigationController,
-        let peripheralDetails = navigationVC.topViewController as? PeripheralServicesViewController else { return }
-
-        if let indexPath = scansTableView.indexPathForCell(cell) {
+        if let indexPath = scansTableView.indexPath(for: cell) {
             peripheralDetails.scannedPeripheral = peripheralsArray[indexPath.row]
             peripheralDetails.manager = manager
         }
@@ -80,29 +79,29 @@ class ScansTableViewController: UIViewController {
     @IBAction func scanButtonClicked(sender: UIButton) {
         if isScanInProgress {
             stopScanning()
-            sender.setTitle("Start scanning", forState: .Normal)
+            sender.setTitle("Start scanning", for: .normal)
         } else {
             startScanning()
-            sender.setTitle("Stop scanning", forState: .Normal)
+            sender.setTitle("Stop scanning", for: .normal)
         }
     }
 }
 
 extension ScansTableViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView(frame: .zero)
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return peripheralsArray.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(scannedPeripheralCellIdentifier, forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: scannedPeripheralCellIdentifier, for: indexPath)
         let peripheral = peripheralsArray[indexPath.row]
         if let peripheralCell = cell as? ScannedPeripheralCell {
-            peripheralCell.configureWithScannedPeripheral(peripheral)
+            peripheralCell.configure(with: peripheral)
         }
         return cell
     }
@@ -125,9 +124,9 @@ extension ScansTableViewController: UISplitViewControllerDelegate {
 }
 
 extension ScannedPeripheralCell {
-    func configureWithScannedPeripheral(peripheral: ScannedPeripheral) {
-        RSSILabel.text = peripheral.RSSI.stringValue
-        peripheralNameLabel.text = peripheral.advertisementData.localName ?? peripheral.peripheral.identifier.UUIDString
+    func configure(with peripheral: ScannedPeripheral) {
+        RSSILabel.text = peripheral.rssi.stringValue
+        peripheralNameLabel.text = peripheral.advertisementData.localName ?? peripheral.peripheral.identifier.uuidString
 
         //TODO: Pretty print it ;) nsattributed string maybe.
         advertismentDataLabel.text = "\(peripheral.advertisementData.advertisementData)"

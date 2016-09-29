@@ -41,11 +41,11 @@ public class ScannedPeripheral {
     /**
     Scanned peripheral's RSSI value.
     */
-    public let RSSI: NSNumber
+    public let rssi: NSNumber
 
-    init(peripheral: Peripheral, advertisementData: AdvertisementData, RSSI: NSNumber) {
+    init(peripheral: Peripheral, advertisementData: AdvertisementData, rssi: NSNumber) {
         self.peripheral = peripheral
         self.advertisementData = advertisementData
-        self.RSSI = RSSI
+        self.rssi = rssi
     }
 }

@@ -43,14 +43,14 @@ public class Descriptor {
     /**
      The Bluetooth UUID of the `Descriptor` instance.
      */
-    public var UUID: CBUUID {
-        return descriptor.UUID
+    public var uuid: CBUUID {
+        return descriptor.uuid
     }
 
     /**
      The value of the descriptor. It can be written and read through functions on `Descriptor` instance.
     */
-    public var value: AnyObject? {
+    public var value: Any? {
         return descriptor.value
     }
 
@@ -65,7 +65,7 @@ public class Descriptor {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWrite() -> Observable<Descriptor> {
-        return characteristic.service.peripheral.monitorWriteForDescriptor(self)
+        return characteristic.service.peripheral.monitorWrite(for: self)
     }
 
     /**
@@ -74,8 +74,8 @@ public class Descriptor {
      - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
      Immediately after that `.Complete` is emitted.
      */
-    public func writeValue(data: NSData) -> Observable<Descriptor> {
-        return characteristic.service.peripheral.writeValue(data, forDescriptor: self)
+    public func writeValue(_ data: Data) -> Observable<Descriptor> {
+        return characteristic.service.peripheral.writeValue(data, for: self)
     }
 
     /**
@@ -84,7 +84,7 @@ public class Descriptor {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorValueUpdate() -> Observable<Descriptor> {
-        return characteristic.service.peripheral.monitorValueUpdateForDescriptor(self)
+        return characteristic.service.peripheral.monitorValueUpdate(for: self)
     }
 
     /**
@@ -94,7 +94,7 @@ public class Descriptor {
      `.Complete` is emitted.
      */
     public func readValue() -> Observable<Descriptor> {
-        return characteristic.service.peripheral.readValueForDescriptor(self)
+        return characteristic.service.peripheral.readValue(for: self)
     }
 }
 extension Descriptor: Equatable { }

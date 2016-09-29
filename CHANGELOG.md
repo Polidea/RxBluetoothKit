@@ -1,5 +1,7 @@
-# 2.0.1
-- Changed RxSwift dependency from 2.6 to 2.6.0
+# 3.0.0
+- Implemented compatibility for Swift 3.0. This includes adoption of Swift Design Guidelines and new Value Types in Cocoa.
+- Implemented function `maximumWriteValueLength` on `Peripheral` instance that is available from OSX 10.12 and iOS 9.0
+- Couple of minor code cleanups in order to make source more concise and easier to read
 
 # 2.0.0
 - Implemented compatibility for Swift 2.3. This version is supposed to work with Xcode 7.3 and Xcode 8.
