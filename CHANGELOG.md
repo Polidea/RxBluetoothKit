@@ -1,3 +1,6 @@
+# 3.0.1
+- Fixed support for Cocoapods
+
 # 3.0.0
 - Implemented compatibility for Swift 3.0. This includes adoption of Swift Design Guidelines and new Value Types in Cocoa.
 - Implemented function `maximumWriteValueLength` on `Peripheral` instance that is available from OSX 10.12 and iOS 9.0
