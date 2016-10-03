@@ -3,7 +3,7 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'Example' do
-  pod 'RxBluetoothKit', :git => 'https://github.com/Polidea/RxBluetoothKit.git', :branch => 'feature/swift-3.0'
+  pod 'RxBluetoothKit'
 end
 
 

@@ -39,6 +39,7 @@ class PeripheralServicesViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        guard scannedPeripheral != nil else { return }
         title = "Connecting"
         manager.connect(scannedPeripheral.peripheral)
             .subscribe(onNext: { [weak self] in

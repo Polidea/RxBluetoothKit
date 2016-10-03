@@ -53,6 +53,7 @@ class ScansTableViewController: UIViewController {
         })
     }
 
+
     private func addNewScannedPeripheral(_ peripheral: ScannedPeripheral) {
         let mapped = peripheralsArray.map { $0.peripheral }
         if let indx = mapped.index(of: peripheral.peripheral) {
