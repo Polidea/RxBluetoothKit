@@ -20,6 +20,8 @@ class CharacteristicsController: UIViewController {
     
     fileprivate var characteristicsList: [Characteristic] = []
     fileprivate let characteristicCellId = "CharacteristicCell"
+    
+    var Data: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,16 +51,28 @@ class CharacteristicsController: UIViewController {
             }).addDisposableTo(disposeBag)
     }
 
-    private func showWriteFieldForCharacteristic(characteristic: Characteristic) {
+    fileprivate func showWriteFieldForCharacteristic(characteristic: Characteristic) {
         let valueWriteController = UIAlertController(title: "Write value", message: "Specify value in HEX to write ",
                                                      preferredStyle: .alert)
         valueWriteController.addTextField { textField in
-
+            textField.delegate = self
         }
         valueWriteController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
-            print("")
+            
+            self.writeValueForCharacteristic(data: self.Data!, characteristic: characteristic)
+            
             })
+        self.present(valueWriteController, animated: true, completion: nil)
+    }
+    
+    fileprivate func writeValueForCharacteristic(data: String,characteristic: Characteristic) {
+        let _data: NSData = data.dataFromHexadecimalString()!
+        print(_data)
+        characteristic.writeValue(_data as Data, type: .withResponse)
+            .subscribe(onNext: { [weak self] _ in
+                self?.characteristicsTableView.reloadData()
+            }).addDisposableTo(disposeBag)
     }
 
     fileprivate func triggerValueRead(for characteristic: Characteristic) {
@@ -104,6 +118,14 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
             }
             actionSheet.addAction(readValueNotificationAction)
         }
+        
+        if characteristic.properties.contains(.write) {
+            let writeValueNotificationAction = UIAlertAction(title: "Trigger value write", style: .default) { _ in
+                self.showWriteFieldForCharacteristic(characteristic: characteristic)
+            }
+            actionSheet.addAction(writeValueNotificationAction)
+        }
+        
         self.present(actionSheet, animated: true, completion: nil)
     }
 
@@ -124,6 +146,15 @@ extension CharacteristicTableViewCell {
     }
 }
 
+extension CharacteristicsController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let oldText: NSString = textField.text! as NSString? ?? ""
+        let newText = oldText.replacingCharacters(in: range, with: string)
+        self.Data = newText
+        return true
+    }
+}
 
 
 
