@@ -1,3 +1,6 @@
+# 3.0.2
+- Updated RxSwift dependency version to 3.0.0-beta.2
+
 # 3.0.1
 - Fixed support for Cocoapods
 
