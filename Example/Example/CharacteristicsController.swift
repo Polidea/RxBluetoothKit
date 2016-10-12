@@ -58,16 +58,17 @@ class CharacteristicsController: UIViewController {
         valueWriteController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
             
-            self.writeValueForCharacteristic(data: valueWriteController.textFields!.first!.text!, characteristic: characteristic)
+            if let _text = valueWriteController.textFields?.first?.text {
+                self.writeValueForCharacteristic(data: _text, characteristic: characteristic)
+            }
             
-            })
+        })
         self.present(valueWriteController, animated: true, completion: nil)
     }
     
     fileprivate func writeValueForCharacteristic(data: String,characteristic: Characteristic) {
-        let _data: NSData = data.dataFromHexadecimalString()!
-        print(_data)
-        characteristic.writeValue(_data as Data, type: .withResponse)
+        let hexadecimalData: Data = Data.fromHexString(string: data)
+        characteristic.writeValue(hexadecimalData as Data, type: .withResponse)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
             }).addDisposableTo(disposeBag)
@@ -111,14 +112,14 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
             actionSheet.addAction(turnNotificationOnAction)
         }
         if characteristic.properties.contains(.read) {
-            let readValueNotificationAction = UIAlertAction(title: "Trigger value read", style: .default) { _ in
+            let readValueNotificationAction = UIAlertAction(title: "Read", style: .default) { _ in
                 self.triggerValueRead(for: characteristic)
             }
             actionSheet.addAction(readValueNotificationAction)
         }
         
         if characteristic.properties.contains(.write) {
-            let writeValueNotificationAction = UIAlertAction(title: "Trigger value write", style: .default) { _ in
+            let writeValueNotificationAction = UIAlertAction(title: "Write", style: .default) { _ in
                 self.showWriteFieldForCharacteristic(characteristic: characteristic)
             }
             actionSheet.addAction(writeValueNotificationAction)
