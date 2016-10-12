@@ -20,8 +20,6 @@ class CharacteristicsController: UIViewController {
     
     fileprivate var characteristicsList: [Characteristic] = []
     fileprivate let characteristicCellId = "CharacteristicCell"
-    
-    var Data: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,12 +53,12 @@ class CharacteristicsController: UIViewController {
         let valueWriteController = UIAlertController(title: "Write value", message: "Specify value in HEX to write ",
                                                      preferredStyle: .alert)
         valueWriteController.addTextField { textField in
-            textField.delegate = self
+            
         }
         valueWriteController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
             
-            self.writeValueForCharacteristic(data: self.Data!, characteristic: characteristic)
+            self.writeValueForCharacteristic(data: valueWriteController.textFields!.first!.text!, characteristic: characteristic)
             
             })
         self.present(valueWriteController, animated: true, completion: nil)
@@ -145,16 +143,4 @@ extension CharacteristicTableViewCell {
         self.valueLabel.text = characteristic.value?.hexadecimalString ?? "Empty"
     }
 }
-
-extension CharacteristicsController: UITextFieldDelegate {
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let oldText: NSString = textField.text! as NSString? ?? ""
-        let newText = oldText.replacingCharacters(in: range, with: string)
-        self.Data = newText
-        return true
-    }
-}
-
-
 
