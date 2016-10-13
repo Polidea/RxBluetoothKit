@@ -59,15 +59,15 @@ class CharacteristicsController: UIViewController {
         valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
             
             if let _text = valueWriteController.textFields?.first?.text {
-                self.writeValueForCharacteristic(data: _text, characteristic: characteristic)
+                self.writeValueForCharacteristic(hexadecimalString: _text, characteristic: characteristic)
             }
             
         })
         self.present(valueWriteController, animated: true, completion: nil)
     }
     
-    fileprivate func writeValueForCharacteristic(data: String,characteristic: Characteristic) {
-        let hexadecimalData: Data = Data.fromHexString(string: data)
+    fileprivate func writeValueForCharacteristic(hexadecimalString: String,characteristic: Characteristic) {
+        let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
         characteristic.writeValue(hexadecimalData as Data, type: .withResponse)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
