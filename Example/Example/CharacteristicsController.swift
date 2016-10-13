@@ -49,16 +49,29 @@ class CharacteristicsController: UIViewController {
             }).addDisposableTo(disposeBag)
     }
 
-    private func showWriteFieldForCharacteristic(characteristic: Characteristic) {
+    fileprivate func showWriteFieldForCharacteristic(characteristic: Characteristic) {
         let valueWriteController = UIAlertController(title: "Write value", message: "Specify value in HEX to write ",
                                                      preferredStyle: .alert)
         valueWriteController.addTextField { textField in
-
+            
         }
         valueWriteController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
-            print("")
-            })
+            
+            if let _text = valueWriteController.textFields?.first?.text {
+                self.writeValueForCharacteristic(hexadecimalString: _text, characteristic: characteristic)
+            }
+            
+        })
+        self.present(valueWriteController, animated: true, completion: nil)
+    }
+    
+    fileprivate func writeValueForCharacteristic(hexadecimalString: String,characteristic: Characteristic) {
+        let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
+        characteristic.writeValue(hexadecimalData as Data, type: .withResponse)
+            .subscribe(onNext: { [weak self] _ in
+                self?.characteristicsTableView.reloadData()
+            }).addDisposableTo(disposeBag)
     }
 
     fileprivate func triggerValueRead(for characteristic: Characteristic) {
@@ -99,11 +112,19 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
             actionSheet.addAction(turnNotificationOnAction)
         }
         if characteristic.properties.contains(.read) {
-            let readValueNotificationAction = UIAlertAction(title: "Trigger value read", style: .default) { _ in
+            let readValueNotificationAction = UIAlertAction(title: "Read", style: .default) { _ in
                 self.triggerValueRead(for: characteristic)
             }
             actionSheet.addAction(readValueNotificationAction)
         }
+        
+        if characteristic.properties.contains(.write) {
+            let writeValueNotificationAction = UIAlertAction(title: "Write", style: .default) { _ in
+                self.showWriteFieldForCharacteristic(characteristic: characteristic)
+            }
+            actionSheet.addAction(writeValueNotificationAction)
+        }
+        
         self.present(actionSheet, animated: true, completion: nil)
     }
 
@@ -123,7 +144,4 @@ extension CharacteristicTableViewCell {
         self.valueLabel.text = characteristic.value?.hexadecimalString ?? "Empty"
     }
 }
-
-
-
 
