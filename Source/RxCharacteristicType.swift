@@ -73,7 +73,7 @@ func == (lhs: [RxCharacteristicType], rhs: [RxCharacteristicType]) -> Bool {
     var i1 = lhs.makeIterator()
     var i2 = rhs.makeIterator()
     var isEqual = true
-    while let e1 = i1.next(), let e2 = i2.next(),  isEqual {
+    while let e1 = i1.next(), let e2 = i2.next(), isEqual {
         isEqual = e1 == e2
     }
     return isEqual

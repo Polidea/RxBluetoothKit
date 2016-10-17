@@ -46,7 +46,9 @@ public struct RestoredState {
     }
 
     /**
-     Array of `Peripheral` objects which have been restored. These are peripherals that were connected to the central manager (or had a connection pending) at the time the app was terminated by the system.
+     Array of `Peripheral` objects which have been restored.
+     These are peripherals that were connected to the central manager (or had a connection pending)
+     at the time the app was terminated by the system.
      */
     public var peripherals: [Peripheral] {
         let objects = restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [AnyObject]
@@ -57,14 +59,16 @@ public struct RestoredState {
     }
 
     /**
-     Dictionary that contains all of the peripheral scan options that were being used by the central manager at the time the app was terminated by the system.
+     Dictionary that contains all of the peripheral scan options that were being used
+     by the central manager at the time the app was terminated by the system.
     */
     public var scanOptions: [String : AnyObject]? {
         return restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [String : AnyObject]
     }
 
     /**
-     Array of `Service` objects which have been restored. These are all the services the central manager was scanning for at the time the app was terminated by the system.
+     Array of `Service` objects which have been restored.
+     These are all the services the central manager was scanning for at the time the app was terminated by the system.
      */
     public var services: [Service] {
         let objects = restoredStateData[CBCentralManagerRestoredStateScanServicesKey] as? [AnyObject]

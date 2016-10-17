@@ -164,7 +164,7 @@ public class BluetoothManager {
 
                         // Start scanning for devices
                         self.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
-                        
+
                         return Disposables.create {
                             // When disposed, stop all scans, and remove scanning operation from queue
                             self.centralManager.stopScan()
@@ -210,7 +210,7 @@ public class BluetoothManager {
 
      - returns: Current state of `BluetoothManager` as `BluetoothState`.
      */
-    
+
     public var state: BluetoothState {
         return centralManager.state
     }
@@ -255,11 +255,11 @@ public class BluetoothManager {
                     observer.onCompleted()
                     return Disposables.create()
                 }
-                
+
                 let disposable = success.amb(error).subscribe(observer)
-                
+
                 self.centralManager.connect(peripheral.peripheral, options: options)
-                
+
                 return Disposables.create {
                     if !peripheral.isConnected {
                         self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
@@ -329,7 +329,7 @@ public class BluetoothManager {
     }
 
     // MARK:  Internal functions
-    
+
     /**
      Ensure that `state` is and will be the only state of `BluetoothManager` during subscription.
      Otherwise error is emitted.

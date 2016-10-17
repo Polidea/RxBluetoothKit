@@ -56,11 +56,11 @@ class RxCBCentralManager: RxCentralManagerType {
             didUpdateStateSubject.onNext(bleState)
         }
 
-        
+
         @objc func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
             willRestoreStateSubject.onNext(dict)
         }
-        
+
         @objc func centralManager(_ central: CBCentralManager,
             didDiscover peripheral: CBPeripheral,
             advertisementData: [String: Any],
@@ -165,7 +165,7 @@ class RxCBCentralManager: RxCentralManagerType {
             RxCBPeripheral(peripheral: $0)
         })
     }
-    
+
     /**
      Retrieve peripherals with specified identifiers.
 
