@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A20F0101DB4C01D00A1A805 /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A20F00F1DB4C01C00A1A805 /* RxTest.framework */; };
-		0A20F0121DB4C02B00A1A805 /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A20F0111DB4C02B00A1A805 /* RxTest.framework */; };
 		2666FD8E1CCE457C005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */; };
 		2666FD9D1CCE45E3005E81CE /* RxBluetoothKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2666FDAD1CCE4626005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */; };
@@ -197,9 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A20F0101DB4C01D00A1A805 /* RxTest.framework in Frameworks */,
 				A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */,
-				0A20F0121DB4C02B00A1A805 /* RxTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
