@@ -34,7 +34,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
     func createRecords<T>(records: (Int, Event<T>)...) -> [Recorded<Event<T>>]{
         var array = [Recorded<Event<T>>]()
         for (time, event) in records {
-            array.append(Recorded(time: time, event: event))
+            array.append(Recorded(time: time, value: event))
         }
         return array
     }

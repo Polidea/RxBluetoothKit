@@ -89,12 +89,12 @@ class BluetoothManagerScanningSpec: QuickSpec {
                         fakeCentralManager.state = .poweredOn
                         scanObservers.append(testScheduler.scheduleObservable {manager.scanForPeripherals(withServices: nil)})
                         
-                        let errors: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorPropagationTime, event: .next(cberror))]
+                        let errors: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorPropagationTime, value: .next(cberror))]
                         testScheduler.scheduleAt(errorPropagationTime - 1, action: { fakeCentralManager.state = cberror })
                         
                         fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(errors).asObservable()
                         fakeCentralManager.rx_didDiscoverPeripheral = testScheduler.createHotObservable(
-                            [Recorded(time: firstScanTime, event: .next(FakePeripheral() as RxPeripheralType,
+                            [Recorded(time: firstScanTime, value: .next(FakePeripheral() as RxPeripheralType,
                                                                         [String: Any](),
                                                                         NSNumber(value: 0)))]).asObservable()
                     }
@@ -153,7 +153,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
                         let rssi = Double(i) * 10
                         recordsTime.append(time)
                         recordsRSSI.append(rssi)
-                        scans.append(Recorded(time: time, event: .next(FakePeripheral() as RxPeripheralType,
+                        scans.append(Recorded(time: time, value: .next(FakePeripheral() as RxPeripheralType,
                                                                        [String: Any](),
                                                                        NSNumber(value: rssi))))
                     }

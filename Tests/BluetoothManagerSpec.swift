@@ -71,7 +71,7 @@ class BluetoothManagerSpec: QuickSpec {
                 }
                 context("after subscription") {
                     beforeEach {
-                        let peripherals: [Recorded<Event<[RxPeripheralType]>>] = [Recorded(time: nextTime, event: .next([fakePeripheral]))]
+                        let peripherals: [Recorded<Event<[RxPeripheralType]>>] = [Recorded(time: nextTime, value: .next([fakePeripheral]))]
                         fakeCentralManager.retrievePeripheralsWithIdentifiersResult = testScheduler.createHotObservable(peripherals).asObservable()
                         testScheduler.advanceTo(250)
                     }
@@ -125,7 +125,7 @@ class BluetoothManagerSpec: QuickSpec {
                             context("got wrong state after retrieve peripherals function was called") {
                                 beforeEach {
                                     fakeCentralManager.state = .poweredOn
-                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorTime, event: .next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: errorTime, value: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -152,8 +152,8 @@ class BluetoothManagerSpec: QuickSpec {
                     cbuuids = [CBUUID()]
 
                     let scans: [Recorded<Event<[RxPeripheralType]>>] = [
-                        Recorded(time: 245, event: .next([fakePeripheral])),
-                        Recorded(time: 245, event: .completed)
+                        Recorded(time: 245, value: .next([fakePeripheral])),
+                        Recorded(time: 245, value: .completed)
                     ]
                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesResult = testScheduler.createHotObservable(scans).asObservable()
                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesTO = testScheduler.createObserver([CBUUID].self)
@@ -222,13 +222,13 @@ class BluetoothManagerSpec: QuickSpec {
                                 beforeEach {
                                     
                                     let events: [Recorded<Event<[RxPeripheralType]>>] = [
-                                        Recorded(time: 255, event: .next([fakePeripheral])),
-                                        Recorded(time: 255, event: .completed)
+                                        Recorded(time: 255, value: .next([fakePeripheral])),
+                                        Recorded(time: 255, value: .completed)
                                     ]
                                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesResult = testScheduler.createHotObservable(events).asObservable()
 
                                     fakeCentralManager.state = .poweredOn
-                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, value: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -300,7 +300,7 @@ class BluetoothManagerSpec: QuickSpec {
 
                                 beforeEach {
                                     fakeCentralManager.state = .poweredOn
-                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
+                                    let scans: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, value: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(scans).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
@@ -341,7 +341,7 @@ class BluetoothManagerSpec: QuickSpec {
                             beforeEach {
                                 testScheduler.scheduleAt(connectionTime, action: { fakePeripheral.state = CBPeripheralState.connected })
                                 fakeCentralManager.rx_didConnectPeripheral =
-                                        testScheduler.createHotObservable([Recorded(time: connectionTime, event: .next(peripheral.peripheral))]).asObservable()
+                                        testScheduler.createHotObservable([Recorded(time: connectionTime, value: .next(peripheral.peripheral))]).asObservable()
 
                                 testScheduler.advanceTo(connectionTime + 1)
                             }
@@ -376,7 +376,7 @@ class BluetoothManagerSpec: QuickSpec {
                         context("after subscribe with connection failed") {
                             beforeEach {
                                 fakeCentralManager.rx_didConnectPeripheral =
-                                        testScheduler.createHotObservable([Recorded(time: connectionTime, event: .next(peripheral.peripheral))]).asObservable()
+                                        testScheduler.createHotObservable([Recorded(time: connectionTime, value: .next(peripheral.peripheral))]).asObservable()
                                 fakeCentralManager.rx_didFailToConnectPeripheral = .just((peripheral.peripheral, NSError(domain: "Error", code: 200, userInfo: nil)))
                                 testScheduler.advanceTo(250)
                             }
@@ -431,7 +431,7 @@ class BluetoothManagerSpec: QuickSpec {
 
                                 beforeEach {
                                     fakeCentralManager.state = .poweredOn
-                                    let stateChanges: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, event: .next(state))]
+                                    let stateChanges: [Recorded<Event<BluetoothState>>] = [Recorded(time: 240, value: .next(state))]
                                     fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(stateChanges).asObservable()
                                     testScheduler.advanceTo(250)
                                 }
