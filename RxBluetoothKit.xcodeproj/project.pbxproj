@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A20F0101DB4C01D00A1A805 /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A20F00F1DB4C01C00A1A805 /* RxTest.framework */; };
+		0A20F0121DB4C02B00A1A805 /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A20F0111DB4C02B00A1A805 /* RxTest.framework */; };
 		2666FD8E1CCE457C005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */; };
 		2666FD9D1CCE45E3005E81CE /* RxBluetoothKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2666FDAD1CCE4626005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */; };
@@ -88,11 +90,9 @@
 		A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F298B1CDCD6E400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
 		A10F29A11CDCD74B00593284 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29921CDCD72200593284 /* Nimble.framework */; };
-		A10F29A21CDCD74F00593284 /* RxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29901CDCD72200593284 /* RxTests.framework */; };
 		A10F29A31CDCD75200593284 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29911CDCD72200593284 /* Quick.framework */; };
 		A10F29A41CDCD75600593284 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F299A1CDCD73A00593284 /* Nimble.framework */; };
 		A10F29A51CDCD75900593284 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29991CDCD73A00593284 /* Quick.framework */; };
-		A10F29A61CDCD75C00593284 /* RxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29981CDCD73A00593284 /* RxTests.framework */; };
 		A10F29AD1CDCD98400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F29B01CDCD99900593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
 /* End PBXBuildFile section */
@@ -137,6 +137,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A20F00F1DB4C01C00A1A805 /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = Carthage/Build/Mac/RxTest.framework; sourceTree = SOURCE_ROOT; };
+		0A20F0111DB4C02B00A1A805 /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = Carthage/Build/iOS/RxTest.framework; sourceTree = SOURCE_ROOT; };
 		26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceIdentifiers.swift; sourceTree = "<group>"; };
 		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		2666FCED1CCE42A5005E81CE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
@@ -161,10 +163,8 @@
 		2666FE5E1CCE65EE005E81CE /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/Mac/RxSwift.framework; sourceTree = SOURCE_ROOT; };
 		26EF38C81D86EE1F00F9F468 /* BluetoothState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothState.swift; sourceTree = "<group>"; };
 		26F3034A1CF0D49D00D74EBF /* RestoredState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoredState.swift; sourceTree = "<group>"; };
-		A10F29901CDCD72200593284 /* RxTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTests.framework; path = Carthage/Build/Mac/RxTests.framework; sourceTree = SOURCE_ROOT; };
 		A10F29911CDCD72200593284 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = SOURCE_ROOT; };
 		A10F29921CDCD72200593284 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = SOURCE_ROOT; };
-		A10F29981CDCD73A00593284 /* RxTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTests.framework; path = Carthage/Build/iOS/RxTests.framework; sourceTree = SOURCE_ROOT; };
 		A10F29991CDCD73A00593284 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
 		A10F299A1CDCD73A00593284 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvertisementData.swift; sourceTree = "<group>"; };
@@ -197,7 +197,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A20F0101DB4C01D00A1A805 /* RxTest.framework in Frameworks */,
 				A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */,
+				0A20F0121DB4C02B00A1A805 /* RxTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,7 +210,6 @@
 				A10F29AD1CDCD98400593284 /* RxSwift.framework in Frameworks */,
 				2666FD8E1CCE457C005E81CE /* RxBluetoothKit.framework in Frameworks */,
 				A10F29A41CDCD75600593284 /* Nimble.framework in Frameworks */,
-				A10F29A61CDCD75C00593284 /* RxTests.framework in Frameworks */,
 				A10F29A51CDCD75900593284 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,7 +229,6 @@
 				A10F29A31CDCD75200593284 /* Quick.framework in Frameworks */,
 				2666FDAD1CCE4626005E81CE /* RxBluetoothKit.framework in Frameworks */,
 				A10F29B01CDCD99900593284 /* RxSwift.framework in Frameworks */,
-				A10F29A21CDCD74F00593284 /* RxTests.framework in Frameworks */,
 				A10F29A11CDCD74B00593284 /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,7 +386,7 @@
 		A10F298C1CDCD6EB00593284 /* OSX */ = {
 			isa = PBXGroup;
 			children = (
-				A10F29901CDCD72200593284 /* RxTests.framework */,
+				0A20F00F1DB4C01C00A1A805 /* RxTest.framework */,
 				A10F29911CDCD72200593284 /* Quick.framework */,
 				A10F29921CDCD72200593284 /* Nimble.framework */,
 			);
@@ -396,7 +396,7 @@
 		A10F298D1CDCD6F200593284 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				A10F29981CDCD73A00593284 /* RxTests.framework */,
+				0A20F0111DB4C02B00A1A805 /* RxTest.framework */,
 				A10F29991CDCD73A00593284 /* Quick.framework */,
 				A10F299A1CDCD73A00593284 /* Nimble.framework */,
 			);
