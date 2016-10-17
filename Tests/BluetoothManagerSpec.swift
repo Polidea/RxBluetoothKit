@@ -25,7 +25,7 @@ import Nimble
 import CoreBluetooth
 @testable
 import RxBluetoothKit
-import RxTests
+import RxTest
 import RxSwift
 
 class BluetoothManagerSpec: QuickSpec {

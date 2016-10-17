@@ -23,7 +23,7 @@
 import Foundation
 import Quick
 import Nimble
-import RxTests
+import RxTest
 import RxSwift
 import CoreBluetooth
 import RxBluetoothKit

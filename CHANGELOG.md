@@ -1,3 +1,6 @@
+# 3.0.3
+- Updated RxSwift dependency version to 3.0.0-rc.1
+
 # 3.0.2
 - Updated RxSwift dependency version to 3.0.0-beta.2
 

@@ -23,7 +23,7 @@
 import Foundation
 import RxSwift
 import CoreBluetooth
-import RxTests
+import RxTest
 @testable
 import RxBluetoothKit
 

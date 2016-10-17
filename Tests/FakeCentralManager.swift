@@ -25,7 +25,7 @@ import Foundation
 @testable
 import RxBluetoothKit
 import RxSwift
-import RxTests
+import RxTest
 import CoreBluetooth
 
 class FakeCentralManager: RxCentralManagerType {
