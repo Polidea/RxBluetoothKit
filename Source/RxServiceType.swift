@@ -66,11 +66,6 @@ func == (lhs: [RxServiceType], rhs: [RxServiceType]) -> Bool {
     guard lhs.count == rhs.count else {
         return false
     }
-    var i1 = lhs.makeIterator()
-    var i2 = rhs.makeIterator()
-    var isEqual = true
-    while let e1 = i1.next(), let e2 = i2.next(), isEqual {
-        isEqual = e1 == e2
-    }
-    return isEqual
+
+    return lhs.starts(with: rhs, by: ==)
 }

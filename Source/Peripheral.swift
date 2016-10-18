@@ -508,17 +508,21 @@ public class Peripheral {
 
     /**
      Function that allow user to monitor incoming `name` property changes of `Peripheral` instance.
-     - returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed. It's `optional String` because peripheral could also lost his name. It's **infinite** stream of values, so `.Complete` is never emitted.
+     - returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed.
+        It's `optional String` because peripheral could also lost his name.
+        It's **infinite** stream of values, so `.Complete` is never emitted.
      */
     public func monitorNameUpdate() -> Observable<(Peripheral, String?)> {
         return peripheral.rx_didUpdateName.map { return (self, $0) }
     }
 
     /**
-     Function that allow to monitor incoming service modifications for `Peripheral` instance. In case you're interested what exact changes might occur - please refer to
+     Function that allow to monitor incoming service modifications for `Peripheral` instance.
+     In case you're interested what exact changes might occur - please refer to
      [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
 
-     - returns: Observable that emits tuples: `(Peripheral, [Service])` when services were modified. It's **infinite** stream of values, so `.Complete` is never emitted.
+     - returns: Observable that emits tuples: `(Peripheral, [Service])` when services were modified.
+        It's **infinite** stream of values, so `.Complete` is never emitted.
      */
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {
         let observable = peripheral.rx_didModifyServices

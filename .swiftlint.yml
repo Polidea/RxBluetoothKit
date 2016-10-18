@@ -4,13 +4,13 @@ disabled_rules: # rule identifiers to exclude from running
   - todo #delete it later
 opt_in_rules: # some rules are only opt-in
   - empty_count
-  - missing_docs
+  # - missing_docs # Broken in swiftlint 0.12.0 with XCode 8
   # Find all the available rules by running:
   # swiftlint rules
 excluded:
   - Carthage
   - Example
-  - RxBluetoothKitTests
+  - Tests
 
   
 line_length: 120
