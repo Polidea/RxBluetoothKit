@@ -1,7 +1,7 @@
 language: objective-c
 osx_image: xcode8
 xcode_project: RxBluetoothKit.xcodeproj
-xcode_scheme: RxBluetoothKit iOS
+xcode_scheme: "RxBluetoothKit iOS"
 xcode_sdk: iphonesimulator10.0
 
 before_install:
