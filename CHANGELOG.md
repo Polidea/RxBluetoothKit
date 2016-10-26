@@ -1,4 +1,8 @@
 
+# 3.0.5
+- Fixed bug when `options` dictionary was not being passed to `BluetoothManager` when initializing it
+- Updated README.md to use `Observable.from` in correct way
+
 # 3.0.4
 - Updated RxSwift dependency version to 3.0.0
 - Updated Nimble dependency version to 5.1

@@ -135,7 +135,8 @@ Because all of wanted services are discovered at once, method returns `Observabl
 Here's how it works in RxBluetoothKit:
 ```swift
 peripheral.connect()
-	.flatMap { Observable.from($0.discoverServices([serviceId])) }
+	.flatMap { $0.discoverServices([serviceId]) }
+	.flatMap { Observable.from($0) }
 	.subscribeNext { service in
 		print("Discovered service: \(service)")
 	}
@@ -147,8 +148,10 @@ This time API's returning `Observable<[Characteristic]>` and to process one
 characteristic at a time, you need to once again use `Observable.from()`
 ```swift
 peripheral.connect()
-	.flatMap { Observable.from($0.discoverServices([serviceId])) }
-	.flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
+	.flatMap { $0.discoverServices([serviceId]) }
+	.flatMap { Observable.from($0) }
+	.flatMap { $0.discoverCharacteristics([characteristicId])}
+	.flatMap { Observable.from($0) }
 	.subscribeNext { characteristic in
 		print("Discovered characteristic: \(characteristic)")
 	}
@@ -160,8 +163,10 @@ In order to do that, you should use `readValue()` function defined on `Character
 We decided to return `Characteristic` instead of `NSData` due to one purpose - to allow you chain operations on characteristic in easy way.
 ```swift
 peripheral.connect()
-	.flatMap { Observable.from($0.discoverServices([serviceId])) }
-	.flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
+	.flatMap { $0.discoverServices([serviceId]) }
+	.flatMap { Observable.from($0) }
+	.flatMap { $0.discoverCharacteristics([characteristicId])}
+	.flatMap { Observable.from($0) }
 	.flatMap { $0.readValue() }
 	.subscribeNext {
 		let data = $0.value
