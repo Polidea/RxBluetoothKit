@@ -91,7 +91,7 @@ public class BluetoothManager {
      */
     convenience public init(queue: DispatchQueue = .main,
                             options: [String : AnyObject]? = nil) {
-        self.init(centralManager: RxCBCentralManager(queue: queue),
+        self.init(centralManager: RxCBCentralManager(queue: queue, options: options),
             queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
     }
 
