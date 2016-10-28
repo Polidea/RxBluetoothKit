@@ -156,7 +156,7 @@
 		2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxBluetoothKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2666FD8D1CCE457C005E81CE /* RxBluetoothKit iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RxBluetoothKit iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxBluetoothKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2666FDAC1CCE4626005E81CE /* RxBluetoothKit OSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RxBluetoothKit OSXTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2666FDAC1CCE4626005E81CE /* RxBluetoothKit macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RxBluetoothKit macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2666FE5A1CCE65CD005E81CE /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = SOURCE_ROOT; };
 		2666FE5E1CCE65EE005E81CE /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/Mac/RxSwift.framework; sourceTree = SOURCE_ROOT; };
 		26EF38C81D86EE1F00F9F468 /* BluetoothState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothState.swift; sourceTree = "<group>"; };
@@ -371,12 +371,12 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		2666FE5D1CCE65D1005E81CE /* OSX */ = {
+		2666FE5D1CCE65D1005E81CE /* macOS */ = {
 			isa = PBXGroup;
 			children = (
 				2666FE5E1CCE65EE005E81CE /* RxSwift.framework */,
 			);
-			name = OSX;
+			name = macOS;
 			sourceTree = "<group>";
 		};
 		A10F298C1CDCD6EB00593284 /* OSX */ = {
@@ -416,7 +416,7 @@
 				2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */,
 				2666FD8D1CCE457C005E81CE /* RxBluetoothKit iOSTests.xctest */,
 				2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */,
-				2666FDAC1CCE4626005E81CE /* RxBluetoothKit OSXTests.xctest */,
+				2666FDAC1CCE4626005E81CE /* RxBluetoothKit macOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -437,7 +437,7 @@
 		A1299C8D1CBE433B005DEA5B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2666FE5D1CCE65D1005E81CE /* OSX */,
+				2666FE5D1CCE65D1005E81CE /* macOS */,
 				2666FE591CCE65A9005E81CE /* iOS */,
 			);
 			name = Frameworks;
@@ -510,9 +510,9 @@
 			productReference = 2666FD8D1CCE457C005E81CE /* RxBluetoothKit iOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2666FDA21CCE4626005E81CE /* RxBluetoothKit OSX */ = {
+		2666FDA21CCE4626005E81CE /* RxBluetoothKit macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2666FDB41CCE4626005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit OSX" */;
+			buildConfigurationList = 2666FDB41CCE4626005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit macOS" */;
 			buildPhases = (
 				2666FD9E1CCE4626005E81CE /* Sources */,
 				2666FD9F1CCE4626005E81CE /* Frameworks */,
@@ -523,14 +523,14 @@
 			);
 			dependencies = (
 			);
-			name = "RxBluetoothKit OSX";
+			name = "RxBluetoothKit macOS";
 			productName = "RxBluetoothKit OSX";
 			productReference = 2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		2666FDAB1CCE4626005E81CE /* RxBluetoothKit OSXTests */ = {
+		2666FDAB1CCE4626005E81CE /* RxBluetoothKit macOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2666FDB71CCE4626005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit OSXTests" */;
+			buildConfigurationList = 2666FDB71CCE4626005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit macOSTests" */;
 			buildPhases = (
 				2666FDA81CCE4626005E81CE /* Sources */,
 				2666FDA91CCE4626005E81CE /* Frameworks */,
@@ -542,9 +542,9 @@
 			dependencies = (
 				2666FDAF1CCE4626005E81CE /* PBXTargetDependency */,
 			);
-			name = "RxBluetoothKit OSXTests";
+			name = "RxBluetoothKit macOSTests";
 			productName = "RxBluetoothKit OSXTests";
-			productReference = 2666FDAC1CCE4626005E81CE /* RxBluetoothKit OSXTests.xctest */;
+			productReference = 2666FDAC1CCE4626005E81CE /* RxBluetoothKit macOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -587,8 +587,8 @@
 			targets = (
 				2666FD831CCE457C005E81CE /* RxBluetoothKit iOS */,
 				2666FD8C1CCE457C005E81CE /* RxBluetoothKit iOSTests */,
-				2666FDA21CCE4626005E81CE /* RxBluetoothKit OSX */,
-				2666FDAB1CCE4626005E81CE /* RxBluetoothKit OSXTests */,
+				2666FDA21CCE4626005E81CE /* RxBluetoothKit macOS */,
+				2666FDAB1CCE4626005E81CE /* RxBluetoothKit macOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -738,7 +738,7 @@
 		};
 		2666FDAF1CCE4626005E81CE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2666FDA21CCE4626005E81CE /* RxBluetoothKit OSX */;
+			target = 2666FDA21CCE4626005E81CE /* RxBluetoothKit macOS */;
 			targetProxy = 2666FDAE1CCE4626005E81CE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1037,7 +1037,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2666FDB41CCE4626005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit OSX" */ = {
+		2666FDB41CCE4626005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2666FDB51CCE4626005E81CE /* Debug */,
@@ -1046,7 +1046,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2666FDB71CCE4626005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit OSXTests" */ = {
+		2666FDB71CCE4626005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit macOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2666FDB81CCE4626005E81CE /* Debug */,
