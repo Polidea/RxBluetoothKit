@@ -57,7 +57,7 @@ class PeripheralServicesSpec: QuickSpec {
             var cbuuids: [CBUUID]!
 
             beforeEach {
-                cbuuids = [CBUUID()]
+                cbuuids = [CBUUID(string: "bbaa")]
             }
 
             describe("discover") {

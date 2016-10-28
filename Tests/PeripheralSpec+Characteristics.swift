@@ -63,7 +63,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
         describe("characteristic") {
             var identifiers: [CBUUID]!
             beforeEach {
-                identifiers = [CBUUID()]
+                identifiers = [CBUUID(string: "aabb")]
             }
             describe("discover") {
                 var characteristicsDiscoverObservable: ScheduledObservable<[Characteristic]>!
