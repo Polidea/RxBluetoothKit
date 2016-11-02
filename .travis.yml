@@ -3,14 +3,18 @@ osx_image: xcode8
 xcode_project: RxBluetoothKit.xcodeproj
 xcode_sdk: iphonesimulator10.0
 
+env:
+        matrix:
+                - TARGET=iOS
+                - TARGET=macOS
 before_install:
         - brew update
         - brew outdated carthage || brew upgrade carthage
 before_script:
         - carthage checkout --no-use-binaries
-        - travis_retry carthage build --platform iOS
+        - travis_retry carthage build --platform "${TARGET}"
 script:
-        - set -o pipefail && xcodebuild test -verbose -scheme "RxBluetoothKit iOS" -destination "platform=iOS Simulator,OS=10.0,name=iPhone 7 Plus" ONLY_ACTIVE_ARCH=NO | xcpretty
+        ./scripts/all-tests.sh "${TARGET}"
 
 after_success:
         - sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
