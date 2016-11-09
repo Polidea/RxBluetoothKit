@@ -118,7 +118,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
             actionSheet.addAction(readValueNotificationAction)
         }
         
-        if characteristic.properties.contains(.write) {
+        if characteristic.properties.contains(.write)||characteristic.properties.contains(.writeWithoutResponse) {
             let writeValueNotificationAction = UIAlertAction(title: "Write", style: .default) { _ in
                 self.showWriteFieldForCharacteristic(characteristic: characteristic)
             }
