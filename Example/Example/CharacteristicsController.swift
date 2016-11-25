@@ -50,7 +50,7 @@ class CharacteristicsController: UIViewController {
             }).addDisposableTo(disposeBag)
     }
 
-    fileprivate func showWriteFieldForCharacteristic(characteristic: Characteristic, type: CBCharacteristicWriteType) {
+    fileprivate func showWriteFieldForCharacteristic(characteristic: Characteristic) {
         let valueWriteController = UIAlertController(title: "Write value", message: "Specify value in HEX to write ",
                                                      preferredStyle: .alert)
         valueWriteController.addTextField { textField in
@@ -60,15 +60,16 @@ class CharacteristicsController: UIViewController {
         valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
             
             if let _text = valueWriteController.textFields?.first?.text {
-                self.writeValueForCharacteristic(hexadecimalString: _text, characteristic: characteristic, type: type)
+                self.writeValueForCharacteristic(hexadecimalString: _text, characteristic: characteristic)
             }
             
         })
         self.present(valueWriteController, animated: true, completion: nil)
     }
     
-    fileprivate func writeValueForCharacteristic(hexadecimalString: String,characteristic: Characteristic, type: CBCharacteristicWriteType) {
+    fileprivate func writeValueForCharacteristic(hexadecimalString: String,characteristic: Characteristic) {
         let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
+        let type: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
         characteristic.writeValue(hexadecimalData as Data, type: type)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
@@ -120,11 +121,8 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         }
         
         if characteristic.properties.contains(.write) || characteristic.properties.contains(.writeWithoutResponse) {
-            
-            let type: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
-            
             let writeValueNotificationAction = UIAlertAction(title: "Write", style: .default) { _ in
-                self.showWriteFieldForCharacteristic(characteristic: characteristic, type: type)
+                self.showWriteFieldForCharacteristic(characteristic: characteristic)
             }
             actionSheet.addAction(writeValueNotificationAction)
         }
