@@ -121,13 +121,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         
         if characteristic.properties.contains(.write) || characteristic.properties.contains(.writeWithoutResponse) {
             
-            var type: CBCharacteristicWriteType
-            
-            if characteristic.properties.contains(.write) {
-                type = .withResponse
-            } else {
-                type = .withoutResponse
-            }
+            let type: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
             
             let writeValueNotificationAction = UIAlertAction(title: "Write", style: .default) { _ in
                 self.showWriteFieldForCharacteristic(characteristic: characteristic, type: type)
