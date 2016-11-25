@@ -9,6 +9,7 @@
 import UIKit
 import RxBluetoothKit
 import RxSwift
+import CoreBluetooth
 
 class CharacteristicsController: UIViewController {
 
@@ -49,7 +50,7 @@ class CharacteristicsController: UIViewController {
             }).addDisposableTo(disposeBag)
     }
 
-    fileprivate func showWriteFieldForCharacteristic(characteristic: Characteristic) {
+    fileprivate func showWriteFieldForCharacteristic(characteristic: Characteristic, type: CBCharacteristicWriteType) {
         let valueWriteController = UIAlertController(title: "Write value", message: "Specify value in HEX to write ",
                                                      preferredStyle: .alert)
         valueWriteController.addTextField { textField in
@@ -59,16 +60,16 @@ class CharacteristicsController: UIViewController {
         valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
             
             if let _text = valueWriteController.textFields?.first?.text {
-                self.writeValueForCharacteristic(hexadecimalString: _text, characteristic: characteristic)
+                self.writeValueForCharacteristic(hexadecimalString: _text, characteristic: characteristic, type: type)
             }
             
         })
         self.present(valueWriteController, animated: true, completion: nil)
     }
     
-    fileprivate func writeValueForCharacteristic(hexadecimalString: String,characteristic: Characteristic) {
+    fileprivate func writeValueForCharacteristic(hexadecimalString: String,characteristic: Characteristic, type: CBCharacteristicWriteType) {
         let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
-        characteristic.writeValue(hexadecimalData as Data, type: .withResponse)
+        characteristic.writeValue(hexadecimalData as Data, type: type)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
             }).addDisposableTo(disposeBag)
@@ -119,8 +120,17 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         }
         
         if characteristic.properties.contains(.write) || characteristic.properties.contains(.writeWithoutResponse) {
+            
+            var type: CBCharacteristicWriteType
+            
+            if characteristic.properties.contains(.write) {
+                type = .withResponse
+            } else {
+                type = .withoutResponse
+            }
+            
             let writeValueNotificationAction = UIAlertAction(title: "Write", style: .default) { _ in
-                self.showWriteFieldForCharacteristic(characteristic: characteristic)
+                self.showWriteFieldForCharacteristic(characteristic: characteristic, type: type)
             }
             actionSheet.addAction(writeValueNotificationAction)
         }
