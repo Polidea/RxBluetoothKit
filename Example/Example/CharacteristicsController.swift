@@ -9,6 +9,7 @@
 import UIKit
 import RxBluetoothKit
 import RxSwift
+import CoreBluetooth
 
 class CharacteristicsController: UIViewController {
 
@@ -68,7 +69,8 @@ class CharacteristicsController: UIViewController {
     
     fileprivate func writeValueForCharacteristic(hexadecimalString: String,characteristic: Characteristic) {
         let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
-        characteristic.writeValue(hexadecimalData as Data, type: .withResponse)
+        let type: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
+        characteristic.writeValue(hexadecimalData as Data, type: type)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
             }).addDisposableTo(disposeBag)
