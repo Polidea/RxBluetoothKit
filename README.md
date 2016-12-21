@@ -123,10 +123,11 @@ It's really straightforward: just flatMap result into another Observable!
 ```swift
 manager.scanForPeripherals(withServices: [serviceId]).take(1)
 	.flatMap { $0.peripheral.connect() }
-	.subscribeNext { peripheral in
+	.subscribe(onNext: { peripheral in
 		print("Connected to: \(peripheral)")
-	}
+	})
 ```
+
 
 ### Discovering services
 After connecting, the most common task is to discover Services.
@@ -137,9 +138,9 @@ Here's how it works in RxBluetoothKit:
 peripheral.connect()
 	.flatMap { $0.discoverServices([serviceId]) }
 	.flatMap { Observable.from($0) }
-	.subscribeNext { service in
+	.subscribe(onNext: { service in
 		print("Discovered service: \(service)")
-	}
+	})
 ```
 
 ### Discovering characteristics
@@ -152,9 +153,9 @@ peripheral.connect()
 	.flatMap { Observable.from($0) }
 	.flatMap { $0.discoverCharacteristics([characteristicId])}
 	.flatMap { Observable.from($0) }
-	.subscribeNext { characteristic in
+	.subscribe(onNext: { characteristic in
 		print("Discovered characteristic: \(characteristic)")
-	}
+	})
 ```
 
 ### Reading value of characteristic
@@ -168,9 +169,9 @@ peripheral.connect()
 	.flatMap { $0.discoverCharacteristics([characteristicId])}
 	.flatMap { Observable.from($0) }
 	.flatMap { $0.readValue() }
-	.subscribeNext {
+	.subscribe(onNext: {
 		let data = $0.value
-	}
+	})
 ```
 
 ### Notifying on characteristic changes
@@ -178,16 +179,16 @@ Notifying on characteristic value changes? Nothing easier.
 After subscribing observable returned by this method, you will get proper message every single time:
 ```swift
 characteristic.setNotificationAndMonitorUpdates()
-	.subscribeNext {
+	.subscribe(onNext: {
 		let newValue = $0.value
-	}
+	})
 ```
 If you are not interested anymore in updates, just use this:
 ```swift
 characteristic.setNotifyValue(false)
-	.subscribe { characteristic in
+	.subscribe(onNext: { characteristic in
 		//Notification are now disabled.
-	}
+	})
 ```
 
 ### Writing value to characteristic
@@ -238,9 +239,9 @@ peripheral.connect()
     .flatMap { Observable.from($0.discoverServices([serviceId])) }
     .flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
     .flatMap { $0.readValue }
-    .subscribeNext {
+    .subscribe(onNext: {
         let data = $0.value
-    }
+    })
 ```
 
 When you use new `CharacteristicIdentifier` protocol, you could do it way simpler:
@@ -248,9 +249,9 @@ When you use new `CharacteristicIdentifier` protocol, you could do it way simple
 ```swift
 peripheral.connect()
     .flatMap { $0.readValue(for: DeviceCharacteristic.manufacturerName)
-    .subscribeNext {
+    .subscribe(onNext: {
         let data = $0.value
-    }
+    })
 ```
 
 Set of methods that are taking instances conforming `CharacteristicIdentifier` or `DescriptorIdentifier` does all of the heavy lifting like discovering services, characteristics and descriptors for you. Moreover, in order to optimise - when one of these is available in cache, discovery is not called at all.
