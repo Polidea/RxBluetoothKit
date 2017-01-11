@@ -51,4 +51,8 @@ class RxCBCharacteristic: RxCharacteristicType {
         return RxCBService(service: characteristic.service)
     }
 
+    func isEqualTo(characteristic: RxCharacteristicType) -> Bool {
+        guard let rhs = characteristic as? RxCBCharacteristic else { return false }
+        return self.characteristic === rhs.characteristic
+    }
 }
