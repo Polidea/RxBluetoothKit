@@ -56,7 +56,6 @@ class RxCBCentralManager: RxCentralManagerType {
             didUpdateStateSubject.onNext(bleState)
         }
 
-
         @objc func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
             willRestoreStateSubject.onNext(dict)
         }

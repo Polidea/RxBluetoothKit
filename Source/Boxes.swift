@@ -22,7 +22,6 @@
 
 import Foundation
 
-
 class WeakBox<T: AnyObject> : CustomDebugStringConvertible {
     weak var value: T?
     init() {}
@@ -33,8 +32,6 @@ class WeakBox<T: AnyObject> : CustomDebugStringConvertible {
 
 extension WeakBox {
     var debugDescription: String {
-        get {
-            return "WeakBox(\(self.value))"
-        }
+        return "WeakBox(\(self.value))"
     }
 }

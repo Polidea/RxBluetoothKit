@@ -60,7 +60,6 @@ public class BluetoothManager {
     /// Queue of scan operations which are waiting for an execution
     private var scanQueue: [ScanOperation] = []
 
-
     // MARK: Initialization
 
     /**
@@ -129,7 +128,7 @@ public class BluetoothManager {
         -> Observable<ScannedPeripheral> {
 
             return .deferred {
-                let observable: Observable<ScannedPeripheral> = { Void -> Observable<ScannedPeripheral> in
+                let observable: Observable<ScannedPeripheral> = { () -> Observable<ScannedPeripheral> in
                     // If it's possible use existing scan - take if from the queue
                     self.lock.lock(); defer { self.lock.unlock() }
                     if let elem = self.scanQueue.first(where: { $0.shouldAccept(serviceUUIDs) }) {
@@ -300,8 +299,8 @@ public class BluetoothManager {
      */
     public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {
-            return self.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map {
-                (peripheralTable: [RxPeripheralType]) ->
+            return self.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
+                .map { (peripheralTable: [RxPeripheralType]) ->
                 [Peripheral] in peripheralTable.map {
                     Peripheral(manager: self, peripheral: $0)
                 }
@@ -318,8 +317,8 @@ public class BluetoothManager {
      */
     public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {
-            return self.centralManager.retrievePeripherals(withIdentifiers: identifiers).map {
-                (peripheralTable: [RxPeripheralType]) ->
+            return self.centralManager.retrievePeripherals(withIdentifiers: identifiers)
+                .map { (peripheralTable: [RxPeripheralType]) ->
                 [Peripheral] in peripheralTable.map {
                     Peripheral(manager: self, peripheral: $0)
                 }
@@ -328,7 +327,7 @@ public class BluetoothManager {
         return ensure(.poweredOn, observable: observable)
     }
 
-    // MARK:  Internal functions
+    // MARK: Internal functions
 
     /**
      Ensure that `state` is and will be the only state of `BluetoothManager` during subscription.

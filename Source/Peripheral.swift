@@ -239,7 +239,7 @@ public class Peripheral {
         return peripheral
             .rx_didWriteValueForCharacteristic
             .filter { return $0.0 == characteristic.characteristic }
-            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
+            .flatMap { (_, error) -> Observable<Characteristic> in
                 if let error = error {
                     throw BluetoothError.characteristicWriteFailed(characteristic, error)
                 }
@@ -302,7 +302,7 @@ public class Peripheral {
         let observable = peripheral
             .rx_didUpdateValueForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
-            .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
+            .flatMap { (_, error) -> Observable<Characteristic> in
                 if let error = error {
                     throw BluetoothError.characteristicReadFailed(characteristic, error)
                 }
@@ -342,7 +342,7 @@ public class Peripheral {
                 .rx_didUpdateNotificationStateForCharacteristic
                 .filter { $0.0 == characteristic.characteristic }
                 .take(1)
-                .flatMap { (rxCharacteristic, error) -> Observable<Characteristic> in
+                .flatMap { (_, error) -> Observable<Characteristic> in
                     if let error = error {
                         throw BluetoothError.characteristicNotifyChangeFailed(characteristic, error)
                     }
@@ -411,7 +411,7 @@ public class Peripheral {
         return peripheral
             .rx_didWriteValueForDescriptor
             .filter { $0.0 == descriptor.descriptor }
-            .flatMap { (rxDescriptor, error) -> Observable<Descriptor> in
+            .flatMap { (_, error) -> Observable<Descriptor> in
                 if let error = error {
                     throw BluetoothError.descriptorWriteFailed(descriptor, error)
                 }
@@ -428,7 +428,7 @@ public class Peripheral {
     public func monitorValueUpdate(for descriptor: Descriptor) -> Observable<Descriptor> {
         let observable = peripheral.rx_didUpdateValueForDescriptor
             .filter { $0.0 == descriptor.descriptor }
-            .flatMap { (rxDescriptor, error) -> Observable<Descriptor> in
+            .flatMap { (_, error) -> Observable<Descriptor> in
                 if let error = error {
                     throw BluetoothError.descriptorReadFailed(descriptor, error)
                 }

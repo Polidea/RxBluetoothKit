@@ -78,7 +78,6 @@ public class Characteristic {
         self.service = service
     }
 
-
     /**
      Function that triggers descriptors discovery for characteristic.
      - returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.

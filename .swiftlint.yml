@@ -2,6 +2,9 @@ disabled_rules: # rule identifiers to exclude from running
   - variable_name
   - force_cast
   - todo #delete it later
+  - file_length
+  - weak_delegate
+  - type_name
 opt_in_rules: # some rules are only opt-in
   - empty_count
   # - missing_docs # Broken in swiftlint 0.12.0 with XCode 8
@@ -24,8 +27,3 @@ file_length:
   error: 1200
 # naming rules can set warnings/errors for min_length and max_length
 # additionally they can set excluded names
-type_name:
-  min_length: 3 # only warning
-  max_length: # warning and error
-    warning: 40
-    error: 50

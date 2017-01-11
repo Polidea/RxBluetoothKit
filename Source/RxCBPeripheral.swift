@@ -236,7 +236,7 @@ class RxCBPeripheral: RxPeripheralType {
         peripheral.readRSSI()
     }
 
-    @objc private class InternalPeripheralDelegate: NSObject, CBPeripheralDelegate {
+    @objc fileprivate class InternalPeripheralDelegate: NSObject, CBPeripheralDelegate {
         let peripheralDidUpdateNameSubject = PublishSubject<String?>()
         let peripheralDidModifyServicesSubject = PublishSubject<([RxServiceType])>()
         let peripheralDidReadRSSISubject = PublishSubject<(Int, Error?)>()

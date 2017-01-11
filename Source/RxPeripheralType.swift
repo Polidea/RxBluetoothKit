@@ -170,7 +170,6 @@ protocol RxPeripheralType {
 
 }
 
-
 extension Equatable where Self: RxPeripheralType {}
 
 /**
