@@ -1,4 +1,8 @@
 
+# 3.0.6
+- Fixed SwiftLint & Xcode warnings
+- Updated swift-version in `jazzy.yml` file to allow cocoadocs parsing
+
 # 3.0.5
 - Fixed bug when `options` dictionary was not being passed to `BluetoothManager` when initializing it
 - Updated README.md to use `Observable.from` in correct way
