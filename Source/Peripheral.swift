@@ -123,22 +123,20 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
-        if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.uuid) }), identifiers.count == services.count {
-            return ensureValidPeripheralState(for: .just(services))
+        if let identifiers = serviceUUIDs, !identifiers.isEmpty,
+           let cachedServices = self.services,
+           let filteredServices = Self.filterCachedItems(uuids: serviceUUIDs, items: cachedServices, itemUUID: { $0.uuid }) {
+           return ensureValidPeripheralState(for: .just(filteredServices))
         }
         let observable = peripheral.rx_didDiscoverServices
         .flatMap { (_, error) -> Observable<[Service]> in
-            if let cachedServices = self.services, error == nil {
-                guard let identifiers = serviceUUIDs else { return .just(cachedServices) }
-                let uuids = cachedServices.map { $0.service.uuid }
-                if Set(identifiers).isSubset(of: Set(uuids)) {
-                    let filteredServices = cachedServices
-                        .filter { identifiers.contains($0.uuid)}
-                    return .just(filteredServices)
-                }
-                return .empty()
+            guard let cachedServices = self.services, error == nil else {
+                throw BluetoothError.servicesDiscoveryFailed(self, error)
             }
-            throw BluetoothError.servicesDiscoveryFailed(self, error)
+            if let filteredServices = Self.filterCachedItems(uuids: serviceUUIDs, items: cachedServices, itemUUID: { $0.uuid }) {
+                return .just(filteredServices)
+            }
+            return .empty()
         }
         .take(1)
 
@@ -163,10 +161,10 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: Service) -> Observable<[Service]> {
-        if let identifiers = includedServiceUUIDs,
-            let services = service.includedServices?.filter({ identifiers.contains($0.uuid) }),
-            identifiers.count == services.count {
-            return ensureValidPeripheralState(for: .just(services))
+        if let identifiers = includedServiceUUIDs, !identifiers.isEmpty,
+            let services = service.includedServices,
+            let filteredServices = Self.filterCachedItems(uuids: includedServiceUUIDs, items: services, itemUUID: { $0.uuid }) {
+            return ensureValidPeripheralState(for: .just(filteredServices))
         }
         let observable = peripheral
             .rx_didDiscoverIncludedServicesForService
@@ -176,9 +174,9 @@ public class Peripheral {
                     throw BluetoothError.includedServicesDiscoveryFailed(self, error)
                 }
                 let includedServices = includedRxServices.map { Service(peripheral: self, service: $0) }
-                guard let includedServiceUUIDs = includedServiceUUIDs else { return .just(includedServices) }
-                let filteredServices = includedServices.filter { includedServiceUUIDs.contains($0.uuid) }
-                if filteredServices.count == includedServiceUUIDs.count { return .just(filteredServices) }
+                if let filteredServices = Self.filterCachedItems(uuids: includedServiceUUIDs, items: includedServices, itemUUID: { $0.uuid }) {
+                    return .just(filteredServices)
+                }
                 return .empty()
             }
             .take(1)
@@ -203,9 +201,10 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: Service) -> Observable<[Characteristic]> {
-        if let identifiers = characteristicUUIDs, let characteristics = service.characteristics?.filter({ identifiers.contains($0.uuid) }),
-            identifiers.count == characteristics.count {
-            return ensureValidPeripheralState(for: .just(characteristics))
+        if let identifiers = characteristicUUIDs, !identifiers.isEmpty,
+            let characteristics = service.characteristics,
+            let filteredCharacteristics = Self.filterCachedItems(uuids: characteristicUUIDs, items: characteristics, itemUUID: { $0.uuid }) {
+            return ensureValidPeripheralState(for: .just(filteredCharacteristics))
         }
         let observable = peripheral
             .rx_didDiscoverCharacteristicsForService
@@ -215,9 +214,9 @@ public class Peripheral {
                     throw BluetoothError.characteristicsDiscoveryFailed(service, error)
                 }
                 let characteristics = rxCharacteristics.map { Characteristic(characteristic: $0, service: service) }
-                guard let characteristicIdentifiers = characteristicUUIDs else { return .just(characteristics) }
-                let filteredCharacteristics = characteristics.filter { characteristicIdentifiers.contains($0.uuid) }
-                if filteredCharacteristics.count == characteristicIdentifiers.count { return .just(filteredCharacteristics) }
+                if let filteredCharacteristics = Self.filterCachedItems(uuids: characteristicUUIDs, items: characteristics, itemUUID: { $0.uuid }) {
+                    return .just(filteredCharacteristics)
+                }
                 return .empty()
             }
             .take(1)
@@ -543,4 +542,26 @@ extension Peripheral: Equatable { }
  */
 public func == (lhs: Peripheral, rhs: Peripheral) -> Bool {
     return lhs.peripheral == rhs.peripheral
+}
+
+fileprivate extension Peripheral {
+    fileprivate typealias `Self` = Peripheral
+
+    /**
+     Filters an item list based on the provided UUID list. Only items returned whose UUID matches an item in the provided UUID list.
+     Each UUID should have at least one item matching in the items list. Otherwise the result is nil.
+
+     - uuids: a UUID list or nil
+     - items: items to be filtered
+     - itemUUID: closure to extract the UUID from the items
+     - Returns: the filtered item list
+    */
+    static func filterCachedItems<T>(uuids: [CBUUID]?, items: [T], itemUUID: (T) -> CBUUID) -> [T]? {
+        guard let uuids = uuids, !uuids.isEmpty else { return items }
+
+        let itemsUUIDs = items.map { itemUUID($0) }
+        let uuidsSet = Set(uuids)
+        guard uuidsSet.isSubset(of: Set(itemsUUIDs)) else { return nil }
+        return items.filter { uuidsSet.contains(itemUUID($0)) }
+    }
 }

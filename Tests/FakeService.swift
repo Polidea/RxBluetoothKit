@@ -32,4 +32,9 @@ class FakeService: RxServiceType {
     var characteristics: [RxCharacteristicType]? = nil
     var includedServices: [RxServiceType]? = nil
     var isPrimary: Bool = false
+
+    func isEqualTo(service: RxServiceType) -> Bool {
+        return uuid == service.uuid
+    }
+
 }

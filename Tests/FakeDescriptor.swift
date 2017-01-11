@@ -33,4 +33,8 @@ class FakeDescriptor: RxDescriptorType {
     init(characteristic: RxCharacteristicType) {
         self.characteristic = characteristic
     }
+
+    func isEqualTo(descriptor: RxDescriptorType) -> Bool {
+        return uuid == descriptor.uuid
+    }
 }
