@@ -46,10 +46,14 @@ import CoreBluetooth
  - seealso: `Peripheral`
  */
 
-public class CentralManager {
+public class CentralManager: BluetoothStateManager {
 
     /// Implementation of Central Manager
     private let centralManager: RxCentralManagerType
+
+    var stateProvider: BluetoothStateProvider {
+        return centralManager
+    }
 
     /// Queue on which all observables are serialised if needed
     private let subscriptionQueue: SerializedSubscriptionQueue
@@ -189,30 +193,7 @@ public class CentralManager {
                 return self.ensure(.poweredOn, observable: observable)
             }
     }
-
-    // MARK: State
-
-    /**
-     Continuous state of `CentralManager` instance described by `BluetoothState` which is equivalent to  [`CBManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-
-     - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
-     whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
-     */
-    public var rx_state: Observable<BluetoothState> {
-        return .deferred {
-            return self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
-        }
-    }
-
-    /**
-     Current state of `CentralManager` instance described by `BluetoothState` which is equivalent to [`CBManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-
-     - returns: Current state of `CentralManager` as `BluetoothState`.
-     */
-
-    public var state: BluetoothState {
-        return centralManager.state
-    }
+    
     // MARK: Peripheral's Connection Management
 
     /**

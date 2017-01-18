@@ -93,6 +93,9 @@
 		A10F29A51CDCD75900593284 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29991CDCD73A00593284 /* Quick.framework */; };
 		A10F29AD1CDCD98400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F29B01CDCD99900593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
+		BB9E4C681E30117E008415CC /* PeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9E4C671E30117E008415CC /* PeripheralManager.swift */; };
+		BB9E4C6B1E3011EF008415CC /* BluetoothStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9E4C6A1E3011EF008415CC /* BluetoothStateManager.swift */; };
+		BB9E4C6C1E3012C6008415CC /* BluetoothStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9E4C6A1E3011EF008415CC /* BluetoothStateManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +191,8 @@
 		A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanOperation.swift; sourceTree = "<group>"; };
 		A1299C231CBE3DEE005DEA5B /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unimplemented.swift; sourceTree = "<group>"; };
+		BB9E4C671E30117E008415CC /* PeripheralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralManager.swift; sourceTree = "<group>"; };
+		BB9E4C6A1E3011EF008415CC /* BluetoothStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothStateManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -424,6 +429,7 @@
 		A1299BD71CBE3D61005DEA5B /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				BB9E4C691E3011DD008415CC /* BluetoothStateManager */,
 				BB9E4C641E301067008415CC /* PeripheralManager */,
 				265CD5FE1CBED348007120AB /* Descriptor */,
 				265CD5FD1CBED33D007120AB /* Peripheral */,
@@ -448,8 +454,17 @@
 		BB9E4C641E301067008415CC /* PeripheralManager */ = {
 			isa = PBXGroup;
 			children = (
+				BB9E4C671E30117E008415CC /* PeripheralManager.swift */,
 			);
 			name = PeripheralManager;
+			sourceTree = "<group>";
+		};
+		BB9E4C691E3011DD008415CC /* BluetoothStateManager */ = {
+			isa = PBXGroup;
+			children = (
+				BB9E4C6A1E3011EF008415CC /* BluetoothStateManager.swift */,
+			);
+			name = BluetoothStateManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -659,12 +674,14 @@
 				2666FE401CCE4732005E81CE /* Unimplemented.swift in Sources */,
 				2666FE3B1CCE4732005E81CE /* RxCBService.swift in Sources */,
 				2666FE371CCE4732005E81CE /* DeviceIdentifiers.swift in Sources */,
+				BB9E4C681E30117E008415CC /* PeripheralManager.swift in Sources */,
 				26EF38C91D86EE1F00F9F468 /* BluetoothState.swift in Sources */,
 				2666FE471CCE4732005E81CE /* RxCentralManagerType.swift in Sources */,
 				2666FE301CCE4732005E81CE /* RxDescriptorType.swift in Sources */,
 				2666FE461CCE4732005E81CE /* ScanOperation.swift in Sources */,
 				2666FE3D1CCE4732005E81CE /* RxCBCharacteristic.swift in Sources */,
 				2666FE3C1CCE4732005E81CE /* RxCharacteristicType.swift in Sources */,
+				BB9E4C6B1E3011EF008415CC /* BluetoothStateManager.swift in Sources */,
 				2666FE351CCE4732005E81CE /* Peripheral.swift in Sources */,
 				2666FE331CCE4732005E81CE /* RxPeripheralType.swift in Sources */,
 				2666FE441CCE4732005E81CE /* Boxes.swift in Sources */,
@@ -709,6 +726,7 @@
 				2666FE241CCE4731005E81CE /* Observable+QueueSubscribeOn.swift in Sources */,
 				2666FE2E1CCE4731005E81CE /* BluetoothManager.swift in Sources */,
 				2666FE251CCE4731005E81CE /* Unimplemented.swift in Sources */,
+				BB9E4C6C1E3012C6008415CC /* BluetoothStateManager.swift in Sources */,
 				2666FE201CCE4731005E81CE /* RxCBService.swift in Sources */,
 				2666FE1C1CCE4731005E81CE /* DeviceIdentifiers.swift in Sources */,
 				2666FE2C1CCE4731005E81CE /* RxCentralManagerType.swift in Sources */,
