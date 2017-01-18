@@ -34,7 +34,7 @@ class RxCBCentralManager: RxCentralManagerType {
     private let internalDelegate = InternalDelegate()
 
     /**
-     Create Core Bluetooth implementation of RxCentralManagerType which is used by BluetoothManager class.
+     Create Core Bluetooth implementation of RxCentralManagerType which is used by CentralManager class.
      User can specify on which thread all bluetooth events are collected.
 
      - parameter queue: Dispatch queue on which callbacks are received.

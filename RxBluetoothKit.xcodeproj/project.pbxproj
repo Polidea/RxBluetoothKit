@@ -424,6 +424,7 @@
 		A1299BD71CBE3D61005DEA5B /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				BB9E4C641E301067008415CC /* PeripheralManager */,
 				265CD5FE1CBED348007120AB /* Descriptor */,
 				265CD5FD1CBED33D007120AB /* Peripheral */,
 				265CD5FC1CBED339007120AB /* Service */,
@@ -442,6 +443,13 @@
 			);
 			name = Frameworks;
 			path = RxBluetoothKit;
+			sourceTree = "<group>";
+		};
+		BB9E4C641E301067008415CC /* PeripheralManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = PeripheralManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -24,7 +24,7 @@ import Foundation
 import CoreBluetooth
 
 /**
- Convenience class which helps reading state of restored BluetoothManager
+ Convenience class which helps reading state of restored CentralManager
  */
 #if os(iOS)
 public struct RestoredState {
@@ -34,15 +34,15 @@ public struct RestoredState {
     */
     public let restoredStateData: [String:Any]
 
-    public unowned let bluetoothManager: BluetoothManager
+    public unowned let centralManager: CentralManager
     /**
      Creates restored state information based on CoreBluetooth's dictionary
      - parameter restoredState: Core Bluetooth's restored state data
-     - parameter bluetoothManager: `BluetoothManager` instance of which state has been restored.
+     - parameter centralManager: `CentralManager` instance of which state has been restored.
      */
-    init(restoredStateDictionary: [String:Any], bluetoothManager: BluetoothManager) {
+    init(restoredStateDictionary: [String:Any], centralManager: CentralManager) {
         self.restoredStateData = restoredStateDictionary
-        self.bluetoothManager = bluetoothManager
+        self.centralManager = centralManager
     }
 
     /**
@@ -55,7 +55,7 @@ public struct RestoredState {
         guard let arrayOfAnyObjects = objects else { return [] }
         return arrayOfAnyObjects.flatMap { $0 as? CBPeripheral }
             .map { RxCBPeripheral(peripheral: $0) }
-            .map { Peripheral(manager: bluetoothManager, peripheral: $0) }
+            .map { Peripheral(manager: centralManager, peripheral: $0) }
     }
 
     /**
@@ -75,7 +75,7 @@ public struct RestoredState {
         guard let arrayOfAnyObjects = objects else { return [] }
         return arrayOfAnyObjects.flatMap { $0 as? CBService }
             .map { RxCBService(service: $0) }
-            .map { Service(peripheral: Peripheral(manager: bluetoothManager,
+            .map { Service(peripheral: Peripheral(manager: centralManager,
                 peripheral: RxCBPeripheral(peripheral: $0.service.peripheral)), service: $0) }
     }
 }

@@ -33,7 +33,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
 
     override func spec() {
 
-        var manager: BluetoothManager!
+        var manager: CentralManager!
         var fakeCentralManager: FakeCentralManager!
         var testScheduler: TestScheduler!
         var fakePeripheral: FakePeripheral!
@@ -50,7 +50,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
             testScheduler = TestScheduler(initialClock: 0)
             fakePeripheral = FakePeripheral()
             fakeCentralManager = FakeCentralManager()
-            manager = BluetoothManager(centralManager: fakeCentralManager)
+            manager = CentralManager(centralManager: fakeCentralManager)
             peripheral = Peripheral(manager: manager, peripheral: fakePeripheral)
             fakeService = FakeService()
             service = Service(peripheral: peripheral, service: fakeService)
