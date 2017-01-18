@@ -193,7 +193,7 @@ public class CentralManager: BluetoothStateManager {
                 return self.ensure(.poweredOn, observable: observable)
             }
     }
-    
+
     // MARK: Peripheral's Connection Management
 
     /**
