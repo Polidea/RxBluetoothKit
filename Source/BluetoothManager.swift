@@ -51,10 +51,6 @@ public class CentralManager: BluetoothStateManager {
     /// Implementation of Central Manager
     private let centralManager: RxCentralManagerType
 
-    var stateProvider: BluetoothStateProvider {
-        return centralManager
-    }
-
     /// Queue on which all observables are serialised if needed
     private let subscriptionQueue: SerializedSubscriptionQueue
 
@@ -63,6 +59,16 @@ public class CentralManager: BluetoothStateManager {
 
     /// Queue of scan operations which are waiting for an execution
     private var scanQueue: [ScanOperation] = []
+
+    /// Observable which emits state changes of central manager after subscriptions
+    var rx_didUpdateState: Observable<BluetoothState> {
+        return centralManager.rx_didUpdateState
+    }
+
+    /// Current state of Central Manager
+    var state: BluetoothState {
+        return centralManager.state
+    }
 
     // MARK: Initialization
 
@@ -110,7 +116,7 @@ public class CentralManager: BluetoothStateManager {
      Scans by default are infinite streams of `ScannedPeripheral` structures which need to be stopped by the user. For
      example this can be done by limiting scanning to certain number of peripherals or time:
 
-     CentralManager.scanForPeripherals(withServices: nil)
+     centralManager.scanForPeripherals(withServices: nil)
         .timeout(3.0, timeoutScheduler)
         .take(2)
 
