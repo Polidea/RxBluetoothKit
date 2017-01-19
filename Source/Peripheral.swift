@@ -31,9 +31,9 @@ import CoreBluetooth
  allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
  */
 public class Peripheral {
-    let manager: BluetoothManager
+    let manager: CentralManager
 
-    init(manager: BluetoothManager, peripheral: RxPeripheralType) {
+    init(manager: CentralManager, peripheral: RxPeripheralType) {
         self.manager = manager
         self.peripheral = peripheral
     }
@@ -93,8 +93,8 @@ public class Peripheral {
 
     /**
      Establishes local connection to the peripheral.
-     For more information look into `BluetoothManager.connectToPeripheral(_:options:)` because this method calls it directly.
-     - Parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
+     For more information look into `CentralManager.connectToPeripheral(_:options:)` because this method calls it directly.
+     - Parameter peripheral: The `Peripheral` to which `CentralManager` is attempting to connect.
      - Parameter options: Dictionary to customise the behaviour of connection.
      - Returns: Observation which emits next event after connection is established
      */

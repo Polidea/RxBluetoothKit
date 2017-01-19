@@ -29,11 +29,11 @@ import RxBluetoothKit
 import RxTest
 import RxSwift
 
-class BluetoothManagerScanningSpec: QuickSpec {
+class CentralManagerScanningSpec: QuickSpec {
     
     override func spec() {
         
-        var manager: BluetoothManager!
+        var manager: CentralManager!
         var fakeCentralManager: FakeCentralManager!
         var testScheduler: TestScheduler!
         var fakePeripheral: FakePeripheral!
@@ -42,7 +42,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
             fakePeripheral = FakePeripheral()
             fakeCentralManager = FakeCentralManager()
             testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
-            manager = BluetoothManager(centralManager: fakeCentralManager, queueScheduler: testScheduler)
+            manager = CentralManager(centralManager: fakeCentralManager, queueScheduler: testScheduler)
         }
         
         describe("scanning devices") {
