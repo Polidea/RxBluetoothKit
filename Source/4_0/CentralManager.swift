@@ -9,7 +9,7 @@ public final class CentralManager: CentralManagerType {
     init(cbCentralManager: CBCentralManager) {
         self.cbCentralManager = cbCentralManager
     }
-
+    //TODO: Think about rx_ prefix - we should probably get rid of it and use Reactive from RxSwift
     /// Observable which emits state changes of central manager after subscriptions
     var rx_didUpdateState: Observable<BluetoothState> {
         return .empty()
@@ -18,7 +18,6 @@ public final class CentralManager: CentralManagerType {
     /// Current state of Central Manager
     var state: BluetoothState {
         return BluetoothState(rawValue: cbCentralManager.state.rawValue) ?? .unsupported
-
     }
 
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:Any]?) {
@@ -29,6 +28,7 @@ public final class CentralManager: CentralManagerType {
         cbCentralManager.connect(peripheral.cbPeripheral, options: options)
     }
 
+    //TODO: This method will not be available
     func cancelPeripheralConnection(_ peripheral: Peripheral) {
         cbCentralManager.cancelPeripheralConnection(peripheral.cbPeripheral)
     }
@@ -37,6 +37,7 @@ public final class CentralManager: CentralManagerType {
         cbCentralManager.stopScan()
     }
 
+    //TODO: In the future we should return `ConnectedPeripheral` instance. 
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[Peripheral]> {
         return .just(cbCentralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map(Peripheral.init))
     }

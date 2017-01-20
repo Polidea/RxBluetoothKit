@@ -14,7 +14,9 @@ protocol CentralManagerType: ManagerType {
 
     func stopScan()
 
+    //TODO: Should retrieve connected peripherals instances.
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[P]>
 
+    
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[P]>
 }

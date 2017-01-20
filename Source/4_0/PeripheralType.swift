@@ -2,6 +2,7 @@ import Foundation
 import CoreBluetooth
 import RxSwift
 
+//TODO: We should introduce ConnectedPeripheral type
 protocol PeripheralType {
 
     associatedtype S

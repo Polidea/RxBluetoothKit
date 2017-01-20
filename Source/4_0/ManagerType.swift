@@ -15,6 +15,7 @@ extension ManagerType {
             return self.rx_didUpdateState.startWith(self.state)
         }
     }
+    
     public var state: BluetoothState {
         return self.state
     }
