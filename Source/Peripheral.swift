@@ -376,11 +376,16 @@ public class Peripheral {
     // MARK: Descriptors
     /**
      Function that triggers descriptors discovery for characteristic
+     If all of the descriptors are already discovered - these are returned without doing any underlying Bluetooth operations.
      - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
      - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
     public func discoverDescriptors(for characteristic: Characteristic) -> Observable<[Descriptor]> {
+        if let descriptors = characteristic.descriptors {
+            let resultDescriptors = descriptors.map { Descriptor(descriptor: $0.descriptor, characteristic: characteristic) }
+            return ensureValidPeripheralState(for: .just(resultDescriptors))
+        }
         let observable = peripheral
             .rx_didDiscoverDescriptorsForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
