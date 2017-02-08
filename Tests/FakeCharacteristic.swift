@@ -40,4 +40,8 @@ class FakeCharacteristic: RxCharacteristicType {
         self.service = service
     }
 
+    func isEqualTo(characteristic: RxCharacteristicType) -> Bool {
+        return uuid == characteristic.uuid
+    }
+
 }

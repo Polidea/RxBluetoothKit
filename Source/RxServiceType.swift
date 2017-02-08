@@ -39,6 +39,10 @@ protocol RxServiceType {
 
     /// True if service is a primary service
     var isPrimary: Bool { get }
+
+    /// True if the two service objects considered equal
+    func isEqualTo(service: RxServiceType) -> Bool
+
 }
 
 extension Equatable where Self: RxServiceType {}
@@ -51,7 +55,7 @@ extension Equatable where Self: RxServiceType {}
  - returns: True if services UUIDs are the same.
  */
 func == (lhs: RxServiceType, rhs: RxServiceType) -> Bool {
-    return lhs.uuid == rhs.uuid
+    return lhs.isEqualTo(service: rhs)
 }
 
 /**
