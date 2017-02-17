@@ -275,8 +275,8 @@ public class Peripheral {
      if everything completed successfully. Errors are not emitted
      */
     public func writeValue(_ data: Data,
-        for characteristic: Characteristic,
-        type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+                           for characteristic: Characteristic,
+                           type: CBCharacteristicWriteType) -> Observable<Characteristic> {
             return .create { observer in
                 let disposable: Disposable
                 switch type {
@@ -337,7 +337,7 @@ public class Peripheral {
      is emitted
      */
     public func setNotifyValue(_ enabled: Bool,
-        for characteristic: Characteristic) -> Observable<Characteristic> {
+                               for characteristic: Characteristic) -> Observable<Characteristic> {
             let observable = peripheral
                 .rx_didUpdateNotificationStateForCharacteristic
                 .filter { $0.0 == characteristic.characteristic }

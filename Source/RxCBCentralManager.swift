@@ -61,9 +61,9 @@ class RxCBCentralManager: RxCentralManagerType {
         }
 
         @objc func centralManager(_ central: CBCentralManager,
-            didDiscover peripheral: CBPeripheral,
-            advertisementData: [String: Any],
-            rssi: NSNumber) {
+                                  didDiscover peripheral: CBPeripheral,
+                                  advertisementData: [String: Any],
+                                  rssi: NSNumber) {
                 didDiscoverPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), advertisementData, rssi))
         }
 
@@ -72,14 +72,14 @@ class RxCBCentralManager: RxCentralManagerType {
         }
 
         @objc func centralManager(_ central: CBCentralManager,
-            didFailToConnect peripheral: CBPeripheral,
-            error: Error?) {
+                                  didFailToConnect peripheral: CBPeripheral,
+                                  error: Error?) {
                 didFailToConnectPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), error))
         }
 
         @objc func centralManager(_ central: CBCentralManager,
-            didDisconnectPeripheral peripheral: CBPeripheral,
-            error: Error?) {
+                                  didDisconnectPeripheral peripheral: CBPeripheral,
+                                  error: Error?) {
                 didDisconnectPeripheral.onNext((RxCBPeripheral(peripheral: peripheral), error))
         }
     }

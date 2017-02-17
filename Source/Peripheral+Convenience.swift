@@ -125,7 +125,7 @@ extension Peripheral {
      if everything completed successfully. Errors are not emitted
      */
     public func writeValue(_ data: Data, for identifier: CharacteristicIdentifier,
-                    type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+                           type: CBCharacteristicWriteType) -> Observable<Characteristic> {
         return characteristic(with: identifier)
             .flatMap { return self.writeValue(data, for: $0, type: type) }
     }

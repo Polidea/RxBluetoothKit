@@ -71,7 +71,7 @@ public class BluetoothManager {
      main thread is used.
      */
     init(centralManager: RxCentralManagerType,
-        queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
+         queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
             self.centralManager = centralManager
             self.subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
     }
