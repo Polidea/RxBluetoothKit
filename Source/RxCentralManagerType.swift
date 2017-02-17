@@ -32,9 +32,9 @@ protocol RxCentralManagerType {
     /// Observable which emits state changes of central manager after subscriptions
     var rx_didUpdateState: Observable<BluetoothState> { get }
     /// Observable which emits elements after subsciption when central manager want to restore its state
-    var rx_willRestoreState: Observable<[String:Any]> { get }
+    var rx_willRestoreState: Observable<[String: Any]> { get }
     /// Observable which emits peripherals which were discovered after subscription
-    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:Any], NSNumber)> { get }
+    var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String: Any], NSNumber)> { get }
     /// Observable which emits peripherals which were connected after subscription
     var rx_didConnectPeripheral: Observable<RxPeripheralType> { get }
     /// Observable which emits peripherals which failed to connect after subscriptions
@@ -53,7 +53,7 @@ protocol RxCentralManagerType {
                                available peripherals will be discovered.
      - parameter options: Central Manager specific options for scanning
      */
-    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:Any]?)
+    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]?)
 
     /**
      Connect to specified peripheral. If connection is successful peripheral will be emitted in rx_didConnectPeripheral
@@ -62,7 +62,7 @@ protocol RxCentralManagerType {
      - parameter peripheral: Peripheral to connect to.
      - parameter options: Central Manager specific connection options.
      */
-    func connect(_ peripheral: RxPeripheralType, options: [String:Any]?)
+    func connect(_ peripheral: RxPeripheralType, options: [String: Any]?)
 
     /**
      Cancel peripheral connection. If successful observable rx_didDisconnectPeripheral will emit disconnected

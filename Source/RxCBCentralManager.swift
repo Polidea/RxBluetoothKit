@@ -39,7 +39,7 @@ class RxCBCentralManager: RxCentralManagerType {
 
      - parameter queue: Dispatch queue on which callbacks are received.
      */
-    init(queue: DispatchQueue, options: [String : AnyObject]? = nil) {
+    init(queue: DispatchQueue, options: [String: AnyObject]? = nil) {
         centralManager = CBCentralManager(delegate: internalDelegate, queue: queue, options: options)
     }
 
@@ -56,7 +56,7 @@ class RxCBCentralManager: RxCentralManagerType {
             didUpdateStateSubject.onNext(bleState)
         }
 
-        @objc func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
+        @objc func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
             willRestoreStateSubject.onNext(dict)
         }
 
@@ -160,9 +160,7 @@ class RxCBCentralManager: RxCentralManagerType {
      - returns: Observable wich emits connected peripherals.
      */
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
-        return .just(centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map {
-            RxCBPeripheral(peripheral: $0)
-        })
+        return .just(centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map(RxCBPeripheral.init))
     }
 
     /**
@@ -172,8 +170,6 @@ class RxCBCentralManager: RxCentralManagerType {
      - returns: Observable which emits peripherals with specified identifiers.
      */
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
-        return .just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map {
-            RxCBPeripheral(peripheral: $0)
-        })
+        return .just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map(RxCBPeripheral.init))
     }
 }

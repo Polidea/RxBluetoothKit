@@ -59,7 +59,7 @@ class RxCBPeripheral: RxPeripheralType {
 
     /// Peripheral's services
     var services: [RxServiceType]? {
-        return peripheral.services?.map { RxCBService(service: $0) }
+        return peripheral.services?.map(RxCBService.init)
     }
 
     /// Observable which emits peripheral's name changes
@@ -257,9 +257,7 @@ class RxCBPeripheral: RxPeripheralType {
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
-            peripheralDidModifyServicesSubject.onNext(invalidatedServices.map {
-                RxCBService(service: $0)
-            })
+            peripheralDidModifyServicesSubject.onNext(invalidatedServices.map(RxCBService.init))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral, didReadRSSI rssi: NSNumber, error: Error?) {
@@ -267,9 +265,7 @@ class RxCBPeripheral: RxPeripheralType {
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-            peripheralDidDiscoverServicesSubject.onNext((peripheral.services?.map {
-                RxCBService(service: $0)
-                }, error))
+            peripheralDidDiscoverServicesSubject.onNext((peripheral.services?.map(RxCBService.init), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,

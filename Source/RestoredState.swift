@@ -32,7 +32,7 @@ public struct RestoredState {
     /**
     Restored state dictionary
     */
-    public let restoredStateData: [String:Any]
+    public let restoredStateData: [String: Any]
 
     public unowned let bluetoothManager: BluetoothManager
     /**
@@ -40,7 +40,7 @@ public struct RestoredState {
      - parameter restoredState: Core Bluetooth's restored state data
      - parameter bluetoothManager: `BluetoothManager` instance of which state has been restored.
      */
-    init(restoredStateDictionary: [String:Any], bluetoothManager: BluetoothManager) {
+    init(restoredStateDictionary: [String: Any], bluetoothManager: BluetoothManager) {
         self.restoredStateData = restoredStateDictionary
         self.bluetoothManager = bluetoothManager
     }
@@ -54,7 +54,7 @@ public struct RestoredState {
         let objects = restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [AnyObject]
         guard let arrayOfAnyObjects = objects else { return [] }
         return arrayOfAnyObjects.flatMap { $0 as? CBPeripheral }
-            .map { RxCBPeripheral(peripheral: $0) }
+            .map(RxCBPeripheral.init)
             .map { Peripheral(manager: bluetoothManager, peripheral: $0) }
     }
 
@@ -62,8 +62,8 @@ public struct RestoredState {
      Dictionary that contains all of the peripheral scan options that were being used
      by the central manager at the time the app was terminated by the system.
     */
-    public var scanOptions: [String : AnyObject]? {
-        return restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [String : AnyObject]
+    public var scanOptions: [String: AnyObject]? {
+        return restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [String: AnyObject]
     }
 
     /**
@@ -74,7 +74,7 @@ public struct RestoredState {
         let objects = restoredStateData[CBCentralManagerRestoredStateScanServicesKey] as? [AnyObject]
         guard let arrayOfAnyObjects = objects else { return [] }
         return arrayOfAnyObjects.flatMap { $0 as? CBService }
-            .map { RxCBService(service: $0) }
+            .map(RxCBService.init)
             .map { Service(peripheral: Peripheral(manager: bluetoothManager,
                 peripheral: RxCBPeripheral(peripheral: $0.service.peripheral)), service: $0) }
     }

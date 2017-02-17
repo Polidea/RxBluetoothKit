@@ -76,7 +76,6 @@ protocol DelayedObservableType: class {
 }
 
 class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, DelayedObservableType {
-    typealias E = Element
 
     let source: Observable<Element>
     let queue: SerializedSubscriptionQueue
@@ -112,12 +111,10 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         if !CurrentThreadScheduler.isScheduleRequired {
             return run(observer: observer)
-        } else {
-            return CurrentThreadScheduler.instance.schedule(()) { _ in
-                return self.run(observer: observer)
-            }
         }
-
+        return CurrentThreadScheduler.instance.schedule(()) { _ in
+            return self.run(observer: observer)
+        }
     }
 
     // After original subscription we need to place it on queue for delayed execution if required.

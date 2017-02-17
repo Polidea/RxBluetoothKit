@@ -63,10 +63,9 @@ extension Peripheral {
                         $0.uuid == identifier.uuid
                     }) {
                         return .just(characteristic)
-                    } else {
-                        return service.discoverCharacteristics([identifier.uuid])
-                            .flatMap { Observable.from($0) }
                     }
+                    return service.discoverCharacteristics([identifier.uuid])
+                        .flatMap { Observable.from($0) }
                 }
         }
     }
@@ -86,12 +85,11 @@ extension Peripheral {
                     if let descriptors = characteristic.descriptors,
                         let descriptor = descriptors.first(where: { $0.uuid == identifier.uuid }) {
                         return .just(descriptor)
-                    } else {
-                        return characteristic.discoverDescriptors()
-                            .flatMap { Observable.from($0) }
-                            .filter { $0.uuid == identifier.uuid }
-                            .take(1)
                     }
+                    return characteristic.discoverDescriptors()
+                        .flatMap { Observable.from($0) }
+                        .filter { $0.uuid == identifier.uuid }
+                        .take(1)
                 }
         }
     }
@@ -127,7 +125,7 @@ extension Peripheral {
     public func writeValue(_ data: Data, for identifier: CharacteristicIdentifier,
                            type: CBCharacteristicWriteType) -> Observable<Characteristic> {
         return characteristic(with: identifier)
-            .flatMap { return self.writeValue(data, for: $0, type: type) }
+            .flatMap { self.writeValue(data, for: $0, type: type) }
     }
 
     /**
@@ -166,7 +164,7 @@ extension Peripheral {
     public func setNotifyValue(_ enabled: Bool, for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
             return characteristic(with: identifier)
-                .flatMap { return self.setNotifyValue(enabled, for: $0) }
+                .flatMap { self.setNotifyValue(enabled, for: $0) }
     }
 
     /**
@@ -216,7 +214,7 @@ extension Peripheral {
     public func writeValue(_ data: Data, for identifier: DescriptorIdentifier)
         -> Observable<Descriptor> {
         return descriptor(with: identifier)
-            .flatMap { return self.writeValue(data, for: $0) }
+            .flatMap { self.writeValue(data, for: $0) }
     }
 
     /**

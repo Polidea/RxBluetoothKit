@@ -89,7 +89,7 @@ public class BluetoothManager {
      For more info about it please refer to [`Central Manager initialization options`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
      */
     convenience public init(queue: DispatchQueue = .main,
-                            options: [String : AnyObject]? = nil) {
+                            options: [String: AnyObject]? = nil) {
         self.init(centralManager: RxCBCentralManager(queue: queue, options: options),
             queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
     }
