@@ -55,7 +55,7 @@ public struct AdvertisementData {
      representing service-specific data.
     */
     public var serviceData: [CBUUID:Data]? {
-        return advertisementData[CBAdvertisementDataServiceDataKey] as? [CBUUID:Data]
+        return advertisementData[CBAdvertisementDataServiceDataKey] as? [CBUUID: Data]
     }
 
     /// An array of service UUIDs.

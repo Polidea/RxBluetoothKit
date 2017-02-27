@@ -49,14 +49,14 @@ public class Service {
     public var includedServices: [Service]? {
         return service.includedServices?.map {
             Service(peripheral: peripheral, service: $0)
-        } ?? nil
+        }
     }
 
     /// Service's characteristics
     public var characteristics: [Characteristic]? {
         return service.characteristics?.map {
             Characteristic(characteristic: $0, service: self)
-        } ?? nil
+        }
     }
 
     init(peripheral: Peripheral, service: RxServiceType) {

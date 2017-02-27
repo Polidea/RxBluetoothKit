@@ -59,7 +59,7 @@ class RxCBPeripheral: RxPeripheralType {
 
     /// Peripheral's services
     var services: [RxServiceType]? {
-        return peripheral.services?.map { RxCBService(service: $0) }
+        return peripheral.services?.map(RxCBService.init)
     }
 
     /// Observable which emits peripheral's name changes
@@ -173,8 +173,8 @@ class RxCBPeripheral: RxPeripheralType {
      - parameter type: Type of write operation
      */
     func writeValue(_ data: Data,
-        for characteristic: RxCharacteristicType,
-        type: CBCharacteristicWriteType) {
+                    for characteristic: RxCharacteristicType,
+                    type: CBCharacteristicWriteType) {
             peripheral.writeValue(data, for: (characteristic as! RxCBCharacteristic).characteristic,
                 type: type)
     }
@@ -257,9 +257,7 @@ class RxCBPeripheral: RxPeripheralType {
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
-            peripheralDidModifyServicesSubject.onNext(invalidatedServices.map {
-                RxCBService(service: $0)
-            })
+            peripheralDidModifyServicesSubject.onNext(invalidatedServices.map(RxCBService.init))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral, didReadRSSI rssi: NSNumber, error: Error?) {
@@ -267,60 +265,58 @@ class RxCBPeripheral: RxPeripheralType {
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-            peripheralDidDiscoverServicesSubject.onNext((peripheral.services?.map {
-                RxCBService(service: $0)
-                }, error))
+            peripheralDidDiscoverServicesSubject.onNext((peripheral.services?.map(RxCBService.init), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
-            didDiscoverIncludedServicesFor service: CBService,
-            error: Error?) {
+                              didDiscoverIncludedServicesFor service: CBService,
+                              error: Error?) {
                 peripheralDidDiscoverIncludedServicesForServiceSubject.onNext((RxCBService(service: service), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
-            didDiscoverCharacteristicsFor service: CBService,
-            error: Error?) {
+                              didDiscoverCharacteristicsFor service: CBService,
+                              error: Error?) {
                 peripheralDidDiscoverCharacteristicsForServiceSubject.onNext((RxCBService(service: service), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
-            didUpdateValueFor characteristic: CBCharacteristic,
-            error: Error?) {
+                              didUpdateValueFor characteristic: CBCharacteristic,
+                              error: Error?) {
                 peripheralDidUpdateValueForCharacteristicSubject
                     .onNext((RxCBCharacteristic(characteristic: characteristic), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
-            didWriteValueFor characteristic: CBCharacteristic,
-            error: Error?) {
+                              didWriteValueFor characteristic: CBCharacteristic,
+                              error: Error?) {
                 peripheralDidWriteValueForCharacteristicSubject
                     .onNext((RxCBCharacteristic(characteristic: characteristic), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
-            didUpdateNotificationStateFor characteristic: CBCharacteristic,
-            error: Error?) {
+                              didUpdateNotificationStateFor characteristic: CBCharacteristic,
+                              error: Error?) {
                 peripheralDidUpdateNotificationStateForCharacteristicSubject
                     .onNext((RxCBCharacteristic(characteristic: characteristic), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
-            didDiscoverDescriptorsFor characteristic: CBCharacteristic,
-            error: Error?) {
+                              didDiscoverDescriptorsFor characteristic: CBCharacteristic,
+                              error: Error?) {
                 peripheralDidDiscoverDescriptorsForCharacteristicSubject
                     .onNext((RxCBCharacteristic(characteristic: characteristic), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
-            didUpdateValueFor descriptor: CBDescriptor,
-            error: Error?) {
+                              didUpdateValueFor descriptor: CBDescriptor,
+                              error: Error?) {
                 peripheralDidUpdateValueForDescriptorSubject.onNext((RxCBDescriptor(descriptor: descriptor), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
-            didWriteValueFor descriptor: CBDescriptor,
-            error: Error?) {
+                              didWriteValueFor descriptor: CBDescriptor,
+                              error: Error?) {
                 peripheralDidWriteValueForDescriptorSubject.onNext((RxCBDescriptor(descriptor: descriptor), error))
         }
     }

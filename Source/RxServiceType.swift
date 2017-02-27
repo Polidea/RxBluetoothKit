@@ -63,9 +63,5 @@ func == (lhs: RxServiceType, rhs: RxServiceType) -> Bool {
  - returns: True if both arrays contain same services
  */
 func == (lhs: [RxServiceType], rhs: [RxServiceType]) -> Bool {
-    guard lhs.count == rhs.count else {
-        return false
-    }
-
-    return lhs.starts(with: rhs, by: ==)
+    return lhs.count == rhs.count && lhs.starts(with: rhs, by: ==)
 }

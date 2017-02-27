@@ -45,7 +45,7 @@ class RxCBCharacteristic: RxCharacteristicType {
         return characteristic.properties
     }
     var descriptors: [RxDescriptorType]? {
-        return characteristic.descriptors?.map { RxCBDescriptor(descriptor: $0) }
+        return characteristic.descriptors?.map(RxCBDescriptor.init)
     }
     var service: RxServiceType {
         return RxCBService(service: characteristic.service)

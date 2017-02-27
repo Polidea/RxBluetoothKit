@@ -67,9 +67,5 @@ func == (lhs: RxCharacteristicType, rhs: RxCharacteristicType) -> Bool {
  - returns: True if both arrays contain same characteristics
  */
 func == (lhs: [RxCharacteristicType], rhs: [RxCharacteristicType]) -> Bool {
-    guard lhs.count == rhs.count else {
-        return false
-    }
-
-    return lhs.starts(with: rhs, by: ==)
+    return lhs.count == rhs.count && lhs.starts(with: rhs, by: ==)
 }

@@ -71,7 +71,7 @@ public class BluetoothManager {
      main thread is used.
      */
     init(centralManager: RxCentralManagerType,
-        queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
+         queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
             self.centralManager = centralManager
             self.subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
     }
@@ -89,7 +89,7 @@ public class BluetoothManager {
      For more info about it please refer to [`Central Manager initialization options`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
      */
     convenience public init(queue: DispatchQueue = .main,
-                            options: [String : AnyObject]? = nil) {
+                            options: [String: AnyObject]? = nil) {
         self.init(centralManager: RxCBCentralManager(queue: queue, options: options),
             queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
     }
@@ -239,7 +239,7 @@ public class BluetoothManager {
             let error = centralManager.rx_didFailToConnectPeripheral
                 .filter { $0.0 == peripheral.peripheral }
                 .take(1)
-                .flatMap { (peripheral, error) -> Observable<Peripheral> in
+                .map { (peripheral, error) -> Peripheral in
                     throw BluetoothError.peripheralConnectionFailed(Peripheral(manager: self, peripheral: peripheral), error)
                 }
 
@@ -357,7 +357,7 @@ public class BluetoothManager {
             }
             return self.centralManager.rx_didDisconnectPeripheral
                 .filter { $0.0 == peripheral.peripheral }
-                .flatMap { (_, error) -> Observable<T> in
+                .map { (_, error) -> T in
                     throw BluetoothError.peripheralDisconnected(peripheral, error)
             }
         }
