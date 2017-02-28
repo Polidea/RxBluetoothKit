@@ -1,4 +1,8 @@
 
+# 3.0.7
+- Updated RxSwift dependency version to 3.2.0
+- Some small code cleanups
+
 # 3.0.6
 - Fixed SwiftLint & Xcode warnings
 - Updated swift-version in `jazzy.yml` file to allow cocoadocs parsing
