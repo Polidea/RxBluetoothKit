@@ -5,6 +5,7 @@ disabled_rules: # rule identifiers to exclude from running
   - file_length
   - weak_delegate
   - type_name
+  - large_tuple
 opt_in_rules: # some rules are only opt-in
   - empty_count
   # - missing_docs # Broken in swiftlint 0.12.0 with XCode 8
