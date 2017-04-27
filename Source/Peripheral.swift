@@ -123,19 +123,17 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
-        if let identifiers = serviceUUIDs, let services = self.services?.filter({ identifiers.contains($0.uuid) }), identifiers.count == services.count {
-            return ensureValidPeripheralState(for: .just(services))
+        if let identifiers = serviceUUIDs, !identifiers.isEmpty,
+           let cachedServices = self.services,
+           let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
+           return ensureValidPeripheralState(for: .just(filteredServices))
         }
         let observable = peripheral.rx_didDiscoverServices
         .flatMap { (_, error) -> Observable<[Service]> in
             guard let cachedServices = self.services, error == nil else {
                 throw BluetoothError.servicesDiscoveryFailed(self, error)
             }
-            guard let identifiers = serviceUUIDs else { return .just(cachedServices) }
-            let uuids = cachedServices.map { $0.service.uuid }
-            if Set(identifiers).isSubset(of: Set(uuids)) {
-                let filteredServices = cachedServices
-                    .filter { identifiers.contains($0.uuid)}
+            if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
                 return .just(filteredServices)
             }
             return .empty()
@@ -163,10 +161,10 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: Service) -> Observable<[Service]> {
-        if let identifiers = includedServiceUUIDs,
-            let services = service.includedServices?.filter({ identifiers.contains($0.uuid) }),
-            identifiers.count == services.count {
-            return ensureValidPeripheralState(for: .just(services))
+        if let identifiers = includedServiceUUIDs, !identifiers.isEmpty,
+            let services = service.includedServices,
+            let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: services) {
+            return ensureValidPeripheralState(for: .just(filteredServices))
         }
         let observable = peripheral
             .rx_didDiscoverIncludedServicesForService
@@ -176,9 +174,9 @@ public class Peripheral {
                     throw BluetoothError.includedServicesDiscoveryFailed(self, error)
                 }
                 let includedServices = includedRxServices.map { Service(peripheral: self, service: $0) }
-                guard let includedServiceUUIDs = includedServiceUUIDs else { return .just(includedServices) }
-                let filteredServices = includedServices.filter { includedServiceUUIDs.contains($0.uuid) }
-                if filteredServices.count == includedServiceUUIDs.count { return .just(filteredServices) }
+                if let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices) {
+                    return .just(filteredServices)
+                }
                 return .empty()
             }
             .take(1)
@@ -203,9 +201,10 @@ public class Peripheral {
      Immediately after that `.Complete` is emitted.
      */
     public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: Service) -> Observable<[Characteristic]> {
-        if let identifiers = characteristicUUIDs, let characteristics = service.characteristics?.filter({ identifiers.contains($0.uuid) }),
-            identifiers.count == characteristics.count {
-            return ensureValidPeripheralState(for: .just(characteristics))
+        if let identifiers = characteristicUUIDs, !identifiers.isEmpty,
+            let characteristics = service.characteristics,
+            let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
+            return ensureValidPeripheralState(for: .just(filteredCharacteristics))
         }
         let observable = peripheral
             .rx_didDiscoverCharacteristicsForService
@@ -215,9 +214,9 @@ public class Peripheral {
                     throw BluetoothError.characteristicsDiscoveryFailed(service, error)
                 }
                 let characteristics = rxCharacteristics.map { Characteristic(characteristic: $0, service: service) }
-                guard let characteristicIdentifiers = characteristicUUIDs else { return .just(characteristics) }
-                let filteredCharacteristics = characteristics.filter { characteristicIdentifiers.contains($0.uuid) }
-                if filteredCharacteristics.count == characteristicIdentifiers.count { return .just(filteredCharacteristics) }
+                if let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
+                    return .just(filteredCharacteristics)
+                }
                 return .empty()
             }
             .take(1)
@@ -376,11 +375,16 @@ public class Peripheral {
     // MARK: Descriptors
     /**
      Function that triggers descriptors discovery for characteristic
+     If all of the descriptors are already discovered - these are returned without doing any underlying Bluetooth operations.
      - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
      - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
     public func discoverDescriptors(for characteristic: Characteristic) -> Observable<[Descriptor]> {
+        if let descriptors = characteristic.descriptors {
+            let resultDescriptors = descriptors.map { Descriptor(descriptor: $0.descriptor, characteristic: characteristic) }
+            return ensureValidPeripheralState(for: .just(resultDescriptors))
+        }
         let observable = peripheral
             .rx_didDiscoverDescriptorsForCharacteristic
             .filter { $0.0 == characteristic.characteristic }

@@ -32,6 +32,6 @@ class WeakBox<T: AnyObject> : CustomDebugStringConvertible {
 
 extension WeakBox {
     var debugDescription: String {
-        return "WeakBox(\(self.value))"
+        return "WeakBox(\(String(describing: self.value)))"
     }
 }

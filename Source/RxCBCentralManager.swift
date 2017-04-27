@@ -84,27 +84,27 @@ class RxCBCentralManager: RxCentralManagerType {
         }
     }
 
-    /// Observable which infroms when central manager did change its state
+    /// Observable which informs when central manager did change its state
     var rx_didUpdateState: Observable<BluetoothState> {
         return internalDelegate.didUpdateStateSubject
     }
-    /// Observable which infroms when central manager is about to restore its state
+    /// Observable which informs when central manager is about to restore its state
     var rx_willRestoreState: Observable<[String: Any]> {
         return internalDelegate.willRestoreStateSubject
     }
-    /// Observable which infroms when central manage discovered peripheral
+    /// Observable which informs when central manage discovered peripheral
     var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String: Any], NSNumber)> {
         return internalDelegate.didDiscoverPeripheralSubject
     }
-    /// Observable which infroms when central manager connected to peripheral
+    /// Observable which informs when central manager connected to peripheral
     var rx_didConnectPeripheral: Observable<RxPeripheralType> {
         return internalDelegate.didConnectPerihperalSubject
     }
-    /// Observable which infroms when central manager failed to connect to peripheral
+    /// Observable which informs when central manager failed to connect to peripheral
     var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, Error?)> {
         return internalDelegate.didFailToConnectPeripheralSubject
     }
-    /// Observable which infroms when central manager disconnected from peripheral
+    /// Observable which informs when central manager disconnected from peripheral
     var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, Error?)> {
         return internalDelegate.didDisconnectPeripheral
     }
