@@ -1,3 +1,5 @@
+# 3.0.8
+- Support for multiple services/characteristics under the same UUID
 
 # 3.0.7
 - Updated RxSwift dependency version to 3.2.0

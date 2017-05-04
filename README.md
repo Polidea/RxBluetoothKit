@@ -324,6 +324,7 @@ To keep code in order, we advice you to use SwiftLint. In repository, we provide
 Maciek Oczko (maciek.oczko@polidea.com)
 
 [moogle19](https://github.com/moogle19)
+[abeintopalo](https://github.com/abeintopalo)
 
 ## License
 
