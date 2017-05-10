@@ -85,6 +85,7 @@ public class Peripheral {
     /**
      Unique identifier of `Peripheral` object instance. Should be removed in 4.0
      */
+    @available(*, deprecated)
     public var objectId: Int {
         return peripheral.objectId
     }

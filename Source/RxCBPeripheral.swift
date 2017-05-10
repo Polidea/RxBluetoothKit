@@ -47,8 +47,9 @@ class RxCBPeripheral: RxPeripheralType {
         return peripheral.identifier
     }
 
+    @available(*, deprecated)
     var objectId: Int {
-        unsafeBitCast(peripheral, to: Int.self)
+        return Int(ObjectIdentifier(peripheral))
     }
 
     /// Peripheral's name
