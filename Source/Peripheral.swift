@@ -83,6 +83,13 @@ public class Peripheral {
     }
 
     /**
+     Unique identifier of `Peripheral` object instance. Should be removed in 4.0
+     */
+    public var objectId: Int {
+        return peripheral.objectId
+    }
+
+    /**
      A list of services that have been discovered. Analogous to   [`services`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
      */
     public var services: [Service]? {

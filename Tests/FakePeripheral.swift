@@ -35,6 +35,7 @@ class FakePeripheral: RxPeripheralType {
     var rx_state: Observable<CBPeripheralState> = .never()
     var services: [RxServiceType]? = nil
     var identifier: UUID = UUID()
+    var objectId = 0
     var maximumWriteValueLength = 0
 
     var RSSI: Int? = nil

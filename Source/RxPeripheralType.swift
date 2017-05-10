@@ -35,6 +35,9 @@ protocol RxPeripheralType {
     /// Peripheral's identifier
     var identifier: UUID { get }
 
+    /// Unique identifier of object. Should be removed in 4.0
+    var objectId: Int { get }
+
     /// Peripheral's state
     var state: CBPeripheralState { get }
 
