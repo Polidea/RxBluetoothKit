@@ -49,7 +49,7 @@ class RxCBPeripheral: RxPeripheralType {
 
     @available(*, deprecated)
     var objectId: Int {
-        return Int(ObjectIdentifier(peripheral))
+        return Int(bitPattern: ObjectIdentifier(peripheral))
     }
 
     /// Peripheral's name
