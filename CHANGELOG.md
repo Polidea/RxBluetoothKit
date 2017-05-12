@@ -1,3 +1,7 @@
+
+# 3.0.9
+- Added objectId property to `Peripheral` object needed by react-native library. Should not be necessary in 4.x version of the library. 
+
 # 3.0.8
 - Support for multiple services/characteristics under the same UUID
 
