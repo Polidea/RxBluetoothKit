@@ -47,6 +47,11 @@ class RxCBPeripheral: RxPeripheralType {
         return peripheral.identifier
     }
 
+    @available(*, deprecated)
+    var objectId: UInt {
+        return UInt(bitPattern: ObjectIdentifier(peripheral))
+    }
+
     /// Peripheral's name
     var name: String? {
         return peripheral.name
