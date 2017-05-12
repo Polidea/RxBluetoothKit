@@ -37,7 +37,7 @@ protocol RxPeripheralType {
 
     /// Unique identifier of object. Should be removed in 4.0
     @available(*, deprecated)
-    var objectId: Int { get }
+    var objectId: UInt { get }
 
     /// Peripheral's state
     var state: CBPeripheralState { get }
