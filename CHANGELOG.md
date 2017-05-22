@@ -1,3 +1,5 @@
+# 3.0.10
+- Added objectId property to missing `Service`, `Characteristic` and `Descriptor` objetcs.
 
 # 3.0.9
 - Added objectId property to `Peripheral` object needed by react-native library. Should not be necessary in 4.x version of the library. 
