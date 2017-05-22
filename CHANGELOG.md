@@ -1,3 +1,6 @@
+# 3.0.11
+- Updated podspec file to proper version.
+
 # 3.0.10
 - Added objectId property to missing `Service`, `Characteristic` and `Descriptor` objetcs.
 
