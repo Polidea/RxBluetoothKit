@@ -27,6 +27,7 @@ import CoreBluetooth
 
 class FakeCharacteristic: RxCharacteristicType {
 
+    var objectId: UInt = 0
     var uuid: CBUUID = CBUUID(string: "aabb")
     var value: Data? = nil
     var isNotifying: Bool = false

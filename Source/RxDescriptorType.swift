@@ -28,6 +28,10 @@ import CoreBluetooth
  */
 protocol RxDescriptorType {
 
+    /// Unique identifier of an object. Should be removed in 4.0
+    @available(*, deprecated)
+    var objectId: UInt { get }
+
     /// Descriptor UUID
     var uuid: CBUUID { get }
 

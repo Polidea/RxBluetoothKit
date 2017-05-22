@@ -41,6 +41,14 @@ public class Descriptor {
     public let characteristic: Characteristic
 
     /**
+    Unique identifier of an object. Should be removed in 4.0
+     */
+    @available(*, deprecated)
+    var objectId: UInt {
+        return descriptor.objectId
+    }
+
+    /**
      The Bluetooth UUID of the `Descriptor` instance.
      */
     public var uuid: CBUUID {

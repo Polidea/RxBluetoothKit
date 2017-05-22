@@ -32,6 +32,10 @@ class RxCBCharacteristic: RxCharacteristicType {
         self.characteristic = characteristic
     }
 
+    @available(*, deprecated)
+    var objectId: UInt {
+        return UInt(bitPattern: ObjectIdentifier(characteristic))
+    }
     var uuid: CBUUID {
         return characteristic.uuid
     }

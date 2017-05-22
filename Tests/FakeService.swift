@@ -27,6 +27,7 @@ import CoreBluetooth
 
 class FakeService: RxServiceType {
 
+    var objectId: UInt = 0
     var uuid: CBUUID = CBUUID(string: "bbaa")
 
     var characteristics: [RxCharacteristicType]? = nil
