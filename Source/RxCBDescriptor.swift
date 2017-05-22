@@ -31,6 +31,10 @@ class RxCBDescriptor: RxDescriptorType {
         self.descriptor = descriptor
     }
 
+    @available(*, deprecated)
+    var objectId: UInt {
+        return UInt(bitPattern: ObjectIdentifier(descriptor))
+    }
     var uuid: CBUUID {
         return descriptor.uuid
     }

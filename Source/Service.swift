@@ -40,6 +40,12 @@ public class Service {
         return service.isPrimary
     }
 
+    /// Unique identifier of an object. Should be removed in 4.0
+    @available(*, deprecated)
+    var objectId: UInt {
+        return service.objectId
+    }
+
     /// Service's UUID
     public var uuid: CBUUID {
         return service.uuid

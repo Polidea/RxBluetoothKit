@@ -28,6 +28,10 @@ import CoreBluetooth
  */
 protocol RxServiceType {
 
+    /// Unique identifier of an object. Should be removed in 4.0
+    @available(*, deprecated)
+    var objectId: UInt { get }
+
     /// Service's UUID
     var uuid: CBUUID { get }
 
