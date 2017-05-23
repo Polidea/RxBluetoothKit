@@ -30,6 +30,7 @@ import CoreBluetooth
 
 class FakeCentralManager: RxCentralManagerType {
 
+    var objectId: UInt = 0
     var rx_didUpdateState: Observable<BluetoothState> = .never()
     var rx_willRestoreState: Observable<[String:Any]> = .never()
     var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String:Any], NSNumber)> = .never()
