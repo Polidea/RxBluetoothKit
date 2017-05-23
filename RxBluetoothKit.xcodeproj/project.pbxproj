@@ -93,6 +93,8 @@
 		A10F29A51CDCD75900593284 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29991CDCD73A00593284 /* Quick.framework */; };
 		A10F29AD1CDCD98400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F29B01CDCD99900593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
+		D74B16851ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
+		D74B16861ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
 		FA947A3B1EB1C41C000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
 		FA947A3C1EB1C42F000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
 /* End PBXBuildFile section */
@@ -190,6 +192,7 @@
 		A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanOperation.swift; sourceTree = "<group>"; };
 		A1299C231CBE3DEE005DEA5B /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unimplemented.swift; sourceTree = "<group>"; };
+		D74B16841ED417AA006D5996 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDIdentifiable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -258,6 +261,7 @@
 				A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */,
 				A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */,
 				FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */,
+				D74B16841ED417AA006D5996 /* Logging.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -662,6 +666,7 @@
 				2666FE3D1CCE4732005E81CE /* RxCBCharacteristic.swift in Sources */,
 				2666FE3C1CCE4732005E81CE /* RxCharacteristicType.swift in Sources */,
 				2666FE351CCE4732005E81CE /* Peripheral.swift in Sources */,
+				D74B16851ED417AA006D5996 /* Logging.swift in Sources */,
 				2666FE331CCE4732005E81CE /* RxPeripheralType.swift in Sources */,
 				2666FE441CCE4732005E81CE /* Boxes.swift in Sources */,
 				2666FE311CCE4732005E81CE /* RxCBDescriptor.swift in Sources */,
@@ -706,6 +711,7 @@
 				2666FE241CCE4731005E81CE /* Observable+QueueSubscribeOn.swift in Sources */,
 				2666FE2E1CCE4731005E81CE /* BluetoothManager.swift in Sources */,
 				2666FE251CCE4731005E81CE /* Unimplemented.swift in Sources */,
+				D74B16861ED417AA006D5996 /* Logging.swift in Sources */,
 				2666FE201CCE4731005E81CE /* RxCBService.swift in Sources */,
 				2666FE1C1CCE4731005E81CE /* DeviceIdentifiers.swift in Sources */,
 				2666FE2C1CCE4731005E81CE /* RxCentralManagerType.swift in Sources */,

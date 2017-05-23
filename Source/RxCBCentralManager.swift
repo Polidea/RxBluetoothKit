@@ -34,6 +34,14 @@ class RxCBCentralManager: RxCentralManagerType {
     private let internalDelegate = InternalDelegate()
 
     /**
+     Unique identifier of an object. Should be removed in 4.0
+     */
+    @available(*, deprecated)
+    var objectId: UInt {
+        return UInt(bitPattern: ObjectIdentifier(centralManager))
+    }
+
+    /**
      Create Core Bluetooth implementation of RxCentralManagerType which is used by BluetoothManager class.
      User can specify on which thread all bluetooth events are collected.
 
@@ -52,11 +60,13 @@ class RxCBCentralManager: RxCentralManagerType {
         let didDisconnectPeripheral = PublishSubject<(RxPeripheralType, Error?)>()
 
         @objc func centralManagerDidUpdateState(_ central: CBCentralManager) {
+            RxBluetoothKitLog.d("\(central.logDescription) didUpdateState(state: \(central.state))")
             guard let bleState = BluetoothState(rawValue: central.state.rawValue) else { return }
             didUpdateStateSubject.onNext(bleState)
         }
 
         @objc func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
+            RxBluetoothKitLog.d("\(central.logDescription) willRestoreState(restoredState: \(dict))")
             willRestoreStateSubject.onNext(dict)
         }
 
@@ -64,23 +74,30 @@ class RxCBCentralManager: RxCentralManagerType {
                                   didDiscover peripheral: CBPeripheral,
                                   advertisementData: [String: Any],
                                   rssi: NSNumber) {
-                didDiscoverPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), advertisementData, rssi))
+            // swiftlint:disable:next line_length TODO: multiline string in Swift 4
+            RxBluetoothKitLog.d("\(central.logDescription) didDiscover(peripheral: \(peripheral.logDescription), rssi: \(rssi))")
+            didDiscoverPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), advertisementData, rssi))
         }
 
         @objc func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+            RxBluetoothKitLog.d("\(central.logDescription) didConnect(to: \(peripheral.logDescription))")
             didConnectPerihperalSubject.onNext(RxCBPeripheral(peripheral: peripheral))
         }
 
         @objc func centralManager(_ central: CBCentralManager,
                                   didFailToConnect peripheral: CBPeripheral,
                                   error: Error?) {
-                didFailToConnectPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), error))
+            // swiftlint:disable:next line_length TODO: multiline string in Swift 4
+            RxBluetoothKitLog.d("\(central.logDescription) didFailToConnect(to: \(peripheral.logDescription), error: \(error))")
+            didFailToConnectPeripheralSubject.onNext((RxCBPeripheral(peripheral: peripheral), error))
         }
 
         @objc func centralManager(_ central: CBCentralManager,
                                   didDisconnectPeripheral peripheral: CBPeripheral,
                                   error: Error?) {
-                didDisconnectPeripheral.onNext((RxCBPeripheral(peripheral: peripheral), error))
+            // swiftlint:disable:next line_length TODO: multiline string in Swift 4
+            RxBluetoothKitLog.d("\(central.logDescription) didDisconnect(from: \(peripheral.logDescription), error: \(error))")
+            didDisconnectPeripheral.onNext((RxCBPeripheral(peripheral: peripheral), error))
         }
     }
 

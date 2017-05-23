@@ -60,6 +60,12 @@ public class BluetoothManager {
     /// Queue of scan operations which are waiting for an execution
     private var scanQueue: [ScanOperation] = []
 
+    /// Unique identifier of an object. Should be removed in 4.0
+    @available(*, deprecated)
+    public var objectId: UInt {
+        return centralManager.objectId
+    }
+
     // MARK: Initialization
 
     /**

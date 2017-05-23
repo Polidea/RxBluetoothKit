@@ -29,6 +29,10 @@ import CoreBluetooth
 */
 protocol RxCentralManagerType {
 
+    /// Unique identifier of an object. Should be removed in 4.0
+    @available(*, deprecated)
+    var objectId: UInt { get }
+
     /// Observable which emits state changes of central manager after subscriptions
     var rx_didUpdateState: Observable<BluetoothState> { get }
     /// Observable which emits elements after subsciption when central manager want to restore its state
