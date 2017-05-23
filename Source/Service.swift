@@ -42,7 +42,7 @@ public class Service {
 
     /// Unique identifier of an object. Should be removed in 4.0
     @available(*, deprecated)
-    var objectId: UInt {
+    public var objectId: UInt {
         return service.objectId
     }
 
