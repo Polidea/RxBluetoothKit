@@ -52,7 +52,7 @@ public class RxBluetoothKitLog {
     }
 
     fileprivate static func log(with logLevel: LogLevel, message: @autoclosure () -> String) {
-        if currentLogLevel.rawValue >= logLevel.rawValue {
+        if currentLogLevel >= logLevel {
             print(tag(with: logLevel), message())
         }
     }
@@ -75,6 +75,15 @@ public class RxBluetoothKitLog {
 
     static func e(_ message:  @autoclosure () -> String) {
         log(with: .error, message: message)
+    }
+}
+
+extension RxBluetoothKitLog.LogLevel : Comparable {
+    public static func < (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+    public static func == (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
+        return lhs.rawValue == rhs.rawValue
     }
 }
 
