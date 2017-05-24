@@ -10,13 +10,13 @@ import Foundation
 import CoreBluetooth
 
 /**
- RxBluetoothKit specific logging class which gives access to it's settings.
+ RxBluetoothKit specific logging class which gives access to its settings.
  */
 public class RxBluetoothKitLog {
 
     fileprivate static var currentLogLevel: LogLevel = .none
 
-    /// Log levels for internal logging mechanism
+    /// Log levels for internal logging mechanism.
     public enum LogLevel: UInt8 {
         /// Logging is disabled
         case none = 255
