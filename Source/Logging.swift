@@ -16,6 +16,9 @@ public class RxBluetoothKitLog {
 
     fileprivate static var currentLogLevel: LogLevel = .none
 
+    fileprivate init() {
+    }
+
     /// Log levels for internal logging mechanism.
     public enum LogLevel: UInt8 {
         /// Logging is disabled
