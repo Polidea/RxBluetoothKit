@@ -16,7 +16,7 @@ public class RxBluetoothKitLog {
 
     fileprivate static var currentLogLevel: LogLevel = .none
 
-    fileprivate init() {
+    private init() {
     }
 
     /// Log levels for internal logging mechanism.
