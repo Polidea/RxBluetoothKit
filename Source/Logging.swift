@@ -9,21 +9,46 @@
 import Foundation
 import CoreBluetooth
 
+/**
+ RxBluetoothKit specific logging class which gives access to its settings.
+ */
 public class RxBluetoothKitLog {
 
     fileprivate static var currentLogLevel: LogLevel = .none
 
-    public enum LogLevel: Int {
-        case none = 0
-        case verbose = 1
-        case debug = 2
-        case info = 3
-        case warning = 4
-        case error = 5
+    private init() {
     }
 
+    /// Log levels for internal logging mechanism.
+    public enum LogLevel: UInt8 {
+        /// Logging is disabled
+        case none = 255
+        /// All logs are monitored.
+        case verbose = 0
+        /// Only debug logs and of higher importance are logged.
+        case debug = 1
+        /// Only info logs and of higher importance are logged.
+        case info = 2
+        /// Only warning logs and of higher importance are logged.
+        case warning = 3
+        /// Only error logs and of higher importance are logged.
+        case error = 4
+    }
+
+    /**
+     * Set new log level.
+     * - Parameter logLevel: New log level to be applied.
+     */
     public static func setLogLevel(_ logLevel: LogLevel) {
         currentLogLevel = logLevel
+    }
+
+    /**
+     * Get current log level.
+     * - Returns: Currently set log level.
+     */
+    public static func getLogLevel() -> LogLevel {
+        return currentLogLevel
     }
 
     fileprivate static func tag(with logLevel: LogLevel) -> String {
@@ -52,7 +77,7 @@ public class RxBluetoothKitLog {
     }
 
     fileprivate static func log(with logLevel: LogLevel, message: @autoclosure () -> String) {
-        if currentLogLevel >= logLevel {
+        if currentLogLevel <= logLevel {
             print(tag(with: logLevel), message())
         }
     }
@@ -81,6 +106,15 @@ public class RxBluetoothKitLog {
 extension RxBluetoothKitLog.LogLevel : Comparable {
     public static func < (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
         return lhs.rawValue < rhs.rawValue
+    }
+    public static func <= (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
+        return lhs.rawValue <= rhs.rawValue
+    }
+    public static func > (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
+        return lhs.rawValue > rhs.rawValue
+    }
+    public static func >= (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
+        return lhs.rawValue >= rhs.rawValue
     }
     public static func == (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
         return lhs.rawValue == rhs.rawValue
