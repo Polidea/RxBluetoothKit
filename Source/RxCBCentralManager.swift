@@ -60,8 +60,8 @@ class RxCBCentralManager: RxCentralManagerType {
         let didDisconnectPeripheral = PublishSubject<(RxPeripheralType, Error?)>()
 
         @objc func centralManagerDidUpdateState(_ central: CBCentralManager) {
-            RxBluetoothKitLog.d("\(central.logDescription) didUpdateState(state: \(central.state))")
             guard let bleState = BluetoothState(rawValue: central.state.rawValue) else { return }
+            RxBluetoothKitLog.d("\(central.logDescription) didUpdateState(state: \(bleState.logDescription))")
             didUpdateStateSubject.onNext(bleState)
         }
 

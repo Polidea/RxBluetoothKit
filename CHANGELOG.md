@@ -1,3 +1,8 @@
+# 3.0.12
+- Added option to enable logging of CoreBluetooth delegate values
+  used internally by RxBluetoothKit
+- Make objectId fields public for Service, Characteristic and Descriptor classes.
+
 # 3.0.11
 - Updated podspec file to proper version.
 
