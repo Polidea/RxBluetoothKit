@@ -131,9 +131,22 @@ extension Data : Loggable {
     }
 }
 
+extension BluetoothState : Loggable {
+    var logDescription: String {
+        switch self {
+        case .unknown: return "unknown"
+        case .resetting: return "resetting"
+        case .unsupported: return "unsupported"
+        case .unauthorized: return "unauthorized"
+        case .poweredOff: return "poweredOff"
+        case .poweredOn: return "poweredOn"
+        }
+    }
+}
+
 extension CBCentralManager : Loggable {
     var logDescription: String {
-        return "CentralManager(\(UInt(bitPattern: ObjectIdentifier(self)))"
+        return "CentralManager(\(UInt(bitPattern: ObjectIdentifier(self))))"
     }
 }
 
@@ -145,19 +158,19 @@ extension CBPeripheral : Loggable {
 
 extension CBCharacteristic : Loggable {
     var logDescription: String {
-        return "Characteristic(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self))))"
+        return "Characteristic(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 
 extension CBService : Loggable {
     var logDescription: String {
-        return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self))))"
+        return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 
 extension CBDescriptor : Loggable {
     var logDescription: String {
-        return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self))))"
+        return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 
