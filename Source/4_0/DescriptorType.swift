@@ -3,8 +3,7 @@ import CoreBluetooth
 import RxSwift
 
 protocol DescriptorType {
-
-    associatedtype C
+    associatedtype C: CharacteristicType
 
     var uuid: CBUUID { get }
 

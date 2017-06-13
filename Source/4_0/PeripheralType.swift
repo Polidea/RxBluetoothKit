@@ -5,17 +5,17 @@ import RxSwift
 //TODO: We should introduce ConnectedPeripheral type
 protocol PeripheralType {
 
-    associatedtype S
-    associatedtype C
-    associatedtype D
+    associatedtype S: ServiceType where Self.S.P == Self
+    associatedtype C: CharacteristicType
+    associatedtype D: DescriptorType
 
     var name: String? { get }
 
     var identifier: UUID { get }
 
-    var state: BluetoothState { get }
+    var state: CBPeripheralState { get }
 
-    var services: [S]? { get }
+    var services: [Service]? { get }
 
     func discoverServices(_ serviceUUIDs: [CBUUID]?)
 

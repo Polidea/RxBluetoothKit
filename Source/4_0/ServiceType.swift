@@ -3,8 +3,8 @@ import CoreBluetooth
 import RxSwift
 
 protocol ServiceType {
-    associatedtype P
-    associatedtype C
+    associatedtype P: PeripheralType
+    associatedtype C: CharacteristicType where Self.C.S == Self
 
     var uuid: CBUUID { get }
 

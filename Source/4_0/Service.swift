@@ -5,7 +5,7 @@ public final class Service: ServiceType {
 
     typealias P = Peripheral
     typealias C = Characteristic
-
+    
     public let cbService: CBService
 
     init(cbService: CBService) {

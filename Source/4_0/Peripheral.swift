@@ -2,8 +2,11 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
-public final class Peripheral {
-
+public final class Peripheral: PeripheralType {
+    typealias S = Service
+    typealias C = Characteristic
+    typealias D = Descriptor
+    
     public let cbPeripheral: CBPeripheral
 
     init(cbPeripheral: CBPeripheral) {

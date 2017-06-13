@@ -2,7 +2,8 @@ import Foundation
 import CoreBluetooth
 
 public final class Descriptor: DescriptorType {
-
+    typealias C = Characteristic
+    
     public let cbDescriptor: CBDescriptor
 
     public var uuid: CBUUID {

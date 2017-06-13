@@ -2,7 +2,9 @@ import Foundation
 import CoreBluetooth
 
 public final class Characteristic: CharacteristicType {
-
+    typealias S = Service
+    typealias D = Descriptor
+    
     public let cbCharacteristic: CBCharacteristic
 
     init(cbCharacteristic: CBCharacteristic) {

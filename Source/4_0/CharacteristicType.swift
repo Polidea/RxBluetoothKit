@@ -4,8 +4,8 @@ import RxSwift
 
 protocol CharacteristicType {
 
-    associatedtype S
-    associatedtype D
+    associatedtype S: ServiceType
+    associatedtype D: DescriptorType where Self.D.C == Self
 
     /// Characteristic UUID
     var uuid: CBUUID { get }
