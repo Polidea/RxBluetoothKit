@@ -76,6 +76,8 @@ protocol DelayedObservableType: class {
 }
 
 class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, DelayedObservableType {
+    typealias E = Element
+    
 
     let source: Observable<Element>
     let queue: SerializedSubscriptionQueue
