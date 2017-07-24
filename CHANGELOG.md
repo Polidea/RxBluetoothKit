@@ -1,4 +1,7 @@
-# 3.0.12
+# 3.0.14
+- Fixed building on Xcode 9 Beta 2
+
+# 3.0.13
 - Small changes to printing optionals, due to Swift warnings
 
 # 3.0.12
