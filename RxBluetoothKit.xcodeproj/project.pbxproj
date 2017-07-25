@@ -7,6 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1309F9601F2789D900E6622A /* RxDescriptorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C1E1CBE3DEE005DEA5B /* RxDescriptorType.swift */; };
+		1309F9611F2789D900E6622A /* RxCBDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C191CBE3DEE005DEA5B /* RxCBDescriptor.swift */; };
+		1309F9621F2789D900E6622A /* Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C121CBE3DEE005DEA5B /* Descriptor.swift */; };
+		1309F9631F2789D900E6622A /* RxPeripheralType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C1F1CBE3DEE005DEA5B /* RxPeripheralType.swift */; };
+		1309F9641F2789D900E6622A /* ScannedPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C211CBE3DEE005DEA5B /* ScannedPeripheral.swift */; };
+		1309F9651F2789D900E6622A /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C161CBE3DEE005DEA5B /* Peripheral.swift */; };
+		1309F9661F2789D900E6622A /* RxCBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C1A1CBE3DEE005DEA5B /* RxCBPeripheral.swift */; };
+		1309F9671F2789D900E6622A /* DeviceIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */; };
+		1309F9681F2789D900E6622A /* Peripheral+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */; };
+		1309F9691F2789D900E6622A /* RxServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C201CBE3DEE005DEA5B /* RxServiceType.swift */; };
+		1309F96A1F2789D900E6622A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C231CBE3DEE005DEA5B /* Service.swift */; };
+		1309F96B1F2789D900E6622A /* RxCBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C1B1CBE3DEE005DEA5B /* RxCBService.swift */; };
+		1309F96C1F2789D900E6622A /* RxCharacteristicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C1D1CBE3DEE005DEA5B /* RxCharacteristicType.swift */; };
+		1309F96D1F2789D900E6622A /* RxCBCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C181CBE3DEE005DEA5B /* RxCBCharacteristic.swift */; };
+		1309F96E1F2789D900E6622A /* Characteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C101CBE3DEE005DEA5B /* Characteristic.swift */; };
+		1309F96F1F2789D900E6622A /* Observable+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */; };
+		1309F9701F2789D900E6622A /* Unimplemented.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */; };
+		1309F9711F2789D900E6622A /* Observable+Absorb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */; };
+		1309F9721F2789D900E6622A /* Boxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */; };
+		1309F9731F2789D900E6622A /* BluetoothError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */; };
+		1309F9741F2789D900E6622A /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
+		1309F9751F2789D900E6622A /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
+		1309F9761F2789D900E6622A /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */; };
+		1309F9771F2789D900E6622A /* RxCentralManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C1C1CBE3DEE005DEA5B /* RxCentralManagerType.swift */; };
+		1309F9781F2789D900E6622A /* RxCBCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C171CBE3DEE005DEA5B /* RxCBCentralManager.swift */; };
+		1309F9791F2789D900E6622A /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0E1CBE3DEE005DEA5B /* BluetoothManager.swift */; };
+		1309F97A1F2789D900E6622A /* AdvertisementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */; };
+		1309F97B1F2789D900E6622A /* RestoredState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F3034A1CF0D49D00D74EBF /* RestoredState.swift */; };
+		1309F97C1F2789D900E6622A /* BluetoothState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EF38C81D86EE1F00F9F468 /* BluetoothState.swift */; };
+		1309F97E1F278B2900E6622A /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1309F97D1F278B2900E6622A /* RxSwift.framework */; };
 		2666FD8E1CCE457C005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */; };
 		2666FD9D1CCE45E3005E81CE /* RxBluetoothKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2666FDAD1CCE4626005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */; };
@@ -141,6 +171,8 @@
 /* Begin PBXFileReference section */
 		0A20F00F1DB4C01C00A1A805 /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = Carthage/Build/Mac/RxTest.framework; sourceTree = SOURCE_ROOT; };
 		0A20F0111DB4C02B00A1A805 /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = Carthage/Build/iOS/RxTest.framework; sourceTree = SOURCE_ROOT; };
+		1309F9581F27894B00E6622A /* RxBluetoothKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxBluetoothKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1309F97D1F278B2900E6622A /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/watchOS/RxSwift.framework; sourceTree = SOURCE_ROOT; };
 		26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceIdentifiers.swift; sourceTree = "<group>"; };
 		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		2666FCED1CCE42A5005E81CE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
@@ -197,6 +229,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1309F9541F27894B00E6622A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1309F97E1F278B2900E6622A /* RxSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2666FD801CCE457C005E81CE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -425,6 +465,7 @@
 				2666FD8D1CCE457C005E81CE /* RxBluetoothKit iOSTests.xctest */,
 				2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */,
 				2666FDAC1CCE4626005E81CE /* RxBluetoothKit macOSTests.xctest */,
+				1309F9581F27894B00E6622A /* RxBluetoothKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -445,6 +486,7 @@
 		A1299C8D1CBE433B005DEA5B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1309F97D1F278B2900E6622A /* RxSwift.framework */,
 				2666FE5D1CCE65D1005E81CE /* macOS */,
 				2666FE591CCE65A9005E81CE /* iOS */,
 			);
@@ -455,6 +497,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		1309F9551F27894B00E6622A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2666FD811CCE457C005E81CE /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -480,6 +529,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1309F9571F27894B00E6622A /* RxBluetoothKit watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1309F95F1F27894B00E6622A /* Build configuration list for PBXNativeTarget "RxBluetoothKit watchOS" */;
+			buildPhases = (
+				1309F9531F27894B00E6622A /* Sources */,
+				1309F9541F27894B00E6622A /* Frameworks */,
+				1309F9551F27894B00E6622A /* Headers */,
+				1309F9561F27894B00E6622A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RxBluetoothKit watchOS";
+			productName = "RxBluetoothKit watchOS";
+			productReference = 1309F9581F27894B00E6622A /* RxBluetoothKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		2666FD831CCE457C005E81CE /* RxBluetoothKit iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2666FD951CCE457C005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit iOS" */;
@@ -566,6 +633,10 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Polidea;
 				TargetAttributes = {
+					1309F9571F27894B00E6622A = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = C5S742N4J4;
+					};
 					2666FD831CCE457C005E81CE = {
 						CreatedOnToolsVersion = 7.3;
 						LastSwiftMigration = 0800;
@@ -598,11 +669,19 @@
 				2666FD8C1CCE457C005E81CE /* RxBluetoothKit iOSTests */,
 				2666FDA21CCE4626005E81CE /* RxBluetoothKit macOS */,
 				2666FDAB1CCE4626005E81CE /* RxBluetoothKit macOSTests */,
+				1309F9571F27894B00E6622A /* RxBluetoothKit watchOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1309F9561F27894B00E6622A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2666FD821CCE457C005E81CE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -650,6 +729,42 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1309F9531F27894B00E6622A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1309F9601F2789D900E6622A /* RxDescriptorType.swift in Sources */,
+				1309F9611F2789D900E6622A /* RxCBDescriptor.swift in Sources */,
+				1309F9621F2789D900E6622A /* Descriptor.swift in Sources */,
+				1309F9631F2789D900E6622A /* RxPeripheralType.swift in Sources */,
+				1309F9641F2789D900E6622A /* ScannedPeripheral.swift in Sources */,
+				1309F9651F2789D900E6622A /* Peripheral.swift in Sources */,
+				1309F9661F2789D900E6622A /* RxCBPeripheral.swift in Sources */,
+				1309F9671F2789D900E6622A /* DeviceIdentifiers.swift in Sources */,
+				1309F9681F2789D900E6622A /* Peripheral+Convenience.swift in Sources */,
+				1309F9691F2789D900E6622A /* RxServiceType.swift in Sources */,
+				1309F96A1F2789D900E6622A /* Service.swift in Sources */,
+				1309F96B1F2789D900E6622A /* RxCBService.swift in Sources */,
+				1309F96C1F2789D900E6622A /* RxCharacteristicType.swift in Sources */,
+				1309F96D1F2789D900E6622A /* RxCBCharacteristic.swift in Sources */,
+				1309F96E1F2789D900E6622A /* Characteristic.swift in Sources */,
+				1309F96F1F2789D900E6622A /* Observable+QueueSubscribeOn.swift in Sources */,
+				1309F9701F2789D900E6622A /* Unimplemented.swift in Sources */,
+				1309F9711F2789D900E6622A /* Observable+Absorb.swift in Sources */,
+				1309F9721F2789D900E6622A /* Boxes.swift in Sources */,
+				1309F9731F2789D900E6622A /* BluetoothError.swift in Sources */,
+				1309F9741F2789D900E6622A /* UUIDIdentifiable.swift in Sources */,
+				1309F9751F2789D900E6622A /* Logging.swift in Sources */,
+				1309F9761F2789D900E6622A /* ScanOperation.swift in Sources */,
+				1309F9771F2789D900E6622A /* RxCentralManagerType.swift in Sources */,
+				1309F9781F2789D900E6622A /* RxCBCentralManager.swift in Sources */,
+				1309F9791F2789D900E6622A /* BluetoothManager.swift in Sources */,
+				1309F97A1F2789D900E6622A /* AdvertisementData.swift in Sources */,
+				1309F97B1F2789D900E6622A /* RestoredState.swift in Sources */,
+				1309F97C1F2789D900E6622A /* BluetoothState.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2666FD7F1CCE457C005E81CE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -773,6 +888,83 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1309F95D1F27894B00E6622A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = C5S742N4J4;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-watchOS.RxBluetoothKit-watchOS";
+				PRODUCT_NAME = RxBluetoothKit;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Debug;
+		};
+		1309F95E1F27894B00E6622A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = C5S742N4J4;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-watchOS.RxBluetoothKit-watchOS";
+				PRODUCT_NAME = RxBluetoothKit;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Release;
+		};
 		2666FD961CCE457C005E81CE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1048,6 +1240,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1309F95F1F27894B00E6622A /* Build configuration list for PBXNativeTarget "RxBluetoothKit watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1309F95D1F27894B00E6622A /* Debug */,
+				1309F95E1F27894B00E6622A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2666FD951CCE457C005E81CE /* Build configuration list for PBXNativeTarget "RxBluetoothKit iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
