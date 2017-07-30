@@ -326,7 +326,8 @@ public class Peripheral {
      */
     public func readValue(for characteristic: Characteristic) -> Observable<Characteristic> {
         return .create { observer in
-            let disposable = self.monitorValueUpdate(for: characteristic).take(1).subscribe(observer)
+            let disposable = self.ensureValidPeripheralState(for: self.monitorValueUpdate(for: characteristic).take(1))
+                .subscribe(observer)
             self.peripheral.readValue(for: characteristic.characteristic)
             return disposable
         }
