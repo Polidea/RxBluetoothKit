@@ -114,7 +114,7 @@
 		6A12FC521F2EC45A00F1CDAA /* Observable+Absorb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */; };
 		6A12FC531F2EC45A00F1CDAA /* ScannedPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C211CBE3DEE005DEA5B /* ScannedPeripheral.swift */; };
 		6A12FC541F2EC45A00F1CDAA /* RestoredState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F3034A1CF0D49D00D74EBF /* RestoredState.swift */; };
-		6A12FC561F2EC45A00F1CDAA /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
+		6AA3788E1F2ECBEA007F1410 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AA3788D1F2ECBE9007F1410 /* RxSwift.framework */; };
 		A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F298B1CDCD6E400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
 		A10F29A11CDCD74B00593284 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10F29921CDCD72200593284 /* Nimble.framework */; };
@@ -196,6 +196,7 @@
 		26EF38C81D86EE1F00F9F468 /* BluetoothState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothState.swift; sourceTree = "<group>"; };
 		26F3034A1CF0D49D00D74EBF /* RestoredState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoredState.swift; sourceTree = "<group>"; };
 		6A12FC5D1F2EC45A00F1CDAA /* RxBluetoothKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxBluetoothKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AA3788D1F2ECBE9007F1410 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/watchOS/RxSwift.framework; sourceTree = SOURCE_ROOT; };
 		A10F29911CDCD72200593284 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = SOURCE_ROOT; };
 		A10F29921CDCD72200593284 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		A10F29991CDCD73A00593284 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = SOURCE_ROOT; };
@@ -270,7 +271,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A12FC561F2EC45A00F1CDAA /* RxSwift.framework in Frameworks */,
+				6AA3788E1F2ECBEA007F1410 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +427,14 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		6A25B6931F2ECB5E00D90910 /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				6AA3788D1F2ECBE9007F1410 /* RxSwift.framework */,
+			);
+			path = watchOS;
+			sourceTree = "<group>";
+		};
 		A10F298C1CDCD6EB00593284 /* OSX */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,6 +494,7 @@
 		A1299C8D1CBE433B005DEA5B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6A25B6931F2ECB5E00D90910 /* watchOS */,
 				2666FE5D1CCE65D1005E81CE /* macOS */,
 				2666FE591CCE65A9005E81CE /* iOS */,
 			);
@@ -1082,6 +1092,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1113,6 +1124,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

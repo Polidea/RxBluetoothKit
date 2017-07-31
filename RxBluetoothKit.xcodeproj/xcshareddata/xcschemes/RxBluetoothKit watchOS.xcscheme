@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A12FC361F2EC45A00F1CDAA"
-               BuildableName = "RxBluetoothKit watchOS.framework"
+               BuildableName = "RxBluetoothKit.framework"
                BlueprintName = "RxBluetoothKit watchOS"
                ReferencedContainer = "container:RxBluetoothKit.xcodeproj">
             </BuildableReference>
@@ -48,7 +48,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A12FC361F2EC45A00F1CDAA"
-            BuildableName = "RxBluetoothKit watchOS.framework"
+            BuildableName = "RxBluetoothKit.framework"
             BlueprintName = "RxBluetoothKit watchOS"
             ReferencedContainer = "container:RxBluetoothKit.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6A12FC361F2EC45A00F1CDAA"
-            BuildableName = "RxBluetoothKit watchOS.framework"
+            BuildableName = "RxBluetoothKit.framework"
             BlueprintName = "RxBluetoothKit watchOS"
             ReferencedContainer = "container:RxBluetoothKit.xcodeproj">
          </BuildableReference>
