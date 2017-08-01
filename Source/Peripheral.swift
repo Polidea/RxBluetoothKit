@@ -339,8 +339,8 @@ public class Peripheral {
      - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
      is emitted
      */
-    public func setNotifyValue(_ enabled: Bool, for characteristic: Characteristic)
-        -> Observable<Characteristic> {
+    public func setNotifyValue(_ enabled: Bool,
+                               for characteristic: Characteristic) -> Observable<Characteristic> {
         let observable = peripheral
             .rx_didUpdateNotificationStateForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
@@ -474,10 +474,9 @@ public class Peripheral {
         )
     }
 
-    func ensureValidPeripheralStateAndCallIfSucceeded<T>(
-        for observable: Observable<T>,
-        postSubscriptionCall: @escaping () -> Void
-        ) -> Observable<T> {
+    func ensureValidPeripheralStateAndCallIfSucceeded<T>(for observable: Observable<T>,
+                                                         postSubscriptionCall call: @escaping () -> Void
+                                                        ) -> Observable<T> {
         let operation = Observable<T>.deferred {
             call()
             return .empty()
