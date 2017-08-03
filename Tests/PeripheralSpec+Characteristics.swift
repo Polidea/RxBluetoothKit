@@ -521,6 +521,9 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                             it("should get event error") {
                                 expect(characteristicObserver.events.count).to(beGreaterThan(0))
                             }
+                            it("should not call read on peripheral") {
+                                expect(readValueForCharacteristicMethodObserver.events.count).to(equal(0))
+                            }
                             it("should return proper error") {
                                 expectError(event: characteristicObserver.events[0].value, errorType: BluetoothError.peripheralDisconnected(peripheral, nil))
                             }
