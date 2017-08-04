@@ -325,7 +325,9 @@ public class Peripheral {
         let observable = self.monitorValueUpdate(for: characteristic).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.readValue(for: characteristic.characteristic) }
+            postSubscriptionCall: {
+                self.peripheral.readValue(for: characteristic.characteristic)
+            }
         )
     }
 

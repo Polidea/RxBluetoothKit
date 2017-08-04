@@ -33,18 +33,18 @@ extension ObservableType {
      */
     static func absorb(_ a: Observable<E>, _ b: Observable<E>) -> Observable<E> {
         return .create { observer in
-            let disposableBox = WeakBox<CompositeDisposable>()
+            let disposable = CompositeDisposable()
             let innerObserver: AnyObserver<E> = AnyObserver { event in
                 observer.on(event)
                 if event.isStopEvent {
-                    disposableBox.value?.dispose()
+                    disposable.dispose()
                 }
             }
+            _ = disposable.insert(a.subscribe(innerObserver))
+            if !disposable.isDisposed {
+                _ = disposable.insert(b.subscribe(innerObserver))
+            }
 
-            let disposableA = a.subscribe(innerObserver)
-            let disposableB = b.subscribe(innerObserver)
-            let disposable = CompositeDisposable(disposableA, disposableB)
-            disposableBox.value = disposable
             return disposable
         }
     }
