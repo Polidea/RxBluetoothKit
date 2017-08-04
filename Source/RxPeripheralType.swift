@@ -39,6 +39,9 @@ protocol RxPeripheralType {
     @available(*, deprecated)
     var objectId: UInt { get }
 
+    /// Underlying `CBPeripheral` instance
+    var peripheral: CBPeripheral { get }
+
     /// Peripheral's state
     var state: CBPeripheralState { get }
 

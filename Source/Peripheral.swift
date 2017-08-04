@@ -60,6 +60,13 @@ public class Peripheral {
     }
 
     /**
+     Underlying `CBPeripheral` instance
+     */
+    public var cbPeripheral: CBPeripheral {
+        return peripheral.peripheral
+    }
+
+    /**
      Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
 
      - returns: Current state of `Peripheral` as `CBPeripheralState`.
