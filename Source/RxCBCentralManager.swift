@@ -30,7 +30,7 @@ import CoreBluetooth
  */
 class RxCBCentralManager: RxCentralManagerType {
 
-    private let centralManager: CBCentralManager
+    let centralManager: CBCentralManager
     private let internalDelegate = InternalDelegate()
 
     /**

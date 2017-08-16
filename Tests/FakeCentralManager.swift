@@ -40,6 +40,10 @@ class FakeCentralManager: RxCentralManagerType {
 
     var state: BluetoothState = BluetoothState.poweredOn
 
+    var centralManager: CBCentralManager {
+        fatalError("Central manager not available")
+    }
+
     var scanForPeripheralsWithServicesTO: TestableObserver<([CBUUID]?, [String:Any]?)>?
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String:Any]?) {
         scanForPeripheralsWithServicesTO?.onNext((serviceUUIDs, options))
