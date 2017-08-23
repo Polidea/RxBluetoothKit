@@ -31,7 +31,7 @@ import CoreBluetooth
  allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
  */
 public class Peripheral {
-    let manager: BluetoothManager
+    public let manager: BluetoothManager
 
     init(manager: BluetoothManager, peripheral: RxPeripheralType) {
         self.manager = manager
