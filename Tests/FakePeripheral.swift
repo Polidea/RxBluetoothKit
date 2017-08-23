@@ -38,6 +38,10 @@ class FakePeripheral: RxPeripheralType {
     var identifier: UUID = UUID()
     var maximumWriteValueLength = 0
 
+    var peripheral: CBPeripheral {
+        fatalError("Peripheral not available")
+    }
+
     var RSSI: Int? = nil
 
 

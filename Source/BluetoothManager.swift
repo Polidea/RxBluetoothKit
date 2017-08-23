@@ -66,6 +66,10 @@ public class BluetoothManager {
         return centralManager.objectId
     }
 
+    public var manager: CBCentralManager {
+        return centralManager.centralManager
+    }
+
     // MARK: Initialization
 
     /**

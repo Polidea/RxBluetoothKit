@@ -31,7 +31,7 @@ import CoreBluetooth
  allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
  */
 public class Peripheral {
-    let manager: BluetoothManager
+    public let manager: BluetoothManager
 
     init(manager: BluetoothManager, peripheral: RxPeripheralType) {
         self.manager = manager
@@ -57,6 +57,13 @@ public class Peripheral {
      */
     public var isConnected: Bool {
         return peripheral.state == .connected
+    }
+
+    /**
+     Underlying `CBPeripheral` instance
+     */
+    public var cbPeripheral: CBPeripheral {
+        return peripheral.peripheral
     }
 
     /**
