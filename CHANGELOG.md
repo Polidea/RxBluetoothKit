@@ -1,3 +1,7 @@
+# 3.1
+- Access from library objects to `CBCentralManager` and `Peripheral` instances is now public
+- Fixed a bug regarding doing unnecessary operations when peripheral was disconnected
+
 # 3.0.14
 - Fixed building on Xcode 9 Beta 2
 
