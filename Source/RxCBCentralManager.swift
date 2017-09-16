@@ -53,7 +53,7 @@ class RxCBCentralManager: RxCentralManagerType {
 
     @objc private class InternalDelegate: NSObject, CBCentralManagerDelegate {
         let didUpdateStateSubject = PublishSubject<BluetoothState>()
-        let willRestoreStateSubject = PublishSubject<[String: Any]>()
+        let willRestoreStateSubject = ReplaySubject<[String: Any]>.create(bufferSize: 1)
         let didDiscoverPeripheralSubject = PublishSubject<(RxPeripheralType, [String: Any], NSNumber)>()
         let didConnectPerihperalSubject = PublishSubject<RxPeripheralType>()
         let didFailToConnectPeripheralSubject = PublishSubject<(RxPeripheralType, Error?)>()
