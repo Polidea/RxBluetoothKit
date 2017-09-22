@@ -1,3 +1,7 @@
+# 3.0.1
+- `listenedOnRestoredState` should not be missing events from delegate now in case of race condition
+- Fixed build issue caused by swiftlint
+
 # 3.1
 - Access from library objects to `CBCentralManager` and `Peripheral` instances is now public
 - Fixed a bug regarding doing unnecessary operations when peripheral was disconnected
