@@ -1,4 +1,4 @@
-# 3.0.1
+# 3.1.1
 - `listenedOnRestoredState` should not be missing events from delegate now in case of race condition
 - Fixed build issue caused by swiftlint
 
