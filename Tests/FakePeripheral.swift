@@ -109,6 +109,6 @@ class FakePeripheral: RxPeripheralType {
     }
     var readRSSITO: TestableObserver<Void>?
     func readRSSI() {
-        readRSSITO?.onNext()
+        readRSSITO?.onNext(())
     }
 }

@@ -79,7 +79,7 @@ class PeripheralServicesSpec: QuickSpec {
                     context("on success result") {
                         beforeEach {
                             let servicesArray: [RxServiceType]? = [fakeService]
-                            let event = Event<([RxServiceType]?, Error?)>.next(servicesArray, nil)
+                            let event = Event<([RxServiceType]?, Error?)>.next((servicesArray, nil))
                             let discoveredServices: [Recorded<Event<([RxServiceType]?, Error?)>>] = [Recorded(time: 240,
                                 value: event)]
                             fakePeripheral.rx_didDiscoverServices = testScheduler.createHotObservable(discoveredServices).asObservable()
@@ -197,7 +197,7 @@ class PeripheralServicesSpec: QuickSpec {
                             beforeEach {
                                 fakeCentralManager.state = .poweredOn
                                 fakePeripheral.state = .connected
-                                let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
+                                let event: Event<(RxPeripheralType, Error?)> = Event.next((fakePeripheral as RxPeripheralType, nil))
                                 let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, value: event)]
                                 fakeCentralManager.rx_didDisconnectPeripheral = testScheduler.createHotObservable(scans).asObservable()
                                 testScheduler.advanceTo(250)
@@ -236,7 +236,7 @@ class PeripheralServicesSpec: QuickSpec {
                         let eventTime: Int = 230
                         beforeEach {
                             includedServices = [FakeService()]
-                            let event: Event<(RxServiceType, Error?)> = Event.next(fakeService as RxServiceType, nil)
+                            let event: Event<(RxServiceType, Error?)> = Event.next((fakeService as RxServiceType, nil))
                             let services: [Recorded<Event<(RxServiceType, Error?)>>] = [Recorded(time: eventTime, value: event)]
                             fakePeripheral.rx_didDiscoverIncludedServicesForService = testScheduler.createHotObservable(services).asObservable()
                             testScheduler.advanceTo(eventTime - 1)
@@ -352,7 +352,7 @@ class PeripheralServicesSpec: QuickSpec {
                         beforeEach {
                             fakeCentralManager.state = .poweredOn
                             fakePeripheral.state = .connected
-                            let event: Event<(RxPeripheralType, Error?)> = Event.next(fakePeripheral as RxPeripheralType, nil)
+                            let event: Event<(RxPeripheralType, Error?)> = Event.next((fakePeripheral as RxPeripheralType, nil))
                             let scans: [Recorded<Event<(RxPeripheralType, Error?)>>] = [Recorded(time: 240, value: event)]
                             fakeCentralManager.rx_didDisconnectPeripheral = testScheduler.createHotObservable(scans).asObservable()
                             testScheduler.advanceTo(250)

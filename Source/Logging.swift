@@ -145,31 +145,31 @@ extension BluetoothState : Loggable {
 }
 
 extension CBCentralManager : Loggable {
-    var logDescription: String {
+    @objc var logDescription: String {
         return "CentralManager(\(UInt(bitPattern: ObjectIdentifier(self))))"
     }
 }
 
 extension CBPeripheral : Loggable {
-    var logDescription: String {
-        return "Peripheral(uuid: \(identifier), name: \(String(describing: name)))"
+    @objc var logDescription: String {
+        return "Peripheral(uuid: \(value(forKey: "identifier") as! NSUUID as UUID ), name: \(String(describing: name)))"
     }
 }
 
 extension CBCharacteristic : Loggable {
-    var logDescription: String {
+    @objc var logDescription: String {
         return "Characteristic(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 
 extension CBService : Loggable {
-    var logDescription: String {
+    @objc var logDescription: String {
         return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 
 extension CBDescriptor : Loggable {
-    var logDescription: String {
+    @objc var logDescription: String {
         return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }

@@ -94,9 +94,9 @@ class BluetoothManagerScanningSpec: QuickSpec {
                         
                         fakeCentralManager.rx_didUpdateState = testScheduler.createHotObservable(errors).asObservable()
                         fakeCentralManager.rx_didDiscoverPeripheral = testScheduler.createHotObservable(
-                            [Recorded(time: firstScanTime, value: .next(FakePeripheral() as RxPeripheralType,
+                            [Recorded(time: firstScanTime, value: .next((FakePeripheral() as RxPeripheralType,
                                                                         [String: Any](),
-                                                                        NSNumber(value: 0)))]).asObservable()
+                                                                        NSNumber(value: 0))))]).asObservable()
                     }
                     
                     context("when first device is scanned") {
@@ -153,9 +153,9 @@ class BluetoothManagerScanningSpec: QuickSpec {
                         let rssi = Double(i) * 10
                         recordsTime.append(time)
                         recordsRSSI.append(rssi)
-                        scans.append(Recorded(time: time, value: .next(FakePeripheral() as RxPeripheralType,
+                        scans.append(Recorded(time: time, value: .next((FakePeripheral() as RxPeripheralType,
                                                                        [String: Any](),
-                                                                       NSNumber(value: rssi))))
+                                                                       NSNumber(value: rssi)))))
                     }
                     
                     let scansObservable = testScheduler.createHotObservable(scans)
