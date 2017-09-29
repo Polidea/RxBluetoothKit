@@ -80,7 +80,7 @@ public class Descriptor {
      - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
      Immediately after that `.Complete` is emitted.
      */
-    public func writeValue(_ data: Data) -> Observable<Descriptor> {
+    public func writeValue(_ data: Data) -> Single<Descriptor> {
         return characteristic.service.peripheral.writeValue(data, for: self)
     }
 
@@ -99,7 +99,7 @@ public class Descriptor {
      - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
-    public func readValue() -> Observable<Descriptor> {
+    public func readValue() -> Single<Descriptor> {
         return characteristic.service.peripheral.readValue(for: self)
     }
 }

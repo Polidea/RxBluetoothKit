@@ -91,7 +91,7 @@ public class Characteristic {
      - returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverDescriptors() -> Observable<[Descriptor]> {
+    public func discoverDescriptors() -> Single<[Descriptor]> {
         return self.service.peripheral.discoverDescriptors(for: self)
     }
 
@@ -118,7 +118,7 @@ public class Characteristic {
      Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
      if everything completed successfully. Errors are not emitted
      */
-    public func writeValue(_ data: Data, type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+    public func writeValue(_ data: Data, type: CBCharacteristicWriteType) -> Single<Characteristic> {
         return service.peripheral.writeValue(data, for: self, type: type)
     }
 
@@ -137,7 +137,7 @@ public class Characteristic {
      - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
-    public func readValue() -> Observable<Characteristic> {
+    public func readValue() -> Single<Characteristic> {
         return service.peripheral.readValue(for: self)
     }
 
@@ -150,7 +150,7 @@ public class Characteristic {
      - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
      is emitted
      */
-    public func setNotifyValue(_ enabled: Bool) -> Observable<Characteristic> {
+    public func setNotifyValue(_ enabled: Bool) -> Single<Characteristic> {
         return service.peripheral.setNotifyValue(enabled, for: self)
     }
 

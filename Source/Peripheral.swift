@@ -113,7 +113,7 @@ public class Peripheral {
      - Parameter options: Dictionary to customise the behaviour of connection.
      - Returns: Observation which emits next event after connection is established
      */
-    public func connect(options: [String: AnyObject]? = nil) -> Observable<Peripheral> {
+    public func connect(options: [String: AnyObject]? = nil) -> Single<Peripheral> {
         return manager.connect(self, options: options)
     }
 
@@ -123,7 +123,7 @@ public class Peripheral {
 
      - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
-    public func cancelConnection() -> Observable<Peripheral> {
+    public func cancelConnection() -> Single<Peripheral> {
         return manager.cancelPeripheralConnection(self)
     }
 
@@ -137,11 +137,11 @@ public class Peripheral {
      - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
+    public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Single<[Service]> {
         if let identifiers = serviceUUIDs, !identifiers.isEmpty,
            let cachedServices = self.services,
            let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
-           return ensureValidPeripheralState(for: .just(filteredServices))
+           return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
         let observable = peripheral.rx_didDiscoverServices
         .flatMap { (_, error) -> Observable<[Service]> in
@@ -159,6 +159,7 @@ public class Peripheral {
             for: observable,
             postSubscriptionCall: { self.peripheral.discoverServices(serviceUUIDs) }
         )
+        .asSingle()
     }
 
     /**
@@ -174,11 +175,11 @@ public class Peripheral {
      - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: Service) -> Observable<[Service]> {
+    public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: Service) -> Single<[Service]> {
         if let identifiers = includedServiceUUIDs, !identifiers.isEmpty,
             let services = service.includedServices,
             let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: services) {
-            return ensureValidPeripheralState(for: .just(filteredServices))
+            return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
         let observable = peripheral
             .rx_didDiscoverIncludedServicesForService
@@ -199,6 +200,7 @@ public class Peripheral {
             for: observable,
             postSubscriptionCall: { self.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service) }
         )
+        .asSingle()
     }
 
     // MARK: Characteristics
@@ -213,11 +215,11 @@ public class Peripheral {
      - Parameter service: Service of which characteristics should be discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: Service) -> Observable<[Characteristic]> {
+    public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: Service) -> Single<[Characteristic]> {
         if let identifiers = characteristicUUIDs, !identifiers.isEmpty,
             let characteristics = service.characteristics,
             let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
-            return ensureValidPeripheralState(for: .just(filteredCharacteristics))
+            return ensureValidPeripheralState(for: .just(filteredCharacteristics)).asSingle()
         }
         let observable = peripheral
             .rx_didDiscoverCharacteristicsForService
@@ -237,7 +239,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { self.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service) }
-        )
+        ).asSingle()
     }
 
     /**
@@ -288,7 +290,7 @@ public class Peripheral {
      */
     public func writeValue(_ data: Data,
                            for characteristic: Characteristic,
-                           type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+                           type: CBCharacteristicWriteType) -> Single<Characteristic> {
         let observable: Observable<Characteristic>
         switch type {
         case .withoutResponse:
@@ -299,7 +301,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { self.peripheral.writeValue(data, for: characteristic.characteristic, type: type) }
-        )
+        ).asSingle()
     }
 
     /**
@@ -328,14 +330,14 @@ public class Peripheral {
      - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
-    public func readValue(for characteristic: Characteristic) -> Observable<Characteristic> {
+    public func readValue(for characteristic: Characteristic) -> Single<Characteristic> {
         let observable = self.monitorValueUpdate(for: characteristic).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: {
                 self.peripheral.readValue(for: characteristic.characteristic)
             }
-        )
+        ).asSingle()
     }
 
     /**
@@ -349,7 +351,7 @@ public class Peripheral {
      is emitted
      */
     public func setNotifyValue(_ enabled: Bool,
-                               for characteristic: Characteristic) -> Observable<Characteristic> {
+                               for characteristic: Characteristic) -> Single<Characteristic> {
         let observable = peripheral
             .rx_didUpdateNotificationStateForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
@@ -363,7 +365,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { self.peripheral.setNotifyValue(enabled, for: characteristic.characteristic) }
-        )
+        ).asSingle()
     }
 
     /**
@@ -379,6 +381,7 @@ public class Peripheral {
                 .of(
                     monitorValueUpdate(for: characteristic),
                     setNotifyValue(true, for: characteristic)
+                        .asObservable()
                         .ignoreElements()
                         .subscribeOn(CurrentThreadScheduler.instance)
                 )
@@ -393,10 +396,10 @@ public class Peripheral {
      - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverDescriptors(for characteristic: Characteristic) -> Observable<[Descriptor]> {
+    public func discoverDescriptors(for characteristic: Characteristic) -> Single<[Descriptor]> {
         if let descriptors = characteristic.descriptors {
             let resultDescriptors = descriptors.map { Descriptor(descriptor: $0.descriptor, characteristic: characteristic) }
-            return ensureValidPeripheralState(for: .just(resultDescriptors))
+            return ensureValidPeripheralState(for: .just(resultDescriptors)).asSingle()
         }
         let observable = peripheral
             .rx_didDiscoverDescriptorsForCharacteristic
@@ -413,7 +416,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { self.peripheral.discoverDescriptors(for: characteristic.characteristic) }
-        )
+        ).asSingle()
     }
 
     /**
@@ -460,12 +463,13 @@ public class Peripheral {
      - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
      `.Complete` is emitted.
      */
-    public func readValue(for descriptor: Descriptor) -> Observable<Descriptor> {
+    public func readValue(for descriptor: Descriptor) -> Single<Descriptor> {
         let observable = self.monitorValueUpdate(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { self.peripheral.readValue(for: descriptor.descriptor) }
         )
+        .asSingle()
     }
 
     /**
@@ -475,12 +479,13 @@ public class Peripheral {
      - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
      Immediately after that `.Complete` is emitted.
      */
-    public func writeValue(_ data: Data, for descriptor: Descriptor) -> Observable<Descriptor> {
+    public func writeValue(_ data: Data, for descriptor: Descriptor) -> Single<Descriptor> {
         let monitorWrite = self.monitorWrite(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: monitorWrite,
             postSubscriptionCall: { self.peripheral.writeValue(data, for: descriptor.descriptor) }
         )
+        .asSingle()
     }
 
     func ensureValidPeripheralStateAndCallIfSucceeded<T>(for observable: Observable<T>,
@@ -510,7 +515,7 @@ public class Peripheral {
      - returns: Observable that emits tuple: `(Peripheral, Int)` once new RSSI value is read, and just after that
      `.Complete` event. `Int` is new RSSI value, `Peripheral` is returned to allow easier chaining.
      */
-    public func readRSSI() -> Observable<(Peripheral, Int)> {
+    public func readRSSI() -> Single<(Peripheral, Int)> {
         let observable = peripheral.rx_didReadRSSI
             .take(1)
             .map { (rssi, error) -> (Peripheral, Int) in
@@ -523,7 +528,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { self.peripheral.readRSSI() }
-        )
+        ).asSingle()
     }
 
     /**

@@ -42,6 +42,7 @@ extension Peripheral {
                 return .just(service)
             } else {
                 return self.discoverServices([identifier.uuid])
+                    .asObservable()
                     .flatMap { Observable.from($0) }
             }
         }
@@ -65,6 +66,7 @@ extension Peripheral {
                         return .just(characteristic)
                     }
                     return service.discoverCharacteristics([identifier.uuid])
+                        .asObservable()
                         .flatMap { Observable.from($0) }
                 }
         }
@@ -87,6 +89,7 @@ extension Peripheral {
                         return .just(descriptor)
                     }
                     return characteristic.discoverDescriptors()
+                        .asObservable()
                         .flatMap { Observable.from($0) }
                         .filter { $0.uuid == identifier.uuid }
                         .take(1)

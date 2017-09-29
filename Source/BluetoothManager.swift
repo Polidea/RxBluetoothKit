@@ -239,7 +239,7 @@ public class BluetoothManager {
      - returns: Observable which emits next and complete events after connection is established.
      */
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
-        -> Observable<Peripheral> {
+        -> Single<Peripheral> {
 
             let success = centralManager.rx_didConnectPeripheral
                 .filter { $0 == peripheral.peripheral }
@@ -277,7 +277,7 @@ public class BluetoothManager {
                 }
             }
 
-            return ensure(.poweredOn, observable: observable)
+            return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     /**
@@ -288,13 +288,13 @@ public class BluetoothManager {
      connect or has already connected.
      - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
      */
-    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Observable<Peripheral> {
+    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Single<Peripheral> {
         let observable = Observable<Peripheral>.create { observer in
             let disposable = self.monitorDisconnection(for: peripheral).take(1).subscribe(observer)
             self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
-        return ensure(.poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Retrieving Lists of Peripherals

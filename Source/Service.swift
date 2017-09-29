@@ -78,7 +78,7 @@ public class Service {
      - Returns: Observable that emits `Next` with array of `Characteristic` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?) -> Observable<[Characteristic]> {
+    public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?) -> Single<[Characteristic]> {
         return peripheral.discoverCharacteristics(characteristicUUIDs, for: self)
     }
 
@@ -90,7 +90,7 @@ public class Service {
      - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
-    public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?) -> Observable<[Service]> {
+    public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?) -> Single<[Service]> {
         return peripheral.discoverIncludedServices(includedServiceUUIDs, for: self)
     }
 }
