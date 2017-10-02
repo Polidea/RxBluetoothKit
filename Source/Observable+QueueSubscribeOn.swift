@@ -36,8 +36,8 @@ class SerializedSubscriptionQueue {
     /**
      Creates a queue in which subscriptions will be executed sequentially after previous ones have finished.
 
-    - parameter scheduler: Scheduler on which subscribption will be scheduled
-    */
+     - parameter scheduler: Scheduler on which subscribption will be scheduled
+     */
     init(scheduler: ImmediateSchedulerType) {
         self.scheduler = scheduler
     }
@@ -77,7 +77,6 @@ protocol DelayedObservableType: class {
 
 class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, DelayedObservableType {
     typealias E = Element
-    
 
     let source: Observable<Element>
     let queue: SerializedSubscriptionQueue
@@ -88,6 +87,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     var isDisposed: Bool {
         return _isDisposed == 1
     }
+
     var disposed: Bool {
         return _isDisposed == 1
     }
@@ -115,7 +115,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
             return run(observer: observer)
         }
         return CurrentThreadScheduler.instance.schedule(()) { _ in
-            return self.run(observer: observer)
+            self.run(observer: observer)
         }
     }
 
@@ -163,7 +163,8 @@ extension ObservableType {
      */
 
     func queueSubscribe(on queue: SerializedSubscriptionQueue) -> Observable<E> {
-        return QueueSubscribeOn(source: self.asObservable(), queue: queue).asObservable()
+        return QueueSubscribeOn(source: asObservable(), queue: queue).asObservable()
     }
+
     // swiftlint:enable missing_docs
 }

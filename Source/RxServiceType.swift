@@ -46,7 +46,6 @@ protocol RxServiceType {
 
     /// True if the two service objects considered equal
     func isEqualTo(service: RxServiceType) -> Bool
-
 }
 
 extension Equatable where Self: RxServiceType {}

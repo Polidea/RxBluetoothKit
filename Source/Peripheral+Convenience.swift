@@ -38,7 +38,7 @@ extension Peripheral {
     public func service(with identifier: ServiceIdentifier) -> Observable<Service> {
         return .deferred {
             if let services = self.services,
-                let service = services.first(where: { $0.uuid == identifier.uuid  }) {
+                let service = services.first(where: { $0.uuid == identifier.uuid }) {
                 return .just(service)
             } else {
                 return self.discoverServices([identifier.uuid])
@@ -57,7 +57,7 @@ extension Peripheral {
      */
     public func characteristic(with identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return .deferred {
-            return self.service(with: identifier.service)
+            self.service(with: identifier.service)
                 .flatMap { service -> Observable<Characteristic> in
                     if let characteristics = service.characteristics, let characteristic = characteristics.first(where: {
                         $0.uuid == identifier.uuid
@@ -80,7 +80,7 @@ extension Peripheral {
      */
     public func descriptor(with identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return .deferred {
-            return self.characteristic(with: identifier.characteristic)
+            self.characteristic(with: identifier.characteristic)
                 .flatMap { characteristic -> Observable<Descriptor> in
                     if let descriptors = characteristic.descriptors,
                         let descriptor = descriptors.first(where: { $0.uuid == identifier.uuid }) {
@@ -103,7 +103,7 @@ extension Peripheral {
     public func monitorWrite(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
-            .flatMap(self.monitorWrite)
+            .flatMap(monitorWrite)
     }
 
     /**
@@ -163,27 +163,27 @@ extension Peripheral {
      */
     public func setNotifyValue(_ enabled: Bool, for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
-            return characteristic(with: identifier)
-                .flatMap { self.setNotifyValue(enabled, for: $0) }
+        return characteristic(with: identifier)
+            .flatMap { self.setNotifyValue(enabled, for: $0) }
     }
 
     /**
      Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
      Notification is set after subscribtion to `Observable` is made.
-   - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
+     - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
      - returns: Observable which emits `Next`, when characteristic value is updated.
      This is **infinite** stream of values.
      */
     public func setNotificationAndMonitorUpdates(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
-            return characteristic(with: identifier)
-                .flatMap(setNotificationAndMonitorUpdates)
+        return characteristic(with: identifier)
+            .flatMap(setNotificationAndMonitorUpdates)
     }
 
     /**
      Function that triggers descriptors discovery for characteristic
      - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
-      - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+     - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
      - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
      Immediately after that `.Complete` is emitted.
      */
@@ -195,7 +195,7 @@ extension Peripheral {
 
     /**
      Function that allow to monitor writes that happened for descriptor.
-      - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+     - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
      - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
      It's **infinite** stream, so `.Complete` is never called.
      */
@@ -207,7 +207,7 @@ extension Peripheral {
     /**
      Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
      - Parameter data: `Data` that'll be written to `Descriptor` instance
-      - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+     - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
      - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
      Immediately after that `.Complete` is emitted.
      */
@@ -219,7 +219,7 @@ extension Peripheral {
 
     /**
      Function that allow to monitor value updates for `Descriptor` instance.
-      - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+     - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
      - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
      It's **infinite** stream, so `.Complete` is never called.
      */

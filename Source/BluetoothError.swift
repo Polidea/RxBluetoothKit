@@ -49,7 +49,7 @@ public enum BluetoothError: Error {
     case descriptorReadFailed(Descriptor, Error?)
 }
 
-extension BluetoothError : CustomStringConvertible {
+extension BluetoothError: CustomStringConvertible {
 
     /// Human readable description of bluetooth error
     public var description: String {
@@ -64,37 +64,38 @@ extension BluetoothError : CustomStringConvertible {
             return "Bluetooth is in unknown state"
         case .bluetoothResetting:
             return "Bluetooth is resetting"
-        // Peripheral
-        case .peripheralConnectionFailed(_, let err):
+            // Peripheral
+        case let .peripheralConnectionFailed(_, err):
             return "Connection error has occured: \(err?.localizedDescription ?? "-")"
-        case .peripheralDisconnected(_, let err):
+        case let .peripheralDisconnected(_, err):
             return "Connection error has occured: \(err?.localizedDescription ?? "-")"
-        case .peripheralRSSIReadFailed(_, let err):
+        case let .peripheralRSSIReadFailed(_, err):
             return "RSSI read failed : \(err?.localizedDescription ?? "-")"
-        // Services
-        case .servicesDiscoveryFailed(_, let err):
+            // Services
+        case let .servicesDiscoveryFailed(_, err):
             return "Services discovery error has occured: \(err?.localizedDescription ?? "-")"
-        case .includedServicesDiscoveryFailed(_, let err):
+        case let .includedServicesDiscoveryFailed(_, err):
             return "Included services discovery error has occured: \(err?.localizedDescription ?? "-")"
-        // Characteristics
-        case .characteristicsDiscoveryFailed(_, let err):
+            // Characteristics
+        case let .characteristicsDiscoveryFailed(_, err):
             return "Characteristics discovery error has occured: \(err?.localizedDescription ?? "-")"
-        case .characteristicWriteFailed(_, let err):
+        case let .characteristicWriteFailed(_, err):
             return "Characteristic write error has occured: \(err?.localizedDescription ?? "-")"
-        case .characteristicReadFailed(_, let err):
+        case let .characteristicReadFailed(_, err):
             return "Characteristic read error has occured: \(err?.localizedDescription ?? "-")"
-        case .characteristicNotifyChangeFailed(_, let err):
+        case let .characteristicNotifyChangeFailed(_, err):
             return "Characteristic notify change error has occured: \(err?.localizedDescription ?? "-")"
-        //Descriptors
-        case .descriptorsDiscoveryFailed(_, let err):
+            // Descriptors
+        case let .descriptorsDiscoveryFailed(_, err):
             return "Descriptor discovery error has occured: \(err?.localizedDescription ?? "-")"
-        case .descriptorWriteFailed(_, let err):
+        case let .descriptorWriteFailed(_, err):
             return "Descriptor write error has occured: \(err?.localizedDescription ?? "-")"
-        case .descriptorReadFailed(_, let err):
+        case let .descriptorReadFailed(_, err):
             return "Descriptor read error has occured: \(err?.localizedDescription ?? "-")"
         }
     }
 }
+
 extension BluetoothError {
     init?(state: BluetoothState) {
         switch state {
@@ -112,12 +113,11 @@ extension BluetoothError {
             return nil
         }
     }
-
 }
 
 extension BluetoothError: Equatable {}
 
-//swiftlint:disable cyclomatic_complexity
+// swiftlint:disable cyclomatic_complexity
 /**
  Compares two Bluetooth erros if they are the same.
 
@@ -132,23 +132,24 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case (.bluetoothPoweredOff, .bluetoothPoweredOff): return true
     case (.bluetoothInUnknownState, .bluetoothInUnknownState): return true
     case (.bluetoothResetting, .bluetoothResetting): return true
-    // Services
-    case (.servicesDiscoveryFailed(let l, _), .servicesDiscoveryFailed(let r, _)): return l == r
-    case (.includedServicesDiscoveryFailed(let l, _), .includedServicesDiscoveryFailed(let r, _)): return l == r
-    // Peripherals
-    case (.peripheralConnectionFailed(let l, _), .peripheralConnectionFailed(let r, _)): return l == r
-    case (.peripheralDisconnected(let l, _), .peripheralDisconnected(let r, _)): return l == r
-    case (.peripheralRSSIReadFailed(let l, _), .peripheralRSSIReadFailed(let r, _)): return l == r
-    // Characteristics
-    case (.characteristicsDiscoveryFailed(let l, _), .characteristicsDiscoveryFailed(let r, _)): return l == r
-    case (.characteristicWriteFailed(let l, _), .characteristicWriteFailed(let r, _)): return l == r
-    case (.characteristicReadFailed(let l, _), .characteristicReadFailed(let r, _)): return l == r
-    case (.characteristicNotifyChangeFailed(let l, _), .characteristicNotifyChangeFailed(let r, _)): return l == r
-    // Descriptors
-    case (.descriptorsDiscoveryFailed(let l, _), .descriptorsDiscoveryFailed(let r, _)): return l == r
-    case (.descriptorWriteFailed(let l, _), .descriptorWriteFailed(let r, _)): return l == r
-    case (.descriptorReadFailed(let l, _), .descriptorReadFailed(let r, _)): return l == r
+        // Services
+    case let (.servicesDiscoveryFailed(l, _), .servicesDiscoveryFailed(r, _)): return l == r
+    case let (.includedServicesDiscoveryFailed(l, _), .includedServicesDiscoveryFailed(r, _)): return l == r
+        // Peripherals
+    case let (.peripheralConnectionFailed(l, _), .peripheralConnectionFailed(r, _)): return l == r
+    case let (.peripheralDisconnected(l, _), .peripheralDisconnected(r, _)): return l == r
+    case let (.peripheralRSSIReadFailed(l, _), .peripheralRSSIReadFailed(r, _)): return l == r
+        // Characteristics
+    case let (.characteristicsDiscoveryFailed(l, _), .characteristicsDiscoveryFailed(r, _)): return l == r
+    case let (.characteristicWriteFailed(l, _), .characteristicWriteFailed(r, _)): return l == r
+    case let (.characteristicReadFailed(l, _), .characteristicReadFailed(r, _)): return l == r
+    case let (.characteristicNotifyChangeFailed(l, _), .characteristicNotifyChangeFailed(r, _)): return l == r
+        // Descriptors
+    case let (.descriptorsDiscoveryFailed(l, _), .descriptorsDiscoveryFailed(r, _)): return l == r
+    case let (.descriptorWriteFailed(l, _), .descriptorWriteFailed(r, _)): return l == r
+    case let (.descriptorReadFailed(l, _), .descriptorReadFailed(r, _)): return l == r
     default: return false
     }
 }
-//swiftlint:enable cyclomatic_complexity
+
+// swiftlint:enable cyclomatic_complexity

@@ -174,7 +174,6 @@ protocol RxPeripheralType {
 
     /// Read RSSI from peripheral
     func readRSSI()
-
 }
 
 extension Equatable where Self: RxPeripheralType {}

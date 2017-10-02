@@ -34,12 +34,12 @@ public class Descriptor {
     let descriptor: RxDescriptorType
 
     /**
-    Characteristic to which this descriptor belongs.
-    */
+     Characteristic to which this descriptor belongs.
+     */
     public let characteristic: Characteristic
 
     /**
-    Unique identifier of an object. Should be removed in 4.0
+     Unique identifier of an object. Should be removed in 4.0
      */
     @available(*, deprecated)
     public var objectId: UInt {
@@ -55,7 +55,7 @@ public class Descriptor {
 
     /**
      The value of the descriptor. It can be written and read through functions on `Descriptor` instance.
-    */
+     */
     public var value: Any? {
         return descriptor.value
     }
@@ -103,7 +103,8 @@ public class Descriptor {
         return characteristic.service.peripheral.readValue(for: self)
     }
 }
-extension Descriptor: Equatable { }
+
+extension Descriptor: Equatable {}
 
 /**
  Compare two descriptors. Descriptors are the same when their UUIDs are the same.

@@ -35,7 +35,7 @@ class RxCBPeripheral: RxPeripheralType {
 
     init(peripheral: CBPeripheral) {
         self.peripheral = peripheral
-        self.internalDelegate = RxCBPeripheral.getInternalPeripheralDelegateRef(cbPeripheral: peripheral)
+        internalDelegate = RxCBPeripheral.getInternalPeripheralDelegateRef(cbPeripheral: peripheral)
     }
 
     deinit {
@@ -180,8 +180,8 @@ class RxCBPeripheral: RxPeripheralType {
     func writeValue(_ data: Data,
                     for characteristic: RxCharacteristicType,
                     type: CBCharacteristicWriteType) {
-            peripheral.writeValue(data, for: (characteristic as! RxCBCharacteristic).characteristic,
-                type: type)
+        peripheral.writeValue(data, for: (characteristic as! RxCBCharacteristic).characteristic,
+                              type: type)
     }
 
     /**
@@ -338,7 +338,7 @@ class RxCBPeripheral: RxPeripheralType {
                               error: Error?) {
             // swiftlint:disable:next line_length TODO: multiline string in Swift 4
             RxBluetoothKitLog.d("\(peripheral.logDescription) didUpdateValueFor(for:\(descriptor.logDescription), value: \(String(describing: descriptor.value)), error: \(String(describing: error)))")
-                peripheralDidUpdateValueForDescriptorSubject.onNext((RxCBDescriptor(descriptor: descriptor), error))
+            peripheralDidUpdateValueForDescriptorSubject.onNext((RxCBDescriptor(descriptor: descriptor), error))
         }
 
         @objc func peripheral(_ peripheral: CBPeripheral,
@@ -346,7 +346,7 @@ class RxCBPeripheral: RxPeripheralType {
                               error: Error?) {
             // swiftlint:disable:next line_length TODO: multiline string in Swift 4
             RxBluetoothKitLog.d("\(peripheral.logDescription) didWriteValueFor(for:\(descriptor.logDescription), error: \(String(describing: error)))")
-                peripheralDidWriteValueForDescriptorSubject.onNext((RxCBDescriptor(descriptor: descriptor), error))
+            peripheralDidWriteValueForDescriptorSubject.onNext((RxCBDescriptor(descriptor: descriptor), error))
         }
     }
 
@@ -356,7 +356,7 @@ class RxCBPeripheral: RxPeripheralType {
 
         fileprivate init(delegate: InternalPeripheralDelegate) {
             self.delegate = delegate
-            self.refCount = 1
+            refCount = 1
         }
     }
 

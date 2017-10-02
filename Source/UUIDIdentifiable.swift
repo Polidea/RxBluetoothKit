@@ -27,8 +27,8 @@ protocol UUIDIdentifiable {
     var uuid: CBUUID { get }
 }
 
-extension Characteristic: UUIDIdentifiable { }
-extension Service: UUIDIdentifiable { }
+extension Characteristic: UUIDIdentifiable {}
+extension Service: UUIDIdentifiable {}
 
 /**
  Filters an item list based on the provided UUID list. The items must conform to UUIDIdentifiable.

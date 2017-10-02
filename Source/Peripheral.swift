@@ -139,21 +139,21 @@ public class Peripheral {
      */
     public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Observable<[Service]> {
         if let identifiers = serviceUUIDs, !identifiers.isEmpty,
-           let cachedServices = self.services,
-           let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
-           return ensureValidPeripheralState(for: .just(filteredServices))
+            let cachedServices = self.services,
+            let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
+            return ensureValidPeripheralState(for: .just(filteredServices))
         }
         let observable = peripheral.rx_didDiscoverServices
-        .flatMap { (_, error) -> Observable<[Service]> in
-            guard let cachedServices = self.services, error == nil else {
-                throw BluetoothError.servicesDiscoveryFailed(self, error)
+            .flatMap { (_, error) -> Observable<[Service]> in
+                guard let cachedServices = self.services, error == nil else {
+                    throw BluetoothError.servicesDiscoveryFailed(self, error)
+                }
+                if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
+                    return .just(filteredServices)
+                }
+                return .empty()
             }
-            if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
-                return .just(filteredServices)
-            }
-            return .empty()
-        }
-        .take(1)
+            .take(1)
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
@@ -247,7 +247,7 @@ public class Peripheral {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWrite(for characteristic: Characteristic) -> Observable<Characteristic> {
-        let observable =  peripheral
+        let observable = peripheral
             .rx_didWriteValueForCharacteristic
             .filter { return $0.0 == characteristic.characteristic }
             .map { (_, error) -> Characteristic in
@@ -294,7 +294,7 @@ public class Peripheral {
         case .withoutResponse:
             observable = .just(characteristic)
         case .withResponse:
-            observable = self.monitorWrite(for: characteristic).take(1)
+            observable = monitorWrite(for: characteristic).take(1)
         }
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
@@ -318,7 +318,7 @@ public class Peripheral {
                 }
                 return characteristic
             }
-        return self.ensureValidPeripheralState(for: observable)
+        return ensureValidPeripheralState(for: observable)
     }
 
     /**
@@ -329,7 +329,7 @@ public class Peripheral {
      `.Complete` is emitted.
      */
     public func readValue(for characteristic: Characteristic) -> Observable<Characteristic> {
-        let observable = self.monitorValueUpdate(for: characteristic).take(1)
+        let observable = monitorValueUpdate(for: characteristic).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: {
@@ -375,14 +375,14 @@ public class Peripheral {
      */
     public func setNotificationAndMonitorUpdates(for characteristic: Characteristic)
         -> Observable<Characteristic> {
-            return Observable
-                .of(
-                    monitorValueUpdate(for: characteristic),
-                    setNotifyValue(true, for: characteristic)
-                        .ignoreElements()
-                        .subscribeOn(CurrentThreadScheduler.instance)
-                )
-                .merge()
+        return Observable
+            .of(
+                monitorValueUpdate(for: characteristic),
+                setNotifyValue(true, for: characteristic)
+                    .ignoreElements()
+                    .subscribeOn(CurrentThreadScheduler.instance)
+            )
+            .merge()
     }
 
     // MARK: Descriptors
@@ -423,7 +423,7 @@ public class Peripheral {
      It's **infinite** stream, so `.Complete` is never called.
      */
     public func monitorWrite(for descriptor: Descriptor) -> Observable<Descriptor> {
-        let observable =  peripheral
+        let observable = peripheral
             .rx_didWriteValueForDescriptor
             .filter { $0.0 == descriptor.descriptor }
             .map { (_, error) -> Descriptor in
@@ -449,8 +449,8 @@ public class Peripheral {
                     throw BluetoothError.descriptorReadFailed(descriptor, error)
                 }
                 return descriptor
-        }
-        return self.ensureValidPeripheralState(for: observable)
+            }
+        return ensureValidPeripheralState(for: observable)
     }
 
     /**
@@ -461,7 +461,7 @@ public class Peripheral {
      `.Complete` is emitted.
      */
     public func readValue(for descriptor: Descriptor) -> Observable<Descriptor> {
-        let observable = self.monitorValueUpdate(for: descriptor).take(1)
+        let observable = monitorValueUpdate(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { self.peripheral.readValue(for: descriptor.descriptor) }
@@ -485,7 +485,7 @@ public class Peripheral {
 
     func ensureValidPeripheralStateAndCallIfSucceeded<T>(for observable: Observable<T>,
                                                          postSubscriptionCall call: @escaping () -> Void
-                                                        ) -> Observable<T> {
+    ) -> Observable<T> {
         let operation = Observable<T>.deferred {
             call()
             return .empty()
@@ -500,8 +500,8 @@ public class Peripheral {
      */
     func ensureValidPeripheralState<T>(for observable: Observable<T>) -> Observable<T> {
         return Observable<T>.absorb(
-            self.manager.ensurePeripheralIsConnected(self),
-            self.manager.ensure(.poweredOn, observable: observable)
+            manager.ensurePeripheralIsConnected(self),
+            manager.ensure(.poweredOn, observable: observable)
         )
     }
 
@@ -518,7 +518,7 @@ public class Peripheral {
                     throw BluetoothError.peripheralRSSIReadFailed(self, error)
                 }
                 return (self, rssi)
-        }
+            }
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
@@ -529,11 +529,11 @@ public class Peripheral {
     /**
      Function that allow user to monitor incoming `name` property changes of `Peripheral` instance.
      - returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed.
-        It's `optional String` because peripheral could also lost his name.
-        It's **infinite** stream of values, so `.Complete` is never emitted.
+     It's `optional String` because peripheral could also lost his name.
+     It's **infinite** stream of values, so `.Complete` is never emitted.
      */
     public func monitorNameUpdate() -> Observable<(Peripheral, String?)> {
-        let observable =  peripheral.rx_didUpdateName.map { return (self, $0) }
+        let observable = peripheral.rx_didUpdateName.map { return (self, $0) }
         return ensureValidPeripheralState(for: observable)
     }
 
@@ -543,7 +543,7 @@ public class Peripheral {
      [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
 
      - returns: Observable that emits tuples: `(Peripheral, [Service])` when services were modified.
-        It's **infinite** stream of values, so `.Complete` is never emitted.
+     It's **infinite** stream of values, so `.Complete` is never emitted.
      */
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {
         let observable = peripheral.rx_didModifyServices
@@ -553,7 +553,7 @@ public class Peripheral {
     }
 }
 
-extension Peripheral: Equatable { }
+extension Peripheral: Equatable {}
 
 /**
  Compare two peripherals which are the same when theirs identifiers are equal.

@@ -35,12 +35,15 @@ class RxCBDescriptor: RxDescriptorType {
     var objectId: UInt {
         return UInt(bitPattern: ObjectIdentifier(descriptor))
     }
+
     var uuid: CBUUID {
         return descriptor.uuid
     }
+
     var characteristic: RxCharacteristicType {
         return RxCBCharacteristic(characteristic: descriptor.characteristic)
     }
+
     var value: Any? {
         return descriptor.value
     }

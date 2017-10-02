@@ -28,10 +28,10 @@ import CoreBluetooth
 
  ```
  enum DeviceService: String, ServiceIdentifier {
-    case deviceInformation = "180A"
-    var uuid: CBUUID {
-    return CBUUID(string: self.rawValue)
-    }
+ case deviceInformation = "180A"
+ var uuid: CBUUID {
+ return CBUUID(string: self.rawValue)
+ }
  }
  ```
  After implementing this and other protocol `CharacteristicIdentifier, you could call methods even easier
@@ -41,7 +41,7 @@ import CoreBluetooth
 public protocol ServiceIdentifier {
     /**
      Unique identifier of a service.
-    */
+     */
     var uuid: CBUUID { get }
 }
 
@@ -51,17 +51,17 @@ public protocol ServiceIdentifier {
 
  ```
  enum DeviceCharacteristic: String, CharacteristicIdentifier {
-     case manufacturerName = "2A29"
+ case manufacturerName = "2A29"
 
-     var uuid: CBUUID {
-         return CBUUID(string: self.rawValue)
-     }
-     var service: ServiceIdentifier {
-         switch self {
-         case .ManufacturerName:
-             return XXXService.DeviceInformation
-         }
-     }
+ var uuid: CBUUID {
+ return CBUUID(string: self.rawValue)
+ }
+ var service: ServiceIdentifier {
+ switch self {
+ case .ManufacturerName:
+ return XXXService.DeviceInformation
+ }
+ }
  }
  ```
  */
@@ -78,7 +78,7 @@ public protocol CharacteristicIdentifier {
 
 /**
  DescriptorIdentifier protocol specifies how information about descriptors of device should look like.
-*/
+ */
 public protocol DescriptorIdentifier {
     /**
      Unique identifier of a descriptor.

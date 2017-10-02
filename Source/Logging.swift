@@ -82,40 +82,44 @@ public class RxBluetoothKitLog {
         }
     }
 
-    static func v(_ message:  @autoclosure () -> String) {
+    static func v(_ message: @autoclosure () -> String) {
         log(with: .verbose, message: message)
     }
 
-    static func d(_ message:  @autoclosure () -> String) {
+    static func d(_ message: @autoclosure () -> String) {
         log(with: .debug, message: message)
     }
 
-    static func i(_ message:  @autoclosure () -> String) {
+    static func i(_ message: @autoclosure () -> String) {
         log(with: .info, message: message)
     }
 
-    static func w(_ message:  @autoclosure () -> String) {
+    static func w(_ message: @autoclosure () -> String) {
         log(with: .warning, message: message)
     }
 
-    static func e(_ message:  @autoclosure () -> String) {
+    static func e(_ message: @autoclosure () -> String) {
         log(with: .error, message: message)
     }
 }
 
-extension RxBluetoothKitLog.LogLevel : Comparable {
+extension RxBluetoothKitLog.LogLevel: Comparable {
     public static func < (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
+
     public static func <= (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
         return lhs.rawValue <= rhs.rawValue
     }
+
     public static func > (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
         return lhs.rawValue > rhs.rawValue
     }
+
     public static func >= (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
         return lhs.rawValue >= rhs.rawValue
     }
+
     public static func == (lhs: RxBluetoothKitLog.LogLevel, rhs: RxBluetoothKitLog.LogLevel) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
@@ -125,13 +129,13 @@ protocol Loggable {
     var logDescription: String { get }
 }
 
-extension Data : Loggable {
+extension Data: Loggable {
     var logDescription: String {
-        return self.map { String(format: "%02x", $0) }.joined()
+        return map { String(format: "%02x", $0) }.joined()
     }
 }
 
-extension BluetoothState : Loggable {
+extension BluetoothState: Loggable {
     var logDescription: String {
         switch self {
         case .unknown: return "unknown"
@@ -144,31 +148,31 @@ extension BluetoothState : Loggable {
     }
 }
 
-extension CBCentralManager : Loggable {
+extension CBCentralManager: Loggable {
     @objc var logDescription: String {
         return "CentralManager(\(UInt(bitPattern: ObjectIdentifier(self))))"
     }
 }
 
-extension CBPeripheral : Loggable {
+extension CBPeripheral: Loggable {
     @objc var logDescription: String {
-        return "Peripheral(uuid: \(value(forKey: "identifier") as! NSUUID as UUID ), name: \(String(describing: name)))"
+        return "Peripheral(uuid: \(value(forKey: "identifier") as! NSUUID as UUID), name: \(String(describing: name)))"
     }
 }
 
-extension CBCharacteristic : Loggable {
+extension CBCharacteristic: Loggable {
     @objc var logDescription: String {
         return "Characteristic(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 
-extension CBService : Loggable {
+extension CBService: Loggable {
     @objc var logDescription: String {
         return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 
-extension CBDescriptor : Loggable {
+extension CBDescriptor: Loggable {
     @objc var logDescription: String {
         return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
@@ -176,6 +180,6 @@ extension CBDescriptor : Loggable {
 
 extension Array where Element: Loggable {
     var logDescription: String {
-        return "[\(self.map { $0.logDescription }.joined(separator: ", "))]"
+        return "[\(map { $0.logDescription }.joined(separator: ", "))]"
     }
 }

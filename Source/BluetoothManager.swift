@@ -82,8 +82,8 @@ public class BluetoothManager {
      */
     init(centralManager: RxCentralManagerType,
          queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
-            self.centralManager = centralManager
-            self.subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
+        self.centralManager = centralManager
+        subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
     }
 
     /**
@@ -98,10 +98,10 @@ public class BluetoothManager {
      - parameter options: An optional dictionary containing initialization options for a central manager.
      For more info about it please refer to [`Central Manager initialization options`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
      */
-    convenience public init(queue: DispatchQueue = .main,
+    public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
         self.init(centralManager: RxCBCentralManager(queue: queue, options: options),
-            queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
+                  queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
     }
 
     // MARK: Scanning
@@ -117,8 +117,8 @@ public class BluetoothManager {
      example this can be done by limiting scanning to certain number of peripherals or time:
 
      bluetoothManager.scanForPeripherals(withServices: nil)
-        .timeout(3.0, timeoutScheduler)
-        .take(2)
+     .timeout(3.0, timeoutScheduler)
+     .take(2)
 
      If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
      shared. Otherwise scan is queued on thread specified in `init(centralManager:queueScheduler:)` and will be executed
@@ -137,67 +137,67 @@ public class BluetoothManager {
     public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
         -> Observable<ScannedPeripheral> {
 
-            return .deferred {
-                let observable: Observable<ScannedPeripheral> = { () -> Observable<ScannedPeripheral> in
-                    // If it's possible use existing scan - take if from the queue
-                    self.lock.lock(); defer { self.lock.unlock() }
-                    if let elem = self.scanQueue.first(where: { $0.shouldAccept(serviceUUIDs) }) {
-                        guard let serviceUUIDs = serviceUUIDs else {
-                            return elem.observable
-                        }
-
-                        // When binding to existing scan we need to make sure that services are
-                        // filtered properly
-                        return elem.observable.filter { scannedPeripheral in
-                            if let services = scannedPeripheral.advertisementData.serviceUUIDs {
-                                return Set(services).isSuperset(of: Set(serviceUUIDs))
-                            }
-                            return false
-                        }
+        return .deferred {
+            let observable: Observable<ScannedPeripheral> = { () -> Observable<ScannedPeripheral> in
+                // If it's possible use existing scan - take if from the queue
+                self.lock.lock(); defer { self.lock.unlock() }
+                if let elem = self.scanQueue.first(where: { $0.shouldAccept(serviceUUIDs) }) {
+                    guard let serviceUUIDs = serviceUUIDs else {
+                        return elem.observable
                     }
 
-                    let scanOperationBox = WeakBox<ScanOperation>()
-
-                    // Create new scan which will be processed in a queue
-                    let operation = Observable.create { (element: AnyObserver<ScannedPeripheral>) -> Disposable in
-
-                        // Observable which will emit next element, when peripheral is discovered.
-                        let disposable = self.centralManager.rx_didDiscoverPeripheral
-                            .map { (peripheral, advertisment, rssi) -> ScannedPeripheral in
-                                let peripheral = Peripheral(manager: self, peripheral: peripheral)
-                                let advertismentData = AdvertisementData(advertisementData: advertisment)
-                                return ScannedPeripheral(peripheral: peripheral,
-                                    advertisementData: advertismentData, rssi: rssi)
+                    // When binding to existing scan we need to make sure that services are
+                    // filtered properly
+                    return elem.observable.filter { scannedPeripheral in
+                        if let services = scannedPeripheral.advertisementData.serviceUUIDs {
+                            return Set(services).isSuperset(of: Set(serviceUUIDs))
                         }
-                            .subscribe(element)
+                        return false
+                    }
+                }
 
-                        // Start scanning for devices
-                        self.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
+                let scanOperationBox = WeakBox<ScanOperation>()
 
-                        return Disposables.create {
-                            // When disposed, stop all scans, and remove scanning operation from queue
-                            self.centralManager.stopScan()
-                            disposable.dispose()
-                            do { self.lock.lock(); defer { self.lock.unlock() }
-                                if let index = self.scanQueue.index(where: { $0 == scanOperationBox.value! }) {
-                                    self.scanQueue.remove(at: index)
-                                }
+                // Create new scan which will be processed in a queue
+                let operation = Observable.create { (element: AnyObserver<ScannedPeripheral>) -> Disposable in
+
+                    // Observable which will emit next element, when peripheral is discovered.
+                    let disposable = self.centralManager.rx_didDiscoverPeripheral
+                        .map { (peripheral, advertisment, rssi) -> ScannedPeripheral in
+                            let peripheral = Peripheral(manager: self, peripheral: peripheral)
+                            let advertismentData = AdvertisementData(advertisementData: advertisment)
+                            return ScannedPeripheral(peripheral: peripheral,
+                                                     advertisementData: advertismentData, rssi: rssi)
+                        }
+                        .subscribe(element)
+
+                    // Start scanning for devices
+                    self.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
+
+                    return Disposables.create {
+                        // When disposed, stop all scans, and remove scanning operation from queue
+                        self.centralManager.stopScan()
+                        disposable.dispose()
+                        do { self.lock.lock(); defer { self.lock.unlock() }
+                            if let index = self.scanQueue.index(where: { $0 == scanOperationBox.value! }) {
+                                self.scanQueue.remove(at: index)
                             }
                         }
                     }
-                    .queueSubscribe(on: self.subscriptionQueue)
-                    .publish()
-                    .refCount()
+                }
+                .queueSubscribe(on: self.subscriptionQueue)
+                .publish()
+                .refCount()
 
-                    let scanOperation = ScanOperation(uuids: serviceUUIDs, observable: operation)
-                    self.scanQueue.append(scanOperation)
+                let scanOperation = ScanOperation(uuids: serviceUUIDs, observable: operation)
+                self.scanQueue.append(scanOperation)
 
-                    scanOperationBox.value = scanOperation
-                    return operation
-                }()
-                // Allow scanning as long as bluetooth is powered on
-                return self.ensure(.poweredOn, observable: observable)
-            }
+                scanOperationBox.value = scanOperation
+                return operation
+            }()
+            // Allow scanning as long as bluetooth is powered on
+            return self.ensure(.poweredOn, observable: observable)
+        }
     }
 
     // MARK: State
@@ -210,7 +210,7 @@ public class BluetoothManager {
      */
     public var rx_state: Observable<BluetoothState> {
         return .deferred {
-            return self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
+            self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
         }
     }
 
@@ -223,6 +223,7 @@ public class BluetoothManager {
     public var state: BluetoothState {
         return centralManager.state
     }
+
     // MARK: Peripheral's Connection Management
 
     /**
@@ -241,43 +242,43 @@ public class BluetoothManager {
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
         -> Observable<Peripheral> {
 
-            let success = centralManager.rx_didConnectPeripheral
-                .filter { $0 == peripheral.peripheral }
-                .take(1)
-                .map { _ in return peripheral }
+        let success = centralManager.rx_didConnectPeripheral
+            .filter { $0 == peripheral.peripheral }
+            .take(1)
+            .map { _ in return peripheral }
 
-            let error = centralManager.rx_didFailToConnectPeripheral
-                .filter { $0.0 == peripheral.peripheral }
-                .take(1)
-                .map { (peripheral, error) -> Peripheral in
-                    throw BluetoothError.peripheralConnectionFailed(Peripheral(manager: self, peripheral: peripheral), error)
-                }
-
-            let observable = Observable<Peripheral>.create { observer in
-                if let error = BluetoothError(state: self.centralManager.state) {
-                    observer.onError(error)
-                    return Disposables.create()
-                }
-
-                guard !peripheral.isConnected else {
-                    observer.onNext(peripheral)
-                    observer.onCompleted()
-                    return Disposables.create()
-                }
-
-                let disposable = success.amb(error).subscribe(observer)
-
-                self.centralManager.connect(peripheral.peripheral, options: options)
-
-                return Disposables.create {
-                    if !peripheral.isConnected {
-                        self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-                        disposable.dispose()
-                    }
-                }
+        let error = centralManager.rx_didFailToConnectPeripheral
+            .filter { $0.0 == peripheral.peripheral }
+            .take(1)
+            .map { (peripheral, error) -> Peripheral in
+                throw BluetoothError.peripheralConnectionFailed(Peripheral(manager: self, peripheral: peripheral), error)
             }
 
-            return ensure(.poweredOn, observable: observable)
+        let observable = Observable<Peripheral>.create { observer in
+            if let error = BluetoothError(state: self.centralManager.state) {
+                observer.onError(error)
+                return Disposables.create()
+            }
+
+            guard !peripheral.isConnected else {
+                observer.onNext(peripheral)
+                observer.onCompleted()
+                return Disposables.create()
+            }
+
+            let disposable = success.amb(error).subscribe(observer)
+
+            self.centralManager.connect(peripheral.peripheral, options: options)
+
+            return Disposables.create {
+                if !peripheral.isConnected {
+                    self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+                    disposable.dispose()
+                }
+            }
+        }
+
+        return ensure(.poweredOn, observable: observable)
     }
 
     /**
@@ -311,10 +312,10 @@ public class BluetoothManager {
         let observable = Observable<[Peripheral]>.deferred {
             return self.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
                 .map { (peripheralTable: [RxPeripheralType]) ->
-                [Peripheral] in peripheralTable.map {
-                    Peripheral(manager: self, peripheral: $0)
+                    [Peripheral] in peripheralTable.map {
+                        Peripheral(manager: self, peripheral: $0)
+                    }
                 }
-            }
         }
         return ensure(.poweredOn, observable: observable)
     }
@@ -329,10 +330,10 @@ public class BluetoothManager {
         let observable = Observable<[Peripheral]>.deferred {
             return self.centralManager.retrievePeripherals(withIdentifiers: identifiers)
                 .map { (peripheralTable: [RxPeripheralType]) ->
-                [Peripheral] in peripheralTable.map {
-                    Peripheral(manager: self, peripheral: $0)
+                    [Peripheral] in peripheralTable.map {
+                        Peripheral(manager: self, peripheral: $0)
+                    }
                 }
-            }
         }
         return ensure(.poweredOn, observable: observable)
     }
@@ -369,7 +370,7 @@ public class BluetoothManager {
                 .filter { $0.0 == peripheral.peripheral }
                 .map { (_, error) -> T in
                     throw BluetoothError.peripheralDisconnected(peripheral, error)
-            }
+                }
         }
     }
 
@@ -390,7 +391,7 @@ public class BluetoothManager {
      - Returns: Observable which emits next events when `peripheral` was disconnected.
      */
     public func monitorDisconnection(for peripheral: Peripheral) -> Observable<Peripheral> {
-        //return monitorPeripheralAction(peripheralAction: centralManager.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
+        // return monitorPeripheralAction(peripheralAction: centralManager.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
         return monitorPeripheral(on: centralManager.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
     }
 
@@ -404,16 +405,16 @@ public class BluetoothManager {
     }
 
     #if os(iOS)
-    /**
-     Emits `RestoredState` instance, when state of `BluetoothManager` has been restored,
-     Should only be called once in the lifetime of the app
-     - Returns: Observable which emits next events state has been restored
-     */
-    public func listenOnRestoredState() -> Observable<RestoredState> {
-        return centralManager
-            .rx_willRestoreState
-            .take(1)
-            .map { RestoredState(restoredStateDictionary: $0, bluetoothManager: self) }
-    }
+        /**
+         Emits `RestoredState` instance, when state of `BluetoothManager` has been restored,
+         Should only be called once in the lifetime of the app
+         - Returns: Observable which emits next events state has been restored
+         */
+        public func listenOnRestoredState() -> Observable<RestoredState> {
+            return centralManager
+                .rx_willRestoreState
+                .take(1)
+                .map { RestoredState(restoredStateDictionary: $0, bluetoothManager: self) }
+        }
     #endif
 }

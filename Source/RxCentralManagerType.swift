@@ -26,7 +26,7 @@ import CoreBluetooth
 
 /**
  Protocol which wraps Central Manager for bluetooth devices. It is used directly by BluetoothManager
-*/
+ */
 protocol RxCentralManagerType {
 
     /// Unique identifier of an object. Should be removed in 4.0
@@ -57,7 +57,7 @@ protocol RxCentralManagerType {
      observable.
 
      - parameter serviceUUIDs: Services which peripherals needs to implement. When nil is passed all
-                               available peripherals will be discovered.
+     available peripherals will be discovered.
      - parameter options: Central Manager specific options for scanning
      */
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]?)
