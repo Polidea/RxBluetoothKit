@@ -28,8 +28,8 @@ extension ObservableType {
 
      - parameter a: First observable
      - parameter b: Second observable
-     - returns: New observable which emits all of events from a and b observables.
-     If error or complete is received on any of the observables, it's propagates immediately to result observable
+     - returns: New `Observable` which emits all of events from a and b `Observable`s.
+     If error or complete is received on any of the `Observable`s, it's propagates immediately to result `Observable`
      */
     static func absorb(_ a: Observable<E>, _ b: Observable<E>) -> Observable<E> {
         return .create { observer in

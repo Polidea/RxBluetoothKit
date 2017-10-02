@@ -32,8 +32,7 @@ extension Peripheral {
      Function used to receive service with given identifier. It's taken from cache if it's available,
      or directly by `discoverServices` call
      - Parameter identifier: Unique identifier of Service
-     - Returns: Observation which emits `Next` event, when specified service has been found.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` which emits `Next` event, when specified service has been found.
      */
     public func service(with identifier: ServiceIdentifier) -> Single<Service> {
         return .deferred {
@@ -42,9 +41,12 @@ extension Peripheral {
                 return .just(service)
             } else {
                 return self.discoverServices([identifier.uuid])
-                    .asObservable()
-                    .flatMap { Observable.from($0) }
-                    .asSingle()
+                    .map {
+                        if let service = $0.first {
+                            return service
+                        }
+                        throw RxError.noElements
+                    }
             }
         }
     }
@@ -54,8 +56,7 @@ extension Peripheral {
      Otherwise - directly by `discoverCharacteristics` call
      - Parameter identifier: Unique identifier of Characteristic, that has information
      about service which characteristic belongs to.
-     - Returns: Observation which emits `Next` event, when specified characteristic has been found.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` which emits `Next` event, when specified characteristic has been found.
      */
     public func characteristic(with identifier: CharacteristicIdentifier) -> Single<Characteristic> {
         return .deferred {
@@ -67,9 +68,12 @@ extension Peripheral {
                         return .just(characteristic)
                     }
                     return service.discoverCharacteristics([identifier.uuid])
-                        .asObservable()
-                        .flatMap { Observable.from($0) }
-                        .asSingle()
+                        .map {
+                            if let characteristic = $0.first {
+                                return characteristic
+                            }
+                            throw RxError.noElements
+                        }
                 }
         }
     }
@@ -79,8 +83,7 @@ extension Peripheral {
      Otherwise - directly by `discoverDescriptor` call
      - Parameter identifier: Unique identifier of Descriptor, that has information
      about characteristic which descriptor belongs to.
-     - Returns: Observation which emits `Next` event, when specified descriptor has been found.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` which emits `Next` event, when specified descriptor has been found.
      */
     public func descriptor(with identifier: DescriptorIdentifier) -> Single<Descriptor> {
         return .deferred {
@@ -91,11 +94,12 @@ extension Peripheral {
                         return .just(descriptor)
                     }
                     return characteristic.discoverDescriptors()
-                        .asObservable()
-                        .flatMap { Observable.from($0) }
-                        .filter { $0.uuid == identifier.uuid }
-                        .take(1)
-                        .asSingle()
+                        .map {
+                            if let descriptor = $0.filter({ return $0.uuid == identifier.uuid }).first {
+                                return descriptor
+                            }
+                            throw RxError.noElements
+                        }
                 }
         }
     }
@@ -193,8 +197,7 @@ extension Peripheral {
      Function that triggers descriptors discovery for characteristic
      - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
       - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-     - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` that emits `Next` with array of `Descriptor` instances, once they're discovered.
      */
     public func discoverDescriptors(for identifier: CharacteristicIdentifier) ->
         Single<[Descriptor]> {
@@ -218,8 +221,7 @@ extension Peripheral {
      Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
      - Parameter data: `Data` that'll be written to `Descriptor` instance
       - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-     - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` that emits `Next` with `Descriptor` instance, once value is written successfully.
      */
     public func writeValue(_ data: Data, for identifier: DescriptorIdentifier)
         -> Single<Descriptor> {

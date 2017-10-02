@@ -33,17 +33,17 @@ protocol RxCentralManagerType {
     @available(*, deprecated)
     var objectId: UInt { get }
 
-    /// Observable which emits state changes of central manager after subscriptions
+    /// `Observable` which emits state changes of central manager after subscriptions
     var rx_didUpdateState: Observable<BluetoothState> { get }
-    /// Observable which emits elements after subsciption when central manager want to restore its state
+    /// `Observable` which emits elements after subsciption when central manager want to restore its state
     var rx_willRestoreState: Observable<[String: Any]> { get }
-    /// Observable which emits peripherals which were discovered after subscription
+    /// `Observable` which emits peripherals which were discovered after subscription
     var rx_didDiscoverPeripheral: Observable<(RxPeripheralType, [String: Any], NSNumber)> { get }
-    /// Observable which emits peripherals which were connected after subscription
+    /// `Observable` which emits peripherals which were connected after subscription
     var rx_didConnectPeripheral: Observable<RxPeripheralType> { get }
-    /// Observable which emits peripherals which failed to connect after subscriptions
+    /// `Observable` which emits peripherals which failed to connect after subscriptions
     var rx_didFailToConnectPeripheral: Observable<(RxPeripheralType, Error?)> { get }
-    /// Observable which emits peripherals which were disconnected after subscription
+    /// `Observable` which emits peripherals which were disconnected after subscription
     var rx_didDisconnectPeripheral: Observable<(RxPeripheralType, Error?)> { get }
 
     /// Current state of Central Manager

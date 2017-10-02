@@ -71,7 +71,9 @@ class BluetoothManagerSpec: QuickSpec {
                 }
                 context("after subscription") {
                     beforeEach {
-                        let peripherals: [Recorded<Event<[RxPeripheralType]>>] = [Recorded(time: nextTime, value: .next([fakePeripheral]))]
+                        let peripherals: [Recorded<Event<[RxPeripheralType]>>] = [
+                            Recorded(time: nextTime, value: .next([fakePeripheral])),
+                            Recorded(time: nextTime, value: .completed)]
                         fakeCentralManager.retrievePeripheralsWithIdentifiersResult = testScheduler.createHotObservable(peripherals).asObservable()
                         testScheduler.advanceTo(250)
                     }
@@ -82,7 +84,7 @@ class BluetoothManagerSpec: QuickSpec {
                         expect(retrieveWithIdentifiersCallObserver.events[0].value.element!).to(equal(uuids))
                     }
                     it("should receive event in return") {
-                        expect(peripheralsObserver.events.count).to(equal(1))
+                        expect(peripheralsObserver.events.count).to(equal(2))
                     }
                     it("should retrieve next with peripherals table") {
                         expect(peripheralsObserver.events[0].value.element).toNot(beNil())

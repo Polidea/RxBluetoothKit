@@ -184,7 +184,7 @@ class RxCBCentralManager: RxCentralManagerType {
      Retrieve peripherals with specified identifiers.
 
      - parameter identifiers: List of identifiers of peripherals for which we are looking for.
-     - returns: Observable which emits peripherals with specified identifiers.
+     - returns: `Observable` which emits peripherals with specified identifiers.
      */
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
         return .just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map(RxCBPeripheral.init))

@@ -48,40 +48,40 @@ protocol RxPeripheralType {
     /// Peripheral's services
     var services: [RxServiceType]? { get }
 
-    /// Observable which emits peripheral's name changes
+    /// `Observable` which emits peripheral's name changes
     var rx_didUpdateName: Observable<String?> { get }
 
-    /// Observable which emits when service's are modified
+    /// `Observable` which emits when service's are modified
     var rx_didModifyServices: Observable<([RxServiceType])> { get }
 
-    /// Observable which emits when RSSI was read
+    /// `Observable` which emits when RSSI was read
     var rx_didReadRSSI: Observable<(Int, Error?)> { get }
 
-    /// Observable which emits discovered serivices during discovery
+    /// `Observable` which emits discovered serivices during discovery
     var rx_didDiscoverServices: Observable<([RxServiceType]?, Error?)> { get }
 
-    /// Observable which emits service for which included services were discovered
+    /// `Observable` which emits service for which included services were discovered
     var rx_didDiscoverIncludedServicesForService: Observable<(RxServiceType, Error?)> { get }
 
-    /// Observable which emits service for which characteristics were discovered
+    /// `Observable` which emits service for which characteristics were discovered
     var rx_didDiscoverCharacteristicsForService: Observable<(RxServiceType, Error?)> { get }
 
-    /// Observable which emits characteristic which value has been updated
+    /// `Observable` which emits characteristic which value has been updated
     var rx_didUpdateValueForCharacteristic: Observable<(RxCharacteristicType, Error?)> { get }
 
-    /// Observable which emits characteristic for which value was written successfully
+    /// `Observable` which emits characteristic for which value was written successfully
     var rx_didWriteValueForCharacteristic: Observable<(RxCharacteristicType, Error?)> { get }
 
-    /// Observable which emits characteristic which notification value was successfully modified
+    /// `Observable` which emits characteristic which notification value was successfully modified
     var rx_didUpdateNotificationStateForCharacteristic: Observable<(RxCharacteristicType, Error?)> { get }
 
-    /// Observable which emits characteristic for which descriptors were discovered
+    /// `Observable` which emits characteristic for which descriptors were discovered
     var rx_didDiscoverDescriptorsForCharacteristic: Observable<(RxCharacteristicType, Error?)> { get }
 
-    /// Observable which emits descriptor which value was updated
+    /// `Observable` which emits descriptor which value was updated
     var rx_didUpdateValueForDescriptor: Observable<(RxDescriptorType, Error?)> { get }
 
-    /// Observable which emits descriptor which completed sucessfully its write operation
+    /// `Observable` which emits descriptor which completed sucessfully its write operation
     var rx_didWriteValueForDescriptor: Observable<(RxDescriptorType, Error?)> { get }
 
     /**

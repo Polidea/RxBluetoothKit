@@ -111,7 +111,7 @@ public class Peripheral {
      For more information look into `BluetoothManager.connectToPeripheral(_:options:)` because this method calls it directly.
      - Parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
      - Parameter options: Dictionary to customise the behaviour of connection.
-     - Returns: Observation which emits next event after connection is established
+     - Returns: `Observable` which emits next event after connection is established
      */
     public func connect(options: [String: AnyObject]? = nil) -> Single<Peripheral> {
         return manager.connect(self, options: options)
@@ -121,7 +121,7 @@ public class Peripheral {
      Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
      that physical connection will be closed immediately as well and all pending commands will not be executed.
 
-     - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
+     - returns: `Single` which emits next event when peripheral successfully cancelled connection.
      */
     public func cancelConnection() -> Single<Peripheral> {
         return manager.cancelPeripheralConnection(self)
@@ -134,8 +134,7 @@ public class Peripheral {
      Next on returned `Observable` is emitted only when all of the requested services are discovered.
 
      - Parameter serviceUUIDs: An array of [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) object represents a UUID that identifies the type of service you want to discover.
-     - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` that emits `Next` with array of `Service` instances, once they're discovered.
      */
     public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Single<[Service]> {
         if let identifiers = serviceUUIDs, !identifiers.isEmpty,
@@ -172,8 +171,7 @@ public class Peripheral {
      - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
      included services will be discovered. If you'll pass empty array - none of them will be discovered.
      - Parameter forService: Service of which included services should be discovered.
-     - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` that emits `Next` with array of `Service` instances, once they're discovered.
      */
     public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: Service) -> Single<[Service]> {
         if let identifiers = includedServiceUUIDs, !identifiers.isEmpty,
@@ -213,7 +211,7 @@ public class Peripheral {
      - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the
      characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
      - Parameter service: Service of which characteristics should be discovered.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` that emits `Next` with array of `Characteristic` instances, once they're discovered.
      */
     public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: Service) -> Single<[Characteristic]> {
         if let identifiers = characteristicUUIDs, !identifiers.isEmpty,
@@ -327,8 +325,7 @@ public class Peripheral {
      Function that triggers read of current value of the `Characteristic` instance.
      Read is called after subscription to `Observable` is made.
      - Parameter characteristic: `Characteristic` to read value from
-     - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
-     `.Complete` is emitted.
+     - Returns: `Single` which emits `Next` with given characteristic when value is ready to read.
      */
     public func readValue(for characteristic: Characteristic) -> Single<Characteristic> {
         let observable = self.monitorValueUpdate(for: characteristic).take(1)
@@ -347,8 +344,7 @@ public class Peripheral {
      For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
      - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
      - parameter forCharacteristic: Characterististic of which notification state needs to be changed
-     - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
-     is emitted
+     - returns: `Single` which emits `Next` with Characteristic that state was changed.
      */
     public func setNotifyValue(_ enabled: Bool,
                                for characteristic: Characteristic) -> Single<Characteristic> {
@@ -372,7 +368,7 @@ public class Peripheral {
      Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
      Notification is set after subscribtion to `Observable` is made.
      - parameter characteristic: Characterististic on which notification should be made.
-     - returns: Observable which emits `Next`, when characteristic value is updated.
+     - returns: `Observable` which emits `Next`, when characteristic value is updated.
      This is **infinite** stream of values.
      */
     public func setNotificationAndMonitorUpdates(for characteristic: Characteristic)
@@ -393,8 +389,7 @@ public class Peripheral {
      Function that triggers descriptors discovery for characteristic
      If all of the descriptors are already discovered - these are returned without doing any underlying Bluetooth operations.
      - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
-     - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` that emits `Next` with array of `Descriptor` instances, once they're discovered.
      */
     public func discoverDescriptors(for characteristic: Characteristic) -> Single<[Descriptor]> {
         if let descriptors = characteristic.descriptors {
@@ -460,8 +455,7 @@ public class Peripheral {
      Function that triggers read of current value of the `Descriptor` instance.
      Read is called after subscription to `Observable` is made.
      - Parameter descriptor: `Descriptor` to read value from
-     - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
-     `.Complete` is emitted.
+     - Returns: `Single` which emits `Next` with given descriptor when value is ready to read.
      */
     public func readValue(for descriptor: Descriptor) -> Single<Descriptor> {
         let observable = self.monitorValueUpdate(for: descriptor).take(1)
@@ -476,8 +470,7 @@ public class Peripheral {
      Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
      - Parameter data: `Data` that'll be written to `Descriptor` instance
      - Parameter descriptor: `Descriptor` instance to write value to.
-     - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
-     Immediately after that `.Complete` is emitted.
+     - Returns: `Single` that emits `Next` with `Descriptor` instance, once value is written successfully.
      */
     public func writeValue(_ data: Data, for descriptor: Descriptor) -> Single<Descriptor> {
         let monitorWrite = self.monitorWrite(for: descriptor).take(1)
@@ -500,8 +493,8 @@ public class Peripheral {
 
     /**
      Function that merges given observable with error streams of invalid Central Manager states.
-     - parameter observable: observation to be transformed
-     - returns: Source observable which listens on state chnage errors as well
+     - parameter observable: `Observable` to be transformed
+     - returns: Source `Observable` which listens on state chnage errors as well
      */
     func ensureValidPeripheralState<T>(for observable: Observable<T>) -> Observable<T> {
         return Observable<T>.absorb(
@@ -512,8 +505,8 @@ public class Peripheral {
 
     /**
      Function that triggers read of `Peripheral` RSSI value. Read is called after subscription to `Observable` is made.
-     - returns: Observable that emits tuple: `(Peripheral, Int)` once new RSSI value is read, and just after that
-     `.Complete` event. `Int` is new RSSI value, `Peripheral` is returned to allow easier chaining.
+     - returns: `Single` that emits tuple: `(Peripheral, Int)` once new RSSI value is read.
+     `Int` is new RSSI value, `Peripheral` is returned to allow easier chaining.
      */
     public func readRSSI() -> Single<(Peripheral, Int)> {
         let observable = peripheral.rx_didReadRSSI
@@ -533,7 +526,7 @@ public class Peripheral {
 
     /**
      Function that allow user to monitor incoming `name` property changes of `Peripheral` instance.
-     - returns: Observable that emits tuples: `(Peripheral, String?)` when name has changed.
+     - returns: `Observable` that emits tuples: `(Peripheral, String?)` when name has changed.
         It's `optional String` because peripheral could also lost his name.
         It's **infinite** stream of values, so `.Complete` is never emitted.
      */
@@ -547,7 +540,7 @@ public class Peripheral {
      In case you're interested what exact changes might occur - please refer to
      [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
 
-     - returns: Observable that emits tuples: `(Peripheral, [Service])` when services were modified.
+     - returns: `Observable` that emits tuples: `(Peripheral, [Service])` when services were modified.
         It's **infinite** stream of values, so `.Complete` is never emitted.
      */
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {

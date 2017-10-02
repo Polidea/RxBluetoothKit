@@ -236,7 +236,7 @@ public class BluetoothManager {
 
      - parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
      - parameter options: Dictionary to customise the behaviour of connection.
-     - returns: Observable which emits next and complete events after connection is established.
+     - returns: `Single` which emits next event after connection is established.
      */
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
         -> Single<Peripheral> {
@@ -286,11 +286,11 @@ public class BluetoothManager {
 
      - parameter peripheral: The `Peripheral` to which the `BluetoothManager` is either trying to
      connect or has already connected.
-     - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
+     - returns: `Single` which emits next event when peripheral successfully cancelled connection.
      */
     public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Single<Peripheral> {
         let observable = Observable<Peripheral>.create { observer in
-            let disposable = self.monitorDisconnection(for: peripheral).take(1).subscribe(observer)
+            let disposable = self.monitorDisconnection(for: peripheral).subscribe(observer)
             self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
@@ -304,10 +304,10 @@ public class BluetoothManager {
      all of the specified `Service`'s UUIDs.
 
      - parameter serviceUUIDs: A list of `Service` UUIDs
-     - returns: Observable which emits retrieved `Peripheral`s. They are in connected state and contain all of the
-     `Service`s with UUIDs specified in the `serviceUUIDs` parameter. Just after that complete event is emitted
+     - returns: `Single` which emits retrieved `Peripheral`s. They are in connected state and contain all of the
+     `Service`s with UUIDs specified in the `serviceUUIDs` parameter.
      */
-    public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[Peripheral]> {
+    public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Single<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {
             return self.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
                 .map { (peripheralTable: [RxPeripheralType]) ->
@@ -316,16 +316,16 @@ public class BluetoothManager {
                 }
             }
         }
-        return ensure(.poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     /**
      Returns observable list of `Peripheral`s by their identifiers which are known to `BluetoothManager`.
 
      - parameter identifiers: List of `Peripheral`'s identifiers which should be retrieved.
-     - returns: Observable which emits next and complete events when list of `Peripheral`s are retrieved.
+     - returns: `Single` which emits next event when list of `Peripheral`s are retrieved.
      */
-    public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[Peripheral]> {
+    public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Single<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred {
             return self.centralManager.retrievePeripherals(withIdentifiers: identifiers)
                 .map { (peripheralTable: [RxPeripheralType]) ->
@@ -334,7 +334,7 @@ public class BluetoothManager {
                 }
             }
         }
-        return ensure(.poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Internal functions
