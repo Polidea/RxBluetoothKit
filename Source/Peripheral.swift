@@ -26,10 +26,8 @@ import CoreBluetooth
 
 // swiftlint:disable line_length
 
-/**
- Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
- allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
- */
+/// Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
+/// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 public class Peripheral {
     public let manager: BluetoothManager
 
@@ -41,9 +39,7 @@ public class Peripheral {
     /// Implementation of peripheral
     let peripheral: RxPeripheralType
 
-    /**
-     Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
-     */
+    ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
     public var rx_isConnected: Observable<Bool> {
         return .deferred {
             let disconnected = self.manager.monitorDisconnection(for: self).map { _ in false }
@@ -52,39 +48,29 @@ public class Peripheral {
         }
     }
 
-    /**
-     Value indicating if peripheral is currently in connected state.
-     */
+    /// Value indicating if peripheral is currently in connected state.
     public var isConnected: Bool {
         return peripheral.state == .connected
     }
 
-    /**
-     Underlying `CBPeripheral` instance
-     */
+    /// Underlying `CBPeripheral` instance
     public var cbPeripheral: CBPeripheral {
         return peripheral.peripheral
     }
 
-    /**
-     Current state of `Peripheral` instance described by [CBPeripheralState](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
-
-     - returns: Current state of `Peripheral` as `CBPeripheralState`.
-     */
+    ///  Current state of `Peripheral` instance described by [CBPeripheralState](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
+    ///  - returns: Current state of `Peripheral` as `CBPeripheralState`.
     public var state: CBPeripheralState {
         return peripheral.state
     }
 
-    /**
-     Current name of `Peripheral` instance. Analogous to   [name](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
-     */
+    /// Current name of `Peripheral` instance. Analogous to   [name](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
     public var name: String? {
         return peripheral.name
     }
 
-    /**
-     Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
-     */
+    /// Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
+
     public var identifier: UUID {
         return peripheral.identifier
     }
