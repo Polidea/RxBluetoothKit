@@ -96,9 +96,9 @@ class BluetoothManagerSpec: QuickSpec {
                 }
 
                 for stateWithError in statesWithErrors {
-                describe("error propagation in wrong bluetooth state: \(stateWithError.0)") {
-                    var state: BluetoothState!
-                    var error: BluetoothError!
+                    describe("error propagation in wrong bluetooth state: \(stateWithError.0)") {
+                        var state: BluetoothState!
+                        var error: BluetoothError!
                         beforeEach {
                             state = stateWithError.0
                             error = stateWithError.1
@@ -140,7 +140,6 @@ class BluetoothManagerSpec: QuickSpec {
                                     expectError(event: peripheralsObserver.events[0].value, errorType: error)
                                 }
                             }
-
                         }
                     }
                 }
@@ -153,7 +152,7 @@ class BluetoothManagerSpec: QuickSpec {
 
                     let scans: [Recorded<Event<[RxPeripheralType]>>] = [
                         Recorded(time: 245, value: .next([fakePeripheral])),
-                        Recorded(time: 245, value: .completed)
+                        Recorded(time: 245, value: .completed),
                     ]
                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesResult = testScheduler.createHotObservable(scans).asObservable()
                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesTO = testScheduler.createObserver([CBUUID].self)
@@ -193,9 +192,9 @@ class BluetoothManagerSpec: QuickSpec {
                 }
 
                 for stateWithError in statesWithErrors {
-                describe("error propagation") {
-                    var state: BluetoothState!
-                    var error: BluetoothError!
+                    describe("error propagation") {
+                        var state: BluetoothState!
+                        var error: BluetoothError!
                         beforeEach {
                             state = stateWithError.0
                             error = stateWithError.1
@@ -220,10 +219,10 @@ class BluetoothManagerSpec: QuickSpec {
                             }
                             context("got wrong state after retrieve peripherals function was called") {
                                 beforeEach {
-                                    
+
                                     let events: [Recorded<Event<[RxPeripheralType]>>] = [
                                         Recorded(time: 255, value: .next([fakePeripheral])),
-                                        Recorded(time: 255, value: .completed)
+                                        Recorded(time: 255, value: .completed),
                                     ]
                                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesResult = testScheduler.createHotObservable(events).asObservable()
 
@@ -253,7 +252,6 @@ class BluetoothManagerSpec: QuickSpec {
             var peripheral: Peripheral!
             beforeEach {
                 peripheral = Peripheral(manager: manager, peripheral: fakePeripheral)
-
             }
 
             describe("error propagation") {
@@ -267,8 +265,8 @@ class BluetoothManagerSpec: QuickSpec {
                 describe("connecting to peripheral") {
                     for stateWithError in statesWithErrors {
 
-                    context("while bluetooth is \(stateWithError.0)") {
-                        var connectObserver: TestableObserver<(RxPeripheralType, [String:Any]?)>!
+                        context("while bluetooth is \(stateWithError.0)") {
+                            var connectObserver: TestableObserver<(RxPeripheralType, [String: Any]?)>!
                             beforeEach {
                                 fakePeripheral.state = .disconnected
                                 fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: Any]?).self)
@@ -320,7 +318,7 @@ class BluetoothManagerSpec: QuickSpec {
                     context("while bluetooth is on") {
                         var connectionTime: Int!
                         var peripheralObserver: ScheduledObservable<Peripheral>!
-                        var connectObserver: TestableObserver<(RxPeripheralType, [String:Any]?)>!
+                        var connectObserver: TestableObserver<(RxPeripheralType, [String: Any]?)>!
 
                         beforeEach {
                             fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: Any]?).self)
@@ -341,12 +339,12 @@ class BluetoothManagerSpec: QuickSpec {
                             beforeEach {
                                 testScheduler.scheduleAt(connectionTime, action: { fakePeripheral.state = CBPeripheralState.connected })
                                 fakeCentralManager.rx_didConnectPeripheral =
-                                        testScheduler.createHotObservable([Recorded(time: connectionTime, value: .next(peripheral.peripheral))]).asObservable()
+                                    testScheduler.createHotObservable([Recorded(time: connectionTime, value: .next(peripheral.peripheral))]).asObservable()
 
                                 testScheduler.advanceTo(connectionTime + 1)
                             }
 
-                            //Common to both success and fail end...
+                            // Common to both success and fail end...
                             it("should call connect") {
                                 expect(connectObserver.events.count).to(equal(1))
                             }
@@ -354,7 +352,6 @@ class BluetoothManagerSpec: QuickSpec {
                                 let (peripheralToConnect, _) = connectObserver.events[0].value.element!
                                 expect(peripheralToConnect == peripheral.peripheral).to(beTrue())
                             }
-
 
                             describe("connected peripheral") {
                                 var peripheralConnected: Peripheral?
@@ -370,13 +367,12 @@ class BluetoothManagerSpec: QuickSpec {
                                 it("should be the same as passed") {
                                     expect(peripheralConnected!.peripheral == peripheral.peripheral).to(beTrue())
                                 }
-
                             }
                         }
                         context("after subscribe with connection failed") {
                             beforeEach {
                                 fakeCentralManager.rx_didConnectPeripheral =
-                                        testScheduler.createHotObservable([Recorded(time: connectionTime, value: .next(peripheral.peripheral))]).asObservable()
+                                    testScheduler.createHotObservable([Recorded(time: connectionTime, value: .next(peripheral.peripheral))]).asObservable()
                                 fakeCentralManager.rx_didFailToConnectPeripheral = .just((peripheral.peripheral, NSError(domain: "Error", code: 200, userInfo: nil)))
                                 testScheduler.advanceTo(250)
                             }
@@ -403,7 +399,7 @@ class BluetoothManagerSpec: QuickSpec {
                 }
                 describe("disconnecting from peripheral") {
                     for stateWithError in statesWithErrors {
-                    context("while bluetooth is in state \(stateWithError)") {
+                        context("while bluetooth is in state \(stateWithError)") {
                             beforeEach {
                                 fakeCentralManager.cancelPeripheralConnectionTO = testScheduler.createObserver(RxPeripheralType.self)
                                 cancelConnectionObserver = fakeCentralManager.cancelPeripheralConnectionTO
@@ -447,7 +443,6 @@ class BluetoothManagerSpec: QuickSpec {
                     context("while bluetooth is on") {
                         var peripheralObserver: ScheduledObservable<Peripheral>!
                         var disconnectObserver: TestableObserver<RxPeripheralType>!
-
 
                         beforeEach {
                             fakeCentralManager.cancelPeripheralConnectionTO = testScheduler.createObserver(RxPeripheralType.self)
@@ -509,5 +504,3 @@ class BluetoothManagerSpec: QuickSpec {
         }
     }
 }
-
-

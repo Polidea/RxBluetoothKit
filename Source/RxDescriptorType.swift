@@ -23,9 +23,7 @@
 import Foundation
 import CoreBluetooth
 
-/**
- Protocol which wraps characteristic's descriptor for bluetooth devices.
- */
+/// Protocol which wraps characteristic's descriptor for bluetooth devices.
 protocol RxDescriptorType {
 
     /// Unique identifier of an object. Should be removed in 4.0

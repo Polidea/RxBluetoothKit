@@ -27,7 +27,7 @@ import RxSwift
 // swiftlint:disable line_length
 
 /**
- Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [`CBService`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
+ Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBService](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
  */
 public class Service {
     let service: RxServiceType

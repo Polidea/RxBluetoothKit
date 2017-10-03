@@ -30,7 +30,7 @@ class FakeDescriptor: RxDescriptorType {
     var objectId: UInt = 0
     var uuid = CBUUID()
     var characteristic: RxCharacteristicType
-    var value: Any? = nil
+    var value: Any?
     init(characteristic: RxCharacteristicType) {
         self.characteristic = characteristic
     }

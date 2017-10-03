@@ -21,14 +21,14 @@ extension Data {
         }
         return NSString(string: hexString) as String
     }
-    
+
     // Return Data represented by this hexadecimal string
     static func fromHexString(string: String) -> Data {
         var data = Data(capacity: string.characters.count / 2)
-        
+
         do {
             let regex = try NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
-            regex.enumerateMatches(in: string, options: [], range: NSMakeRange(0, string.characters.count)) { match, flags, stop in
+            regex.enumerateMatches(in: string, options: [], range: NSMakeRange(0, string.characters.count)) { match, _, _ in
                 if let _match = match {
                     let byteString = (string as NSString).substring(with: _match.range)
                     if var num = UInt8(byteString, radix: 16) {
@@ -37,9 +37,8 @@ extension Data {
                 }
             }
         } catch {
-        
         }
-        
+
         return data
     }
 }

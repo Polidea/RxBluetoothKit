@@ -28,7 +28,6 @@ import RxTest
 import RxSwift
 import CoreBluetooth
 
-
 class PeripheralServicesSpec: QuickSpec {
 
     override func spec() {
@@ -81,23 +80,23 @@ class PeripheralServicesSpec: QuickSpec {
                             let servicesArray: [RxServiceType]? = [fakeService]
                             let event = Event<([RxServiceType]?, Error?)>.next((servicesArray, nil))
                             let discoveredServices: [Recorded<Event<([RxServiceType]?, Error?)>>] = [Recorded(time: 240,
-                                value: event)]
+                                                                                                              value: event)]
                             fakePeripheral.rx_didDiscoverServices = testScheduler.createHotObservable(discoveredServices).asObservable()
                             testScheduler.advanceTo(230)
                             fakePeripheral.services = [fakeService]
                             testScheduler.advanceTo(250)
                         }
-                        
+
                         it("should discover") {
                             expect(discoverServicesMethodObserver.events.count).to(equal(1))
                         }
-                        
+
                         it("should discover with proper uuids") {
                             expect(discoverServicesMethodObserver.events[0].value.element!).to(equal(cbuuids))
                         }
                         describe("service") {
                             var servicesDiscovered: [Service]?
-                            
+
                             beforeEach {
                                 if let s = servicesObserver.events.first?.value.element {
                                     servicesDiscovered = s
@@ -125,7 +124,6 @@ class PeripheralServicesSpec: QuickSpec {
                             }
                         }
                     }
-
                 }
 
                 context("when bluetooth failed/unauthorized/restricted") {
@@ -254,7 +252,7 @@ class PeripheralServicesSpec: QuickSpec {
                         }
                         describe("discovered service") {
                             var servicesDiscovered: [Service]?
-                            
+
                             beforeEach {
                                 if let s = servicesObserver.events.first?.value.element {
                                     servicesDiscovered = s
@@ -309,7 +307,7 @@ class PeripheralServicesSpec: QuickSpec {
                                     expectError(event: servicesObserver.events[0].value, errorType: error)
                                 }
                             }
-                            
+
                             context("when wrong state after calling") {
                                 beforeEach {
                                     fakeCentralManager.state = .poweredOn

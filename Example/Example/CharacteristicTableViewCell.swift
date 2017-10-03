@@ -10,7 +10,6 @@ import UIKit
 
 class CharacteristicTableViewCell: UITableViewCell {
 
-
     @IBOutlet weak var UUIDLabel: UILabel!
 
     @IBOutlet weak var valueLabel: UILabel!

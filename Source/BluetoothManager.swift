@@ -27,21 +27,23 @@ import CoreBluetooth
 // swiftlint:disable line_length
 
 /**
- BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
- discover, connect to remote peripheral devices and more. It's using thin layer behind `RxCentralManagerType` protocol which is
- implemented by `RxCBCentralManager` and should not be used directly by the user of a RxBluetoothKit library.
+ * BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
+ * discover, connect to remote peripheral devices and more. It's using thin layer behind `RxCentralManagerType` protocol which is
+ * implemented by `RxCBCentralManager` and should not be used directly by the user of a RxBluetoothKit library.
 
- You can start using this class by discovering available services of nearby peripherals. Before calling any
- public `BluetoothManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
- by calling and observing returned value of `monitorState()` and then chaining it with `scanForPeripherals(_:options:)`:
+ * You can start using this class by discovering available services of nearby peripherals. Before calling any
+ * public `BluetoothManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
+ * by calling and observing returned value of `monitorState()` and then chaining it with `scanForPeripherals(_:options:)`:
 
- bluetoothManager.rx_state
- .filter { $0 == .PoweredOn }
- .take(1)
- .flatMap { manager.scanForPeripherals(nil) }
+ ```
+ *  bluetoothManager.rx_state
+ *     .filter { $0 == .PoweredOn }
+ *     .take(1)
+ *     .flatMap { manager.scanForPeripherals(nil) }
+ ```
 
- As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
- peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other operations.
+ * As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
+ * peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other operations.
 
  - seealso: `Peripheral`
  */
@@ -96,7 +98,7 @@ public class BluetoothManager {
      - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
 
      - parameter options: An optional dictionary containing initialization options for a central manager.
-     For more info about it please refer to [`Central Manager initialization options`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
+     For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
      */
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
@@ -106,34 +108,33 @@ public class BluetoothManager {
 
     // MARK: Scanning
 
-    /**
-     Scans for `Peripheral`s after subscription to returned observable. First parameter `serviceUUIDs` is
-     an array of `Service` UUIDs which needs to be implemented by a peripheral to be discovered. If user don't want to
-     filter any peripherals, `nil` can be used instead. Additionally dictionary of
-     [`CBCentralManager` specific options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Scanning_Options)
-     can be passed to allow further customisation.
-
-     Scans by default are infinite streams of `ScannedPeripheral` structures which need to be stopped by the user. For
-     example this can be done by limiting scanning to certain number of peripherals or time:
-
-     bluetoothManager.scanForPeripherals(withServices: nil)
-     .timeout(3.0, timeoutScheduler)
-     .take(2)
-
-     If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
-     shared. Otherwise scan is queued on thread specified in `init(centralManager:queueScheduler:)` and will be executed
-     when other scans finished with complete/error event or were unsubscribed.
-
-     As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
-     peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other
-     operations.
-
-     - seealso: `Peripheral`
-
-     - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
-     - parameter options: Optional scanning options.
-     - returns: Infinite stream of scanned peripherals.
-     */
+    ///     Scans for `Peripheral`s after subscription to returned observable. First parameter `serviceUUIDs` is
+    ///     an array of `Service` UUIDs which needs to be implemented by a peripheral to be discovered. If user don't want to
+    ///     filter any peripherals, `nil` can be used instead. Additionally dictionary of
+    ///     [CBCentralManager specific options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Scanning_Options)
+    ///     can be passed to allow further customisation.
+    ///
+    ///    Scans by default are infinite streams of `ScannedPeripheral` structures which need to be stopped by the user. For
+    ///     example this can be done by limiting scanning to certain number of peripherals or time:
+    ///     ```
+    ///     bluetoothManager.scanForPeripherals(withServices: nil)
+    ///         .timeout(3.0, timeoutScheduler)
+    ///         .take(2)
+    ///     ```
+    ///
+    ///     If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
+    ///     shared. Otherwise scan is queued on thread specified in `init(centralManager:queueScheduler:)` and will be executed
+    ///     when other scans finished with complete/error event or were unsubscribed.
+    ///
+    ///     As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
+    ///     peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other
+    ///     operations.
+    ///
+    ///     - seealso: `Peripheral`
+    ///
+    ///     - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
+    ///     - parameter options: Optional scanning options.
+    ///     - returns: Infinite stream of scanned peripherals.
     public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
         -> Observable<ScannedPeripheral> {
 
@@ -203,7 +204,7 @@ public class BluetoothManager {
     // MARK: State
 
     /**
-     Continuous state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to  [`CBManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+     Continuous state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
 
      - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
      whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
@@ -215,7 +216,7 @@ public class BluetoothManager {
     }
 
     /**
-     Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [`CBManagerState`](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+     Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
 
      - returns: Current state of `BluetoothManager` as `BluetoothState`.
      */

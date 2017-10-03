@@ -67,7 +67,7 @@ public class Peripheral {
     }
 
     /**
-     Current state of `Peripheral` instance described by [`CBPeripheralState`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
+     Current state of `Peripheral` instance described by [CBPeripheralState](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
 
      - returns: Current state of `Peripheral` as `CBPeripheralState`.
      */
@@ -76,7 +76,7 @@ public class Peripheral {
     }
 
     /**
-     Current name of `Peripheral` instance. Analogous to   [`name`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
+     Current name of `Peripheral` instance. Analogous to   [name](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/name) of `CBPeripheral`.
      */
     public var name: String? {
         return peripheral.name
@@ -98,7 +98,7 @@ public class Peripheral {
     }
 
     /**
-     A list of services that have been discovered. Analogous to   [`services`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
+     A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
      */
     public var services: [Service]? {
         return peripheral.services?.map {

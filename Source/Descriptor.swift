@@ -26,7 +26,7 @@ import RxSwift
 
 /**
  Descriptor is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with
- [`CBDescriptor`](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBDescriptor_Class/)
+ [CBDescriptor](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBDescriptor_Class/)
  Descriptors provide more information about a characteristic’s value.
  */
 public class Descriptor {
