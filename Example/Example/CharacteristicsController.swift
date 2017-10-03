@@ -40,14 +40,14 @@ class CharacteristicsController: UIViewController {
             .subscribe(onNext: { characteristics in
                 self.characteristicsList = characteristics
                 self.characteristicsTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     fileprivate func setNotificationsState(enabled: Bool, characteristic: Characteristic) {
         characteristic.setNotifyValue(enabled)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     fileprivate func showWriteFieldForCharacteristic(characteristic: Characteristic) {
@@ -73,14 +73,14 @@ class CharacteristicsController: UIViewController {
         characteristic.writeValue(hexadecimalData as Data, type: type)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     fileprivate func triggerValueRead(for characteristic: Characteristic) {
         characteristic.readValue()
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 }
 

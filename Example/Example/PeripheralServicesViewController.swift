@@ -51,7 +51,7 @@ class PeripheralServicesViewController: UIViewController {
                 self.downloadServices(for: $0)
                 }, onError: { [weak self] error in
                     self?.activityIndicatorView.stopAnimating()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         activityIndicatorView.isHidden = false
         activityIndicatorView.startAnimating()
     }
@@ -62,7 +62,7 @@ class PeripheralServicesViewController: UIViewController {
                 let alert = UIAlertController(title: "Disconnected!", message: "Peripheral Disconnected", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self?.present(alert, animated: true, completion: nil)
-        }).addDisposableTo(disposeBag)
+          }).disposed(by: disposeBag)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -80,7 +80,7 @@ class PeripheralServicesViewController: UIViewController {
             .subscribe(onNext: { services in
                 self.servicesList = services
                 self.servicesTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 }
 
