@@ -135,90 +135,74 @@ extension Peripheral {
             .flatMap(readValue)
     }
 
-    /**
-     Function that triggers set of notification state of the `Characteristic`.
-     This change is called after subscribtion to `Observable` is made.
-     - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
-     For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
-     - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
-     - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
-     - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete`
-     is emitted
-     */
+    /// Function that triggers set of notification state of the `Characteristic`.
+    /// This change is called after subscribtion to `Observable` is made.
+    /// - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
+    /// For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
+    /// - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
+    /// - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
+    /// - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete` is emitted
     public func setNotifyValue(_ enabled: Bool, for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
             .flatMap { self.setNotifyValue(enabled, for: $0) }
     }
 
-    /**
-     Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
-     Notification is set after subscribtion to `Observable` is made.
-     - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
-     - returns: Observable which emits `Next`, when characteristic value is updated.
-     This is **infinite** stream of values.
-     */
+    /// Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
+    /// Notification is set after subscribtion to `Observable` is made.
+    /// - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
+    /// - returns: Observable which emits `Next`, when characteristic value is updated.
+    /// This is **infinite** stream of values.
     public func setNotificationAndMonitorUpdates(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
             .flatMap(setNotificationAndMonitorUpdates)
     }
 
-    /**
-     Function that triggers descriptors discovery for characteristic
-     - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
-     - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-     - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
-     Immediately after that `.Complete` is emitted.
-     */
+    /// Function that triggers descriptors discovery for characteristic
+    /// - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
+    /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+    /// - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
+    /// Immediately after that `.Complete` is emitted.
     public func discoverDescriptors(for identifier: CharacteristicIdentifier) ->
         Observable<[Descriptor]> {
         return characteristic(with: identifier)
             .flatMap(discoverDescriptors)
     }
 
-    /**
-     Function that allow to monitor writes that happened for descriptor.
-     - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-     - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
-     It's **infinite** stream, so `.Complete` is never called.
-     */
+    /// Function that allow to monitor writes that happened for descriptor.
+    /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+    /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
+    /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorWrite(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .flatMap(monitorWrite)
     }
 
-    /**
-     Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
-     - Parameter data: `Data` that'll be written to `Descriptor` instance
-     - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-     - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
-     Immediately after that `.Complete` is emitted.
-     */
+    /// Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
+    /// - Parameter data: `Data` that'll be written to `Descriptor` instance
+    /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+    /// - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
+    /// Immediately after that `.Complete` is emitted.
     public func writeValue(_ data: Data, for identifier: DescriptorIdentifier)
         -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .flatMap { self.writeValue(data, for: $0) }
     }
 
-    /**
-     Function that allow to monitor value updates for `Descriptor` instance.
-     - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-     - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
-     It's **infinite** stream, so `.Complete` is never called.
-     */
+    /// Function that allow to monitor value updates for `Descriptor` instance.
+    /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+    /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
+    /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorValueUpdate(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .flatMap(monitorValueUpdate)
     }
 
-    /**
-     Function that triggers read of current value of the `Descriptor` instance.
-     Read is called after subscription to `Observable` is made.
-     - Parameter descriptor: `Descriptor` to read value from
-     - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
-     `.Complete` is emitted.
-     */
+    /// Function that triggers read of current value of the `Descriptor` instance.
+    /// Read is called after subscription to `Observable` is made.
+    /// - Parameter descriptor: `Descriptor` to read value from
+    /// - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that `.Complete` is emitted.
     public func readValue(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .flatMap(readValue)

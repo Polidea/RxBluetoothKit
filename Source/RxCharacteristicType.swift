@@ -39,25 +39,10 @@ protocol RxCharacteristicType {
 
 extension Equatable where Self: RxCharacteristicType {}
 
-/**
- Characteristics are equal if their UUIDs are equal
-
- - parameter lhs: First characteristic to compare
- - parameter rhs: Second characteristic to compare
- - returns: True if characteristics are the same
- */
 func == (lhs: RxCharacteristicType, rhs: RxCharacteristicType) -> Bool {
     return lhs.isEqualTo(characteristic: rhs)
 }
 
-/**
- Function compares if two characteristic arrays are the same, which is true if
- both of them in sequence are equal and their size is the same.
-
- - parameter lhs: First array of characteristics to compare
- - parameter rhs: Second array of characteristics to compare
- - returns: True if both arrays contain same characteristics
- */
 func == (lhs: [RxCharacteristicType], rhs: [RxCharacteristicType]) -> Bool {
     return lhs.count == rhs.count && lhs.starts(with: rhs, by: ==)
 }
