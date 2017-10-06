@@ -23,7 +23,6 @@
 import Foundation
 import CoreBluetooth
 
-
 /// Convenience class which helps reading advertisement data
 public struct AdvertisementData {
     /// Advertisement data dictionary that contains all information advertised by peripheral.
@@ -44,7 +43,6 @@ public struct AdvertisementData {
     public var manufacturerData: Data? {
         return advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data
     }
-
 
     /// A dictionary containing service-specific advertisement data.
     /// The keys are CBUUID objects, representing CBService UUIDs. The values are Data objects,

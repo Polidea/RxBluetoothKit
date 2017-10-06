@@ -65,6 +65,7 @@ extension Peripheral {
                 }
         }
     }
+
     /// Function used to receive descriptor with given identifier. If it's available it's taken from cache.
     /// Otherwise - directly by `discoverDescriptor` call
     /// - Parameter identifier: Unique identifier of Descriptor, that has information

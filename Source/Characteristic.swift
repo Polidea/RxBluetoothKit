@@ -36,23 +36,28 @@ public class Characteristic {
     public var value: Data? {
         return characteristic.value
     }
+
     /// Unique identifier of an object. Should be removed in 4.0
     @available(*, deprecated)
     public var objectId: UInt {
         return characteristic.objectId
     }
+
     /// The Bluetooth UUID of the `Characteristic` instance.
     public var uuid: CBUUID {
         return characteristic.uuid
     }
+
     /// Flag which is set to true if characteristic is currently notifying
     public var isNotifying: Bool {
         return characteristic.isNotifying
     }
+
     /// Properties of characteristic. For more info about this refer to [CBCharacteristicProperties](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCharacteristic_Class/#//apple_ref/c/tdef/CBCharacteristicProperties)
     public var properties: CBCharacteristicProperties {
         return characteristic.properties
     }
+
     /// Value of this property is an array of `Descriptor` objects. They provide more detailed information about characteristics value.
     public var descriptors: [Descriptor]? {
         return characteristic.descriptors?.map { Descriptor(descriptor: $0, characteristic: self) }
@@ -77,7 +82,6 @@ public class Characteristic {
         return service.peripheral.monitorWrite(for: self)
     }
 
-
     /// Function that triggers write of data to characteristic. Write is called after subscribtion to `Observable` is made.
     /// Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType), so be sure to check this out before usage of the method.
     /// - parameter forCharacteristic: `Descriptor` instance to write value to.
@@ -94,14 +98,12 @@ public class Characteristic {
         return service.peripheral.writeValue(data, for: self, type: type)
     }
 
-
     /// Function that allow to monitor value updates for `Characteristic` instance.
     /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorValueUpdate() -> Observable<Characteristic> {
         return service.peripheral.monitorValueUpdate(for: self)
     }
-
 
     /// Function that triggers read of current value of the `Characteristic` instance.
     /// Read is called after subscription to `Observable` is made.
@@ -110,7 +112,6 @@ public class Characteristic {
     public func readValue() -> Observable<Characteristic> {
         return service.peripheral.readValue(for: self)
     }
-
 
     /// Function that triggers set of notification state of the `Characteristic`.
     /// This change is called after subscribtion to `Observable` is made.
