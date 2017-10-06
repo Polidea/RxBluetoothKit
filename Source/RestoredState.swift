@@ -23,33 +23,25 @@
 import Foundation
 import CoreBluetooth
 
-/**
- Convenience class which helps reading state of restored BluetoothManager
- */
 #if os(iOS)
+    /// Convenience class which helps reading state of restored BluetoothManager.
     public struct RestoredState {
 
-        /**
-         Restored state dictionary
-         */
+        /// Restored state dictionary.
         public let restoredStateData: [String: Any]
 
         public unowned let bluetoothManager: BluetoothManager
-        /**
-         Creates restored state information based on CoreBluetooth's dictionary
-         - parameter restoredState: Core Bluetooth's restored state data
-         - parameter bluetoothManager: `BluetoothManager` instance of which state has been restored.
-         */
+        /// Creates restored state information based on CoreBluetooth's dictionary
+        /// - parameter restoredStateDictionary: Core Bluetooth's restored state data
+        /// - parameter bluetoothManager: `BluetoothManager` instance of which state has been restored.
         init(restoredStateDictionary: [String: Any], bluetoothManager: BluetoothManager) {
             restoredStateData = restoredStateDictionary
             self.bluetoothManager = bluetoothManager
         }
 
-        /**
-         Array of `Peripheral` objects which have been restored.
-         These are peripherals that were connected to the central manager (or had a connection pending)
-         at the time the app was terminated by the system.
-         */
+        /// Array of `Peripheral` objects which have been restored.
+        /// These are peripherals that were connected to the central manager (or had a connection pending)
+        /// at the time the app was terminated by the system.
         public var peripherals: [Peripheral] {
             let objects = restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [AnyObject]
             guard let arrayOfAnyObjects = objects else { return [] }
@@ -58,18 +50,14 @@ import CoreBluetooth
                 .map { Peripheral(manager: bluetoothManager, peripheral: $0) }
         }
 
-        /**
-         Dictionary that contains all of the peripheral scan options that were being used
-         by the central manager at the time the app was terminated by the system.
-         */
+        /// Dictionary that contains all of the peripheral scan options that were being used
+        /// by the central manager at the time the app was terminated by the system.
         public var scanOptions: [String: AnyObject]? {
             return restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [String: AnyObject]
         }
 
-        /**
-         Array of `Service` objects which have been restored.
-         These are all the services the central manager was scanning for at the time the app was terminated by the system.
-         */
+        /// Array of `Service` objects which have been restored.
+        /// These are all the services the central manager was scanning for at the time the app was terminated by the system.
         public var services: [Service] {
             let objects = restoredStateData[CBCentralManagerRestoredStateScanServicesKey] as? [AnyObject]
             guard let arrayOfAnyObjects = objects else { return [] }

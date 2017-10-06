@@ -118,13 +118,7 @@ extension BluetoothError {
 extension BluetoothError: Equatable {}
 
 // swiftlint:disable cyclomatic_complexity
-/**
- Compares two Bluetooth erros if they are the same.
 
- - parameter lhs: First bluetooth error
- - parameter rhs: Second bluetooth error
- - returns: True if both bluetooth errors are the same
- */
 public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     switch (lhs, rhs) {
     case (.bluetoothUnsupported, .bluetoothUnsupported): return true
