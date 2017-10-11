@@ -28,16 +28,16 @@ import RxSwift
 import CoreBluetooth
 import RxBluetoothKit
 
-//Helps
+// Helps
 final class Box<T> {
     let value: T
-    
+
     init(value: T) {
         self.value = value
     }
 }
 
-func expectError<ErrorType : Equatable, Element>(event: Event<Element>, errorType: ErrorType, file: String = #file, line: UInt = #line) {
+func expectError<ErrorType: Equatable, Element>(event: Event<Element>, errorType: ErrorType, file: String = #file, line: UInt = #line) {
     expect(event.isStopEvent, file: file, line: line).to(beTrue())
     expect(event.error, file: file, line: line).toNot(beNil())
     expect(event.error is ErrorType, file: file, line: line).to(beTrue())
@@ -46,76 +46,76 @@ func expectError<ErrorType : Equatable, Element>(event: Event<Element>, errorTyp
 
 extension TestScheduler {
     func scheduleObservable<Element>(time: ObservableScheduleTimes = ObservableScheduleTimes(), create: @escaping () -> Observable<Element>) -> ScheduledObservable<Element> {
-        var source : Observable<Element>? = nil
-        var subscription : Disposable? = nil
+        var source: Observable<Element>?
+        var subscription: Disposable?
         let observer = createObserver(Element.self)
-        
-        _ = self.scheduleAbsoluteVirtual((), time: time.createTime) {
+
+        _ = scheduleAbsoluteVirtual((), time: time.createTime) {
             source = create()
             return Disposables.create()
         }
-        
-        _ = self.scheduleAbsoluteVirtual((), time: time.subscribeTime) {
+
+        _ = scheduleAbsoluteVirtual((), time: time.subscribeTime) {
             subscription = source!.subscribe(observer)
             return Disposables.create()
         }
-        
-        _ = self.scheduleAbsoluteVirtual((), time: time.disposeTime) {
+
+        _ = scheduleAbsoluteVirtual((), time: time.disposeTime) {
             subscription!.dispose()
             return Disposables.create()
         }
-        
+
         return ScheduledObservable(observer: observer, time: time)
     }
 }
 
 struct ScheduledObservable<Element> {
-    let observer : TestableObserver<Element>
-    let time : ObservableScheduleTimes
-    
-    var createTime : Int {
+    let observer: TestableObserver<Element>
+    let time: ObservableScheduleTimes
+
+    var createTime: Int {
         return time.createTime
     }
-    
-    var subscribeTime : Int {
+
+    var subscribeTime: Int {
         return time.subscribeTime
     }
-    
-    var disposeTime : Int {
+
+    var disposeTime: Int {
         return time.disposeTime
     }
-    
-    var events : [Recorded<Event<Element>>] {
+
+    var events: [Recorded<Event<Element>>] {
         return observer.events
     }
 }
 
 struct ObservableScheduleTimes {
-    let createTime : Int
-    let subscribeTime : Int
-    let disposeTime : Int
-    
+    let createTime: Int
+    let subscribeTime: Int
+    let disposeTime: Int
+
     init(createTime: Int, subscribeTime: Int, disposeTime: Int) {
         self.createTime = createTime
         self.subscribeTime = subscribeTime
         self.disposeTime = disposeTime
     }
-    
+
     init() {
-        self.createTime = TestScheduler.Defaults.created
-        self.subscribeTime = TestScheduler.Defaults.subscribed
-        self.disposeTime = TestScheduler.Defaults.disposed
+        createTime = TestScheduler.Defaults.created
+        subscribeTime = TestScheduler.Defaults.subscribed
+        disposeTime = TestScheduler.Defaults.disposed
     }
 }
 
 extension ObservableScheduleTimes {
-    var before : ObservableScheduleTimes {
+    var before: ObservableScheduleTimes {
         return ObservableScheduleTimes(createTime: createTime - 1,
                                        subscribeTime: subscribeTime - 1,
                                        disposeTime: disposeTime - 1)
     }
-    
-    var after : ObservableScheduleTimes {
+
+    var after: ObservableScheduleTimes {
         return ObservableScheduleTimes(createTime: createTime + 1,
                                        subscribeTime: subscribeTime + 1,
                                        disposeTime: disposeTime + 1)
@@ -123,11 +123,13 @@ extension ObservableScheduleTimes {
 }
 
 extension BluetoothError {
-    static var invalidStateErrors : [(BluetoothState, BluetoothError)] {
-        return [(.poweredOff,   .bluetoothPoweredOff),
-                (.resetting,    .bluetoothResetting),
-                (.unauthorized, .bluetoothUnauthorized),
-                (.unknown,      .bluetoothInUnknownState),
-                (.unsupported,  .bluetoothUnsupported)]
+    static var invalidStateErrors: [(BluetoothState, BluetoothError)] {
+        return [
+            (.poweredOff, .bluetoothPoweredOff),
+            (.resetting, .bluetoothResetting),
+            (.unauthorized, .bluetoothUnauthorized),
+            (.unknown, .bluetoothInUnknownState),
+            (.unsupported, .bluetoothUnsupported),
+        ]
     }
 }

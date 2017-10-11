@@ -23,58 +23,26 @@
 import Foundation
 import CoreBluetooth
 
-/**
- Protocol which wraps characteristic for bluetooth devices.
- */
 protocol RxCharacteristicType {
 
-    /// Unique identifier of an object. Should be removed in 4.0
     @available(*, deprecated)
     var objectId: UInt { get }
-
-    /// Characteristic UUID
     var uuid: CBUUID { get }
-
-    /// Current characteristic value
     var value: Data? { get }
-
-    /// True if characteristic value changes are notified
     var isNotifying: Bool { get }
-
-    /// Characteristic properties
     var properties: CBCharacteristicProperties { get }
-
-    /// Characteristic descriptors
     var descriptors: [RxDescriptorType]? { get }
-
-    /// Characteristic service
     var service: RxServiceType { get }
 
-    /// True if the two characteristic objects considered equal
     func isEqualTo(characteristic: RxCharacteristicType) -> Bool
 }
 
 extension Equatable where Self: RxCharacteristicType {}
 
-/**
- Characteristics are equal if their UUIDs are equal
-
- - parameter lhs: First characteristic to compare
- - parameter rhs: Second characteristic to compare
- - returns: True if characteristics are the same
- */
 func == (lhs: RxCharacteristicType, rhs: RxCharacteristicType) -> Bool {
     return lhs.isEqualTo(characteristic: rhs)
 }
 
-/**
- Function compares if two characteristic arrays are the same, which is true if
- both of them in sequence are equal and their size is the same.
-
- - parameter lhs: First array of characteristics to compare
- - parameter rhs: Second array of characteristics to compare
- - returns: True if both arrays contain same characteristics
- */
 func == (lhs: [RxCharacteristicType], rhs: [RxCharacteristicType]) -> Bool {
     return lhs.count == rhs.count && lhs.starts(with: rhs, by: ==)
 }

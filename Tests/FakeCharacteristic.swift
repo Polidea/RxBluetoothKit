@@ -29,11 +29,11 @@ class FakeCharacteristic: RxCharacteristicType {
 
     var objectId: UInt = 0
     var uuid: CBUUID = CBUUID(string: "aabb")
-    var value: Data? = nil
+    var value: Data?
     var isNotifying: Bool = false
     var properties: CBCharacteristicProperties = .notify
 
-    var descriptors: [RxDescriptorType]? = nil
+    var descriptors: [RxDescriptorType]?
 
     let service: RxServiceType
 
@@ -44,5 +44,4 @@ class FakeCharacteristic: RxCharacteristicType {
     func isEqualTo(characteristic: RxCharacteristicType) -> Bool {
         return uuid == characteristic.uuid
     }
-
 }

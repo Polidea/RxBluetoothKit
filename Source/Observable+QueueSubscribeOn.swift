@@ -28,23 +28,20 @@ class SerializedSubscriptionQueue {
     let scheduler: ImmediateSchedulerType
     let lock = NSLock()
 
-    // First element on queue is curently subscribed and not completed
-    // observable. All others are queued for subscription when the first
-    // one is finished.
+    /// First element on queue is curently subscribed and not completed
+    /// observable. All others are queued for subscription when the first
+    /// one is finished.
     var queue: [DelayedObservableType] = []
 
-    /**
-     Creates a queue in which subscriptions will be executed sequentially after previous ones have finished.
-
-    - parameter scheduler: Scheduler on which subscribption will be scheduled
-    */
+    /// Creates a queue in which subscriptions will be executed sequentially after previous ones have finished.
+    /// - parameter scheduler: Scheduler on which subscribption will be scheduled
     init(scheduler: ImmediateSchedulerType) {
         self.scheduler = scheduler
     }
 
-    // Queue subscription for a queue. If observable is inserted
-    // into empty queue it's subscribed immediately. Otherwise
-    // it waits for completion from other observables.
+    /// Queue subscription for a queue. If observable is inserted
+    /// into empty queue it's subscribed immediately. Otherwise
+    /// it waits for completion from other observables.
     func queueSubscription(observable: DelayedObservableType) {
         lock.lock(); defer { lock.unlock() }
         let execute = queue.isEmpty
@@ -77,7 +74,6 @@ protocol DelayedObservableType: class {
 
 class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, DelayedObservableType {
     typealias E = Element
-    
 
     let source: Observable<Element>
     let queue: SerializedSubscriptionQueue
@@ -88,6 +84,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     var isDisposed: Bool {
         return _isDisposed == 1
     }
+
     var disposed: Bool {
         return _isDisposed == 1
     }
@@ -97,9 +94,9 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
         self.queue = queue
     }
 
-    // All event needs to be passed to original observer
-    // if subscription was not disposed. If stream is completed
-    // cleanup should occur.
+    /// All event needs to be passed to original observer
+    /// if subscription was not disposed. If stream is completed
+    /// cleanup should occur.
     func on(_ event: Event<Element>) {
         guard !isDisposed else { return }
         observer?.on(event)
@@ -108,25 +105,25 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
         }
     }
 
-    // Part of producer implementation. We need to make sure that we can optimize
-    // scheduling of a work (taken from RxSwift source code)
+    /// Part of producer implementation. We need to make sure that we can optimize
+    /// scheduling of a work (taken from RxSwift source code)
     func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         if !CurrentThreadScheduler.isScheduleRequired {
             return run(observer: observer)
         }
         return CurrentThreadScheduler.instance.schedule(()) { _ in
-            return self.run(observer: observer)
+            self.run(observer: observer)
         }
     }
 
-    // After original subscription we need to place it on queue for delayed execution if required.
+    /// After original subscription we need to place it on queue for delayed execution if required.
     func run<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
         self.observer = observer.asObserver()
         queue.queueSubscription(observable: self)
         return self
     }
 
-    // Delayed subscription must be called after original subscription so that observer will be stored by that time.
+    /// Delayed subscription must be called after original subscription so that observer will be stored by that time.
     func delayedSubscribe(on scheduler: ImmediateSchedulerType) {
         let cancelDisposable = SingleAssignmentDisposable()
         serialDisposable.disposable = cancelDisposable
@@ -136,9 +133,9 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
         })
     }
 
-    // When this observable is disposed we need to remove it from queue to let other
-    // observables to be able to subscribe. We are doing it on the same thread as
-    // subscription.
+    /// When this observable is disposed we need to remove it from queue to let other
+    /// observables to be able to subscribe. We are doing it on the same thread as
+    /// subscription.
     func dispose() {
         if OSAtomicCompareAndSwap32(0, 1, &_isDisposed) {
             _ = queue.scheduler.schedule(()) {
@@ -153,17 +150,14 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
 extension ObservableType {
 
     // swiftlint:disable missing_docs
-    /**
-     Store subscription in queue on which it will be executed sequentially. Subscribe method is called
-     only when there are no registered subscription on queue or last running observable completed its stream
-     or was disposed before that event.
-
-     - parameter queue: Queue on which scheduled subscriptions will be executed in sequentially.
-     - returns: The source which will be subscribe when queue is empty or previous observable was completed or disposed.
-     */
-
+    /// Store subscription in queue on which it will be executed sequentially. Subscribe method is called
+    /// only when there are no registered subscription on queue or last running observable completed its stream
+    /// or was disposed before that event.
+    /// - parameter queue: Queue on which scheduled subscriptions will be executed in sequentially.
+    /// - returns: The source which will be subscribe when queue is empty or previous observable was completed or disposed.
     func queueSubscribe(on queue: SerializedSubscriptionQueue) -> Observable<E> {
-        return QueueSubscribeOn(source: self.asObservable(), queue: queue).asObservable()
+        return QueueSubscribeOn(source: asObservable(), queue: queue).asObservable()
     }
+
     // swiftlint:enable missing_docs
 }

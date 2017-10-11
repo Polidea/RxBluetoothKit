@@ -39,12 +39,15 @@ class RxCBService: RxServiceType {
     var uuid: CBUUID {
         return service.uuid
     }
+
     var characteristics: [RxCharacteristicType]? {
         return service.characteristics?.map(RxCBCharacteristic.init)
     }
+
     var includedServices: [RxServiceType]? {
         return service.includedServices?.map(RxCBService.init)
     }
+
     var isPrimary: Bool {
         return service.isPrimary
     }

@@ -23,14 +23,12 @@
 import RxSwift
 
 extension ObservableType {
-    /**
-     Absorbes all of events from a and b observables into result observable.
+    /// Absorbes all of events from a and b observables into result observable.
 
-     - parameter a: First observable
-     - parameter b: Second observable
-     - returns: New observable which emits all of events from a and b observables.
-     If error or complete is received on any of the observables, it's propagates immediately to result observable
-     */
+    /// - parameter a: First observable
+    /// - parameter b: Second observable
+    /// - returns: New observable which emits all of events from a and b observables.
+    /// If error or complete is received on any of the observables, it's propagates immediately to result observable
     static func absorb(_ a: Observable<E>, _ b: Observable<E>) -> Observable<E> {
         return .create { observer in
             let disposable = CompositeDisposable()
