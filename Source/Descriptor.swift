@@ -55,9 +55,9 @@ public class Descriptor {
         self.characteristic = characteristic
     }
 
-    ///     Function that allow to monitor writes that happened for descriptor.
-    ///     - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
-    ///     It's **infinite** stream, so `.Complete` is never called.
+    /// Function that allow to monitor writes that happened for descriptor.
+    /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
+    /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorWrite() -> Observable<Descriptor> {
         return characteristic.service.peripheral.monitorWrite(for: self)
     }
