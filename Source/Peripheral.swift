@@ -327,6 +327,8 @@ public class Peripheral {
                 monitorValueUpdate(for: characteristic),
                 setNotifyValue(true, for: characteristic)
                     .ignoreElements()
+                    .asObservable()
+                    .map { _ in characteristic }
                     .subscribeOn(CurrentThreadScheduler.instance)
             )
             .merge()
