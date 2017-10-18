@@ -46,6 +46,9 @@ github "Polidea/RxBluetoothKit"
 ```
 Then, run `carthage update` to build framework and drag `RxBluetoothKit.framework` into your Xcode project.
 
+### Swift Package Manager
+
+Versions >= 4.0 of the library integrate with the Swift Package Manager. In order to do that please specify our project as one of your dependencies in `Package.swift` file.
 
 ## Architecture
 Library is built on top of Apple's CoreBluetooth.
