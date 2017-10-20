@@ -57,14 +57,16 @@ import CoreBluetooth
         }
 
         /// Array of `Service` objects which have been restored.
-        /// These are all the services the central manager was scanning for at the time the app was terminated by the system.
+        /// These are all the services the central manager was scanning for at the time the app
+        /// was terminated by the system.
         public var services: [Service] {
             let objects = restoredStateData[CBCentralManagerRestoredStateScanServicesKey] as? [AnyObject]
             guard let arrayOfAnyObjects = objects else { return [] }
             return arrayOfAnyObjects.flatMap { $0 as? CBService }
                 .map(RxCBService.init)
                 .map { Service(peripheral: Peripheral(manager: bluetoothManager,
-                                                      peripheral: RxCBPeripheral(peripheral: $0.service.peripheral)), service: $0) }
+                                                      peripheral: RxCBPeripheral(peripheral: $0.service.peripheral)),
+                               service: $0) }
         }
     }
 #endif

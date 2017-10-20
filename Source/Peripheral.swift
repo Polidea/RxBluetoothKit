@@ -118,9 +118,10 @@ public class Peripheral {
             return ensureValidPeripheralState(for: .just(filteredServices))
         }
         let observable = peripheral.rx_didDiscoverServices
-            .flatMap { (_, error) -> Observable<[Service]> in
-                guard let cachedServices = self.services, error == nil else {
-                    throw BluetoothError.servicesDiscoveryFailed(self, error)
+            .flatMap { [weak self] (_, error) -> Observable<[Service]> in
+                guard let strongSelf = self else { throw BluetoothError.destroyed }
+                guard let cachedServices = strongSelf.services, error == nil else {
+                    throw BluetoothError.servicesDiscoveryFailed(strongSelf, error)
                 }
                 if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
                     return .just(filteredServices)
@@ -131,7 +132,7 @@ public class Peripheral {
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.discoverServices(serviceUUIDs) }
+            postSubscriptionCall: { [weak self] in self?.peripheral.discoverServices(serviceUUIDs) }
         )
     }
 
@@ -153,11 +154,12 @@ public class Peripheral {
         let observable = peripheral
             .rx_didDiscoverIncludedServicesForService
             .filter { $0.0 == service.service }
-            .flatMap { (service, error) -> Observable<[Service]> in
+            .flatMap { [weak self] (service, error) -> Observable<[Service]> in
+                guard let strongSelf = self else { throw BluetoothError.destroyed }
                 guard let includedRxServices = service.includedServices, error == nil else {
-                    throw BluetoothError.includedServicesDiscoveryFailed(self, error)
+                    throw BluetoothError.includedServicesDiscoveryFailed(strongSelf, error)
                 }
-                let includedServices = includedRxServices.map { Service(peripheral: self, service: $0) }
+                let includedServices = includedRxServices.map { Service(peripheral: strongSelf, service: $0) }
                 if let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices) {
                     return .just(filteredServices)
                 }
@@ -167,7 +169,9 @@ public class Peripheral {
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service) }
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service)
+            }
         )
     }
 
@@ -203,7 +207,8 @@ public class Peripheral {
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service) }
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service) }
         )
     }
 
@@ -255,7 +260,9 @@ public class Peripheral {
         }
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.writeValue(data, for: characteristic.characteristic, type: type) }
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
+            }
         )
     }
 
@@ -284,8 +291,8 @@ public class Peripheral {
         let observable = monitorValueUpdate(for: characteristic).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: {
-                self.peripheral.readValue(for: characteristic.characteristic)
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.readValue(for: characteristic.characteristic)
             }
         )
     }
@@ -311,7 +318,9 @@ public class Peripheral {
             }
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.setNotifyValue(enabled, for: characteristic.characteristic) }
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
+            }
         )
     }
 
@@ -359,7 +368,8 @@ public class Peripheral {
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.discoverDescriptors(for: characteristic.characteristic) }
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.discoverDescriptors(for: characteristic.characteristic) }
         )
     }
 
@@ -405,7 +415,8 @@ public class Peripheral {
         let observable = monitorValueUpdate(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.readValue(for: descriptor.descriptor) }
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.readValue(for: descriptor.descriptor) }
         )
     }
 
@@ -418,7 +429,8 @@ public class Peripheral {
         let monitorWrite = self.monitorWrite(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: monitorWrite,
-            postSubscriptionCall: { self.peripheral.writeValue(data, for: descriptor.descriptor) }
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.writeValue(data, for: descriptor.descriptor) }
         )
     }
 
@@ -448,16 +460,18 @@ public class Peripheral {
     public func readRSSI() -> Observable<(Peripheral, Int)> {
         let observable = peripheral.rx_didReadRSSI
             .take(1)
-            .map { (rssi, error) -> (Peripheral, Int) in
+            .map { [weak self] (rssi, error) -> (Peripheral, Int) in
+                guard let strongSelf = self else { throw BluetoothError.destroyed }
                 if let error = error {
-                    throw BluetoothError.peripheralRSSIReadFailed(self, error)
+                    throw BluetoothError.peripheralRSSIReadFailed(strongSelf, error)
                 }
-                return (self, rssi)
+                return (strongSelf, rssi)
             }
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { self.peripheral.readRSSI() }
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.readRSSI() }
         )
     }
 
@@ -466,7 +480,10 @@ public class Peripheral {
     /// It's `optional String` because peripheral could also lost his name.
     /// It's **infinite** stream of values, so `.Complete` is never emitted.
     public func monitorNameUpdate() -> Observable<(Peripheral, String?)> {
-        let observable = peripheral.rx_didUpdateName.map { return (self, $0) }
+        let observable = peripheral.rx_didUpdateName.map { [weak self] name -> (Peripheral, String?) in
+            guard let strongSelf = self else { throw BluetoothError.destroyed }
+            return (strongSelf, name)
+        }
         return ensureValidPeripheralState(for: observable)
     }
 
@@ -477,8 +494,13 @@ public class Peripheral {
     /// It's **infinite** stream of values, so `.Complete` is never emitted.
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {
         let observable = peripheral.rx_didModifyServices
-            .map { $0.map { Service(peripheral: self, service: $0) } }
-            .map { (self, $0) }
+            .map { [weak self] services -> [Service] in
+                guard let strongSelf = self else { throw BluetoothError.destroyed }
+                return services.map { Service(peripheral: strongSelf, service: $0) } }
+            .map { [weak self] services -> (Peripheral, [Service]) in
+                guard let strongSelf = self else { throw BluetoothError.destroyed }
+                return (strongSelf, services)
+            }
         return ensureValidPeripheralState(for: observable)
     }
 }
