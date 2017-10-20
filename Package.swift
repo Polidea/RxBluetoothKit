@@ -26,6 +26,5 @@ let package = Package(
                     "Source"
                 ]
             )
-    ],
-    swiftLanguageVersions: [3, 4]
+    ]
 )
