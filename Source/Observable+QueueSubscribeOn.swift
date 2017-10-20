@@ -154,7 +154,8 @@ extension ObservableType {
     /// only when there are no registered subscription on queue or last running observable completed its stream
     /// or was disposed before that event.
     /// - parameter queue: Queue on which scheduled subscriptions will be executed in sequentially.
-    /// - returns: The source which will be subscribe when queue is empty or previous observable was completed or disposed.
+    /// - returns: The source which will be subscribe when queue is empty or previous
+    /// observable was completed or disposed.
     func queueSubscribe(on queue: SerializedSubscriptionQueue) -> Observable<E> {
         return QueueSubscribeOn(source: asObservable(), queue: queue).asObservable()
     }

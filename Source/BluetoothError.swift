@@ -25,7 +25,9 @@ import CoreBluetooth
 
 /// Bluetooth error which can be emitted by RxBluetoothKit created observables.
 public enum BluetoothError: Error {
-    /// Emitted when the object that is the source of Observable was destroyed and event was emitted nevertheless. To mitigate it dispose all of your subscriptions before deinitializing object that created Observables that subscriptions are made to.
+    /// Emitted when the object that is the source of Observable was destroyed and event was emitted nevertheless.
+    /// To mitigate it dispose all of your subscriptions before deinitializing
+    /// object that created Observables that subscriptions are made to.
     case destroyed
     // States
     case bluetoothUnsupported
@@ -57,7 +59,10 @@ extension BluetoothError: CustomStringConvertible {
     public var description: String {
         switch self {
         case .destroyed:
-            return "The object that is the source of this Observable was destroyed"
+            return """
+                   The object that is the source of this Observable was destroyed.
+                   It's programmer's error, please check documentation of error for more details
+                   """
         case .bluetoothUnsupported:
             return "Bluetooth is unsupported"
         case .bluetoothUnauthorized:

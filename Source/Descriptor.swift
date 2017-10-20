@@ -79,8 +79,8 @@ public class Descriptor {
 
     /// Function that triggers read of current value of the `Descriptor` instance.
     /// Read is called after subscription to `Observable` is made.
-    /// - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
-    /// `.Complete` is emitted.
+    /// - Returns: Observable which emits `Next` with given descriptor when value is ready to read.
+    /// Immediately after that `.Complete` is emitted.
     public func readValue() -> Observable<Descriptor> {
         return characteristic.service.peripheral.readValue(for: self)
     }
