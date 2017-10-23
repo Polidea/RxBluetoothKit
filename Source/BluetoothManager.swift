@@ -286,9 +286,8 @@ public class BluetoothManager {
     /// `Service`s with UUIDs specified in the `serviceUUIDs` parameter.
     public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Single<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred { [weak self] in
-
             guard let strongSelf = self else { throw BluetoothError.destroyed }
-            return strongSelf.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
+            return Observable.just(strongSelf.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs))
                 .map { [weak self] (peripheralTable: [CBPeripheral]) -> [Peripheral] in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
                     return peripheralTable.map {
@@ -306,7 +305,7 @@ public class BluetoothManager {
     public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Single<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
-            return strongSelf.centralManager.retrievePeripherals(withIdentifiers: identifiers)
+            return Observable.just(strongSelf.centralManager.retrievePeripherals(withIdentifiers: identifiers))
                 .map { [weak self] (peripheralTable: [CBPeripheral]) -> [Peripheral] in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
                     return peripheralTable.map {
