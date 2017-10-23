@@ -69,14 +69,13 @@ public class Characteristic {
     }
 
     /// Function that triggers descriptors discovery for characteristic.
-    /// - returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
-    /// Immediately after that `.Complete` is emitted.
-    public func discoverDescriptors() -> Observable<[Descriptor]> {
-        return service.peripheral.discoverDescriptors(for: self)
+    /// - returns: `Single` that emits `Next` with array of `Descriptor` instances, once they're discovered.
+    public func discoverDescriptors() -> Single<[Descriptor]> {
+        return self.service.peripheral.discoverDescriptors(for: self)
     }
 
     /// Function that allow to monitor writes that happened for characteristic.
-    /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when write has happened.
+    /// - Returns: `Observable` that emits `Next` with `Characteristic` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorWrite() -> Observable<Characteristic> {
         return service.peripheral.monitorWrite(for: self)
@@ -86,20 +85,20 @@ public class Characteristic {
     /// Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType), so be sure to check this out before usage of the method.
     /// - parameter forCharacteristic: `Descriptor` instance to write value to.
     /// - parameter type: Type of write operation. Possible values: `.WithResponse`, `.WithoutResponse`
-    /// - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
+    /// - returns: `Single` whose emission depends on `CBCharacteristicWriteType` passed to the function call.
     /// Behavior is following:
     ///
-    /// - `WithResponse` -  Observable emits `Next` with `Characteristic` instance write was confirmed without any errors.
-    /// Immediately after that `Complete` is called. If any problem has happened, errors are emitted.
-    /// - `WithoutResponse` - Observable emits `Next` with `Characteristic` instance once write was called.
-    /// Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
+    /// - `WithResponse` -  `Observable` emits `Next` with `Characteristic` instance write was confirmed without any errors.
+    /// If any problem has happened, errors are emitted.
+    /// - `WithoutResponse` - `Observable` emits `Next` with `Characteristic` instance once write was called.
+    /// Result of this call is not checked, so as a user you are not sure
     /// if everything completed successfully. Errors are not emitted
-    public func writeValue(_ data: Data, type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+    public func writeValue(_ data: Data, type: CBCharacteristicWriteType) -> Single<Characteristic> {
         return service.peripheral.writeValue(data, for: self, type: type)
     }
 
     /// Function that allow to monitor value updates for `Characteristic` instance.
-    /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
+    /// - Returns: `Observable` that emits `Next` with `Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorValueUpdate() -> Observable<Characteristic> {
         return service.peripheral.monitorValueUpdate(for: self)
@@ -107,9 +106,8 @@ public class Characteristic {
 
     /// Function that triggers read of current value of the `Characteristic` instance.
     /// Read is called after subscription to `Observable` is made.
-    /// - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
-    /// `.Complete` is emitted.
-    public func readValue() -> Observable<Characteristic> {
+    /// - Returns: `Single` which emits `Next` with given characteristic when value is ready to read.
+    public func readValue() -> Single<Characteristic> {
         return service.peripheral.readValue(for: self)
     }
 
@@ -118,16 +116,15 @@ public class Characteristic {
     /// - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
     /// For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
     /// - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
-    /// - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete` is emitted
-    public func setNotifyValue(_ enabled: Bool) -> Observable<Characteristic> {
+    /// - returns: `Single` which emits `Next` with Characteristic that state was changed.
+    public func setNotifyValue(_ enabled: Bool) -> Single<Characteristic> {
         return service.peripheral.setNotifyValue(enabled, for: self)
     }
 
     /// Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
     /// Notification is set after subscribtion to `Observable` is made.
-    /// - returns: Observable which emits `Next`, when characteristic value is updated.
+    /// - returns: `Observable` which emits `Next`, when characteristic value is updated.
     /// This is **infinite** stream of values.
-
     public func setNotificationAndMonitorUpdates() -> Observable<Characteristic> {
         return service.peripheral.setNotificationAndMonitorUpdates(for: self)
     }

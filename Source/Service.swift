@@ -71,9 +71,8 @@ public class Service {
     /// subscribtion to `Observable` is made.
     /// - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the
     /// characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
-    /// - Returns: Observable that emits `Next` with array of `Characteristic` instances, once they're discovered.
-    /// Immediately after that `.Complete` is emitted.
-    public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?) -> Observable<[Characteristic]> {
+    /// - Returns: `Single` that emits `Next` with array of `Characteristic` instances, once they're discovered.
+    public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?) -> Single<[Characteristic]> {
         return peripheral.discoverCharacteristics(characteristicUUIDs, for: self)
     }
 
@@ -81,9 +80,8 @@ public class Service {
     /// subscribtion to `Observable` is made.
     /// - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
     /// included services will be discovered. If you'll pass empty array - none of them will be discovered.
-    /// - Returns: Observable that emits `Next` with array of `Service` instances, once they're discovered.
-    /// Immediately after that `.Complete` is emitted.
-    public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?) -> Observable<[Service]> {
+    /// - Returns: `Single` that emits `Next` with array of `Service` instances, once they're discovered.
+    public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?) -> Single<[Service]> {
         return peripheral.discoverIncludedServices(includedServiceUUIDs, for: self)
     }
 }

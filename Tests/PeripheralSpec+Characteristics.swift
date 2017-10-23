@@ -71,7 +71,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     fakePeripheral.discoverCharacteristicsTO = testScheduler.createObserver(([CBUUID]?, RxServiceType).self)
                     discoverCharacteristicsMethodObserver = fakePeripheral.discoverCharacteristicsTO
                     characteristicsDiscoverObservable = testScheduler.scheduleObservable {
-                        peripheral.discoverCharacteristics(identifiers, for: service)
+                        return peripheral.discoverCharacteristics(identifiers, for: service).asObservable()
                     }
                 }
                 context("before subscribe") {
@@ -238,7 +238,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     writeValueForCharacteristicMethodObserver = fakePeripheral.writeValueForCharacteristicTypeTO
                     data = "A".data(using: String.Encoding.utf8)
                     characteristicObserver = testScheduler.scheduleObservable {
-                        peripheral.writeValue(data, for: characteristic, type: writeType)
+                        return peripheral.writeValue(data, for: characteristic, type: writeType).asObservable()
                     }
                 }
                 context("before subscribe") {
@@ -404,7 +404,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     fakePeripheral.readValueForCharacteristicTO = testScheduler.createObserver(RxCharacteristicType.self)
                     readValueForCharacteristicMethodObserver = fakePeripheral.readValueForCharacteristicTO
                     characteristicObserver = testScheduler.scheduleObservable {
-                        peripheral.readValue(for: characteristic)
+                        return peripheral.readValue(for: characteristic).asObservable()
                     }
                 }
                 context("before subscribe") {
@@ -560,7 +560,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     fakePeripheral.setNotifyValueForCharacteristicTO = testScheduler.createObserver((Bool, RxCharacteristicType).self)
                     setNotifyCharacteristicMethodObserver = fakePeripheral.setNotifyValueForCharacteristicTO
                     characteristicObserver = testScheduler.scheduleObservable {
-                        peripheral.setNotifyValue(true, for: characteristic)
+                        return peripheral.setNotifyValue(true, for: characteristic).asObservable()
                     }
                 }
 
@@ -708,7 +708,7 @@ class PeripheralCharacteristicsSpec: QuickSpec {
                     fakePeripheral.setNotifyValueForCharacteristicTO = testScheduler.createObserver((Bool, RxCharacteristicType).self)
                     setNotifyCharacteristicMethodObserver = fakePeripheral.setNotifyValueForCharacteristicTO
                     characteristicObserver = testScheduler.scheduleObservable {
-                        peripheral.setNotifyValue(true, for: characteristic)
+                        return peripheral.setNotifyValue(true, for: characteristic).asObservable()
                     }
                 }
 

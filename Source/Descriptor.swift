@@ -62,11 +62,10 @@ public class Descriptor {
         return characteristic.service.peripheral.monitorWrite(for: self)
     }
 
-    ///  Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
-    ///  - Parameter data: `NSData` that'll be written to `Descriptor` instance
-    ///  - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
-    ///  Immediately after that `.Complete` is emitted.
-    public func writeValue(_ data: Data) -> Observable<Descriptor> {
+    /// Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
+    /// - Parameter data: `NSData` that'll be written to `Descriptor` instance
+    /// - Returns: `Single` that emits `Next` with `Descriptor` instance, once value is written successfully.
+    public func writeValue(_ data: Data) -> Single<Descriptor> {
         return characteristic.service.peripheral.writeValue(data, for: self)
     }
 
@@ -79,9 +78,8 @@ public class Descriptor {
 
     /// Function that triggers read of current value of the `Descriptor` instance.
     /// Read is called after subscription to `Observable` is made.
-    /// - Returns: Observable which emits `Next` with given descriptor when value is ready to read.
-    /// Immediately after that `.Complete` is emitted.
-    public func readValue() -> Observable<Descriptor> {
+    /// - Returns: `Single` which emits `Next` with given descriptor when value is ready to read.
+    public func readValue() -> Single<Descriptor> {
         return characteristic.service.peripheral.readValue(for: self)
     }
 }

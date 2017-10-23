@@ -59,50 +59,62 @@ class RxCBPeripheral: RxPeripheralType {
         return peripheral.services?.map(RxCBService.init)
     }
 
+    /// `Observable` which emits peripheral's name changes
     var rx_didUpdateName: Observable<String?> {
         return internalDelegate.peripheralDidUpdateNameSubject
     }
 
+    /// `Observable` which emits when service's are modified
     var rx_didModifyServices: Observable<([RxServiceType])> {
         return internalDelegate.peripheralDidModifyServicesSubject
     }
 
+    /// `Observable` which emits when RSSI was read
     var rx_didReadRSSI: Observable<(Int, Error?)> {
         return internalDelegate.peripheralDidReadRSSISubject
     }
 
+    /// `Observable` which emits discovered serivices during discovery
     var rx_didDiscoverServices: Observable<([RxServiceType]?, Error?)> {
         return internalDelegate.peripheralDidDiscoverServicesSubject
     }
 
+    /// `Observable` which emits service for which included services were discovered
     var rx_didDiscoverIncludedServicesForService: Observable<(RxServiceType, Error?)> {
         return internalDelegate.peripheralDidDiscoverIncludedServicesForServiceSubject
     }
 
+    /// `Observable` which emits service for which characteristics were discovered
     var rx_didDiscoverCharacteristicsForService: Observable<(RxServiceType, Error?)> {
         return internalDelegate.peripheralDidDiscoverCharacteristicsForServiceSubject
     }
 
+    /// `Observable` which emits characteristic which value has been updated
     var rx_didUpdateValueForCharacteristic: Observable<(RxCharacteristicType, Error?)> {
         return internalDelegate.peripheralDidUpdateValueForCharacteristicSubject
     }
 
+    /// `Observable` which emits characteristic for which value was written successfully
     var rx_didWriteValueForCharacteristic: Observable<(RxCharacteristicType, Error?)> {
         return internalDelegate.peripheralDidWriteValueForCharacteristicSubject
     }
 
+    /// `Observable` which emits characteristic which notification value was successfully modified
     var rx_didUpdateNotificationStateForCharacteristic: Observable<(RxCharacteristicType, Error?)> {
         return internalDelegate.peripheralDidUpdateNotificationStateForCharacteristicSubject
     }
 
+    /// `Observable` which emits characteristic for which descriptors were discovered
     var rx_didDiscoverDescriptorsForCharacteristic: Observable<(RxCharacteristicType, Error?)> {
         return internalDelegate.peripheralDidDiscoverDescriptorsForCharacteristicSubject
     }
 
+    /// `Observable` which emits descriptor which value was updated
     var rx_didUpdateValueForDescriptor: Observable<(RxDescriptorType, Error?)> {
         return internalDelegate.peripheralDidUpdateValueForDescriptorSubject
     }
 
+    /// `Observable` which emits descriptor which completed sucessfully its write operation
     var rx_didWriteValueForDescriptor: Observable<(RxDescriptorType, Error?)> {
         return internalDelegate.peripheralDidWriteValueForDescriptorSubject
     }

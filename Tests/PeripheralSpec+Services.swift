@@ -66,7 +66,7 @@ class PeripheralServicesSpec: QuickSpec {
                     fakePeripheral.discoverServicesTO = testScheduler.createObserver(([CBUUID]?).self)
                     discoverServicesMethodObserver = fakePeripheral.discoverServicesTO
                     servicesObserver = testScheduler.scheduleObservable {
-                        peripheral.discoverServices(cbuuids)
+                        peripheral.discoverServices(cbuuids).asObservable()
                     }
                 }
                 context("before subscribe") {
@@ -220,7 +220,7 @@ class PeripheralServicesSpec: QuickSpec {
                     discoverIncludedServicesMethodObserver = fakePeripheral.discoverIncludedServicesTO
                     service = Service(peripheral: peripheral, service: fakeService)
                     servicesObserver = testScheduler.scheduleObservable {
-                        peripheral.discoverIncludedServices(cbuuids, for: service)
+                        peripheral.discoverIncludedServices(cbuuids, for: service).asObservable()
                     }
                 }
                 context("before subscribe") {

@@ -31,9 +31,8 @@ extension Peripheral {
     /// Function used to receive service with given identifier. It's taken from cache if it's available,
     /// or directly by `discoverServices` call
     /// - Parameter identifier: Unique identifier of Service
-    /// - Returns: Observation which emits `Next` event, when specified service has been found.
-    /// Immediately after that `.Complete` is emitted.
-    public func service(with identifier: ServiceIdentifier) -> Observable<Service> {
+    /// - Returns: `Single` which emits `Next` event, when specified service has been found.
+    public func service(with identifier: ServiceIdentifier) -> Single<Service> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             if let services = strongSelf.services,
@@ -41,7 +40,12 @@ extension Peripheral {
                 return .just(service)
             } else {
                 return strongSelf.discoverServices([identifier.uuid])
-                    .flatMap { Observable.from($0) }
+                    .map {
+                        if let service = $0.first {
+                            return service
+                        }
+                        throw RxError.noElements
+                    }
             }
         }
     }
@@ -50,20 +54,24 @@ extension Peripheral {
     /// Otherwise - directly by `discoverCharacteristics` call
     /// - Parameter identifier: Unique identifier of Characteristic, that has information
     /// about service which characteristic belongs to.
-    /// - Returns: Observation which emits `Next` event, when specified characteristic has been found.
-    /// Immediately after that `.Complete` is emitted.
-    public func characteristic(with identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+    /// - Returns: `Single` which emits `Next` event, when specified characteristic has been found.
+    public func characteristic(with identifier: CharacteristicIdentifier) -> Single<Characteristic> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             return strongSelf.service(with: identifier.service)
-                .flatMap { service -> Observable<Characteristic> in
+                .flatMap { service -> Single<Characteristic> in
                     if let characteristics = service.characteristics, let characteristic = characteristics.first(where: {
                         $0.uuid == identifier.uuid
                     }) {
                         return .just(characteristic)
                     }
                     return service.discoverCharacteristics([identifier.uuid])
-                        .flatMap { Observable.from($0) }
+                        .map {
+                            if let characteristic = $0.first {
+                                return characteristic
+                            }
+                            throw RxError.noElements
+                        }
                 }
         }
     }
@@ -72,21 +80,23 @@ extension Peripheral {
     /// Otherwise - directly by `discoverDescriptor` call
     /// - Parameter identifier: Unique identifier of Descriptor, that has information
     /// about characteristic which descriptor belongs to.
-    /// - Returns: Observation which emits `Next` event, when specified descriptor has been found.
-    /// Immediately after that `.Complete` is emitted.
-    public func descriptor(with identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    /// - Returns: `Single` which emits `Next` event, when specified descriptor has been found.
+    public func descriptor(with identifier: DescriptorIdentifier) -> Single<Descriptor> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             return strongSelf.characteristic(with: identifier.characteristic)
-                .flatMap { characteristic -> Observable<Descriptor> in
+                .flatMap { characteristic -> Single<Descriptor> in
                     if let descriptors = characteristic.descriptors,
                         let descriptor = descriptors.first(where: { $0.uuid == identifier.uuid }) {
                         return .just(descriptor)
                     }
                     return characteristic.discoverDescriptors()
-                        .flatMap { Observable.from($0) }
-                        .filter { $0.uuid == identifier.uuid }
-                        .take(1)
+                        .map {
+                            if let descriptor = $0.filter({ return $0.uuid == identifier.uuid }).first {
+                                return descriptor
+                            }
+                            throw RxError.noElements
+                        }
                 }
         }
     }
@@ -98,6 +108,7 @@ extension Peripheral {
     public func monitorWrite(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
+            .asObservable()
             .flatMap { [weak self] in
                 self?.monitorWrite(for: $0) ?? .error(BluetoothError.destroyed)
             }
@@ -117,7 +128,7 @@ extension Peripheral {
     /// Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
     /// if everything completed successfully. Errors are not emitted
     public func writeValue(_ data: Data, for identifier: CharacteristicIdentifier,
-                           type: CBCharacteristicWriteType) -> Observable<Characteristic> {
+                           type: CBCharacteristicWriteType) -> Single<Characteristic> {
         return characteristic(with: identifier)
             .flatMap { [weak self] in
                 self?.writeValue(data, for: $0, type: type) ?? .error(BluetoothError.destroyed)
@@ -130,8 +141,9 @@ extension Peripheral {
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorValueUpdate(for identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return characteristic(with: identifier)
+            .asObservable()
             .flatMap { [weak self] in
-                self?.monitorValueUpdate(for: $0) ?? .error(BluetoothError.destroyed)
+                self?.monitorValueUpdate(for: $0).asObservable() ?? .error(BluetoothError.destroyed)
             }
     }
 
@@ -140,7 +152,7 @@ extension Peripheral {
     /// - Parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
     /// - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
     /// `.Complete` is emitted.
-    public func readValue(for identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+    public func readValue(for identifier: CharacteristicIdentifier) -> Single<Characteristic> {
         return characteristic(with: identifier)
             .flatMap { [weak self] in
                 self?.readValue(for: $0) ?? .error(BluetoothError.destroyed)
@@ -155,8 +167,8 @@ extension Peripheral {
     /// - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
     /// - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete` is emitted
     public func setNotifyValue(_ enabled: Bool, for identifier: CharacteristicIdentifier)
-        -> Observable<Characteristic> {
-        return characteristic(with: identifier)
+        -> Single<Characteristic> {
+            return characteristic(with: identifier)
             .flatMap { [weak self] in
                 self?.setNotifyValue(enabled, for: $0) ?? .error(BluetoothError.destroyed)
             }
@@ -169,19 +181,19 @@ extension Peripheral {
     /// This is **infinite** stream of values.
     public func setNotificationAndMonitorUpdates(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
-        return characteristic(with: identifier)
-            .flatMap { [weak self] in
-                self?.setNotificationAndMonitorUpdates(for: $0) ?? .error(BluetoothError.destroyed)
-            }
+            return characteristic(with: identifier)
+                .asObservable()
+                .flatMap { [weak self] in
+                    self?.setNotificationAndMonitorUpdates(for: $0) ?? .error(BluetoothError.destroyed)
+                }
     }
 
     /// Function that triggers descriptors discovery for characteristic
     /// - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
-    /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-    /// - Returns: Observable that emits `Next` with array of `Descriptor` instances, once they're discovered.
-    /// Immediately after that `.Complete` is emitted.
+    ///  - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+    /// - Returns: `Single` that emits `Next` with array of `Descriptor` instances, once they're discovered.
     public func discoverDescriptors(for identifier: CharacteristicIdentifier) ->
-        Observable<[Descriptor]> {
+        Single<[Descriptor]> {
         return characteristic(with: identifier)
             .flatMap { [weak self] in
                 self?.discoverDescriptors(for: $0) ?? .error(BluetoothError.destroyed)
@@ -194,6 +206,7 @@ extension Peripheral {
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorWrite(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
+            .asObservable()
             .flatMap { [weak self] in
                 self?.monitorWrite(for: $0) ?? .error(BluetoothError.destroyed)
             }
@@ -201,11 +214,10 @@ extension Peripheral {
 
     /// Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
     /// - Parameter data: `Data` that'll be written to `Descriptor` instance
-    /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-    /// - Returns: Observable that emits `Next` with `Descriptor` instance, once value is written successfully.
-    /// Immediately after that `.Complete` is emitted.
+    ///  - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+    /// - Returns: `Single` that emits `Next` with `Descriptor` instance, once value is written successfully.
     public func writeValue(_ data: Data, for identifier: DescriptorIdentifier)
-        -> Observable<Descriptor> {
+        -> Single<Descriptor> {
         return descriptor(with: identifier)
             .flatMap { [weak self] in
                 self?.writeValue(data, for: $0) ?? .error(BluetoothError.destroyed)
@@ -218,6 +230,7 @@ extension Peripheral {
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorValueUpdate(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
+            .asObservable()
             .flatMap { [weak self] in
                 self?.monitorValueUpdate(for: $0) ?? .error(BluetoothError.destroyed)
             }
@@ -226,8 +239,9 @@ extension Peripheral {
     /// Function that triggers read of current value of the `Descriptor` instance.
     /// Read is called after subscription to `Observable` is made.
     /// - Parameter descriptor: `Descriptor` to read value from
-    /// - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that `.Complete` is emitted.
-    public func readValue(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    /// - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
+    /// `.Complete` is emitted.
+    public func readValue(for identifier: DescriptorIdentifier) -> Single<Descriptor> {
         return descriptor(with: identifier)
             .flatMap { [weak self] in
                 self?.readValue(for: $0) ?? .error(BluetoothError.destroyed)

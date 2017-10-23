@@ -60,7 +60,7 @@ class BluetoothManagerSpec: QuickSpec {
                     fakeCentralManager.retrievePeripheralsWithIdentifiersTO = testScheduler.createObserver([UUID].self)
                     retrieveWithIdentifiersCallObserver = fakeCentralManager.retrievePeripheralsWithIdentifiersTO
                     peripheralsObserver = testScheduler.scheduleObservable {
-                        manager.retrievePeripherals(withIdentifiers: uuids)
+                        manager.retrievePeripherals(withIdentifiers: uuids).asObservable()
                     }
                     fakeCentralManager.state = .poweredOn
                 }
@@ -71,7 +71,9 @@ class BluetoothManagerSpec: QuickSpec {
                 }
                 context("after subscription") {
                     beforeEach {
-                        let peripherals: [Recorded<Event<[RxPeripheralType]>>] = [Recorded(time: nextTime, value: .next([fakePeripheral]))]
+                        let peripherals: [Recorded<Event<[RxPeripheralType]>>] = [
+                            Recorded(time: nextTime, value: .next([fakePeripheral])),
+                            Recorded(time: nextTime, value: .completed)]
                         fakeCentralManager.retrievePeripheralsWithIdentifiersResult = testScheduler.createHotObservable(peripherals).asObservable()
                         testScheduler.advanceTo(250)
                     }
@@ -82,7 +84,7 @@ class BluetoothManagerSpec: QuickSpec {
                         expect(retrieveWithIdentifiersCallObserver.events[0].value.element!).to(equal(uuids))
                     }
                     it("should receive event in return") {
-                        expect(peripheralsObserver.events.count).to(equal(1))
+                        expect(peripheralsObserver.events.count).to(equal(2))
                     }
                     it("should retrieve next with peripherals table") {
                         expect(peripheralsObserver.events[0].value.element).toNot(beNil())
@@ -158,7 +160,7 @@ class BluetoothManagerSpec: QuickSpec {
                     fakeCentralManager.retrieveConnectedPeripheralsWithServicesTO = testScheduler.createObserver([CBUUID].self)
                     retrieveWithServicesCallObserver = fakeCentralManager.retrieveConnectedPeripheralsWithServicesTO
                     peripheralsObserver = testScheduler.scheduleObservable {
-                        manager.retrieveConnectedPeripherals(withServices: cbuuids)
+                        manager.retrieveConnectedPeripherals(withServices: cbuuids).asObservable()
                     }
                     fakeCentralManager.state = .poweredOn
                 }
@@ -272,7 +274,7 @@ class BluetoothManagerSpec: QuickSpec {
                                 fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: Any]?).self)
                                 connectObserver = fakeCentralManager.connectPeripheralOptionsTO
                                 peripheralObserver = testScheduler.scheduleObservable {
-                                    manager.connect(peripheral)
+                                    manager.connect(peripheral).asObservable()
                                 }
                                 state = stateWithError.0
                                 error = stateWithError.1
@@ -324,7 +326,7 @@ class BluetoothManagerSpec: QuickSpec {
                             fakeCentralManager.connectPeripheralOptionsTO = testScheduler.createObserver((RxPeripheralType, [String: Any]?).self)
                             connectObserver = fakeCentralManager.connectPeripheralOptionsTO
                             peripheralObserver = testScheduler.scheduleObservable {
-                                manager.connect(peripheral)
+                                manager.connect(peripheral).asObservable()
                             }
                             fakeCentralManager.state = .poweredOn
                             fakePeripheral.state = .disconnected
@@ -404,7 +406,7 @@ class BluetoothManagerSpec: QuickSpec {
                                 fakeCentralManager.cancelPeripheralConnectionTO = testScheduler.createObserver(RxPeripheralType.self)
                                 cancelConnectionObserver = fakeCentralManager.cancelPeripheralConnectionTO
                                 peripheralObserver = testScheduler.scheduleObservable {
-                                    manager.cancelPeripheralConnection(peripheral)
+                                    manager.cancelPeripheralConnection(peripheral).asObservable()
                                 }
                                 state = stateWithError.0
                                 error = stateWithError.1
@@ -448,7 +450,7 @@ class BluetoothManagerSpec: QuickSpec {
                             fakeCentralManager.cancelPeripheralConnectionTO = testScheduler.createObserver(RxPeripheralType.self)
                             disconnectObserver = fakeCentralManager.cancelPeripheralConnectionTO
                             peripheralObserver = testScheduler.scheduleObservable {
-                                manager.cancelPeripheralConnection(peripheral)
+                                manager.cancelPeripheralConnection(peripheral).asObservable()
                             }
                             fakeCentralManager.state = .poweredOn
                         }

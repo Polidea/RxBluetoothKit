@@ -210,9 +210,9 @@ public class BluetoothManager {
     /// to customise the behaviour of connection.
     /// - parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
     /// - parameter options: Dictionary to customise the behaviour of connection.
-    /// - returns: Observable which emits next and complete events after connection is established.
+    /// - returns: `Single` which emits next event after connection is established.
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
-        -> Observable<Peripheral> {
+        -> Single<Peripheral> {
 
         let success = centralManager.rx_didConnectPeripheral
             .filter { $0 == peripheral.peripheral }
@@ -255,15 +255,16 @@ public class BluetoothManager {
             }
         }
 
-        return ensure(.poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     /// Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
     /// that physical connection will be closed immediately as well and all pending commands will not be executed.
+    ///
     /// - parameter peripheral: The `Peripheral` to which the `BluetoothManager` is either trying to
     /// connect or has already connected.
-    /// - returns: Observable which emits next and complete events when peripheral successfully cancelled connection.
-    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Observable<Peripheral> {
+    /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
+    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Single<Peripheral> {
         let observable = Observable<Peripheral>.create { [weak self] observer in
             guard let strongSelf = self else {
                 observer.onError(BluetoothError.destroyed)
@@ -273,17 +274,20 @@ public class BluetoothManager {
             strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
-        return ensure(.poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Retrieving Lists of Peripherals
 
-    /// Returns observable list of the `Peripheral`s which are currently connected to the `BluetoothManager` and contain all of the specified `Service`'s UUIDs.
+    /// Returns observable list of the `Peripheral`s which are currently connected to the `BluetoothManager` and contain
+    /// all of the specified `Service`'s UUIDs.
+    ///
     /// - parameter serviceUUIDs: A list of `Service` UUIDs
-    /// - returns: Observable which emits retrieved `Peripheral`s. They are in connected state and contain all of the
-    /// `Service`s with UUIDs specified in the `serviceUUIDs` parameter. Just after that complete event is emitted
-    public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[Peripheral]> {
+    /// - returns: `Single` which emits retrieved `Peripheral`s. They are in connected state and contain all of the
+    /// `Service`s with UUIDs specified in the `serviceUUIDs` parameter.
+    public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Single<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred { [weak self] in
+
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             return strongSelf.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
                 .map { [weak self] (peripheralTable: [RxPeripheralType]) -> [Peripheral] in
@@ -293,13 +297,14 @@ public class BluetoothManager {
                     }
                 }
         }
-        return ensure(.poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     /// Returns observable list of `Peripheral`s by their identifiers which are known to `BluetoothManager`.
+    ///
     /// - parameter identifiers: List of `Peripheral`'s identifiers which should be retrieved.
-    /// - returns: Observable which emits next and complete events when list of `Peripheral`s are retrieved.
-    public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[Peripheral]> {
+    /// - returns: `Single` which emits next event when list of `Peripheral`s are retrieved.
+    public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Single<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             return strongSelf.centralManager.retrievePeripherals(withIdentifiers: identifiers)
@@ -310,7 +315,7 @@ public class BluetoothManager {
                     }
                 }
         }
-        return ensure(.poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Internal functions
