@@ -31,13 +31,15 @@ import CoreBluetooth
 public class Peripheral {
     public let manager: BluetoothManager
 
-    init(manager: BluetoothManager, peripheral: RxPeripheralType) {
+    init(manager: BluetoothManager, peripheral: CBPeripheral) {
         self.manager = manager
         self.peripheral = peripheral
+        peripheral.delegate = delegateWrapper
     }
 
     /// Implementation of peripheral
-    let peripheral: RxPeripheralType
+    public let peripheral: CBPeripheral
+    private let delegateWrapper = CBPeripheralDelegateWrapper()
 
     ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
     public var rx_isConnected: Observable<Bool> {
@@ -51,11 +53,6 @@ public class Peripheral {
     /// Value indicating if peripheral is currently in connected state.
     public var isConnected: Bool {
         return peripheral.state == .connected
-    }
-
-    /// Underlying `CBPeripheral` instance
-    public var cbPeripheral: CBPeripheral {
-        return peripheral.peripheral
     }
 
     ///  Current state of `Peripheral` instance described by [CBPeripheralState](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/c/tdef/CBPeripheralState).
@@ -78,7 +75,7 @@ public class Peripheral {
     /// Unique identifier of `Peripheral` object instance. Should be removed in 4.0
     @available(*, deprecated)
     public var objectId: UInt {
-        return peripheral.objectId
+        return UInt(bitPattern: ObjectIdentifier(peripheral))
     }
 
     /// A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
@@ -118,7 +115,7 @@ public class Peripheral {
            let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
            return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
-        let observable = peripheral.rx_didDiscoverServices
+        let observable = delegateWrapper.rx_didDiscoverServices
             .flatMap { [weak self] (_, error) -> Observable<[Service]> in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 guard let cachedServices = strongSelf.services, error == nil else {
@@ -154,7 +151,7 @@ public class Peripheral {
             let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: services) {
             return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
-        let observable = peripheral
+        let observable = delegateWrapper
             .rx_didDiscoverIncludedServicesForService
             .filter { $0.0 == service.service }
             .flatMap { [weak self] (service, error) -> Observable<[Service]> in
@@ -196,7 +193,7 @@ public class Peripheral {
             let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
             return ensureValidPeripheralState(for: .just(filteredCharacteristics)).asSingle()
         }
-        let observable = peripheral
+        let observable = delegateWrapper
             .rx_didDiscoverCharacteristicsForService
             .filter { $0.0 == service.service }
             .flatMap { (cbService, error) -> Observable<[Characteristic]> in
@@ -224,7 +221,7 @@ public class Peripheral {
     /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorWrite(for characteristic: Characteristic) -> Observable<Characteristic> {
-        let observable = peripheral
+        let observable = delegateWrapper
             .rx_didWriteValueForCharacteristic
             .filter { return $0.0 == characteristic.characteristic }
             .map { (_, error) -> Characteristic in
@@ -278,7 +275,7 @@ public class Peripheral {
     /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorValueUpdate(for characteristic: Characteristic) -> Observable<Characteristic> {
-        let observable = peripheral
+        let observable = delegateWrapper
             .rx_didUpdateValueForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
             .map { (_, error) -> Characteristic in
@@ -313,7 +310,7 @@ public class Peripheral {
     /// - returns: `Single` which emits `Next` with Characteristic that state was changed.
     public func setNotifyValue(_ enabled: Bool,
                                for characteristic: Characteristic) -> Single<Characteristic> {
-        let observable = peripheral
+        let observable = delegateWrapper
             .rx_didUpdateNotificationStateForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
             .take(1)
@@ -361,7 +358,7 @@ public class Peripheral {
             let resultDescriptors = descriptors.map { Descriptor(descriptor: $0.descriptor, characteristic: characteristic) }
             return ensureValidPeripheralState(for: .just(resultDescriptors)).asSingle()
         }
-        let observable = peripheral
+        let observable = delegateWrapper
             .rx_didDiscoverDescriptorsForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
             .take(1)
@@ -386,7 +383,7 @@ public class Peripheral {
     /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorWrite(for descriptor: Descriptor) -> Observable<Descriptor> {
-        let observable = peripheral
+        let observable = delegateWrapper
             .rx_didWriteValueForDescriptor
             .filter { $0.0 == descriptor.descriptor }
             .map { (_, error) -> Descriptor in
@@ -403,7 +400,7 @@ public class Peripheral {
     /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorValueUpdate(for descriptor: Descriptor) -> Observable<Descriptor> {
-        let observable = peripheral.rx_didUpdateValueForDescriptor
+        let observable = delegateWrapper.rx_didUpdateValueForDescriptor
             .filter { $0.0 == descriptor.descriptor }
             .map { (_, error) -> Descriptor in
                 if let error = error {
@@ -466,7 +463,7 @@ public class Peripheral {
     /// - returns: `Single` that emits tuple: `(Peripheral, Int)` once new RSSI value is read.
     /// `Int` is new RSSI value, `Peripheral` is returned to allow easier chaining.
     public func readRSSI() -> Single<(Peripheral, Int)> {
-        let observable = peripheral.rx_didReadRSSI
+        let observable = delegateWrapper.rx_didReadRSSI
             .take(1)
             .map { [weak self] (rssi, error) -> (Peripheral, Int) in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -489,7 +486,7 @@ public class Peripheral {
     ///    It's `optional String` because peripheral could also lost his name.
     ///    It's **infinite** stream of values, so `.Complete` is never emitted.
     public func monitorNameUpdate() -> Observable<(Peripheral, String?)> {
-        let observable = peripheral.rx_didUpdateName.map { [weak self] name -> (Peripheral, String?) in
+        let observable = delegateWrapper.rx_didUpdateName.map { [weak self] name -> (Peripheral, String?) in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             return (strongSelf, name)
         }
@@ -503,7 +500,7 @@ public class Peripheral {
     /// - returns: `Observable` that emits tuples: `(Peripheral, [Service])` when services were modified.
     ///    It's **infinite** stream of values, so `.Complete` is never emitted.
     public func monitorServicesModification() -> Observable<(Peripheral, [Service])> {
-        let observable = peripheral.rx_didModifyServices
+        let observable = delegateWrapper.rx_didModifyServices
             .map { [weak self] services -> [Service] in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 return services.map { Service(peripheral: strongSelf, service: $0) } }
