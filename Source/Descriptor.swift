@@ -29,7 +29,7 @@ import RxSwift
 /// Descriptors provide more information about a characteristic’s value.
 public class Descriptor {
 
-    let descriptor: RxDescriptorType
+    let descriptor: CBDescriptor
 
     /// Characteristic to which this descriptor belongs.
     public let characteristic: Characteristic
@@ -37,7 +37,7 @@ public class Descriptor {
     /// Unique identifier of an object. Should be removed in 4.0
     @available(*, deprecated)
     public var objectId: UInt {
-        return descriptor.objectId
+        return UInt(bitPattern: ObjectIdentifier(descriptor))
     }
 
     /// The Bluetooth UUID of the `Descriptor` instance.
@@ -50,7 +50,7 @@ public class Descriptor {
         return descriptor.value
     }
 
-    init(descriptor: RxDescriptorType, characteristic: Characteristic) {
+    init(descriptor: CBDescriptor, characteristic: Characteristic) {
         self.descriptor = descriptor
         self.characteristic = characteristic
     }

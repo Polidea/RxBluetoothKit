@@ -27,7 +27,7 @@ import RxSwift
 // swiftlint:disable line_length
 /// Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBService](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
 public class Service {
-    let service: RxServiceType
+    let service: CBService
 
     /// Peripheral to which this service belongs
     public let peripheral: Peripheral
@@ -40,7 +40,7 @@ public class Service {
     /// Unique identifier of an object. Should be removed in 4.0
     @available(*, deprecated)
     public var objectId: UInt {
-        return service.objectId
+        return UInt(bitPattern: ObjectIdentifier(service))
     }
 
     /// Service's UUID
@@ -62,7 +62,7 @@ public class Service {
         }
     }
 
-    init(peripheral: Peripheral, service: RxServiceType) {
+    init(peripheral: Peripheral, service: CBService) {
         self.service = service
         self.peripheral = peripheral
     }
