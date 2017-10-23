@@ -36,35 +36,35 @@ class ScansTableViewController: UIViewController {
     private func stopScanning() {
         scanningDisposable?.dispose()
         isScanInProgress = false
-        self.title = ""
+        title = ""
     }
 
     private func startScanning() {
         isScanInProgress = true
-        self.title = "Scanning..."
+        title = "Scanning..."
         scanningDisposable = manager.rx_state
-        .timeout(4.0, scheduler: scheduler)
-        .take(1)
-        .flatMap { _ in self.manager.scanForPeripherals(withServices: nil, options:nil) }
-        .subscribeOn(MainScheduler.instance)
-        .subscribe(onNext: {
-            self.addNewScannedPeripheral($0)
-            }, onError: { error in
-        })
+            .timeout(4.0, scheduler: scheduler)
+            .take(1)
+            .flatMap { _ in self.manager.scanForPeripherals(withServices: nil, options: nil) }
+            .subscribeOn(MainScheduler.instance)
+            .subscribe(onNext: {
+                self.addNewScannedPeripheral($0)
+            }, onError: { _ in
+            })
     }
-
 
     private func addNewScannedPeripheral(_ peripheral: ScannedPeripheral) {
         let mapped = peripheralsArray.map { $0.peripheral }
         if let indx = mapped.index(of: peripheral.peripheral) {
             peripheralsArray[indx] = peripheral
         } else {
-            self.peripheralsArray.append(peripheral)
+            peripheralsArray.append(peripheral)
         }
         DispatchQueue.main.async {
             self.scansTableView.reloadData()
         }
     }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier, let cell = sender as? UITableViewCell,
             identifier == "PresentPeripheralDetails" else { return }
@@ -90,11 +90,11 @@ class ScansTableViewController: UIViewController {
 
 extension ScansTableViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_: UITableView, viewForFooterInSection _: Int) -> UIView? {
         return UIView(frame: .zero)
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return peripheralsArray.count
     }
 
@@ -110,10 +110,10 @@ extension ScansTableViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ScansTableViewController: UISplitViewControllerDelegate {
 
-    func splitViewController(splitViewController: UISplitViewController,
-                             collapseSecondaryViewController secondaryViewController:UIViewController,
-                             ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-        //TODO: Check how this works on both devices.
+    func splitViewController(splitViewController _: UISplitViewController,
+                             collapseSecondaryViewController secondaryViewController: UIViewController,
+                             ontoPrimaryViewController _: UIViewController) -> Bool {
+        // TODO: Check how this works on both devices.
         guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
         guard let topAsDetailController = secondaryAsNavController.topViewController as? PeripheralServicesViewController else { return false }
         if topAsDetailController.scannedPeripheral == nil {
@@ -129,8 +129,7 @@ extension ScannedPeripheralCell {
         RSSILabel.text = peripheral.rssi.stringValue
         peripheralNameLabel.text = peripheral.advertisementData.localName ?? peripheral.peripheral.identifier.uuidString
 
-        //TODO: Pretty print it ;) nsattributed string maybe.
+        // TODO: Pretty print it ;) nsattributed string maybe.
         advertismentDataLabel.text = "\(peripheral.advertisementData.advertisementData)"
     }
 }
-

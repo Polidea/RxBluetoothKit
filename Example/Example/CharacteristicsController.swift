@@ -18,7 +18,7 @@ class CharacteristicsController: UIViewController {
     private let disposeBag = DisposeBag()
 
     @IBOutlet weak var characteristicsTableView: UITableView!
-    
+
     fileprivate var characteristicsList: [Characteristic] = []
     fileprivate let characteristicCellId = "CharacteristicCell"
 
@@ -40,53 +40,52 @@ class CharacteristicsController: UIViewController {
             .subscribe(onNext: { characteristics in
                 self.characteristicsList = characteristics
                 self.characteristicsTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     fileprivate func setNotificationsState(enabled: Bool, characteristic: Characteristic) {
         characteristic.setNotifyValue(enabled)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     fileprivate func showWriteFieldForCharacteristic(characteristic: Characteristic) {
         let valueWriteController = UIAlertController(title: "Write value", message: "Specify value in HEX to write ",
                                                      preferredStyle: .alert)
-        valueWriteController.addTextField { textField in
-            
+        valueWriteController.addTextField { _ in
         }
         valueWriteController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
-            
+
             if let _text = valueWriteController.textFields?.first?.text {
                 self.writeValueForCharacteristic(hexadecimalString: _text, characteristic: characteristic)
             }
-            
+
         })
-        self.present(valueWriteController, animated: true, completion: nil)
+        present(valueWriteController, animated: true, completion: nil)
     }
-    
-    fileprivate func writeValueForCharacteristic(hexadecimalString: String,characteristic: Characteristic) {
+
+    fileprivate func writeValueForCharacteristic(hexadecimalString: String, characteristic: Characteristic) {
         let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
         let type: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
         characteristic.writeValue(hexadecimalData as Data, type: type)
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     fileprivate func triggerValueRead(for characteristic: Characteristic) {
         characteristic.readValue()
             .subscribe(onNext: { [weak self] _ in
                 self?.characteristicsTableView.reloadData()
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
 }
 
 extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return characteristicsList.count
     }
 
@@ -99,7 +98,7 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let characteristic = characteristicsList[indexPath.row]
         let actionSheet = UIAlertController(title: "Choose action", message: nil, preferredStyle: .actionSheet)
 
@@ -119,31 +118,30 @@ extension CharacteristicsController: UITableViewDataSource, UITableViewDelegate 
             }
             actionSheet.addAction(readValueNotificationAction)
         }
-        
+
         if characteristic.properties.contains(.write) || characteristic.properties.contains(.writeWithoutResponse) {
             let writeValueNotificationAction = UIAlertAction(title: "Write", style: .default) { _ in
                 self.showWriteFieldForCharacteristic(characteristic: characteristic)
             }
             actionSheet.addAction(writeValueNotificationAction)
         }
-        
-        self.present(actionSheet, animated: true, completion: nil)
+
+        present(actionSheet, animated: true, completion: nil)
     }
 
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_: UITableView, viewForFooterInSection _: Int) -> UIView? {
         return UIView(frame: .zero)
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_: UITableView, titleForHeaderInSection _: Int) -> String? {
         return "CHARACTERISTICS"
     }
 }
 
 extension CharacteristicTableViewCell {
     func update(with characteristic: Characteristic) {
-        self.UUIDLabel.text = characteristic.uuid.uuidString
-        self.isNotifyingLabel.text = characteristic.isNotifying ? "true" : "false"
-        self.valueLabel.text = characteristic.value?.hexadecimalString ?? "Empty"
+        UUIDLabel.text = characteristic.uuid.uuidString
+        isNotifyingLabel.text = characteristic.isNotifying ? "true" : "false"
+        valueLabel.text = characteristic.value?.hexadecimalString ?? "Empty"
     }
 }
-

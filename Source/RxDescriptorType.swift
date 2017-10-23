@@ -23,25 +23,17 @@
 import Foundation
 import CoreBluetooth
 
-/**
- Protocol which wraps characteristic's descriptor for bluetooth devices.
- */
 protocol RxDescriptorType {
 
-    /// Unique identifier of an object. Should be removed in 4.0
     @available(*, deprecated)
     var objectId: UInt { get }
 
-    /// Descriptor UUID
     var uuid: CBUUID { get }
 
-    /// Descriptor's characteristic
     var characteristic: RxCharacteristicType { get }
 
-    /// Descriptor's value
     var value: Any? { get }
 
-    /// True if the two descriptor objects considered equal
     func isEqualTo(descriptor: RxDescriptorType) -> Bool
 }
 

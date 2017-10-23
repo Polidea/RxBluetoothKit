@@ -36,21 +36,27 @@ class RxCBCharacteristic: RxCharacteristicType {
     var objectId: UInt {
         return UInt(bitPattern: ObjectIdentifier(characteristic))
     }
+
     var uuid: CBUUID {
         return characteristic.uuid
     }
+
     var value: Data? {
         return characteristic.value
     }
+
     var isNotifying: Bool {
         return characteristic.isNotifying
     }
+
     var properties: CBCharacteristicProperties {
         return characteristic.properties
     }
+
     var descriptors: [RxDescriptorType]? {
         return characteristic.descriptors?.map(RxCBDescriptor.init)
     }
+
     var service: RxServiceType {
         return RxCBService(service: characteristic.service)
     }

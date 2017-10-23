@@ -29,12 +29,11 @@ import RxBluetoothKit
 
 class FakePeripheral: RxPeripheralType {
 
-
     var objectId: UInt = 0
-    var name: String? = nil
+    var name: String?
     var state: CBPeripheralState = CBPeripheralState.connected
     var rx_state: Observable<CBPeripheralState> = .never()
-    var services: [RxServiceType]? = nil
+    var services: [RxServiceType]?
     var identifier: UUID = UUID()
     var maximumWriteValueLength = 0
 
@@ -42,8 +41,7 @@ class FakePeripheral: RxPeripheralType {
         fatalError("Peripheral not available")
     }
 
-    var RSSI: Int? = nil
-
+    var RSSI: Int?
 
     var rx_didUpdateName: Observable<String?> = .never()
     var rx_didModifyServices: Observable<[RxServiceType]> = .never()
@@ -57,7 +55,6 @@ class FakePeripheral: RxPeripheralType {
     var rx_didDiscoverDescriptorsForCharacteristic: Observable<(RxCharacteristicType, Error?)> = .never()
     var rx_didUpdateValueForDescriptor: Observable<(RxDescriptorType, Error?)> = .never()
     var rx_didWriteValueForDescriptor: Observable<(RxDescriptorType, Error?)> = .never()
-
 
     var discoverServicesTO: TestableObserver<[CBUUID]?>?
     func discoverServices(_ serviceUUIDs: [CBUUID]?) {
@@ -80,7 +77,7 @@ class FakePeripheral: RxPeripheralType {
     }
 
     @available(OSX 10.12, iOS 9.0, *)
-    public func maximumWriteValueLength(for type: CBCharacteristicWriteType) -> Int {
+    public func maximumWriteValueLength(for _: CBCharacteristicWriteType) -> Int {
         return maximumWriteValueLength
     }
 
@@ -103,10 +100,12 @@ class FakePeripheral: RxPeripheralType {
     func readValue(for descriptor: RxDescriptorType) {
         readValueForDescriptorTO?.onNext(descriptor)
     }
+
     var writeValueForDescriptorTO: TestableObserver<(Data, RxDescriptorType)>?
     func writeValue(_ data: Data, for descriptor: RxDescriptorType) {
         writeValueForDescriptorTO?.onNext((data, descriptor))
     }
+
     var readRSSITO: TestableObserver<Void>?
     func readRSSI() {
         readRSSITO?.onNext(())

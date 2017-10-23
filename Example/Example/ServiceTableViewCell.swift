@@ -9,8 +9,7 @@
 import UIKit
 
 class ServiceTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var uuidLabel: UILabel!
     @IBOutlet weak var isPrimaryLabel: UILabel!
-
 }

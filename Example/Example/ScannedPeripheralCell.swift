@@ -13,5 +13,4 @@ class ScannedPeripheralCell: UITableViewCell {
     @IBOutlet weak var peripheralNameLabel: UILabel!
     @IBOutlet weak var RSSILabel: UILabel!
     @IBOutlet weak var advertismentDataLabel: UILabel!
-    
 }
