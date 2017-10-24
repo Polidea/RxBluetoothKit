@@ -65,7 +65,7 @@ public class BluetoothManager {
     // MARK: Initialization
 
     /// Creates new `BluetoothManager`
-    /// - parameter centralManager: Implementation of `RxCentralManagerType` protocol used by this class.
+    /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
     init(centralManager: CBCentralManager,
          queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {

@@ -197,10 +197,10 @@ public class Peripheral {
             .rx_didDiscoverCharacteristicsForService
             .filter { $0.0 == service.service }
             .flatMap { (cbService, error) -> Observable<[Characteristic]> in
-                guard let rxCharacteristics = cbService.characteristics, error == nil else {
+                guard let cbCharacteristics = cbService.characteristics, error == nil else {
                     throw BluetoothError.characteristicsDiscoveryFailed(service, error)
                 }
-                let characteristics = rxCharacteristics.map { Characteristic(characteristic: $0, service: service) }
+                let characteristics = cbCharacteristics.map { Characteristic(characteristic: $0, service: service) }
                 if let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
                     return .just(filteredCharacteristics)
                 }
