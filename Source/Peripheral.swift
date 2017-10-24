@@ -69,7 +69,7 @@ public class Peripheral {
     /// Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
 
     public var identifier: UUID {
-        return peripheral.identifier
+        return peripheral.value(forKey: "identifier") as! NSUUID as UUID
     }
 
     /// Unique identifier of `Peripheral` object instance. Should be removed in 4.0
