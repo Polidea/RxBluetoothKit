@@ -27,8 +27,7 @@ import CoreBluetooth
 // swiftlint:disable line_length
 
 /// BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
-/// discover, connect to remote peripheral devices and more. It's using thin layer behind `RxCentralManagerType` protocol which is
-/// implemented by `RxCBCentralManager` and should not be used directly by the user of a RxBluetoothKit library.
+/// discover, connect to remote peripheral devices and more.
 /// You can start using this class by discovering available services of nearby peripherals. Before calling any
 /// public `BluetoothManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
 /// by calling and observing returned value of `monitorState()` and then chaining it with `scanForPeripherals(_:options:)`:
@@ -65,8 +64,7 @@ public class BluetoothManager {
 
     // MARK: Initialization
 
-    /// Creates new `BluetoothManager` instance with specified implementation of `RxCentralManagerType` protocol which will be
-    /// used by this class. Most of a time `RxCBCentralManager` should be chosen by the user.
+    /// Creates new `BluetoothManager`
     /// - parameter centralManager: Implementation of `RxCentralManagerType` protocol used by this class.
     /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
     init(centralManager: CBCentralManager,
