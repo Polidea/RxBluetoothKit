@@ -8,6 +8,7 @@ env:
                 - TARGET=iOS
                 - TARGET=macOS
                 - TARGET=tvOS
+                - TARGET=watchOS
 before_install:
         - brew update
         - brew outdated carthage || brew upgrade carthage
