@@ -92,7 +92,7 @@ extension Peripheral {
                     }
                     return characteristic.discoverDescriptors()
                         .map {
-                            if let descriptor = $0.filter({ return $0.uuid == identifier.uuid }).first {
+                            if let descriptor = $0.filter({ $0.uuid == identifier.uuid }).first {
                                 return descriptor
                             }
                             throw RxError.noElements
@@ -168,7 +168,7 @@ extension Peripheral {
     /// - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete` is emitted
     public func setNotifyValue(_ enabled: Bool, for identifier: CharacteristicIdentifier)
         -> Single<Characteristic> {
-            return characteristic(with: identifier)
+        return characteristic(with: identifier)
             .flatMap { [weak self] in
                 self?.setNotifyValue(enabled, for: $0) ?? .error(BluetoothError.destroyed)
             }
@@ -181,11 +181,11 @@ extension Peripheral {
     /// This is **infinite** stream of values.
     public func setNotificationAndMonitorUpdates(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
-            return characteristic(with: identifier)
-                .asObservable()
-                .flatMap { [weak self] in
-                    self?.setNotificationAndMonitorUpdates(for: $0) ?? .error(BluetoothError.destroyed)
-                }
+        return characteristic(with: identifier)
+            .asObservable()
+            .flatMap { [weak self] in
+                self?.setNotificationAndMonitorUpdates(for: $0) ?? .error(BluetoothError.destroyed)
+            }
     }
 
     /// Function that triggers descriptors discovery for characteristic

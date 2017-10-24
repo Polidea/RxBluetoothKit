@@ -60,9 +60,9 @@ extension BluetoothError: CustomStringConvertible {
         switch self {
         case .destroyed:
             return """
-                   The object that is the source of this Observable was destroyed.
-                   It's programmer's error, please check documentation of error for more details
-                   """
+            The object that is the source of this Observable was destroyed.
+            It's programmer's error, please check documentation of error for more details
+            """
         case .bluetoothUnsupported:
             return "Bluetooth is unsupported"
         case .bluetoothUnauthorized:

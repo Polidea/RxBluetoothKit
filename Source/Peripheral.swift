@@ -29,9 +29,9 @@ import CoreBluetooth
 /// Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 public class Peripheral {
-    public let manager: BluetoothManager
+    public let manager: CentralManager
 
-    init(manager: BluetoothManager, peripheral: CBPeripheral) {
+    init(manager: CentralManager, peripheral: CBPeripheral) {
         self.manager = manager
         self.peripheral = peripheral
         peripheral.delegate = delegateWrapper
@@ -80,8 +80,8 @@ public class Peripheral {
     }
 
     /// Establishes local connection to the peripheral.
-    /// For more information look into `BluetoothManager.connectToPeripheral(_:options:)` because this method calls it directly.
-    /// - Parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
+    /// For more information look into `CentralManager.connectToPeripheral(_:options:)` because this method calls it directly.
+    /// - Parameter peripheral: The `Peripheral` to which `CentralManager` is attempting to connect.
     /// - Parameter options: Dictionary to customise the behaviour of connection.
     /// - Returns: `Observable` which emits next event after connection is established
     public func connect(options: [String: AnyObject]? = nil) -> Single<Peripheral> {
@@ -105,9 +105,9 @@ public class Peripheral {
     /// - Returns: `Single` that emits `Next` with array of `Service` instances, once they're discovered.
     public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Single<[Service]> {
         if let identifiers = serviceUUIDs, !identifiers.isEmpty,
-           let cachedServices = self.services,
-           let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
-           return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
+            let cachedServices = self.services,
+            let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
+            return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
         let observable = delegateWrapper.rx_didDiscoverServices
             .flatMap { [weak self] (_, error) -> Observable<[Service]> in
@@ -286,7 +286,7 @@ public class Peripheral {
     /// - Parameter characteristic: `Characteristic` to read value from
     /// - Returns: `Single` which emits `Next` with given characteristic when value is ready to read.
     public func readValue(for characteristic: Characteristic) -> Single<Characteristic> {
-        let observable = self.monitorValueUpdate(for: characteristic).take(1)
+        let observable = monitorValueUpdate(for: characteristic).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
@@ -329,17 +329,17 @@ public class Peripheral {
     /// This is **infinite** stream of values.
     public func setNotificationAndMonitorUpdates(for characteristic: Characteristic)
         -> Observable<Characteristic> {
-            return Observable
-                .of(
-                    monitorValueUpdate(for: characteristic),
-                    setNotifyValue(true, for: characteristic)
-                        .asObservable()
-                        .ignoreElements()
-                        .asObservable()
-                        .map { _ in characteristic }
-                        .subscribeOn(CurrentThreadScheduler.instance)
-                )
-                .merge()
+        return Observable
+            .of(
+                monitorValueUpdate(for: characteristic),
+                setNotifyValue(true, for: characteristic)
+                    .asObservable()
+                    .ignoreElements()
+                    .asObservable()
+                    .map { _ in characteristic }
+                    .subscribeOn(CurrentThreadScheduler.instance)
+            )
+            .merge()
     }
 
     // MARK: Descriptors
@@ -410,7 +410,7 @@ public class Peripheral {
     /// - Parameter descriptor: `Descriptor` to read value from
     /// - Returns: `Single` which emits `Next` with given descriptor when value is ready to read.
     public func readValue(for descriptor: Descriptor) -> Single<Descriptor> {
-        let observable = self.monitorValueUpdate(for: descriptor).take(1)
+        let observable = monitorValueUpdate(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in

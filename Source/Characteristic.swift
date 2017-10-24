@@ -65,7 +65,7 @@ public class Characteristic {
     /// Function that triggers descriptors discovery for characteristic.
     /// - returns: `Single` that emits `Next` with array of `Descriptor` instances, once they're discovered.
     public func discoverDescriptors() -> Single<[Descriptor]> {
-        return self.service.peripheral.discoverDescriptors(for: self)
+        return service.peripheral.discoverDescriptors(for: self)
     }
 
     /// Function that allow to monitor writes that happened for characteristic.

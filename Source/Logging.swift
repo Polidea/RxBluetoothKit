@@ -154,6 +154,12 @@ extension CBCentralManager: Loggable {
     }
 }
 
+extension CBPeripheralManager: Loggable {
+    @objc var logDescription: String {
+        return "PeripheralManager(\(UInt(bitPattern: ObjectIdentifier(self))))"
+    }
+}
+
 extension CBPeripheral: Loggable {
     @objc var logDescription: String {
         return "Peripheral(uuid: \(value(forKey: "identifier") as! NSUUID as UUID), name: \(String(describing: name)))"
