@@ -79,6 +79,13 @@ public class Peripheral {
         }
     }
 
+    /// YES if the remote device has space to send a write without response.  If this value is NO,
+    /// the value will be set to YES after the current writes have been flushed, and
+    /// `peripheralIsReadyToSendWriteWithoutResponse:` will be called.
+    public var canSendWriteWithoutResponse: Bool {
+        return peripheral.canSendWriteWithoutResponse
+    }
+
     /// Establishes local connection to the peripheral.
     /// For more information look into `BluetoothManager.connectToPeripheral(_:options:)` because this method calls it directly.
     /// - Parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
@@ -503,6 +510,12 @@ public class Peripheral {
                 return (strongSelf, services)
             }
         return ensureValidPeripheralState(for: observable)
+    }
+
+    /// Resulting observable emits next element if call to `writeValue:forCharacteristic:type:` has failed,
+    /// to indicate when peripheral is again ready to send characteristic value updates again.
+    public func monitorWriteWithoutResponseReadiness() -> Observable<Void> {
+        return delegateWrapper.rx_peripheralReadyToSendWriteWithoutResponse
     }
 }
 

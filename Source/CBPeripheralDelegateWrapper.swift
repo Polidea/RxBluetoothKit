@@ -54,6 +54,9 @@ import RxSwift
     var rx_didWriteValueForDescriptor: Observable<(CBDescriptor, Error?)> {
         return peripheralDidWriteValueForDescriptorSubject
     }
+    var rx_peripheralReadyToSendWriteWithoutResponse: Observable<Void> {
+        return peripheralIsReadyToSendWriteWithoutResponseSubject
+    }
 
     private let peripheralDidUpdateNameSubject = PublishSubject<String?>()
     private let peripheralDidModifyServicesSubject = PublishSubject<([CBService])>()
@@ -69,6 +72,7 @@ import RxSwift
         PublishSubject<(CBCharacteristic, Error?)>()
     private let peripheralDidUpdateValueForDescriptorSubject = PublishSubject<(CBDescriptor, Error?)>()
     private let peripheralDidWriteValueForDescriptorSubject = PublishSubject<(CBDescriptor, Error?)>()
+    private let peripheralIsReadyToSendWriteWithoutResponseSubject = PublishSubject<Void>()
 
     @objc func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
         RxBluetoothKitLog.d("""
@@ -193,5 +197,12 @@ import RxSwift
             error: \(String(describing: error)))
             """)
         peripheralDidWriteValueForDescriptorSubject.onNext((descriptor, error))
+    }
+
+    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
+        peripheralIsReadyToSendWriteWithoutResponseSubject.onNext(())
+        RxBluetoothKitLog.d("""
+            \(peripheral.logDescription) peripheralIsReady(toSendWriteWithoutResponse)
+            """)
     }
 }
