@@ -44,7 +44,8 @@ class RxCBPeripheral: RxPeripheralType {
 
     /// Peripheral's identifier
     var identifier: UUID {
-        return peripheral.identifier
+        return peripheral.value(forKey: "identifier") as! NSUUID as UUID
+
     }
 
     @available(*, deprecated)

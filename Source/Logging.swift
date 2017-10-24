@@ -152,7 +152,7 @@ extension CBCentralManager : Loggable {
 
 extension CBPeripheral : Loggable {
     var logDescription: String {
-        return "Peripheral(uuid: \(identifier), name: \(String(describing: name)))"
+        return "Peripheral(uuid: \(value(forKey: "identifier") as! NSUUID as UUID ), name: \(String(describing: name)))"
     }
 }
 

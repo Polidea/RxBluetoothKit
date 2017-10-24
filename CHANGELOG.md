@@ -1,3 +1,6 @@
+# 3.1.2
+- Fix building on macOS with the newest SDK
+
 # 3.1.1
 - `listenedOnRestoredState` should not be missing events from delegate now in case of race condition
 - Fixed build issue caused by swiftlint
