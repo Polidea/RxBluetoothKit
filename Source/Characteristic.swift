@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016 Polidea
+// Copyright (c) 2017 Polidea
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,19 +28,13 @@ import CoreBluetooth
 
 /// Characteristic is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBCharacteristic](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCharacteristic_Class/)
 public class Characteristic {
-    let characteristic: RxCharacteristicType
+    public let characteristic: CBCharacteristic
     /// Service which contains this characteristic
     public let service: Service
 
     /// Current value of characteristic. If value is not present - it's `nil`.
     public var value: Data? {
         return characteristic.value
-    }
-
-    /// Unique identifier of an object. Should be removed in 4.0
-    @available(*, deprecated)
-    public var objectId: UInt {
-        return characteristic.objectId
     }
 
     /// The Bluetooth UUID of the `Characteristic` instance.
@@ -63,7 +57,7 @@ public class Characteristic {
         return characteristic.descriptors?.map { Descriptor(descriptor: $0, characteristic: self) }
     }
 
-    init(characteristic: RxCharacteristicType, service: Service) {
+    init(characteristic: CBCharacteristic, service: Service) {
         self.characteristic = characteristic
         self.service = service
     }

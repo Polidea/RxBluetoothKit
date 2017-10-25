@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016 Polidea
+// Copyright (c) 2017 Polidea
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,16 +29,10 @@ import RxSwift
 /// Descriptors provide more information about a characteristic’s value.
 public class Descriptor {
 
-    let descriptor: RxDescriptorType
+    public let descriptor: CBDescriptor
 
     /// Characteristic to which this descriptor belongs.
     public let characteristic: Characteristic
-
-    /// Unique identifier of an object. Should be removed in 4.0
-    @available(*, deprecated)
-    public var objectId: UInt {
-        return descriptor.objectId
-    }
 
     /// The Bluetooth UUID of the `Descriptor` instance.
     public var uuid: CBUUID {
@@ -50,7 +44,7 @@ public class Descriptor {
         return descriptor.value
     }
 
-    init(descriptor: RxDescriptorType, characteristic: Characteristic) {
+    init(descriptor: CBDescriptor, characteristic: Characteristic) {
         self.descriptor = descriptor
         self.characteristic = characteristic
     }

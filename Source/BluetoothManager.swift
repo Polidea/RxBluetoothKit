@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016 Polidea
+// Copyright (c) 2017 Polidea
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,7 @@ import CoreBluetooth
 // swiftlint:disable line_length
 
 /// BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
-/// discover, connect to remote peripheral devices and more. It's using thin layer behind `RxCentralManagerType` protocol which is
-/// implemented by `RxCBCentralManager` and should not be used directly by the user of a RxBluetoothKit library.
+/// discover, connect to remote peripheral devices and more.
 /// You can start using this class by discovering available services of nearby peripherals. Before calling any
 /// public `BluetoothManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
 /// by calling and observing returned value of `monitorState()` and then chaining it with `scanForPeripherals(_:options:)`:
@@ -44,7 +43,9 @@ import CoreBluetooth
 public class BluetoothManager {
 
     /// Implementation of Central Manager
-    private let centralManager: RxCentralManagerType
+    public let centralManager: CBCentralManager
+
+    private let delegateWrapper = CBCentralManagerDelegateWrapper()
 
     /// Queue on which all observables are serialised if needed
     private let subscriptionQueue: SerializedSubscriptionQueue
@@ -55,26 +56,16 @@ public class BluetoothManager {
     /// Queue of scan operations which are waiting for an execution
     private var scanQueue: [ScanOperation] = []
 
-    /// Unique identifier of an object. Should be removed in 4.0
-    @available(*, deprecated)
-    public var objectId: UInt {
-        return centralManager.objectId
-    }
-
-    public var manager: CBCentralManager {
-        return centralManager.centralManager
-    }
-
     // MARK: Initialization
 
-    /// Creates new `BluetoothManager` instance with specified implementation of `RxCentralManagerType` protocol which will be
-    /// used by this class. Most of a time `RxCBCentralManager` should be chosen by the user.
-    /// - parameter centralManager: Implementation of `RxCentralManagerType` protocol used by this class.
+    /// Creates new `BluetoothManager`
+    /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
-    init(centralManager: RxCentralManagerType,
+    init(centralManager: CBCentralManager,
          queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
         self.centralManager = centralManager
         subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
+        centralManager.delegate = delegateWrapper
     }
 
     /// Creates new `BluetoothManager` instance. By default all operations and events are executed and received on main thread.
@@ -84,7 +75,7 @@ public class BluetoothManager {
     /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
-        self.init(centralManager: RxCBCentralManager(queue: queue, options: options),
+        self.init(centralManager: CBCentralManager(delegate: nil, queue: queue, options: options),
                   queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
     }
 
@@ -143,7 +134,7 @@ public class BluetoothManager {
                 let operation = Observable.create { [weak self] (element: AnyObserver<ScannedPeripheral>) -> Disposable in
                     guard let strongSelf = self else { return Disposables.create() }
                     // Observable which will emit next element, when peripheral is discovered.
-                    let disposable = strongSelf.centralManager.rx_didDiscoverPeripheral
+                    let disposable = strongSelf.delegateWrapper.rx_didDiscoverPeripheral
                         .flatMap { [weak self] (peripheral, advertisment, rssi) -> Observable<ScannedPeripheral> in
                             guard let strongSelf = self else { throw BluetoothError.destroyed }
                             let peripheral = Peripheral(manager: strongSelf, peripheral: peripheral)
@@ -191,14 +182,14 @@ public class BluetoothManager {
     public var rx_state: Observable<BluetoothState> {
         return .deferred { [weak self] in
             guard let `self` = self else { throw BluetoothError.destroyed }
-            return self.centralManager.rx_didUpdateState.startWith(self.centralManager.state)
+            return self.delegateWrapper.rx_didUpdateState.startWith(self.state)
         }
     }
 
     /// Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
     /// - returns: Current state of `BluetoothManager` as `BluetoothState`.
     public var state: BluetoothState {
-        return centralManager.state
+        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
     }
 
     // MARK: Peripheral's Connection Management
@@ -214,12 +205,12 @@ public class BluetoothManager {
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
         -> Single<Peripheral> {
 
-        let success = centralManager.rx_didConnectPeripheral
+        let success = delegateWrapper.rx_didConnectPeripheral
             .filter { $0 == peripheral.peripheral }
             .take(1)
             .map { _ in return peripheral }
 
-        let error = centralManager.rx_didFailToConnectPeripheral
+        let error = delegateWrapper.rx_didFailToConnectPeripheral
             .filter { $0.0 == peripheral.peripheral }
             .take(1)
             .map { (peripheral, error) -> Peripheral in
@@ -231,7 +222,7 @@ public class BluetoothManager {
                 observer.onError(BluetoothError.destroyed)
                 return Disposables.create()
             }
-            if let error = BluetoothError(state: strongSelf.centralManager.state) {
+            if let error = BluetoothError(state: strongSelf.state) {
                 observer.onError(error)
                 return Disposables.create()
             }
@@ -287,10 +278,9 @@ public class BluetoothManager {
     /// `Service`s with UUIDs specified in the `serviceUUIDs` parameter.
     public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Single<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred { [weak self] in
-
             guard let strongSelf = self else { throw BluetoothError.destroyed }
-            return strongSelf.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
-                .map { [weak self] (peripheralTable: [RxPeripheralType]) -> [Peripheral] in
+            return Observable.just(strongSelf.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs))
+                .map { [weak self] (peripheralTable: [CBPeripheral]) -> [Peripheral] in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
                     return peripheralTable.map {
                         Peripheral(manager: strongSelf, peripheral: $0)
@@ -307,8 +297,8 @@ public class BluetoothManager {
     public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Single<[Peripheral]> {
         let observable = Observable<[Peripheral]>.deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
-            return strongSelf.centralManager.retrievePeripherals(withIdentifiers: identifiers)
-                .map { [weak self] (peripheralTable: [RxPeripheralType]) -> [Peripheral] in
+            return Observable.just(strongSelf.centralManager.retrievePeripherals(withIdentifiers: identifiers))
+                .map { [weak self] (peripheralTable: [CBPeripheral]) -> [Peripheral] in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
                     return peripheralTable.map {
                         Peripheral(manager: strongSelf, peripheral: $0)
@@ -340,7 +330,7 @@ public class BluetoothManager {
             if !peripheral.isConnected {
                 throw BluetoothError.peripheralDisconnected(peripheral, nil)
             }
-            return self.centralManager.rx_didDisconnectPeripheral
+            return self.delegateWrapper.rx_didDisconnectPeripheral
                 .filter { $0.0 == peripheral.peripheral }
                 .map { (_, error) -> T in
                     throw BluetoothError.peripheralDisconnected(peripheral, error)
@@ -352,17 +342,17 @@ public class BluetoothManager {
     /// - Parameter peripheral: `Peripheral` which is monitored for connection.
     /// - Returns: Observable which emits next events when `peripheral` was connected.
     public func monitorConnection(for peripheral: Peripheral) -> Observable<Peripheral> {
-        return monitorPeripheral(on: centralManager.rx_didConnectPeripheral, peripheral: peripheral)
+        return monitorPeripheral(on: delegateWrapper.rx_didConnectPeripheral, peripheral: peripheral)
     }
 
     /// Emits `Peripheral` instance when it's disconnected.
     /// - Parameter peripheral: `Peripheral` which is monitored for disconnection.
     /// - Returns: Observable which emits next events when `peripheral` was disconnected.
     public func monitorDisconnection(for peripheral: Peripheral) -> Observable<Peripheral> {
-        return monitorPeripheral(on: centralManager.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
+        return monitorPeripheral(on: delegateWrapper.rx_didDisconnectPeripheral.map { $0.0 }, peripheral: peripheral)
     }
 
-    func monitorPeripheral(on peripheralAction: Observable<RxPeripheralType>, peripheral: Peripheral)
+    func monitorPeripheral(on peripheralAction: Observable<CBPeripheral>, peripheral: Peripheral)
         -> Observable<Peripheral> {
         let observable =
             peripheralAction
@@ -376,7 +366,7 @@ public class BluetoothManager {
         /// Should only be called once in the lifetime of the app
         /// - Returns: Observable which emits next events state has been restored
         public func listenOnRestoredState() -> Observable<RestoredState> {
-            return centralManager
+            return delegateWrapper
                 .rx_willRestoreState
                 .take(1)
                 .flatMap { [weak self] dict -> Observable<RestoredState> in
