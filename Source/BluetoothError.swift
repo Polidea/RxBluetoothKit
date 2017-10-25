@@ -38,6 +38,7 @@ public enum BluetoothError: Error {
     // Peripheral
     case peripheralConnectionFailed(Peripheral, Error?)
     case peripheralDisconnected(Peripheral, Error?)
+    case peripheralDisconnectionFailed(Peripheral, Error?)
     case peripheralRSSIReadFailed(Peripheral, Error?)
     // Services
     case servicesDiscoveryFailed(Peripheral, Error?)
@@ -77,6 +78,8 @@ extension BluetoothError: CustomStringConvertible {
         case let .peripheralConnectionFailed(_, err):
             return "Connection error has occured: \(err?.localizedDescription ?? "-")"
         case let .peripheralDisconnected(_, err):
+            return "Connection error has occured: \(err?.localizedDescription ?? "-")"
+        case let .peripheralDisconnectionFailed(_, err):
             return "Connection error has occured: \(err?.localizedDescription ?? "-")"
         case let .peripheralRSSIReadFailed(_, err):
             return "RSSI read failed : \(err?.localizedDescription ?? "-")"
