@@ -257,6 +257,16 @@ public class Peripheral {
     public func writeValue(_ data: Data,
                            for characteristic: Characteristic,
                            type: CBCharacteristicWriteType) -> Single<Characteristic> {
+        let writeOperationPerformingAndListeningObservable = { [weak self] (observable: Observable<Characteristic>)
+            -> Observable<Characteristic> in
+            guard let strongSelf = self else { return Observable.error(BluetoothError.destroyed) }
+            return strongSelf.ensureValidPeripheralStateAndCallIfSucceeded(
+                for: observable,
+                postSubscriptionCall: { [weak self] in
+                    self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
+                }
+            )
+        }
         switch type {
         case .withoutResponse:
             return Observable<Characteristic>.deferred { [weak self] in
@@ -266,24 +276,13 @@ public class Peripheral {
                     .startWith(strongSelf.canSendWriteWithoutResponse)
                     .filter { $0 }
                     .take(1)
+                let observable = writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
                 return canWrite
-                    .flatMap { _ -> Observable<Characteristic> in
-                        guard let strongSelf = self else { throw BluetoothError.destroyed }
-                        return strongSelf.ensureValidPeripheralStateAndCallIfSucceeded(
-                            for: .just(characteristic),
-                            postSubscriptionCall: { [weak self] in
-                                self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
-                            }
-                        )
-                    }
+                    .flatMap { _ in observable } 
             }.asSingle()
         case .withResponse:
-            return ensureValidPeripheralStateAndCallIfSucceeded(
-                for: monitorWrite(for: characteristic).take(1),
-                postSubscriptionCall: { [weak self] in
-                    self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
-                }
-            ).asSingle()
+            return writeOperationPerformingAndListeningObservable(monitorWrite(for: characteristic).take(1))
+                .asSingle()
         }
     }
 
