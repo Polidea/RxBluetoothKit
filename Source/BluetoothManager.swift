@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016 Polidea
+// Copyright (c) 2017 Polidea
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -55,12 +55,6 @@ public class BluetoothManager {
 
     /// Queue of scan operations which are waiting for an execution
     private var scanQueue: [ScanOperation] = []
-
-    /// Unique identifier of an object. Should be removed in 4.0
-    @available(*, deprecated)
-    public var objectId: UInt {
-        return UInt(bitPattern: ObjectIdentifier(centralManager))
-    }
 
     // MARK: Initialization
 

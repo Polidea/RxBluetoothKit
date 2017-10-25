@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016 Polidea
+// Copyright (c) 2017 Polidea
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -70,12 +70,6 @@ public class Peripheral {
 
     public var identifier: UUID {
         return peripheral.value(forKey: "identifier") as! NSUUID as UUID
-    }
-
-    /// Unique identifier of `Peripheral` object instance. Should be removed in 4.0
-    @available(*, deprecated)
-    public var objectId: UInt {
-        return UInt(bitPattern: ObjectIdentifier(peripheral))
     }
 
     /// A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
