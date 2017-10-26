@@ -255,7 +255,7 @@ public class BluetoothManager {
     /// - parameter peripheral: The `Peripheral` to which the `BluetoothManager` is either trying to
     /// connect or has already connected.
     /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
-    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Observable<(Peripheral, BluetoothError?)> {
+    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Single<(Peripheral, BluetoothError?)> {
         let observable = Observable<(Peripheral, BluetoothError?)>.create { [weak self] observer in
             guard let strongSelf = self else {
                 observer.onError(BluetoothError.destroyed)
@@ -265,7 +265,7 @@ public class BluetoothManager {
             strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
-        return ensure(.poweredOn, observable: observable)
+        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Retrieving Lists of Peripherals

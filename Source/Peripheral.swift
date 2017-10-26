@@ -99,7 +99,7 @@ public class Peripheral {
     /// that physical connection will be closed immediately as well and all pending commands will not be executed.
     ///
     /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
-    public func cancelConnection() -> Observable<(Peripheral, BluetoothError?)> {
+    public func cancelConnection() -> Single<(Peripheral, BluetoothError?)> {
         return manager.cancelPeripheralConnection(self)
     }
 
