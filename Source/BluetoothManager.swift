@@ -255,8 +255,8 @@ public class BluetoothManager {
     /// - parameter peripheral: The `Peripheral` to which the `BluetoothManager` is either trying to
     /// connect or has already connected.
     /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
-    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Single<(Peripheral, BluetoothError?)> {
-        let observable = Observable<(Peripheral, BluetoothError?)>.create { [weak self] observer in
+    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Single<(Peripheral)> {
+        let observable = Observable<(Peripheral, DisconnectionReason)>.create { [weak self] observer in
             guard let strongSelf = self else {
                 observer.onError(BluetoothError.destroyed)
                 return Disposables.create()
@@ -265,7 +265,7 @@ public class BluetoothManager {
             strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
-        return ensure(.poweredOn, observable: observable).asSingle()
+      return ensure(.poweredOn, observable: observable).asSingle().map { $0.0 }
     }
 
     // MARK: Retrieving Lists of Peripherals
@@ -350,21 +350,21 @@ public class BluetoothManager {
 
     /// Emits `Peripheral` instance when it's disconnected.
     /// - Parameter peripheral: `Peripheral` which is monitored for disconnection.
-    /// - Returns: Observable which emits next events when `peripheral` was disconnected or error event when occured.
-    public func monitorDisconnection(for peripheral: Peripheral) -> Observable<(Peripheral, BluetoothError?)> {
+    /// - Returns: Observable which emits next events when `peripheral` was disconnected and error which is
+    /// a disconnection reason when it was caused by 'peripheral' otherwise it's nil.
+    public typealias DisconnectionReason = Error?
+    public func monitorDisconnection(for peripheral: Peripheral) -> Observable<(Peripheral, DisconnectionReason)> {
         return monitorPeripheral(
-            on: delegateWrapper.rx_didDisconnectPeripheral.map { result in
-              return  (result.0, result.1.map { BluetoothError.peripheralDisconnected(peripheral, $0) })
-            }, peripheral: peripheral
+            on: delegateWrapper.rx_didDisconnectPeripheral, peripheral: peripheral
         )
     }
 
-    func monitorPeripheral(on peripheralAction: Observable<(CBPeripheral, BluetoothError?)>, peripheral: Peripheral)
-            -> Observable<(Peripheral, BluetoothError?)> {
+    func monitorPeripheral(on peripheralAction: Observable<(CBPeripheral, DisconnectionReason)>, peripheral: Peripheral)
+            -> Observable<(Peripheral, Error?)> {
         let observable =
             peripheralAction
                 .filter { $0.0 == peripheral.peripheral }
-                .map { (_, error) -> (Peripheral, BluetoothError?) in (peripheral, error) }
+                .map { (_, error) -> (Peripheral, Error?) in (peripheral, error) }
         return ensure(.poweredOn, observable: observable)
     }
 
