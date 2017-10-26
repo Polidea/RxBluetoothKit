@@ -79,6 +79,13 @@ public class Peripheral {
         }
     }
 
+    /// YES if the remote device has space to send a write without response.  If this value is NO,
+    /// the value will be set to YES after the current writes have been flushed, and
+    /// `peripheralIsReadyToSendWriteWithoutResponse:` will be called.
+    public var canSendWriteWithoutResponse: Bool {
+        return peripheral.canSendWriteWithoutResponse
+    }
+
     /// Establishes local connection to the peripheral.
     /// For more information look into `BluetoothManager.connectToPeripheral(_:options:)` because this method calls it directly.
     /// - Parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
@@ -105,9 +112,9 @@ public class Peripheral {
     /// - Returns: `Single` that emits `Next` with array of `Service` instances, once they're discovered.
     public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Single<[Service]> {
         if let identifiers = serviceUUIDs, !identifiers.isEmpty,
-           let cachedServices = self.services,
-           let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
-           return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
+            let cachedServices = self.services,
+            let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
+            return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
         let observable = delegateWrapper.rx_didDiscoverServices
             .flatMap { [weak self] (_, error) -> Observable<[Service]> in
@@ -245,23 +252,39 @@ public class Peripheral {
     /// - `withResponse` -  Observable emits `Next` with `Characteristic` instance write was confirmed without any errors.
     /// Immediately after that `Complete` is called. If any problem has happened, errors are emitted.
     /// - `withoutResponse` - Observable emits `Next` with `Characteristic` instance once write was called.
-    /// Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure if everything completed successfully. Errors are not emitted
+    /// Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
+    /// if everything completed successfully. Errors are not emitted. It ensures that peripheral is ready to write
+    /// without response by listening to the proper delegate method
     public func writeValue(_ data: Data,
                            for characteristic: Characteristic,
                            type: CBCharacteristicWriteType) -> Single<Characteristic> {
-        let observable: Observable<Characteristic>
+        let writeOperationPerformingAndListeningObservable = { [weak self] (observable: Observable<Characteristic>)
+            -> Observable<Characteristic> in
+            guard let strongSelf = self else { return Observable.error(BluetoothError.destroyed) }
+            return strongSelf.ensureValidPeripheralStateAndCallIfSucceeded(
+                for: observable,
+                postSubscriptionCall: { [weak self] in
+                    self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
+                }
+            )
+        }
         switch type {
         case .withoutResponse:
-            observable = .just(characteristic)
+            return Observable<Characteristic>.deferred { [weak self] in
+                guard let strongSelf = self else { throw BluetoothError.destroyed }
+                return strongSelf.monitorWriteWithoutResponseReadiness()
+                    .map { _ in true }
+                    .startWith(strongSelf.canSendWriteWithoutResponse)
+                    .filter { $0 }
+                    .take(1)
+                    .flatMap { _ in
+                        writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
+                    }
+            }.asSingle()
         case .withResponse:
-            observable = monitorWrite(for: characteristic).take(1)
+            return writeOperationPerformingAndListeningObservable(monitorWrite(for: characteristic).take(1))
+                .asSingle()
         }
-        return ensureValidPeripheralStateAndCallIfSucceeded(
-            for: observable,
-            postSubscriptionCall: { [weak self] in
-                self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
-            }
-        ).asSingle()
     }
 
     /// Function that allow to monitor value updates for `Characteristic` instance.
@@ -286,7 +309,7 @@ public class Peripheral {
     /// - Parameter characteristic: `Characteristic` to read value from
     /// - Returns: `Single` which emits `Next` with given characteristic when value is ready to read.
     public func readValue(for characteristic: Characteristic) -> Single<Characteristic> {
-        let observable = self.monitorValueUpdate(for: characteristic).take(1)
+        let observable = monitorValueUpdate(for: characteristic).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
@@ -329,17 +352,17 @@ public class Peripheral {
     /// This is **infinite** stream of values.
     public func setNotificationAndMonitorUpdates(for characteristic: Characteristic)
         -> Observable<Characteristic> {
-            return Observable
-                .of(
-                    monitorValueUpdate(for: characteristic),
-                    setNotifyValue(true, for: characteristic)
-                        .asObservable()
-                        .ignoreElements()
-                        .asObservable()
-                        .map { _ in characteristic }
-                        .subscribeOn(CurrentThreadScheduler.instance)
-                )
-                .merge()
+        return Observable
+            .of(
+                monitorValueUpdate(for: characteristic),
+                setNotifyValue(true, for: characteristic)
+                    .asObservable()
+                    .ignoreElements()
+                    .asObservable()
+                    .map { _ in characteristic }
+                    .subscribeOn(CurrentThreadScheduler.instance)
+            )
+            .merge()
     }
 
     // MARK: Descriptors
@@ -410,7 +433,7 @@ public class Peripheral {
     /// - Parameter descriptor: `Descriptor` to read value from
     /// - Returns: `Single` which emits `Next` with given descriptor when value is ready to read.
     public func readValue(for descriptor: Descriptor) -> Single<Descriptor> {
-        let observable = self.monitorValueUpdate(for: descriptor).take(1)
+        let observable = monitorValueUpdate(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
@@ -503,6 +526,12 @@ public class Peripheral {
                 return (strongSelf, services)
             }
         return ensureValidPeripheralState(for: observable)
+    }
+
+    /// Resulting observable emits next element if call to `writeValue:forCharacteristic:type:` has failed,
+    /// to indicate when peripheral is again ready to send characteristic value updates again.
+    public func monitorWriteWithoutResponseReadiness() -> Observable<Void> {
+        return delegateWrapper.rx_peripheralReadyToSendWriteWithoutResponse
     }
 }
 
