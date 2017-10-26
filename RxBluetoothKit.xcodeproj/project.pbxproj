@@ -63,6 +63,7 @@
 		BB2FF3331F9EAF1600A12E10 /* CBPeripheralDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3311F9EAD5300A12E10 /* CBPeripheralDelegateWrapper.swift */; };
 		BB2FF3351F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */; };
 		BB2FF3361F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */; };
+		BB701D131FA1E99E00A1D4E7 /* Managers+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB701D121FA1E99E00A1D4E7 /* Managers+State.swift */; };
 		D74B16851ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
 		D74B16861ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
 		FA947A3B1EB1C41C000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
@@ -147,6 +148,7 @@
 		BB24D3981F9F74AF0006B481 /* CBPeripheralManagerDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralManagerDelegateWrapper.swift; sourceTree = "<group>"; };
 		BB2FF3311F9EAD5300A12E10 /* CBPeripheralDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralDelegateWrapper.swift; sourceTree = "<group>"; };
 		BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentralManagerDelegateWrapper.swift; sourceTree = "<group>"; };
+		BB701D121FA1E99E00A1D4E7 /* Managers+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Managers+State.swift"; sourceTree = "<group>"; };
 		D74B16841ED417AA006D5996 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDIdentifiable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -216,6 +218,7 @@
 				A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */,
 				FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */,
 				D74B16841ED417AA006D5996 /* Logging.swift */,
+				BB701D121FA1E99E00A1D4E7 /* Managers+State.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				BB2FF3351F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift in Sources */,
 				2666FE351CCE4732005E81CE /* Peripheral.swift in Sources */,
 				D74B16851ED417AA006D5996 /* Logging.swift in Sources */,
+				BB701D131FA1E99E00A1D4E7 /* Managers+State.swift in Sources */,
 				2666FE441CCE4732005E81CE /* Boxes.swift in Sources */,
 				BB2FF3321F9EAD5300A12E10 /* CBPeripheralDelegateWrapper.swift in Sources */,
 				2666FE381CCE4732005E81CE /* Peripheral+Convenience.swift in Sources */,

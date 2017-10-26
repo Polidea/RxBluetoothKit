@@ -63,4 +63,31 @@ public class PeripheralManager {
         self.init(peripheralManager: CBPeripheralManager(delegate: nil, queue: queue, options: options),
                   queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
     }
+
+    // MARK: State
+
+    /// Continuous state of `PeripheralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
+    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
+    public var rx_state: Observable<BluetoothState> {
+        return .deferred { [weak self] in
+            guard let `self` = self else { throw BluetoothError.destroyed }
+            return self.delegateWrapper.rx_didUpdateState.startWith(self.state)
+        }
+    }
+
+    /// Current state of `CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+    /// - returns: Current state of `PeripheralManager` as `BluetoothState`.
+    public var state: BluetoothState {
+        return BluetoothState(rawValue: peripheralManager.state.rawValue) ?? .unsupported
+    }
+
+    private var isWaitingForAdvertisingCompletion = false
+    public typealias AdvertisingStarted = Void
+    //TODO: Docs
+    public func startAdvertising(_ advertisementData: [String : Any]?) -> Observable<AdvertisingStarted> {
+        return Observable.deferred {
+            
+        }
+    }
 }
