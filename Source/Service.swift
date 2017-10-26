@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016 Polidea
+// Copyright (c) 2017 Polidea
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ import RxSwift
 // swiftlint:disable line_length
 /// Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBService](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
 public class Service {
-    let service: RxServiceType
+    public let service: CBService
 
     /// Peripheral to which this service belongs
     public let peripheral: Peripheral
@@ -35,12 +35,6 @@ public class Service {
     /// True if service is primary service
     public var isPrimary: Bool {
         return service.isPrimary
-    }
-
-    /// Unique identifier of an object. Should be removed in 4.0
-    @available(*, deprecated)
-    public var objectId: UInt {
-        return service.objectId
     }
 
     /// Service's UUID
@@ -62,7 +56,7 @@ public class Service {
         }
     }
 
-    init(peripheral: Peripheral, service: RxServiceType) {
+    init(peripheral: Peripheral, service: CBService) {
         self.service = service
         self.peripheral = peripheral
     }
