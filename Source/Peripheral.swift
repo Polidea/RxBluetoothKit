@@ -532,6 +532,33 @@ public class Peripheral {
     public func monitorWriteWithoutResponseReadiness() -> Observable<Void> {
         return delegateWrapper.rx_peripheralReadyToSendWriteWithoutResponse
     }
+    
+    /// Function that allow to open L2CAP channel for `Peripheral` instance.
+    /// For more information, please refer to
+    /// [What’s New in CoreBluetooth, 712, WWDC 2017](https://developer.apple.com/videos/play/wwdc2017/712/)
+    ///
+    /// - parameter PSM: `PSM` (Protocol/Service Multiplexer) of the channel
+    /// - returns: `Single` that emits `CBL2CAPChannel` when channel has opened
+    /// - since: iOS 11, tvOS 11, watchOS 4
+    #if os(iOS) || os(tvOS) || os(watchOS)
+        @available(iOS 11, tvOS 11, watchOS 4, *)
+        public func openL2CAPChannel(PSM: CBL2CAPPSM) -> Single<CBL2CAPChannel> {
+            let observable = delegateWrapper.rx_didOpenL2CAPChannel
+                .take(1)
+                .flatMap { [weak self] (channel, error) -> Observable<CBL2CAPChannel> in
+                    guard let strongSelf = self else { throw BluetoothError.destroyed }
+                    if let channel = channel, error != nil {
+                        return .just(channel)
+                    } else {
+                        throw BluetoothError.openingL2CAPChannelFailed(strongSelf, error)
+                    }
+            }
+    
+            return ensureValidPeripheralStateAndCallIfSucceeded(for: observable, postSubscriptionCall: { [weak self] in
+                self?.peripheral.openL2CAPChannel(PSM)
+            }).asSingle()
+        }
+    #endif
 }
 
 extension Peripheral: Equatable {}
