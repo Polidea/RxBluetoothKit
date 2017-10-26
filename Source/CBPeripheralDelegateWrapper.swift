@@ -200,9 +200,9 @@ import RxSwift
     }
 
     func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
-        peripheralIsReadyToSendWriteWithoutResponseSubject.onNext(())
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) peripheralIsReady(toSendWriteWithoutResponse)
             """)
+        peripheralIsReadyToSendWriteWithoutResponseSubject.onNext(())
     }
 }

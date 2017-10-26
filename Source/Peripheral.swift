@@ -252,8 +252,9 @@ public class Peripheral {
     /// - `withResponse` -  Observable emits `Next` with `Characteristic` instance write was confirmed without any errors.
     /// Immediately after that `Complete` is called. If any problem has happened, errors are emitted.
     /// - `withoutResponse` - Observable emits `Next` with `Characteristic` instance once write was called.
-    /// Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure if everything completed successfully. Errors are not emitted. It ensures that peripheral is ready to write without
-    /// response by listening to the proper delegate method
+    /// Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
+    /// if everything completed successfully. Errors are not emitted. It ensures that peripheral is ready to write
+    /// without response by listening to the proper delegate method
     public func writeValue(_ data: Data,
                            for characteristic: Characteristic,
                            type: CBCharacteristicWriteType) -> Single<Characteristic> {
@@ -271,14 +272,14 @@ public class Peripheral {
         case .withoutResponse:
             return Observable<Characteristic>.deferred { [weak self] in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                let canWrite = strongSelf.monitorWriteWithoutResponseReadiness()
+                return strongSelf.monitorWriteWithoutResponseReadiness()
                     .map { _ in true }
                     .startWith(strongSelf.canSendWriteWithoutResponse)
                     .filter { $0 }
                     .take(1)
-                let observable = writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
-                return canWrite
-                    .flatMap { _ in observable } 
+                    .flatMap { _ in
+                        writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
+                    }
             }.asSingle()
         case .withResponse:
             return writeOperationPerformingAndListeningObservable(monitorWrite(for: characteristic).take(1))
