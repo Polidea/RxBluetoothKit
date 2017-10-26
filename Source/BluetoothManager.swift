@@ -353,8 +353,8 @@ public class BluetoothManager {
     /// - Returns: Observable which emits next events when `peripheral` was disconnected or error event when occured.
     public func monitorDisconnection(for peripheral: Peripheral) -> Observable<(Peripheral, BluetoothError?)> {
         return monitorPeripheral(
-            on: delegateWrapper.rx_didDisconnectPeripheral.map { (_, error) in
-                throw BluetoothError.peripheralDisconnectionFailed(peripheral, error)
+            on: delegateWrapper.rx_didDisconnectPeripheral.map { result in
+              return  (result.0, result.1.map { BluetoothError.peripheralDisconnected(peripheral, $0) })
             }, peripheral: peripheral
         )
     }
