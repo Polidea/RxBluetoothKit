@@ -29,7 +29,7 @@ import CoreBluetooth
 /// BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
 /// discover, connect to remote peripheral devices and more.
 /// You can start using this class by discovering available services of nearby peripherals. Before calling any
-/// public `BluetoothManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
+/// public `CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
 /// by calling and observing returned value of `monitorState()` and then chaining it with `scanForPeripherals(_:options:)`:
 /// ```
 /// bluetoothManager.rx_state
@@ -40,9 +40,8 @@ import CoreBluetooth
 /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
 /// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other operations.
 /// - seealso: `Peripheral`
-public class BluetoothManager {
+public class CentralManager: BluetoothStateProvider {
 
-    /// Implementation of Central Manager
     public let centralManager: CBCentralManager
 
     private let delegateWrapper = CBCentralManagerDelegateWrapper()
@@ -57,8 +56,7 @@ public class BluetoothManager {
     private var scanQueue: [ScanOperation] = []
 
     // MARK: Initialization
-
-    /// Creates new `BluetoothManager`
+    /// Creates new `CentralManager`
     /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
     init(centralManager: CBCentralManager,
@@ -68,7 +66,7 @@ public class BluetoothManager {
         centralManager.delegate = delegateWrapper
     }
 
-    /// Creates new `BluetoothManager` instance. By default all operations and events are executed and received on main thread.
+    /// Creates new `CentralManager` instance. By default all operations and events are executed and received on main thread.
     /// - warning: If you pass background queue to the method make sure to observe results on main thread for UI related code.
     /// - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
     /// - parameter options: An optional dictionary containing initialization options for a central manager.
@@ -170,26 +168,21 @@ public class BluetoothManager {
                 return operation
             }()
             // Allow scanning as long as bluetooth is powered on
-            return strongSelf.ensure(.poweredOn, observable: observable)
+            return strongSelf.ensure(state: .poweredOn, observable: observable)
         }
     }
 
     // MARK: State
 
-    /// Continuous state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
-    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
-    public var rx_state: Observable<BluetoothState> {
-        return .deferred { [weak self] in
-            guard let `self` = self else { throw BluetoothError.destroyed }
-            return self.delegateWrapper.rx_didUpdateState.startWith(self.state)
-        }
-    }
-
-    /// Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Current state of `BluetoothManager` as `BluetoothState`.
+    /// Current state of `CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+    /// - returns: Current state of `CentralManager` as `BluetoothState`.
     public var state: BluetoothState {
         return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
+    }
+
+    /// Observable which emits next whenever state of `CentralManager` changes. Never completes and errors
+    public var stateChanges: Observable<BluetoothState> {
+        return delegateWrapper.rx_didUpdateState
     }
 
     // MARK: Peripheral's Connection Management
@@ -199,7 +192,7 @@ public class BluetoothManager {
     /// returned observable cancels connection attempt. By default observable is waiting infinitely for successful connection.
     /// Additionally you can pass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
     /// to customise the behaviour of connection.
-    /// - parameter peripheral: The `Peripheral` to which `BluetoothManager` is attempting to connect.
+    /// - parameter peripheral: The `Peripheral` to which `CentralManager` is attempting to connect.
     /// - parameter options: Dictionary to customise the behaviour of connection.
     /// - returns: `Single` which emits next event after connection is established.
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
@@ -246,13 +239,13 @@ public class BluetoothManager {
             }
         }
 
-        return ensure(.poweredOn, observable: observable).asSingle()
+            return ensure(state: .poweredOn, observable: observable).asSingle()
     }
 
     /// Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
     /// that physical connection will be closed immediately as well and all pending commands will not be executed.
     ///
-    /// - parameter peripheral: The `Peripheral` to which the `BluetoothManager` is either trying to
+    /// - parameter peripheral: The `Peripheral` to which the `CentralManager` is either trying to
     /// connect or has already connected.
     /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
     public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Single<Peripheral> {
@@ -265,12 +258,12 @@ public class BluetoothManager {
             strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
-        return ensure(.poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Retrieving Lists of Peripherals
 
-    /// Returns observable list of the `Peripheral`s which are currently connected to the `BluetoothManager` and contain
+    /// Returns observable list of the `Peripheral`s which are currently connected to the `CentralManager` and contain
     /// all of the specified `Service`'s UUIDs.
     ///
     /// - parameter serviceUUIDs: A list of `Service` UUIDs
@@ -287,10 +280,10 @@ public class BluetoothManager {
                     }
                 }
         }
-        return ensure(.poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, observable: observable).asSingle()
     }
 
-    /// Returns observable list of `Peripheral`s by their identifiers which are known to `BluetoothManager`.
+    /// Returns observable list of `Peripheral`s by their identifiers which are known to `CentralManager`.
     ///
     /// - parameter identifiers: List of `Peripheral`'s identifiers which should be retrieved.
     /// - returns: `Single` which emits next event when list of `Peripheral`s are retrieved.
@@ -305,22 +298,10 @@ public class BluetoothManager {
                     }
                 }
         }
-        return ensure(.poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Internal functions
-
-    /// Ensure that `state` is and will be the only state of `BluetoothManager` during subscription.
-    /// Otherwise error is emitted.
-    /// - parameter state: `BluetoothState` which should be present during subscription.
-    /// - parameter observable: Observable into which potential errors should be merged.
-    /// - returns: New observable which merges errors with source observable.
-    func ensure<T>(_ state: BluetoothState, observable: Observable<T>) -> Observable<T> {
-        let statesObservable = rx_state
-            .filter { $0 != state && BluetoothError(state: $0) != nil }
-            .map { state -> T in throw BluetoothError(state: state)! }
-        return .absorb(statesObservable, observable)
-    }
 
     /// Ensure that specified `peripheral` is connected during subscription.
     /// - parameter peripheral: `Peripheral` which should be connected during subscription.
@@ -358,11 +339,11 @@ public class BluetoothManager {
             peripheralAction
             .filter { $0 == peripheral.peripheral }
             .map { _ in peripheral }
-        return ensure(.poweredOn, observable: observable)
+            return ensure(state: .poweredOn, observable: observable)
     }
 
     #if os(iOS)
-        /// Emits `RestoredState` instance, when state of `BluetoothManager` has been restored,
+        /// Emits `RestoredState` instance, when state of `CentralManager` has been restored,
         /// Should only be called once in the lifetime of the app
         /// - Returns: Observable which emits next events state has been restored
         public func listenOnRestoredState() -> Observable<RestoredState> {
@@ -371,7 +352,7 @@ public class BluetoothManager {
                 .take(1)
                 .flatMap { [weak self] dict -> Observable<RestoredState> in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
-                    return .just(RestoredState(restoredStateDictionary: dict, bluetoothManager: strongSelf))
+                    return .just(RestoredState(restoredStateDictionary: dict, centralManager: strongSelf))
                 }
         }
     #endif
