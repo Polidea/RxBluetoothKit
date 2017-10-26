@@ -51,6 +51,9 @@ public enum BluetoothError: Error {
     case descriptorsDiscoveryFailed(Characteristic, Error?)
     case descriptorWriteFailed(Descriptor, Error?)
     case descriptorReadFailed(Descriptor, Error?)
+    // Peripheral Mode
+    case peripheralAlreadyAdvertising
+    case peripheralAdvertisingFailed(Error)
 }
 
 extension BluetoothError: CustomStringConvertible {
@@ -101,6 +104,10 @@ extension BluetoothError: CustomStringConvertible {
             return "Descriptor write error has occured: \(err?.localizedDescription ?? "-")"
         case let .descriptorReadFailed(_, err):
             return "Descriptor read error has occured: \(err?.localizedDescription ?? "-")"
+        case .peripheralAlreadyAdvertising:
+            return "Peripheral is already advertising. Make sure to stop advertising before calling this method"
+        case let .peripheralAdvertisingFailed(err):
+            return "Peripheral start advertising error has occured: \(err.localizedDescription)"
         }
     }
 }
@@ -151,6 +158,8 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case let (.descriptorsDiscoveryFailed(l, _), .descriptorsDiscoveryFailed(r, _)): return l == r
     case let (.descriptorWriteFailed(l, _), .descriptorWriteFailed(r, _)): return l == r
     case let (.descriptorReadFailed(l, _), .descriptorReadFailed(r, _)): return l == r
+    case (.peripheralAlreadyAdvertising, .peripheralAlreadyAdvertising): return true
+    case (.peripheralAdvertisingFailed(_), .peripheralAdvertisingFailed(_)): return true
     default: return false
     }
 }

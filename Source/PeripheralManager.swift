@@ -24,7 +24,7 @@ import Foundation
 import CoreBluetooth
 import RxSwift
 
-public class PeripheralManager {
+public class PeripheralManager: BluetoothStateProvider {
 
     public let peripheralManager: CBPeripheralManager
 
@@ -66,28 +66,54 @@ public class PeripheralManager {
 
     // MARK: State
 
-    /// Continuous state of `PeripheralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
-    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
-    public var rx_state: Observable<BluetoothState> {
-        return .deferred { [weak self] in
-            guard let `self` = self else { throw BluetoothError.destroyed }
-            return self.delegateWrapper.rx_didUpdateState.startWith(self.state)
-        }
-    }
-
-    /// Current state of `CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+    /// Current state of `PeripheralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
     /// - returns: Current state of `PeripheralManager` as `BluetoothState`.
     public var state: BluetoothState {
         return BluetoothState(rawValue: peripheralManager.state.rawValue) ?? .unsupported
     }
 
-    private var isWaitingForAdvertisingCompletion = false
+    /// Observable which emits next whenever state of `CentralManager` changes. Never completes and errors
+    public var stateChanges: Observable<BluetoothState> {
+        return delegateWrapper.rx_didUpdateState
+    }
+
     public typealias AdvertisingStarted = Void
     //TODO: Docs
-    public func startAdvertising(_ advertisementData: [String : Any]?) -> Observable<AdvertisingStarted> {
-        return Observable.deferred {
-            
+    public func startAdvertising(_ advertisementData: Variable<[String : Any]?>) -> Single<AdvertisingStarted> {
+        let observable = Observable<AdvertisingStarted>.create { [weak self] observer in
+            guard let strongSelf = self else {
+                observer.onError(BluetoothError.destroyed)
+                return Disposables.create()
+            }
+            if strongSelf.isAdvertising {
+                observer.onError(BluetoothError.peripheralAlreadyAdvertising)
+                return Disposables.create()
+            }
+            let disposable = strongSelf.delegateWrapper.rx_didStartAdvertising
+                .flatMap { error -> Observable<AdvertisingStarted> in
+                    if let error = error {
+                        throw BluetoothError.peripheralAdvertisingFailed(error)
+                    }
+                    return .just(())
+            }.subscribe(observer)
+            let advertisementChangesDisposable = advertisementData
+                .asObservable()
+                .skip(1)
+                .subscribe(onNext: { [weak self] advertisement in
+                    self?.peripheralManager.startAdvertising(advertisement)
+                })
+            strongSelf.peripheralManager.startAdvertising(advertisementData.value)
+
+            return Disposables.create { [weak self] in
+                disposable.dispose()
+                advertisementChangesDisposable.dispose()
+                self?.peripheralManager.stopAdvertising()
+            }
         }
+        return ensure(state: .poweredOn, observable: observable).asSingle()
+    }
+
+    public func startAdvertising(_ advertisementData: [String : Any]?) -> Single<AdvertisingStarted> {
+        return startAdvertising(Variable(advertisementData))
     }
 }

@@ -24,11 +24,31 @@ import Foundation
 import CoreBluetooth
 import RxSwift
 
-public protocol BluetoothStateProvider {
-    public var state: BluetoothState { get }
+public protocol BluetoothStateProvider: class {
+    var state: BluetoothState { get }
     var stateChanges: Observable<BluetoothState> { get }
 }
 
 extension BluetoothStateProvider {
-    
+    /// Continuous state of `CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
+    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
+    public var rx_state: Observable<BluetoothState> {
+        return .deferred { [weak self] in
+            guard let `self` = self else { throw BluetoothError.destroyed }
+            return self.stateChanges.startWith(self.state)
+        }
+    }
+
+    /// Ensure that `state` is and will be the only state of `CentralManager` during subscription.
+    /// Otherwise error is emitted.
+    /// - parameter state: `BluetoothState` which should be present during subscription.
+    /// - parameter observable: Observable into which potential errors should be merged.
+    /// - returns: New observable which merges errors with source observable.
+    func ensure<T>(state: BluetoothState, observable: Observable<T>) -> Observable<T> {
+        let statesObservable = rx_state
+            .filter { $0 != state && BluetoothError(state: $0) != nil }
+            .map { state -> T in throw BluetoothError(state: state)! }
+        return .absorb(statesObservable, observable)
+    }
 }

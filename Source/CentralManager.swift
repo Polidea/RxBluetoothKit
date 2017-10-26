@@ -40,7 +40,7 @@ import CoreBluetooth
 /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
 /// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other operations.
 /// - seealso: `Peripheral`
-public class CentralManager {
+public class CentralManager: BluetoothStateProvider {
 
     public let centralManager: CBCentralManager
 
@@ -168,26 +168,21 @@ public class CentralManager {
                 return operation
             }()
             // Allow scanning as long as bluetooth is powered on
-            return strongSelf.ensure(.poweredOn, observable: observable)
+            return strongSelf.ensure(state: .poweredOn, observable: observable)
         }
     }
 
     // MARK: State
 
-    /// Continuous state of `CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
-    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
-    public var rx_state: Observable<BluetoothState> {
-        return .deferred { [weak self] in
-            guard let `self` = self else { throw BluetoothError.destroyed }
-            return self.delegateWrapper.rx_didUpdateState.startWith(self.state)
-        }
-    }
-
     /// Current state of `CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
     /// - returns: Current state of `CentralManager` as `BluetoothState`.
     public var state: BluetoothState {
         return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
+    }
+
+    /// Observable which emits next whenever state of `CentralManager` changes. Never completes and errors
+    public var stateChanges: Observable<BluetoothState> {
+        return delegateWrapper.rx_didUpdateState
     }
 
     // MARK: Peripheral's Connection Management
@@ -244,7 +239,7 @@ public class CentralManager {
             }
         }
 
-        return ensure(.poweredOn, observable: observable).asSingle()
+            return ensure(state: .poweredOn, observable: observable).asSingle()
     }
 
     /// Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
@@ -263,7 +258,7 @@ public class CentralManager {
             strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
-        return ensure(.poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Retrieving Lists of Peripherals
@@ -285,7 +280,7 @@ public class CentralManager {
                     }
                 }
         }
-        return ensure(.poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, observable: observable).asSingle()
     }
 
     /// Returns observable list of `Peripheral`s by their identifiers which are known to `CentralManager`.
@@ -303,22 +298,10 @@ public class CentralManager {
                     }
                 }
         }
-        return ensure(.poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Internal functions
-
-    /// Ensure that `state` is and will be the only state of `CentralManager` during subscription.
-    /// Otherwise error is emitted.
-    /// - parameter state: `BluetoothState` which should be present during subscription.
-    /// - parameter observable: Observable into which potential errors should be merged.
-    /// - returns: New observable which merges errors with source observable.
-    func ensure<T>(_ state: BluetoothState, observable: Observable<T>) -> Observable<T> {
-        let statesObservable = rx_state
-            .filter { $0 != state && BluetoothError(state: $0) != nil }
-            .map { state -> T in throw BluetoothError(state: state)! }
-        return .absorb(statesObservable, observable)
-    }
 
     /// Ensure that specified `peripheral` is connected during subscription.
     /// - parameter peripheral: `Peripheral` which should be connected during subscription.
@@ -356,7 +339,7 @@ public class CentralManager {
             peripheralAction
             .filter { $0 == peripheral.peripheral }
             .map { _ in peripheral }
-        return ensure(.poweredOn, observable: observable)
+            return ensure(state: .poweredOn, observable: observable)
     }
 
     #if os(iOS)

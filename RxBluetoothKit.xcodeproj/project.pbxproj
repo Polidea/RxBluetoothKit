@@ -64,6 +64,7 @@
 		BB2FF3351F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */; };
 		BB2FF3361F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */; };
 		BB701D131FA1E99E00A1D4E7 /* Managers+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB701D121FA1E99E00A1D4E7 /* Managers+State.swift */; };
+		BB701D141FA296FF00A1D4E7 /* Managers+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB701D121FA1E99E00A1D4E7 /* Managers+State.swift */; };
 		D74B16851ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
 		D74B16861ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
 		FA947A3B1EB1C41C000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
@@ -655,6 +656,7 @@
 				26752FA61D89C630003D8D38 /* BluetoothState.swift in Sources */,
 				2666FE1F1CCE4731005E81CE /* Service.swift in Sources */,
 				2666FE2A1CCE4731005E81CE /* BluetoothError.swift in Sources */,
+				BB701D141FA296FF00A1D4E7 /* Managers+State.swift in Sources */,
 				2666FE231CCE4731005E81CE /* Characteristic.swift in Sources */,
 				2666FE171CCE4731005E81CE /* Descriptor.swift in Sources */,
 				2666FE2F1CCE4731005E81CE /* AdvertisementData.swift in Sources */,
