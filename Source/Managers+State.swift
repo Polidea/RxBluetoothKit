@@ -45,7 +45,7 @@ extension BluetoothStateProvider {
     /// - parameter state: `BluetoothState` which should be present during subscription.
     /// - parameter observable: Observable into which potential errors should be merged.
     /// - returns: New observable which merges errors with source observable.
-    func ensure<T>(state: BluetoothState, observable: Observable<T>) -> Observable<T> {
+    func ensure<T>(state: BluetoothState, for observable: Observable<T>) -> Observable<T> {
         let statesObservable = rx_state
             .filter { $0 != state && BluetoothError(state: $0) != nil }
             .map { state -> T in throw BluetoothError(state: state)! }

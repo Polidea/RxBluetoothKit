@@ -168,7 +168,7 @@ public class CentralManager: BluetoothStateProvider {
                 return operation
             }()
             // Allow scanning as long as bluetooth is powered on
-            return strongSelf.ensure(state: .poweredOn, observable: observable)
+            return strongSelf.ensure(state: .poweredOn, for: observable)
         }
     }
 
@@ -239,7 +239,7 @@ public class CentralManager: BluetoothStateProvider {
             }
         }
 
-            return ensure(state: .poweredOn, observable: observable).asSingle()
+            return ensure(state: .poweredOn, for: observable).asSingle()
     }
 
     /// Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
@@ -258,7 +258,7 @@ public class CentralManager: BluetoothStateProvider {
             strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
-        return ensure(state: .poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, for: observable).asSingle()
     }
 
     // MARK: Retrieving Lists of Peripherals
@@ -280,7 +280,7 @@ public class CentralManager: BluetoothStateProvider {
                     }
                 }
         }
-        return ensure(state: .poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, for: observable).asSingle()
     }
 
     /// Returns observable list of `Peripheral`s by their identifiers which are known to `CentralManager`.
@@ -298,7 +298,7 @@ public class CentralManager: BluetoothStateProvider {
                     }
                 }
         }
-        return ensure(state: .poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, for: observable).asSingle()
     }
 
     // MARK: Internal functions
@@ -339,7 +339,7 @@ public class CentralManager: BluetoothStateProvider {
             peripheralAction
             .filter { $0 == peripheral.peripheral }
             .map { _ in peripheral }
-            return ensure(state: .poweredOn, observable: observable)
+            return ensure(state: .poweredOn, for: observable)
     }
 
     #if os(iOS)

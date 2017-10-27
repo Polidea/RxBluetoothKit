@@ -46,9 +46,7 @@ public class PeripheralManager: BluetoothStateProvider {
 
     /// Creates new `PeripheralManager`
     /// - parameter peripheralManager: CBPeripheralManager instance used to perform peripheral mode operations
-    /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
-    init(peripheralManager: CBPeripheralManager,
-         queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
+    init(peripheralManager: CBPeripheralManager) {
         self.peripheralManager = peripheralManager
         peripheralManager.delegate = delegateWrapper
     }
@@ -60,8 +58,7 @@ public class PeripheralManager: BluetoothStateProvider {
     /// For more info about it please refer to [Peripheral Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralManager_Class/index.html)
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: Any]? = nil) {
-        self.init(peripheralManager: CBPeripheralManager(delegate: nil, queue: queue, options: options),
-                  queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
+        self.init(peripheralManager: CBPeripheralManager(delegate: nil, queue: queue, options: options))
     }
 
     // MARK: State
@@ -98,11 +95,9 @@ public class PeripheralManager: BluetoothStateProvider {
             }.subscribe(observer)
             let advertisementChangesDisposable = advertisementData
                 .asObservable()
-                .skip(1)
                 .subscribe(onNext: { [weak self] advertisement in
                     self?.peripheralManager.startAdvertising(advertisement)
                 })
-            strongSelf.peripheralManager.startAdvertising(advertisementData.value)
 
             return Disposables.create { [weak self] in
                 disposable.dispose()
@@ -110,7 +105,7 @@ public class PeripheralManager: BluetoothStateProvider {
                 self?.peripheralManager.stopAdvertising()
             }
         }
-        return ensure(state: .poweredOn, observable: observable).asSingle()
+        return ensure(state: .poweredOn, for: observable).asSingle()
     }
 
     public func startAdvertising(_ advertisementData: [String : Any]?) -> Single<AdvertisingStarted> {

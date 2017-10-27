@@ -83,31 +83,67 @@ import RxSwift
         willRestoreStateSubject.onNext(dict)
     }
 
-    func peripheralManagerDidStartAdvertising(_: CBPeripheralManager, error: Error?) {
+    func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) didStartAdvertising
+                            (error: \(String(describing: error))")
+                            """)
         didStartAdvertisingSubject.onNext(error)
     }
 
-    func peripheralManager(_: CBPeripheralManager, didAdd _: CBService, error: Error?) {
+    func peripheralManager(_ peripheral: CBPeripheralManager, didAdd service: CBService, error: Error?) {
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) didAddService: \(service.logDescription)
+                            (error: \(String(describing: error))")
+                            """)
         didAddServiceSubject.onNext(error)
     }
 
-    func peripheralManager(_: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
+    func peripheralManager(
+        _ peripheral: CBPeripheralManager,
+        central: CBCentral,
+        didSubscribeTo characteristic: CBCharacteristic
+        ) {
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) central: \(central)
+                            didSubscribeTo: \(characteristic.logDescription)
+                            """)
         didSubscribeToCharacteristicSubject.onNext((central, characteristic))
     }
 
-    func peripheralManager(_: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+    func peripheralManager(
+        _ peripheral: CBPeripheralManager,
+        central: CBCentral,
+        didUnsubscribeFrom characteristic: CBCharacteristic
+        ) {
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) central: \(central)
+                            didSubscribeTo: \(characteristic.logDescription)
+                            """)
         didUnsubscribeFromCharacteristicSubject.onNext((central, characteristic))
     }
 
-    func peripheralManager(_: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription)
+                            didReceiveRead: \(request.logDescription)
+                            """)
         didReceiveReadSubject.onNext(request)
     }
 
-    func peripheralManager(_: CBPeripheralManager, didReceiveWrite request: [CBATTRequest]) {
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite request: [CBATTRequest]) {
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription)
+                            didReceiveWriteRequest: \(request.logDescription)
+                            """)
         didReceiveWriteSubject.onNext(request)
     }
 
-    func peripheralManagerIsReady(toUpdateSubscribers _: CBPeripheralManager) {
+    func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription)
+                            isReadyToUpdateSubscribers:
+                            """)
         isReadyToUpdateSubscribersSubject.onNext(())
     }
 }

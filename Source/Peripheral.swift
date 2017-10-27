@@ -449,7 +449,7 @@ public class Peripheral {
     func ensureValidPeripheralState<T>(for observable: Observable<T>) -> Observable<T> {
         return Observable<T>.absorb(
             manager.ensurePeripheralIsConnected(self),
-            manager.ensure(state: .poweredOn, observable: observable)
+            manager.ensure(state: .poweredOn, for: observable)
         )
     }
 

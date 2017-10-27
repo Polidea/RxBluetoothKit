@@ -198,6 +198,16 @@ extension CBDescriptor: Loggable {
     }
 }
 
+extension CBATTRequest: Loggable {
+    @objc var logDescription: String {
+        return """
+               ATTRequest(characteristic: \(characteristic.logDescription),
+               offset: \(offset)
+               id: \((UInt(bitPattern: ObjectIdentifier(self)))))
+               """
+    }
+}
+
 extension Array where Element: Loggable {
     var logDescription: String {
         return "[\(map { $0.logDescription }.joined(separator: ", "))]"
