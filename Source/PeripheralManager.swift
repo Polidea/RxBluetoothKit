@@ -75,7 +75,12 @@ public class PeripheralManager: BluetoothStateProvider {
     }
 
     public typealias AdvertisingStarted = Void
-    //TODO: Docs
+
+
+    /// <#Description#>
+    ///
+    /// - Parameter advertisementData: Variable which contains the data to be advertised. You should check
+    /// - Returns: Single which emits Void when advertising has started
     public func startAdvertising(_ advertisementData: Variable<[String : Any]?>) -> Single<AdvertisingStarted> {
         let observable = Observable<AdvertisingStarted>.create { [weak self] observer in
             guard let strongSelf = self else {
@@ -108,6 +113,10 @@ public class PeripheralManager: BluetoothStateProvider {
         return ensure(state: .poweredOn, for: observable).asSingle()
     }
 
+    /// <#Description#>
+    ///
+    /// - Parameter advertisementData: <#advertisementData description#>
+    /// - Returns: Single which emits Void when advertising has started
     public func startAdvertising(_ advertisementData: [String : Any]?) -> Single<AdvertisingStarted> {
         return startAdvertising(Variable(advertisementData))
     }
