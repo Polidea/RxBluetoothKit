@@ -57,6 +57,12 @@ import RxSwift
     var rx_peripheralReadyToSendWriteWithoutResponse: Observable<Void> {
         return peripheralIsReadyToSendWriteWithoutResponseSubject
     }
+    
+    @available(OSX 10.13, iOS 11, *)
+    var rx_didOpenL2CAPChannel: Observable<(CBL2CAPChannel?, Error?)> {
+        return peripheralDidOpenL2CAPChannelSubject
+            .map {($0.0 as? CBL2CAPChannel, $0.1)}
+    }
 
     private let peripheralDidUpdateNameSubject = PublishSubject<String?>()
     private let peripheralDidModifyServicesSubject = PublishSubject<([CBService])>()
@@ -73,6 +79,7 @@ import RxSwift
     private let peripheralDidUpdateValueForDescriptorSubject = PublishSubject<(CBDescriptor, Error?)>()
     private let peripheralDidWriteValueForDescriptorSubject = PublishSubject<(CBDescriptor, Error?)>()
     private let peripheralIsReadyToSendWriteWithoutResponseSubject = PublishSubject<Void>()
+    private let peripheralDidOpenL2CAPChannelSubject = PublishSubject<(Any?, Error?)>()
 
     @objc func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
         RxBluetoothKitLog.d("""
@@ -204,5 +211,14 @@ import RxSwift
             \(peripheral.logDescription) peripheralIsReady(toSendWriteWithoutResponse)
             """)
         peripheralIsReadyToSendWriteWithoutResponseSubject.onNext(())
+    }
+    
+    @available(OSX 10.13, iOS 11, *)
+    @objc func peripheral(_ peripheral: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
+        RxBluetoothKitLog.d("""
+            \(peripheral.logDescription) didOpenL2CAPChannel(for:\(peripheral.logDescription),
+            error: \(String(describing: error)))
+            """)
+        peripheralDidOpenL2CAPChannelSubject.onNext((channel, error))
     }
 }
