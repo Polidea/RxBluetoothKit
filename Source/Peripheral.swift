@@ -31,15 +31,27 @@ import CoreBluetooth
 public class Peripheral {
     public let manager: BluetoothManager
 
-    init(manager: BluetoothManager, peripheral: CBPeripheral) {
-        self.manager = manager
-        self.peripheral = peripheral
-        peripheral.delegate = delegateWrapper
+    /// Creates new `Peripheral`
+    /// - parameter manager: Central instance which is used to perform all of the necessary operations.
+    /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
+    /// - parameter delegateWrapper: Wrapper on CoreBluetooth's peripheral callbacks.
+    internal init(manager: BluetoothManager, peripheral: CBPeripheral, delegateWrapper: CBPeripheralDelegateWrapper) {
+      self.manager = manager
+      self.peripheral = peripheral
+      self.delegateWrapper = delegateWrapper
+      peripheral.delegate = delegateWrapper
+    }
+
+    /// Creates new `Peripheral`
+    /// - parameter manager: Central instance which is used to perform all of the necessary operations.
+    /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
+    convenience init(manager: BluetoothManager, peripheral: CBPeripheral) {
+      self.init(manager: manager, peripheral: peripheral, delegateWrapper: CBPeripheralDelegateWrapper())
     }
 
     /// Implementation of peripheral
     public let peripheral: CBPeripheral
-    private let delegateWrapper = CBPeripheralDelegateWrapper()
+    private let delegateWrapper: CBPeripheralDelegateWrapper
 
     ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
     public var rx_isConnected: Observable<Bool> {

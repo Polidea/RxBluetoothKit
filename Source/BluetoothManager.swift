@@ -45,7 +45,7 @@ public class BluetoothManager {
     /// Implementation of Central Manager
     public let centralManager: CBCentralManager
 
-    private let delegateWrapper = CBCentralManagerDelegateWrapper()
+    private let delegateWrapper: CBCentralManagerDelegateWrapper
 
     /// Queue on which all observables are serialised if needed
     private let subscriptionQueue: SerializedSubscriptionQueue
@@ -61,11 +61,30 @@ public class BluetoothManager {
     /// Creates new `BluetoothManager`
     /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
-    init(centralManager: CBCentralManager,
-         queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
+    /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
+    internal init(
+      centralManager: CBCentralManager,
+      queueScheduler: SchedulerType = ConcurrentMainScheduler.instance,
+      delegateWrapper: CBCentralManagerDelegateWrapper
+    ) {
         self.centralManager = centralManager
+        self.delegateWrapper = delegateWrapper
         subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
         centralManager.delegate = delegateWrapper
+    }
+
+    /// Creates new `BluetoothManager`
+    /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
+    /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
+    convenience init(
+      centralManager: CBCentralManager,
+      queueScheduler: SchedulerType = ConcurrentMainScheduler.instance
+    ) {
+      self.init(
+        centralManager: centralManager,
+        queueScheduler: queueScheduler,
+        delegateWrapper: CBCentralManagerDelegateWrapper()
+      )
     }
 
     /// Creates new `BluetoothManager` instance. By default all operations and events are executed and received on main thread.
