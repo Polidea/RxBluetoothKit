@@ -412,7 +412,7 @@ public class Peripheral {
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorWrite(for descriptor: Descriptor) -> Observable<Descriptor> {
         let observable = delegateWrapper
-            .peripheralDidWriteValueForCharacteristicSubject
+            .peripheralDidWriteValueForDescriptorSubject
             .filter { $0.0 == descriptor.descriptor }
             .map { (_, error) -> Descriptor in
                 if let error = error {
@@ -428,7 +428,8 @@ public class Peripheral {
     /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
     public func monitorValueUpdate(for descriptor: Descriptor) -> Observable<Descriptor> {
-        let observable = delegateWrapper.peripheralDidUpdateValueForCharacteristicSubject
+        let observable = delegateWrapper
+            .peripheralDidUpdateValueForDescriptorSubject
             .filter { $0.0 == descriptor.descriptor }
             .map { (_, error) -> Descriptor in
                 if let error = error {
