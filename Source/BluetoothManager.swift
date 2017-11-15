@@ -134,7 +134,7 @@ public class BluetoothManager {
                 let operation = Observable.create { [weak self] (element: AnyObserver<ScannedPeripheral>) -> Disposable in
                     guard let strongSelf = self else { return Disposables.create() }
                     // Observable which will emit next element, when peripheral is discovered.
-                    let disposable = strongSelf.delegateWrapper.rx_didDiscoverPeripheral
+                    let disposable = strongSelf.delegateWrapper.didDiscoverPeripheralSubject
                         .flatMap { [weak self] (peripheral, advertisment, rssi) -> Observable<ScannedPeripheral> in
                             guard let strongSelf = self else { throw BluetoothError.destroyed }
                             let peripheral = Peripheral(manager: strongSelf, peripheral: peripheral)
@@ -182,7 +182,7 @@ public class BluetoothManager {
     public var rx_state: Observable<BluetoothState> {
         return .deferred { [weak self] in
             guard let `self` = self else { throw BluetoothError.destroyed }
-            return self.delegateWrapper.rx_didUpdateState.startWith(self.state)
+            return self.delegateWrapper.didUpdateStateSubject.startWith(self.state)
         }
     }
 
@@ -205,12 +205,12 @@ public class BluetoothManager {
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
         -> Single<Peripheral> {
 
-        let success = delegateWrapper.rx_didConnectPeripheral
+        let success = delegateWrapper.didConnectPerihperalSubject
             .filter { $0 == peripheral.peripheral }
             .take(1)
             .map { _ in return peripheral }
 
-        let error = delegateWrapper.rx_didFailToConnectPeripheral
+        let error = delegateWrapper.didFailToConnectPeripheralSubject
             .filter { $0.0 == peripheral.peripheral }
             .take(1)
             .map { (peripheral, error) -> Peripheral in
@@ -332,7 +332,7 @@ public class BluetoothManager {
             if !peripheral.isConnected {
                 throw BluetoothError.peripheralDisconnected(peripheral, nil)
             }
-            return self.delegateWrapper.rx_didDisconnectPeripheral
+            return self.delegateWrapper.didDisconnectPeripheral
                 .filter { $0.0 == peripheral.peripheral }
                 .map { (_, error) -> T in
                     throw BluetoothError.peripheralDisconnected(peripheral, error)
@@ -344,7 +344,7 @@ public class BluetoothManager {
     /// - Parameter peripheral: `Peripheral` which is monitored for connection.
     /// - Returns: Observable which emits next events when `peripheral` was connected.
     public func monitorConnection(for peripheral: Peripheral) -> Observable<Peripheral> {
-        let observable = delegateWrapper.rx_didConnectPeripheral
+        let observable = delegateWrapper.didConnectPerihperalSubject
           .filter { $0 == peripheral.peripheral }
           .map { _ in peripheral }
       return ensure(.poweredOn, observable: observable)
@@ -357,7 +357,7 @@ public class BluetoothManager {
     /// It provides optional error which may contain more information about the cause of the disconnection
     /// if it wasn't the `cancelConnection` call
     public func monitorDisconnection(for peripheral: Peripheral) -> Observable<(Peripheral, DisconnectionReason?)> {
-        let observable = delegateWrapper.rx_didDisconnectPeripheral
+        let observable = delegateWrapper.didDisconnectPeripheral
           .filter { $0.0 == peripheral.peripheral }
           .map { (_, error) -> (Peripheral, DisconnectionReason?) in (peripheral, error) }
         return ensure(.poweredOn, observable: observable)
@@ -369,7 +369,7 @@ public class BluetoothManager {
         /// - Returns: Observable which emits next events state has been restored
         public func listenOnRestoredState() -> Observable<RestoredState> {
             return delegateWrapper
-                .rx_willRestoreState
+                .willRestoreStateSubject
                 .take(1)
                 .flatMap { [weak self] dict -> Observable<RestoredState> in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }

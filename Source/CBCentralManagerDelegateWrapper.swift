@@ -26,31 +26,12 @@ import RxSwift
 
 @objc class CBCentralManagerDelegateWrapper: NSObject, CBCentralManagerDelegate {
 
-    var rx_didUpdateState: Observable<BluetoothState> {
-        return didUpdateStateSubject
-    }
-    var rx_willRestoreState: Observable<[String: Any]> {
-        return willRestoreStateSubject
-    }
-    var rx_didDiscoverPeripheral: Observable<(CBPeripheral, [String: Any], NSNumber)> {
-        return didDiscoverPeripheralSubject
-    }
-    var rx_didConnectPeripheral: Observable<CBPeripheral> {
-        return didConnectPerihperalSubject
-    }
-    var rx_didFailToConnectPeripheral: Observable<(CBPeripheral, Error?)> {
-        return didFailToConnectPeripheralSubject
-    }
-    var rx_didDisconnectPeripheral: Observable<(CBPeripheral, Error?)> {
-        return didDisconnectPeripheral
-    }
-
-    private let didUpdateStateSubject = PublishSubject<BluetoothState>()
-    private let willRestoreStateSubject = ReplaySubject<[String: Any]>.create(bufferSize: 1)
-    private let didDiscoverPeripheralSubject = PublishSubject<(CBPeripheral, [String: Any], NSNumber)>()
-    private let didConnectPerihperalSubject = PublishSubject<CBPeripheral>()
-    private let didFailToConnectPeripheralSubject = PublishSubject<(CBPeripheral, Error?)>()
-    private let didDisconnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
+    internal let didUpdateStateSubject = PublishSubject<BluetoothState>()
+    internal let willRestoreStateSubject = ReplaySubject<[String: Any]>.create(bufferSize: 1)
+    internal let didDiscoverPeripheralSubject = PublishSubject<(CBPeripheral, [String: Any], NSNumber)>()
+    internal let didConnectPerihperalSubject = PublishSubject<CBPeripheral>()
+    internal let didFailToConnectPeripheralSubject = PublishSubject<(CBPeripheral, Error?)>()
+    internal let didDisconnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
 
     @objc func centralManagerDidUpdateState(_ central: CBCentralManager) {
         guard let bleState = BluetoothState(rawValue: central.state.rawValue) else { return }
