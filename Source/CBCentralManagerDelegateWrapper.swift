@@ -26,22 +26,22 @@ import RxSwift
 
 @objc class CBCentralManagerDelegateWrapper: NSObject, CBCentralManagerDelegate {
 
-    internal let didUpdateStateSubject = PublishSubject<BluetoothState>()
-    internal let willRestoreStateSubject = ReplaySubject<[String: Any]>.create(bufferSize: 1)
-    internal let didDiscoverPeripheralSubject = PublishSubject<(CBPeripheral, [String: Any], NSNumber)>()
-    internal let didConnectPerihperalSubject = PublishSubject<CBPeripheral>()
-    internal let didFailToConnectPeripheralSubject = PublishSubject<(CBPeripheral, Error?)>()
+    internal let didUpdateState = PublishSubject<BluetoothState>()
+    internal let willRestoreState = ReplaySubject<[String: Any]>.create(bufferSize: 1)
+    internal let didDiscoverPeripheral = PublishSubject<(CBPeripheral, [String: Any], NSNumber)>()
+    internal let didConnectPerihperal = PublishSubject<CBPeripheral>()
+    internal let didFailToConnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
     internal let didDisconnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
 
     @objc func centralManagerDidUpdateState(_ central: CBCentralManager) {
         guard let bleState = BluetoothState(rawValue: central.state.rawValue) else { return }
         RxBluetoothKitLog.d("\(central.logDescription) didUpdateState(state: \(bleState.logDescription))")
-        didUpdateStateSubject.onNext(bleState)
+        didUpdateState.onNext(bleState)
     }
 
     @objc func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
         RxBluetoothKitLog.d("\(central.logDescription) willRestoreState(restoredState: \(dict))")
-        willRestoreStateSubject.onNext(dict)
+        willRestoreState.onNext(dict)
     }
 
     @objc func centralManager(_ central: CBCentralManager,
@@ -52,11 +52,11 @@ import RxSwift
             \(central.logDescription) didDiscover(peripheral: \(peripheral.logDescription),
             rssi: \(rssi))
             """)
-        didDiscoverPeripheralSubject.onNext((peripheral, advertisementData, rssi))
+        didDiscoverPeripheral.onNext((peripheral, advertisementData, rssi))
     }
 
     @objc func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        didConnectPerihperalSubject.onNext(peripheral)
+        didConnectPerihperal.onNext(peripheral)
     }
 
     @objc func centralManager(_ central: CBCentralManager,
@@ -66,7 +66,7 @@ import RxSwift
             \(central.logDescription) didFailToConnect(to: \(peripheral.logDescription),
             error: \(String(describing: error)))
             """)
-        didFailToConnectPeripheralSubject.onNext((peripheral, error))
+        didFailToConnectPeripheral.onNext((peripheral, error))
     }
 
     @objc func centralManager(_ central: CBCentralManager,
