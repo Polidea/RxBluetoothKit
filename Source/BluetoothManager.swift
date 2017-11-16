@@ -45,7 +45,7 @@ public class BluetoothManager {
     /// Implementation of Central Manager
     public let centralManager: CBCentralManager
 
-    private let delegateWrapper = CBCentralManagerDelegateWrapper()
+    private let delegateWrapper: CBCentralManagerDelegateWrapper
 
     /// Queue on which all observables are serialised if needed
     private let subscriptionQueue: SerializedSubscriptionQueue
@@ -61,11 +61,30 @@ public class BluetoothManager {
     /// Creates new `BluetoothManager`
     /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
-    init(centralManager: CBCentralManager,
-         queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
+    /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
+    init(
+      centralManager: CBCentralManager,
+      queueScheduler: SchedulerType = ConcurrentMainScheduler.instance,
+      delegateWrapper: CBCentralManagerDelegateWrapper
+    ) {
         self.centralManager = centralManager
+        self.delegateWrapper = delegateWrapper
         subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
         centralManager.delegate = delegateWrapper
+    }
+
+    /// Creates new `BluetoothManager`
+    /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
+    /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
+    convenience init(
+      centralManager: CBCentralManager,
+      queueScheduler: SchedulerType = ConcurrentMainScheduler.instance
+    ) {
+      self.init(
+        centralManager: centralManager,
+        queueScheduler: queueScheduler,
+        delegateWrapper: CBCentralManagerDelegateWrapper()
+      )
     }
 
     /// Creates new `BluetoothManager` instance. By default all operations and events are executed and received on main thread.
@@ -134,7 +153,7 @@ public class BluetoothManager {
                 let operation = Observable.create { [weak self] (element: AnyObserver<ScannedPeripheral>) -> Disposable in
                     guard let strongSelf = self else { return Disposables.create() }
                     // Observable which will emit next element, when peripheral is discovered.
-                    let disposable = strongSelf.delegateWrapper.rx_didDiscoverPeripheral
+                    let disposable = strongSelf.delegateWrapper.didDiscoverPeripheral
                         .flatMap { [weak self] (peripheral, advertisment, rssi) -> Observable<ScannedPeripheral> in
                             guard let strongSelf = self else { throw BluetoothError.destroyed }
                             let peripheral = Peripheral(manager: strongSelf, peripheral: peripheral)
@@ -182,7 +201,7 @@ public class BluetoothManager {
     public var rx_state: Observable<BluetoothState> {
         return .deferred { [weak self] in
             guard let `self` = self else { throw BluetoothError.destroyed }
-            return self.delegateWrapper.rx_didUpdateState.startWith(self.state)
+            return self.delegateWrapper.didUpdateState.startWith(self.state)
         }
     }
 
@@ -205,12 +224,12 @@ public class BluetoothManager {
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
         -> Single<Peripheral> {
 
-        let success = delegateWrapper.rx_didConnectPeripheral
+        let success = delegateWrapper.didConnectPeripheral
             .filter { $0 == peripheral.peripheral }
             .take(1)
             .map { _ in return peripheral }
 
-        let error = delegateWrapper.rx_didFailToConnectPeripheral
+        let error = delegateWrapper.didFailToConnectPeripheral
             .filter { $0.0 == peripheral.peripheral }
             .take(1)
             .map { (peripheral, error) -> Peripheral in
@@ -332,7 +351,7 @@ public class BluetoothManager {
             if !peripheral.isConnected {
                 throw BluetoothError.peripheralDisconnected(peripheral, nil)
             }
-            return self.delegateWrapper.rx_didDisconnectPeripheral
+            return self.delegateWrapper.didDisconnectPeripheral
                 .filter { $0.0 == peripheral.peripheral }
                 .map { (_, error) -> T in
                     throw BluetoothError.peripheralDisconnected(peripheral, error)
@@ -344,7 +363,7 @@ public class BluetoothManager {
     /// - Parameter peripheral: `Peripheral` which is monitored for connection.
     /// - Returns: Observable which emits next events when `peripheral` was connected.
     public func monitorConnection(for peripheral: Peripheral) -> Observable<Peripheral> {
-        let observable = delegateWrapper.rx_didConnectPeripheral
+        let observable = delegateWrapper.didConnectPeripheral
           .filter { $0 == peripheral.peripheral }
           .map { _ in peripheral }
       return ensure(.poweredOn, observable: observable)
@@ -357,7 +376,7 @@ public class BluetoothManager {
     /// It provides optional error which may contain more information about the cause of the disconnection
     /// if it wasn't the `cancelConnection` call
     public func monitorDisconnection(for peripheral: Peripheral) -> Observable<(Peripheral, DisconnectionReason?)> {
-        let observable = delegateWrapper.rx_didDisconnectPeripheral
+        let observable = delegateWrapper.didDisconnectPeripheral
           .filter { $0.0 == peripheral.peripheral }
           .map { (_, error) -> (Peripheral, DisconnectionReason?) in (peripheral, error) }
         return ensure(.poweredOn, observable: observable)
@@ -369,7 +388,7 @@ public class BluetoothManager {
         /// - Returns: Observable which emits next events state has been restored
         public func listenOnRestoredState() -> Observable<RestoredState> {
             return delegateWrapper
-                .rx_willRestoreState
+                .willRestoreState
                 .take(1)
                 .flatMap { [weak self] dict -> Observable<RestoredState> in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }

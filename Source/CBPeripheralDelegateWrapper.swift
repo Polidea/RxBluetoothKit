@@ -26,66 +26,28 @@ import RxSwift
 
 @objc class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
 
-    var rx_didUpdateName: Observable<String?> { return peripheralDidUpdateNameSubject }
-    var rx_didModifyServices: Observable<([CBService])> { return peripheralDidModifyServicesSubject }
-    var rx_didReadRSSI: Observable<(Int, Error?)> { return peripheralDidReadRSSISubject }
-    var rx_didDiscoverServices: Observable<([CBService]?, Error?)> { return peripheralDidDiscoverServicesSubject }
-    var rx_didDiscoverIncludedServicesForService: Observable<(CBService, Error?)> {
-        return peripheralDidDiscoverIncludedServicesForServiceSubject
-    }
-    var rx_didDiscoverCharacteristicsForService: Observable<(CBService, Error?)> {
-        return peripheralDidDiscoverCharacteristicsForServiceSubject
-    }
-    var rx_didUpdateValueForCharacteristic: Observable<(CBCharacteristic, Error?)> {
-        return peripheralDidUpdateValueForCharacteristicSubject
-    }
-    var rx_didWriteValueForCharacteristic: Observable<(CBCharacteristic, Error?)> {
-        return peripheralDidWriteValueForCharacteristicSubject
-    }
-    var rx_didUpdateNotificationStateForCharacteristic: Observable<(CBCharacteristic, Error?)> {
-        return peripheralDidUpdateNotificationStateForCharacteristicSubject
-    }
-    var rx_didDiscoverDescriptorsForCharacteristic: Observable<(CBCharacteristic, Error?)> {
-        return peripheralDidDiscoverDescriptorsForCharacteristicSubject
-    }
-    var rx_didUpdateValueForDescriptor: Observable<(CBDescriptor, Error?)> {
-        return peripheralDidUpdateValueForDescriptorSubject
-    }
-    var rx_didWriteValueForDescriptor: Observable<(CBDescriptor, Error?)> {
-        return peripheralDidWriteValueForDescriptorSubject
-    }
-    var rx_peripheralReadyToSendWriteWithoutResponse: Observable<Void> {
-        return peripheralIsReadyToSendWriteWithoutResponseSubject
-    }
-    
-    @available(OSX 10.13, iOS 11, *)
-    var rx_didOpenL2CAPChannel: Observable<(CBL2CAPChannel?, Error?)> {
-        return peripheralDidOpenL2CAPChannelSubject
-            .map {($0.0 as? CBL2CAPChannel, $0.1)}
-    }
-
-    private let peripheralDidUpdateNameSubject = PublishSubject<String?>()
-    private let peripheralDidModifyServicesSubject = PublishSubject<([CBService])>()
-    private let peripheralDidReadRSSISubject = PublishSubject<(Int, Error?)>()
-    private let peripheralDidDiscoverServicesSubject = PublishSubject<([CBService]?, Error?)>()
-    private let peripheralDidDiscoverIncludedServicesForServiceSubject = PublishSubject<(CBService, Error?)>()
-    private let peripheralDidDiscoverCharacteristicsForServiceSubject = PublishSubject<(CBService, Error?)>()
-    private let peripheralDidUpdateValueForCharacteristicSubject = PublishSubject<(CBCharacteristic, Error?)>()
-    private let peripheralDidWriteValueForCharacteristicSubject = PublishSubject<(CBCharacteristic, Error?)>()
-    private let peripheralDidUpdateNotificationStateForCharacteristicSubject =
+    let peripheralDidUpdateName = PublishSubject<String?>()
+    let peripheralDidModifyServices = PublishSubject<([CBService])>()
+    let peripheralDidReadRSSI = PublishSubject<(Int, Error?)>()
+    let peripheralDidDiscoverServices = PublishSubject<([CBService]?, Error?)>()
+    let peripheralDidDiscoverIncludedServicesForService = PublishSubject<(CBService, Error?)>()
+    let peripheralDidDiscoverCharacteristicsForService = PublishSubject<(CBService, Error?)>()
+    let peripheralDidUpdateValueForCharacteristic = PublishSubject<(CBCharacteristic, Error?)>()
+    let peripheralDidWriteValueForCharacteristic = PublishSubject<(CBCharacteristic, Error?)>()
+    let peripheralDidUpdateNotificationStateForCharacteristic =
         PublishSubject<(CBCharacteristic, Error?)>()
-    private let peripheralDidDiscoverDescriptorsForCharacteristicSubject =
+    let peripheralDidDiscoverDescriptorsForCharacteristic =
         PublishSubject<(CBCharacteristic, Error?)>()
-    private let peripheralDidUpdateValueForDescriptorSubject = PublishSubject<(CBDescriptor, Error?)>()
-    private let peripheralDidWriteValueForDescriptorSubject = PublishSubject<(CBDescriptor, Error?)>()
-    private let peripheralIsReadyToSendWriteWithoutResponseSubject = PublishSubject<Void>()
-    private let peripheralDidOpenL2CAPChannelSubject = PublishSubject<(Any?, Error?)>()
+    let peripheralDidUpdateValueForDescriptor = PublishSubject<(CBDescriptor, Error?)>()
+    let peripheralDidWriteValueForDescriptor = PublishSubject<(CBDescriptor, Error?)>()
+    let peripheralIsReadyToSendWriteWithoutResponse = PublishSubject<Void>()
+    let peripheralDidOpenL2CAPChannel = PublishSubject<(Any?, Error?)>()
 
     @objc func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didUpdateName(name: \(String(describing: peripheral.name)))
             """)
-        peripheralDidUpdateNameSubject.onNext(peripheral.name)
+        peripheralDidUpdateName.onNext(peripheral.name)
     }
 
     @objc func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
@@ -93,7 +55,7 @@ import RxSwift
             \(peripheral.logDescription) didModifyServices(services:
             [\(invalidatedServices.logDescription))]
             """)
-        peripheralDidModifyServicesSubject.onNext(invalidatedServices)
+        peripheralDidModifyServices.onNext(invalidatedServices)
     }
 
     @objc func peripheral(_ peripheral: CBPeripheral, didReadRSSI rssi: NSNumber, error: Error?) {
@@ -101,7 +63,7 @@ import RxSwift
             \(peripheral.logDescription) didReadRSSI(rssi: \(rssi),
             error: \(String(describing: error)))
             """)
-        peripheralDidReadRSSISubject.onNext((rssi.intValue, error))
+        peripheralDidReadRSSI.onNext((rssi.intValue, error))
     }
 
     @objc func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -110,7 +72,7 @@ import RxSwift
             : \(String(describing: peripheral.services?.logDescription)),
             error: \(String(describing: error)))
             """)
-        peripheralDidDiscoverServicesSubject.onNext((peripheral.services, error))
+        peripheralDidDiscoverServices.onNext((peripheral.services, error))
     }
 
     @objc func peripheral(_ peripheral: CBPeripheral,
@@ -122,7 +84,7 @@ import RxSwift
             \(String(describing: service.includedServices?.logDescription)),
             error: \(String(describing: error)))
             """)
-        peripheralDidDiscoverIncludedServicesForServiceSubject.onNext((service, error))
+        peripheralDidDiscoverIncludedServicesForService.onNext((service, error))
     }
 
     @objc func peripheral(_ peripheral: CBPeripheral,
@@ -134,7 +96,7 @@ import RxSwift
             \(String(describing: service.characteristics?.logDescription)),
             error: \(String(describing: error)))
             """)
-        peripheralDidDiscoverCharacteristicsForServiceSubject.onNext((service, error))
+        peripheralDidDiscoverCharacteristicsForService.onNext((service, error))
     }
 
     @objc func peripheral(_ peripheral: CBPeripheral,
@@ -145,7 +107,7 @@ import RxSwift
             value: \(String(describing: characteristic.value?.logDescription)),
             error: \(String(describing: error)))
             """)
-        peripheralDidUpdateValueForCharacteristicSubject
+        peripheralDidUpdateValueForCharacteristic
             .onNext((characteristic, error))
     }
 
@@ -157,7 +119,7 @@ import RxSwift
             value: \(String(describing: characteristic.value?.logDescription)),
             error: \(String(describing: error)))
             """)
-        peripheralDidWriteValueForCharacteristicSubject
+        peripheralDidWriteValueForCharacteristic
             .onNext((characteristic, error))
     }
 
@@ -169,7 +131,7 @@ import RxSwift
             for:\(characteristic.logDescription), isNotifying: \(characteristic.isNotifying),
             error: \(String(describing: error)))
             """)
-        peripheralDidUpdateNotificationStateForCharacteristicSubject
+        peripheralDidUpdateNotificationStateForCharacteristic
             .onNext((characteristic, error))
     }
 
@@ -182,7 +144,7 @@ import RxSwift
             \(String(describing: characteristic.descriptors?.logDescription)),
             error: \(String(describing: error)))
             """)
-        peripheralDidDiscoverDescriptorsForCharacteristicSubject
+        peripheralDidDiscoverDescriptorsForCharacteristic
             .onNext((characteristic, error))
     }
 
@@ -193,7 +155,7 @@ import RxSwift
             \(peripheral.logDescription) didUpdateValueFor(for:\(descriptor.logDescription),
             value: \(String(describing: descriptor.value)), error: \(String(describing: error)))
             """)
-        peripheralDidUpdateValueForDescriptorSubject.onNext((descriptor, error))
+        peripheralDidUpdateValueForDescriptor.onNext((descriptor, error))
     }
 
     @objc func peripheral(_ peripheral: CBPeripheral,
@@ -203,22 +165,22 @@ import RxSwift
             \(peripheral.logDescription) didWriteValueFor(for:\(descriptor.logDescription),
             error: \(String(describing: error)))
             """)
-        peripheralDidWriteValueForDescriptorSubject.onNext((descriptor, error))
+        peripheralDidWriteValueForDescriptor.onNext((descriptor, error))
     }
 
     func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) peripheralIsReady(toSendWriteWithoutResponse)
             """)
-        peripheralIsReadyToSendWriteWithoutResponseSubject.onNext(())
+        peripheralIsReadyToSendWriteWithoutResponse.onNext(())
     }
-    
+
     @available(OSX 10.13, iOS 11, *)
     @objc func peripheral(_ peripheral: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didOpenL2CAPChannel(for:\(peripheral.logDescription),
             error: \(String(describing: error)))
             """)
-        peripheralDidOpenL2CAPChannelSubject.onNext((channel, error))
+        peripheralDidOpenL2CAPChannel.onNext((channel, error))
     }
 }
