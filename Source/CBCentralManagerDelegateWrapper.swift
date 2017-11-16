@@ -26,12 +26,12 @@ import RxSwift
 
 @objc class CBCentralManagerDelegateWrapper: NSObject, CBCentralManagerDelegate {
 
-    internal let didUpdateState = PublishSubject<BluetoothState>()
-    internal let willRestoreState = ReplaySubject<[String: Any]>.create(bufferSize: 1)
-    internal let didDiscoverPeripheral = PublishSubject<(CBPeripheral, [String: Any], NSNumber)>()
-    internal let didConnectPerihperal = PublishSubject<CBPeripheral>()
-    internal let didFailToConnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
-    internal let didDisconnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
+    let didUpdateState = PublishSubject<BluetoothState>()
+    let willRestoreState = ReplaySubject<[String: Any]>.create(bufferSize: 1)
+    let didDiscoverPeripheral = PublishSubject<(CBPeripheral, [String: Any], NSNumber)>()
+    let didConnectPerihperal = PublishSubject<CBPeripheral>()
+    let didFailToConnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
+    let didDisconnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
 
     @objc func centralManagerDidUpdateState(_ central: CBCentralManager) {
         guard let bleState = BluetoothState(rawValue: central.state.rawValue) else { return }

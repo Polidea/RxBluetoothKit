@@ -26,22 +26,22 @@ import RxSwift
 
 @objc class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
 
-    internal let peripheralDidUpdateName = PublishSubject<String?>()
-    internal let peripheralDidModifyServices = PublishSubject<([CBService])>()
-    internal let peripheralDidReadRSSI = PublishSubject<(Int, Error?)>()
-    internal let peripheralDidDiscoverServices = PublishSubject<([CBService]?, Error?)>()
-    internal let peripheralDidDiscoverIncludedServicesForService = PublishSubject<(CBService, Error?)>()
-    internal let peripheralDidDiscoverCharacteristicsForService = PublishSubject<(CBService, Error?)>()
-    internal let peripheralDidUpdateValueForCharacteristic = PublishSubject<(CBCharacteristic, Error?)>()
-    internal let peripheralDidWriteValueForCharacteristic = PublishSubject<(CBCharacteristic, Error?)>()
-    internal let peripheralDidUpdateNotificationStateForCharacteristic =
+    let peripheralDidUpdateName = PublishSubject<String?>()
+    let peripheralDidModifyServices = PublishSubject<([CBService])>()
+    let peripheralDidReadRSSI = PublishSubject<(Int, Error?)>()
+    let peripheralDidDiscoverServices = PublishSubject<([CBService]?, Error?)>()
+    let peripheralDidDiscoverIncludedServicesForService = PublishSubject<(CBService, Error?)>()
+    let peripheralDidDiscoverCharacteristicsForService = PublishSubject<(CBService, Error?)>()
+    let peripheralDidUpdateValueForCharacteristic = PublishSubject<(CBCharacteristic, Error?)>()
+    let peripheralDidWriteValueForCharacteristic = PublishSubject<(CBCharacteristic, Error?)>()
+    let peripheralDidUpdateNotificationStateForCharacteristic =
         PublishSubject<(CBCharacteristic, Error?)>()
-    internal let peripheralDidDiscoverDescriptorsForCharacteristic =
+    let peripheralDidDiscoverDescriptorsForCharacteristic =
         PublishSubject<(CBCharacteristic, Error?)>()
-    internal let peripheralDidUpdateValueForDescriptor = PublishSubject<(CBDescriptor, Error?)>()
-    internal let peripheralDidWriteValueForDescriptor = PublishSubject<(CBDescriptor, Error?)>()
-    internal let peripheralIsReadyToSendWriteWithoutResponse = PublishSubject<Void>()
-    internal let peripheralDidOpenL2CAPChannel = PublishSubject<(Any?, Error?)>()
+    let peripheralDidUpdateValueForDescriptor = PublishSubject<(CBDescriptor, Error?)>()
+    let peripheralDidWriteValueForDescriptor = PublishSubject<(CBDescriptor, Error?)>()
+    let peripheralIsReadyToSendWriteWithoutResponse = PublishSubject<Void>()
+    let peripheralDidOpenL2CAPChannel = PublishSubject<(Any?, Error?)>()
 
     @objc func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
         RxBluetoothKitLog.d("""
