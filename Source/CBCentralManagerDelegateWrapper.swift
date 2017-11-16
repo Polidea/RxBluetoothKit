@@ -29,7 +29,7 @@ import RxSwift
     let didUpdateState = PublishSubject<BluetoothState>()
     let willRestoreState = ReplaySubject<[String: Any]>.create(bufferSize: 1)
     let didDiscoverPeripheral = PublishSubject<(CBPeripheral, [String: Any], NSNumber)>()
-    let didConnectPerihperal = PublishSubject<CBPeripheral>()
+    let didConnectPeripheral = PublishSubject<CBPeripheral>()
     let didFailToConnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
     let didDisconnectPeripheral = PublishSubject<(CBPeripheral, Error?)>()
 
@@ -56,7 +56,7 @@ import RxSwift
     }
 
     @objc func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        didConnectPerihperal.onNext(peripheral)
+        didConnectPeripheral.onNext(peripheral)
     }
 
     @objc func centralManager(_ central: CBCentralManager,

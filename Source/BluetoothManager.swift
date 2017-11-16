@@ -224,7 +224,7 @@ public class BluetoothManager {
     public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
         -> Single<Peripheral> {
 
-        let success = delegateWrapper.didConnectPerihperal
+        let success = delegateWrapper.didConnectPeripheral
             .filter { $0 == peripheral.peripheral }
             .take(1)
             .map { _ in return peripheral }
@@ -363,7 +363,7 @@ public class BluetoothManager {
     /// - Parameter peripheral: `Peripheral` which is monitored for connection.
     /// - Returns: Observable which emits next events when `peripheral` was connected.
     public func monitorConnection(for peripheral: Peripheral) -> Observable<Peripheral> {
-        let observable = delegateWrapper.didConnectPerihperal
+        let observable = delegateWrapper.didConnectPeripheral
           .filter { $0 == peripheral.peripheral }
           .map { _ in peripheral }
       return ensure(.poweredOn, observable: observable)
