@@ -563,7 +563,7 @@ public class Peripheral {
                 .take(1)
                 .flatMap { [weak self] (channel, error) -> Observable<CBL2CAPChannel> in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
-                    if let channel = channel, error != nil {
+                    if let channel = channel, error == nil {
                         return .just(channel)
                     } else {
                         throw BluetoothError.openingL2CAPChannelFailed(strongSelf, error)
