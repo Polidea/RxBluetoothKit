@@ -148,6 +148,27 @@ extension BluetoothState: Loggable {
     }
 }
 
+extension CBCharacteristicWriteType: Loggable {
+    var logDescription: String {
+        switch self {
+        case .withResponse: return "withResponse"
+        case .withoutResponse: return "withoutResponse"
+        }
+    }
+}
+
+extension UUID: Loggable {
+    var logDescription: String {
+        return uuidString
+    }
+}
+
+extension CBUUID: Loggable {
+    @objc var logDescription: String {
+        return uuidString
+    }
+}
+
 extension CBCentralManager: Loggable {
     @objc var logDescription: String {
         return "CentralManager(\(UInt(bitPattern: ObjectIdentifier(self))))"
@@ -174,7 +195,7 @@ extension CBService: Loggable {
 
 extension CBDescriptor: Loggable {
     @objc var logDescription: String {
-        return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
+        return "Descriptor(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 

@@ -108,38 +108,81 @@ class RxCBPeripheral: RxPeripheralType {
     }
 
     func discoverServices(_ serviceUUIDs: [CBUUID]?) {
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) discoverServices(
+                            serviceUUIDs: \(String(describing: serviceUUIDs?.logDescription)))
+                            """)
         peripheral.discoverServices(serviceUUIDs)
     }
 
     func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: RxServiceType) {
-        peripheral.discoverCharacteristics(characteristicUUIDs, for: (service as! RxCBService).service)
+        let cbService = (service as! RxCBService).service
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) discoverCharacteristics(
+                            characteristicUUIDs: \(String(describing: characteristicUUIDs?.logDescription)),
+                            for: \(cbService.logDescription))
+                            """)
+        peripheral.discoverCharacteristics(characteristicUUIDs, for: cbService)
     }
 
     func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: RxServiceType) {
-        peripheral.discoverIncludedServices(includedServiceUUIDs, for: (service as! RxCBService).service)
+        let cbService = (service as! RxCBService).service
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) discoverIncludedServices(
+                            includedServiceUUIDs: \(String(describing: includedServiceUUIDs?.logDescription)),
+                            for: \(cbService.logDescription))
+                            """)
+        peripheral.discoverIncludedServices(includedServiceUUIDs, for: cbService)
     }
 
     func readValue(for characteristic: RxCharacteristicType) {
-        peripheral.readValue(for: (characteristic as! RxCBCharacteristic).characteristic)
+        let cbcharacteristic = (characteristic as! RxCBCharacteristic).characteristic
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) readValue(
+                            for: \(cbcharacteristic.logDescription))
+                            """)
+        peripheral.readValue(for: cbcharacteristic)
     }
 
     func writeValue(_ data: Data,
                     for characteristic: RxCharacteristicType,
                     type: CBCharacteristicWriteType) {
-        peripheral.writeValue(data, for: (characteristic as! RxCBCharacteristic).characteristic,
-                              type: type)
+        let cbcharacteristic = (characteristic as! RxCBCharacteristic).characteristic
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) writeValue(
+                            data: \(data.logDescription),
+                            for: \(cbcharacteristic.logDescription),
+                            type: \(type.logDescription))
+                            """)
+        peripheral.writeValue(data, for: cbcharacteristic, type: type)
     }
 
     func setNotifyValue(_ enabled: Bool, for characteristic: RxCharacteristicType) {
-        peripheral.setNotifyValue(enabled, for: (characteristic as! RxCBCharacteristic).characteristic)
+        let cbcharacteristic = (characteristic as! RxCBCharacteristic).characteristic
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) setNotifyValue(
+                            enabled: \(enabled),
+                            for: \(cbcharacteristic.logDescription))
+                            """)
+        peripheral.setNotifyValue(enabled, for: cbcharacteristic)
     }
 
     func discoverDescriptors(for characteristic: RxCharacteristicType) {
-        peripheral.discoverDescriptors(for: (characteristic as! RxCBCharacteristic).characteristic)
+        let cbcharacteristic = (characteristic as! RxCBCharacteristic).characteristic
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) discoverDescriptors(
+                            for: \(cbcharacteristic.logDescription))
+                            """)
+        peripheral.discoverDescriptors(for: cbcharacteristic)
     }
 
     func readValue(for descriptor: RxDescriptorType) {
-        peripheral.readValue(for: (descriptor as! RxCBDescriptor).descriptor)
+        let cbdescriptor = (descriptor as! RxCBDescriptor).descriptor
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) readValue(
+                            for: \(cbdescriptor.logDescription))
+                            """)
+        peripheral.readValue(for: cbdescriptor)
     }
 
     @available(OSX 10.12, iOS 9.0, *)
@@ -148,10 +191,17 @@ class RxCBPeripheral: RxPeripheralType {
     }
 
     func writeValue(_ data: Data, for descriptor: RxDescriptorType) {
-        peripheral.writeValue(data, for: (descriptor as! RxCBDescriptor).descriptor)
+        let cbdescriptor = (descriptor as! RxCBDescriptor).descriptor
+        RxBluetoothKitLog.d("""
+                            \(peripheral.logDescription) writeValue(
+                            data: \(data.logDescription),
+                            for: \(cbdescriptor.logDescription))
+                            """)
+        peripheral.writeValue(data, for: cbdescriptor)
     }
 
     func readRSSI() {
+        RxBluetoothKitLog.d("\(peripheral.logDescription) readRSSI()")
         peripheral.readRSSI()
     }
 
