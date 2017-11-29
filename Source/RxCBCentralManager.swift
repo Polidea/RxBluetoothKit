@@ -122,26 +122,51 @@ class RxCBCentralManager: RxCentralManagerType {
     }
 
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]?) {
+        RxBluetoothKitLog.d("""
+                            \(centralManager.logDescription) scanForPeripherals(
+                            withServices: \(String(describing: serviceUUIDs?.logDescription)),
+                            options: \(String(describing: options)))
+                            """)
         return centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
     }
 
     func connect(_ peripheral: RxPeripheralType, options: [String: Any]?) {
-        return centralManager.connect((peripheral as! RxCBPeripheral).peripheral, options: options)
+        let cbperipheral = (peripheral as! RxCBPeripheral).peripheral
+        RxBluetoothKitLog.d("""
+                            \(centralManager.logDescription) connect(
+                            peripheral: \(cbperipheral.logDescription),
+                            options: \(String(describing: options)))
+                            """)
+        return centralManager.connect(cbperipheral, options: options)
     }
 
     func cancelPeripheralConnection(_ peripheral: RxPeripheralType) {
-        return centralManager.cancelPeripheralConnection((peripheral as! RxCBPeripheral).peripheral)
+        let cbperipheral = (peripheral as! RxCBPeripheral).peripheral
+        RxBluetoothKitLog.d("""
+                            \(centralManager.logDescription) cancelPeripheralConnection(
+                            peripheral: \(cbperipheral.logDescription))
+                            """)
+        return centralManager.cancelPeripheralConnection(cbperipheral)
     }
 
     func stopScan() {
+        RxBluetoothKitLog.d("\(centralManager.logDescription) stopScan()")
         return centralManager.stopScan()
     }
 
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]> {
+        RxBluetoothKitLog.d("""
+                            \(centralManager.logDescription) retrieveConnectedPeripherals(
+                            withServices: \(serviceUUIDs.logDescription))
+                            """)
         return .just(centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map(RxCBPeripheral.init))
     }
 
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
+        RxBluetoothKitLog.d("""
+                            \(centralManager.logDescription) retrievePeripherals(
+                            withIdentifiers: \(identifiers.logDescription))
+                            """)
         return .just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map(RxCBPeripheral.init))
     }
 }
