@@ -25,6 +25,8 @@ import RxSwift
 
 /// Queue which is used for queueing subscriptions for queueSubscribeOn operator.
 class SerializedSubscriptionQueue {
+    let lock = NSLock()
+
     /// First element on queue is curently subscribed and not completed
     /// observable. All others are queued for subscription when the first
     /// one is finished.
@@ -34,6 +36,7 @@ class SerializedSubscriptionQueue {
     /// into empty queue it's subscribed immediately. Otherwise
     /// it waits for completion from other observables.
     func queueSubscription(observable: DelayedObservableType) {
+        lock.lock(); defer { lock.unlock() }
         let execute = queue.isEmpty
         queue.append(observable)
         if execute {
@@ -43,6 +46,7 @@ class SerializedSubscriptionQueue {
     }
 
     func unsubscribe(observable: DelayedObservableType) {
+        lock.lock(); defer { lock.unlock() }
         // Find index of observable which should be unsubscribed
         // and remove it from queue
         if let index = queue.index(where: { $0 === observable }) {
