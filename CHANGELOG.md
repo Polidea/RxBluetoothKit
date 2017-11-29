@@ -1,3 +1,7 @@
+# 4.0.1
+- Add missing logs for CBPeripheral and CBCentralManager classes.
+- Fixed implementation of scanning subscription queue.
+
 # 4.0
 - App updated to newest iOS & macOS SDK
 - Swift 4 adoption
