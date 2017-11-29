@@ -100,11 +100,10 @@ public class BluetoothManager {
     /// ```
     ///
     /// If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
-    /// shared. Otherwise scan is queued on thread specified in `init(centralManager:queueScheduler:)` and will be executed
-    /// when other scans finished with complete/error event or were unsubscribed.
-    /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
-    /// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other
-    /// operations.
+    /// shared. Otherwise scan is queued and will be executed when other scans finished with complete/error event or
+    /// were unsubscribed. As a result you will receive `ScannedPeripheral` which contains `Peripheral` object,
+    /// `AdvertisementData` and peripheral's RSSI registered during discovery. You can then
+    /// `connectToPeripheral(_:options:)` and do other operations.
     /// - seealso: `Peripheral`
     ///
     /// - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
