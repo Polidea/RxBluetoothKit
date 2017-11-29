@@ -51,7 +51,7 @@ class ObservableQueueSubscribeOnSpec: QuickSpec {
             var users: [ScheduledObservable<Int>]!
 
             beforeEach {
-                serializedQueue = SerializedSubscriptionQueue(scheduler: testScheduler)
+                serializedQueue = SerializedSubscriptionQueue()
             }
 
             context("when there are two users registering cold subscriptions on queue") {

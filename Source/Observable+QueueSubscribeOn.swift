@@ -25,36 +25,24 @@ import RxSwift
 
 /// Queue which is used for queueing subscriptions for queueSubscribeOn operator.
 class SerializedSubscriptionQueue {
-    let scheduler: ImmediateSchedulerType
-    let lock = NSLock()
-
     /// First element on queue is curently subscribed and not completed
     /// observable. All others are queued for subscription when the first
     /// one is finished.
     var queue: [DelayedObservableType] = []
 
-    /// Creates a queue in which subscriptions will be executed sequentially after previous ones have finished.
-    /// - parameter scheduler: Scheduler on which subscribption will be scheduled
-    init(scheduler: ImmediateSchedulerType) {
-        self.scheduler = scheduler
-    }
-
-    /// Queue subscription for a queue. If observable is inserted
+    /// Queue subscription. If observable is inserted
     /// into empty queue it's subscribed immediately. Otherwise
     /// it waits for completion from other observables.
     func queueSubscription(observable: DelayedObservableType) {
-        lock.lock(); defer { lock.unlock() }
         let execute = queue.isEmpty
         queue.append(observable)
         if execute {
             // Observable is scheduled immidiately
-            queue.first?.delayedSubscribe(on: scheduler)
+            queue.first?.delayedSubscribe()
         }
     }
 
     func unsubscribe(observable: DelayedObservableType) {
-        lock.lock(); defer { lock.unlock() }
-
         // Find index of observable which should be unsubscribed
         // and remove it from queue
         if let index = queue.index(where: { $0 === observable }) {
@@ -62,14 +50,14 @@ class SerializedSubscriptionQueue {
             // If first item was unsubscribed, subscribe on next one
             // if available
             if index == 0 {
-                queue.first?.delayedSubscribe(on: scheduler)
+                queue.first?.delayedSubscribe()
             }
         }
     }
 }
 
 protocol DelayedObservableType: class {
-    func delayedSubscribe(on scheduler: ImmediateSchedulerType)
+    func delayedSubscribe()
 }
 
 class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, DelayedObservableType {
@@ -123,26 +111,18 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
         return self
     }
 
-    /// Delayed subscription must be called after original subscription so that observer will be stored by that time.
-    func delayedSubscribe(on scheduler: ImmediateSchedulerType) {
-        let cancelDisposable = SingleAssignmentDisposable()
-        serialDisposable.disposable = cancelDisposable
-        cancelDisposable.setDisposable(scheduler.schedule(()) {
-            self.serialDisposable.disposable = self.source.subscribe(self)
-            return Disposables.create()
-        })
+    /// Delayed subscription must be called after original subscription so that observer
+    /// will be stored by that time.
+    func delayedSubscribe() {
+        serialDisposable.disposable = self.source.subscribe(self)
     }
 
     /// When this observable is disposed we need to remove it from queue to let other
-    /// observables to be able to subscribe. We are doing it on the same thread as
-    /// subscription.
+    /// observables to be able to subscribe.
     func dispose() {
         if OSAtomicCompareAndSwap32(0, 1, &_isDisposed) {
-            _ = queue.scheduler.schedule(()) {
-                self.queue.unsubscribe(observable: self)
-                self.serialDisposable.dispose()
-                return Disposables.create()
-            }
+            self.queue.unsubscribe(observable: self)
+            self.serialDisposable.dispose()
         }
     }
 }
