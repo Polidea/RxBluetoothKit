@@ -42,7 +42,7 @@ class BluetoothManagerScanningSpec: QuickSpec {
             fakePeripheral = FakePeripheral()
             fakeCentralManager = FakeCentralManager()
             testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
-            manager = BluetoothManager(centralManager: fakeCentralManager, queueScheduler: testScheduler)
+            manager = BluetoothManager(centralManager: fakeCentralManager)
         }
 
         describe("scanning devices") {

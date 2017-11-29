@@ -47,7 +47,7 @@ public class BluetoothManager {
     private let centralManager: RxCentralManagerType
 
     /// Queue on which all observables are serialised if needed
-    private let subscriptionQueue: SerializedSubscriptionQueue
+    private let subscriptionQueue = SerializedSubscriptionQueue()
 
     /// Lock which should be used before accessing any internal structures
     private let lock = NSLock()
@@ -70,11 +70,8 @@ public class BluetoothManager {
     /// Creates new `BluetoothManager` instance with specified implementation of `RxCentralManagerType` protocol which will be
     /// used by this class. Most of a time `RxCBCentralManager` should be chosen by the user.
     /// - parameter centralManager: Implementation of `RxCentralManagerType` protocol used by this class.
-    /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
-    init(centralManager: RxCentralManagerType,
-         queueScheduler: SchedulerType = ConcurrentMainScheduler.instance) {
+    init(centralManager: RxCentralManagerType) {
         self.centralManager = centralManager
-        subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
     }
 
     /// Creates new `BluetoothManager` instance. By default all operations and events are executed and received on main thread.
@@ -84,8 +81,7 @@ public class BluetoothManager {
     /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
-        self.init(centralManager: RxCBCentralManager(queue: queue, options: options),
-                  queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
+        self.init(centralManager: RxCBCentralManager(queue: queue, options: options))
     }
 
     // MARK: Scanning
@@ -104,11 +100,10 @@ public class BluetoothManager {
     /// ```
     ///
     /// If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
-    /// shared. Otherwise scan is queued on thread specified in `init(centralManager:queueScheduler:)` and will be executed
-    /// when other scans finished with complete/error event or were unsubscribed.
-    /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
-    /// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other
-    /// operations.
+    /// shared. Otherwise scan is queued and will be executed when other scans finished with complete/error event or
+    /// were unsubscribed. As a result you will receive `ScannedPeripheral` which contains `Peripheral` object,
+    /// `AdvertisementData` and peripheral's RSSI registered during discovery. You can then
+    /// `connectToPeripheral(_:options:)` and do other operations.
     /// - seealso: `Peripheral`
     ///
     /// - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
