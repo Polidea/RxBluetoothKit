@@ -218,7 +218,7 @@ extension Reactive where Base == RxBluetoothKitLog {
      * - it delivers events on `MainScheduler.instance`
      * - `share(scope: .whileConnected)` sharing strategy
      */
-    var log: Observable<String> {
+    public var log: Observable<String> {
         return RxBluetoothKitLog.subject.asObserver()
             .observeOn(MainScheduler.instance)
             .catchErrorJustReturn("")
