@@ -8,13 +8,16 @@
 
 import Foundation
 import CoreBluetooth
+import RxSwift
 
 /**
  RxBluetoothKit specific logging class which gives access to its settings.
  */
-public class RxBluetoothKitLog {
+public class RxBluetoothKitLog: ReactiveCompatible {
 
     fileprivate static var currentLogLevel: LogLevel = .none
+
+    fileprivate static let subject = PublishSubject<String>()
 
     private init() {
     }
@@ -78,7 +81,9 @@ public class RxBluetoothKitLog {
 
     fileprivate static func log(with logLevel: LogLevel, message: @autoclosure () -> String) {
         if currentLogLevel <= logLevel {
-            print(tag(with: logLevel), message())
+            let string = "\(tag(with: logLevel)) \(message())"
+            subject.onNext(string)
+            print(string)
         }
     }
 
@@ -202,5 +207,21 @@ extension CBDescriptor: Loggable {
 extension Array where Element: Loggable {
     var logDescription: String {
         return "[\(map { $0.logDescription }.joined(separator: ", "))]"
+    }
+}
+
+extension Reactive where Base == RxBluetoothKitLog {
+    /**
+     * This is continuous value, which emits before a log is printed to standard output.
+     *
+     * - it never fails
+     * - it delivers events on `MainScheduler.instance`
+     * - `share(scope: .whileConnected)` sharing strategy
+     */
+    var log: Observable<String> {
+        return RxBluetoothKitLog.subject.asObserver()
+            .observeOn(MainScheduler.instance)
+            .catchErrorJustReturn("")
+            .share(scope: .whileConnected)
     }
 }
