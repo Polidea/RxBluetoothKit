@@ -30,12 +30,14 @@ import CoreBluetooth
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 public class Peripheral {
     public let manager: BluetoothManager
+    private let peripheral: CBPeripheralType
+    private let delegateWrapper: CBPeripheralDelegateWrapper
 
     /// Creates new `Peripheral`
     /// - parameter manager: Central instance which is used to perform all of the necessary operations.
     /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
     /// - parameter delegateWrapper: Wrapper on CoreBluetooth's peripheral callbacks.
-    init(manager: BluetoothManager, peripheral: CBPeripheral, delegateWrapper: CBPeripheralDelegateWrapper) {
+    init(manager: BluetoothManager, peripheral: CBPeripheralType, delegateWrapper: CBPeripheralDelegateWrapper) {
       self.manager = manager
       self.peripheral = peripheral
       self.delegateWrapper = delegateWrapper
@@ -45,13 +47,9 @@ public class Peripheral {
     /// Creates new `Peripheral`
     /// - parameter manager: Central instance which is used to perform all of the necessary operations.
     /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
-    convenience init(manager: BluetoothManager, peripheral: CBPeripheral) {
+    convenience init(manager: BluetoothManager, peripheral: CBPeripheralType) {
       self.init(manager: manager, peripheral: peripheral, delegateWrapper: CBPeripheralDelegateWrapper())
     }
-
-    /// Implementation of peripheral
-    public let peripheral: CBPeripheral
-    private let delegateWrapper: CBPeripheralDelegateWrapper
 
     ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
     public var rx_isConnected: Observable<Bool> {
@@ -80,7 +78,7 @@ public class Peripheral {
 
     /// Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
     public var identifier: UUID {
-        return peripheral.value(forKey: "identifier") as! NSUUID as UUID
+        return peripheral.identifier
     }
 
     /// A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
@@ -95,6 +93,11 @@ public class Peripheral {
     /// `peripheralIsReadyToSendWriteWithoutResponse:` will be called.
     public var canSendWriteWithoutResponse: Bool {
         return peripheral.canSendWriteWithoutResponse
+    }
+
+    /// Returns wrapped CBPeripheral instance
+    public func getPeripheral() -> CBPeripheral {
+        return peripheral as! CBPeripheral
     }
 
     /// Establishes local connection to the peripheral.
@@ -587,5 +590,5 @@ extension Peripheral: Equatable {}
  - returns: True if both peripherals are the same
  */
 public func == (lhs: Peripheral, rhs: Peripheral) -> Bool {
-    return lhs.peripheral == rhs.peripheral
+    return lhs.getPeripheral() == rhs.getPeripheral()
 }
