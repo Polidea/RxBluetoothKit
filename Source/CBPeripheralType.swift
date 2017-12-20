@@ -40,7 +40,7 @@ protocol CBPeripheralType: class {
     func writeValue(_ data: Data, for characteristic: CBCharacteristic, type: CBCharacteristicWriteType)
     func readValue(for descriptor: CBDescriptor)
     func writeValue(_ data: Data, for descriptor: CBDescriptor)
-    @available(iOS 9.0, *)
+    @available(iOS 9.0, OSX 10.12, *)
     func maximumWriteValueLength(for type: CBCharacteristicWriteType) -> Int
     func setNotifyValue(_ enabled: Bool, for characteristic: CBCharacteristic)
     func discoverDescriptors(for characteristic: CBCharacteristic)
@@ -52,4 +52,8 @@ protocol CBPeripheralType: class {
 }
 
 extension CBPeripheral: CBPeripheralType {
+    // there is no CBPeripheral.identifier property on macOS
+    open override var identifier: UUID {
+        return value(forKey: "identifier") as! NSUUID as UUID
+    }
 }
