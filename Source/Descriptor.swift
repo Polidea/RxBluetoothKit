@@ -29,10 +29,10 @@ import RxSwift
 /// Descriptors provide more information about a characteristic’s value.
 public class Descriptor {
 
-    public let descriptor: CBDescriptor
-
     /// Characteristic to which this descriptor belongs.
     public let characteristic: Characteristic
+
+    private let descriptor: CBDescriptorType
 
     /// The Bluetooth UUID of the `Descriptor` instance.
     public var uuid: CBUUID {
@@ -44,9 +44,13 @@ public class Descriptor {
         return descriptor.value
     }
 
-    init(descriptor: CBDescriptor, characteristic: Characteristic) {
+    init(descriptor: CBDescriptorType, characteristic: Characteristic) {
         self.descriptor = descriptor
         self.characteristic = characteristic
+    }
+
+    public func getDescriptor() -> CBDescriptor {
+        return descriptor as! CBDescriptor
     }
 
     /// Function that allow to monitor writes that happened for descriptor.
@@ -86,5 +90,5 @@ extension Descriptor: Equatable {}
 /// - parameter rhs: Second descriptor to compare
 /// - returns: True if both descriptor are the same.
 public func == (lhs: Descriptor, rhs: Descriptor) -> Bool {
-    return lhs.descriptor == rhs.descriptor
+    return lhs.getDescriptor() == rhs.getDescriptor()
 }

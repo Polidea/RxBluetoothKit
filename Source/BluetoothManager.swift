@@ -42,8 +42,7 @@ import CoreBluetooth
 /// - seealso: `Peripheral`
 public class BluetoothManager {
 
-    /// Implementation of Central Manager
-    public let centralManager: CBCentralManager
+    private let centralManager: CBCentralManagerType
 
     private let delegateWrapper: CBCentralManagerDelegateWrapper
 
@@ -63,7 +62,7 @@ public class BluetoothManager {
     /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
     /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
     init(
-      centralManager: CBCentralManager,
+      centralManager: CBCentralManagerType,
       queueScheduler: SchedulerType = ConcurrentMainScheduler.instance,
       delegateWrapper: CBCentralManagerDelegateWrapper
     ) {
@@ -96,6 +95,11 @@ public class BluetoothManager {
                             options: [String: AnyObject]? = nil) {
         self.init(centralManager: CBCentralManager(delegate: nil, queue: queue, options: options),
                   queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
+    }
+
+    /// Returns wrapped CBCentralManager instance
+    public func getCentralManager() -> CBCentralManager {
+        return centralManager as! CBCentralManager
     }
 
     // MARK: Scanning
@@ -208,7 +212,7 @@ public class BluetoothManager {
     /// Current state of `BluetoothManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
     /// - returns: Current state of `BluetoothManager` as `BluetoothState`.
     public var state: BluetoothState {
-        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
+        return centralManager.bluetoothState
     }
 
     // MARK: Peripheral's Connection Management
@@ -225,12 +229,12 @@ public class BluetoothManager {
         -> Single<Peripheral> {
 
         let success = delegateWrapper.didConnectPeripheral
-            .filter { $0 == peripheral.peripheral }
+            .filter { $0 == peripheral.getPeripheral() }
             .take(1)
             .map { _ in return peripheral }
 
         let error = delegateWrapper.didFailToConnectPeripheral
-            .filter { $0.0 == peripheral.peripheral }
+            .filter { $0.0 == peripheral.getPeripheral() }
             .take(1)
             .map { (peripheral, error) -> Peripheral in
                 throw BluetoothError.peripheralConnectionFailed(Peripheral(manager: self, peripheral: peripheral), error)
@@ -254,12 +258,12 @@ public class BluetoothManager {
 
             let disposable = success.amb(error).subscribe(observer)
 
-            strongSelf.centralManager.connect(peripheral.peripheral, options: options)
+            strongSelf.centralManager.connect(peripheral.getPeripheral(), options: options)
 
             return Disposables.create { [weak self] in
                 guard let strongSelf = self else { return }
                 if !peripheral.isConnected {
-                    strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+                    strongSelf.centralManager.cancelPeripheralConnection(peripheral.getPeripheral())
                     disposable.dispose()
                 }
             }
@@ -281,7 +285,7 @@ public class BluetoothManager {
                 return Disposables.create()
             }
             let disposable = strongSelf.monitorDisconnection(for: peripheral).take(1).subscribe(observer)
-            strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+            strongSelf.centralManager.cancelPeripheralConnection(peripheral.getPeripheral())
             return disposable
         }
       return ensure(.poweredOn, observable: observable)
@@ -301,7 +305,7 @@ public class BluetoothManager {
         let observable = Observable<[Peripheral]>.deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             return Observable.just(strongSelf.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs))
-                .map { [weak self] (peripheralTable: [CBPeripheral]) -> [Peripheral] in
+                .map { [weak self] (peripheralTable: [CBPeripheralType]) -> [Peripheral] in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
                     return peripheralTable.map {
                         Peripheral(manager: strongSelf, peripheral: $0)
@@ -319,7 +323,7 @@ public class BluetoothManager {
         let observable = Observable<[Peripheral]>.deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             return Observable.just(strongSelf.centralManager.retrievePeripherals(withIdentifiers: identifiers))
-                .map { [weak self] (peripheralTable: [CBPeripheral]) -> [Peripheral] in
+                .map { [weak self] (peripheralTable: [CBPeripheralType]) -> [Peripheral] in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
                     return peripheralTable.map {
                         Peripheral(manager: strongSelf, peripheral: $0)
@@ -352,7 +356,7 @@ public class BluetoothManager {
                 throw BluetoothError.peripheralDisconnected(peripheral, nil)
             }
             return self.delegateWrapper.didDisconnectPeripheral
-                .filter { $0.0 == peripheral.peripheral }
+                .filter { $0.0 == peripheral.getPeripheral() }
                 .map { (_, error) -> T in
                     throw BluetoothError.peripheralDisconnected(peripheral, error)
                 }
@@ -364,7 +368,7 @@ public class BluetoothManager {
     /// - Returns: Observable which emits next events when `peripheral` was connected.
     public func monitorConnection(for peripheral: Peripheral) -> Observable<Peripheral> {
         let observable = delegateWrapper.didConnectPeripheral
-          .filter { $0 == peripheral.peripheral }
+          .filter { $0 == peripheral.getPeripheral() }
           .map { _ in peripheral }
       return ensure(.poweredOn, observable: observable)
     }
@@ -377,7 +381,7 @@ public class BluetoothManager {
     /// if it wasn't the `cancelConnection` call
     public func monitorDisconnection(for peripheral: Peripheral) -> Observable<(Peripheral, DisconnectionReason?)> {
         let observable = delegateWrapper.didDisconnectPeripheral
-          .filter { $0.0 == peripheral.peripheral }
+          .filter { $0.0 == peripheral.getPeripheral() }
           .map { (_, error) -> (Peripheral, DisconnectionReason?) in (peripheral, error) }
         return ensure(.poweredOn, observable: observable)
     }

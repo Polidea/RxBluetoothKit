@@ -27,10 +27,10 @@ import RxSwift
 // swiftlint:disable line_length
 /// Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBService](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
 public class Service {
-    public let service: CBService
-
     /// Peripheral to which this service belongs
     public let peripheral: Peripheral
+
+    private let service: CBServiceType
 
     /// True if service is primary service
     public var isPrimary: Bool {
@@ -44,21 +44,25 @@ public class Service {
 
     /// Service's included services
     public var includedServices: [Service]? {
-        return service.includedServices?.map {
+        return service.includedServiceTypes?.map {
             Service(peripheral: peripheral, service: $0)
         }
     }
 
     /// Service's characteristics
     public var characteristics: [Characteristic]? {
-        return service.characteristics?.map {
+        return service.characteristicTypes?.map {
             Characteristic(characteristic: $0, service: self)
         }
     }
 
-    init(peripheral: Peripheral, service: CBService) {
+    init(peripheral: Peripheral, service: CBServiceType) {
         self.service = service
         self.peripheral = peripheral
+    }
+
+    public func getService() -> CBService {
+        return service as! CBService
     }
 
     /// Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
@@ -87,5 +91,5 @@ extension Service: Equatable {}
 /// - parameter rhs: Second service
 /// - returns: True if services are the same.
 public func == (lhs: Service, rhs: Service) -> Bool {
-    return lhs.service == rhs.service
+    return lhs.getService() == rhs.getService()
 }
