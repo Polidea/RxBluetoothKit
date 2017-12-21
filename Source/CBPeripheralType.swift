@@ -30,20 +30,20 @@ protocol CBPeripheralType: class {
     var delegate: CBPeripheralDelegate? { get set }
     var state: CBPeripheralState { get }
     var name: String? { get }
-    var services: [CBService]? { get }
+    var serviceTypes: [CBServiceType]? { get }
     var identifier: UUID { get }
     var canSendWriteWithoutResponse: Bool { get }
     func discoverServices(_ serviceUUIDs: [CBUUID]?)
-    func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: CBService)
-    func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: CBService)
-    func readValue(for characteristic: CBCharacteristic)
-    func writeValue(_ data: Data, for characteristic: CBCharacteristic, type: CBCharacteristicWriteType)
-    func readValue(for descriptor: CBDescriptor)
-    func writeValue(_ data: Data, for descriptor: CBDescriptor)
+    func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: CBServiceType)
+    func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: CBServiceType)
+    func readValue(for characteristic: CBCharacteristicType)
+    func writeValue(_ data: Data, for characteristic: CBCharacteristicType, type: CBCharacteristicWriteType)
+    func readValue(for descriptor: CBDescriptorType)
+    func writeValue(_ data: Data, for descriptor: CBDescriptorType)
     @available(iOS 9.0, OSX 10.12, *)
     func maximumWriteValueLength(for type: CBCharacteristicWriteType) -> Int
-    func setNotifyValue(_ enabled: Bool, for characteristic: CBCharacteristic)
-    func discoverDescriptors(for characteristic: CBCharacteristic)
+    func setNotifyValue(_ enabled: Bool, for characteristic: CBCharacteristicType)
+    func discoverDescriptors(for characteristic: CBCharacteristicType)
     func readRSSI()
     #if os(iOS) || os(tvOS) || os(watchOS)
     @available(iOS 11, tvOS 11, watchOS 4, *)
@@ -55,5 +55,56 @@ extension CBPeripheral: CBPeripheralType {
     // there is no CBPeripheral.identifier property on macOS
     open override var identifier: UUID {
         return value(forKey: "identifier") as! NSUUID as UUID
+    }
+
+    var serviceTypes: [CBServiceType]? {
+        return services
+    }
+
+    func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: CBServiceType) {
+        if let realService = service as? CBService {
+            discoverIncludedServices(includedServiceUUIDs, for: realService)
+        }
+    }
+
+    func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: CBServiceType) {
+        if let realService = service as? CBService {
+            discoverCharacteristics(characteristicUUIDs, for: realService)
+        }
+    }
+
+    func readValue(for characteristic: CBCharacteristicType) {
+        if let realCharacteristic = characteristic as? CBCharacteristic {
+            readValue(for: realCharacteristic)
+        }
+    }
+
+    func writeValue(_ data: Data, for characteristic: CBCharacteristicType, type: CBCharacteristicWriteType) {
+        if let realCharacteristic = characteristic as? CBCharacteristic {
+            writeValue(data, for: realCharacteristic, type: type)
+        }
+    }
+
+    func readValue(for descriptor: CBDescriptorType) {
+        if let realDescriptor = descriptor as? CBDescriptor {
+            readValue(for: realDescriptor)
+        }
+    }
+
+    func writeValue(_ data: Data, for descriptor: CBDescriptorType) {
+        if let realDescriptor = descriptor as? CBDescriptor {
+            writeValue(data, for: realDescriptor)
+        }
+    }
+
+    func setNotifyValue(_ enabled: Bool, for characteristic: CBCharacteristicType) {
+        if let realCharacteristic = characteristic as? CBCharacteristic {
+            setNotifyValue(enabled, for: realCharacteristic)
+        }
+    }
+    func discoverDescriptors(for characteristic: CBCharacteristicType) {
+        if let realCharacteristic = characteristic as? CBCharacteristic {
+            discoverDescriptors(for: realCharacteristic)
+        }
     }
 }

@@ -83,7 +83,7 @@ public class Peripheral {
 
     /// A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
     public var services: [Service]? {
-        return peripheral.services?.map {
+        return peripheral.serviceTypes?.map {
             Service(peripheral: self, service: $0)
         }
     }
@@ -168,7 +168,7 @@ public class Peripheral {
         }
         let observable = delegateWrapper
             .peripheralDidDiscoverIncludedServicesForService
-            .filter { $0.0 == service.service }
+            .filter { $0.0 == service.getService() }
             .flatMap { [weak self] (service, error) -> Observable<[Service]> in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 guard let includedRxServices = service.includedServices, error == nil else {
@@ -185,7 +185,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service)
+                self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.getService())
             }
         )
         .asSingle()
@@ -210,7 +210,7 @@ public class Peripheral {
         }
         let observable = delegateWrapper
             .peripheralDidDiscoverCharacteristicsForService
-            .filter { $0.0 == service.service }
+            .filter { $0.0 == service.getService() }
             .flatMap { (cbService, error) -> Observable<[Characteristic]> in
                 guard let cbCharacteristics = cbService.characteristics, error == nil else {
                     throw BluetoothError.characteristicsDiscoveryFailed(service, error)
@@ -226,7 +226,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service)
+                self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.getService())
             }
         ).asSingle()
     }
@@ -238,7 +238,7 @@ public class Peripheral {
     public func monitorWrite(for characteristic: Characteristic) -> Observable<Characteristic> {
         let observable = delegateWrapper
             .peripheralDidWriteValueForCharacteristic
-            .filter { return $0.0 == characteristic.characteristic }
+            .filter { return $0.0 == characteristic.getCharacteristic() }
             .map { (_, error) -> Characteristic in
                 if let error = error {
                     throw BluetoothError.characteristicWriteFailed(characteristic, error)
@@ -278,7 +278,7 @@ public class Peripheral {
             return strongSelf.ensureValidPeripheralStateAndCallIfSucceeded(
                 for: observable,
                 postSubscriptionCall: { [weak self] in
-                    self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
+                    self?.peripheral.writeValue(data, for: characteristic.getCharacteristic(), type: type)
                 }
             )
         }
@@ -308,7 +308,7 @@ public class Peripheral {
     public func monitorValueUpdate(for characteristic: Characteristic) -> Observable<Characteristic> {
         let observable = delegateWrapper
             .peripheralDidUpdateValueForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
+            .filter { $0.0 == characteristic.getCharacteristic() }
             .map { (_, error) -> Characteristic in
                 if let error = error {
                     throw BluetoothError.characteristicReadFailed(characteristic, error)
@@ -327,7 +327,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.readValue(for: characteristic.characteristic)
+                self?.peripheral.readValue(for: characteristic.getCharacteristic())
             }
         ).asSingle()
     }
@@ -343,7 +343,7 @@ public class Peripheral {
                                for characteristic: Characteristic) -> Single<Characteristic> {
         let observable = delegateWrapper
             .peripheralDidUpdateNotificationStateForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
+            .filter { $0.0 == characteristic.getCharacteristic() }
             .take(1)
             .map { (_, error) -> Characteristic in
                 if let error = error {
@@ -354,7 +354,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
+                self?.peripheral.setNotifyValue(enabled, for: characteristic.getCharacteristic())
             }
         ).asSingle()
     }
@@ -386,12 +386,12 @@ public class Peripheral {
     /// - Returns: `Single` that emits `Next` with array of `Descriptor` instances, once they're discovered.
     public func discoverDescriptors(for characteristic: Characteristic) -> Single<[Descriptor]> {
         if let descriptors = characteristic.descriptors {
-            let resultDescriptors = descriptors.map { Descriptor(descriptor: $0.descriptor, characteristic: characteristic) }
+            let resultDescriptors = descriptors.map { Descriptor(descriptor: $0.getDescriptor(), characteristic: characteristic) }
             return ensureValidPeripheralState(for: .just(resultDescriptors)).asSingle()
         }
         let observable = delegateWrapper
             .peripheralDidDiscoverDescriptorsForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
+            .filter { $0.0 == characteristic.getCharacteristic() }
             .take(1)
             .map { (cbCharacteristic, error) -> [Descriptor] in
                 if let descriptors = cbCharacteristic.descriptors, error == nil {
@@ -404,7 +404,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.discoverDescriptors(for: characteristic.characteristic)
+                self?.peripheral.discoverDescriptors(for: characteristic.getCharacteristic())
             }
         ).asSingle()
     }
@@ -416,7 +416,7 @@ public class Peripheral {
     public func monitorWrite(for descriptor: Descriptor) -> Observable<Descriptor> {
         let observable = delegateWrapper
             .peripheralDidWriteValueForDescriptor
-            .filter { $0.0 == descriptor.descriptor }
+            .filter { $0.0 == descriptor.getDescriptor() }
             .map { (_, error) -> Descriptor in
                 if let error = error {
                     throw BluetoothError.descriptorWriteFailed(descriptor, error)
@@ -433,7 +433,7 @@ public class Peripheral {
     public func monitorValueUpdate(for descriptor: Descriptor) -> Observable<Descriptor> {
         let observable = delegateWrapper
             .peripheralDidUpdateValueForDescriptor
-            .filter { $0.0 == descriptor.descriptor }
+            .filter { $0.0 == descriptor.getDescriptor() }
             .map { (_, error) -> Descriptor in
                 if let error = error {
                     throw BluetoothError.descriptorReadFailed(descriptor, error)
@@ -452,7 +452,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.readValue(for: descriptor.descriptor) }
+                self?.peripheral.readValue(for: descriptor.getDescriptor()) }
         )
         .asSingle()
     }
@@ -466,7 +466,7 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: monitorWrite,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.writeValue(data, for: descriptor.descriptor) }
+                self?.peripheral.writeValue(data, for: descriptor.getDescriptor()) }
         )
         .asSingle()
     }

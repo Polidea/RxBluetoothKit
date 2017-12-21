@@ -28,9 +28,10 @@ import CoreBluetooth
 
 /// Characteristic is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBCharacteristic](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCharacteristic_Class/)
 public class Characteristic {
-    public let characteristic: CBCharacteristic
     /// Service which contains this characteristic
     public let service: Service
+
+    private let characteristic: CBCharacteristicType
 
     /// Current value of characteristic. If value is not present - it's `nil`.
     public var value: Data? {
@@ -54,12 +55,16 @@ public class Characteristic {
 
     /// Value of this property is an array of `Descriptor` objects. They provide more detailed information about characteristics value.
     public var descriptors: [Descriptor]? {
-        return characteristic.descriptors?.map { Descriptor(descriptor: $0, characteristic: self) }
+        return characteristic.descriptorTypes?.map { Descriptor(descriptor: $0, characteristic: self) }
     }
 
-    init(characteristic: CBCharacteristic, service: Service) {
+    init(characteristic: CBCharacteristicType, service: Service) {
         self.characteristic = characteristic
         self.service = service
+    }
+
+    public func getCharacteristic() -> CBCharacteristic {
+        return characteristic as! CBCharacteristic
     }
 
     /// Function that triggers descriptors discovery for characteristic.
@@ -132,5 +137,5 @@ extension Characteristic: Equatable {}
 /// - parameter rhs: Second characteristic to compare
 /// - returns: True if both characteristics are the same.
 public func == (lhs: Characteristic, rhs: Characteristic) -> Bool {
-    return lhs.characteristic == rhs.characteristic
+    return lhs.getCharacteristic() == rhs.getCharacteristic()
 }
