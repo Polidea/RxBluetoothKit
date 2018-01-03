@@ -22,35 +22,36 @@
 
 import Foundation
 import CoreBluetooth
+@testable import RxBluetoothKit
 import RxSwift
 
-class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
+class _CBPeripheralDelegateWrapper: NSObject, _CBPeripheralDelegate {
 
     let peripheralDidUpdateName = PublishSubject<String?>()
-    let peripheralDidModifyServices = PublishSubject<([CBService])>()
+    let peripheralDidModifyServices = PublishSubject<([CBServiceMock])>()
     let peripheralDidReadRSSI = PublishSubject<(Int, Error?)>()
-    let peripheralDidDiscoverServices = PublishSubject<([CBService]?, Error?)>()
-    let peripheralDidDiscoverIncludedServicesForService = PublishSubject<(CBService, Error?)>()
-    let peripheralDidDiscoverCharacteristicsForService = PublishSubject<(CBService, Error?)>()
-    let peripheralDidUpdateValueForCharacteristic = PublishSubject<(CBCharacteristic, Error?)>()
-    let peripheralDidWriteValueForCharacteristic = PublishSubject<(CBCharacteristic, Error?)>()
+    let peripheralDidDiscoverServices = PublishSubject<([CBServiceMock]?, Error?)>()
+    let peripheralDidDiscoverIncludedServicesForService = PublishSubject<(CBServiceMock, Error?)>()
+    let peripheralDidDiscoverCharacteristicsForService = PublishSubject<(CBServiceMock, Error?)>()
+    let peripheralDidUpdateValueForCharacteristic = PublishSubject<(CBCharacteristicMock, Error?)>()
+    let peripheralDidWriteValueForCharacteristic = PublishSubject<(CBCharacteristicMock, Error?)>()
     let peripheralDidUpdateNotificationStateForCharacteristic =
-        PublishSubject<(CBCharacteristic, Error?)>()
+        PublishSubject<(CBCharacteristicMock, Error?)>()
     let peripheralDidDiscoverDescriptorsForCharacteristic =
-        PublishSubject<(CBCharacteristic, Error?)>()
-    let peripheralDidUpdateValueForDescriptor = PublishSubject<(CBDescriptor, Error?)>()
-    let peripheralDidWriteValueForDescriptor = PublishSubject<(CBDescriptor, Error?)>()
+        PublishSubject<(CBCharacteristicMock, Error?)>()
+    let peripheralDidUpdateValueForDescriptor = PublishSubject<(CBDescriptorMock, Error?)>()
+    let peripheralDidWriteValueForDescriptor = PublishSubject<(CBDescriptorMock, Error?)>()
     let peripheralIsReadyToSendWriteWithoutResponse = PublishSubject<Void>()
     let peripheralDidOpenL2CAPChannel = PublishSubject<(Any?, Error?)>()
 
-    func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
+    func peripheralDidUpdateName(_ peripheral: CBPeripheralMock) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didUpdateName(name: \(String(describing: peripheral.name)))
             """)
         peripheralDidUpdateName.onNext(peripheral.name)
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+    func peripheral(_ peripheral: CBPeripheralMock, didModifyServices invalidatedServices: [CBServiceMock]) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didModifyServices(services:
             [\(invalidatedServices.logDescription))]
@@ -58,7 +59,7 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
         peripheralDidModifyServices.onNext(invalidatedServices)
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didReadRSSI rssi: NSNumber, error: Error?) {
+    func peripheral(_ peripheral: CBPeripheralMock, didReadRSSI rssi: NSNumber, error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didReadRSSI(rssi: \(rssi),
             error: \(String(describing: error)))
@@ -66,7 +67,7 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
         peripheralDidReadRSSI.onNext((rssi.intValue, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+    func peripheral(_ peripheral: CBPeripheralMock, didDiscoverServices error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didDiscoverServices(services
             : \(String(describing: peripheral.services?.logDescription)),
@@ -75,8 +76,8 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
         peripheralDidDiscoverServices.onNext((peripheral.services, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didDiscoverIncludedServicesFor service: CBService,
+    func peripheral(_ peripheral: CBPeripheralMock,
+                    didDiscoverIncludedServicesFor service: CBServiceMock,
                     error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didDiscoverIncludedServices(for:
@@ -87,8 +88,8 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
         peripheralDidDiscoverIncludedServicesForService.onNext((service, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didDiscoverCharacteristicsFor service: CBService,
+    func peripheral(_ peripheral: CBPeripheralMock,
+                    didDiscoverCharacteristicsFor service: CBServiceMock,
                     error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didDiscoverCharacteristicsFor(for:
@@ -99,8 +100,8 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
         peripheralDidDiscoverCharacteristicsForService.onNext((service, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didUpdateValueFor characteristic: CBCharacteristic,
+    func peripheral(_ peripheral: CBPeripheralMock,
+                    didUpdateValueFor characteristic: CBCharacteristicMock,
                     error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didUpdateValueFor(for:\(characteristic.logDescription),
@@ -111,8 +112,8 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
             .onNext((characteristic, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didWriteValueFor characteristic: CBCharacteristic,
+    func peripheral(_ peripheral: CBPeripheralMock,
+                    didWriteValueFor characteristic: CBCharacteristicMock,
                     error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didWriteValueFor(for:\(characteristic.logDescription),
@@ -123,8 +124,8 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
             .onNext((characteristic, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didUpdateNotificationStateFor characteristic: CBCharacteristic,
+    func peripheral(_ peripheral: CBPeripheralMock,
+                    didUpdateNotificationStateFor characteristic: CBCharacteristicMock,
                     error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didUpdateNotificationStateFor(
@@ -135,8 +136,8 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
             .onNext((characteristic, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didDiscoverDescriptorsFor characteristic: CBCharacteristic,
+    func peripheral(_ peripheral: CBPeripheralMock,
+                    didDiscoverDescriptorsFor characteristic: CBCharacteristicMock,
                     error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didDiscoverDescriptorsFor
@@ -148,8 +149,8 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
             .onNext((characteristic, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didUpdateValueFor descriptor: CBDescriptor,
+    func peripheral(_ peripheral: CBPeripheralMock,
+                    didUpdateValueFor descriptor: CBDescriptorMock,
                     error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didUpdateValueFor(for:\(descriptor.logDescription),
@@ -158,8 +159,8 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
         peripheralDidUpdateValueForDescriptor.onNext((descriptor, error))
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didWriteValueFor descriptor: CBDescriptor,
+    func peripheral(_ peripheral: CBPeripheralMock,
+                    didWriteValueFor descriptor: CBDescriptorMock,
                     error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didWriteValueFor(for:\(descriptor.logDescription),
@@ -168,7 +169,7 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
         peripheralDidWriteValueForDescriptor.onNext((descriptor, error))
     }
 
-    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
+    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheralMock) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) peripheralIsReady(toSendWriteWithoutResponse)
             """)
@@ -176,7 +177,7 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
     }
 
     @available(OSX 10.13, iOS 11, *)
-    func peripheral(_ peripheral: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
+    func peripheral(_ peripheral: CBPeripheralMock, didOpen channel: CBL2CAPChannelMock?, error: Error?) {
         RxBluetoothKitLog.d("""
             \(peripheral.logDescription) didOpenL2CAPChannel(for:\(peripheral.logDescription),
             error: \(String(describing: error)))
@@ -184,5 +185,5 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
         peripheralDidOpenL2CAPChannel.onNext((channel, error))
     }
 
-    func peripheralDidUpdateRSSI(_ peripheral: CBPeripheral, error: Error?) {}
+    func peripheralDidUpdateRSSI(_ peripheral: CBPeripheralMock, error: Error?) {}
 }
