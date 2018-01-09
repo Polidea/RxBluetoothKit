@@ -887,7 +887,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./scripts/generate-testable.sh";
+			shellScript = "if which gsed >/dev/null; then\n./scripts/generate-testable.sh\nelse\necho \"warning: Cannot generate testable files, gsed required.\"\nfi";
 		};
 		1D1BC87D2003A31E004C5F36 /* Generate testable files script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -901,7 +901,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./scripts/generate-testable.sh";
+			shellScript = "if which gsed >/dev/null; then\n./scripts/generate-testable.sh\nelse\necho \"warning: Cannot generate testable files, gsed required.\"\nfi";
 		};
 		1D1BC87E2003A32B004C5F36 /* Generate testable files script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -915,7 +915,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./scripts/generate-testable.sh";
+			shellScript = "if which gsed >/dev/null; then\n./scripts/generate-testable.sh\nelse\necho \"warning: Cannot generate testable files, gsed required.\"\nfi";
 		};
 		1D1BC87F2003A33A004C5F36 /* Generate testable files script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -929,7 +929,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./scripts/generate-testable.sh";
+			shellScript = "if which gsed >/dev/null; then\n./scripts/generate-testable.sh\nelse\necho \"warning: Cannot generate testable files, gsed required.\"\nfi";
 		};
 		26A66F951E263E8C00E62D8C /* Swiftlint script */ = {
 			isa = PBXShellScriptBuildPhase;
