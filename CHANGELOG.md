@@ -1,3 +1,6 @@
+# 4.0.2
+- Allow projects that depend on RxBluetoothKit to update RxSwift to 4.1.0 and newer.
+
 # 4.0.1
 - Add missing logs for CBPeripheral and CBCentralManager classes.
 - Fixed implementation of scanning subscription queue.
