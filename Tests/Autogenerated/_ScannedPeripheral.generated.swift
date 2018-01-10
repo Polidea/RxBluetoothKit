@@ -22,23 +22,24 @@
 
 import Foundation
 import CoreBluetooth
+@testable import RxBluetoothKit
 
-protocol UUIDIdentifiable {
-    var uuid: CBUUID { get }
-}
+/// Represents instance of scanned peripheral - containing it's advertisment data, rssi and peripheral itself.
+/// To perform further actions `peripheral` instance variable can be used ia. to maintain connection.
+class _ScannedPeripheral {
 
-/// Filters an item list based on the provided UUID list. The items must conform to UUIDIdentifiable.
-/// Only items returned whose UUID matches an item in the provided UUID list.
-/// Each UUID should have at least one item matching in the items list. Otherwise the result is nil.
+    /// `_Peripheral` instance, that allows to perform further bluetooth actions.
+    let peripheral: _Peripheral
 
-/// - uuids: a UUID list or nil
-/// - items: items to be filtered
-/// - Returns: the filtered item list
-func filterUUIDItems<T: UUIDIdentifiable>(uuids: [CBUUID]?, items: [T]) -> [T]? {
-    guard let uuids = uuids, !uuids.isEmpty else { return items }
+    /// Advertisement data of scanned peripheral
+    let advertisementData: AdvertisementData
 
-    let itemsUUIDs = items.map { $0.uuid }
-    let uuidsSet = Set(uuids)
-    guard uuidsSet.isSubset(of: Set(itemsUUIDs)) else { return nil }
-    return items.filter { uuidsSet.contains($0.uuid) }
+    /// Scanned peripheral's RSSI value.
+    let rssi: NSNumber
+
+    init(peripheral: _Peripheral, advertisementData: AdvertisementData, rssi: NSNumber) {
+        self.peripheral = peripheral
+        self.advertisementData = advertisementData
+        self.rssi = rssi
+    }
 }

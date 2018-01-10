@@ -22,23 +22,33 @@
 
 import Foundation
 import CoreBluetooth
+@testable import RxBluetoothKit
+import RxSwift
 
-protocol UUIDIdentifiable {
-    var uuid: CBUUID { get }
+final class _ScanOperation {
+    let uuids: [CBUUID]?
+    let observable: Observable<_ScannedPeripheral>
+    init(uuids: [CBUUID]?, observable: Observable<_ScannedPeripheral>) {
+        self.uuids = uuids
+        self.observable = observable
+    }
 }
 
-/// Filters an item list based on the provided UUID list. The items must conform to UUIDIdentifiable.
-/// Only items returned whose UUID matches an item in the provided UUID list.
-/// Each UUID should have at least one item matching in the items list. Otherwise the result is nil.
+extension _ScanOperation {
+    func shouldAccept(_ newUUIDs: [CBUUID]?) -> Bool {
+        guard let uuids = uuids else {
+            return true
+        }
+        guard let newUUIDs = newUUIDs else {
+            return false
+        }
+        return Set(uuids).isSuperset(of: Set(newUUIDs))
+    }
+}
 
-/// - uuids: a UUID list or nil
-/// - items: items to be filtered
-/// - Returns: the filtered item list
-func filterUUIDItems<T: UUIDIdentifiable>(uuids: [CBUUID]?, items: [T]) -> [T]? {
-    guard let uuids = uuids, !uuids.isEmpty else { return items }
-
-    let itemsUUIDs = items.map { $0.uuid }
-    let uuidsSet = Set(uuids)
-    guard uuidsSet.isSubset(of: Set(itemsUUIDs)) else { return nil }
-    return items.filter { uuidsSet.contains($0.uuid) }
+func == (lhs: _ScanOperation, rhs: _ScanOperation) -> Bool {
+    if lhs.uuids == nil {
+        return rhs.uuids == nil
+    }
+    return rhs.uuids != nil && rhs.uuids! == lhs.uuids!
 }

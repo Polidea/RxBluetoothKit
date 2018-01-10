@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2017 Polidea
+// Copyright (c) 2018 Polidea
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,12 +21,11 @@
 // SOFTWARE.
 
 import Foundation
-import Quick
-import Nimble
 import RxTest
 import RxSwift
 import CoreBluetooth
 import RxBluetoothKit
+import XCTest
 
 // Helps
 final class Box<T> {
@@ -37,11 +36,11 @@ final class Box<T> {
     }
 }
 
-func expectError<ErrorType: Equatable, Element>(event: Event<Element>, errorType: ErrorType, file: String = #file, line: UInt = #line) {
-    expect(event.isStopEvent, file: file, line: line).to(beTrue())
-    expect(event.error, file: file, line: line).toNot(beNil())
-    expect(event.error is ErrorType, file: file, line: line).to(beTrue())
-    expect(event.error as? ErrorType, file: file, line: line).to(equal(errorType))
+func XCTAssertError<ErrorType: Equatable, Element>(_ event: Event<Element>, _ errorType: ErrorType, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
+    XCTAssertTrue(event.isStopEvent, message, file: file, line: line)
+    XCTAssertNotNil(event.error, message, file: file, line: line)
+    XCTAssertTrue(event.error is ErrorType, message, file: file, line: line)
+    XCTAssertEqual(event.error as? ErrorType, errorType, message, file: file, line: line)
 }
 
 extension TestScheduler {
@@ -123,7 +122,7 @@ extension ObservableScheduleTimes {
 }
 
 extension BluetoothError {
-    static var invalidStateErrors: [(BluetoothState, BluetoothError)] {
+    static var invalidStateErrors: [(CBManagerState, _BluetoothError)] {
         return [
             (.poweredOff, .bluetoothPoweredOff),
             (.resetting, .bluetoothResetting),
