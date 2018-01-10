@@ -379,12 +379,19 @@ class _BluetoothManager {
     /// - Parameter peripheral: `_Peripheral` which is monitored for disconnection.
     /// - Returns: Observable which emits next events when `_Peripheral` instance was disconnected.
     /// It provides optional error which may contain more information about the cause of the disconnection
-    /// if it wasn't the `cancelConnection` call
+    /// if it wasn't the `cancelConnection` call. 
     func monitorDisconnection(for peripheral: _Peripheral) -> Observable<(_Peripheral, DisconnectionReason?)> {
         let observable = delegateWrapper.didDisconnectPeripheral
           .filter { $0.0 == peripheral.peripheral }
           .map { (_, error) -> (_Peripheral, DisconnectionReason?) in (peripheral, error) }
         return ensure(.poweredOn, observable: observable)
+                .catchError { error in
+                    if error is _BluetoothError {
+                        return .concat(.just((peripheral, error)), .error(error))
+                    } else {
+                        return .error(error)
+                    }
+                }
     }
 
     #if os(iOS)

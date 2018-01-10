@@ -36,6 +36,10 @@ final class Box<T> {
     }
 }
 
+enum TestError: Error {
+    case error
+}
+
 func XCTAssertError<ErrorType: Equatable, Element>(_ event: Event<Element>, _ errorType: ErrorType, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
     XCTAssertTrue(event.isStopEvent, message, file: file, line: line)
     XCTAssertNotNil(event.error, message, file: file, line: line)
@@ -121,7 +125,7 @@ extension ObservableScheduleTimes {
     }
 }
 
-extension BluetoothError {
+extension _BluetoothError {
     static var invalidStateErrors: [(CBManagerState, _BluetoothError)] {
         return [
             (.poweredOff, .bluetoothPoweredOff),
