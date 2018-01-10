@@ -58,7 +58,7 @@ class BluetoothManagerRetrievePeripheralsTest: XCTestCase {
     }
     
     func testViaIdentifiersErrorPropagationAtStart() {
-        for stateWithError in BluetoothError.invalidStateErrors {
+        for stateWithError in _BluetoothError.invalidStateErrors {
             let (_, peripheralsObserver) = setUpViaIdentifiers()
             let (state, error) = stateWithError
             
@@ -92,7 +92,7 @@ class BluetoothManagerRetrievePeripheralsTest: XCTestCase {
     }
     
     func testViaServicesUuidsErrorPropagationAtStart() {
-        for stateWithError in BluetoothError.invalidStateErrors {
+        for stateWithError in _BluetoothError.invalidStateErrors {
             let (_, peripheralsObserver) = setUpViaServicesUuids()
             let (state, error) = stateWithError
             
