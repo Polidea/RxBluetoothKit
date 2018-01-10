@@ -29,29 +29,23 @@ import CoreBluetooth
 /// Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 public class Peripheral {
+
     public let manager: BluetoothManager
-
-    /// Creates new `Peripheral`
-    /// - parameter manager: Central instance which is used to perform all of the necessary operations.
-    /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
-    /// - parameter delegateWrapper: Wrapper on CoreBluetooth's peripheral callbacks.
-    init(manager: BluetoothManager, peripheral: CBPeripheral, delegateWrapper: CBPeripheralDelegateWrapper) {
-      self.manager = manager
-      self.peripheral = peripheral
-      self.delegateWrapper = delegateWrapper
-      peripheral.delegate = delegateWrapper
-    }
-
-    /// Creates new `Peripheral`
-    /// - parameter manager: Central instance which is used to perform all of the necessary operations.
-    /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
-    convenience init(manager: BluetoothManager, peripheral: CBPeripheral) {
-      self.init(manager: manager, peripheral: peripheral, delegateWrapper: CBPeripheralDelegateWrapper())
-    }
 
     /// Implementation of peripheral
     public let peripheral: CBPeripheral
-    private let delegateWrapper: CBPeripheralDelegateWrapper
+
+    let delegateWrapper: CBPeripheralDelegateWrapper
+
+    /// Creates new `Peripheral`
+    /// - parameter manager: Central instance which is used to perform all of the necessary operations.
+    /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
+    init(manager: BluetoothManager, peripheral: CBPeripheral) {
+      self.manager = manager
+      self.peripheral = peripheral
+      self.delegateWrapper = manager.peripheralDelegateProvider.provide(for: peripheral)
+      peripheral.delegate = self.delegateWrapper
+    }
 
     ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
     public var rx_isConnected: Observable<Bool> {
@@ -80,7 +74,7 @@ public class Peripheral {
 
     /// Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
     public var identifier: UUID {
-        return peripheral.value(forKey: "identifier") as! NSUUID as UUID
+        return peripheral.uuidIdentifier!
     }
 
     /// A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.

@@ -4,13 +4,19 @@
 import CoreBluetooth
 @testable
 import RxBluetoothKit
+import RxSwift
+
+// MARK: - generated class mocks
 
 class CBCentralManagerMock: NSObject {
-    var delegate: _CBCentralManagerDelegate?
+    var delegate: CBCentralManagerDelegate?
     var isScanning: Bool!
+    var logDescription: String!
     var state: CBManagerState!
 
-    init(delegate: _CBCentralManagerDelegate?, queue: DispatchQueue?, options: [String : Any]? = nil) {
+    override init() {
+    }
+    init(delegate: CBCentralManagerDelegate?, queue: DispatchQueue?, options: [String : Any]? = nil) {
     }
 
     var retrievePeripheralsParams: [([UUID])] = []
@@ -56,20 +62,15 @@ class CBCentralManagerMock: NSObject {
     }
 
 }
-
-extension CBCentralManagerMock: Loggable {
-    @objc var logDescription: String {
-        return "CBCentralManagerMock"
-    }
-}
-
 class CBPeripheralMock: NSObject {
-    var delegate: _CBPeripheralDelegate?
+    var delegate: CBPeripheralDelegate?
     var name: String?
     var rssi: NSNumber?
     var state: CBPeripheralState!
     var services: [CBServiceMock]?
     var canSendWriteWithoutResponse: Bool!
+    var logDescription: String!
+    var uuidIdentifier: UUID?
     var identifier: UUID!
 
     override init() {
@@ -142,47 +143,28 @@ class CBPeripheralMock: NSObject {
     }
 
 }
-
-extension CBPeripheralMock: Loggable {
-    @objc var logDescription: String {
-        return "CBPeripheralMock"
-    }
-}
-
 class CBDescriptorMock: NSObject {
     var characteristic: CBCharacteristicMock!
     var value: Any?
+    var logDescription: String!
     var uuid: CBUUID!
 
     override init() {
     }
 
 }
-
-extension CBDescriptorMock: Loggable {
-    @objc var logDescription: String {
-        return "CBDescriptorMock"
-    }
-}
-
 class CBServiceMock: NSObject {
     var peripheral: CBPeripheralMock!
     var isPrimary: Bool!
     var includedServices: [CBServiceMock]?
     var characteristics: [CBCharacteristicMock]?
+    var logDescription: String!
     var uuid: CBUUID!
 
     override init() {
     }
 
 }
-
-extension CBServiceMock: Loggable {
-    @objc var logDescription: String {
-        return "CBServiceMock"
-    }
-}
-
 class CBCharacteristicMock: NSObject {
     var service: CBServiceMock!
     var properties: CBCharacteristicProperties!
@@ -190,36 +172,23 @@ class CBCharacteristicMock: NSObject {
     var descriptors: [CBDescriptorMock]?
     var isBroadcasted: Bool!
     var isNotifying: Bool!
+    var logDescription: String!
     var uuid: CBUUID!
 
     override init() {
     }
 
 }
-
-extension CBCharacteristicMock: Loggable {
-    @objc var logDescription: String {
-        return "CBCharacteristicMock"
-    }
-}
-
 class CBL2CAPChannelMock: NSObject {
-    var peer: CBPeerMock?
-    var inputStream: InputStream?
-    var outputStream: OutputStream?
+    var peer: CBPeerMock!
+    var inputStream: InputStream!
+    var outputStream: OutputStream!
     var psm: CBL2CAPPSM!
 
     override init() {
     }
 
 }
-
-extension CBL2CAPChannelMock: Loggable {
-    @objc var logDescription: String {
-        return "CBL2CAPChannelMock"
-    }
-}
-
 class CBPeerMock: NSObject {
     var identifier: UUID!
 
@@ -227,60 +196,120 @@ class CBPeerMock: NSObject {
     }
 
 }
+class PeripheralDelegateWrapperProviderMock: NSObject {
+    var lock: NSLock!
+    var peripheralDelegateWrappersMap: [UUID: CBPeripheralDelegateWrapperMock]!
 
-extension CBPeerMock: Loggable {
-    @objc var logDescription: String {
-        return "CBPeerMock"
+    override init() {
     }
+
+    var provideParams: [(CBPeripheralMock)] = []
+    var provideReturns: [CBPeripheralDelegateWrapperMock] = []
+    func provide(for peripheral: CBPeripheralMock) -> CBPeripheralDelegateWrapperMock {
+        provideParams.append((peripheral))
+        if provideReturns.isEmpty {
+            fatalError("No return value")
+        } else {
+            return provideReturns.removeFirst()
+        }
+    }
+
 }
 
+// MARK: - generated wrapper mocks
 
-protocol _CBPeripheralDelegate : NSObjectProtocol {
-     
-    func peripheralDidUpdateName(_ peripheral: CBPeripheralMock)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didModifyServices invalidatedServices: [CBServiceMock])
-     
-    func peripheralDidUpdateRSSI(_ peripheral: CBPeripheralMock, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didReadRSSI RSSI: NSNumber, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didDiscoverServices error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didDiscoverIncludedServicesFor service: CBServiceMock, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didDiscoverCharacteristicsFor service: CBServiceMock, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didUpdateValueFor characteristic: CBCharacteristicMock, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didWriteValueFor characteristic: CBCharacteristicMock, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didUpdateNotificationStateFor characteristic: CBCharacteristicMock, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didDiscoverDescriptorsFor characteristic: CBCharacteristicMock, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didUpdateValueFor descriptor: CBDescriptorMock, error: Error?)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didWriteValueFor descriptor: CBDescriptorMock, error: Error?)
-     
-    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheralMock)
-     
-    func peripheral(_ peripheral: CBPeripheralMock, didOpen channel: CBL2CAPChannelMock?, error: Error?)
+class CBPeripheralDelegateWrapperMock: NSObject , CBPeripheralDelegate {
+    var peripheralDidUpdateName = PublishSubject<String?>()
+    var peripheralDidModifyServices = PublishSubject<([CBServiceMock])>()
+    var peripheralDidReadRSSI = PublishSubject<(Int, Error?)>()
+    var peripheralDidDiscoverServices = PublishSubject<([CBServiceMock]?, Error?)>()
+    var peripheralDidDiscoverIncludedServicesForService = PublishSubject<(CBServiceMock, Error?)>()
+    var peripheralDidDiscoverCharacteristicsForService = PublishSubject<(CBServiceMock, Error?)>()
+    var peripheralDidUpdateValueForCharacteristic = PublishSubject<(CBCharacteristicMock, Error?)>()
+    var peripheralDidWriteValueForCharacteristic = PublishSubject<(CBCharacteristicMock, Error?)>()
+    var peripheralDidUpdateNotificationStateForCharacteristic = PublishSubject<(CBCharacteristicMock, Error?)>()
+    var peripheralDidDiscoverDescriptorsForCharacteristic = PublishSubject<(CBCharacteristicMock, Error?)>()
+    var peripheralDidUpdateValueForDescriptor = PublishSubject<(CBDescriptorMock, Error?)>()
+    var peripheralDidWriteValueForDescriptor = PublishSubject<(CBDescriptorMock, Error?)>()
+    var peripheralIsReadyToSendWriteWithoutResponse = PublishSubject<Void>()
+    var peripheralDidOpenL2CAPChannel = PublishSubject<(Any?, Error?)>()
+
+    override init() {
+    }
+
+    func peripheralDidUpdateName(_ peripheral: CBPeripheral) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didReadRSSI rssi: NSNumber, error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverIncludedServicesFor service: CBService, error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverDescriptorsFor characteristic: CBCharacteristic, error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor descriptor: CBDescriptor, error: Error?) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
+    }
+
+    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
+    }
+
+    func peripheralDidUpdateRSSI(_ peripheral: CBPeripheral, error: Error?) {
+    }
+
 }
-protocol _CBCentralManagerDelegate : NSObjectProtocol {
-     
-    func centralManagerDidUpdateState(_ central: CBCentralManagerMock)
-     
-    func centralManager(_ central: CBCentralManagerMock, willRestoreState dict: [String : Any])
-     
-    func centralManager(_ central: CBCentralManagerMock, didDiscover peripheral: CBPeripheralMock, advertisementData: [String : Any], rssi RSSI: NSNumber)
-     
-    func centralManager(_ central: CBCentralManagerMock, didConnect peripheral: CBPeripheralMock)
-     
-    func centralManager(_ central: CBCentralManagerMock, didFailToConnect peripheral: CBPeripheralMock, error: Error?)
-     
-    func centralManager(_ central: CBCentralManagerMock, didDisconnectPeripheral peripheral: CBPeripheralMock, error: Error?)
+class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
+    var didUpdateState = PublishSubject<BluetoothState>()
+    var willRestoreState = ReplaySubject<[String: Any]>.create(bufferSize: 1)
+    var didDiscoverPeripheral = PublishSubject<(CBPeripheralMock, [String: Any], NSNumber)>()
+    var didConnectPeripheral = PublishSubject<CBPeripheralMock>()
+    var didFailToConnectPeripheral = PublishSubject<(CBPeripheralMock, Error?)>()
+    var didDisconnectPeripheral = PublishSubject<(CBPeripheralMock, Error?)>()
+
+    override init() {
+    }
+
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+    }
+
+    func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
+    }
+
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi: NSNumber) {
+    }
+
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+    }
+
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+    }
+
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    }
+
 }
-
-
-

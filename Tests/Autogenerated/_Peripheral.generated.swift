@@ -30,29 +30,23 @@ import CoreBluetooth
 /// _Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 class _Peripheral {
+
     let manager: _BluetoothManager
-
-    /// Creates new `_Peripheral`
-    /// - parameter manager: Central instance which is used to perform all of the necessary operations.
-    /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
-    /// - parameter delegateWrapper: Wrapper on CoreBluetooth's peripheral callbacks.
-    init(manager: _BluetoothManager, peripheral: CBPeripheralMock, delegateWrapper: _CBPeripheralDelegateWrapper) {
-      self.manager = manager
-      self.peripheral = peripheral
-      self.delegateWrapper = delegateWrapper
-      peripheral.delegate = delegateWrapper
-    }
-
-    /// Creates new `_Peripheral`
-    /// - parameter manager: Central instance which is used to perform all of the necessary operations.
-    /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
-    convenience init(manager: _BluetoothManager, peripheral: CBPeripheralMock) {
-      self.init(manager: manager, peripheral: peripheral, delegateWrapper: _CBPeripheralDelegateWrapper())
-    }
 
     /// Implementation of peripheral
     let peripheral: CBPeripheralMock
-    private let delegateWrapper: _CBPeripheralDelegateWrapper
+
+    let delegateWrapper: CBPeripheralDelegateWrapperMock
+
+    /// Creates new `_Peripheral`
+    /// - parameter manager: Central instance which is used to perform all of the necessary operations.
+    /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
+    init(manager: _BluetoothManager, peripheral: CBPeripheralMock) {
+      self.manager = manager
+      self.peripheral = peripheral
+      self.delegateWrapper = manager.peripheralDelegateProvider.provide(for: peripheral)
+      peripheral.delegate = self.delegateWrapper
+    }
 
     ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
     var rx_isConnected: Observable<Bool> {
@@ -81,7 +75,7 @@ class _Peripheral {
 
     /// Unique identifier of `_Peripheral` instance. Assigned once peripheral is discovered by the system.
     var identifier: UUID {
-        return peripheral.value(forKey: "identifier") as! NSUUID as UUID
+        return peripheral.uuidIdentifier!
     }
 
     /// A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheralMock/services) of `CBPeripheralMock`.
@@ -526,7 +520,7 @@ class _Peripheral {
 
     /// Function that allow to monitor incoming service modifications for `_Peripheral` instance.
     /// In case you're interested what exact changes might occur - please refer to
-    /// [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/_CBPeripheralDelegate/peripheral:didModifyServices:)
+    /// [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
     ///
     /// - returns: `Observable` that emits tuples: `(_Peripheral, [_Service])` when services were modified.
     ///    It's **infinite** stream of values, so `.Complete` is never emitted.

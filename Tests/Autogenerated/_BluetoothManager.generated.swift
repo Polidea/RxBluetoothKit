@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2017 Polidea
+// Copyright (c) 2018 Polidea
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,9 @@ class _BluetoothManager {
     /// Implementation of Central Manager
     let centralManager: CBCentralManagerMock
 
-    private let delegateWrapper: _CBCentralManagerDelegateWrapper
+    let peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock
+
+    private let delegateWrapper: CBCentralManagerDelegateWrapperMock
 
     /// Queue on which all observables are serialised if needed
     private let subscriptionQueue: SerializedSubscriptionQueue
@@ -66,26 +68,14 @@ class _BluetoothManager {
     init(
       centralManager: CBCentralManagerMock,
       queueScheduler: SchedulerType = ConcurrentMainScheduler.instance,
-      delegateWrapper: _CBCentralManagerDelegateWrapper
+      delegateWrapper: CBCentralManagerDelegateWrapperMock,
+      peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock
     ) {
         self.centralManager = centralManager
         self.delegateWrapper = delegateWrapper
+        self.peripheralDelegateProvider = peripheralDelegateProvider
         subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
         centralManager.delegate = delegateWrapper
-    }
-
-    /// Creates new `_BluetoothManager`
-    /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
-    /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
-    convenience init(
-      centralManager: CBCentralManagerMock,
-      queueScheduler: SchedulerType = ConcurrentMainScheduler.instance
-    ) {
-      self.init(
-        centralManager: centralManager,
-        queueScheduler: queueScheduler,
-        delegateWrapper: _CBCentralManagerDelegateWrapper()
-      )
     }
 
     /// Creates new `_BluetoothManager` instance. By default all operations and events are executed and received on main thread.
@@ -95,8 +85,13 @@ class _BluetoothManager {
     /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
     convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
-        self.init(centralManager: CBCentralManagerMock(delegate: nil, queue: queue, options: options),
-                  queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue))
+        let delegateWrapper = CBCentralManagerDelegateWrapperMock()
+        self.init(
+            centralManager: CBCentralManagerMock(delegate: delegateWrapper, queue: queue, options: options),
+            queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue),
+            delegateWrapper: delegateWrapper,
+            peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock()
+        )
     }
 
     // MARK: Scanning
@@ -155,9 +150,9 @@ class _BluetoothManager {
                     guard let strongSelf = self else { return Disposables.create() }
                     // Observable which will emit next element, when peripheral is discovered.
                     let disposable = strongSelf.delegateWrapper.didDiscoverPeripheral
-                        .flatMap { [weak self] (peripheral, advertisment, rssi) -> Observable<_ScannedPeripheral> in
+                        .flatMap { [weak self] (cbPeripheral, advertisment, rssi) -> Observable<_ScannedPeripheral> in
                             guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                            let peripheral = _Peripheral(manager: strongSelf, peripheral: peripheral)
+                            let peripheral = _Peripheral(manager: strongSelf, peripheral: cbPeripheral)
                             let advertismentData = AdvertisementData(advertisementData: advertisment)
                             return .just(_ScannedPeripheral(peripheral: peripheral,
                                                            advertisementData: advertismentData, rssi: rssi))
@@ -201,8 +196,8 @@ class _BluetoothManager {
     /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
     var rx_state: Observable<BluetoothState> {
         return .deferred { [weak self] in
-            guard let `self` = self else { throw _BluetoothError.destroyed }
-            return self.delegateWrapper.didUpdateState.startWith(self.state)
+            guard let strongSelf = self else { throw _BluetoothError.destroyed }
+            return strongSelf.delegateWrapper.didUpdateState.startWith(strongSelf.state)
         }
     }
 
@@ -233,8 +228,9 @@ class _BluetoothManager {
         let error = delegateWrapper.didFailToConnectPeripheral
             .filter { $0.0 == peripheral.peripheral }
             .take(1)
-            .map { (peripheral, error) -> _Peripheral in
-                throw _BluetoothError.peripheralConnectionFailed(_Peripheral(manager: self, peripheral: peripheral), error)
+            .map { [weak self] (cbPeripheral, error) -> _Peripheral in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                throw _BluetoothError.peripheralConnectionFailed(_Peripheral(manager: strongSelf, peripheral: cbPeripheral), error)
             }
 
         let observable = Observable<_Peripheral>.create { [weak self] observer in
