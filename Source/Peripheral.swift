@@ -47,6 +47,13 @@ public class Peripheral {
       peripheral.delegate = self.delegateWrapper
     }
 
+    /// Attaches RxBluetoothKit delegate to CBPeripheral.
+    /// This method is useful in cases when delegate of CBPeripheral was reassigned outside of
+    /// RxBluetoothKit library (e.g. CBPeripheral was used in some other library or used in non-reactive way)
+    public func attach() {
+        peripheral.delegate = delegateWrapper
+    }
+
     ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
     public var rx_isConnected: Observable<Bool> {
         return .deferred {

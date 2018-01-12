@@ -93,6 +93,13 @@ public class BluetoothManager {
         )
     }
 
+    /// Attaches RxBluetoothKit delegate to CBCentralManager.
+    /// This method is useful in cases when delegate of CBCentralManager was reassigned outside of
+    /// RxBluetoothKit library (e.g. CBCentralManager was used in some other library or used in non-reactive way)
+    public func attach() {
+        centralManager.delegate = delegateWrapper
+    }
+    
     // MARK: Scanning
 
     /// Scans for `Peripheral`s after subscription to returned observable. First parameter `serviceUUIDs` is
