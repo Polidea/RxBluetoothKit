@@ -13,7 +13,7 @@ Provides nice API to work with, and makes your code more readable, reliable and 
 
 ## Documentation & Support
 
-Documentation can be found [here](http://cocoadocs.org/docsets/RxBluetoothKit/4.0.1/).
+Documentation can be found [here](https://polidea.github.io/RxBluetoothKit/).
 
 Want to talk about it? Ask questions? Give feedback? Join our discussion on [Gitter](https://gitter.im/RxBLELibraries/RxBluetoothKit?utm_source=share-link&utm_medium=link&utm_campaign=share-link)!
 
@@ -82,10 +82,10 @@ To start any interaction, with bluetooth devices, you have to first scan some of
 #### Basic
 
 ```swift
-manager.scanForPeripherals(withServices: [serviceIds])
-.flatMap { scannedPeripheral in
-	let advertisement = scannedPeripheral.advertisement
-}
+manager.scanForPeripherals(withServices: serviceIds)
+    .subscribe(onNext: { scannedPeripheral in
+        let advertisementData = scannedPeripheral.advertisementData
+    })
 ```
 This is the simplest version of this operation. After subscription to observable, scan is performed infinitely.  What you receive from method is `ScannedPeripheral` instance, that provides access to following information:
 - Peripheral: object that you can use, to perform actions like connecting, discovering services etc.

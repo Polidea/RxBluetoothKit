@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>BluetoothManager Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/BluetoothManager" class="dashAnchor"></a>
+    <a title="BluetoothManager Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (83% documented)</p>
+        <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">RxBluetoothKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        BluetoothManager Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/BluetoothManager.html">BluetoothManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Characteristic.html">Characteristic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Descriptor.html">Descriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Peripheral.html">Peripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxBluetoothKitLog/LogLevel.html">– LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Service.html">Service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothError.html">BluetoothError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothState.html">BluetoothState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Reactive.html">Reactive</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA0B5ErrorO_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA10DescriptorC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA10PeripheralC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA14CharacteristicC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA7ServiceC_ADtF">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RestoredState.html">RestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RestoredState.html">RestoredState</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>BluetoothManager</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">BluetoothManager</span></code></pre>
+
+                </div>
+              </div>
+            <p>BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager&rsquo;s functions allowing to
+discover, connect to remote peripheral devices and more. It&rsquo;s using thin layer behind <code>RxCentralManagerType</code> protocol which is
+implemented by <code>RxCBCentralManager</code> and should not be used directly by the user of a RxBluetoothKit library.
+You can start using this class by discovering available services of nearby peripherals. Before calling any
+public <code>BluetoothManager</code>&lsquo;s functions you should make sure that Bluetooth is turned on and powered on. It can be done
+by calling and observing returned value of <code>monitorState()</code> and then chaining it with <code>scanForPeripherals(_:options:)</code>:</p>
+<pre class="highlight swift"><code><span class="n">bluetoothManager</span><span class="o">.</span><span class="n">rx_state</span>
+    <span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="o">.</span><span class="kt">PoweredOn</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span> <span class="p">}</span>
+</code></pre>
+
+<p>As a result you will receive <code><a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a></code> which contains <code><a href="../Classes/Peripheral.html">Peripheral</a></code> object, <code><a href="../Structs/AdvertisementData.html">AdvertisementData</a></code> and
+peripheral&rsquo;s RSSI registered during discovery. You can then <code>connectToPeripheral(_:options:)</code> and do other operations.</p>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <code><a href="../Classes/Peripheral.html">Peripheral</a></code>
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC8objectIdSuv"></a>
+                    <a name="//apple_ref/swift/Property/objectId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC8objectIdSuv">objectId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unique identifier of an object. Should be removed in 4.0</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L60-L62">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC7managerSo09CBCentralD0Cv"></a>
+                    <a name="//apple_ref/swift/Property/manager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC7managerSo09CBCentralD0Cv">manager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt">CBCentralManager</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L64-L66">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initialization"></a>
+                <a name="//apple_ref/swift/Section/Initialization" class="dashAnchor"></a>
+                <a href="#/Initialization">
+                  <h3 class="section-name">Initialization</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerCACSo13DispatchQueueC5queue_s10DictionaryVySSyXlGSg7optionstcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(queue:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerCACSo13DispatchQueueC5queue_s10DictionaryVySSyXlGSg7optionstcfc">init(queue:options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates new <code>BluetoothManager</code> instance. By default all operations and events are executed and received on main thread.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If you pass background queue to the method make sure to observe results on main thread for UI related code.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Queue on which bluetooth callbacks are received. By default main thread is used.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional dictionary containing initialization options for a central manager.
+For more info about it please refer to <a href="https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html">Central Manager initialization options</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L82-L85">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Scanning"></a>
+                <a name="//apple_ref/swift/Section/Scanning" class="dashAnchor"></a>
+                <a href="#/Scanning">
+                  <h3 class="section-name">Scanning</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC18scanForPeripherals0A5Swift10ObservableCyAA17ScannedPeripheralCGSaySo6CBUUIDCGSg12withServices_s10DictionaryVySSypGSg7optionstF"></a>
+                    <a name="//apple_ref/swift/Method/scanForPeripherals(withServices:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC18scanForPeripherals0A5Swift10ObservableCyAA17ScannedPeripheralCGSaySo6CBUUIDCGSg12withServices_s10DictionaryVySSypGSg7optionstF">scanForPeripherals(withServices:options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Scans for <code><a href="../Classes/Peripheral.html">Peripheral</a></code>s after subscription to returned observable. First parameter <code>serviceUUIDs</code> is
+an array of <code><a href="../Classes/Service.html">Service</a></code> UUIDs which needs to be implemented by a peripheral to be discovered. If user don&rsquo;t want to
+filter any peripherals, <code>nil</code> can be used instead. Additionally dictionary of
+<a href="https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Scanning_Options">CBCentralManager specific options</a>
+can be passed to allow further customisation.
+Scans by default are infinite streams of <code><a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a></code> structures which need to be stopped by the user. For
+example this can be done by limiting scanning to certain number of peripherals or time:</p>
+<pre class="highlight swift"><code><span class="n">bluetoothManager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">timeout</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">timeoutScheduler</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</code></pre>
+
+<p>If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
+shared. Otherwise scan is queued and will be executed when other scans finished with complete/error event or
+were unsubscribed. As a result you will receive <code><a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a></code> which contains <code><a href="../Classes/Peripheral.html">Peripheral</a></code> object,
+<code><a href="../Structs/AdvertisementData.html">AdvertisementData</a></code> and peripheral&rsquo;s RSSI registered during discovery. You can then
+<code>connectToPeripheral(_:options:)</code> and do other operations.</p>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <p><code><a href="../Classes/Peripheral.html">Peripheral</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">scanForPeripherals</span><span class="p">(</span><span class="n">withServices</span> <span class="nv">serviceUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serviceUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Services of peripherals to search for. Nil value will accept all peripherals.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional scanning options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Infinite stream of scanned peripherals.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L112-L179">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/State"></a>
+                <a name="//apple_ref/swift/Section/State" class="dashAnchor"></a>
+                <a href="#/State">
+                  <h3 class="section-name">State</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC8rx_state0A5Swift10ObservableCyAA0B5StateOGv"></a>
+                    <a name="//apple_ref/swift/Property/rx_state" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC8rx_state0A5Swift10ObservableCyAA0B5StateOGv">rx_state</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous state of <code>BluetoothManager</code> instance described by <code><a href="../Enums/BluetoothState.html">BluetoothState</a></code> which is equivalent to  <a href="https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state">CBManagerState</a>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">rx_state</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Enums/BluetoothState.html">BluetoothState</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>Next</code> immediately after subscribtion with current state of Bluetooth. Later,
+whenever state changes events are emitted. Observable is infinite : doesn&rsquo;t generate <code>Complete</code>.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L186-L191">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC5stateAA0B5StateOv"></a>
+                    <a name="//apple_ref/swift/Property/state" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC5stateAA0B5StateOv">state</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Current state of <code>BluetoothManager</code> instance described by <code><a href="../Enums/BluetoothState.html">BluetoothState</a></code> which is equivalent to <a href="https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state">CBManagerState</a>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Enums/BluetoothState.html">BluetoothState</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Current state of <code>BluetoothManager</code> as <code><a href="../Enums/BluetoothState.html">BluetoothState</a></code>.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L195-L197">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Peripheral&#39;s%20Connection%20Management"></a>
+                <a name="//apple_ref/swift/Section/Peripheral&#39;s Connection Management" class="dashAnchor"></a>
+                <a href="#/Peripheral&#39;s%20Connection%20Management">
+                  <h3 class="section-name">Peripheral&#39;s Connection Management</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC7connect0A5Swift10ObservableCyAA10PeripheralCGAI_s10DictionaryVySSypGSg7optionstF"></a>
+                    <a name="//apple_ref/swift/Method/connect(_:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC7connect0A5Swift10ObservableCyAA10PeripheralCGAI_s10DictionaryVySSypGSg7optionstF">connect(_:options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Establishes connection with <code><a href="../Classes/Peripheral.html">Peripheral</a></code> after subscription to returned observable. It&rsquo;s user responsibility
+to close connection with <code>cancelConnectionToPeripheral(_:)</code> after subscription was completed. Unsubscribing from
+returned observable cancels connection attempt. By default observable is waiting infinitely for successful connection.
+Additionally you can pass optional <a href="https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options">dictionary</a>
+to customise the behaviour of connection.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">connect</span><span class="p">(</span><span class="n">_</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>peripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code><a href="../Classes/Peripheral.html">Peripheral</a></code> to which <code>BluetoothManager</code> is attempting to connect.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Dictionary to customise the behaviour of connection.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits next and complete events after connection is established.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L209-L254">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC26cancelPeripheralConnection0A5Swift10ObservableCyAA0F0CGAIF"></a>
+                    <a name="//apple_ref/swift/Method/cancelPeripheralConnection(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC26cancelPeripheralConnection0A5Swift10ObservableCyAA0F0CGAIF">cancelPeripheralConnection(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Cancels an active or pending local connection to a <code><a href="../Classes/Peripheral.html">Peripheral</a></code> after observable subscription. It is not guaranteed
+that physical connection will be closed immediately as well and all pending commands will not be executed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">cancelPeripheralConnection</span><span class="p">(</span><span class="n">_</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>peripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code><a href="../Classes/Peripheral.html">Peripheral</a></code> to which the <code>BluetoothManager</code> is either trying to
+connect or has already connected.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits next and complete events when peripheral successfully cancelled connection.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L261-L272">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Retrieving%20Lists%20of%20Peripherals"></a>
+                <a name="//apple_ref/swift/Section/Retrieving Lists of Peripherals" class="dashAnchor"></a>
+                <a href="#/Retrieving%20Lists%20of%20Peripherals">
+                  <h3 class="section-name">Retrieving Lists of Peripherals</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC28retrieveConnectedPeripherals0A5Swift10ObservableCySayAA10PeripheralCGGSaySo6CBUUIDCG12withServices_tF"></a>
+                    <a name="//apple_ref/swift/Method/retrieveConnectedPeripherals(withServices:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC28retrieveConnectedPeripherals0A5Swift10ObservableCySayAA10PeripheralCGGSaySo6CBUUIDCG12withServices_tF">retrieveConnectedPeripherals(withServices:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns observable list of the <code><a href="../Classes/Peripheral.html">Peripheral</a></code>s which are currently connected to the <code>BluetoothManager</code> and contain all of the specified <code><a href="../Classes/Service.html">Service</a></code>&lsquo;s UUIDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">retrieveConnectedPeripherals</span><span class="p">(</span><span class="n">withServices</span> <span class="nv">serviceUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serviceUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A list of <code><a href="../Classes/Service.html">Service</a></code> UUIDs</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits retrieved <code><a href="../Classes/Peripheral.html">Peripheral</a></code>s. They are in connected state and contain all of the
+<code><a href="../Classes/Service.html">Service</a></code>s with UUIDs specified in the <code>serviceUUIDs</code> parameter. Just after that complete event is emitted</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L280-L292">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC19retrievePeripherals0A5Swift10ObservableCySayAA10PeripheralCGGSay10Foundation4UUIDVG15withIdentifiers_tF"></a>
+                    <a name="//apple_ref/swift/Method/retrievePeripherals(withIdentifiers:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC19retrievePeripherals0A5Swift10ObservableCySayAA10PeripheralCGGSay10Foundation4UUIDVG15withIdentifiers_tF">retrievePeripherals(withIdentifiers:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns observable list of <code><a href="../Classes/Peripheral.html">Peripheral</a></code>s by their identifiers which are known to <code>BluetoothManager</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">retrievePeripherals</span><span class="p">(</span><span class="n">withIdentifiers</span> <span class="nv">identifiers</span><span class="p">:</span> <span class="p">[</span><span class="kt">UUID</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifiers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of <code><a href="../Classes/Peripheral.html">Peripheral</a></code>&lsquo;s identifiers which should be retrieved.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits next and complete events when list of <code><a href="../Classes/Peripheral.html">Peripheral</a></code>s are retrieved.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L297-L309">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Internal%20functions"></a>
+                <a name="//apple_ref/swift/Section/Internal functions" class="dashAnchor"></a>
+                <a href="#/Internal%20functions">
+                  <h3 class="section-name">Internal functions</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC17monitorConnection0A5Swift10ObservableCyAA10PeripheralCGAI3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/monitorConnection(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC17monitorConnection0A5Swift10ObservableCyAA10PeripheralCGAI3for_tF">monitorConnection(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Emits <code><a href="../Classes/Peripheral.html">Peripheral</a></code> instance when it&rsquo;s connected.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">monitorConnection</span><span class="p">(</span><span class="k">for</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>peripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Peripheral.html">Peripheral</a></code> which is monitored for connection.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits next events when <code>peripheral</code> was connected.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L344-L346">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC20monitorDisconnection0A5Swift10ObservableCyAA10PeripheralCGAI3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/monitorDisconnection(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC20monitorDisconnection0A5Swift10ObservableCyAA10PeripheralCGAI3for_tF">monitorDisconnection(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Emits <code><a href="../Classes/Peripheral.html">Peripheral</a></code> instance when it&rsquo;s disconnected.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">monitorDisconnection</span><span class="p">(</span><span class="k">for</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>peripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Peripheral.html">Peripheral</a></code> which is monitored for disconnection.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits next events when <code>peripheral</code> was disconnected.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L351-L353">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0B7ManagerC21listenOnRestoredState0A5Swift10ObservableCyAA0gH0VGyF"></a>
+                    <a name="//apple_ref/swift/Method/listenOnRestoredState()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0B7ManagerC21listenOnRestoredState0A5Swift10ObservableCyAA0gH0VGyF">listenOnRestoredState()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Emits <code><a href="../Structs/RestoredState.html">RestoredState</a></code> instance, when state of <code>BluetoothManager</code> has been restored,
+Should only be called once in the lifetime of the app</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">listenOnRestoredState</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/RestoredState.html">RestoredState</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits next events state has been restored</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/BluetoothManager.swift#L368-L376">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Internal%20functions2"></a>
+                <a name="//apple_ref/swift/Section/Internal functions" class="dashAnchor"></a>
+                <a href="#/Internal%20functions2">
+                  <h3 class="section-name">Internal functions</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Method/listenOnRestoredState()" class="dashAnchor"></a>
+                    <a class="token" href="#/">listenOnRestoredState()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Emits <code><a href="../Structs/RestoredState.html">RestoredState</a></code> instance, when state of <code>BluetoothManager</code> has been restored,
+Should only be called once in the lifetime of the app</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-01-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

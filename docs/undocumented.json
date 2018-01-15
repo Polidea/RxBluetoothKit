@@ -1,0 +1,390 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 33,
+      "symbol": "BluetoothError.bluetoothUnsupported",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 33,
+      "symbol": "BluetoothError.bluetoothUnsupported",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 34,
+      "symbol": "BluetoothError.bluetoothUnauthorized",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 34,
+      "symbol": "BluetoothError.bluetoothUnauthorized",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 35,
+      "symbol": "BluetoothError.bluetoothPoweredOff",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 35,
+      "symbol": "BluetoothError.bluetoothPoweredOff",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 36,
+      "symbol": "BluetoothError.bluetoothInUnknownState",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 36,
+      "symbol": "BluetoothError.bluetoothInUnknownState",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 37,
+      "symbol": "BluetoothError.bluetoothResetting",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 37,
+      "symbol": "BluetoothError.bluetoothResetting",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 39,
+      "symbol": "BluetoothError.peripheralConnectionFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 39,
+      "symbol": "BluetoothError.peripheralConnectionFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 40,
+      "symbol": "BluetoothError.peripheralDisconnected",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 40,
+      "symbol": "BluetoothError.peripheralDisconnected",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 41,
+      "symbol": "BluetoothError.peripheralRSSIReadFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 41,
+      "symbol": "BluetoothError.peripheralRSSIReadFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 43,
+      "symbol": "BluetoothError.servicesDiscoveryFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 43,
+      "symbol": "BluetoothError.servicesDiscoveryFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 44,
+      "symbol": "BluetoothError.includedServicesDiscoveryFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 44,
+      "symbol": "BluetoothError.includedServicesDiscoveryFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 46,
+      "symbol": "BluetoothError.characteristicsDiscoveryFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 46,
+      "symbol": "BluetoothError.characteristicsDiscoveryFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 47,
+      "symbol": "BluetoothError.characteristicWriteFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 47,
+      "symbol": "BluetoothError.characteristicWriteFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 48,
+      "symbol": "BluetoothError.characteristicReadFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 48,
+      "symbol": "BluetoothError.characteristicReadFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 49,
+      "symbol": "BluetoothError.characteristicNotifyChangeFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 49,
+      "symbol": "BluetoothError.characteristicNotifyChangeFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 51,
+      "symbol": "BluetoothError.descriptorsDiscoveryFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 51,
+      "symbol": "BluetoothError.descriptorsDiscoveryFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 52,
+      "symbol": "BluetoothError.descriptorWriteFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 52,
+      "symbol": "BluetoothError.descriptorWriteFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 53,
+      "symbol": "BluetoothError.descriptorReadFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 53,
+      "symbol": "BluetoothError.descriptorReadFailed",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 131,
+      "symbol": "==(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.free",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothError.swift",
+      "line": 131,
+      "symbol": "==(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.free",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothManager.swift",
+      "line": 64,
+      "symbol": "BluetoothManager.manager",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothManager.swift",
+      "line": 64,
+      "symbol": "BluetoothManager.manager",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 25,
+      "symbol": "BluetoothState",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 25,
+      "symbol": "BluetoothState",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 26,
+      "symbol": "BluetoothState.unknown",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 26,
+      "symbol": "BluetoothState.unknown",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 27,
+      "symbol": "BluetoothState.resetting",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 27,
+      "symbol": "BluetoothState.resetting",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 28,
+      "symbol": "BluetoothState.unsupported",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 28,
+      "symbol": "BluetoothState.unsupported",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 29,
+      "symbol": "BluetoothState.unauthorized",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 29,
+      "symbol": "BluetoothState.unauthorized",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 30,
+      "symbol": "BluetoothState.poweredOff",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 30,
+      "symbol": "BluetoothState.poweredOff",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 31,
+      "symbol": "BluetoothState.poweredOn",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/BluetoothState.swift",
+      "line": 31,
+      "symbol": "BluetoothState.poweredOn",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/Peripheral.swift",
+      "line": 32,
+      "symbol": "Peripheral.manager",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/Peripheral.swift",
+      "line": 32,
+      "symbol": "Peripheral.manager",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/paweljaneczek/Polidea/RxBluetoothKit/Source/RestoredState.swift",
+      "line": 33,
+      "symbol": "RestoredState.bluetoothManager",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/paweljaneczek/Polidea/RxBluetoothKit"
+}
