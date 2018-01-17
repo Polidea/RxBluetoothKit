@@ -48,6 +48,13 @@ class _Peripheral {
       peripheral.delegate = self.delegateWrapper
     }
 
+    /// Attaches RxBluetoothKit delegate to CBPeripheralMock.
+    /// This method is useful in cases when delegate of CBPeripheralMock was reassigned outside of
+    /// RxBluetoothKit library (e.g. CBPeripheralMock was used in some other library or used in non-reactive way)
+    func attach() {
+        peripheral.delegate = delegateWrapper
+    }
+
     ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
     var rx_isConnected: Observable<Bool> {
         return .deferred {
@@ -75,7 +82,7 @@ class _Peripheral {
 
     /// Unique identifier of `_Peripheral` instance. Assigned once peripheral is discovered by the system.
     var identifier: UUID {
-        return peripheral.uuidIdentifier!
+        return peripheral.uuidIdentifier
     }
 
     /// A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheralMock/services) of `CBPeripheralMock`.

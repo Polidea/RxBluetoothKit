@@ -70,7 +70,7 @@ class CBPeripheralMock: NSObject {
     var services: [CBServiceMock]?
     var canSendWriteWithoutResponse: Bool!
     var logDescription: String!
-    var uuidIdentifier: UUID?
+    var uuidIdentifier: UUID!
     var identifier: UUID!
 
     override init() {

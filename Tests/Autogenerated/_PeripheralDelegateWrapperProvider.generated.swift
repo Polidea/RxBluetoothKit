@@ -41,12 +41,11 @@ class _PeripheralDelegateWrapperProvider {
     /// - returns: Delegate wrapper for specified peripheral.
     func provide(for peripheral: CBPeripheralMock) -> CBPeripheralDelegateWrapperMock {
         lock.lock(); defer { lock.unlock() }
-        let identifier = peripheral.uuidIdentifier!
-        if let wrapper = peripheralDelegateWrappersMap[identifier] {
+        if let wrapper = peripheralDelegateWrappersMap[peripheral.uuidIdentifier] {
             return wrapper
         }
         let wrapper = CBPeripheralDelegateWrapperMock()
-        peripheralDelegateWrappersMap[identifier] = wrapper
+        peripheralDelegateWrappersMap[peripheral.uuidIdentifier] = wrapper
         return wrapper
     }
 }

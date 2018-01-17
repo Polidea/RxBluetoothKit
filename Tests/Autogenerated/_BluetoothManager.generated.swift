@@ -65,6 +65,7 @@ class _BluetoothManager {
     /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
     /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
+    /// - parameter peripheralDelegateProvider: Provider for peripheral delegate wrapper.
     init(
       centralManager: CBCentralManagerMock,
       queueScheduler: SchedulerType = ConcurrentMainScheduler.instance,
@@ -92,6 +93,13 @@ class _BluetoothManager {
             delegateWrapper: delegateWrapper,
             peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock()
         )
+    }
+
+    /// Attaches RxBluetoothKit delegate to CBCentralManagerMock.
+    /// This method is useful in cases when delegate of CBCentralManagerMock was reassigned outside of
+    /// RxBluetoothKit library (e.g. CBCentralManagerMock was used in some other library or used in non-reactive way)
+    func attach() {
+        centralManager.delegate = delegateWrapper
     }
 
     // MARK: Scanning

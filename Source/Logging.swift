@@ -156,7 +156,7 @@ extension CBCentralManager: Loggable {
 
 extension CBPeripheral: Loggable {
     @objc var logDescription: String {
-        return "Peripheral(uuid: \(uuidIdentifier!), name: \(String(describing: name)))"
+        return "Peripheral(uuid: \(uuidIdentifier), name: \(String(describing: name)))"
     }
 }
 

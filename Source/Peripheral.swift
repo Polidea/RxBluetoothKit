@@ -81,7 +81,7 @@ public class Peripheral {
 
     /// Unique identifier of `Peripheral` instance. Assigned once peripheral is discovered by the system.
     public var identifier: UUID {
-        return peripheral.uuidIdentifier!
+        return peripheral.uuidIdentifier
     }
 
     /// A list of services that have been discovered. Analogous to   [services](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/occ/instp/CBPeripheral/services) of `CBPeripheral`.
