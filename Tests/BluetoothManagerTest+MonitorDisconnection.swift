@@ -26,27 +26,11 @@ import RxBluetoothKit
 import RxSwift
 import RxTest
 
-class BluetoothManagerTest_MonitorDisconnection: XCTestCase {
+class BluetoothManagerTest_MonitorDisconnection: BaseBluetoothManagerTest {
     
-    var manager: _BluetoothManager!
-    
-    var centralManagerMock: CBCentralManagerMock!
-    var delegateWrapper: CBCentralManagerDelegateWrapperMock!
-    var peripheralDelegateProviderMock: PeripheralDelegateWrapperProviderMock!
     var testScheduler: TestScheduler!
-    
-    let subscribeTime = TestScheduler.Defaults.subscribed
     var disposeBag: DisposeBag!
-    
-    override func setUp() {
-        super.setUp()
-        disposeBag = DisposeBag()
-    }
-    
-    override func tearDown() {
-        disposeBag = nil
-        super.tearDown()
-    }
+    let subscribeTime = TestScheduler.Defaults.subscribed
     
     func testBluetoothError() {
         for stateWithError in _BluetoothError.invalidStateErrors {
@@ -71,7 +55,7 @@ class BluetoothManagerTest_MonitorDisconnection: XCTestCase {
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
             error(subscribeTime + 100, TestError.error)
         ]
-        testScheduler.createHotObservable(events).subscribe(delegateWrapper.didDisconnectPeripheral).disposed(by: disposeBag)
+        testScheduler.createHotObservable(events).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
         
         testScheduler.advanceTo(subscribeTime + 200)
@@ -88,7 +72,7 @@ class BluetoothManagerTest_MonitorDisconnection: XCTestCase {
             next(subscribeTime + 101, (peripheral.peripheral, _BluetoothError.bluetoothResetting)),
             next(subscribeTime + 102, (CBPeripheralMock(), nil)),
         ]
-        testScheduler.createHotObservable(events).subscribe(delegateWrapper.didDisconnectPeripheral).disposed(by: disposeBag)
+        testScheduler.createHotObservable(events).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
 
         let expectedEvents: [Recorded<Event<(_Peripheral, _BluetoothManager.DisconnectionReason?)>>] = [
@@ -106,11 +90,11 @@ class BluetoothManagerTest_MonitorDisconnection: XCTestCase {
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
             next(subscribeTime + 100, (peripheral.peripheral, nil)),
         ]
-        testScheduler.createHotObservable(events).subscribe(delegateWrapper.didDisconnectPeripheral).disposed(by: disposeBag)
+        testScheduler.createHotObservable(events).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         let stateEvents: [Recorded<Event<BluetoothState>>] = [
             next(subscribeTime + 101, .unknown)
         ]
-        testScheduler.createHotObservable(stateEvents).subscribe(delegateWrapper.didUpdateState).disposed(by: disposeBag)
+        testScheduler.createHotObservable(stateEvents).subscribe(wrapperMock.didUpdateState).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
         
         let expectedEvents: [Recorded<Event<(_Peripheral, _BluetoothManager.DisconnectionReason?)>>] = [
@@ -144,7 +128,7 @@ class BluetoothManagerTest_MonitorDisconnection: XCTestCase {
     private func setUpMonitorDisconnection() -> (_Peripheral, ScheduledObservable<(_Peripheral, _BluetoothManager.DisconnectionReason?)>) {
         setUpProperties()
         
-        peripheralDelegateProviderMock.provideReturns = [CBPeripheralDelegateWrapperMock()]
+        wrapperProviderMock.provideReturn = CBPeripheralDelegateWrapperMock()
         let peripheral = _Peripheral(manager: manager, peripheral: CBPeripheralMock())
         let peripheralsObserver: ScheduledObservable<(_Peripheral, _BluetoothManager.DisconnectionReason?)> = testScheduler.scheduleObservable {
             self.manager.monitorDisconnection(for: peripheral).asObservable()
@@ -152,11 +136,9 @@ class BluetoothManagerTest_MonitorDisconnection: XCTestCase {
         return (peripheral, peripheralsObserver)
     }
     
-    private func setUpProperties() {
-        centralManagerMock = CBCentralManagerMock()
-        delegateWrapper = CBCentralManagerDelegateWrapperMock()
-        peripheralDelegateProviderMock = PeripheralDelegateWrapperProviderMock()
-        manager = _BluetoothManager(centralManager: centralManagerMock, delegateWrapper: delegateWrapper, peripheralDelegateProvider: peripheralDelegateProviderMock)
+    override func setUpProperties() {
+        super.setUpProperties()
         testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
+        disposeBag = DisposeBag()
     }
 }

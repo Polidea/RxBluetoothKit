@@ -58,6 +58,12 @@
 		1D1BC8982004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1BC8972004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift */; };
 		1D1BC8992004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1BC8972004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift */; };
 		1D1BC89A2004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1BC8972004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift */; };
+		1D417F88200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D417F87200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift */; };
+		1D417F89200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D417F87200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift */; };
+		1D417F8A200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D417F87200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift */; };
+		1D417F8C200F877100354750 /* BaseBluetoothManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D417F8B200F877100354750 /* BaseBluetoothManagerTest.swift */; };
+		1D417F8D200F877100354750 /* BaseBluetoothManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D417F8B200F877100354750 /* BaseBluetoothManagerTest.swift */; };
+		1D417F8E200F877100354750 /* BaseBluetoothManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D417F8B200F877100354750 /* BaseBluetoothManagerTest.swift */; };
 		1D490B531FFF8E1000D3F871 /* _BluetoothError.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D490B451FFF8E0B00D3F871 /* _BluetoothError.generated.swift */; };
 		1D490B541FFF8E1000D3F871 /* _BluetoothManager.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D490B4A1FFF8E0B00D3F871 /* _BluetoothManager.generated.swift */; };
 		1D490B571FFF8E1000D3F871 /* _Characteristic.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D490B481FFF8E0B00D3F871 /* _Characteristic.generated.swift */; };
@@ -217,6 +223,8 @@
 		0A7B28381F9F1C3C003F950E /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/tvOS/Quick.framework; sourceTree = SOURCE_ROOT; };
 		0A7B28391F9F1C3C003F950E /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		1D1BC8972004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BluetoothManagerTest+RetrievePeripherals.swift"; sourceTree = "<group>"; };
+		1D417F87200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BluetoothManagerTest+ScanForPeripherals.swift"; sourceTree = "<group>"; };
+		1D417F8B200F877100354750 /* BaseBluetoothManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBluetoothManagerTest.swift; sourceTree = "<group>"; };
 		1D490B431FFF8E0A00D3F871 /* _Descriptor.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Descriptor.generated.swift; sourceTree = "<group>"; };
 		1D490B451FFF8E0B00D3F871 /* _BluetoothError.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _BluetoothError.generated.swift; sourceTree = "<group>"; };
 		1D490B471FFF8E0B00D3F871 /* _Peripheral.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Peripheral.generated.swift; sourceTree = "<group>"; };
@@ -364,6 +372,8 @@
 			children = (
 				1D1BC8972004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift */,
 				1DC4234D200CEDFE009994B1 /* BluetoothManagerTest+MonitorDisconnection.swift */,
+				1D417F87200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift */,
+				1D417F8B200F877100354750 /* BaseBluetoothManagerTest.swift */,
 			);
 			name = BluetoothManager;
 			sourceTree = "<group>";
@@ -1025,10 +1035,12 @@
 			files = (
 				0A7B28131F9F1964003F950E /* ObservableTest+QueueSubscribeOn.swift in Sources */,
 				1D490B681FFF8E1200D3F871 /* _Descriptor.generated.swift in Sources */,
+				1D417F8A200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift in Sources */,
 				1D490B641FFF8E1200D3F871 /* _BluetoothManager.generated.swift in Sources */,
 				1D490B691FFF8E1200D3F871 /* _Peripheral.generated.swift in Sources */,
 				1D490B701FFF8EBE00D3F871 /* _ScannedPeripheral.generated.swift in Sources */,
 				0A7B28141F9F1964003F950E /* Utilities.swift in Sources */,
+				1D417F8E200F877100354750 /* BaseBluetoothManagerTest.swift in Sources */,
 				1DC423472008F0EF009994B1 /* PeripheralDelegateWrapperProviderTest.swift in Sources */,
 				1D1BC89A2004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift in Sources */,
 				1D490B631FFF8E1200D3F871 /* _BluetoothError.generated.swift in Sources */,
@@ -1078,10 +1090,12 @@
 			files = (
 				1D8116C81FFE0F1700147BF5 /* Mock.generated.swift in Sources */,
 				1D490B581FFF8E1000D3F871 /* _Descriptor.generated.swift in Sources */,
+				1D417F88200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift in Sources */,
 				1D490B541FFF8E1000D3F871 /* _BluetoothManager.generated.swift in Sources */,
 				1D490B591FFF8E1000D3F871 /* _Peripheral.generated.swift in Sources */,
 				1D490B6E1FFF8EBD00D3F871 /* _ScannedPeripheral.generated.swift in Sources */,
 				2666FDDE1CCE46E2005E81CE /* Utilities.swift in Sources */,
+				1D417F8C200F877100354750 /* BaseBluetoothManagerTest.swift in Sources */,
 				1DC423452008F0EF009994B1 /* PeripheralDelegateWrapperProviderTest.swift in Sources */,
 				1D1BC8982004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift in Sources */,
 				1D490B531FFF8E1000D3F871 /* _BluetoothError.generated.swift in Sources */,
@@ -1130,10 +1144,12 @@
 			files = (
 				1D8116C91FFE0F1700147BF5 /* Mock.generated.swift in Sources */,
 				1D490B601FFF8E1100D3F871 /* _Descriptor.generated.swift in Sources */,
+				1D417F89200F436900354750 /* BluetoothManagerTest+ScanForPeripherals.swift in Sources */,
 				1D490B5C1FFF8E1100D3F871 /* _BluetoothManager.generated.swift in Sources */,
 				1D490B611FFF8E1100D3F871 /* _Peripheral.generated.swift in Sources */,
 				1D490B6F1FFF8EBE00D3F871 /* _ScannedPeripheral.generated.swift in Sources */,
 				2666FDD81CCE46E1005E81CE /* Utilities.swift in Sources */,
+				1D417F8D200F877100354750 /* BaseBluetoothManagerTest.swift in Sources */,
 				1DC423462008F0EF009994B1 /* PeripheralDelegateWrapperProviderTest.swift in Sources */,
 				1D1BC8992004ABB4004C5F36 /* BluetoothManagerTest+RetrievePeripherals.swift in Sources */,
 				1D490B5B1FFF8E1100D3F871 /* _BluetoothError.generated.swift in Sources */,

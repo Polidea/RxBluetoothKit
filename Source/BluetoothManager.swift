@@ -49,32 +49,26 @@ public class BluetoothManager {
 
     private let delegateWrapper: CBCentralManagerDelegateWrapper
 
-    /// Queue on which all observables are serialised if needed
-    private let subscriptionQueue: SerializedSubscriptionQueue
-
     /// Lock which should be used before accessing any internal structures
     private let lock = NSLock()
 
-    /// Queue of scan operations which are waiting for an execution
-    private var scanQueue: [ScanOperation] = []
+    /// Ongoing scan disposable
+    private var scanDisposable: Disposable?
 
     // MARK: Initialization
 
     /// Creates new `BluetoothManager`
     /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
-    /// - parameter queueScheduler: Scheduler on which all serialised operations are executed (such as scans). By default main thread is used.
     /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
     /// - parameter peripheralDelegateProvider: Provider for peripheral delegate wrapper.
     init(
       centralManager: CBCentralManager,
-      queueScheduler: SchedulerType = ConcurrentMainScheduler.instance,
       delegateWrapper: CBCentralManagerDelegateWrapper,
       peripheralDelegateProvider: PeripheralDelegateWrapperProvider
     ) {
         self.centralManager = centralManager
         self.delegateWrapper = delegateWrapper
         self.peripheralDelegateProvider = peripheralDelegateProvider
-        subscriptionQueue = SerializedSubscriptionQueue(scheduler: queueScheduler)
         centralManager.delegate = delegateWrapper
     }
 
@@ -88,7 +82,6 @@ public class BluetoothManager {
         let delegateWrapper = CBCentralManagerDelegateWrapper()
         self.init(
             centralManager: CBCentralManager(delegate: delegateWrapper, queue: queue, options: options),
-            queueScheduler: ConcurrentDispatchQueueScheduler(queue: queue),
             delegateWrapper: delegateWrapper,
             peripheralDelegateProvider: PeripheralDelegateWrapperProvider()
         )
@@ -116,9 +109,8 @@ public class BluetoothManager {
     ///     .take(2)
     /// ```
     ///
-    /// If different scan is currently in progress and peripherals needed by a user can be discovered by it, new scan is
-    /// shared. Otherwise scan is queued on thread specified in `init(centralManager:queueScheduler:)` and will be executed
-    /// when other scans finished with complete/error event or were unsubscribed.
+    /// There can be only one ongoing scanning. It will return `BluetoothError.scanInProgress` error if
+    /// this method will be called when there is already ongoing scan.
     /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
     /// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other
     /// operations.
@@ -128,70 +120,44 @@ public class BluetoothManager {
     /// - parameter options: Optional scanning options.
     /// - returns: Infinite stream of scanned peripherals.
     public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
-        -> Observable<ScannedPeripheral> {
+                    -> Observable<ScannedPeripheral> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
-            let observable: Observable<ScannedPeripheral> = { [weak self] () -> Observable<ScannedPeripheral> in
-                guard let strongSelf = self else { return .error(BluetoothError.destroyed) }
-                // If it's possible use existing scan - take if from the queue
-                strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                if let elem = strongSelf.scanQueue.first(where: { $0.shouldAccept(serviceUUIDs) }) {
-                    guard let serviceUUIDs = serviceUUIDs else {
-                        return elem.observable
-                    }
-
-                    // When binding to existing scan we need to make sure that services are
-                    // filtered properly
-                    return elem.observable.filter { scannedPeripheral in
-                        if let services = scannedPeripheral.advertisementData.serviceUUIDs {
-                            return Set(services).isSuperset(of: Set(serviceUUIDs))
-                        }
-                        return false
-                    }
+            let observable: Observable<ScannedPeripheral> = Observable.create { [weak self] observer in
+                guard let strongSelf = self else {
+                    observer.onError(BluetoothError.destroyed)
+                    return Disposables.create()
                 }
-
-                let scanOperationBox = WeakBox<ScanOperation>()
-
-                // Create new scan which will be processed in a queue
-                let operation = Observable.create { [weak self] (element: AnyObserver<ScannedPeripheral>) -> Disposable in
-                    guard let strongSelf = self else { return Disposables.create() }
-                    // Observable which will emit next element, when peripheral is discovered.
-                    let disposable = strongSelf.delegateWrapper.didDiscoverPeripheral
+                strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+                if strongSelf.scanDisposable != nil {
+                    observer.onError(BluetoothError.scanInProgress)
+                    return Disposables.create()
+                }
+                strongSelf.scanDisposable = strongSelf.delegateWrapper.didDiscoverPeripheral
                         .flatMap { [weak self] (cbPeripheral, advertisment, rssi) -> Observable<ScannedPeripheral> in
-                            guard let strongSelf = self else { throw BluetoothError.destroyed }
+                            guard let strongSelf = self else {
+                                throw BluetoothError.destroyed
+                            }
                             let peripheral = Peripheral(manager: strongSelf, peripheral: cbPeripheral)
                             let advertismentData = AdvertisementData(advertisementData: advertisment)
                             return .just(ScannedPeripheral(peripheral: peripheral,
-                                                           advertisementData: advertismentData, rssi: rssi))
+                                    advertisementData: advertismentData, rssi: rssi))
                         }
-                        .subscribe(element)
+                        .subscribe(observer)
 
-                    // Start scanning for devices
-                    strongSelf.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
+                strongSelf.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
 
-                    return Disposables.create { [weak self] in
-                        guard let strongSelf = self else { return }
-                        // When disposed, stop all scans, and remove scanning operation from queue
-                        strongSelf.centralManager.stopScan()
-                        disposable.dispose()
-                        do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                            if let index = strongSelf.scanQueue.index(where: { $0 == scanOperationBox.value! }) {
-                                strongSelf.scanQueue.remove(at: index)
-                            }
-                        }
+                return Disposables.create {
+                    guard let strongSelf = self else { return }
+                    // When disposed, stop scan and dispose scanning
+                    strongSelf.centralManager.stopScan()
+                    do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+                        strongSelf.scanDisposable?.dispose()
+                        strongSelf.scanDisposable = nil
                     }
                 }
-                .queueSubscribe(on: strongSelf.subscriptionQueue)
-                .publish()
-                .refCount()
+            }
 
-                let scanOperation = ScanOperation(uuids: serviceUUIDs, observable: operation)
-                strongSelf.scanQueue.append(scanOperation)
-
-                scanOperationBox.value = scanOperation
-                return operation
-            }()
-            // Allow scanning as long as bluetooth is powered on
             return strongSelf.ensure(.poweredOn, observable: observable)
         }
     }
