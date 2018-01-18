@@ -63,8 +63,7 @@ import CoreBluetooth
             let objects = restoredStateData[CBCentralManagerRestoredStateScanServicesKey] as? [AnyObject]
             guard let arrayOfAnyObjects = objects else { return [] }
             return arrayOfAnyObjects.flatMap { $0 as? CBServiceMock }
-                .map { _Service(peripheral: _Peripheral(manager: bluetoothManager,
-                                                      peripheral: $0.peripheral),
+                .map { _Service(peripheral: _Peripheral(manager: bluetoothManager, peripheral: $0.peripheral),
                                service: $0) }
         }
     }

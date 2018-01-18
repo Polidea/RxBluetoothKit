@@ -30,9 +30,10 @@ import CoreBluetooth
 class BluetoothManagerRetrievePeripheralsTest: XCTestCase {
     
     var manager: _BluetoothManager!
-    var managerDelegateWrapper: _CBCentralManagerDelegateWrapper!
+    
     var centralManagerMock: CBCentralManagerMock!
     var peripheralMock: CBPeripheralMock!
+    var peripheralDelegateProviderMock: PeripheralDelegateWrapperProviderMock!
     var testScheduler: TestScheduler!
     
     // MARK:- retrievePeripherals
@@ -114,6 +115,7 @@ class BluetoothManagerRetrievePeripheralsTest: XCTestCase {
         }
         centralManagerMock.state = .poweredOn
         centralManagerMock.retrievePeripheralsReturns = [[peripheralMock]]
+        peripheralDelegateProviderMock.provideReturns = [CBPeripheralDelegateWrapperMock()]
         return (uuids, peripheralsObserver)
     }
     
@@ -126,14 +128,15 @@ class BluetoothManagerRetrievePeripheralsTest: XCTestCase {
         }
         centralManagerMock.state = .poweredOn
         centralManagerMock.retrieveConnectedPeripheralsReturns = [[peripheralMock]]
+        peripheralDelegateProviderMock.provideReturns = [CBPeripheralDelegateWrapperMock()]
         return (cbUuids, peripheralsObserver)
     }
     
     private func setUpProperties() {
         peripheralMock = CBPeripheralMock()
-        managerDelegateWrapper = _CBCentralManagerDelegateWrapper()
-        centralManagerMock = CBCentralManagerMock(delegate: managerDelegateWrapper, queue: nil)
-        manager = _BluetoothManager(centralManager: centralManagerMock, delegateWrapper: managerDelegateWrapper)
+        centralManagerMock = CBCentralManagerMock()
+        peripheralDelegateProviderMock = PeripheralDelegateWrapperProviderMock()
+        manager = _BluetoothManager(centralManager: centralManagerMock, delegateWrapper: CBCentralManagerDelegateWrapperMock(), peripheralDelegateProvider: peripheralDelegateProviderMock)
         testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
     }
 }
