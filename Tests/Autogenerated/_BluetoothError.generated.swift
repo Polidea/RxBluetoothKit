@@ -30,7 +30,7 @@ enum _BluetoothError: Error {
     /// To mitigate it dispose all of your subscriptions before deinitializing
     /// object that created Observables that subscriptions are made to.
     case destroyed
-    // Emitted when `_BluetoothManager.scanForPeripherals` called and there is already ongoing scan
+    // Emitted when `_CentralManager.scanForPeripherals` called and there is already ongoing scan
     case scanInProgress
     // States
     case bluetoothUnsupported
@@ -71,7 +71,7 @@ extension _BluetoothError: CustomStringConvertible {
         case .scanInProgress:
             return """
             Tried to scan for peripheral when there is already ongoing scan.
-            You can have only 1 ongoing scanning, please check documentation of _BluetoothManager for more details
+            You can have only 1 ongoing scanning, please check documentation of _CentralManager for more details
             """
         case .bluetoothUnsupported:
             return "Bluetooth is unsupported"

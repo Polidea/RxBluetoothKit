@@ -31,7 +31,7 @@ import CoreBluetooth
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 class _Peripheral {
 
-    let manager: _BluetoothManager
+    let manager: _CentralManager
 
     /// Implementation of peripheral
     let peripheral: CBPeripheralMock
@@ -41,7 +41,7 @@ class _Peripheral {
     /// Creates new `_Peripheral`
     /// - parameter manager: Central instance which is used to perform all of the necessary operations.
     /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
-    init(manager: _BluetoothManager, peripheral: CBPeripheralMock) {
+    init(manager: _CentralManager, peripheral: CBPeripheralMock) {
       self.manager = manager
       self.peripheral = peripheral
       self.delegateWrapper = manager.peripheralDelegateProvider.provide(for: peripheral)
@@ -53,15 +53,6 @@ class _Peripheral {
     /// RxBluetoothKit library (e.g. CBPeripheralMock was used in some other library or used in non-reactive way)
     func attach() {
         peripheral.delegate = delegateWrapper
-    }
-
-    ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
-    var rx_isConnected: Observable<Bool> {
-        return .deferred {
-            let disconnected = self.manager.monitorDisconnection(for: self).map { _ in false }
-            let connected = self.manager.monitorConnection(for: self).map { _ in true }
-            return Observable.of(disconnected, connected).merge().startWith(self.isConnected)
-        }
     }
 
     /// Value indicating if peripheral is currently in connected state.
@@ -99,9 +90,20 @@ class _Peripheral {
         return peripheral.canSendWriteWithoutResponse
     }
 
+    // MARK: Connecting
+
+    ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which first emits `.Next` with current state, and later whenever state change occurs
+    /// - returns Observable which emits next events when `_Peripheral` is connected or disconnected.
+    /// It's **infinite** stream, so `.complete` is never called.
+    func observeConnection() -> Observable<Bool> {
+        let disconnected = manager.observeDisconnect(for: self).map { _ in false }
+        let connected = manager.observeConnect(for: self).map { _ in true }
+        return Observable.of(disconnected, connected).merge()
+    }
+
     /// Establishes local connection to the peripheral.
-    /// For more information look into `_BluetoothManager.connectToPeripheral(_:options:)` because this method calls it directly.
-    /// - Parameter peripheral: The `_Peripheral` to which `_BluetoothManager` is attempting to connect.
+    /// For more information look into `_CentralManager.connectToPeripheral(_:options:)` because this method calls it directly.
+    /// - Parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to connect.
     /// - Parameter options: Dictionary to customise the behaviour of connection.
     /// - Returns: `Observable` which emits next event after connection is established
     func connect(options: [String: AnyObject]? = nil) -> Single<_Peripheral> {
@@ -115,6 +117,8 @@ class _Peripheral {
     func cancelConnection() -> Single<_Peripheral> {
         return manager.cancelPeripheralConnection(self)
     }
+
+    // MARK: Services
 
     /// Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the
     /// peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
@@ -230,15 +234,17 @@ class _Peripheral {
         ).asSingle()
     }
 
-    /// Function that allow to monitor writes that happened for characteristic.
-    /// - Parameter characteristic: _Characteristic of which value writes should be monitored.
+    /// Function that allow to observe writes that happened for characteristic.
+    /// - Parameter characteristic: Optional `_Characteristic` of which value changes should be observed. When not specified it will observe for any `_Characteristic`.
     /// - Returns: Observable that emits `Next` with `_Characteristic` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
-    func monitorWrite(for characteristic: _Characteristic) -> Observable<_Characteristic> {
+    func observeWrite(for characteristic: _Characteristic? = nil) -> Observable<_Characteristic> {
         let observable = delegateWrapper
             .peripheralDidWriteValueForCharacteristic
-            .filter { return $0.0 == characteristic.characteristic }
-            .map { (_, error) -> _Characteristic in
+            .filter { characteristic != nil ? ($0.0 == characteristic!.characteristic) : true }
+            .map { [weak self] (cbCharacteristic, error) -> _Characteristic in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                let characteristic = characteristic ?? _Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
                 if let error = error {
                     throw _BluetoothError.characteristicWriteFailed(characteristic, error)
                 }
@@ -285,7 +291,7 @@ class _Peripheral {
         case .withoutResponse:
             return Observable<_Characteristic>.deferred { [weak self] in
                 guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                return strongSelf.monitorWriteWithoutResponseReadiness()
+                return strongSelf.observeWriteWithoutResponseReadiness()
                     .map { _ in true }
                     .startWith(strongSelf.canSendWriteWithoutResponse)
                     .filter { $0 }
@@ -295,20 +301,22 @@ class _Peripheral {
                     }
             }.asSingle()
         case .withResponse:
-            return writeOperationPerformingAndListeningObservable(monitorWrite(for: characteristic).take(1))
+            return writeOperationPerformingAndListeningObservable(observeWrite(for: characteristic).take(1))
                 .asSingle()
         }
     }
 
-    /// Function that allow to monitor value updates for `_Characteristic` instance.
-    /// - Parameter characteristic: _Characteristic of which value changes should be monitored.
+    /// Function that allow to observe value updates for `_Characteristic` instance.
+    /// - Parameter characteristic: Optional `_Characteristic` of which value changes should be observed. When not specified it will observe for any `_Characteristic`.
     /// - Returns: Observable that emits `Next` with `_Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
-    func monitorValueUpdate(for characteristic: _Characteristic) -> Observable<_Characteristic> {
+    func observeValueUpdate(for characteristic: _Characteristic? = nil) -> Observable<_Characteristic> {
         let observable = delegateWrapper
             .peripheralDidUpdateValueForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
-            .map { (_, error) -> _Characteristic in
+            .filter { characteristic != nil ? ($0.0 == characteristic!.characteristic) : true }
+            .map { [weak self] (cbCharacteristic, error) -> _Characteristic in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                let characteristic = characteristic ?? _Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
                 if let error = error {
                     throw _BluetoothError.characteristicReadFailed(characteristic, error)
                 }
@@ -322,7 +330,7 @@ class _Peripheral {
     /// - Parameter characteristic: `_Characteristic` to read value from
     /// - Returns: `Single` which emits `Next` with given characteristic when value is ready to read.
     func readValue(for characteristic: _Characteristic) -> Single<_Characteristic> {
-        let observable = monitorValueUpdate(for: characteristic).take(1)
+        let observable = observeValueUpdate(for: characteristic).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
@@ -334,7 +342,7 @@ class _Peripheral {
     /// Function that triggers set of notification state of the `_Characteristic`.
     /// This change is called after subscribtion to `Observable` is made.
     /// - warning: This method is not responsible for emitting values every time that `_Characteristic` value is changed.
-    /// For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
+    /// For this, refer to other method: `observeValueUpdateForCharacteristic(_)`. These two are often called together.
     /// - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
     /// - parameter forCharacteristic: Characterististic of which notification state needs to be changed
     /// - returns: `Single` which emits `Next` with _Characteristic that state was changed.
@@ -358,16 +366,16 @@ class _Peripheral {
         ).asSingle()
     }
 
-    /// Function that triggers set of notification state of the `_Characteristic`, and monitor for any incoming updates.
+    /// Function that triggers set of notification state of the `_Characteristic`, and observe for any incoming updates.
     /// Notification is set after subscribtion to `Observable` is made.
     /// - parameter characteristic: Characterististic on which notification should be made.
     /// - returns: `Observable` which emits `Next`, when characteristic value is updated.
     /// This is **infinite** stream of values.
-    func setNotificationAndMonitorUpdates(for characteristic: _Characteristic)
+    func observeValueUpdateAndSetNotification(for characteristic: _Characteristic)
         -> Observable<_Characteristic> {
         return Observable
             .of(
-                monitorValueUpdate(for: characteristic),
+                observeValueUpdate(for: characteristic),
                 setNotifyValue(true, for: characteristic)
                     .asObservable()
                     .ignoreElements()
@@ -379,6 +387,7 @@ class _Peripheral {
     }
 
     // MARK: Descriptors
+
     /// Function that triggers descriptors discovery for characteristic
     /// If all of the descriptors are already discovered - these are returned without doing any underlying Bluetooth operations.
     /// - Parameter characteristic: `_Characteristic` instance for which descriptors should be discovered.
@@ -408,15 +417,17 @@ class _Peripheral {
         ).asSingle()
     }
 
-    /// Function that allow to monitor writes that happened for descriptor.
-    /// - Parameter descriptor: _Descriptor of which value writes should be monitored.
+    /// Function that allow to observe writes that happened for descriptor.
+    /// - Parameter descriptor: Optional `_Descriptor` of which value changes should be observed. When not specified it will observe for any `_Descriptor`.
     /// - Returns: Observable that emits `Next` with `_Descriptor` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
-    func monitorWrite(for descriptor: _Descriptor) -> Observable<_Descriptor> {
+    func observeWrite(for descriptor: _Descriptor? = nil) -> Observable<_Descriptor> {
         let observable = delegateWrapper
             .peripheralDidWriteValueForDescriptor
-            .filter { $0.0 == descriptor.descriptor }
-            .map { (_, error) -> _Descriptor in
+            .filter { descriptor != nil ? ($0.0 == descriptor!.descriptor) : true }
+            .map { [weak self] (cbDescriptor, error) -> _Descriptor in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                let descriptor = descriptor ?? _Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
                 if let error = error {
                     throw _BluetoothError.descriptorWriteFailed(descriptor, error)
                 }
@@ -425,15 +436,17 @@ class _Peripheral {
         return ensureValidPeripheralState(for: observable)
     }
 
-    /// Function that allow to monitor value updates for `_Descriptor` instance.
-    /// - Parameter descriptor: _Descriptor of which value changes should be monitored.
+    /// Function that allow to observe value updates for `_Descriptor` instance.
+    /// - Parameter descriptor: Optional `_Descriptor` of which value changes should be observed. When not specified it will observe for any `_Descriptor`.
     /// - Returns: Observable that emits `Next` with `_Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
-    func monitorValueUpdate(for descriptor: _Descriptor) -> Observable<_Descriptor> {
+    func observeValueUpdate(for descriptor: _Descriptor? = nil) -> Observable<_Descriptor> {
         let observable = delegateWrapper
             .peripheralDidUpdateValueForDescriptor
-            .filter { $0.0 == descriptor.descriptor }
-            .map { (_, error) -> _Descriptor in
+            .filter { descriptor != nil ? ($0.0 == descriptor!.descriptor) : true }
+            .map { [weak self] (cbDescriptor, error) -> _Descriptor in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                let descriptor = descriptor ?? _Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
                 if let error = error {
                     throw _BluetoothError.descriptorReadFailed(descriptor, error)
                 }
@@ -447,7 +460,7 @@ class _Peripheral {
     /// - Parameter descriptor: `_Descriptor` to read value from
     /// - Returns: `Single` which emits `Next` with given descriptor when value is ready to read.
     func readValue(for descriptor: _Descriptor) -> Single<_Descriptor> {
-        let observable = monitorValueUpdate(for: descriptor).take(1)
+        let observable = observeValueUpdate(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
@@ -461,14 +474,106 @@ class _Peripheral {
     /// - Parameter descriptor: `_Descriptor` instance to write value to.
     /// - Returns: `Single` that emits `Next` with `_Descriptor` instance, once value is written successfully.
     func writeValue(_ data: Data, for descriptor: _Descriptor) -> Single<_Descriptor> {
-        let monitorWrite = self.monitorWrite(for: descriptor).take(1)
+        let observeWrite = self.observeWrite(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
-            for: monitorWrite,
+            for: observeWrite,
             postSubscriptionCall: { [weak self] in
                 self?.peripheral.writeValue(data, for: descriptor.descriptor) }
         )
         .asSingle()
     }
+
+    // MARK: Other methods
+
+    /// Function that triggers read of `_Peripheral` RSSI value. Read is called after subscription to `Observable` is made.
+    /// - returns: `Single` that emits tuple: `(_Peripheral, Int)` once new RSSI value is read.
+    /// `Int` is new RSSI value, `_Peripheral` is returned to allow easier chaining.
+    func readRSSI() -> Single<(_Peripheral, Int)> {
+        let observable = delegateWrapper
+            .peripheralDidReadRSSI
+            .take(1)
+            .map { [weak self] (rssi, error) -> (_Peripheral, Int) in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                if let error = error {
+                    throw _BluetoothError.peripheralRSSIReadFailed(strongSelf, error)
+                }
+                return (strongSelf, rssi)
+        }
+
+        return ensureValidPeripheralStateAndCallIfSucceeded(
+            for: observable,
+            postSubscriptionCall: { [weak self] in
+                self?.peripheral.readRSSI()
+            }
+            ).asSingle()
+    }
+
+    /// Function that allow user to observe incoming `name` property changes of `_Peripheral` instance.
+    /// - returns: `Observable` that emits tuples: `(_Peripheral, String?)` when name has changed.
+    ///    It's `optional String` because peripheral could also lost his name.
+    ///    It's **infinite** stream of values, so `.Complete` is never emitted.
+    func observeNameUpdate() -> Observable<(_Peripheral, String?)> {
+        let observable = delegateWrapper.peripheralDidUpdateName.map { [weak self] name -> (_Peripheral, String?) in
+            guard let strongSelf = self else { throw _BluetoothError.destroyed }
+            return (strongSelf, name)
+        }
+        return ensureValidPeripheralState(for: observable)
+    }
+
+    /// Function that allow to observe incoming service modifications for `_Peripheral` instance.
+    /// In case you're interested what exact changes might occur - please refer to
+    /// [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
+    ///
+    /// - returns: `Observable` that emits tuples: `(_Peripheral, [_Service])` when services were modified.
+    ///    It's **infinite** stream of values, so `.Complete` is never emitted.
+    func observeServicesModification() -> Observable<(_Peripheral, [_Service])> {
+        let observable = delegateWrapper.peripheralDidModifyServices
+            .map { [weak self] services -> [_Service] in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                return services.map { _Service(peripheral: strongSelf, service: $0) } }
+            .map { [weak self] services -> (_Peripheral, [_Service]) in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                return (strongSelf, services)
+        }
+        return ensureValidPeripheralState(for: observable)
+    }
+
+    /// Resulting observable emits next element if call to `writeValue:forCharacteristic:type:` has failed,
+    /// to indicate when peripheral is again ready to send characteristic value updates again.
+    func observeWriteWithoutResponseReadiness() -> Observable<Void> {
+        return delegateWrapper.peripheralIsReadyToSendWriteWithoutResponse.asObservable()
+    }
+
+    /// Function that allow to open L2CAP channel for `_Peripheral` instance.
+    /// For more information, please refer to
+    /// [What’s New in CoreBluetooth, 712, WWDC 2017](https://developer.apple.com/videos/play/wwdc2017/712/)
+    ///
+    /// - parameter PSM: `PSM` (Protocol/_Service Multiplexer) of the channel
+    /// - returns: `Single` that emits `CBL2CAPChannelMock` when channel has opened
+    /// - since: iOS 11, tvOS 11, watchOS 4
+    #if os(iOS) || os(tvOS) || os(watchOS)
+    @available(iOS 11, tvOS 11, watchOS 4, *)
+    func openL2CAPChannel(PSM: CBL2CAPPSM) -> Single<CBL2CAPChannelMock> {
+        let observable = delegateWrapper
+            .peripheralDidOpenL2CAPChannel
+            .map {($0.0 as? CBL2CAPChannelMock, $0.1)}
+            .take(1)
+            .flatMap { [weak self] (channel, error) -> Observable<CBL2CAPChannelMock> in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                if let channel = channel, error == nil {
+                    return .just(channel)
+                } else {
+                    throw _BluetoothError.openingL2CAPChannelFailed(strongSelf, error)
+                }
+        }
+
+        return ensureValidPeripheralStateAndCallIfSucceeded(for: observable, postSubscriptionCall: { [weak self] in
+            self?.peripheral.openL2CAPChannel(PSM)
+        }).asSingle()
+    }
+    #endif
+
+    // MARK: Internal functions
 
     func ensureValidPeripheralStateAndCallIfSucceeded<T>(for observable: Observable<T>,
                                                          postSubscriptionCall call: @escaping () -> Void
@@ -489,94 +594,6 @@ class _Peripheral {
             manager.ensure(.poweredOn, observable: observable)
         )
     }
-
-    /// Function that triggers read of `_Peripheral` RSSI value. Read is called after subscription to `Observable` is made.
-    /// - returns: `Single` that emits tuple: `(_Peripheral, Int)` once new RSSI value is read.
-    /// `Int` is new RSSI value, `_Peripheral` is returned to allow easier chaining.
-    func readRSSI() -> Single<(_Peripheral, Int)> {
-        let observable = delegateWrapper
-            .peripheralDidReadRSSI
-            .take(1)
-            .map { [weak self] (rssi, error) -> (_Peripheral, Int) in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                if let error = error {
-                    throw _BluetoothError.peripheralRSSIReadFailed(strongSelf, error)
-                }
-                return (strongSelf, rssi)
-            }
-
-        return ensureValidPeripheralStateAndCallIfSucceeded(
-            for: observable,
-            postSubscriptionCall: { [weak self] in
-                self?.peripheral.readRSSI()
-            }
-        ).asSingle()
-    }
-
-    /// Function that allow user to monitor incoming `name` property changes of `_Peripheral` instance.
-    /// - returns: `Observable` that emits tuples: `(_Peripheral, String?)` when name has changed.
-    ///    It's `optional String` because peripheral could also lost his name.
-    ///    It's **infinite** stream of values, so `.Complete` is never emitted.
-    func monitorNameUpdate() -> Observable<(_Peripheral, String?)> {
-        let observable = delegateWrapper.peripheralDidUpdateName.map { [weak self] name -> (_Peripheral, String?) in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            return (strongSelf, name)
-        }
-        return ensureValidPeripheralState(for: observable)
-    }
-
-    /// Function that allow to monitor incoming service modifications for `_Peripheral` instance.
-    /// In case you're interested what exact changes might occur - please refer to
-    /// [Apple Documentation](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheralDelegate_Protocol/#//apple_ref/occ/intfm/CBPeripheralDelegate/peripheral:didModifyServices:)
-    ///
-    /// - returns: `Observable` that emits tuples: `(_Peripheral, [_Service])` when services were modified.
-    ///    It's **infinite** stream of values, so `.Complete` is never emitted.
-    func monitorServicesModification() -> Observable<(_Peripheral, [_Service])> {
-        let observable = delegateWrapper.peripheralDidModifyServices
-            .map { [weak self] services -> [_Service] in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                return services.map { _Service(peripheral: strongSelf, service: $0) } }
-            .map { [weak self] services -> (_Peripheral, [_Service]) in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                return (strongSelf, services)
-            }
-        return ensureValidPeripheralState(for: observable)
-    }
-
-    /// Resulting observable emits next element if call to `writeValue:forCharacteristic:type:` has failed,
-    /// to indicate when peripheral is again ready to send characteristic value updates again.
-    func monitorWriteWithoutResponseReadiness() -> Observable<Void> {
-        return delegateWrapper.peripheralIsReadyToSendWriteWithoutResponse
-    }
-
-    /// Function that allow to open L2CAP channel for `_Peripheral` instance.
-    /// For more information, please refer to
-    /// [What’s New in CoreBluetooth, 712, WWDC 2017](https://developer.apple.com/videos/play/wwdc2017/712/)
-    ///
-    /// - parameter PSM: `PSM` (Protocol/_Service Multiplexer) of the channel
-    /// - returns: `Single` that emits `CBL2CAPChannelMock` when channel has opened
-    /// - since: iOS 11, tvOS 11, watchOS 4
-    #if os(iOS) || os(tvOS) || os(watchOS)
-        @available(iOS 11, tvOS 11, watchOS 4, *)
-        func openL2CAPChannel(PSM: CBL2CAPPSM) -> Single<CBL2CAPChannelMock> {
-            let observable = delegateWrapper
-                .peripheralDidOpenL2CAPChannel
-                .map {($0.0 as? CBL2CAPChannelMock, $0.1)}
-                .take(1)
-                .flatMap { [weak self] (channel, error) -> Observable<CBL2CAPChannelMock> in
-                    guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                    if let channel = channel, error == nil {
-                        return .just(channel)
-                    } else {
-                        throw _BluetoothError.openingL2CAPChannelFailed(strongSelf, error)
-                    }
-            }
-
-            return ensureValidPeripheralStateAndCallIfSucceeded(for: observable, postSubscriptionCall: { [weak self] in
-                self?.peripheral.openL2CAPChannel(PSM)
-            }).asSingle()
-        }
-    #endif
 }
 
 extension _Peripheral: Equatable {}

@@ -27,7 +27,7 @@ import CoreBluetooth
 @testable
 import RxBluetoothKit
 
-class BluetoothManagerTest_ScanForPeripherals: BaseBluetoothManagerTest {
+class CentralManagerTest_ScanForPeripherals: BaseCentralManagerTest {
     
     var testScheduler: TestScheduler!
     var disposeBag: DisposeBag!

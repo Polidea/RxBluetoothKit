@@ -101,16 +101,16 @@ extension Peripheral {
         }
     }
 
-    /// Function that allow to monitor writes that happened for characteristic.
-    /// - Parameter identifier: Identifier of characteristic of which value writes should be monitored.
+    /// Function that allow to observe writes that happened for characteristic.
+    /// - Parameter identifier: Identifier of characteristic of which value writes should be observed.
     /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
-    public func monitorWrite(for identifier: CharacteristicIdentifier)
+    public func observeWrite(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
             .asObservable()
             .flatMap { [weak self] in
-                self?.monitorWrite(for: $0) ?? .error(BluetoothError.destroyed)
+                self?.observeWrite(for: $0) ?? .error(BluetoothError.destroyed)
             }
     }
 
@@ -135,15 +135,15 @@ extension Peripheral {
             }
     }
 
-    /// Function that allow to monitor value updates for `Characteristic` instance.
+    /// Function that allow to observe value updates for `Characteristic` instance.
     /// - Parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
     /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
-    public func monitorValueUpdate(for identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
+    public func observeValueUpdate(for identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return characteristic(with: identifier)
             .asObservable()
             .flatMap { [weak self] in
-                self?.monitorValueUpdate(for: $0).asObservable() ?? .error(BluetoothError.destroyed)
+                self?.observeValueUpdate(for: $0).asObservable() ?? .error(BluetoothError.destroyed)
             }
     }
 
@@ -162,7 +162,7 @@ extension Peripheral {
     /// Function that triggers set of notification state of the `Characteristic`.
     /// This change is called after subscribtion to `Observable` is made.
     /// - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
-    /// For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
+    /// For this, refer to other method: `observeValueUpdateForCharacteristic(_)`. These two are often called together.
     /// - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
     /// - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
     /// - returns: Observable which emits `Next` with Characteristic that state was changed. Immediately after `.Complete` is emitted
@@ -174,17 +174,17 @@ extension Peripheral {
             }
     }
 
-    /// Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
+    /// Function that triggers set of notification state of the `Characteristic`, and observe for any incoming updates.
     /// Notification is set after subscribtion to `Observable` is made.
     /// - parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
     /// - returns: Observable which emits `Next`, when characteristic value is updated.
     /// This is **infinite** stream of values.
-    public func setNotificationAndMonitorUpdates(for identifier: CharacteristicIdentifier)
+    public func observeValueUpdateAndSetNotification(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
             .asObservable()
             .flatMap { [weak self] in
-                self?.setNotificationAndMonitorUpdates(for: $0) ?? .error(BluetoothError.destroyed)
+                self?.observeValueUpdateAndSetNotification(for: $0) ?? .error(BluetoothError.destroyed)
             }
     }
 
@@ -200,15 +200,15 @@ extension Peripheral {
             }
     }
 
-    /// Function that allow to monitor writes that happened for descriptor.
+    /// Function that allow to observe writes that happened for descriptor.
     /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
     /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
-    public func monitorWrite(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func observeWrite(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .asObservable()
             .flatMap { [weak self] in
-                self?.monitorWrite(for: $0) ?? .error(BluetoothError.destroyed)
+                self?.observeWrite(for: $0) ?? .error(BluetoothError.destroyed)
             }
     }
 
@@ -224,15 +224,15 @@ extension Peripheral {
             }
     }
 
-    /// Function that allow to monitor value updates for `Descriptor` instance.
+    /// Function that allow to observe value updates for `Descriptor` instance.
     /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
     /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
-    public func monitorValueUpdate(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
+    public func observeValueUpdate(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .asObservable()
             .flatMap { [weak self] in
-                self?.monitorValueUpdate(for: $0) ?? .error(BluetoothError.destroyed)
+                self?.observeValueUpdate(for: $0) ?? .error(BluetoothError.destroyed)
             }
     }
 

@@ -27,13 +27,16 @@ import CoreBluetooth
 
 // swiftlint:disable line_length
 
-/// _BluetoothManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
+/// Error received when device disconnection even occurs
+typealias DisconnectionReason = Error
+
+/// _CentralManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
 /// discover, connect to remote peripheral devices and more.
 /// You can start using this class by discovering available services of nearby peripherals. Before calling any
-/// public `_BluetoothManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
-/// by calling and observing returned value of `monitorState()` and then chaining it with `scanForPeripherals(_:options:)`:
+/// public `_CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
+/// by calling and observing returned value of `observeState()` and then chaining it with `scanForPeripherals(_:options:)`:
 /// ```
-/// bluetoothManager.rx_state
+/// centralManager.observeState
 ///     .filter { $0 == .PoweredOn }
 ///     .take(1)
 ///     .flatMap { manager.scanForPeripherals(nil) }
@@ -41,14 +44,14 @@ import CoreBluetooth
 /// As a result you will receive `_ScannedPeripheral` which contains `_Peripheral` object, `AdvertisementData` and
 /// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other operations.
 /// - seealso: `_Peripheral`
-class _BluetoothManager {
+class _CentralManager {
 
-    /// Implementation of Central Manager
+    /// Implementation of CBCentralManagerMock
     let centralManager: CBCentralManagerMock
 
     let peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock
 
-    private let delegateWrapper: CBCentralManagerDelegateWrapperMock
+    let delegateWrapper: CBCentralManagerDelegateWrapperMock
 
     /// Lock which should be used before accessing any internal structures
     private let lock = NSLock()
@@ -58,14 +61,15 @@ class _BluetoothManager {
 
     // MARK: Initialization
 
-    /// Creates new `_BluetoothManager`
+    /// Creates new `_CentralManager`
     /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
     /// - parameter peripheralDelegateProvider: Provider for peripheral delegate wrapper.
+    /// - parameter onWillRestoreState: An optional closure to be called when central manager state will restore. Supported only on iOS.
     init(
-      centralManager: CBCentralManagerMock,
-      delegateWrapper: CBCentralManagerDelegateWrapperMock,
-      peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock
+        centralManager: CBCentralManagerMock,
+        delegateWrapper: CBCentralManagerDelegateWrapperMock,
+        peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock
     ) {
         self.centralManager = centralManager
         self.delegateWrapper = delegateWrapper
@@ -73,10 +77,11 @@ class _BluetoothManager {
         centralManager.delegate = delegateWrapper
     }
 
-    /// Creates new `_BluetoothManager` instance. By default all operations and events are executed and received on main thread.
+    /// Creates new `_CentralManager` instance. By default all operations and events are executed and received on main thread.
     /// - warning: If you pass background queue to the method make sure to observe results on main thread for UI related code.
     /// - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
     /// - parameter options: An optional dictionary containing initialization options for a central manager.
+    /// - parameter onWillRestoreState: An optional closure to be called when central manager state will restore. Supported only on iOS.
     /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
     convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
@@ -95,6 +100,22 @@ class _BluetoothManager {
         centralManager.delegate = delegateWrapper
     }
 
+    // MARK: State
+
+    /// Current state of `_CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+    /// - returns: Current state of `_CentralManager` as `BluetoothState`.
+    var state: BluetoothState {
+        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
+    }
+
+    /// Continuous state of `_CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
+    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
+    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
+    /// It's **infinite** stream, so `.complete` is never called.
+    func observeState() -> Observable<BluetoothState> {
+        return self.delegateWrapper.didUpdateState.asObservable()
+    }
+
     // MARK: Scanning
 
     /// Scans for `_Peripheral`s after subscription to returned observable. First parameter `serviceUUIDs` is
@@ -105,7 +126,7 @@ class _BluetoothManager {
     /// Scans by default are infinite streams of `_ScannedPeripheral` structures which need to be stopped by the user. For
     /// example this can be done by limiting scanning to certain number of peripherals or time:
     /// ```
-    /// bluetoothManager.scanForPeripherals(withServices: nil)
+    /// centralManager.scanForPeripherals(withServices: nil)
     ///     .timeout(3.0, timeoutScheduler)
     ///     .take(2)
     /// ```
@@ -163,24 +184,6 @@ class _BluetoothManager {
         }
     }
 
-    // MARK: State
-
-    /// Continuous state of `_BluetoothManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
-    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
-    var rx_state: Observable<BluetoothState> {
-        return .deferred { [weak self] in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            return strongSelf.delegateWrapper.didUpdateState.startWith(strongSelf.state)
-        }
-    }
-
-    /// Current state of `_BluetoothManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Current state of `_BluetoothManager` as `BluetoothState`.
-    var state: BluetoothState {
-        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
-    }
-
     // MARK: _Peripheral's Connection Management
 
     /// Establishes connection with `_Peripheral` after subscription to returned observable. It's user responsibility
@@ -188,7 +191,7 @@ class _BluetoothManager {
     /// returned observable cancels connection attempt. By default observable is waiting infinitely for successful connection.
     /// Additionally you can pass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
     /// to customise the behaviour of connection.
-    /// - parameter peripheral: The `_Peripheral` to which `_BluetoothManager` is attempting to connect.
+    /// - parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to connect.
     /// - parameter options: Dictionary to customise the behaviour of connection.
     /// - returns: `Single` which emits next event after connection is established.
     func connect(_ peripheral: _Peripheral, options: [String: Any]? = nil)
@@ -242,7 +245,7 @@ class _BluetoothManager {
     /// Cancels an active or pending local connection to a `_Peripheral` after observable subscription. It is not guaranteed
     /// that physical connection will be closed immediately as well and all pending commands will not be executed.
     ///
-    /// - parameter peripheral: The `_Peripheral` to which the `_BluetoothManager` is either trying to
+    /// - parameter peripheral: The `_Peripheral` to which the `_CentralManager` is either trying to
     /// connect or has already connected.
     /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
     func cancelPeripheralConnection(_ peripheral: _Peripheral) -> Single<(_Peripheral)> {
@@ -251,7 +254,7 @@ class _BluetoothManager {
                 observer.onError(_BluetoothError.destroyed)
                 return Disposables.create()
             }
-            let disposable = strongSelf.monitorDisconnection(for: peripheral).take(1).subscribe(observer)
+            let disposable = strongSelf.observeDisconnect(for: peripheral).take(1).subscribe(observer)
             strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
             return disposable
         }
@@ -262,56 +265,82 @@ class _BluetoothManager {
 
     // MARK: Retrieving Lists of Peripherals
 
-    /// Returns observable list of the `_Peripheral`s which are currently connected to the `_BluetoothManager` and contain
+    /// Returns list of the `_Peripheral`s which are currently connected to the `_CentralManager` and contain
     /// all of the specified `_Service`'s UUIDs.
     ///
     /// - parameter serviceUUIDs: A list of `_Service` UUIDs
-    /// - returns: `Single` which emits retrieved `_Peripheral`s. They are in connected state and contain all of the
+    /// - returns: Retrieved `_Peripheral`s. They are in connected state and contain all of the
     /// `_Service`s with UUIDs specified in the `serviceUUIDs` parameter.
-    func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Single<[_Peripheral]> {
-        let observable = Observable<[_Peripheral]>.deferred { [weak self] in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            return Observable.just(strongSelf.centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs))
-                .map { [weak self] (peripheralTable: [CBPeripheralMock]) -> [_Peripheral] in
-                    guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                    return peripheralTable.map {
-                        _Peripheral(manager: strongSelf, peripheral: $0)
-                    }
-                }
-        }
-        return ensure(.poweredOn, observable: observable).asSingle()
+    func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [_Peripheral] {
+        return centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
+            .map { _Peripheral(manager: self, peripheral: $0) }
     }
 
-    /// Returns observable list of `_Peripheral`s by their identifiers which are known to `_BluetoothManager`.
+    /// Returns list of `_Peripheral`s by their identifiers which are known to `_CentralManager`.
     ///
     /// - parameter identifiers: List of `_Peripheral`'s identifiers which should be retrieved.
-    /// - returns: `Single` which emits next event when list of `_Peripheral`s are retrieved.
-    func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Single<[_Peripheral]> {
-        let observable = Observable<[_Peripheral]>.deferred { [weak self] in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            return Observable.just(strongSelf.centralManager.retrievePeripherals(withIdentifiers: identifiers))
-                .map { [weak self] (peripheralTable: [CBPeripheralMock]) -> [_Peripheral] in
-                    guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                    return peripheralTable.map {
-                        _Peripheral(manager: strongSelf, peripheral: $0)
+    /// - returns: Retrieved `_Peripheral`s.
+    func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> [_Peripheral] {
+        return centralManager.retrievePeripherals(withIdentifiers: identifiers)
+            .map { _Peripheral(manager: self, peripheral: $0) }
+    }
+
+    // MARK: Connection and disconnection observing
+
+    /// Emits `_Peripheral` instance when it's connected.
+    /// - parameter peripheral: Optional `_Peripheral` which is observed for connection. When not specified it will observe fo any `_Peripheral`.
+    /// - returns: Observable which emits next events when `peripheral` was connected.
+    /// It's **infinite** stream, so `.complete` is never called.
+    func observeConnect(for peripheral: _Peripheral? = nil) -> Observable<_Peripheral> {
+        let observable = delegateWrapper.didConnectPeripheral
+            .filter { peripheral != nil ? ($0 == peripheral!.peripheral) : true }
+            .map { [weak self] (cbPeripheral: CBPeripheralMock) -> _Peripheral in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                return peripheral ?? _Peripheral(manager: strongSelf, peripheral: cbPeripheral)
+            }
+      return ensure(.poweredOn, observable: observable)
+    }
+
+    /// Emits `_Peripheral` instance when it's disconnected.
+    /// - parameter peripheral: Optional `_Peripheral` which is observed for disconnection. When not specified it will observe for any `_Peripheral`.
+    /// - returns: Observable which emits next events when `_Peripheral` instance was disconnected.
+    /// It provides optional error which may contain more information about the cause of the disconnection
+    /// if it wasn't the `cancelConnection` call.
+    /// It's **infinite** stream, so `.complete` is never called.
+    func observeDisconnect(for peripheral: _Peripheral? = nil) -> Observable<(_Peripheral, DisconnectionReason?)> {
+        let observable = delegateWrapper.didDisconnectPeripheral
+            .filter { peripheral != nil ? ($0.0 == peripheral!.peripheral) : true }
+            .map { [weak self] (cbPeripheral, error) -> (_Peripheral, DisconnectionReason?) in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                let peripheral = peripheral ?? _Peripheral(manager: strongSelf, peripheral: cbPeripheral)
+                return (peripheral, error)
+            }
+        return ensure(.poweredOn, observable: observable)
+                .catchError { error in
+                    if error is _BluetoothError, let peripheral = peripheral {
+                        return .concat(.just((peripheral, error)), .error(error))
+                    } else {
+                        return .error(error)
                     }
                 }
-        }
-        return ensure(.poweredOn, observable: observable).asSingle()
     }
 
     // MARK: Internal functions
 
-    /// Ensure that `state` is and will be the only state of `_BluetoothManager` during subscription.
+    /// Ensure that `state` is and will be the only state of `_CentralManager` during subscription.
     /// Otherwise error is emitted.
     /// - parameter state: `BluetoothState` which should be present during subscription.
     /// - parameter observable: Observable into which potential errors should be merged.
     /// - returns: New observable which merges errors with source observable.
     func ensure<T>(_ state: BluetoothState, observable: Observable<T>) -> Observable<T> {
-        let statesObservable = rx_state
-            .filter { $0 != state && _BluetoothError(state: $0) != nil }
-            .map { state -> T in throw _BluetoothError(state: state)! }
-        return .absorb(statesObservable, observable)
+        return .deferred { [weak self] in
+            guard let strongSelf = self else { throw _BluetoothError.destroyed }
+            let statesObservable = strongSelf.observeState()
+                .startWith(strongSelf.state)
+                .filter { $0 != state && _BluetoothError(state: $0) != nil }
+                .map { state -> T in throw _BluetoothError(state: state)! }
+            return .absorb(statesObservable, observable)
+        }
     }
 
     /// Ensure that specified `peripheral` is connected during subscription.
@@ -326,52 +355,7 @@ class _BluetoothManager {
                 .filter { $0.0 == peripheral.peripheral }
                 .map { (_, error) -> T in
                     throw _BluetoothError.peripheralDisconnected(peripheral, error)
-                }
+            }
         }
     }
-
-    /// Emits `_Peripheral` instance when it's connected.
-    /// - Parameter peripheral: `_Peripheral` which is monitored for connection.
-    /// - Returns: Observable which emits next events when `peripheral` was connected.
-    func monitorConnection(for peripheral: _Peripheral) -> Observable<_Peripheral> {
-        let observable = delegateWrapper.didConnectPeripheral
-          .filter { $0 == peripheral.peripheral }
-          .map { _ in peripheral }
-      return ensure(.poweredOn, observable: observable)
-    }
-
-    typealias DisconnectionReason = Error
-    /// Emits `_Peripheral` instance when it's disconnected.
-    /// - Parameter peripheral: `_Peripheral` which is monitored for disconnection.
-    /// - Returns: Observable which emits next events when `_Peripheral` instance was disconnected.
-    /// It provides optional error which may contain more information about the cause of the disconnection
-    /// if it wasn't the `cancelConnection` call. 
-    func monitorDisconnection(for peripheral: _Peripheral) -> Observable<(_Peripheral, DisconnectionReason?)> {
-        let observable = delegateWrapper.didDisconnectPeripheral
-          .filter { $0.0 == peripheral.peripheral }
-          .map { (_, error) -> (_Peripheral, DisconnectionReason?) in (peripheral, error) }
-        return ensure(.poweredOn, observable: observable)
-                .catchError { error in
-                    if error is _BluetoothError {
-                        return .concat(.just((peripheral, error)), .error(error))
-                    } else {
-                        return .error(error)
-                    }
-                }
-    }
-
-    #if os(iOS)
-        /// Emits `_RestoredState` instance, when state of `_BluetoothManager` has been restored,
-        /// Should only be called once in the lifetime of the app
-        /// - Returns: Observable which emits next events state has been restored
-        func listenOnRestoredState() -> Observable<_RestoredState> {
-            return delegateWrapper
-                .willRestoreState
-                .take(1)
-                .flatMap { [weak self] dict -> Observable<_RestoredState> in
-                    guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                    return .just(_RestoredState(restoredStateDictionary: dict, bluetoothManager: strongSelf))
-                }
-        }
-    #endif
 }

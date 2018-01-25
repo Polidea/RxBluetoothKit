@@ -50,11 +50,17 @@ class _Descriptor {
         self.characteristic = characteristic
     }
 
-    /// Function that allow to monitor writes that happened for descriptor.
+    convenience init(descriptor: CBDescriptorMock, peripheral: _Peripheral) {
+        let service = _Service(peripheral: peripheral, service: descriptor.characteristic.service)
+        let characteristic = _Characteristic(characteristic: descriptor.characteristic, service: service)
+        self.init(descriptor: descriptor, characteristic: characteristic)
+    }
+
+    /// Function that allow to observe writes that happened for descriptor.
     /// - Returns: Observable that emits `Next` with `_Descriptor` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
-    func monitorWrite() -> Observable<_Descriptor> {
-        return characteristic.service.peripheral.monitorWrite(for: self)
+    func observeWrite() -> Observable<_Descriptor> {
+        return characteristic.service.peripheral.observeWrite(for: self)
     }
 
     /// Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
@@ -64,11 +70,11 @@ class _Descriptor {
         return characteristic.service.peripheral.writeValue(data, for: self)
     }
 
-    /// Function that allow to monitor value updates for `_Descriptor` instance.
+    /// Function that allow to observe value updates for `_Descriptor` instance.
     /// - Returns: Observable that emits `Next` with `_Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
-    func monitorValueUpdate() -> Observable<_Descriptor> {
-        return characteristic.service.peripheral.monitorValueUpdate(for: self)
+    func observeValueUpdate() -> Observable<_Descriptor> {
+        return characteristic.service.peripheral.observeValueUpdate(for: self)
     }
 
     /// Function that triggers read of current value of the `_Descriptor` instance.

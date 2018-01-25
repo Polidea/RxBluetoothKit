@@ -49,11 +49,17 @@ public class Descriptor {
         self.characteristic = characteristic
     }
 
-    /// Function that allow to monitor writes that happened for descriptor.
+    convenience init(descriptor: CBDescriptor, peripheral: Peripheral) {
+        let service = Service(peripheral: peripheral, service: descriptor.characteristic.service)
+        let characteristic = Characteristic(characteristic: descriptor.characteristic, service: service)
+        self.init(descriptor: descriptor, characteristic: characteristic)
+    }
+
+    /// Function that allow to observe writes that happened for descriptor.
     /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
-    public func monitorWrite() -> Observable<Descriptor> {
-        return characteristic.service.peripheral.monitorWrite(for: self)
+    public func observeWrite() -> Observable<Descriptor> {
+        return characteristic.service.peripheral.observeWrite(for: self)
     }
 
     /// Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
@@ -63,11 +69,11 @@ public class Descriptor {
         return characteristic.service.peripheral.writeValue(data, for: self)
     }
 
-    /// Function that allow to monitor value updates for `Descriptor` instance.
+    /// Function that allow to observe value updates for `Descriptor` instance.
     /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
-    public func monitorValueUpdate() -> Observable<Descriptor> {
-        return characteristic.service.peripheral.monitorValueUpdate(for: self)
+    public func observeValueUpdate() -> Observable<Descriptor> {
+        return characteristic.service.peripheral.observeValueUpdate(for: self)
     }
 
     /// Function that triggers read of current value of the `Descriptor` instance.
