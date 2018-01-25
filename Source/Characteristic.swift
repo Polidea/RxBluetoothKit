@@ -62,17 +62,22 @@ public class Characteristic {
         self.service = service
     }
 
+    convenience init(characteristic: CBCharacteristic, peripheral: Peripheral) {
+        let service = Service(peripheral: peripheral, service: characteristic.service)
+        self.init(characteristic: characteristic, service: service)
+    }
+
     /// Function that triggers descriptors discovery for characteristic.
     /// - returns: `Single` that emits `Next` with array of `Descriptor` instances, once they're discovered.
     public func discoverDescriptors() -> Single<[Descriptor]> {
         return service.peripheral.discoverDescriptors(for: self)
     }
 
-    /// Function that allow to monitor writes that happened for characteristic.
+    /// Function that allow to observe writes that happened for characteristic.
     /// - Returns: `Observable` that emits `Next` with `Characteristic` instance every time when write has happened.
     /// It's **infinite** stream, so `.Complete` is never called.
-    public func monitorWrite() -> Observable<Characteristic> {
-        return service.peripheral.monitorWrite(for: self)
+    public func observeWrite() -> Observable<Characteristic> {
+        return service.peripheral.observeWrite(for: self)
     }
 
     /// Function that triggers write of data to characteristic. Write is called after subscribtion to `Observable` is made.
@@ -91,11 +96,11 @@ public class Characteristic {
         return service.peripheral.writeValue(data, for: self, type: type)
     }
 
-    /// Function that allow to monitor value updates for `Characteristic` instance.
+    /// Function that allow to observe value updates for `Characteristic` instance.
     /// - Returns: `Observable` that emits `Next` with `Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.Complete` is never called.
-    public func monitorValueUpdate() -> Observable<Characteristic> {
-        return service.peripheral.monitorValueUpdate(for: self)
+    public func observeValueUpdate() -> Observable<Characteristic> {
+        return service.peripheral.observeValueUpdate(for: self)
     }
 
     /// Function that triggers read of current value of the `Characteristic` instance.
@@ -108,19 +113,19 @@ public class Characteristic {
     /// Function that triggers set of notification state of the `Characteristic`.
     /// This change is called after subscribtion to `Observable` is made.
     /// - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
-    /// For this, refer to other method: `monitorValueUpdateForCharacteristic(_)`. These two are often called together.
+    /// For this, refer to other method: `observeValueUpdateForCharacteristic(_)`. These two are often called together.
     /// - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
     /// - returns: `Single` which emits `Next` with Characteristic that state was changed.
     public func setNotifyValue(_ enabled: Bool) -> Single<Characteristic> {
         return service.peripheral.setNotifyValue(enabled, for: self)
     }
 
-    /// Function that triggers set of notification state of the `Characteristic`, and monitor for any incoming updates.
+    /// Function that triggers set of notification state of the `Characteristic`, and observe for any incoming updates.
     /// Notification is set after subscribtion to `Observable` is made.
     /// - returns: `Observable` which emits `Next`, when characteristic value is updated.
     /// This is **infinite** stream of values.
-    public func setNotificationAndMonitorUpdates() -> Observable<Characteristic> {
-        return service.peripheral.setNotificationAndMonitorUpdates(for: self)
+    public func observeValueUpdateAndSetNotification() -> Observable<Characteristic> {
+        return service.peripheral.observeValueUpdateAndSetNotification(for: self)
     }
 }
 

@@ -183,6 +183,4 @@ class CBPeripheralDelegateWrapper: NSObject, CBPeripheralDelegate {
             """)
         peripheralDidOpenL2CAPChannel.onNext((channel, error))
     }
-
-    func peripheralDidUpdateRSSI(_ peripheral: CBPeripheral, error: Error?) {}
 }

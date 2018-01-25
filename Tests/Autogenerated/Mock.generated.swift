@@ -283,9 +283,6 @@ class CBPeripheralDelegateWrapperMock: NSObject , CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
     }
 
-    func peripheralDidUpdateRSSI(_ peripheral: CBPeripheral, error: Error?) {
-    }
-
 }
 class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
     var didUpdateState = PublishSubject<BluetoothState>()

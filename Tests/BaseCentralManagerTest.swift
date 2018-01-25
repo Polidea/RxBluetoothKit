@@ -23,8 +23,8 @@
 import Foundation
 import XCTest
 
-class BaseBluetoothManagerTest: XCTestCase {
-    var manager: _BluetoothManager!
+class BaseCentralManagerTest: XCTestCase {
+    var manager: _CentralManager!
     
     var centralManagerMock: CBCentralManagerMock!
     var wrapperMock: CBCentralManagerDelegateWrapperMock!
@@ -34,6 +34,6 @@ class BaseBluetoothManagerTest: XCTestCase {
         centralManagerMock = CBCentralManagerMock()
         wrapperMock = CBCentralManagerDelegateWrapperMock()
         wrapperProviderMock = PeripheralDelegateWrapperProviderMock()
-        manager = _BluetoothManager(centralManager: centralManagerMock, delegateWrapper: wrapperMock, peripheralDelegateProvider: wrapperProviderMock)
+        manager = _CentralManager(centralManager: centralManagerMock, delegateWrapper: wrapperMock, peripheralDelegateProvider: wrapperProviderMock)
     }
 }
