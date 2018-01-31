@@ -18,6 +18,8 @@ class CBCentralManagerMock: NSObject {
     }
     init(delegate: CBCentralManagerDelegate?, queue: DispatchQueue?, options: [String : Any]? = nil) {
     }
+    init(delegate: CBCentralManagerDelegate?, queue: DispatchQueue?) {
+    }
 
     var retrievePeripheralsParams: [([UUID])] = []
     var retrievePeripheralsReturns: [[CBPeripheralMock]] = []
@@ -215,6 +217,78 @@ class PeripheralDelegateWrapperProviderMock: NSObject {
             return provideReturn!
         } else {
             return provideReturns.removeFirst()
+        }
+    }
+
+}
+class ConnectorMock: NSObject {
+    var centralManager: CBCentralManagerMock!
+    var delegateWrapper: CBCentralManagerDelegateWrapperMock!
+    var connectingBox: ThreadSafeBox<[UUID]>!
+    var disconnectingBox: ThreadSafeBox<[UUID]>!
+
+    override init() {
+    }
+    init(centralManager: CBCentralManagerMock, delegateWrapper: CBCentralManagerDelegateWrapperMock) {
+    }
+
+    var establishConnectionParams: [(_Peripheral, [String: Any]?)] = []
+    var establishConnectionReturns: [Observable<_Peripheral>] = []
+    var establishConnectionReturn: Observable<_Peripheral>?
+    func establishConnection(with peripheral: _Peripheral, options: [String: Any]? = nil) -> Observable<_Peripheral> {
+        establishConnectionParams.append((peripheral, options))
+        if establishConnectionReturns.isEmpty {
+            return establishConnectionReturn!
+        } else {
+            return establishConnectionReturns.removeFirst()
+        }
+    }
+
+    var createConnectionObservableParams: [(_Peripheral, [String: Any]?)] = []
+    var createConnectionObservableReturns: [Observable<_Peripheral>] = []
+    var createConnectionObservableReturn: Observable<_Peripheral>?
+    func createConnectionObservable(for peripheral: _Peripheral, options: [String: Any]? = nil) -> Observable<_Peripheral> {
+        createConnectionObservableParams.append((peripheral, options))
+        if createConnectionObservableReturns.isEmpty {
+            return createConnectionObservableReturn!
+        } else {
+            return createConnectionObservableReturns.removeFirst()
+        }
+    }
+
+    var createConnectedObservableParams: [(_Peripheral)] = []
+    var createConnectedObservableReturns: [Observable<_Peripheral>] = []
+    var createConnectedObservableReturn: Observable<_Peripheral>?
+    func createConnectedObservable(for peripheral: _Peripheral) -> Observable<_Peripheral> {
+        createConnectedObservableParams.append((peripheral))
+        if createConnectedObservableReturns.isEmpty {
+            return createConnectedObservableReturn!
+        } else {
+            return createConnectedObservableReturns.removeFirst()
+        }
+    }
+
+    var createDisconnectedObservableParams: [(_Peripheral)] = []
+    var createDisconnectedObservableReturns: [Observable<_Peripheral>] = []
+    var createDisconnectedObservableReturn: Observable<_Peripheral>?
+    func createDisconnectedObservable(for peripheral: _Peripheral) -> Observable<_Peripheral> {
+        createDisconnectedObservableParams.append((peripheral))
+        if createDisconnectedObservableReturns.isEmpty {
+            return createDisconnectedObservableReturn!
+        } else {
+            return createDisconnectedObservableReturns.removeFirst()
+        }
+    }
+
+    var createFailToConnectObservableParams: [(_Peripheral)] = []
+    var createFailToConnectObservableReturns: [Observable<_Peripheral>] = []
+    var createFailToConnectObservableReturn: Observable<_Peripheral>?
+    func createFailToConnectObservable(for peripheral: _Peripheral) -> Observable<_Peripheral> {
+        createFailToConnectObservableParams.append((peripheral))
+        if createFailToConnectObservableReturns.isEmpty {
+            return createFailToConnectObservableReturn!
+        } else {
+            return createFailToConnectObservableReturns.removeFirst()
         }
     }
 

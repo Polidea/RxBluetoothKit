@@ -101,21 +101,13 @@ class _Peripheral {
         return Observable.of(disconnected, connected).merge()
     }
 
-    /// Establishes local connection to the peripheral.
-    /// For more information look into `_CentralManager.connectToPeripheral(_:options:)` because this method calls it directly.
-    /// - Parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to connect.
-    /// - Parameter options: Dictionary to customise the behaviour of connection.
-    /// - Returns: `Observable` which emits next event after connection is established
-    func connect(options: [String: AnyObject]? = nil) -> Single<_Peripheral> {
-        return manager.connect(self, options: options)
-    }
-
-    /// Cancels an active or pending local connection to a `_Peripheral` after observable subscription. It is not guaranteed
-    /// that physical connection will be closed immediately as well and all pending commands will not be executed.
-    ///
-    /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
-    func cancelConnection() -> Single<_Peripheral> {
-        return manager.cancelPeripheralConnection(self)
+    /// Establishes connection with a given `_Peripheral`.
+    /// For more information look into `_CentralManager.establishConnection(with:options:)` because this method calls it directly.
+    /// - parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to connect.
+    /// - parameter options: Dictionary to customise the behaviour of connection.
+    /// - returns: `Observable` which emits next event after connection is established.
+    func establishConnection(options: [String: AnyObject]? = nil) -> Observable<_Peripheral> {
+        return manager.establishConnection(self, options: options)
     }
 
     // MARK: Services

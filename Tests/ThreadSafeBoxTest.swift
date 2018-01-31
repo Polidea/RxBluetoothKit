@@ -22,25 +22,39 @@
 
 import Foundation
 import XCTest
+@testable
+import RxBluetoothKit
 
-class BaseCentralManagerTest: XCTestCase {
-    var manager: _CentralManager!
+class ThreadSafeBoxTest: XCTestCase {
+    var box: ThreadSafeBox<[Int]>!
     
-    var centralManagerMock: CBCentralManagerMock!
-    var wrapperMock: CBCentralManagerDelegateWrapperMock!
-    var wrapperProviderMock: PeripheralDelegateWrapperProviderMock!
-    var connectorMock: ConnectorMock!
+    override func setUp() {
+        super.setUp()
+        box = ThreadSafeBox(value: [] as [Int])
+    }
     
-    func setUpProperties() {
-        centralManagerMock = CBCentralManagerMock()
-        wrapperMock = CBCentralManagerDelegateWrapperMock()
-        wrapperProviderMock = PeripheralDelegateWrapperProviderMock()
-        connectorMock = ConnectorMock()
-        manager = _CentralManager(
-            centralManager: centralManagerMock,
-            delegateWrapper: wrapperMock,
-            peripheralDelegateProvider: wrapperProviderMock,
-            connector: connectorMock
-        )
+    func testAsync() {
+        let expectedIterations = 1000
+        var currentIteration = expectedIterations
+        
+        let expectation = XCTestExpectation(description: "Perform \(expectedIterations) iterations on concurrent threads")
+        
+        DispatchQueue.concurrentPerform(iterations: currentIteration) { index in
+            let last = box.read { $0.last } ?? 0
+            box.write { $0.append(last + 1) }
+            
+            DispatchQueue.global().sync {
+                currentIteration -= 1
+                
+                // Final loop
+                guard currentIteration <= 0 else { return }
+                let count = box.read { $0.count }
+                XCTAssertEqual(count, expectedIterations, "should receive \(expectedIterations), instead received \(count)")
+                
+                expectation.fulfill()
+            }
+        }
+        
+        wait(for: [expectation], timeout: 20)
     }
 }

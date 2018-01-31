@@ -59,6 +59,9 @@ class _CentralManager {
     /// Ongoing scan disposable
     private var scanDisposable: Disposable?
 
+    /// ConnectorMock instance is used for establishing connection with peripherals
+    private let connector: ConnectorMock
+
     // MARK: Initialization
 
     /// Creates new `_CentralManager`
@@ -69,11 +72,13 @@ class _CentralManager {
     init(
         centralManager: CBCentralManagerMock,
         delegateWrapper: CBCentralManagerDelegateWrapperMock,
-        peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock
+        peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock,
+        connector: ConnectorMock
     ) {
         self.centralManager = centralManager
         self.delegateWrapper = delegateWrapper
         self.peripheralDelegateProvider = peripheralDelegateProvider
+        self.connector = connector
         centralManager.delegate = delegateWrapper
     }
 
@@ -86,10 +91,12 @@ class _CentralManager {
     convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
         let delegateWrapper = CBCentralManagerDelegateWrapperMock()
+        let centralManager = CBCentralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
         self.init(
-            centralManager: CBCentralManagerMock(delegate: delegateWrapper, queue: queue, options: options),
+            centralManager: centralManager,
             delegateWrapper: delegateWrapper,
-            peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock()
+            peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock(),
+            connector: ConnectorMock(centralManager: centralManager, delegateWrapper: delegateWrapper)
         )
     }
 
@@ -186,81 +193,19 @@ class _CentralManager {
 
     // MARK: _Peripheral's Connection Management
 
-    /// Establishes connection with `_Peripheral` after subscription to returned observable. It's user responsibility
-    /// to close connection with `cancelConnectionToPeripheral(_:)` after subscription was completed. Unsubscribing from
-    /// returned observable cancels connection attempt. By default observable is waiting infinitely for successful connection.
+    /// Establishes connection with a given `_Peripheral`.
+    /// When connection did succeded it sends event with `_Peripheral` - from now on it is possible to call all other methods that require connection.
+    /// The connection is automatically disconnected when resulting Observable is unsubscribed.
+    /// On the other hand when the connection is interrupted or failed by the device or the system, the Observable will be unsubscribed as well
+    /// following `_BluetoothError.peripheralConnectionFailed` or `_BluetoothError.peripheralDisconnected` emission.
     /// Additionally you can pass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
     /// to customise the behaviour of connection.
-    /// - parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to connect.
+    /// - parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to establish connection.
     /// - parameter options: Dictionary to customise the behaviour of connection.
-    /// - returns: `Single` which emits next event after connection is established.
-    func connect(_ peripheral: _Peripheral, options: [String: Any]? = nil)
-        -> Single<_Peripheral> {
-
-        let success = delegateWrapper.didConnectPeripheral
-            .filter { $0 == peripheral.peripheral }
-            .take(1)
-            .map { _ in return peripheral }
-
-        let error = delegateWrapper.didFailToConnectPeripheral
-            .filter { $0.0 == peripheral.peripheral }
-            .take(1)
-            .map { [weak self] (cbPeripheral, error) -> _Peripheral in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                throw _BluetoothError.peripheralConnectionFailed(_Peripheral(manager: strongSelf, peripheral: cbPeripheral), error)
-            }
-
-        let observable = Observable<_Peripheral>.create { [weak self] observer in
-            guard let strongSelf = self else {
-                observer.onError(_BluetoothError.destroyed)
-                return Disposables.create()
-            }
-            if let error = _BluetoothError(state: strongSelf.state) {
-                observer.onError(error)
-                return Disposables.create()
-            }
-
-            guard !peripheral.isConnected else {
-                observer.onNext(peripheral)
-                observer.onCompleted()
-                return Disposables.create()
-            }
-
-            let disposable = success.amb(error).subscribe(observer)
-
-            strongSelf.centralManager.connect(peripheral.peripheral, options: options)
-
-            return Disposables.create { [weak self] in
-                guard let strongSelf = self else { return }
-                if !peripheral.isConnected {
-                    strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-                    disposable.dispose()
-                }
-            }
-        }
-
-        return ensure(.poweredOn, observable: observable).asSingle()
-    }
-
-    /// Cancels an active or pending local connection to a `_Peripheral` after observable subscription. It is not guaranteed
-    /// that physical connection will be closed immediately as well and all pending commands will not be executed.
-    ///
-    /// - parameter peripheral: The `_Peripheral` to which the `_CentralManager` is either trying to
-    /// connect or has already connected.
-    /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
-    func cancelPeripheralConnection(_ peripheral: _Peripheral) -> Single<(_Peripheral)> {
-        let observable = Observable<(_Peripheral, DisconnectionReason?)>.create { [weak self] observer in
-            guard let strongSelf = self else {
-                observer.onError(_BluetoothError.destroyed)
-                return Disposables.create()
-            }
-            let disposable = strongSelf.observeDisconnect(for: peripheral).take(1).subscribe(observer)
-            strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-            return disposable
-        }
-      return ensure(.poweredOn, observable: observable)
-          .asSingle()
-          .map { $0.0 }
+    /// - returns: `Observable` which emits next event after connection is established.
+    func establishConnection(_ peripheral: _Peripheral, options: [String: Any]? = nil) -> Observable<_Peripheral> {
+        let observable = connector.establishConnection(with: peripheral, options: options)
+        return ensure(.poweredOn, observable: observable)
     }
 
     // MARK: Retrieving Lists of Peripherals

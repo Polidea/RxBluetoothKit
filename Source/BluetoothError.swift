@@ -38,6 +38,8 @@ public enum BluetoothError: Error {
     case bluetoothInUnknownState
     case bluetoothResetting
     // Peripheral
+    case peripheralAlreadyConnected(Peripheral)
+    case peripheralIsConnecting(Peripheral)
     case peripheralConnectionFailed(Peripheral, Error?)
     case peripheralDisconnected(Peripheral, Error?)
     case peripheralRSSIReadFailed(Peripheral, Error?)
@@ -83,6 +85,16 @@ extension BluetoothError: CustomStringConvertible {
         case .bluetoothResetting:
             return "Bluetooth is resetting"
             // Peripheral
+        case .peripheralAlreadyConnected:
+            return """
+            Peripheral is already connected.
+            You cannot connect to peripheral when you have previously connected to it.
+            """
+        case .peripheralIsConnecting:
+            return """
+            Peripheral is already in connecting state.
+            You cannot connect to peripheral when there is ongoing connection try.
+            """
         case let .peripheralConnectionFailed(_, err):
             return "Connection error has occured: \(err?.localizedDescription ?? "-")"
         case let .peripheralDisconnected(_, err):
@@ -152,6 +164,8 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case let (.servicesDiscoveryFailed(l, _), .servicesDiscoveryFailed(r, _)): return l == r
     case let (.includedServicesDiscoveryFailed(l, _), .includedServicesDiscoveryFailed(r, _)): return l == r
         // Peripherals
+    case let (.peripheralAlreadyConnected(l), .peripheralAlreadyConnected(r)): return l == r
+    case let (.peripheralIsConnecting(l), .peripheralIsConnecting(r)): return l == r
     case let (.peripheralConnectionFailed(l, _), .peripheralConnectionFailed(r, _)): return l == r
     case let (.peripheralDisconnected(l, _), .peripheralDisconnected(r, _)): return l == r
     case let (.peripheralRSSIReadFailed(l, _), .peripheralRSSIReadFailed(r, _)): return l == r
