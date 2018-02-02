@@ -192,10 +192,10 @@ class ConnectorTest: XCTestCase {
         -> (_Peripheral, ScheduledObservable<_Peripheral>) {
         setUpProperties(connectingUuids: connectingUuids, disconnectingUuids: disconnectingUuids)
         
-        let delegateProvider = PeripheralDelegateWrapperProviderMock()
-        delegateProvider.provideReturn = CBPeripheralDelegateWrapperMock()
-        let centralManager = _CentralManager(centralManager: centralManagerMock, delegateWrapper: wrapperMock, peripheralDelegateProvider: delegateProvider, connector: ConnectorMock())
-        let peripheral = _Peripheral(manager: centralManager, peripheral: peripheralMock)
+        let peripheralProvider = PeripheralProviderMock()
+        let centralManager = _CentralManager(centralManager: centralManagerMock, delegateWrapper: wrapperMock, peripheralProvider: peripheralProvider, connector: ConnectorMock())
+        let peripheral = _Peripheral(manager: centralManager, peripheral: peripheralMock, delegateWrapper: CBPeripheralDelegateWrapperMock())
+        peripheralProvider.provideReturn = peripheral
         let observable: ScheduledObservable<_Peripheral> = testScheduler.scheduleObservable {
             self.connector.establishConnection(with: peripheral, options: options)
         }

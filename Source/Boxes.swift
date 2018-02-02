@@ -62,7 +62,7 @@ class ThreadSafeBox<T>: CustomDebugStringConvertible {
         }
     }
 
-    func compareAndSet(compare: (T) -> Bool, set: @escaping (inout T) -> Void) -> Bool {
+    @discardableResult func compareAndSet(compare: (T) -> Bool, set: @escaping (inout T) -> Void) -> Bool {
         var result: Bool = false
         queue.sync {
             result = compare(value)

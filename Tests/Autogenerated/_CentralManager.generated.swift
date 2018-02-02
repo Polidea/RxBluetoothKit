@@ -49,7 +49,7 @@ class _CentralManager {
     /// Implementation of CBCentralManagerMock
     let centralManager: CBCentralManagerMock
 
-    let peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock
+    let peripheralProvider: PeripheralProviderMock
 
     let delegateWrapper: CBCentralManagerDelegateWrapperMock
 
@@ -72,12 +72,12 @@ class _CentralManager {
     init(
         centralManager: CBCentralManagerMock,
         delegateWrapper: CBCentralManagerDelegateWrapperMock,
-        peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock,
+        peripheralProvider: PeripheralProviderMock,
         connector: ConnectorMock
     ) {
         self.centralManager = centralManager
         self.delegateWrapper = delegateWrapper
-        self.peripheralDelegateProvider = peripheralDelegateProvider
+        self.peripheralProvider = peripheralProvider
         self.connector = connector
         centralManager.delegate = delegateWrapper
     }
@@ -95,7 +95,7 @@ class _CentralManager {
         self.init(
             centralManager: centralManager,
             delegateWrapper: delegateWrapper,
-            peripheralDelegateProvider: PeripheralDelegateWrapperProviderMock(),
+            peripheralProvider: PeripheralProviderMock(),
             connector: ConnectorMock(centralManager: centralManager, delegateWrapper: delegateWrapper)
         )
     }
@@ -167,7 +167,7 @@ class _CentralManager {
                             guard let strongSelf = self else {
                                 throw _BluetoothError.destroyed
                             }
-                            let peripheral = _Peripheral(manager: strongSelf, peripheral: cbPeripheral)
+                            let peripheral = strongSelf.retrievePeripheral(for: cbPeripheral)
                             let advertismentData = AdvertisementData(advertisementData: advertisment)
                             return .just(_ScannedPeripheral(peripheral: peripheral,
                                     advertisementData: advertismentData, rssi: rssi))
@@ -218,7 +218,7 @@ class _CentralManager {
     /// `_Service`s with UUIDs specified in the `serviceUUIDs` parameter.
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [_Peripheral] {
         return centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
-            .map { _Peripheral(manager: self, peripheral: $0) }
+            .map { self.retrievePeripheral(for: $0) }
     }
 
     /// Returns list of `_Peripheral`s by their identifiers which are known to `_CentralManager`.
@@ -227,7 +227,7 @@ class _CentralManager {
     /// - returns: Retrieved `_Peripheral`s.
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> [_Peripheral] {
         return centralManager.retrievePeripherals(withIdentifiers: identifiers)
-            .map { _Peripheral(manager: self, peripheral: $0) }
+            .map { self.retrievePeripheral(for: $0) }
     }
 
     // MARK: Connection and disconnection observing
@@ -241,7 +241,7 @@ class _CentralManager {
             .filter { peripheral != nil ? ($0 == peripheral!.peripheral) : true }
             .map { [weak self] (cbPeripheral: CBPeripheralMock) -> _Peripheral in
                 guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                return peripheral ?? _Peripheral(manager: strongSelf, peripheral: cbPeripheral)
+                return peripheral ?? strongSelf.retrievePeripheral(for: cbPeripheral)
             }
       return ensure(.poweredOn, observable: observable)
     }
@@ -257,7 +257,7 @@ class _CentralManager {
             .filter { peripheral != nil ? ($0.0 == peripheral!.peripheral) : true }
             .map { [weak self] (cbPeripheral, error) -> (_Peripheral, DisconnectionReason?) in
                 guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                let peripheral = peripheral ?? _Peripheral(manager: strongSelf, peripheral: cbPeripheral)
+                let peripheral = peripheral ?? strongSelf.retrievePeripheral(for: cbPeripheral)
                 return (peripheral, error)
             }
         return ensure(.poweredOn, observable: observable)
@@ -302,5 +302,9 @@ class _CentralManager {
                     throw _BluetoothError.peripheralDisconnected(peripheral, error)
             }
         }
+    }
+
+    func retrievePeripheral(for cbPeripheral: CBPeripheralMock) -> _Peripheral {
+        return peripheralProvider.provide(for: cbPeripheral, centralManager: self)
     }
 }
