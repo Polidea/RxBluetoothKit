@@ -36,16 +36,30 @@ class _Peripheral {
     /// Implementation of peripheral
     let peripheral: CBPeripheralMock
 
+    private let notificationManager: CharacteristicNotificationManagerMock
+
     let delegateWrapper: CBPeripheralDelegateWrapperMock
 
     /// Creates new `_Peripheral`
     /// - parameter manager: Central instance which is used to perform all of the necessary operations.
     /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
-    init(manager: _CentralManager, peripheral: CBPeripheralMock) {
-      self.manager = manager
-      self.peripheral = peripheral
-      self.delegateWrapper = manager.peripheralDelegateProvider.provide(for: peripheral)
-      peripheral.delegate = self.delegateWrapper
+    /// - parameter delegateWrapper: Rx wrapper for `CBPeripheralDelegate`.
+    init(
+        manager: _CentralManager,
+        peripheral: CBPeripheralMock,
+        delegateWrapper: CBPeripheralDelegateWrapperMock,
+        notificationManager: CharacteristicNotificationManagerMock
+    ) {
+        self.manager = manager
+        self.peripheral = peripheral
+        self.delegateWrapper = delegateWrapper
+        self.notificationManager = notificationManager
+        peripheral.delegate = self.delegateWrapper
+    }
+
+    convenience init(manager: _CentralManager, peripheral: CBPeripheralMock, delegateWrapper: CBPeripheralDelegateWrapperMock) {
+        let notificationManager = CharacteristicNotificationManagerMock(peripheral: peripheral, delegateWrapper: delegateWrapper)
+        self.init(manager: manager, peripheral: peripheral, delegateWrapper: delegateWrapper, notificationManager: notificationManager)
     }
 
     /// Attaches RxBluetoothKit delegate to CBPeripheralMock.
@@ -331,51 +345,21 @@ class _Peripheral {
         ).asSingle()
     }
 
-    /// Function that triggers set of notification state of the `_Characteristic`.
-    /// This change is called after subscribtion to `Observable` is made.
-    /// - warning: This method is not responsible for emitting values every time that `_Characteristic` value is changed.
-    /// For this, refer to other method: `observeValueUpdateForCharacteristic(_)`. These two are often called together.
-    /// - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
-    /// - parameter forCharacteristic: Characterististic of which notification state needs to be changed
-    /// - returns: `Single` which emits `Next` with _Characteristic that state was changed.
-    func setNotifyValue(_ enabled: Bool,
-                               for characteristic: _Characteristic) -> Single<_Characteristic> {
-        let observable = delegateWrapper
-            .peripheralDidUpdateNotificationStateForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
-            .take(1)
-            .map { (_, error) -> _Characteristic in
-                if let error = error {
-                    throw _BluetoothError.characteristicNotifyChangeFailed(characteristic, error)
-                }
-                return characteristic
-            }
-        return ensureValidPeripheralStateAndCallIfSucceeded(
-            for: observable,
-            postSubscriptionCall: { [weak self] in
-                self?.peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
-            }
-        ).asSingle()
-    }
-
-    /// Function that triggers set of notification state of the `_Characteristic`, and observe for any incoming updates.
-    /// Notification is set after subscribtion to `Observable` is made.
-    /// - parameter characteristic: Characterististic on which notification should be made.
-    /// - returns: `Observable` which emits `Next`, when characteristic value is updated.
-    /// This is **infinite** stream of values.
-    func observeValueUpdateAndSetNotification(for characteristic: _Characteristic)
-        -> Observable<_Characteristic> {
-        return Observable
-            .of(
-                observeValueUpdate(for: characteristic),
-                setNotifyValue(true, for: characteristic)
-                    .asObservable()
-                    .ignoreElements()
-                    .asObservable()
-                    .map { _ in characteristic }
-                    .subscribeOn(CurrentThreadScheduler.instance)
-            )
-            .merge()
+    /**
+     Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
+     Returned observable will emit `_Characteristic` on every notification change.
+     It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.
+     
+     Notification is automaticaly unregistered once this observable is unsubscribed
+     
+     - parameter characteristic: `_Characteristic` for notification setup.
+     - returns: `Observable` emitting `_Peripheral` when the notification setup is complete.
+     
+     This is **infinite** stream of values.
+     */
+    func observeValueUpdateAndSetNotification(for characteristic: _Characteristic) -> Observable<_Characteristic> {
+        let observable = notificationManager.observeValueUpdateAndSetNotification(for: characteristic)
+        return ensureValidPeripheralState(for: observable)
     }
 
     // MARK: Descriptors

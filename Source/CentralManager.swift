@@ -48,7 +48,7 @@ public class CentralManager {
     /// Implementation of CBCentralManager
     public let centralManager: CBCentralManager
 
-    let peripheralDelegateProvider: PeripheralDelegateWrapperProvider
+    let peripheralProvider: PeripheralProvider
 
     let delegateWrapper: CBCentralManagerDelegateWrapper
 
@@ -71,12 +71,12 @@ public class CentralManager {
     init(
         centralManager: CBCentralManager,
         delegateWrapper: CBCentralManagerDelegateWrapper,
-        peripheralDelegateProvider: PeripheralDelegateWrapperProvider,
+        peripheralProvider: PeripheralProvider,
         connector: Connector
     ) {
         self.centralManager = centralManager
         self.delegateWrapper = delegateWrapper
-        self.peripheralDelegateProvider = peripheralDelegateProvider
+        self.peripheralProvider = peripheralProvider
         self.connector = connector
         centralManager.delegate = delegateWrapper
     }
@@ -94,7 +94,7 @@ public class CentralManager {
         self.init(
             centralManager: centralManager,
             delegateWrapper: delegateWrapper,
-            peripheralDelegateProvider: PeripheralDelegateWrapperProvider(),
+            peripheralProvider: PeripheralProvider(),
             connector: Connector(centralManager: centralManager, delegateWrapper: delegateWrapper)
         )
     }
@@ -166,7 +166,7 @@ public class CentralManager {
                             guard let strongSelf = self else {
                                 throw BluetoothError.destroyed
                             }
-                            let peripheral = Peripheral(manager: strongSelf, peripheral: cbPeripheral)
+                            let peripheral = strongSelf.retrievePeripheral(for: cbPeripheral)
                             let advertismentData = AdvertisementData(advertisementData: advertisment)
                             return .just(ScannedPeripheral(peripheral: peripheral,
                                     advertisementData: advertismentData, rssi: rssi))
@@ -217,7 +217,7 @@ public class CentralManager {
     /// `Service`s with UUIDs specified in the `serviceUUIDs` parameter.
     public func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [Peripheral] {
         return centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
-            .map { Peripheral(manager: self, peripheral: $0) }
+            .map { self.retrievePeripheral(for: $0) }
     }
 
     /// Returns list of `Peripheral`s by their identifiers which are known to `CentralManager`.
@@ -226,7 +226,7 @@ public class CentralManager {
     /// - returns: Retrieved `Peripheral`s.
     public func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> [Peripheral] {
         return centralManager.retrievePeripherals(withIdentifiers: identifiers)
-            .map { Peripheral(manager: self, peripheral: $0) }
+            .map { self.retrievePeripheral(for: $0) }
     }
 
     // MARK: Connection and disconnection observing
@@ -240,7 +240,7 @@ public class CentralManager {
             .filter { peripheral != nil ? ($0 == peripheral!.peripheral) : true }
             .map { [weak self] (cbPeripheral: CBPeripheral) -> Peripheral in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                return peripheral ?? Peripheral(manager: strongSelf, peripheral: cbPeripheral)
+                return peripheral ?? strongSelf.retrievePeripheral(for: cbPeripheral)
             }
       return ensure(.poweredOn, observable: observable)
     }
@@ -256,7 +256,7 @@ public class CentralManager {
             .filter { peripheral != nil ? ($0.0 == peripheral!.peripheral) : true }
             .map { [weak self] (cbPeripheral, error) -> (Peripheral, DisconnectionReason?) in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                let peripheral = peripheral ?? Peripheral(manager: strongSelf, peripheral: cbPeripheral)
+                let peripheral = peripheral ?? strongSelf.retrievePeripheral(for: cbPeripheral)
                 return (peripheral, error)
             }
         return ensure(.poweredOn, observable: observable)
@@ -301,5 +301,9 @@ public class CentralManager {
                     throw BluetoothError.peripheralDisconnected(peripheral, error)
             }
         }
+    }
+
+    func retrievePeripheral(for cbPeripheral: CBPeripheral) -> Peripheral {
+        return peripheralProvider.provide(for: cbPeripheral, centralManager: self)
     }
 }

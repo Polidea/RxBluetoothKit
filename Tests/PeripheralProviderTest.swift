@@ -22,23 +22,25 @@
 
 import XCTest
 
-class PeripheralDelegateWrapperProviderTest: XCTestCase {
+class PeripheralProviderTest: XCTestCase {
     
-    var provider: _PeripheralDelegateWrapperProvider!
+    var provider: _PeripheralProvider!
+    var centralManager: _CentralManager!
     
     override func setUp() {
         super.setUp()
-        provider = _PeripheralDelegateWrapperProvider()
+        provider = _PeripheralProvider()
+        centralManager = _CentralManager()
     }
     
     func testDelegateWrapperReuse() {
         let arg = CBPeripheralMock()
-        arg.uuidIdentifier = UUID()
+        arg.identifier = UUID()
         
-        let result = provider.provide(for: arg)
-        let nextResult = provider.provide(for: arg)
+        let result = provider.provide(for: arg, centralManager: centralManager)
+        let nextResult = provider.provide(for: arg, centralManager: centralManager)
         
-        XCTAssertTrue(result === nextResult, "should reuse previously created delegate wrapper")
+        XCTAssertTrue(result === nextResult, "should reuse previously created Peripheral")
     }
     
     func testDelegateWrapperCreation() {
@@ -46,12 +48,12 @@ class PeripheralDelegateWrapperProviderTest: XCTestCase {
             firstPeripheral: CBPeripheralMock(),
             secondPeripheral: CBPeripheralMock()
         )
-        args.firstPeripheral.uuidIdentifier = UUID()
-        args.secondPeripheral.uuidIdentifier = UUID()
+        args.firstPeripheral.identifier = UUID()
+        args.secondPeripheral.identifier = UUID()
         
-        let result = provider.provide(for: args.firstPeripheral)
-        let nextResult = provider.provide(for: args.secondPeripheral)
+        let result = provider.provide(for: args.firstPeripheral, centralManager: centralManager)
+        let nextResult = provider.provide(for: args.secondPeripheral, centralManager: centralManager)
         
-        XCTAssertTrue(result !== nextResult, "should create different delegate wrapper for each peripheral")
+        XCTAssertTrue(result !== nextResult, "should create different Peripheral for each peripheral")
     }
 }

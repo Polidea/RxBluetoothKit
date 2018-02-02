@@ -90,6 +90,10 @@ class CentralManagerTest_ScanForPeripherals: BaseCentralManagerTest {
         let observer = setUpScanForPeripherals(withServices: nil, options: nil)
         centralManagerMock.state = .poweredOn
         let peripheralMocks = [CBPeripheralMock(), CBPeripheralMock(), CBPeripheralMock()]
+        providerMock.provideReturns = [
+            _Peripheral(manager: manager, peripheral: peripheralMocks[1], delegateWrapper: CBPeripheralDelegateWrapperMock()),
+            _Peripheral(manager: manager, peripheral: peripheralMocks[2], delegateWrapper: CBPeripheralDelegateWrapperMock())
+        ]
         let events: [Recorded<Event<DiscoverResult>>] = [
             next(subscribeTime - 100, (peripheralMocks[0], [:], 10)),
             next(subscribeTime + 100, (peripheralMocks[1], [CBAdvertisementDataLocalNameKey: "value1"], 20)),
@@ -119,7 +123,7 @@ class CentralManagerTest_ScanForPeripherals: BaseCentralManagerTest {
     
     private func createScannedPeripheral(_ peripheral: CBPeripheralMock, _ advertisementData: [String: Any], _ rssi: NSNumber) -> _ScannedPeripheral {
         return _ScannedPeripheral(
-            peripheral: _Peripheral(manager: manager, peripheral: peripheral),
+            peripheral: _Peripheral(manager: manager, peripheral: peripheral, delegateWrapper: CBPeripheralDelegateWrapperMock()),
             advertisementData: AdvertisementData(advertisementData: advertisementData),
             rssi: rssi
         )
@@ -128,7 +132,7 @@ class CentralManagerTest_ScanForPeripherals: BaseCentralManagerTest {
     private func setUpScanForPeripherals(withServices services: [CBUUID]?, options: [String: Any]?) -> ScheduledObservable<_ScannedPeripheral> {
         setUpProperties()
         
-        wrapperProviderMock.provideReturn = CBPeripheralDelegateWrapperMock()
+        providerMock.provideReturn = _Peripheral(manager: manager, peripheral: CBPeripheralMock(), delegateWrapper: CBPeripheralDelegateWrapperMock())
         let peripheralsObserver: ScheduledObservable<_ScannedPeripheral> = testScheduler.scheduleObservable {
             self.manager.scanForPeripherals(withServices: services, options: options).asObservable()
         }

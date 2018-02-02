@@ -96,8 +96,8 @@ class CentralManagerTest_ObserveDisconnect: BaseCentralManagerTest {
     }
     
     func testDeviceDisconnectedEventWithoutPeripheral() {
-        let obs = setUpObserveDisconnectWithoutPeripheral()
         let peripheralMocks = [CBPeripheralMock(), CBPeripheralMock()]
+        let obs = setUpObserveDisconnectWithoutPeripheral(peripheralMocks: peripheralMocks)
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
             next(subscribeTime - 100, (CBPeripheralMock(), nil)),
             next(subscribeTime + 100, (peripheralMocks[0], nil)),
@@ -141,8 +141,8 @@ class CentralManagerTest_ObserveDisconnect: BaseCentralManagerTest {
     }
     
     func testErrorAfterDeviceDisconnectedEventWithoutPeripheral() {
-        let obs = setUpObserveDisconnectWithoutPeripheral()
         let peripheralMock = CBPeripheralMock()
+        let obs = setUpObserveDisconnectWithoutPeripheral(peripheralMocks: [peripheralMock])
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
             next(subscribeTime + 100, (peripheralMock, nil)),
             ]
@@ -192,18 +192,19 @@ class CentralManagerTest_ObserveDisconnect: BaseCentralManagerTest {
     private func setUpObserveDisconnect() -> (_Peripheral, ScheduledObservable<(_Peripheral, DisconnectionReason?)>) {
         setUpProperties()
         
-        wrapperProviderMock.provideReturn = CBPeripheralDelegateWrapperMock()
-        let peripheral = _Peripheral(manager: manager, peripheral: CBPeripheralMock())
+        let peripheral = _Peripheral(manager: manager, peripheral: CBPeripheralMock(), delegateWrapper: CBPeripheralDelegateWrapperMock())
+        providerMock.provideReturn = peripheral
         let disconnectObserver: ScheduledObservable<(_Peripheral, DisconnectionReason?)> = testScheduler.scheduleObservable {
             self.manager.observeDisconnect(for: peripheral).asObservable()
         }
         return (peripheral, disconnectObserver)
     }
     
-    private func setUpObserveDisconnectWithoutPeripheral() -> ScheduledObservable<(_Peripheral, DisconnectionReason?)> {
+    private func setUpObserveDisconnectWithoutPeripheral(peripheralMocks: [CBPeripheralMock] = []) -> ScheduledObservable<(_Peripheral, DisconnectionReason?)> {
         setUpProperties()
         
-        wrapperProviderMock.provideReturn = CBPeripheralDelegateWrapperMock()
+        let peripherals = peripheralMocks.map { _Peripheral(manager: manager, peripheral: $0, delegateWrapper: CBPeripheralDelegateWrapperMock()) }
+        providerMock.provideReturns = peripherals
         let disconnectObserver: ScheduledObservable<(_Peripheral, DisconnectionReason?)> = testScheduler.scheduleObservable {
             self.manager.observeDisconnect().asObservable()
         }
