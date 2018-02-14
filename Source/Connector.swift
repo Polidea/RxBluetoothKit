@@ -30,8 +30,8 @@ import CoreBluetooth
 class Connector {
     let centralManager: CBCentralManager
     let delegateWrapper: CBCentralManagerDelegateWrapper
-    let connectingBox: ThreadSafeBox<[UUID]> = ThreadSafeBox(value: [])
-    let disconnectingBox: ThreadSafeBox<[UUID]> = ThreadSafeBox(value: [])
+    let connectingBox: ThreadSafeBox<Set<UUID>> = ThreadSafeBox(value: [])
+    let disconnectingBox: ThreadSafeBox<Set<UUID>> = ThreadSafeBox(value: [])
 
     init(
         centralManager: CBCentralManager,
@@ -59,7 +59,7 @@ class Connector {
                     .take(1)
                     .do(onNext: { [weak self] _ in
                         guard let strongSelf = self else { return }
-                        strongSelf.disconnectingBox.write { $0.remove(object: peripheral.identifier) }
+                        strongSelf.disconnectingBox.write { $0.remove(peripheral.identifier) }
                     })
                     .map { _ in peripheral }
                 let isDisconnectingObservable: Observable<Peripheral> = Observable.create { observer in
@@ -67,7 +67,7 @@ class Connector {
                     let isDisconnected = peripheral.state == .disconnected
                     // it means that peripheral is already disconnected, but we didn't update disconnecting box
                     if isDiconnecting && isDisconnected {
-                        strongSelf.disconnectingBox.write { $0.remove(object: peripheral.identifier) }
+                        strongSelf.disconnectingBox.write { $0.remove(peripheral.identifier) }
                         isDiconnecting = false
                     }
                     if !isDiconnecting {
@@ -90,17 +90,13 @@ class Connector {
                 return Disposables.create()
             }
 
-            guard !peripheral.isConnected else {
-                observer.onError(BluetoothError.peripheralAlreadyConnected(peripheral))
-                return Disposables.create()
-            }
-
-            let connectingStarted = strongSelf.connectingBox.compareAndSet(
-                compare: { !$0.contains(peripheral.identifier) },
-                set: { $0.append(peripheral.identifier) }
+            let connectionBlocked = strongSelf.connectingBox.compareAndSet(
+                compare: { !peripheral.isConnected && !$0.contains(peripheral.identifier) },
+                set: { $0.insert(peripheral.identifier) }
             )
-            guard connectingStarted else {
-                observer.onError(BluetoothError.peripheralIsConnecting(peripheral))
+            
+            guard connectionBlocked else {
+                observer.onError(BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral))
                 return Disposables.create()
             }
 
@@ -120,9 +116,9 @@ class Connector {
                 disposable.dispose()
                 let isConnecting = strongSelf.connectingBox.read { $0.contains(peripheral.identifier) }
                 if isConnecting || peripheral.isConnected {
-                    strongSelf.disconnectingBox.write { $0.append(peripheral.identifier) }
+                    strongSelf.disconnectingBox.write { $0.insert(peripheral.identifier) }
                     strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-                    strongSelf.connectingBox.write { $0.remove(object: peripheral.identifier) }
+                    strongSelf.connectingBox.write { $0.remove(peripheral.identifier) }
                 }
             }
         }
@@ -135,7 +131,7 @@ class Connector {
             .map { _ in peripheral }
             .do(onNext: { [weak self] _ in
                 guard let strongSelf = self else { return }
-                strongSelf.connectingBox.write { $0.remove(object: peripheral.identifier) }
+                strongSelf.connectingBox.write { $0.remove(peripheral.identifier) }
             })
     }
 
@@ -145,7 +141,7 @@ class Connector {
             .take(1)
             .do(onNext: { [weak self] _ in
                 guard let strongSelf = self else { return }
-                strongSelf.disconnectingBox.write { $0.remove(object: peripheral.identifier) }
+                strongSelf.disconnectingBox.write { $0.remove(peripheral.identifier) }
             })
             .map { (_, error) -> Peripheral in
                 throw BluetoothError.peripheralDisconnected(peripheral, error)
@@ -158,7 +154,7 @@ class Connector {
             .take(1)
             .do(onNext: { [weak self] _ in
                 guard let strongSelf = self else { return }
-                strongSelf.connectingBox.write { $0.remove(object: peripheral.identifier) }
+                strongSelf.connectingBox.write { $0.remove(peripheral.identifier) }
             })
             .map { (_, error) -> Peripheral in
                 throw BluetoothError.peripheralConnectionFailed(peripheral, error)
