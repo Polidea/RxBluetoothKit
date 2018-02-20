@@ -46,10 +46,10 @@ class ThreadSafeBoxTest: XCTestCase {
             
             resultQueue.sync {
                 currentIteration -= 1
-                
                 // Final loop
                 guard currentIteration <= 0 else { return }
                 let count = box.read { $0.count }
+                
                 XCTAssertEqual(count, expectedIterations, "should receive \(expectedIterations), instead received \(count)")
                 
                 expectation.fulfill()

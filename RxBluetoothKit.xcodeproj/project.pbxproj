@@ -463,7 +463,6 @@
 				26F3034A1CF0D49D00D74EBF /* RestoredState.swift */,
 				26EF38C81D86EE1F00F9F468 /* BluetoothState.swift */,
 				BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */,
-				37B640815FBEE0ED984973DF /* PeripheralProvider.swift */,
 			);
 			name = CentralManager;
 			sourceTree = "<group>";
@@ -509,6 +508,7 @@
 				26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */,
 				BB2FF3311F9EAD5300A12E10 /* CBPeripheralDelegateWrapper.swift */,
 				1DC4233E20078315009994B1 /* CBPeripheral+Uuid.swift */,
+				37B640815FBEE0ED984973DF /* PeripheralProvider.swift */,
 			);
 			name = Peripheral;
 			sourceTree = "<group>";

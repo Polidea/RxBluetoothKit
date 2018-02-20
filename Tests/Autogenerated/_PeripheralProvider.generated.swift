@@ -43,14 +43,14 @@ class _PeripheralProvider {
      - returns: Delegate wrapper for specified peripheral.
      */
     func provideDelegateWrapper(for peripheral: CBPeripheralMock) -> CBPeripheralDelegateWrapperMock {
-        if let delegateWrapper = delegateWrappersBox.read({ $0[peripheral.identifier] }) {
+        if let delegateWrapper = delegateWrappersBox.read({ $0[peripheral.uuidIdentifier] }) {
             return delegateWrapper
         } else {
             delegateWrappersBox.compareAndSet(
-                compare: { $0[peripheral.identifier] == nil },
-                set: { $0[peripheral.identifier] = CBPeripheralDelegateWrapperMock()}
+                compare: { $0[peripheral.uuidIdentifier] == nil },
+                set: { $0[peripheral.uuidIdentifier] = CBPeripheralDelegateWrapperMock()}
             )
-            return delegateWrappersBox.read({ $0[peripheral.identifier]! })
+            return delegateWrappersBox.read({ $0[peripheral.uuidIdentifier]! })
         }
     }
 

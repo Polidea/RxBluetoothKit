@@ -118,12 +118,11 @@ class _Characteristic {
      
      Notification is automaticaly unregistered once this observable is unsubscribed
      
-     - parameter characteristic: `_Characteristic` for notification setup.
-     - returns: `Observable` emitting `_Peripheral` when the notification setup is complete.
+     - returns: `Observable` emitting `Next` with `_Characteristic` when the notification setup is complete.
      
      This is **infinite** stream of values.
      */
-    func observeValueUpdateAndSetNotification(for characteristic: _Characteristic) -> Observable<_Characteristic> {
+    func observeValueUpdateAndSetNotification() -> Observable<_Characteristic> {
         return service.peripheral.observeValueUpdateAndSetNotification(for: self)
     }
 }
