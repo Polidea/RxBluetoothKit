@@ -77,4 +77,9 @@ class FakeCentralManager: RxCentralManagerType {
         retrievePeripheralsWithIdentifiersTO?.onNext(identifiers)
         return retrievePeripheralsWithIdentifiersResult
     }
+    
+    var retrievePeripheralsSyncWithIdentifiersResult: [RxPeripheralType]?
+    func retrievePeripheralsSync(withIdentifiers identifiers: [UUID]) -> [RxPeripheralType] {
+        return retrievePeripheralsSyncWithIdentifiersResult ?? []
+    }
 }

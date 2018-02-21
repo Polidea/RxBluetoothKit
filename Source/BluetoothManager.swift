@@ -308,6 +308,12 @@ public class BluetoothManager {
         return ensure(.poweredOn, observable: observable)
     }
 
+    public func retrievePeripheralsSync(withIdentifiers identifiers: [UUID]) -> [Peripheral] {
+        return centralManager.retrievePeripheralsSync(withIdentifiers: identifiers).map {
+            Peripheral(manager: self, peripheral: $0)
+        }
+    }
+
     // MARK: Internal functions
 
     /// Ensure that `state` is and will be the only state of `BluetoothManager` during subscription.

@@ -167,6 +167,14 @@ class RxCBCentralManager: RxCentralManagerType {
                             \(centralManager.logDescription) retrievePeripherals(
                             withIdentifiers: \(identifiers.logDescription))
                             """)
-        return .just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map(RxCBPeripheral.init))
+        return .just(retrievePeripheralsSync(withIdentifiers: identifiers))
+    }
+
+    func retrievePeripheralsSync(withIdentifiers identifiers: [UUID]) -> [RxPeripheralType] {
+        RxBluetoothKitLog.d("""
+                            \(centralManager.logDescription) retrievePeripheralsSync(
+                            withIdentifiers: \(identifiers.logDescription))
+                            """)
+        return centralManager.retrievePeripherals(withIdentifiers: identifiers).map(RxCBPeripheral.init)
     }
 }
