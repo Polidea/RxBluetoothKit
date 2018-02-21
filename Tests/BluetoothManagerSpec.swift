@@ -47,6 +47,26 @@ class BluetoothManagerSpec: QuickSpec {
             nextTime = 230
             errorTime = 240
         }
+        
+        describe("retrieving peripherals sync") {
+            context("via identifiers") {
+                it("should retrieve the correct peripherals") {
+                    let expected: [RxPeripheralType] = [fakePeripheral]
+                    fakeCentralManager.retrievePeripheralsSyncWithIdentifiersResult = expected
+                    let peripherals = manager.retrievePeripheralsSync(withIdentifiers: [UUID()])
+                    expect(peripherals.map { $0.identifier }).to(equal(expected.map { $0.identifier }))
+                }
+            }
+            
+            context("connected via services identifiers") {
+                it("should retrieve the connected peripherals") {
+                    let expected: [RxPeripheralType] = [fakePeripheral]
+                    fakeCentralManager.retrieveConnectedPeripheralsSyncWithServicesResult = expected
+                    let peripherals = manager.retrieveConnectedPeripheralsSync(withServices: [CBUUID()])
+                    expect(peripherals.map { $0.identifier }).to(equal(expected.map { $0.identifier }))
+                }
+            }
+        }
 
         describe("retrieving peripherals") {
 
@@ -57,8 +77,8 @@ class BluetoothManagerSpec: QuickSpec {
 
                 beforeEach {
                     uuids = [UUID(), UUID()]
-                    fakeCentralManager.retrievePeripheralsWithIdentifiersTO = testScheduler.createObserver([UUID].self)
-                    retrieveWithIdentifiersCallObserver = fakeCentralManager.retrievePeripheralsWithIdentifiersTO
+                    retrieveWithIdentifiersCallObserver = testScheduler.createObserver([UUID].self)
+                    fakeCentralManager.retrievePeripheralsWithIdentifiersTO = retrieveWithIdentifiersCallObserver
                     peripheralsObserver = testScheduler.scheduleObservable {
                         manager.retrievePeripherals(withIdentifiers: uuids)
                     }

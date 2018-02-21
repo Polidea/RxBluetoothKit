@@ -291,6 +291,16 @@ public class BluetoothManager {
         return ensure(.poweredOn, observable: observable)
     }
 
+    /// Returns the list of the `Peripheral`s which are currently connected to the `BluetoothManager` and contain all of the specified `Service`'s UUIDs.
+    /// - parameter serviceUUIDs: A list of `Service` UUIDs
+    /// - returns: The `Peripheral`s. They are in connected state and contain all of the
+    /// `Service`s with UUIDs specified in the `serviceUUIDs` parameter.
+    public func retrieveConnectedPeripheralsSync(withServices serviceUUIDs: [CBUUID]) -> [Peripheral] {
+        return centralManager.retrieveConnectedPeripheralsSync(withServices: serviceUUIDs).map {
+            Peripheral(manager: self, peripheral: $0)
+        }
+    }
+
     /// Returns observable list of `Peripheral`s by their identifiers which are known to `BluetoothManager`.
     /// - parameter identifiers: List of `Peripheral`'s identifiers which should be retrieved.
     /// - returns: Observable which emits next and complete events when list of `Peripheral`s are retrieved.
@@ -306,6 +316,15 @@ public class BluetoothManager {
                 }
         }
         return ensure(.poweredOn, observable: observable)
+    }
+
+    /// Returns the list of `Peripheral`s by their identifiers which are known to `BluetoothManager`.
+    /// - parameter identifiers: List of `Peripheral`'s identifiers which should be retrieved.
+    /// - returns: The list of known `Peripheral`s that match the given identifiers.
+    public func retrievePeripheralsSync(withIdentifiers identifiers: [UUID]) -> [Peripheral] {
+        return centralManager.retrievePeripheralsSync(withIdentifiers: identifiers).map {
+            Peripheral(manager: self, peripheral: $0)
+        }
     }
 
     // MARK: Internal functions

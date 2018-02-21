@@ -42,5 +42,7 @@ protocol RxCentralManagerType {
     func cancelPeripheralConnection(_ peripheral: RxPeripheralType)
     func stopScan()
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> Observable<[RxPeripheralType]>
+    func retrieveConnectedPeripheralsSync(withServices serviceUUIDs: [CBUUID]) -> [RxPeripheralType]
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]>
+    func retrievePeripheralsSync(withIdentifiers identifiers: [UUID]) -> [RxPeripheralType]
 }

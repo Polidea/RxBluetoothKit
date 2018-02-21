@@ -159,7 +159,15 @@ class RxCBCentralManager: RxCentralManagerType {
                             \(centralManager.logDescription) retrieveConnectedPeripherals(
                             withServices: \(serviceUUIDs.logDescription))
                             """)
-        return .just(centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map(RxCBPeripheral.init))
+        return .just(retrieveConnectedPeripheralsSync(withServices: serviceUUIDs))
+    }
+
+    func retrieveConnectedPeripheralsSync(withServices serviceUUIDs: [CBUUID]) -> [RxPeripheralType] {
+        RxBluetoothKitLog.d("""
+                            \(centralManager.logDescription) retrieveConnectedPeripheralsSync(
+                            withServices: \(serviceUUIDs.logDescription))
+                            """)
+        return centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).map(RxCBPeripheral.init)
     }
 
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
@@ -167,6 +175,14 @@ class RxCBCentralManager: RxCentralManagerType {
                             \(centralManager.logDescription) retrievePeripherals(
                             withIdentifiers: \(identifiers.logDescription))
                             """)
-        return .just(centralManager.retrievePeripherals(withIdentifiers: identifiers).map(RxCBPeripheral.init))
+        return .just(retrievePeripheralsSync(withIdentifiers: identifiers))
+    }
+
+    func retrievePeripheralsSync(withIdentifiers identifiers: [UUID]) -> [RxPeripheralType] {
+        RxBluetoothKitLog.d("""
+                            \(centralManager.logDescription) retrievePeripheralsSync(
+                            withIdentifiers: \(identifiers.logDescription))
+                            """)
+        return centralManager.retrievePeripherals(withIdentifiers: identifiers).map(RxCBPeripheral.init)
     }
 }
