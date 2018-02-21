@@ -57,6 +57,15 @@ class BluetoothManagerSpec: QuickSpec {
                     expect(peripherals.map { $0.identifier }).to(equal(expected.map { $0.identifier }))
                 }
             }
+            
+            context("connected via services identifiers") {
+                it("should retrieve the connected peripherals") {
+                    let expected: [RxPeripheralType] = [fakePeripheral]
+                    fakeCentralManager.retrieveConnectedPeripheralsSyncWithServicesResult = expected
+                    let peripherals = manager.retrieveConnectedPeripheralsSync(withServices: [CBUUID()])
+                    expect(peripherals.map { $0.identifier }).to(equal(expected.map { $0.identifier }))
+                }
+            }
         }
 
         describe("retrieving peripherals") {

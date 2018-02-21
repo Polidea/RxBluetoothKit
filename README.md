@@ -279,10 +279,12 @@ After that, it emits new element after state changes.
 Property `rx_isConnected` on `Peripheral` instance allows monitoring for changes in Peripheral connection state. Immediately after subscribtion `.next` with current state is emitted. After that, it emits new element after connection state changes.
 
 #### Retrieving Peripherals
-`BluetoothManager` also lets to retrieve peripherals in two ways:
-- via its identifier using array of `NSUUID` objects,
+`BluetoothManager` also lets to retrieve peripherals in two asynchronous ways:
+- via its identifier using array of `UUID` objects,
 - connected ones via services identifiers using array of `CBUUID` objects.
-In both cases, return type is `Observable<[Peripheral]>`, which emits .Next, and after that immediately .Complete is received.
+In both cases it returns an `Observable<[Peripheral]>` object, which emits `.next` then immediately `.complete`.
+
+You can also use the `Sync` variants to retrieve known peripherals using peripherals' identifiers (`[UUID]`) or connected ones using services' identifiers (`[CBUUID]`). Both methods returns an `[Peripheral]` object.
 
 #### Cancel connection
 Connection can be cancelled - just use `cancelConnection` method on `Peripheral`, or `BluetoothManager`.

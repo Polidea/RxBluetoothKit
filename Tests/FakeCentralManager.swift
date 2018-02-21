@@ -71,6 +71,11 @@ class FakeCentralManager: RxCentralManagerType {
         return retrieveConnectedPeripheralsWithServicesResult
     }
 
+    var retrieveConnectedPeripheralsSyncWithServicesResult: [RxPeripheralType]?
+    func retrieveConnectedPeripheralsSync(withServices serviceUUIDs: [CBUUID]) -> [RxPeripheralType] {
+        return retrieveConnectedPeripheralsSyncWithServicesResult ?? []
+    }
+
     var retrievePeripheralsWithIdentifiersTO: TestableObserver<[UUID]>?
     var retrievePeripheralsWithIdentifiersResult: Observable<[RxPeripheralType]> = .never()
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> Observable<[RxPeripheralType]> {
