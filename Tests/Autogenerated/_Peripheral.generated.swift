@@ -148,7 +148,7 @@ class _Peripheral {
                 if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
                     return .just(filteredServices)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 
@@ -187,7 +187,7 @@ class _Peripheral {
                 if let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices) {
                     return .just(filteredServices)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 
@@ -228,7 +228,7 @@ class _Peripheral {
                 if let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
                     return .just(filteredCharacteristics)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 

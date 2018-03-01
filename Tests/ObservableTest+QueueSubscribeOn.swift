@@ -36,14 +36,6 @@ class ObservableQueueSubscribeOnTest: XCTestCase {
     
     var testScheduler: TestScheduler!
     
-    private func createRecords<T>(records: (Int, Event<T>)...) -> [Recorded<Event<T>>] {
-        var array = [Recorded<Event<T>>]()
-        for (time, event) in records {
-            array.append(Recorded(time: time, value: event))
-        }
-        return array
-    }
-    
     override func setUp() {
         super.setUp()
         testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
@@ -52,12 +44,12 @@ class ObservableQueueSubscribeOnTest: XCTestCase {
     
     func testTwoUsersRegisteringColdSubscription() {
         let ob1 = testScheduler.createColdObservable(
-            self.createRecords(records: (000, .next(-1)),
+            createEventRecords(records: (000, .next(-1)),
                                (100, .next(0)),
                                (250, .next(2)),
                                (300, .completed)))
         let ob2 = testScheduler.createColdObservable(
-            self.createRecords(records: (000, .next(-1)),
+            createEventRecords(records: (000, .next(-1)),
                                (050, .next(1)),
                                (100, .completed)))
         let user1 = testScheduler.scheduleObservable {
@@ -85,12 +77,12 @@ class ObservableQueueSubscribeOnTest: XCTestCase {
     
     func testTwoUsersRegisteringHotSubscription() {
         let ob1 = testScheduler.createHotObservable(
-            self.createRecords(records: (000, .next(-1)),
+            createEventRecords(records: (000, .next(-1)),
                                (205, .next(0)),
                                (250, .next(2)),
                                (400, .completed)))
         let ob2 = testScheduler.createHotObservable(
-            self.createRecords(records: (000, .next(-1)),
+            createEventRecords(records: (000, .next(-1)),
                                (250, .next(1)),
                                (500, .next(2)),
                                (650, .next(3)),
@@ -124,28 +116,28 @@ class ObservableQueueSubscribeOnTest: XCTestCase {
     
     func testFourUsersWithQueuedSubscription() {
         var isUserSubscribed = [false, false, false, false]
-        let ob1 = testScheduler.createColdObservable(self.createRecords(records: (300, Event<Int>.completed)))
+        let ob1 = testScheduler.createColdObservable(createEventRecords(records: (300, Event<Int>.completed)))
         let user1 = testScheduler.scheduleObservable {
             Observable.deferred { () -> Observable<Int> in
                 isUserSubscribed[0] = true
                 return ob1.asObservable()
                 }.queueSubscribe(on: self.serializedQueue)
         }
-        let ob2 = testScheduler.createColdObservable(self.createRecords(records: (250, Event<Int>.error(SomeError.error))))
+        let ob2 = testScheduler.createColdObservable(createEventRecords(records: (250, Event<Int>.error(SomeError.error))))
         let user2 = testScheduler.scheduleObservable {
             Observable.deferred { () -> Observable<Int> in
                 isUserSubscribed[1] = true
                 return ob2.asObservable()
                 }.queueSubscribe(on: self.serializedQueue)
         }
-        let ob3 = testScheduler.createColdObservable(self.createRecords(records: (100, Event<Int>.completed)))
+        let ob3 = testScheduler.createColdObservable(createEventRecords(records: (100, Event<Int>.completed)))
         let user3 = testScheduler.scheduleObservable(time: ObservableScheduleTimes(createTime: 0, subscribeTime: 200, disposeTime: 500)) {
             Observable.deferred { () -> Observable<Int> in
                 isUserSubscribed[2] = true
                 return ob3.asObservable()
                 }.queueSubscribe(on: self.serializedQueue)
         }
-        let ob4 = testScheduler.createColdObservable(self.createRecords(records: (100, Event<Int>.completed)))
+        let ob4 = testScheduler.createColdObservable(createEventRecords(records: (100, Event<Int>.completed)))
         let user4 = testScheduler.scheduleObservable {
             Observable.deferred { () -> Observable<Int> in
                 isUserSubscribed[3] = true
