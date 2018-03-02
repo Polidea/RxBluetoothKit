@@ -1,0 +1,17 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+inhibit_all_warnings!
+
+target 'ExampleApp' do
+  pod 'RxBluetoothKit', :git => 'https://github.com/Polidea/RxBluetoothKit.git', :branch => 'feature/notification_observing'
+end
+
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+    # Configure Pod targets for Xcode 8 compatibility
+      config.build_settings['SWIFT_VERSION'] = '4.0'
+    end
+  end
+end
