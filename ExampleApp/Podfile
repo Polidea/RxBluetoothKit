@@ -1,9 +1,19 @@
 source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, ’11.0’
 use_frameworks!
-inhibit_all_warnings!
+
+def shared_pods
+  pod 'RxSwift', '~> 4.0’
+  pod 'RxCocoa', '~> 4.0’
+end
+
+def rx_bluetooth_kit
+  pod 'RxBluetoothKit', :git => 'https://github.com/Polidea/RxBluetoothKit.git', :branch => 'feature/notification_observing'
+end
 
 target 'ExampleApp' do
-  pod 'RxBluetoothKit', :git => 'https://github.com/Polidea/RxBluetoothKit.git', :branch => 'feature/notification_observing'
+  shared_pods
+  rx_bluetooth_kit
 end
 
 
