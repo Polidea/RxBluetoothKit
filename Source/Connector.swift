@@ -94,7 +94,7 @@ class Connector {
                 compare: { !peripheral.isConnected && !$0.contains(peripheral.identifier) },
                 set: { $0.insert(peripheral.identifier) }
             )
-            
+
             guard connectionBlocked else {
                 observer.onError(BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral))
                 return Disposables.create()

@@ -38,12 +38,13 @@ class ThreadSafeBoxTest: XCTestCase {
         var currentIteration = expectedIterations
         
         let expectation = XCTestExpectation(description: "Perform \(expectedIterations) iterations on concurrent threads")
+        let resultQueue = DispatchQueue(label: "com.polidea.RxBluetoothKit.ThreadSafeBoxTest")
         
         DispatchQueue.concurrentPerform(iterations: currentIteration) { index in
             let last = box.read { $0.last } ?? 0
             box.write { $0.append(last + 1) }
             
-            DispatchQueue.global().sync {
+            resultQueue.sync {
                 currentIteration -= 1
                 
                 // Final loop
