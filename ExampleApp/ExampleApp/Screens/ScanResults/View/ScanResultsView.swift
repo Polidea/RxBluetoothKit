@@ -2,7 +2,7 @@ import UIKit
 
 class ScanResultsView: UIView {
 
-    private let tableView: UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         return tableView
     }()
@@ -11,7 +11,7 @@ class ScanResultsView: UIView {
         super.init(frame: .zero)
         addSubviews()
         setupConstraints()
-        backgroundColor = .white
+        backgroundColor = .green
     }
 
     @available(*, unavailable)
@@ -22,6 +22,10 @@ class ScanResultsView: UIView {
     func setTableView(dataSource: UITableViewDataSource, delegate: UITableViewDelegate) {
         self.tableView.dataSource = dataSource
         self.tableView.delegate = delegate
+    }
+    
+    func refreshTableView() {
+        tableView.reloadData()
     }
 
     private func addSubviews() {

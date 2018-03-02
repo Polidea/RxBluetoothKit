@@ -1,4 +1,5 @@
 import RxBluetoothKit
+import RxCocoa
 import RxSwift
 import UIKit
 
@@ -6,14 +7,22 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     typealias ViewClass = ScanResultsView
 
+    typealias ScansResultDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
+
     let centralManager: CentralManager = CentralManager(queue: .main)
 
     private let disposeBag: DisposeBag = DisposeBag()
 
-    private let dataSource: TableViewDataSource
+    private let dataSource: TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
 
-    init(with dataSource: TableViewDataSource) {
+    private let scheduler: ConcurrentDispatchQueueScheduler
+
+    private var testDisposable: Disposable!
+
+    init(with dataSource: ScansResultDataSource) {
         self.dataSource = dataSource
+        let timerQueue = DispatchQueue(label: "com.polidea.rxbluetoothkit.timer")
+        scheduler = ConcurrentDispatchQueueScheduler(queue: timerQueue)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -25,34 +34,45 @@ class ScanResultsViewController: UIViewController, CustomView {
     override func loadView() {
         super.loadView()
         view = ViewClass()
-        testCentralManager()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         customView.setTableView(dataSource: dataSource, delegate: self)
+        setDataSourceRefreshBlock()
+        registerCells()
+        dataSource.bindNewItems()
+        testCentralManager()
+    }
+
+    private func setDataSourceRefreshBlock() {
+        self.dataSource.refreshDataBlock = { [weak self] in
+            self?.customView.refreshTableView()
+        }
+    }
+
+    private func registerCells() {
+        customView.tableView.register(ScanResultTableViewCell.self, forCellReuseIdentifier: String(describing: ScanResultTableViewCell.self))
     }
 
     private func testCentralManager() {
-        centralManager.observeState()
+        testDisposable = centralManager.observeState()
+                .timeout(4.0, scheduler: scheduler)
+                .take(1)
                 .flatMap { [weak self] _ -> Observable<ScannedPeripheral> in
                     guard let `self` = self else {
                         return Observable.empty()
                     }
                     return self.centralManager.scanForPeripherals(withServices: nil)
-                }
-                .subscribeOn(MainScheduler.instance)
-                .subscribe(onNext: { (peripheral) in
-                    print(peripheral.rssi, peripheral.advertisementData, peripheral.peripheral)
-                })
-                .disposed(by: disposeBag)
+            }.bind(to: dataSource.itemsObserver)
+
+        dataSource.bindNewItems()
     }
 }
-
 
 extension ScanResultsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55.0
+        return 120.0
     }
 }

@@ -9,12 +9,14 @@ protocol SectionModelItem {
     var rowData: [Any] { get }
 
     func cellClass() -> UIView.Type
+
+    func append(_ item: Any)
 }
 
 extension SectionModelItem {
 
     var itemsCount: Int {
-        return 1
+        return rowData.count
     }
 
     var rowData: [Any] {
