@@ -90,12 +90,12 @@ class Connector {
                 return Disposables.create()
             }
 
-            let connectionBlocked = strongSelf.connectingBox.compareAndSet(
+            let connectingStarted = strongSelf.connectingBox.compareAndSet(
                 compare: { !peripheral.isConnected && !$0.contains(peripheral.identifier) },
                 set: { $0.insert(peripheral.identifier) }
             )
 
-            guard connectionBlocked else {
+            guard connectingStarted else {
                 observer.onError(BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral))
                 return Disposables.create()
             }
