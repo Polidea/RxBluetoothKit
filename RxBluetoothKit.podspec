@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = "https://github.com/polidea/RxBluetoothKit"
-  s.license          = 'MIT'
+  s.license          = 'Apache Licence, Version 2.0'
   s.author           = { "Przemysław Lenart" => "przemek.lenart@polidea.com", "Kacper Harasim" => "kacper.harasim@polidea.com" }
   s.source           = { :git => "https://github.com/polidea/RxBluetoothKit.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/polidea'
