@@ -7,7 +7,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        let scanResultsViewController = ScanResultsViewController(with: TableViewDataSource(elements: []) { cell, item in
+        let scanResultsViewController = ScanResultsViewController(with: TableViewDataSource { cell, item in
             guard let cell = cell as? UpdatableCell else { return }
             cell.update(with: item)
         })
