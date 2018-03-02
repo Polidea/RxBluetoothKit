@@ -11,11 +11,17 @@ class ScanResultsView: UIView {
         super.init(frame: .zero)
         addSubviews()
         setupConstraints()
+        backgroundColor = .white
     }
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func setTableView(dataSource: UITableViewDataSource, delegate: UITableViewDelegate) {
+        self.tableView.dataSource = dataSource
+        self.tableView.delegate = delegate
     }
 
     private func addSubviews() {

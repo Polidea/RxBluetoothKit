@@ -7,7 +7,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = ScanResultsViewController()
+        let scanResultsViewController = ScanResultsViewController(with: TableViewDataSource(elements: []) { cell, item in
+            guard let cell = cell as? UpdatableCell else { return }
+            cell.update(with: item)
+        })
+        let navigationController = UINavigationController(rootViewController: scanResultsViewController)
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
     }
