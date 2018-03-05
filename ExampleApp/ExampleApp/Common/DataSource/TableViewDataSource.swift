@@ -47,9 +47,11 @@ class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSour
     }
 
     func bindNewItems() {
-        itemsObservable.subscribe(onNext: { [weak self] (item) in
+        itemsObservable.subscribe(onNext: { [weak self] item in
             self?.dataItem.append(item)
             self?.refreshData()
+        }, onError: { (error) in
+            print(error)
         }).disposed(by: disposeBag)
     }
 

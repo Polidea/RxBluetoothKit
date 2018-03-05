@@ -14,7 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             cell.update(with: item)
         }
         let scanResultsDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
-        let scanResultsViewController = ScanResultsViewController(with: scanResultsDataSource)
+        let viewModel = ScanResultsViewModel()
+        let scanResultsViewController = ScanResultsViewController(with: scanResultsDataSource, viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: scanResultsViewController)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

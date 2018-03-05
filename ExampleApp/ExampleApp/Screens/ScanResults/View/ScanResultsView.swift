@@ -11,7 +11,6 @@ class ScanResultsView: UIView {
         super.init(frame: .zero)
         addSubviews()
         setupConstraints()
-        backgroundColor = .green
     }
 
     @available(*, unavailable)

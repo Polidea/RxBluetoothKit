@@ -13,8 +13,10 @@
 		6119114447177453E2E7E03A /* CellUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191AB41147ACFEE6897528 /* CellUpdatable.swift */; };
 		611911BAA8754F6F2852C78C /* ScanResultViewModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191806818A2A7AC82C79AB /* ScanResultViewModelItem.swift */; };
 		61191AB9D54FCDF8D81C85DF /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119100FA1BB8087F8FAFB4B /* Presenter.swift */; };
+		61191B1F4B28D02AA43F6A2F /* ScansResultViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */; };
 		61191C1A5A84044C966C9E73 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191EED42E68E21BC27FEDB /* CustomView.swift */; };
 		61191D0DA56A9EE0EBD0EA4C /* ScanResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191A28890003C8AFD57BD4 /* ScanResultsView.swift */; };
+		61191EABF2EC918A25A24576 /* ScanResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611918437D48292364D66A5A /* ScanResultsViewModel.swift */; };
 		61191EE11E7D495938F3D1F4 /* ScanResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611914BBF00CBE3A651CBE53 /* ScanResultsTableViewCell.swift */; };
 		61191F12AE02144E44ACE12F /* ScanResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611919D2DCAAA7EDBACC63A2 /* ScanResultsViewController.swift */; };
 		61191F5602E3C4080D499A9B /* SectionModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191011BF6F6D193B491BA0 /* SectionModelItem.swift */; };
@@ -26,9 +28,11 @@
 		03B064BD740820BFD0F0133F /* Pods-ExampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6119100FA1BB8087F8FAFB4B /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		61191011BF6F6D193B491BA0 /* SectionModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionModelItem.swift; sourceTree = "<group>"; };
+		6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScansResultViewModelType.swift; sourceTree = "<group>"; };
 		611914BBF00CBE3A651CBE53 /* ScanResultsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsTableViewCell.swift; sourceTree = "<group>"; };
 		611917947AC817CA291EC9D2 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		61191806818A2A7AC82C79AB /* ScanResultViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultViewModelItem.swift; sourceTree = "<group>"; };
+		611918437D48292364D66A5A /* ScanResultsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsViewModel.swift; sourceTree = "<group>"; };
 		611919D2DCAAA7EDBACC63A2 /* ScanResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsViewController.swift; sourceTree = "<group>"; };
 		61191A28890003C8AFD57BD4 /* ScanResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsView.swift; sourceTree = "<group>"; };
 		61191AB41147ACFEE6897528 /* CellUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellUpdatable.swift; sourceTree = "<group>"; };
@@ -98,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				611911C903C8673955E80248 /* CellViewModelItem */,
+				6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */,
+				611918437D48292364D66A5A /* ScanResultsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -363,6 +369,8 @@
 				61191F5602E3C4080D499A9B /* SectionModelItem.swift in Sources */,
 				611911BAA8754F6F2852C78C /* ScanResultViewModelItem.swift in Sources */,
 				61191EE11E7D495938F3D1F4 /* ScanResultsTableViewCell.swift in Sources */,
+				61191B1F4B28D02AA43F6A2F /* ScansResultViewModelType.swift in Sources */,
+				61191EABF2EC918A25A24576 /* ScanResultsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,10 +501,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2TZ4M3EY3H;
+				DEVELOPMENT_TEAM = L7NK3GN27V;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				INFOPLIST_FILE = ExampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Polidea.RxBluetoothKit.ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = Polidea.RxBluetoothKit.ExampleApp.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -509,10 +518,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2TZ4M3EY3H;
+				DEVELOPMENT_TEAM = L7NK3GN27V;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				INFOPLIST_FILE = ExampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Polidea.RxBluetoothKit.ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = Polidea.RxBluetoothKit.ExampleApp.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

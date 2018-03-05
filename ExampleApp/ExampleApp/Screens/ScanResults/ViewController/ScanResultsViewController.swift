@@ -9,20 +9,15 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     typealias ScansResultDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
 
-    let centralManager: CentralManager = CentralManager(queue: .main)
+    private let dataSource: TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
+
+    private let viewModel: ScanResultsViewModelType
 
     private let disposeBag: DisposeBag = DisposeBag()
 
-    private let dataSource: TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
-
-    private let scheduler: ConcurrentDispatchQueueScheduler
-
-    private var testDisposable: Disposable!
-
-    init(with dataSource: ScansResultDataSource) {
+    init(with dataSource: ScansResultDataSource, viewModel: ScanResultsViewModelType) {
         self.dataSource = dataSource
-        let timerQueue = DispatchQueue(label: "com.polidea.rxbluetoothkit.timer")
-        scheduler = ConcurrentDispatchQueueScheduler(queue: timerQueue)
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,8 +36,33 @@ class ScanResultsViewController: UIViewController, CustomView {
         customView.setTableView(dataSource: dataSource, delegate: self)
         setDataSourceRefreshBlock()
         registerCells()
+        setNavigationBar()
         dataSource.bindNewItems()
-        testCentralManager()
+        bindRx()
+    }
+
+    private func bindRx() {
+        viewModel.scanningOutput.bind(to: dataSource.itemsObserver).disposed(by: disposeBag)
+    }
+
+    private func setNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start scanning",
+                style: .plain,
+                target: self,
+                action: #selector(scanningAction))
+    }
+
+    @objc private func scanningAction() {
+        viewModel.scanAction()
+        adjustTitle()
+        if viewModel.isScanning {
+            dataSource.bindNewItems()
+        }
+    }
+
+    private func adjustTitle() {
+        navigationItem.rightBarButtonItem?.title = viewModel.isScanning ? "Stop scan" : "Start scan"
+        title = viewModel.isScanning ? "Scanning" : nil
     }
 
     private func setDataSourceRefreshBlock() {
@@ -52,21 +72,8 @@ class ScanResultsViewController: UIViewController, CustomView {
     }
 
     private func registerCells() {
-        customView.tableView.register(ScanResultTableViewCell.self, forCellReuseIdentifier: String(describing: ScanResultTableViewCell.self))
-    }
-
-    private func testCentralManager() {
-        testDisposable = centralManager.observeState()
-                .timeout(4.0, scheduler: scheduler)
-                .take(1)
-                .flatMap { [weak self] _ -> Observable<ScannedPeripheral> in
-                    guard let `self` = self else {
-                        return Observable.empty()
-                    }
-                    return self.centralManager.scanForPeripherals(withServices: nil)
-            }.bind(to: dataSource.itemsObserver)
-
-        dataSource.bindNewItems()
+        customView.tableView.register(ScanResultTableViewCell.self,
+                forCellReuseIdentifier: String(describing: ScanResultTableViewCell.self))
     }
 }
 
