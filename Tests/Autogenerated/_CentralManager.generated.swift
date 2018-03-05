@@ -198,7 +198,7 @@ class _CentralManager {
     /// The connection is automatically disconnected when resulting Observable is unsubscribed.
     /// On the other hand when the connection is interrupted or failed by the device or the system, the Observable will be unsubscribed as well
     /// following `_BluetoothError.peripheralConnectionFailed` or `_BluetoothError.peripheralDisconnected` emission.
-    /// Additionally you can p ass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
+    /// Additionally you can pass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
     /// to customise the behaviour of connection.
     /// - parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to establish connection.
     /// - parameter options: Dictionary to customise the behaviour of connection.
