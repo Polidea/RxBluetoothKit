@@ -7,7 +7,7 @@ class PeripheralServicesViewController: UIViewController, CustomView {
 
     typealias ViewClass = PeripheralServicesView
 
-    typealias PeripheralServicesDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
+    typealias PeripheralServicesDataSource = TableViewDataSource<Service, PeripheralServicesViewModelItem>
 
     private let viewModel: PeripheralServicesViewModelType
 
@@ -23,13 +23,30 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         view.backgroundColor = .white
     }
 
+    override func loadView() {
+        view = ViewClass()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.viewController = self
+        customView.setTableView(dataSource: dataSource, delegate: self)
+        registerCells()
+    }
+
+    private func registerCells() {
+        customView.tableView.register(PeripheralServiceCell.self,
+                forCellReuseIdentifier: String(describing: PeripheralServiceCell.self))
     }
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension PeripheralServicesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120.0
     }
 }

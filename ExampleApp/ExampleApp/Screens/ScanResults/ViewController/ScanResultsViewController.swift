@@ -30,7 +30,6 @@ class ScanResultsViewController: UIViewController, CustomView {
     }
 
     override func loadView() {
-        super.loadView()
         view = ViewClass()
     }
 
@@ -88,8 +87,22 @@ extension ScanResultsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let item = dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else { return }
-        //let viewController = PeripheralServicesViewController()
-        //presenter.push(viewController: viewController)
+        guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else { return }
+
+        let viewModel = PeripheralServicesViewModel()
+
+        let dataItem = PeripheralServicesViewModelItem("Services", peripheralRowItems: item.peripheral.services)
+
+        let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
+            guard let cell = cell as? UpdatableCell else {
+                return
+            }
+            cell.update(with: item)
+        }
+
+        let dataSource = TableViewDataSource<Service, PeripheralServicesViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
+
+        let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)
+        presenter.push(viewController: viewController)
     }
 }

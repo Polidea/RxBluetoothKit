@@ -13,10 +13,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let cell = cell as? UpdatableCell else { return }
             cell.update(with: item)
         }
+
         let scanResultsDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
         let viewModel = ScanResultsViewModel()
         let scanResultsViewController = ScanResultsViewController(with: scanResultsDataSource, viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: scanResultsViewController)
+
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
