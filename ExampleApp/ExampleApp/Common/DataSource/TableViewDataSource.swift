@@ -55,6 +55,10 @@ class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSour
         }).disposed(by: disposeBag)
     }
 
+    func takeItemAt(index: Int) -> Any {
+        return dataItem.rowData[index]
+    }
+
     private func refreshData() {
         guard let refreshDataBlock = refreshDataBlock else {
             return

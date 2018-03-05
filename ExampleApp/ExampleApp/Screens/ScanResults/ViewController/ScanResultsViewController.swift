@@ -82,4 +82,8 @@ extension ScanResultsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120.0
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let item = dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else { return }
+    }
 }
