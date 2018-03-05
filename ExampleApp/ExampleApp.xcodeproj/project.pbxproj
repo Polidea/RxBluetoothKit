@@ -9,17 +9,21 @@
 /* Begin PBXBuildFile section */
 		288D3489B09EA676CF5A6D39 /* Pods_ExampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A380B061A30914A560F6D365 /* Pods_ExampleApp.framework */; };
 		61191017D3956639C173176D /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611917947AC817CA291EC9D2 /* TableViewDataSource.swift */; };
+		611910828270527CAC253917 /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191455DE5E56C70DBE425D /* PeripheralServicesViewModel.swift */; };
 		6119113248BA835F48CF4DE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191C8E8C5BAB54FB030FFF /* AppDelegate.swift */; };
 		6119114447177453E2E7E03A /* CellUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191AB41147ACFEE6897528 /* CellUpdatable.swift */; };
 		611911BAA8754F6F2852C78C /* ScanResultViewModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191806818A2A7AC82C79AB /* ScanResultViewModelItem.swift */; };
+		6119158EB80727651F00593D /* PeripheralServicesViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191F65FD2DEF88F0297051 /* PeripheralServicesViewModelType.swift */; };
 		61191AB9D54FCDF8D81C85DF /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119100FA1BB8087F8FAFB4B /* Presenter.swift */; };
 		61191B1F4B28D02AA43F6A2F /* ScansResultViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */; };
+		61191BD7324ED15CD5D56D2D /* PeripheralServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611919473CA70733A41CF619 /* PeripheralServicesViewController.swift */; };
 		61191C1A5A84044C966C9E73 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191EED42E68E21BC27FEDB /* CustomView.swift */; };
 		61191D0DA56A9EE0EBD0EA4C /* ScanResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191A28890003C8AFD57BD4 /* ScanResultsView.swift */; };
 		61191EABF2EC918A25A24576 /* ScanResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611918437D48292364D66A5A /* ScanResultsViewModel.swift */; };
 		61191EE11E7D495938F3D1F4 /* ScanResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611914BBF00CBE3A651CBE53 /* ScanResultsTableViewCell.swift */; };
 		61191F12AE02144E44ACE12F /* ScanResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611919D2DCAAA7EDBACC63A2 /* ScanResultsViewController.swift */; };
 		61191F5602E3C4080D499A9B /* SectionModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191011BF6F6D193B491BA0 /* SectionModelItem.swift */; };
+		61191F82B4C5E7CF726A9522 /* PeripheralServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */; };
 		8EA4B7E6204857D100154115 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E5204857D100154115 /* Assets.xcassets */; };
 		8EA4B7E9204857D100154115 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E7204857D100154115 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -29,15 +33,19 @@
 		6119100FA1BB8087F8FAFB4B /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		61191011BF6F6D193B491BA0 /* SectionModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionModelItem.swift; sourceTree = "<group>"; };
 		6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScansResultViewModelType.swift; sourceTree = "<group>"; };
+		6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesView.swift; sourceTree = "<group>"; };
+		61191455DE5E56C70DBE425D /* PeripheralServicesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewModel.swift; sourceTree = "<group>"; };
 		611914BBF00CBE3A651CBE53 /* ScanResultsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsTableViewCell.swift; sourceTree = "<group>"; };
 		611917947AC817CA291EC9D2 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		61191806818A2A7AC82C79AB /* ScanResultViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultViewModelItem.swift; sourceTree = "<group>"; };
 		611918437D48292364D66A5A /* ScanResultsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsViewModel.swift; sourceTree = "<group>"; };
+		611919473CA70733A41CF619 /* PeripheralServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewController.swift; sourceTree = "<group>"; };
 		611919D2DCAAA7EDBACC63A2 /* ScanResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsViewController.swift; sourceTree = "<group>"; };
 		61191A28890003C8AFD57BD4 /* ScanResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsView.swift; sourceTree = "<group>"; };
 		61191AB41147ACFEE6897528 /* CellUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellUpdatable.swift; sourceTree = "<group>"; };
 		61191C8E8C5BAB54FB030FFF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61191EED42E68E21BC27FEDB /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		61191F65FD2DEF88F0297051 /* PeripheralServicesViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewModelType.swift; sourceTree = "<group>"; };
 		8EA4B7DB204857D100154115 /* ExampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA4B7E5204857D100154115 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8EA4B7E8204857D100154115 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -120,6 +128,23 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		61191507D0B13C427C870A9C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6119155CEA6D8BDD731AE341 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				61191F65FD2DEF88F0297051 /* PeripheralServicesViewModelType.swift */,
+				61191455DE5E56C70DBE425D /* PeripheralServicesViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		611915F7BD7727CC7EB5901E /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,13 +171,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		611917FD92C37356B4C1B0B6 /* PeripheralServices */ = {
+			isa = PBXGroup;
+			children = (
+				61191AE82F5FB1AA80A742D0 /* ViewController */,
+				6119155CEA6D8BDD731AE341 /* ViewModel */,
+				61191507D0B13C427C870A9C /* View */,
+			);
+			path = PeripheralServices;
+			sourceTree = "<group>";
+		};
 		611919372407A4EF1B9C2311 /* ScanResults */ = {
 			isa = PBXGroup;
 			children = (
 				61191243F48FDC5A83D03647 /* ViewController */,
 				611912EE5F2EEEDE4A9CB397 /* ViewModel */,
 				611916EE5771DA5CFB3E964C /* View */,
-				61191A8BE019D0164270915E /* DataSource */,
 			);
 			path = ScanResults;
 			sourceTree = "<group>";
@@ -169,15 +203,17 @@
 			isa = PBXGroup;
 			children = (
 				611919372407A4EF1B9C2311 /* ScanResults */,
+				611917FD92C37356B4C1B0B6 /* PeripheralServices */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
 		};
-		61191A8BE019D0164270915E /* DataSource */ = {
+		61191AE82F5FB1AA80A742D0 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				611919473CA70733A41CF619 /* PeripheralServicesViewController.swift */,
 			);
-			path = DataSource;
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		61191D15FD25B4B66D717CEF /* UITableViewCell */ = {
@@ -371,6 +407,10 @@
 				61191EE11E7D495938F3D1F4 /* ScanResultsTableViewCell.swift in Sources */,
 				61191B1F4B28D02AA43F6A2F /* ScansResultViewModelType.swift in Sources */,
 				61191EABF2EC918A25A24576 /* ScanResultsViewModel.swift in Sources */,
+				61191F82B4C5E7CF726A9522 /* PeripheralServicesView.swift in Sources */,
+				61191BD7324ED15CD5D56D2D /* PeripheralServicesViewController.swift in Sources */,
+				6119158EB80727651F00593D /* PeripheralServicesViewModelType.swift in Sources */,
+				611910828270527CAC253917 /* PeripheralServicesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
