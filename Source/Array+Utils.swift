@@ -21,26 +21,13 @@
 // SOFTWARE.
 
 import Foundation
-import XCTest
 
-class BaseCentralManagerTest: XCTestCase {
-    var manager: _CentralManager!
-    
-    var centralManagerMock: CBCentralManagerMock!
-    var wrapperMock: CBCentralManagerDelegateWrapperMock!
-    var wrapperProviderMock: PeripheralDelegateWrapperProviderMock!
-    var connectorMock: ConnectorMock!
-    
-    func setUpProperties() {
-        centralManagerMock = CBCentralManagerMock()
-        wrapperMock = CBCentralManagerDelegateWrapperMock()
-        wrapperProviderMock = PeripheralDelegateWrapperProviderMock()
-        connectorMock = ConnectorMock()
-        manager = _CentralManager(
-            centralManager: centralManagerMock,
-            delegateWrapper: wrapperMock,
-            peripheralDelegateProvider: wrapperProviderMock,
-            connector: connectorMock
-        )
+extension Array where Element: Equatable {
+    @discardableResult mutating func remove(object: Element) -> Bool {
+        if let index = index(of: object) {
+            self.remove(at: index)
+            return true
+        }
+        return false
     }
 }

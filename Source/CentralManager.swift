@@ -41,7 +41,7 @@ public typealias DisconnectionReason = Error
 ///     .flatMap { manager.scanForPeripherals(nil) }
 /// ```
 /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
-/// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other operations.
+/// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other operations.
 /// - seealso: `Peripheral`
 public class CentralManager {
 
@@ -58,6 +58,9 @@ public class CentralManager {
     /// Ongoing scan disposable
     private var scanDisposable: Disposable?
 
+    /// Connector instance is used for establishing connection with peripherals
+    private let connector: Connector
+
     // MARK: Initialization
 
     /// Creates new `CentralManager`
@@ -68,11 +71,13 @@ public class CentralManager {
     init(
         centralManager: CBCentralManager,
         delegateWrapper: CBCentralManagerDelegateWrapper,
-        peripheralDelegateProvider: PeripheralDelegateWrapperProvider
+        peripheralDelegateProvider: PeripheralDelegateWrapperProvider,
+        connector: Connector
     ) {
         self.centralManager = centralManager
         self.delegateWrapper = delegateWrapper
         self.peripheralDelegateProvider = peripheralDelegateProvider
+        self.connector = connector
         centralManager.delegate = delegateWrapper
     }
 
@@ -85,10 +90,12 @@ public class CentralManager {
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
         let delegateWrapper = CBCentralManagerDelegateWrapper()
+        let centralManager = CBCentralManager(delegate: delegateWrapper, queue: queue, options: options)
         self.init(
-            centralManager: CBCentralManager(delegate: delegateWrapper, queue: queue, options: options),
+            centralManager: centralManager,
             delegateWrapper: delegateWrapper,
-            peripheralDelegateProvider: PeripheralDelegateWrapperProvider()
+            peripheralDelegateProvider: PeripheralDelegateWrapperProvider(),
+            connector: Connector(centralManager: centralManager, delegateWrapper: delegateWrapper)
         )
     }
 
@@ -133,7 +140,7 @@ public class CentralManager {
     /// There can be only one ongoing scanning. It will return `BluetoothError.scanInProgress` error if
     /// this method will be called when there is already ongoing scan.
     /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
-    /// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other
+    /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other
     /// operations.
     /// - seealso: `Peripheral`
     ///
@@ -185,81 +192,19 @@ public class CentralManager {
 
     // MARK: Peripheral's Connection Management
 
-    /// Establishes connection with `Peripheral` after subscription to returned observable. It's user responsibility
-    /// to close connection with `cancelConnectionToPeripheral(_:)` after subscription was completed. Unsubscribing from
-    /// returned observable cancels connection attempt. By default observable is waiting infinitely for successful connection.
+    /// Establishes connection with a given `Peripheral`.
+    /// When connection did succeded it sends event with `Peripheral` - from now on it is possible to call all other methods that require connection.
+    /// The connection is automatically disconnected when resulting Observable is unsubscribed.
+    /// On the other hand when the connection is interrupted or failed by the device or the system, the Observable will be unsubscribed as well
+    /// following `BluetoothError.peripheralConnectionFailed` or `BluetoothError.peripheralDisconnected` emission.
     /// Additionally you can pass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
     /// to customise the behaviour of connection.
-    /// - parameter peripheral: The `Peripheral` to which `CentralManager` is attempting to connect.
+    /// - parameter peripheral: The `Peripheral` to which `CentralManager` is attempting to establish connection.
     /// - parameter options: Dictionary to customise the behaviour of connection.
-    /// - returns: `Single` which emits next event after connection is established.
-    public func connect(_ peripheral: Peripheral, options: [String: Any]? = nil)
-        -> Single<Peripheral> {
-
-        let success = delegateWrapper.didConnectPeripheral
-            .filter { $0 == peripheral.peripheral }
-            .take(1)
-            .map { _ in return peripheral }
-
-        let error = delegateWrapper.didFailToConnectPeripheral
-            .filter { $0.0 == peripheral.peripheral }
-            .take(1)
-            .map { [weak self] (cbPeripheral, error) -> Peripheral in
-                guard let strongSelf = self else { throw BluetoothError.destroyed }
-                throw BluetoothError.peripheralConnectionFailed(Peripheral(manager: strongSelf, peripheral: cbPeripheral), error)
-            }
-
-        let observable = Observable<Peripheral>.create { [weak self] observer in
-            guard let strongSelf = self else {
-                observer.onError(BluetoothError.destroyed)
-                return Disposables.create()
-            }
-            if let error = BluetoothError(state: strongSelf.state) {
-                observer.onError(error)
-                return Disposables.create()
-            }
-
-            guard !peripheral.isConnected else {
-                observer.onNext(peripheral)
-                observer.onCompleted()
-                return Disposables.create()
-            }
-
-            let disposable = success.amb(error).subscribe(observer)
-
-            strongSelf.centralManager.connect(peripheral.peripheral, options: options)
-
-            return Disposables.create { [weak self] in
-                guard let strongSelf = self else { return }
-                if !peripheral.isConnected {
-                    strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-                    disposable.dispose()
-                }
-            }
-        }
-
-        return ensure(.poweredOn, observable: observable).asSingle()
-    }
-
-    /// Cancels an active or pending local connection to a `Peripheral` after observable subscription. It is not guaranteed
-    /// that physical connection will be closed immediately as well and all pending commands will not be executed.
-    ///
-    /// - parameter peripheral: The `Peripheral` to which the `CentralManager` is either trying to
-    /// connect or has already connected.
-    /// - returns: `Single` which emits next event when peripheral successfully cancelled connection.
-    public func cancelPeripheralConnection(_ peripheral: Peripheral) -> Single<(Peripheral)> {
-        let observable = Observable<(Peripheral, DisconnectionReason?)>.create { [weak self] observer in
-            guard let strongSelf = self else {
-                observer.onError(BluetoothError.destroyed)
-                return Disposables.create()
-            }
-            let disposable = strongSelf.observeDisconnect(for: peripheral).take(1).subscribe(observer)
-            strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-            return disposable
-        }
-      return ensure(.poweredOn, observable: observable)
-          .asSingle()
-          .map { $0.0 }
+    /// - returns: `Observable` which emits next event after connection is established.
+    public func establishConnection(_ peripheral: Peripheral, options: [String: Any]? = nil) -> Observable<Peripheral> {
+        let observable = connector.establishConnection(with: peripheral, options: options)
+        return ensure(.poweredOn, observable: observable)
     }
 
     // MARK: Retrieving Lists of Peripherals
