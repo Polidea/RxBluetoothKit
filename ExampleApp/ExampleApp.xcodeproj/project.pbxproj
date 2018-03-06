@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		288D3489B09EA676CF5A6D39 /* Pods_ExampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A380B061A30914A560F6D365 /* Pods_ExampleApp.framework */; };
 		61191017D3956639C173176D /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611917947AC817CA291EC9D2 /* TableViewDataSource.swift */; };
-		611910828270527CAC253917 /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191455DE5E56C70DBE425D /* PeripheralServicesViewModel.swift */; };
 		6119113248BA835F48CF4DE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191C8E8C5BAB54FB030FFF /* AppDelegate.swift */; };
 		6119114447177453E2E7E03A /* CellUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191AB41147ACFEE6897528 /* CellUpdatable.swift */; };
 		611911BAA8754F6F2852C78C /* ScanResultViewModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191806818A2A7AC82C79AB /* ScanResultViewModelItem.swift */; };
@@ -28,6 +27,8 @@
 		61191F82B4C5E7CF726A9522 /* PeripheralServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */; };
 		8EA4B7E6204857D100154115 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E5204857D100154115 /* Assets.xcassets */; };
 		8EA4B7E9204857D100154115 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E7204857D100154115 /* LaunchScreen.storyboard */; };
+		E4F472511E66FC89D3403F81 /* BluetoothService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C45E5B969449636C081 /* BluetoothService.swift */; };
+		E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +37,6 @@
 		61191011BF6F6D193B491BA0 /* SectionModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionModelItem.swift; sourceTree = "<group>"; };
 		6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScansResultViewModelType.swift; sourceTree = "<group>"; };
 		6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesView.swift; sourceTree = "<group>"; };
-		61191455DE5E56C70DBE425D /* PeripheralServicesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewModel.swift; sourceTree = "<group>"; };
 		611914BBF00CBE3A651CBE53 /* ScanResultsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsTableViewCell.swift; sourceTree = "<group>"; };
 		611917947AC817CA291EC9D2 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		61191806818A2A7AC82C79AB /* ScanResultViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultViewModelItem.swift; sourceTree = "<group>"; };
@@ -55,6 +55,8 @@
 		8EA4B7E8204857D100154115 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EA4B7EA204857D100154115 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A380B061A30914A560F6D365 /* Pods_ExampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4F47C45E5B969449636C081 /* BluetoothService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothService.swift; sourceTree = "<group>"; };
+		E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewModel.swift; sourceTree = "<group>"; };
 		EDA12C1BE2113E4E2EF8937D /* Pods-ExampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +130,7 @@
 				6119129916D2202B808620B3 /* CustomView */,
 				611912C168DD5B8F07D00C9B /* UpdatableCell */,
 				611916B5EC7839068D02AB39 /* DataSource */,
+				E4F47D29C7A784E66DF3CA03 /* Services */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -161,8 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				61191F65FD2DEF88F0297051 /* PeripheralServicesViewModelType.swift */,
-				61191455DE5E56C70DBE425D /* PeripheralServicesViewModel.swift */,
 				611913A8410BB0FB75A236EE /* CellViewModelItem */,
+				E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -283,6 +286,14 @@
 				EDA12C1BE2113E4E2EF8937D /* Pods-ExampleApp.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		E4F47D29C7A784E66DF3CA03 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47C45E5B969449636C081 /* BluetoothService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -432,9 +443,10 @@
 				61191F82B4C5E7CF726A9522 /* PeripheralServicesView.swift in Sources */,
 				61191BD7324ED15CD5D56D2D /* PeripheralServicesViewController.swift in Sources */,
 				6119158EB80727651F00593D /* PeripheralServicesViewModelType.swift in Sources */,
-				611910828270527CAC253917 /* PeripheralServicesViewModel.swift in Sources */,
 				611912AFCBED293AB911B582 /* PeripheralServicesViewModelItem.swift in Sources */,
 				611913FC30F7BA29AA2DCDCF /* PeripheralServiceCell.swift in Sources */,
+				E4F472511E66FC89D3403F81 /* BluetoothService.swift in Sources */,
+				E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

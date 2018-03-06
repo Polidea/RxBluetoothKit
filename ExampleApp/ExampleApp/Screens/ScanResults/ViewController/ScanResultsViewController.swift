@@ -45,7 +45,7 @@ class ScanResultsViewController: UIViewController, CustomView {
     }
 
     private func bindRx() {
-        viewModel.scanningOutput.bind(to: dataSource.itemsObserver).disposed(by: disposeBag)
+        dataSource.bindItemsObserver(to: viewModel.scanningOutput)
     }
 
     private func setNavigationBar() {
@@ -89,6 +89,8 @@ extension ScanResultsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else { return }
 
+        RxBluetoothKitService.shared.peripheral = item.peripheral
+
         let viewModel = PeripheralServicesViewModel()
 
         let dataItem = PeripheralServicesViewModelItem("Services", peripheralRowItems: item.peripheral.services)
@@ -103,6 +105,7 @@ extension ScanResultsViewController: UITableViewDelegate {
         let dataSource = TableViewDataSource<Service, PeripheralServicesViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
 
         let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)
+
         presenter.push(viewController: viewController)
     }
 }

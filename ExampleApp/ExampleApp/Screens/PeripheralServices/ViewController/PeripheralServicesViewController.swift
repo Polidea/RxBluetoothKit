@@ -32,6 +32,7 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         presenter.viewController = self
         customView.setTableView(dataSource: dataSource, delegate: self)
         registerCells()
+        viewModel.connect()
     }
 
     private func registerCells() {

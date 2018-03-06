@@ -1,4 +1,5 @@
 import RxSwift
+import RxBluetoothKit
 import UIKit
 
 class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSource {
@@ -6,10 +7,6 @@ class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSour
     typealias CellConfigurationBlock = (_ cell: UITableViewCell, _ item: I) -> Void
 
     typealias RefreshDataBlock = () -> Void
-
-    var itemsObserver: AnyObserver<I> {
-        return itemsSubject.asObserver()
-    }
 
     var itemsObservable: Observable<I> {
         return itemsSubject.asObservable()
@@ -53,6 +50,10 @@ class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSour
         }, onError: { (error) in
             print(error)
         }).disposed(by: disposeBag)
+    }
+
+    func bindItemsObserver(to observable: Observable<I>) {
+       observable.bind(to: itemsSubject).disposed(by: disposeBag)
     }
 
     func takeItemAt(index: Int) -> Any {
