@@ -25,8 +25,8 @@ class PeripheralServicesViewModelItem: SectionModelItem {
     }
 
     func append(_ item: Any) {
-        if let item = item as? Service {
-            serviceRowItems.append(item)
+        if let item = item as? [Service] {
+            serviceRowItems.append(contentsOf: item)
         }
     }
 }

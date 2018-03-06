@@ -10,10 +10,16 @@ class RxBluetoothKitService {
     var scanningOutput: Observable<ScannedPeripheral> {
         return scanningSubject.asObservable()
     }
-    
+
+    var servicesOutput: Observable<[Service]> {
+        return servicesSubject.asObservable()
+    }
+
     var peripheral: Peripheral?
 
     private let scanningSubject: PublishSubject<ScannedPeripheral> = PublishSubject()
+
+    private let servicesSubject: PublishSubject<[Service]> = PublishSubject()
 
     private let centralManager: CentralManager = CentralManager(queue: .main)
 
@@ -51,10 +57,10 @@ class RxBluetoothKitService {
         guard let peripheral = self.peripheral else {
             return
         }
-        centralManager.establishConnection(peripheral).flatMap {
-            $0.discoverServices(nil)
-        }.subscribe(onNext: { services in
-            print(services)
-        }).disposed(by: disposeBag)
+        centralManager.establishConnection(peripheral)
+                .flatMap {
+                    $0.discoverServices(nil)
+                }.bind(to: servicesSubject)
+                .disposed(by: disposeBag)
     }
 }

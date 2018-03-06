@@ -7,7 +7,7 @@ class PeripheralServicesViewController: UIViewController, CustomView {
 
     typealias ViewClass = PeripheralServicesView
 
-    typealias PeripheralServicesDataSource = TableViewDataSource<Service, PeripheralServicesViewModelItem>
+    typealias PeripheralServicesDataSource = TableViewDataSource<[Service], PeripheralServicesViewModelItem>
 
     private let viewModel: PeripheralServicesViewModelType
 
@@ -23,6 +23,11 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         view.backgroundColor = .white
     }
 
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func loadView() {
         view = ViewClass()
     }
@@ -32,7 +37,14 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         presenter.viewController = self
         customView.setTableView(dataSource: dataSource, delegate: self)
         registerCells()
+        setDataSourceRefreshBlock()
         viewModel.connect()
+        bindViewModelOutput()
+        dataSource.bindData()
+    }
+
+    private func bindViewModelOutput() {
+        dataSource.bindItemsObserver(to: viewModel.servicesOutput)
     }
 
     private func registerCells() {
@@ -40,9 +52,10 @@ class PeripheralServicesViewController: UIViewController, CustomView {
                 forCellReuseIdentifier: String(describing: PeripheralServiceCell.self))
     }
 
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func setDataSourceRefreshBlock() {
+        self.dataSource.refreshDataBlock = { [weak self] in
+            self?.customView.refreshTableView()
+        }
     }
 }
 

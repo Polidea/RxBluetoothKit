@@ -40,7 +40,7 @@ class ScanResultsViewController: UIViewController, CustomView {
         setDataSourceRefreshBlock()
         registerCells()
         setNavigationBar()
-        dataSource.bindNewItems()
+        dataSource.bindData()
         bindRx()
     }
 
@@ -59,7 +59,7 @@ class ScanResultsViewController: UIViewController, CustomView {
         viewModel.scanAction()
         adjustTitle()
         if viewModel.isScanning {
-            dataSource.bindNewItems()
+            dataSource.bindData()
         }
     }
 
@@ -102,7 +102,7 @@ extension ScanResultsViewController: UITableViewDelegate {
             cell.update(with: item)
         }
 
-        let dataSource = TableViewDataSource<Service, PeripheralServicesViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
+        let dataSource = TableViewDataSource<[Service], PeripheralServicesViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
 
         let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)
 

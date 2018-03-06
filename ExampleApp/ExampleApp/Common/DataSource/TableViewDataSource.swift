@@ -2,9 +2,9 @@ import RxSwift
 import RxBluetoothKit
 import UIKit
 
-class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSource {
+class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSource {
 
-    typealias CellConfigurationBlock = (_ cell: UITableViewCell, _ item: I) -> Void
+    typealias CellConfigurationBlock = (_ cell: UITableViewCell, _ item: Any) -> Void
 
     typealias RefreshDataBlock = () -> Void
 
@@ -33,9 +33,8 @@ class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = String(describing: dataItem.cellClass())
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier),
-              let item = dataItem.rowData[indexPath.item] as? I
-                else {
+        let item = dataItem.rowData[indexPath.item]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) else {
             return UITableViewCell()
         }
 
@@ -43,7 +42,7 @@ class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSour
         return cell
     }
 
-    func bindNewItems() {
+    func bindData() {
         itemsObservable.subscribe(onNext: { [weak self] item in
             self?.dataItem.append(item)
             self?.refreshData()
@@ -53,7 +52,7 @@ class TableViewDataSource<I, S: SectionModelItem>: NSObject, UITableViewDataSour
     }
 
     func bindItemsObserver(to observable: Observable<I>) {
-       observable.bind(to: itemsSubject).disposed(by: disposeBag)
+        observable.bind(to: itemsSubject).disposed(by: disposeBag)
     }
 
     func takeItemAt(index: Int) -> Any {
