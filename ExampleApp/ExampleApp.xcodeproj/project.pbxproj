@@ -30,6 +30,7 @@
 		E4F472511E66FC89D3403F81 /* BluetoothService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C45E5B969449636C081 /* BluetoothService.swift */; };
 		E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */; };
 		E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */; };
+		E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */; };
 		E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */; };
 		E4F479728D6C04FEA594394E /* CharacteristicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */; };
 		E4F479F20F93F97493780F10 /* CharacterisiticsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */; };
@@ -68,6 +69,7 @@
 		E4F47C45E5B969449636C081 /* BluetoothService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothService.swift; sourceTree = "<group>"; };
 		E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsViewModelItem.swift; sourceTree = "<group>"; };
 		E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewController.swift; sourceTree = "<group>"; };
+		E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewModel.swift; sourceTree = "<group>"; };
 		EDA12C1BE2113E4E2EF8937D /* Pods-ExampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,6 +145,7 @@
 				611912C168DD5B8F07D00C9B /* UpdatableCell */,
 				611916B5EC7839068D02AB39 /* DataSource */,
 				E4F47D29C7A784E66DF3CA03 /* Services */,
+				E4F476A36EDEA65DAADF152F /* UITableView */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -319,6 +322,14 @@
 				E4F477FD294C73A2FE40847C /* CellViewModelItem */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E4F476A36EDEA65DAADF152F /* UITableView */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */,
+			);
+			path = UITableView;
 			sourceTree = "<group>";
 		};
 		E4F476B4F44488657A0C9C56 /* View */ = {
@@ -519,6 +530,7 @@
 				E4F47D45E9B9F3C979B66117 /* CharacterisiticsViewModel.swift in Sources */,
 				E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */,
 				E4F47ABC5CD0FA38873E13C1 /* CharacteristicsViewModelItem.swift in Sources */,
+				E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

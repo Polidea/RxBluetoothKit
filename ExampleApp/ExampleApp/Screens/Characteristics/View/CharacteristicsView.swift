@@ -1,5 +1,5 @@
 import UIKit
 
-class CharacteristicsView: UIView {
+class CharacteristicsView: BaseView {
 
 }
