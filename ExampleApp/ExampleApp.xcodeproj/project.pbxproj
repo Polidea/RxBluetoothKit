@@ -28,7 +28,13 @@
 		8EA4B7E6204857D100154115 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E5204857D100154115 /* Assets.xcassets */; };
 		8EA4B7E9204857D100154115 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E7204857D100154115 /* LaunchScreen.storyboard */; };
 		E4F472511E66FC89D3403F81 /* BluetoothService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C45E5B969449636C081 /* BluetoothService.swift */; };
+		E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */; };
+		E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */; };
 		E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */; };
+		E4F479728D6C04FEA594394E /* CharacteristicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */; };
+		E4F479F20F93F97493780F10 /* CharacterisiticsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */; };
+		E4F47ABC5CD0FA38873E13C1 /* CharacteristicsViewModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */; };
+		E4F47D45E9B9F3C979B66117 /* CharacterisiticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47BCF24D436B7B2FDC475 /* CharacterisiticsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,7 +61,13 @@
 		8EA4B7E8204857D100154115 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EA4B7EA204857D100154115 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A380B061A30914A560F6D365 /* Pods_ExampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewModelType.swift; sourceTree = "<group>"; };
+		E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsView.swift; sourceTree = "<group>"; };
+		E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsTableViewCell.swift; sourceTree = "<group>"; };
+		E4F47BCF24D436B7B2FDC475 /* CharacterisiticsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewModel.swift; sourceTree = "<group>"; };
 		E4F47C45E5B969449636C081 /* BluetoothService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothService.swift; sourceTree = "<group>"; };
+		E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsViewModelItem.swift; sourceTree = "<group>"; };
+		E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewController.swift; sourceTree = "<group>"; };
 		E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewModel.swift; sourceTree = "<group>"; };
 		EDA12C1BE2113E4E2EF8937D /* Pods-ExampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -229,6 +241,7 @@
 			children = (
 				611919372407A4EF1B9C2311 /* ScanResults */,
 				611917FD92C37356B4C1B0B6 /* PeripheralServices */,
+				E4F4705E7B2282480AFF4ECC /* Characteristics */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -288,12 +301,65 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E4F4705E7B2282480AFF4ECC /* Characteristics */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47FE18C9174B815679E2E /* ViewController */,
+				E4F4717A04A7B2449F2AC5B0 /* ViewModel */,
+				E4F476B4F44488657A0C9C56 /* View */,
+			);
+			path = Characteristics;
+			sourceTree = "<group>";
+		};
+		E4F4717A04A7B2449F2AC5B0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */,
+				E4F47BCF24D436B7B2FDC475 /* CharacterisiticsViewModel.swift */,
+				E4F477FD294C73A2FE40847C /* CellViewModelItem */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E4F476B4F44488657A0C9C56 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */,
+				E4F47CD12E8DBC73B6BD3BE1 /* UITableViewCell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E4F477FD294C73A2FE40847C /* CellViewModelItem */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */,
+			);
+			path = CellViewModelItem;
+			sourceTree = "<group>";
+		};
+		E4F47CD12E8DBC73B6BD3BE1 /* UITableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */,
+			);
+			path = UITableViewCell;
+			sourceTree = "<group>";
+		};
 		E4F47D29C7A784E66DF3CA03 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				E4F47C45E5B969449636C081 /* BluetoothService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		E4F47FE18C9174B815679E2E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -447,6 +513,12 @@
 				611913FC30F7BA29AA2DCDCF /* PeripheralServiceCell.swift in Sources */,
 				E4F472511E66FC89D3403F81 /* BluetoothService.swift in Sources */,
 				E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */,
+				E4F479728D6C04FEA594394E /* CharacteristicsView.swift in Sources */,
+				E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */,
+				E4F479F20F93F97493780F10 /* CharacterisiticsViewModelType.swift in Sources */,
+				E4F47D45E9B9F3C979B66117 /* CharacterisiticsViewModel.swift in Sources */,
+				E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */,
+				E4F47ABC5CD0FA38873E13C1 /* CharacteristicsViewModelItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
