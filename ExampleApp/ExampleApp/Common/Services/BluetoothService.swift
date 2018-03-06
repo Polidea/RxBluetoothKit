@@ -41,10 +41,7 @@ class RxBluetoothKitService {
                     $0 == .poweredOn
                 }
                 .timeout(4.0, scheduler: scheduler)
-                .flatMap { [weak self] _ -> Observable<ScannedPeripheral> in
-                    guard let `self` = self else {
-                        return Observable.empty()
-                    }
+                .flatMap { [unowned self] _ -> Observable<ScannedPeripheral> in
                     return self.centralManager.scanForPeripherals(withServices: nil)
                 }.bind(to: scanningSubject)
     }
@@ -58,9 +55,18 @@ class RxBluetoothKitService {
             return
         }
         centralManager.establishConnection(peripheral)
+                .do(onNext: { [unowned self] _ in
+                    self.observeDisconnect(for: peripheral)
+                })
                 .flatMap {
                     $0.discoverServices(nil)
                 }.bind(to: servicesSubject)
                 .disposed(by: disposeBag)
+    }
+
+    func observeDisconnect(for peripheral: Peripheral) {
+        centralManager.observeDisconnect(for: peripheral).subscribe(onNext: { (peripheral, reason) in
+            print("Disconnected: ", peripheral, reason)
+        }).disposed(by: disposeBag)
     }
 }
