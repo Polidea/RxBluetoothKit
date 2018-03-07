@@ -26,7 +26,9 @@
 		61191F82B4C5E7CF726A9522 /* PeripheralServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */; };
 		8EA4B7E6204857D100154115 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E5204857D100154115 /* Assets.xcassets */; };
 		8EA4B7E9204857D100154115 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E7204857D100154115 /* LaunchScreen.storyboard */; };
+		E4F472234EA95D95CC83C0CD /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F478C9F51F0566BA80AFFB /* Stylesheet.swift */; };
 		E4F472511E66FC89D3403F81 /* BluetoothService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C45E5B969449636C081 /* BluetoothService.swift */; };
+		E4F472F82AAF157D304F6473 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F477998A57AF111CF514EA /* Style.swift */; };
 		E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */; };
 		E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */; };
 		E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */; };
@@ -34,6 +36,7 @@
 		E4F479728D6C04FEA594394E /* CharacteristicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */; };
 		E4F479F20F93F97493780F10 /* CharacterisiticsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */; };
 		E4F47ABC5CD0FA38873E13C1 /* CharacteristicsViewModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */; };
+		E4F47B82AF12FF8729FF129F /* UIView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47B713CD5AC588C87CBCB /* UIView+Style.swift */; };
 		E4F47D45E9B9F3C979B66117 /* CharacterisiticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47BCF24D436B7B2FDC475 /* CharacterisiticsViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +66,9 @@
 		E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewModelType.swift; sourceTree = "<group>"; };
 		E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsView.swift; sourceTree = "<group>"; };
 		E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsTableViewCell.swift; sourceTree = "<group>"; };
+		E4F477998A57AF111CF514EA /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		E4F478C9F51F0566BA80AFFB /* Stylesheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
+		E4F47B713CD5AC588C87CBCB /* UIView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Style.swift"; sourceTree = "<group>"; };
 		E4F47BCF24D436B7B2FDC475 /* CharacterisiticsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewModel.swift; sourceTree = "<group>"; };
 		E4F47C45E5B969449636C081 /* BluetoothService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothService.swift; sourceTree = "<group>"; };
 		E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsViewModelItem.swift; sourceTree = "<group>"; };
@@ -143,6 +149,8 @@
 				611916B5EC7839068D02AB39 /* DataSource */,
 				E4F47D29C7A784E66DF3CA03 /* Services */,
 				E4F476A36EDEA65DAADF152F /* UITableView */,
+				E4F47F6DACA6D351DCFF061D /* Stylesheet */,
+				E4F47E49159019F0B78F129F /* UIView */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -354,6 +362,23 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		E4F47E49159019F0B78F129F /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47B713CD5AC588C87CBCB /* UIView+Style.swift */,
+			);
+			path = UIView;
+			sourceTree = "<group>";
+		};
+		E4F47F6DACA6D351DCFF061D /* Stylesheet */ = {
+			isa = PBXGroup;
+			children = (
+				E4F477998A57AF111CF514EA /* Style.swift */,
+				E4F478C9F51F0566BA80AFFB /* Stylesheet.swift */,
+			);
+			path = Stylesheet;
+			sourceTree = "<group>";
+		};
 		E4F47FE18C9174B815679E2E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -519,6 +544,9 @@
 				E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */,
 				E4F47ABC5CD0FA38873E13C1 /* CharacteristicsViewModelItem.swift in Sources */,
 				E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */,
+				E4F472F82AAF157D304F6473 /* Style.swift in Sources */,
+				E4F47B82AF12FF8729FF129F /* UIView+Style.swift in Sources */,
+				E4F472234EA95D95CC83C0CD /* Stylesheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
