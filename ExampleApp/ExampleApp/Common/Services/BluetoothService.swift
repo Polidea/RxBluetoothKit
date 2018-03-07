@@ -17,6 +17,8 @@ class RxBluetoothKitService {
 
     var peripheral: Peripheral?
 
+    var service: Service?
+
     private let scanningSubject: PublishSubject<ScannedPeripheral> = PublishSubject()
 
     private let servicesSubject: PublishSubject<[Service]> = PublishSubject()
@@ -50,7 +52,7 @@ class RxBluetoothKitService {
         scanningDisposable.dispose()
     }
 
-    func connectToPeripheral() {
+    func discoverServices() {
         guard let peripheral = self.peripheral else {
             return
         }
@@ -61,10 +63,15 @@ class RxBluetoothKitService {
                 .flatMap {
                     $0.discoverServices(nil)
                 }.bind(to: servicesSubject)
-                .disposed(by: disposeBag)
+                  .disposed(by: disposeBag)
     }
 
-    func observeDisconnect(for peripheral: Peripheral) {
+    func discoverCharacteristics() -> Observable<[Characteristic]> {
+        guard let service = service else { return Observable.empty() }
+        return service.discoverCharacteristics(nil).asObservable()
+    }
+
+    private func observeDisconnect(for peripheral: Peripheral) {
         centralManager.observeDisconnect(for: peripheral).subscribe(onNext: { (peripheral, reason) in
             print("Disconnected: ", peripheral, reason)
         }).disposed(by: disposeBag)

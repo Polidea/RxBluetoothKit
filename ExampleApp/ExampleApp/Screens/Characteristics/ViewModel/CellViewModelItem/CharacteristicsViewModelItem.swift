@@ -1,7 +1,7 @@
 import RxBluetoothKit
 import UIKit
 
-class CharacterisiticsViewModelItem: SectionModelItem {
+class CharacteristicsViewModelItem: SectionModelItem {
 
     var rowData: [Any] {
         return characteristicsRowItems
@@ -15,9 +15,9 @@ class CharacterisiticsViewModelItem: SectionModelItem {
 
     private(set) var characteristicsRowItems: [Characteristic]
 
-    init(_ sectionName: String, peripheralRowItems: [Characteristic] = []) {
+    init(_ sectionName: String, characteristicsRowItems: [Characteristic]?) {
         self.sectionName = sectionName
-        self.characteristicsRowItems = peripheralRowItems
+        self.characteristicsRowItems = characteristicsRowItems ?? []
     }
 
     func cellClass() -> UIView.Type {
@@ -25,6 +25,7 @@ class CharacterisiticsViewModelItem: SectionModelItem {
     }
 
     func append(_ item: Any) {
-        //TODO
+        guard let item = item as? [Characteristic] else { return }
+        characteristicsRowItems.append(contentsOf: item)
     }
 }

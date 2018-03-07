@@ -15,7 +15,6 @@
 		611912AFCBED293AB911B582 /* PeripheralServicesViewModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191FA903A72AFC9B49BBE7 /* PeripheralServicesViewModelItem.swift */; };
 		611913FC30F7BA29AA2DCDCF /* PeripheralServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191E527845C342A2B509F6 /* PeripheralServiceCell.swift */; };
 		6119158EB80727651F00593D /* PeripheralServicesViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191F65FD2DEF88F0297051 /* PeripheralServicesViewModelType.swift */; };
-		61191AB9D54FCDF8D81C85DF /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119100FA1BB8087F8FAFB4B /* Presenter.swift */; };
 		61191B1F4B28D02AA43F6A2F /* ScansResultViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */; };
 		61191BD7324ED15CD5D56D2D /* PeripheralServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611919473CA70733A41CF619 /* PeripheralServicesViewController.swift */; };
 		61191C1A5A84044C966C9E73 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191EED42E68E21BC27FEDB /* CustomView.swift */; };
@@ -40,7 +39,6 @@
 
 /* Begin PBXFileReference section */
 		03B064BD740820BFD0F0133F /* Pods-ExampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.debug.xcconfig"; sourceTree = "<group>"; };
-		6119100FA1BB8087F8FAFB4B /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		61191011BF6F6D193B491BA0 /* SectionModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionModelItem.swift; sourceTree = "<group>"; };
 		6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScansResultViewModelType.swift; sourceTree = "<group>"; };
 		6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesView.swift; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 			isa = PBXGroup;
 			children = (
 				611919C1B721BC8392C51235 /* Application */,
-				611915F7BD7727CC7EB5901E /* Presenters */,
 				6119129916D2202B808620B3 /* CustomView */,
 				611912C168DD5B8F07D00C9B /* UpdatableCell */,
 				611916B5EC7839068D02AB39 /* DataSource */,
@@ -183,14 +180,6 @@
 				E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		611915F7BD7727CC7EB5901E /* Presenters */ = {
-			isa = PBXGroup;
-			children = (
-				6119100FA1BB8087F8FAFB4B /* Presenter.swift */,
-			);
-			path = Presenters;
 			sourceTree = "<group>";
 		};
 		611916B5EC7839068D02AB39 /* DataSource */ = {
@@ -506,7 +495,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6119113248BA835F48CF4DE2 /* AppDelegate.swift in Sources */,
-				61191AB9D54FCDF8D81C85DF /* Presenter.swift in Sources */,
 				61191F12AE02144E44ACE12F /* ScanResultsViewController.swift in Sources */,
 				61191D0DA56A9EE0EBD0EA4C /* ScanResultsView.swift in Sources */,
 				61191C1A5A84044C966C9E73 /* CustomView.swift in Sources */,

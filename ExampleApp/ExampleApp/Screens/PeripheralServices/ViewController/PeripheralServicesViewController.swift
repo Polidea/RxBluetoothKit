@@ -13,12 +13,9 @@ class PeripheralServicesViewController: UIViewController, CustomView {
 
     private let dataSource: PeripheralServicesDataSource
 
-    private var presenter: Presenter!
-
     init(with dataSource: PeripheralServicesDataSource, viewModel: PeripheralServicesViewModelType) {
         self.dataSource = dataSource
         self.viewModel = viewModel
-        self.presenter = ViewControllerPresenter()
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = .white
     }
@@ -34,7 +31,6 @@ class PeripheralServicesViewController: UIViewController, CustomView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.viewController = self
         customView.setTableView(dataSource: dataSource, delegate: self)
         registerCells()
         setDataSourceRefreshBlock()
@@ -62,5 +58,29 @@ class PeripheralServicesViewController: UIViewController, CustomView {
 extension PeripheralServicesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120.0
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? Service else { return }
+
+        RxBluetoothKitService.shared.service = item
+
+        let viewModel = CharacteristicsViewModel()
+
+        let dataItem = CharacteristicsViewModelItem("Characteristics", characteristicsRowItems: item.characteristics)
+
+        let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
+            guard let cell = cell as? UpdatableCell else {
+                return
+            }
+            cell.update(with: item)
+        }
+
+        let dataSource = TableViewDataSource<[Characteristic], CharacteristicsViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
+
+        let viewController = CharacteristicsViewController(with: dataSource, viewModel: viewModel)
+
+
+        show(viewController, sender: self)
     }
 }

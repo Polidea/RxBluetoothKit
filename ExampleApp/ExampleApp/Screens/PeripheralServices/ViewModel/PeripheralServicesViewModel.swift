@@ -14,6 +14,6 @@ class PeripheralServicesViewModel: PeripheralServicesViewModelType {
     private let bluetoothService: RxBluetoothKitService = RxBluetoothKitService.shared
 
     func connect() {
-        bluetoothService.connectToPeripheral()
+        bluetoothService.discoverServices()
     }
 }

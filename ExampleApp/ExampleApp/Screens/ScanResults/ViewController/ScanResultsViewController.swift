@@ -13,14 +13,11 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     private let viewModel: ScanResultsViewModelType
 
-    private var presenter: Presenter!
-
     private let disposeBag: DisposeBag = DisposeBag()
 
     init(with dataSource: ScansResultDataSource, viewModel: ScanResultsViewModelType) {
         self.dataSource = dataSource
         self.viewModel = viewModel
-        self.presenter = ViewControllerPresenter()
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -35,7 +32,6 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.viewController = self.navigationController
         customView.setTableView(dataSource: dataSource, delegate: self)
         setDataSourceRefreshBlock()
         registerCells()
@@ -87,7 +83,9 @@ extension ScanResultsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else { return }
+        guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else {
+            return
+        }
 
         RxBluetoothKitService.shared.peripheral = item.peripheral
 
@@ -106,6 +104,6 @@ extension ScanResultsViewController: UITableViewDelegate {
 
         let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)
 
-        presenter.push(viewController: viewController)
+        show(viewController, sender: self)
     }
 }
