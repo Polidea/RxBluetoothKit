@@ -29,6 +29,7 @@ import RxSwift
 /// Descriptors provide more information about a characteristic’s value.
 public class Descriptor {
 
+    /// Intance of CoreBluetooth descriptor class
     public let descriptor: CBDescriptor
 
     /// Characteristic to which this descriptor belongs.
@@ -56,29 +57,29 @@ public class Descriptor {
     }
 
     /// Function that allow to observe writes that happened for descriptor.
-    /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
-    /// It's **infinite** stream, so `.Complete` is never called.
+    /// - Returns: Observable that emits `next` with `Descriptor` instance every time when write has happened.
+    /// It's **infinite** stream, so `.complete` is never called.
     public func observeWrite() -> Observable<Descriptor> {
         return characteristic.service.peripheral.observeWrite(for: self)
     }
 
     /// Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
-    /// - Parameter data: `NSData` that'll be written to `Descriptor` instance
+    /// - Parameter data: `Data` that'll be written to `Descriptor` instance
     /// - Returns: `Single` that emits `Next` with `Descriptor` instance, once value is written successfully.
     public func writeValue(_ data: Data) -> Single<Descriptor> {
         return characteristic.service.peripheral.writeValue(data, for: self)
     }
 
     /// Function that allow to observe value updates for `Descriptor` instance.
-    /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
-    /// It's **infinite** stream, so `.Complete` is never called.
+    /// - Returns: Observable that emits `next` with `Descriptor` instance every time when value has changed.
+    /// It's **infinite** stream, so `.complete` is never called.
     public func observeValueUpdate() -> Observable<Descriptor> {
         return characteristic.service.peripheral.observeValueUpdate(for: self)
     }
 
     /// Function that triggers read of current value of the `Descriptor` instance.
     /// Read is called after subscription to `Observable` is made.
-    /// - Returns: `Single` which emits `Next` with given descriptor when value is ready to read.
+    /// - Returns: `Single` which emits `next` with given descriptor when value is ready to read.
     public func readValue() -> Single<Descriptor> {
         return characteristic.service.peripheral.readValue(for: self)
     }

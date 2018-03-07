@@ -2,9 +2,9 @@ github_url: https://github.com/Polidea/RxBluetoothKit
 module: RxBluetoothKit
 author_url: https://polidea.com
 author: Polidea
-author_name: Polidea
-swift_version: 3.0
+swift_version: 4.0.3
 clean: true
-output: Documentation
+output: docs
+root-url: https://polidea.github.io/RxBluetoothKit/
 
 podspec: RxBluetoothKit.podspec

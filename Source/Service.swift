@@ -27,6 +27,7 @@ import RxSwift
 // swiftlint:disable line_length
 /// Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBService](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
 public class Service {
+    /// Intance of CoreBluetooth service class
     public let service: CBService
 
     /// Peripheral to which this service belongs
@@ -65,7 +66,8 @@ public class Service {
     /// subscribtion to `Observable` is made.
     /// - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the
     /// characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
-    /// - Returns: `Single` that emits `Next` with array of `Characteristic` instances, once they're discovered.
+    /// - Returns: `Single` that emits `next` with array of `Characteristic` instances, once they're discovered.
+    /// If not all requested characteristics are discovered, `RxError.noElements` error is emmited.
     public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?) -> Single<[Characteristic]> {
         return peripheral.discoverCharacteristics(characteristicUUIDs, for: self)
     }
@@ -74,7 +76,8 @@ public class Service {
     /// subscribtion to `Observable` is made.
     /// - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
     /// included services will be discovered. If you'll pass empty array - none of them will be discovered.
-    /// - Returns: `Single` that emits `Next` with array of `Service` instances, once they're discovered.
+    /// - Returns: `Single` that emits `next` with array of `Service` instances, once they're discovered.
+    // If not all requested services are discovered, `RxError.noElements` error is emmited.
     public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?) -> Single<[Service]> {
         return peripheral.discoverIncludedServices(includedServiceUUIDs, for: self)
     }

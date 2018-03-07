@@ -26,7 +26,7 @@ import CoreBluetooth
 
 // swiftlint:disable line_length
 
-/// Error received when device disconnection even occurs
+/// Error received when device disconnection event occurs
 public typealias DisconnectionReason = Error
 
 /// CentralManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
@@ -36,9 +36,10 @@ public typealias DisconnectionReason = Error
 /// by calling and observing returned value of `observeState()` and then chaining it with `scanForPeripherals(_:options:)`:
 /// ```
 /// centralManager.observeState
-///     .filter { $0 == .PoweredOn }
+///     .startWith(centralManager.state)
+///     .filter { $0 == .poweredOn }
 ///     .take(1)
-///     .flatMap { manager.scanForPeripherals(nil) }
+///     .flatMap { centralManager.scanForPeripherals(nil) }
 /// ```
 /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
 /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other operations.
@@ -66,8 +67,8 @@ public class CentralManager {
     /// Creates new `CentralManager`
     /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
-    /// - parameter peripheralDelegateProvider: Provider for peripheral delegate wrapper.
-    /// - parameter onWillRestoreState: An optional closure to be called when central manager state will restore. Supported only on iOS.
+    /// - parameter peripheralProvider: Provider for providing peripherals and peripheral wrappers
+    /// - parameter connector: Connector instance which is used for establishing connection with peripherals.
     init(
         centralManager: CBCentralManager,
         delegateWrapper: CBCentralManagerDelegateWrapper,
@@ -85,7 +86,6 @@ public class CentralManager {
     /// - warning: If you pass background queue to the method make sure to observe results on main thread for UI related code.
     /// - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
     /// - parameter options: An optional dictionary containing initialization options for a central manager.
-    /// - parameter onWillRestoreState: An optional closure to be called when central manager state will restore. Supported only on iOS.
     /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
@@ -108,15 +108,14 @@ public class CentralManager {
 
     // MARK: State
 
-    /// Current state of `CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Current state of `CentralManager` as `BluetoothState`.
+    /// Current state of `CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
     public var state: BluetoothState {
         return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
     }
 
-    /// Continuous state of `CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
-    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
+    /// Continuous state of `CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
+    /// - returns: Observable that emits `next` event whenever state changes.
+    ///
     /// It's **infinite** stream, so `.complete` is never called.
     public func observeState() -> Observable<BluetoothState> {
         return self.delegateWrapper.didUpdateState.asObservable()
@@ -234,6 +233,7 @@ public class CentralManager {
     /// Emits `Peripheral` instance when it's connected.
     /// - parameter peripheral: Optional `Peripheral` which is observed for connection. When not specified it will observe fo any `Peripheral`.
     /// - returns: Observable which emits next events when `peripheral` was connected.
+    ///
     /// It's **infinite** stream, so `.complete` is never called.
     public func observeConnect(for peripheral: Peripheral? = nil) -> Observable<Peripheral> {
         let observable = delegateWrapper.didConnectPeripheral
@@ -250,6 +250,7 @@ public class CentralManager {
     /// - returns: Observable which emits next events when `Peripheral` instance was disconnected.
     /// It provides optional error which may contain more information about the cause of the disconnection
     /// if it wasn't the `cancelConnection` call.
+    ///
     /// It's **infinite** stream, so `.complete` is never called.
     public func observeDisconnect(for peripheral: Peripheral? = nil) -> Observable<(Peripheral, DisconnectionReason?)> {
         let observable = delegateWrapper.didDisconnectPeripheral

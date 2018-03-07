@@ -31,17 +31,15 @@ class _PeripheralProvider {
 
     private let delegateWrappersBox: ThreadSafeBox<[UUID: CBPeripheralDelegateWrapperMock]> = ThreadSafeBox(value: [:])
 
-    /**
-     Provides `CBPeripheralDelegateWrapperMock` for specified `CBPeripheralMock`.
-     
-     If it was previously created it returns that object, so that there can be only
-     one `CBPeripheralDelegateWrapperMock` per `CBPeripheralMock`.
-     
-     If not it creates new one.
-     
-     - parameter peripheral: _Peripheral for which to provide delegate wrapper
-     - returns: Delegate wrapper for specified peripheral.
-     */
+    /// Provides `CBPeripheralDelegateWrapperMock` for specified `CBPeripheralMock`.
+    ///
+    /// If it was previously created it returns that object, so that there can be only
+    /// one `CBPeripheralDelegateWrapperMock` per `CBPeripheralMock`.
+    ///
+    /// If not it creates new one.
+    ///
+    /// - parameter peripheral: _Peripheral for which to provide delegate wrapper
+    /// - returns: Delegate wrapper for specified peripheral.
     func provideDelegateWrapper(for peripheral: CBPeripheralMock) -> CBPeripheralDelegateWrapperMock {
         if let delegateWrapper = delegateWrappersBox.read({ $0[peripheral.uuidIdentifier] }) {
             return delegateWrapper
@@ -54,16 +52,13 @@ class _PeripheralProvider {
         }
     }
 
-    /**
-     Provides `_Peripheral` for specified `CBPeripheralMock`.
-     
-     If it was previously created it returns that object, so that there can be only one `_Peripheral` per `CBPeripheralMock`.
-     
-     If not it creates new one.
-     
-     - parameter peripheral: _Peripheral for which to provide delegate wrapper
-     - returns: `_Peripheral` for specified peripheral.
-     */
+    /// Provides `_Peripheral` for specified `CBPeripheralMock`.
+    ///
+    /// If it was previously created it returns that object, so that there can be only one `_Peripheral`
+    /// per `CBPeripheralMock`. If not it creates new one.
+    ///
+    /// - parameter peripheral: _Peripheral for which to provide delegate wrapper
+    /// - returns: `_Peripheral` for specified peripheral.
     func provide(for cbPeripheral: CBPeripheralMock, centralManager: _CentralManager) -> _Peripheral {
         if let peripheral = find(cbPeripheral) {
             return peripheral
