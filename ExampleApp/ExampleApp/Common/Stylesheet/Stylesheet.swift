@@ -19,5 +19,11 @@ enum Stylesheet {
             $0.layer.cornerRadius = 10
             $0.clipsToBounds = true
         }
+
+        static let blackButton = Style<UIButton> {
+            $0.layer.cornerRadius = 8
+            $0.backgroundColor = .black
+            $0.setTitleColor(.white, for: .normal)
+        }
     }
 }

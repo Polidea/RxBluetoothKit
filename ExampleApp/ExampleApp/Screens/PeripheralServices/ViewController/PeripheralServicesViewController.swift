@@ -36,7 +36,7 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         setDataSourceRefreshBlock()
         viewModel.connect()
         bindViewModelOutput()
-        dataSource.bindData()
+       // dataSource.bindData()
     }
 
     private func bindViewModelOutput() {

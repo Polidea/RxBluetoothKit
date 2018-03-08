@@ -11,11 +11,15 @@ class ScanResultTableViewCell: UITableViewCell {
     
     private let bluetoothImageView: UIImageView = UIImageView(image: UIImage(named: "bluetooth"))
 
+    private let connectButton: UIButton = UIButton(style: Stylesheet.Commons.blackButton)
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         applyStyles()
         setConstraints()
         backgroundColor = .white
+        selectionStyle = .none
+        connectButton.setTitle("Connect", for: .normal)
     }
 
     @available(*, unavailable)
@@ -30,17 +34,21 @@ class ScanResultTableViewCell: UITableViewCell {
         rssiLabel.text = nil
     }
 
+    func setConnectTarget(_ target: Any, action: Selector, for events: UIControlEvents) {
+        if connectButton.allTargets.isEmpty {
+            connectButton.addTarget(target, action: action, for: events)
+        }
+    }
+
     private func applyStyles() {
         Stylesheet.Commons.cellSmallImageRound.apply(to: bluetoothImageView)
     }
 
     private func setConstraints() {
-        [peripheralNameLabel, advertisementDataLabel, bluetoothImageView, rssiLabel].forEach { view in
+        [peripheralNameLabel, advertisementDataLabel, bluetoothImageView, rssiLabel, connectButton].forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false
             addSubview(view)
         }
-
-        addSubview(bluetoothImageView)
 
         bluetoothImageView.topAnchor.constraint(equalTo: topAnchor, constant: 20.0).isActive = true
         bluetoothImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
@@ -49,15 +57,20 @@ class ScanResultTableViewCell: UITableViewCell {
 
         peripheralNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12.0).isActive = true
         peripheralNameLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
-        
+
         advertisementDataLabel.topAnchor.constraint(equalTo: peripheralNameLabel.bottomAnchor, constant: 12.0).isActive = true
         advertisementDataLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
-        advertisementDataLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16).isActive = true
-        
+        advertisementDataLabel.rightAnchor.constraint(equalTo: connectButton.leftAnchor, constant: -16).isActive = true
+
         rssiLabel.topAnchor.constraint(equalTo: advertisementDataLabel.bottomAnchor, constant: 12.0).isActive = true
         rssiLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
-        rssiLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16.0).isActive = true
-        rssiLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        rssiLabel.rightAnchor.constraint(equalTo: connectButton.leftAnchor, constant: -16.0).isActive = true
+
+        connectButton.topAnchor.constraint(equalTo: rssiLabel.bottomAnchor, constant: 8.0).isActive = true
+        connectButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16.0).isActive = true
+        connectButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
+        connectButton.widthAnchor.constraint(equalToConstant: 76.0).isActive = true
+        connectButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0).isActive = true
     }
 }
 

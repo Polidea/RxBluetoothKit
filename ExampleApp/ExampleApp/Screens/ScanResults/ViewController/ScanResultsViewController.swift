@@ -36,7 +36,6 @@ class ScanResultsViewController: UIViewController, CustomView {
         setDataSourceRefreshBlock()
         registerCells()
         setNavigationBar()
-        dataSource.bindData()
         bindRx()
     }
 
@@ -54,9 +53,44 @@ class ScanResultsViewController: UIViewController, CustomView {
     @objc private func scanningAction() {
         viewModel.scanAction()
         adjustTitle()
-        if viewModel.isScanning {
-            dataSource.bindData()
+    }
+
+    @objc private func connectAction(_ button: UIButton) {
+        guard let cell = button.superview as? UITableViewCell,
+              let indexPath = customView.indexPath(for: cell)
+                else {
+            return
         }
+
+        guard let scannedPeripheral = dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else {
+            return
+        }
+
+        showPeripheralServices(for: scannedPeripheral)
+
+    }
+
+    private func showPeripheralServices(for scannedPeripheral: ScannedPeripheral) {
+        RxBluetoothKitService.shared.peripheral = scannedPeripheral.peripheral
+
+        let dataItem = PeripheralServicesViewModelItem("Services",
+                peripheralRowItems: scannedPeripheral.peripheral.services)
+
+        let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
+            guard let cell = cell as? UpdatableCell else {
+                return
+            }
+            cell.update(with: item)
+        }
+
+        let viewModel = PeripheralServicesViewModel()
+
+        let dataSource = TableViewDataSource<[Service], PeripheralServicesViewModelItem>(dataItem: dataItem,
+                configureBlock: configureBlock)
+
+        let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)
+
+        show(viewController, sender: self)
     }
 
     private func adjustTitle() {
@@ -81,29 +115,11 @@ extension ScanResultsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140.0
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else {
+
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? ScanResultTableViewCell else {
             return
         }
-        
-        RxBluetoothKitService.shared.peripheral = item.peripheral
-
-        let viewModel = PeripheralServicesViewModel()
-
-        let dataItem = PeripheralServicesViewModelItem("Services", peripheralRowItems: item.peripheral.services)
-
-        let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
-            guard let cell = cell as? UpdatableCell else {
-                return
-            }
-            cell.update(with: item)
-        }
-
-        let dataSource = TableViewDataSource<[Service], PeripheralServicesViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
-
-        let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)
-
-        show(viewController, sender: self)
+        cell.setConnectTarget(self, action: #selector(connectAction), for: .touchUpInside)
     }
 }

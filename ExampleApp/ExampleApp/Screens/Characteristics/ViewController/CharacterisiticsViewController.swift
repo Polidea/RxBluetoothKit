@@ -37,7 +37,7 @@ class CharacteristicsViewController: UIViewController, CustomView {
         setDataSourceRefreshBlock()
         customView.setTableView(dataSource: dataSource, delegate: self)
         dataSource.bindItemsObserver(to: viewModel.characteristicsOutput)
-        dataSource.bindData()
+//        dataSource.bindData()
     }
 
     private func setDataSourceRefreshBlock() {

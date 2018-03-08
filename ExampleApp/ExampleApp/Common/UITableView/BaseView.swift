@@ -25,8 +25,16 @@ class BaseView: UIView {
         self.tableView.delegate = delegate
     }
 
+    func indexPath(for cell: UITableViewCell) -> IndexPath? {
+        return tableView.indexPath(for: cell)
+    }
+
     func refreshTableView() {
         tableView.reloadData()
+    }
+
+    func indexPathFor(cell: UITableViewCell) -> IndexPath? {
+        return tableView.indexPath(for: cell)
     }
 
     private func addSubviews() {

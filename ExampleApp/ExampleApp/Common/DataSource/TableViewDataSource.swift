@@ -13,18 +13,20 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
     }
 
     var refreshDataBlock: RefreshDataBlock?
-
+    
     private let itemsSubject = PublishSubject<I>()
-
-    private var configureBlock: CellConfigurationBlock
 
     private let dataItem: S
 
     private let disposeBag: DisposeBag = DisposeBag()
 
+    private var configureBlock: CellConfigurationBlock
+
     init(dataItem: S, configureBlock: @escaping CellConfigurationBlock) {
         self.dataItem = dataItem
         self.configureBlock = configureBlock
+        super.init()
+        bindData()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -37,19 +39,11 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) else {
             return UITableViewCell()
         }
-
+        
         configureBlock(cell, item)
         return cell
     }
 
-    func bindData() {
-        itemsObservable.subscribe(onNext: { [weak self] item in
-            self?.dataItem.append(item)
-            self?.refreshData()
-        }, onError: { (error) in
-            print(error)
-        }).disposed(by: disposeBag)
-    }
 
     func bindItemsObserver(to observable: Observable<I>) {
         observable.bind(to: itemsSubject).disposed(by: disposeBag)
@@ -57,6 +51,15 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
 
     func takeItemAt(index: Int) -> Any {
         return dataItem.rowData[index]
+    }
+
+    private func bindData() {
+        itemsObservable.subscribe(onNext: { [weak self] item in
+            self?.dataItem.append(item)
+            self?.refreshData()
+        }, onError: { (error) in
+            print(error)
+        }).disposed(by: disposeBag)
     }
 
     private func refreshData() {

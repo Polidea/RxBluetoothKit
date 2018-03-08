@@ -26,6 +26,8 @@ class ScanResultsViewModelItem: SectionModelItem {
 
    func append(_ item: Any) {
         if let item = item as? ScannedPeripheral {
+            let identicalPeripheral = peripheralRowItems.filter { $0.peripheral == item.peripheral }
+            guard identicalPeripheral.isEmpty else { return }
             peripheralRowItems.append(item)
         }
     }
