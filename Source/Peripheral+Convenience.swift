@@ -167,7 +167,7 @@ extension Peripheral {
      Notification is automaticaly unregistered once this observable is unsubscribed
      
      - parameter characteristic: `Characteristic` for notification setup.
-     - returns: `Observable` emitting `Peripheral` when the notification setup is complete.
+     - returns: `Observable` emitting `Characteristic` when given characteristic has been changed.
      
      This is **infinite** stream of values.
      */

@@ -30,7 +30,7 @@ import CoreBluetooth
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 public class Peripheral {
 
-    public let manager: CentralManager
+    public unowned let manager: CentralManager
 
     /// Implementation of peripheral
     public let peripheral: CBPeripheral
@@ -355,7 +355,7 @@ public class Peripheral {
      Notification is automaticaly unregistered once this observable is unsubscribed
      
      - parameter characteristic: `Characteristic` for notification setup.
-     - returns: `Observable` emitting `Peripheral` when the notification setup is complete.
+     - returns: `Observable` emitting `Characteristic` when given characteristic has been changed.
      
      This is **infinite** stream of values.
      */

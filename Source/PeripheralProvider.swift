@@ -75,7 +75,7 @@ class PeripheralProvider {
         peripheralsBox.compareAndSet(
             compare: { peripherals in
                 return !peripherals.contains(where: { $0.peripheral == cbPeripheral })
-        },
+            },
             set: { [weak self] peripherals in
                 guard let strongSelf = self else { return }
                 let delegateWrapper = strongSelf.provideDelegateWrapper(for: cbPeripheral)

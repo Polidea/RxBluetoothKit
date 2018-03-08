@@ -30,6 +30,7 @@ class _CharacteristicNotificationManager {
     private unowned let peripheral: CBPeripheralMock
     private let delegateWrapper: CBPeripheralDelegateWrapperMock
     private var uuidToActiveObservableMap: [CBUUID: Observable<_Characteristic>] = [:]
+    private var uuidToActiveObservablesCountMap: [CBUUID: Int] = [:]
     private let lock = NSLock()
 
     init(peripheral: CBPeripheralMock, delegateWrapper: CBPeripheralDelegateWrapperMock) {
@@ -47,18 +48,24 @@ class _CharacteristicNotificationManager {
             }
 
             let notifyValue = strongSelf.setNotifyValue(true, for: characteristic).asObservable()
+                .map { _ in characteristic }
             let notificationObserable = strongSelf.createValueUpdateObservable(for: characteristic)
             let observable = Observable.of(notifyValue, notificationObserable)
                 .merge()
                 .do(onDispose: { [weak self] in
                     guard let strongSelf = self else { return }
                     do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                        strongSelf.uuidToActiveObservableMap.removeValue(forKey: characteristic.uuid)
+                        let counter = strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 1
+                        strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] = counter - 1
+                        if counter <= 1 {
+                            strongSelf.uuidToActiveObservableMap.removeValue(forKey: characteristic.uuid)
+                            _ = strongSelf.setNotifyValue(false, for: characteristic)
+                                .subscribe()
+                        }
                     }
-                    _ = strongSelf.setNotifyValue(false, for: characteristic)
-                        .subscribe()
                 })
                 .share()
+
             strongSelf.uuidToActiveObservableMap[characteristic.uuid] = observable
             return observable
         }
@@ -76,24 +83,14 @@ class _CharacteristicNotificationManager {
             }
     }
 
-    private func setNotifyValue(_ enabled: Bool, for characteristic: _Characteristic) -> Single<_Characteristic> {
-        let observable = delegateWrapper
-            .peripheralDidUpdateNotificationStateForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
-            .take(1)
-            .map { (_, error) -> _Characteristic in
-                if let error = error {
-                    throw _BluetoothError.characteristicNotifyChangeFailed(characteristic, error)
-                }
-                return characteristic
-        }
-        let setObservable: Observable<_Characteristic> = .deferred { [weak self] in
+    private func setNotifyValue(_ enabled: Bool, for characteristic: _Characteristic) -> Completable {
+        return .deferred { [weak self] in
+            if enabled {
+                let counter = self?.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 0
+                self?.uuidToActiveObservablesCountMap[characteristic.uuid] = counter + 1
+            }
             self?.peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
             return .empty()
         }
-        return Observable.of(
-            observable,
-            setObservable
-        ).merge().asSingle()
     }
 }
