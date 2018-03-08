@@ -15,9 +15,9 @@ class RxBluetoothKitService {
         return servicesSubject.asObservable()
     }
 
-    var peripheral: Peripheral?
+    var peripheral: Peripheral? // check: docelowo kilka peripherali
 
-    var service: Service?
+    var service: Service? // to samo
 
     private let scanningSubject: PublishSubject<ScannedPeripheral> = PublishSubject()
 

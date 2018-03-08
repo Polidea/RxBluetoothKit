@@ -79,14 +79,14 @@ class ScanResultsViewController: UIViewController, CustomView {
 extension ScanResultsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120.0
+        return 140.0
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? ScannedPeripheral else {
             return
         }
-
+        
         RxBluetoothKitService.shared.peripheral = item.peripheral
 
         let viewModel = PeripheralServicesViewModel()

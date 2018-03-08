@@ -3,30 +3,55 @@ import UIKit
 
 class ScanResultTableViewCell: UITableViewCell {
 
-    private let peripheralNameLabel: UILabel = UILabel(frame: .zero)
-    private let advertisementDataLabel: UILabel = UILabel(frame: .zero)
+    private let peripheralNameLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
+    
+    private let advertisementDataLabel: UILabel = UILabel(style: Stylesheet.Commons.descriptionLabel)
+    
+    private let rssiLabel: UILabel = UILabel(style: Stylesheet.Commons.descriptionLabel)
+    
+    private let bluetoothImageView: UIImageView = UIImageView(image: UIImage(named: "bluetooth"))
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        applyStyles()
         setConstraints()
         backgroundColor = .white
     }
+
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func applyStyles() {
+        Stylesheet.Commons.cellSmallImageRound.apply(to: bluetoothImageView)
+    }
+
     private func setConstraints() {
-        [peripheralNameLabel, advertisementDataLabel].forEach { view in
+        [peripheralNameLabel, advertisementDataLabel, bluetoothImageView, rssiLabel].forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false
             addSubview(view)
         }
 
-        peripheralNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
-        peripheralNameLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
-        advertisementDataLabel.topAnchor.constraint(equalTo: self.peripheralNameLabel.bottomAnchor, constant: 8).isActive = true
-        advertisementDataLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
+        addSubview(bluetoothImageView)
+
+        bluetoothImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        bluetoothImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        bluetoothImageView.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
+        bluetoothImageView.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
+
+        peripheralNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -32).isActive = true
+        peripheralNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        
+        advertisementDataLabel.topAnchor.constraint(equalTo: peripheralNameLabel.bottomAnchor, constant: 12).isActive = true
+        advertisementDataLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16).isActive = true
+        advertisementDataLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16).isActive = true
+        
+        rssiLabel.topAnchor.constraint(equalTo: advertisementDataLabel.bottomAnchor, constant: 8).isActive = true
+        rssiLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16).isActive = true
+        rssiLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16).isActive = true
+        rssiLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 }
 
@@ -38,5 +63,6 @@ extension ScanResultTableViewCell: UpdatableCell {
 
         peripheralNameLabel.text = item.advertisementData.localName ?? item.peripheral.identifier.uuidString
         advertisementDataLabel.text = "\(item.advertisementData.advertisementData)"
+        rssiLabel.text = "RSSI: \(item.rssi)"
     }
 }
