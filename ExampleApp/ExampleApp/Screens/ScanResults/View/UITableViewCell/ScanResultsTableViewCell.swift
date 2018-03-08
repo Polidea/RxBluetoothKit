@@ -18,10 +18,16 @@ class ScanResultTableViewCell: UITableViewCell {
         backgroundColor = .white
     }
 
-
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        peripheralNameLabel.text = nil
+        advertisementDataLabel.text = nil
+        rssiLabel.text = nil
     }
 
     private func applyStyles() {
@@ -36,21 +42,21 @@ class ScanResultTableViewCell: UITableViewCell {
 
         addSubview(bluetoothImageView)
 
-        bluetoothImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        bluetoothImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        bluetoothImageView.topAnchor.constraint(equalTo: topAnchor, constant: 20.0).isActive = true
+        bluetoothImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
         bluetoothImageView.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
         bluetoothImageView.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
 
-        peripheralNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -32).isActive = true
-        peripheralNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        peripheralNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12.0).isActive = true
+        peripheralNameLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
         
-        advertisementDataLabel.topAnchor.constraint(equalTo: peripheralNameLabel.bottomAnchor, constant: 12).isActive = true
-        advertisementDataLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16).isActive = true
+        advertisementDataLabel.topAnchor.constraint(equalTo: peripheralNameLabel.bottomAnchor, constant: 12.0).isActive = true
+        advertisementDataLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
         advertisementDataLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16).isActive = true
         
-        rssiLabel.topAnchor.constraint(equalTo: advertisementDataLabel.bottomAnchor, constant: 8).isActive = true
-        rssiLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16).isActive = true
-        rssiLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16).isActive = true
+        rssiLabel.topAnchor.constraint(equalTo: advertisementDataLabel.bottomAnchor, constant: 12.0).isActive = true
+        rssiLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
+        rssiLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16.0).isActive = true
         rssiLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 }

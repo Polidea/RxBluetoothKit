@@ -4,6 +4,8 @@ class BaseView: UIView {
 
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 140.0
         return tableView
     }()
 
