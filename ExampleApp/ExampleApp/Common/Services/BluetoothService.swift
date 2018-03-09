@@ -5,8 +5,6 @@ import RxCocoa
 
 class RxBluetoothKitService {
 
-    static let shared = RxBluetoothKitService()
-
     var scanningOutput: Observable<ScannedPeripheral> {
         return scanningSubject.asObservable()
     }
@@ -14,8 +12,6 @@ class RxBluetoothKitService {
     var servicesOutput: Observable<[Service]> {
         return servicesSubject.asObservable()
     }
-
-    var service: Service? // to samo
 
     private let scanningSubject: PublishSubject<ScannedPeripheral> = PublishSubject()
 
@@ -65,10 +61,7 @@ class RxBluetoothKitService {
                 .disposed(by: disposeBag)
     }
 
-    func discoverCharacteristics() -> Observable<[Characteristic]> {
-        guard let service = service else {
-            return Observable.empty()
-        }
+    func discoverCharacteristics(for service: Service) -> Observable<[Characteristic]> {
         return service.discoverCharacteristics(nil).asObservable()
     }
 

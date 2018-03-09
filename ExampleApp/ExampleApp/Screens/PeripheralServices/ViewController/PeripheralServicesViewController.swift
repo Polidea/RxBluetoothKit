@@ -63,9 +63,7 @@ extension PeripheralServicesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? Service else { return }
 
-        RxBluetoothKitService.shared.service = item
-
-        let viewModel = CharacteristicsViewModel()
+        let viewModel = CharacteristicsViewModel(with: self.viewModel.bluetoothService, service: item)
 
         let dataItem = CharacteristicsViewModelItem("Characteristics", characteristicsRowItems: item.characteristics)
 

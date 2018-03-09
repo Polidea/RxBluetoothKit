@@ -11,7 +11,11 @@ class ScanResultsViewModel: ScanResultsViewModelType {
 
     var isScanning: Bool = false
 
-    private let bluetoothService: RxBluetoothKitService = RxBluetoothKitService.shared
+    let bluetoothService: RxBluetoothKitService
+
+    init(with bluetoothService: RxBluetoothKitService) {
+        self.bluetoothService = bluetoothService
+    }
 
     func scanAction() {
         if !isScanning {

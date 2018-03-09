@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         let scanResultsDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
-        let viewModel = ScanResultsViewModel()
+        let viewModel = ScanResultsViewModel(with: RxBluetoothKitService())
         let scanResultsViewController = ScanResultsViewController(with: scanResultsDataSource, viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: scanResultsViewController)
 

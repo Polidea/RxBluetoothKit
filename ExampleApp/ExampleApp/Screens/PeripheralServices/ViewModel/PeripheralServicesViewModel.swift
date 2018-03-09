@@ -6,16 +6,17 @@ import RxSwift
 class PeripheralServicesViewModel: PeripheralServicesViewModelType {
 
     var servicesOutput: Observable<[Service]> {
-        return RxBluetoothKitService.shared.servicesOutput
+        return bluetoothService.servicesOutput
     }
 
     let displayedPeripheral: Peripheral
 
+    let bluetoothService: RxBluetoothKitService
+
     private let disposeBag: DisposeBag = DisposeBag()
 
-    private let bluetoothService: RxBluetoothKitService = RxBluetoothKitService.shared
-
-    init(with peripheral: Peripheral) {
+    init(with bluetoothService: RxBluetoothKitService, peripheral: Peripheral) {
+        self.bluetoothService = bluetoothService
         self.displayedPeripheral = peripheral
     }
 

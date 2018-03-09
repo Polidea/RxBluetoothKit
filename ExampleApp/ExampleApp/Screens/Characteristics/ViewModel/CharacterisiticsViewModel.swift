@@ -6,19 +6,22 @@ import RxSwift
 class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     var characteristicsOutput: Observable<[Characteristic]> {
-        return bluetoothService.discoverCharacteristics()
+        return bluetoothService.discoverCharacteristics(for: service)
     }
 
     private let disposeBag: DisposeBag = DisposeBag()
 
-    private let bluetoothService: RxBluetoothKitService = RxBluetoothKitService.shared
+    private let bluetoothService: RxBluetoothKitService
 
     private var characteristic: Characteristic?
 
+    private let service: Service
+
     private var notificationsDisposable: Disposable?
 
-    init() {
-
+    init(with bluetoothService: RxBluetoothKitService, service: Service) {
+        self.bluetoothService = bluetoothService
+        self.service = service
     }
 
     func setCurrent(characteristic: Characteristic) {

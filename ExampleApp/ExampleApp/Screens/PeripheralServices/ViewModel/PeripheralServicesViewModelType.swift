@@ -8,5 +8,7 @@ protocol PeripheralServicesViewModelType {
 
     var displayedPeripheral: Peripheral { get }
 
+    var bluetoothService: RxBluetoothKitService { get }
+
     func connect()
 }
