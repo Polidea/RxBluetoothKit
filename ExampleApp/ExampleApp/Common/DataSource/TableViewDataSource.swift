@@ -53,7 +53,7 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
         return dataItem.rowData[index]
     }
 
-    private func bindData() {
+    func bindData() {
         itemsObservable.subscribe(onNext: { [weak self] item in
             self?.dataItem.append(item)
             self?.refreshData()

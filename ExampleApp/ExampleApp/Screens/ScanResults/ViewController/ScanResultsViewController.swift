@@ -53,6 +53,10 @@ class ScanResultsViewController: UIViewController, CustomView {
     @objc private func scanningAction() {
         viewModel.scanAction()
         adjustTitle()
+
+        if viewModel.isScanning {
+            dataSource.bindData()
+        }
     }
 
     @objc private func connectAction(_ button: UIButton) {
@@ -67,11 +71,9 @@ class ScanResultsViewController: UIViewController, CustomView {
         }
 
         showPeripheralServices(for: scannedPeripheral)
-
     }
 
     private func showPeripheralServices(for scannedPeripheral: ScannedPeripheral) {
-        RxBluetoothKitService.shared.peripheral = scannedPeripheral.peripheral
 
         let dataItem = PeripheralServicesViewModelItem("Services",
                 peripheralRowItems: scannedPeripheral.peripheral.services)
@@ -83,7 +85,7 @@ class ScanResultsViewController: UIViewController, CustomView {
             cell.update(with: item)
         }
 
-        let viewModel = PeripheralServicesViewModel()
+        let viewModel = PeripheralServicesViewModel(with: scannedPeripheral.peripheral)
 
         let dataSource = TableViewDataSource<[Service], PeripheralServicesViewModelItem>(dataItem: dataItem,
                 configureBlock: configureBlock)
@@ -95,7 +97,7 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     private func adjustTitle() {
         navigationItem.rightBarButtonItem?.title = viewModel.isScanning ? "Stop scan" : "Start scan"
-        title = viewModel.isScanning ? "Scanning" : nil
+        title = viewModel.isScanning ? "Scanning..." : ""
     }
 
     private func setDataSourceRefreshBlock() {
@@ -116,7 +118,7 @@ extension ScanResultsViewController: UITableViewDelegate {
         return 140.0
     }
 
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? ScanResultTableViewCell else {
             return
         }

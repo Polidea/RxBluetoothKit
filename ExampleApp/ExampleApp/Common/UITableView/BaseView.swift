@@ -6,6 +6,7 @@ class BaseView: UIView {
         let tableView = UITableView(frame: .zero)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 140.0
+        tableView.separatorStyle = .none
         return tableView
     }()
 

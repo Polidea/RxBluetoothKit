@@ -18,6 +18,7 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = .white
+        title = viewModel.displayedPeripheral.name ?? String(describing: viewModel.displayedPeripheral.identifier)
     }
 
     @available(*, unavailable)
@@ -36,7 +37,6 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         setDataSourceRefreshBlock()
         viewModel.connect()
         bindViewModelOutput()
-       // dataSource.bindData()
     }
 
     private func bindViewModelOutput() {
@@ -57,7 +57,7 @@ class PeripheralServicesViewController: UIViewController, CustomView {
 
 extension PeripheralServicesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120.0
+        return 80.0
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

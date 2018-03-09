@@ -72,6 +72,7 @@ class ScanResultTableViewCell: UITableViewCell {
         connectButton.widthAnchor.constraint(equalToConstant: 76.0).isActive = true
         connectButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0).isActive = true
     }
+
 }
 
 extension ScanResultTableViewCell: UpdatableCell {
