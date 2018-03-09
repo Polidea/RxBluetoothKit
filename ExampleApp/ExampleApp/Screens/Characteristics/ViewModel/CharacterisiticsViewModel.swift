@@ -9,13 +9,25 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         return bluetoothService.discoverCharacteristics(for: service)
     }
 
+    var dataUpdateOutput: Observable<Void> {
+        return characteristicUpdateTrigger.asObservable()
+    }
+
+    var alertTriggerOutput: Observable<String> {
+        return alertTrigger.asObservable()
+    }
+
     private let disposeBag: DisposeBag = DisposeBag()
 
     private let bluetoothService: RxBluetoothKitService
 
-    private var characteristic: Characteristic?
-
     private let service: Service
+
+    private let characteristicUpdateTrigger: PublishSubject<Void> = PublishSubject()
+
+    private let alertTrigger: PublishSubject<String> = PublishSubject()
+
+    private var characteristic: Characteristic?
 
     private var notificationsDisposable: Disposable?
 
@@ -32,8 +44,9 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         guard let characteristic = characteristic else {
             return
         }
-        characteristic.readValue().subscribe(onSuccess: { char in
-            print(char.value)
+        
+        characteristic.readValue().subscribe(onSuccess: { [unowned self] char in
+            self.characteristicUpdateTrigger.onNext(Void())
         }, onError: { error in
             print(error)
         }).disposed(by: disposeBag)
@@ -46,16 +59,18 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
         let type: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
         characteristic.writeValue(hexadecimalData as Data, type: type)
-                .subscribe({ _ in
-                    print("I wrote sth")
+                .subscribe({ [unowned self] _ in
+                    let message = "Wrote \(hexadecimalString) to characteristic: \(characteristic.uuid.uuidString)"
+                    self.alertTrigger.onNext(message)
                 }).disposed(by: disposeBag)
     }
 
     func setNotificationsState(enabled: Bool) {
           if enabled {
-              subscribeNotification()
+            subscribeNotification()
           } else {
-              notificationsDisposable?.dispose()
+            notificationsDisposable?.dispose()
+            characteristicUpdateTrigger.onNext(Void())
           }
     }
 
@@ -65,8 +80,8 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         }
 
         notificationsDisposable = characteristic.observeValueUpdateAndSetNotification(for: characteristic)
-                .subscribe(onNext: { characteristic in
-                    print(characteristic.isNotifying)
+            .subscribe({ [weak self] _ in
+                    self?.characteristicUpdateTrigger.onNext(Void())
                 })
     }
 }

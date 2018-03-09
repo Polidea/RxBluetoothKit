@@ -7,6 +7,10 @@ protocol CharacteristicsViewModelType {
 
     var characteristicsOutput: Observable<[Characteristic]> { get }
 
+    var dataUpdateOutput: Observable<Void> { get }
+
+    var alertTriggerOutput: Observable<String> { get }
+
     func setCurrent(characteristic: Characteristic)
 
     func triggerValueRead()
@@ -14,4 +18,5 @@ protocol CharacteristicsViewModelType {
     func writeValueForCharacteristic(hexadecimalString: String)
 
     func setNotificationsState(enabled: Bool)
+
 }

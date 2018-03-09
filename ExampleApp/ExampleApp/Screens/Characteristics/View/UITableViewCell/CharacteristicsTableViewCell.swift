@@ -20,6 +20,13 @@ class CharacterisiticsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        uuidLabel.text = nil
+        isNotyfingLabel.text = nil
+        valueLabel.text = nil
+    }
+    
     private func setConstraints() {
         [uuidLabel, isNotyfingLabel, valueLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
