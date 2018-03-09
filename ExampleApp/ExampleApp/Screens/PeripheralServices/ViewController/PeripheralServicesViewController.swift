@@ -13,6 +13,8 @@ class PeripheralServicesViewController: UIViewController, CustomView {
 
     private let dataSource: PeripheralServicesDataSource
 
+    private let disposeBag: DisposeBag = DisposeBag()
+
     init(with dataSource: PeripheralServicesDataSource, viewModel: PeripheralServicesViewModelType) {
         self.dataSource = dataSource
         self.viewModel = viewModel
@@ -37,14 +39,20 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         setDataSourceRefreshBlock()
         viewModel.connect()
         bindViewModelOutput()
+        customView.toggleActivityIndicator(true)
     }
 
     private func bindViewModelOutput() {
         dataSource.bindItemsObserver(to: viewModel.servicesOutput)
+        viewModel.servicesOutput.subscribe(onNext: { [unowned self] services in
+            self.customView.toggleActivityIndicator(false)
+        }, onError: { error in
+            print(error)
+        }).disposed(by: disposeBag)
     }
 
     private func registerCells() {
-        customView.tableView.register(PeripheralServiceCell.self,
+        customView.register(cellType: PeripheralServiceCell.self,
                 forCellReuseIdentifier: String(describing: PeripheralServiceCell.self))
     }
 

@@ -46,7 +46,7 @@ class CharacteristicsViewController: UIViewController, CustomView {
     }
 
     private func registerCells() {
-        customView.tableView.register(CharacterisiticsTableViewCell.self,
+        customView.register(cellType: CharacterisiticsTableViewCell.self,
                 forCellReuseIdentifier: String(describing: CharacterisiticsTableViewCell.self))
     }
 

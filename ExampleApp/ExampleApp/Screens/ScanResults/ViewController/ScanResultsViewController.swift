@@ -108,7 +108,7 @@ class ScanResultsViewController: UIViewController, CustomView {
     }
 
     private func registerCells() {
-        customView.tableView.register(ScanResultTableViewCell.self,
+        customView.register(cellType: ScanResultTableViewCell.self,
                 forCellReuseIdentifier: String(describing: ScanResultTableViewCell.self))
     }
 }

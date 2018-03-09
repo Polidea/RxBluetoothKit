@@ -6,7 +6,7 @@ import RxCocoa
 class RxBluetoothKitService {
 
     var scanningOutput: Observable<ScannedPeripheral> {
-        return scanningSubject.asObservable()
+        return scanningSubject.shareReplay(1).asObservable()
     }
 
     var servicesOutput: Observable<[Service]> {
