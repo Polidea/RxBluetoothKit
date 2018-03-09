@@ -101,7 +101,7 @@ class CharacteristicsViewController: UIViewController, CustomView {
 
 extension CharacteristicsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 140
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
