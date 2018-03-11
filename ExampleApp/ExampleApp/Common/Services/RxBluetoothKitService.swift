@@ -6,7 +6,7 @@ import RxCocoa
 class RxBluetoothKitService {
 
     var scanningOutput: Observable<ScannedPeripheral> {
-        return scanningSubject.shareReplay(1).asObservable()
+        return scanningSubject.share(replay: 1, scope: .forever).asObservable()
     }
 
     var servicesOutput: Observable<[Service]> {
@@ -28,7 +28,7 @@ class RxBluetoothKitService {
     private var scanningDisposable: Disposable!
 
     init() {
-        let timerQueue = DispatchQueue(label: "com.polidea.rxbluetoothkit.timer")
+        let timerQueue = DispatchQueue(label: Constant.Strings.defaultDispatchQueueLabel)
         scheduler = ConcurrentDispatchQueueScheduler(queue: timerQueue)
     }
 
@@ -74,12 +74,6 @@ class RxBluetoothKitService {
         }
     }
 
-    private func removeDisconnected(_ peripheral: Peripheral) {
-        connectedPeripherals = connectedPeripherals.filter() {
-            $0 !== peripheral
-        }
-    }
-
     private func observeDisconnect(for peripheral: Peripheral) {
         centralManager.observeDisconnect(for: peripheral).subscribe(onNext: { [unowned self] (peripheral, reason) in
             print("Disconnected: ", peripheral, reason)
@@ -87,5 +81,11 @@ class RxBluetoothKitService {
         }, onError: { error in
             print(error)
         }).disposed(by: disposeBag)
+    }
+
+    private func removeDisconnected(_ peripheral: Peripheral) {
+        connectedPeripherals = connectedPeripherals.filter() {
+            $0 !== peripheral
+        }
     }
 }

@@ -8,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        let dataItem: ScanResultsViewModelItem = ScanResultsViewModelItem("Scan Results")
+        let dataItem: ScanResultsViewModelItem = ScanResultsViewModelItem(Constant.Strings.scanResultSectionTitle)
         let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
             guard let cell = cell as? UpdatableCell else { return }
             cell.update(with: item)

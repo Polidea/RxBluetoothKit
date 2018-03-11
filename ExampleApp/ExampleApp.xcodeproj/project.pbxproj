@@ -29,6 +29,7 @@
 		E4F472511E66FC89D3403F81 /* RxBluetoothKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C45E5B969449636C081 /* RxBluetoothKitService.swift */; };
 		E4F472F82AAF157D304F6473 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F477998A57AF111CF514EA /* Style.swift */; };
 		E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */; };
+		E4F473D4EDF94BB994FBC8C8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E5ED01C8DC470E43C4F /* Constant.swift */; };
 		E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */; };
 		E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */; };
 		E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */; };
@@ -69,6 +70,7 @@
 		E4F47C45E5B969449636C081 /* RxBluetoothKitService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxBluetoothKitService.swift; sourceTree = "<group>"; };
 		E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsViewModelItem.swift; sourceTree = "<group>"; };
 		E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewController.swift; sourceTree = "<group>"; };
+		E4F47E5ED01C8DC470E43C4F /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewModel.swift; sourceTree = "<group>"; };
 		EDA12C1BE2113E4E2EF8937D /* Pods-ExampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				E4F47F6DACA6D351DCFF061D /* Stylesheet */,
 				E4F47E49159019F0B78F129F /* UIView */,
 				E4F4775217BF3E6F45EEE40D /* Data */,
+				E4F4742C374DCCDAC4BF63D7 /* Constant */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -314,6 +317,14 @@
 				E4F477FD294C73A2FE40847C /* CellViewModelItem */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E4F4742C374DCCDAC4BF63D7 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47E5ED01C8DC470E43C4F /* Constant.swift */,
+			);
+			path = Constant;
 			sourceTree = "<group>";
 		};
 		E4F476A36EDEA65DAADF152F /* UITableView */ = {
@@ -547,6 +558,7 @@
 				E4F47B82AF12FF8729FF129F /* UIView+Style.swift in Sources */,
 				E4F472234EA95D95CC83C0CD /* Stylesheet.swift in Sources */,
 				E4F4716C35B10A40F7861EB6 /* Data+utils.swift in Sources */,
+				E4F473D4EDF94BB994FBC8C8 /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

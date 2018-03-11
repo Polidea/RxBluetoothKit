@@ -44,7 +44,7 @@ class ScanResultsViewController: UIViewController, CustomView {
     }
 
     private func setNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start scanning",
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: Constant.Strings.startScanning,
                 style: .plain,
                 target: self,
                 action: #selector(scanningAction))
@@ -75,7 +75,7 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     private func showPeripheralServices(for scannedPeripheral: ScannedPeripheral) {
 
-        let dataItem = PeripheralServicesViewModelItem("Services",
+        let dataItem = PeripheralServicesViewModelItem(Constant.Strings.servicesSectionTitle,
                 peripheralRowItems: scannedPeripheral.peripheral.services)
 
         let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
@@ -97,8 +97,8 @@ class ScanResultsViewController: UIViewController, CustomView {
     }
 
     private func adjustTitle() {
-        navigationItem.rightBarButtonItem?.title = viewModel.isScanning ? "Stop scan" : "Start scan"
-        title = viewModel.isScanning ? "Scanning..." : ""
+        navigationItem.rightBarButtonItem?.title = viewModel.isScanning ? Constant.Strings.stopScanning : Constant.Strings.stopScanning
+        title = viewModel.isScanning ? Constant.Strings.scanning : nil
     }
 
     private func setDataSourceRefreshBlock() {

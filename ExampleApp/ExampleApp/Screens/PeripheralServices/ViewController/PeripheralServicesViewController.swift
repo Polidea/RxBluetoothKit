@@ -69,11 +69,14 @@ extension PeripheralServicesViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? Service else { return }
+        guard let item = self.dataSource.takeItemAt(index: indexPath.row) as? Service else {
+            return
+        }
 
         let viewModel = CharacteristicsViewModel(with: self.viewModel.bluetoothService, service: item)
 
-        let dataItem = CharacteristicsViewModelItem("Characteristics", characteristicsRowItems: item.characteristics)
+        let dataItem = CharacteristicsViewModelItem(Constant.Strings.characteristicsSectionTitle,
+                characteristicsRowItems: item.characteristics)
 
         let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
             guard let cell = cell as? UpdatableCell else {
