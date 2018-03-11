@@ -18,12 +18,10 @@
 		61191B1F4B28D02AA43F6A2F /* ScansResultViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */; };
 		61191BD7324ED15CD5D56D2D /* PeripheralServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611919473CA70733A41CF619 /* PeripheralServicesViewController.swift */; };
 		61191C1A5A84044C966C9E73 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191EED42E68E21BC27FEDB /* CustomView.swift */; };
-		61191D0DA56A9EE0EBD0EA4C /* ScanResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191A28890003C8AFD57BD4 /* ScanResultsView.swift */; };
 		61191EABF2EC918A25A24576 /* ScanResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611918437D48292364D66A5A /* ScanResultsViewModel.swift */; };
 		61191EE11E7D495938F3D1F4 /* ScanResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611914BBF00CBE3A651CBE53 /* ScanResultsTableViewCell.swift */; };
 		61191F12AE02144E44ACE12F /* ScanResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611919D2DCAAA7EDBACC63A2 /* ScanResultsViewController.swift */; };
 		61191F5602E3C4080D499A9B /* SectionModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61191011BF6F6D193B491BA0 /* SectionModelItem.swift */; };
-		61191F82B4C5E7CF726A9522 /* PeripheralServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */; };
 		8838A1A320515503003BCC73 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8838A1A220515503003BCC73 /* Images.xcassets */; };
 		8EA4B7E9204857D100154115 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA4B7E7204857D100154115 /* LaunchScreen.storyboard */; };
 		E4F4716C35B10A40F7861EB6 /* Data+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F4772515FC28597CF67243 /* Data+utils.swift */; };
@@ -34,7 +32,6 @@
 		E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */; };
 		E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */; };
 		E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */; };
-		E4F479728D6C04FEA594394E /* CharacteristicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */; };
 		E4F479F20F93F97493780F10 /* CharacterisiticsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */; };
 		E4F47ABC5CD0FA38873E13C1 /* CharacteristicsViewModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */; };
 		E4F47B82AF12FF8729FF129F /* UIView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47B713CD5AC588C87CBCB /* UIView+Style.swift */; };
@@ -45,14 +42,12 @@
 		03B064BD740820BFD0F0133F /* Pods-ExampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		61191011BF6F6D193B491BA0 /* SectionModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionModelItem.swift; sourceTree = "<group>"; };
 		6119122E34D0147A7E2C9C7B /* ScansResultViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScansResultViewModelType.swift; sourceTree = "<group>"; };
-		6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesView.swift; sourceTree = "<group>"; };
 		611914BBF00CBE3A651CBE53 /* ScanResultsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsTableViewCell.swift; sourceTree = "<group>"; };
 		611917947AC817CA291EC9D2 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		61191806818A2A7AC82C79AB /* ScanResultViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultViewModelItem.swift; sourceTree = "<group>"; };
 		611918437D48292364D66A5A /* ScanResultsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsViewModel.swift; sourceTree = "<group>"; };
 		611919473CA70733A41CF619 /* PeripheralServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServicesViewController.swift; sourceTree = "<group>"; };
 		611919D2DCAAA7EDBACC63A2 /* ScanResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsViewController.swift; sourceTree = "<group>"; };
-		61191A28890003C8AFD57BD4 /* ScanResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanResultsView.swift; sourceTree = "<group>"; };
 		61191AB41147ACFEE6897528 /* CellUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellUpdatable.swift; sourceTree = "<group>"; };
 		61191C8E8C5BAB54FB030FFF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61191E527845C342A2B509F6 /* PeripheralServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralServiceCell.swift; sourceTree = "<group>"; };
@@ -65,7 +60,6 @@
 		8EA4B7EA204857D100154115 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A380B061A30914A560F6D365 /* Pods_ExampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewModelType.swift; sourceTree = "<group>"; };
-		E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsView.swift; sourceTree = "<group>"; };
 		E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsTableViewCell.swift; sourceTree = "<group>"; };
 		E4F4772515FC28597CF67243 /* Data+utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+utils.swift"; sourceTree = "<group>"; };
 		E4F477998A57AF111CF514EA /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
@@ -177,7 +171,6 @@
 		61191507D0B13C427C870A9C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6119128D2BA1C92A62E464A5 /* PeripheralServicesView.swift */,
 				611913E5B0C3C9768CE5AB2B /* UITableViewCell */,
 			);
 			path = View;
@@ -205,7 +198,6 @@
 		611916EE5771DA5CFB3E964C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				61191A28890003C8AFD57BD4 /* ScanResultsView.swift */,
 				61191D15FD25B4B66D717CEF /* UITableViewCell */,
 			);
 			path = View;
@@ -335,7 +327,6 @@
 		E4F476B4F44488657A0C9C56 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E4F47647D611FB0D6D7497D2 /* CharacteristicsView.swift */,
 				E4F47CD12E8DBC73B6BD3BE1 /* UITableViewCell */,
 			);
 			path = View;
@@ -532,7 +523,6 @@
 			files = (
 				6119113248BA835F48CF4DE2 /* AppDelegate.swift in Sources */,
 				61191F12AE02144E44ACE12F /* ScanResultsViewController.swift in Sources */,
-				61191D0DA56A9EE0EBD0EA4C /* ScanResultsView.swift in Sources */,
 				61191C1A5A84044C966C9E73 /* CustomView.swift in Sources */,
 				6119114447177453E2E7E03A /* CellUpdatable.swift in Sources */,
 				61191017D3956639C173176D /* TableViewDataSource.swift in Sources */,
@@ -541,14 +531,12 @@
 				61191EE11E7D495938F3D1F4 /* ScanResultsTableViewCell.swift in Sources */,
 				61191B1F4B28D02AA43F6A2F /* ScansResultViewModelType.swift in Sources */,
 				61191EABF2EC918A25A24576 /* ScanResultsViewModel.swift in Sources */,
-				61191F82B4C5E7CF726A9522 /* PeripheralServicesView.swift in Sources */,
 				61191BD7324ED15CD5D56D2D /* PeripheralServicesViewController.swift in Sources */,
 				6119158EB80727651F00593D /* PeripheralServicesViewModelType.swift in Sources */,
 				611912AFCBED293AB911B582 /* PeripheralServicesViewModelItem.swift in Sources */,
 				611913FC30F7BA29AA2DCDCF /* PeripheralServiceCell.swift in Sources */,
 				E4F472511E66FC89D3403F81 /* RxBluetoothKitService.swift in Sources */,
 				E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */,
-				E4F479728D6C04FEA594394E /* CharacteristicsView.swift in Sources */,
 				E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */,
 				E4F479F20F93F97493780F10 /* CharacterisiticsViewModelType.swift in Sources */,
 				E4F47D45E9B9F3C979B66117 /* CharacterisiticsViewModel.swift in Sources */,

@@ -5,7 +5,7 @@ import UIKit
 
 class ScanResultsViewController: UIViewController, CustomView {
 
-    typealias ViewClass = ScanResultsView
+    typealias ViewClass = BaseView
 
     typealias ScansResultDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
 

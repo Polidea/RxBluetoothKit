@@ -5,7 +5,7 @@ import UIKit
 
 class PeripheralServicesViewController: UIViewController, CustomView {
 
-    typealias ViewClass = PeripheralServicesView
+    typealias ViewClass = BaseView
 
     typealias PeripheralServicesDataSource = TableViewDataSource<[Service], PeripheralServicesViewModelItem>
 

@@ -5,7 +5,7 @@ import UIKit
 
 class CharacteristicsViewController: UIViewController, CustomView {
 
-    typealias ViewClass = CharacteristicsView
+    typealias ViewClass = BaseView
 
     typealias CharacteristicsDataSource = TableViewDataSource<[Characteristic], CharacteristicsViewModelItem>
 
