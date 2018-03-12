@@ -31,7 +31,7 @@ import CoreBluetooth
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 class _Peripheral {
 
-    let manager: _CentralManager
+    unowned let manager: _CentralManager
 
     /// Implementation of peripheral
     let peripheral: CBPeripheralMock
@@ -129,7 +129,8 @@ class _Peripheral {
     /// Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the
     /// peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
     /// If all of the specified services are already discovered - these are returned without doing any underlying Bluetooth operations.
-    /// Next on returned `Observable` is emitted only when all of the requested services are discovered.
+    /// Next on returned `Observable` is emitted only when all of the requested services are discovered, otherwise`RxError.noElements`
+    /// error is emmited.
     ///
     /// - Parameter serviceUUIDs: An array of [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) object represents a UUID that identifies the type of service you want to discover.
     /// - Returns: `Single` that emits `Next` with array of `_Service` instances, once they're discovered.
@@ -148,7 +149,7 @@ class _Peripheral {
                 if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
                     return .just(filteredServices)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 
@@ -163,7 +164,8 @@ class _Peripheral {
     /// subscribtion to `Observable` is made.
     /// If all of the specified included services are already discovered - these are returned without doing any underlying Bluetooth
     /// operations.
-    /// Next on returned `Observable` is emitted only when all of the requested included services are discovered.
+    /// Next on returned `Observable` is emitted only when all of the requested included services are discovered, otherwise`RxError.noElements`
+    /// error is emmited.
     ///
     /// - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
     /// included services will be discovered. If you'll pass empty array - none of them will be discovered.
@@ -187,7 +189,7 @@ class _Peripheral {
                 if let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices) {
                     return .just(filteredServices)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 
@@ -205,7 +207,8 @@ class _Peripheral {
     /// Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
     /// subscribtion to `Observable` is made.
     /// If all of the specified characteristics are already discovered - these are returned without doing any underlying Bluetooth operations.
-    /// Next on returned `Observable` is emitted only when all of the requested characteristics are discovered.
+    /// Next on returned `Observable` is emitted only when all of the requested characteristics are discovered, otherwise`RxError.noElements`
+    /// error is emmited.
     ///
     /// - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the
     /// characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
@@ -228,7 +231,7 @@ class _Peripheral {
                 if let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
                     return .just(filteredCharacteristics)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 
@@ -353,7 +356,7 @@ class _Peripheral {
      Notification is automaticaly unregistered once this observable is unsubscribed
      
      - parameter characteristic: `_Characteristic` for notification setup.
-     - returns: `Observable` emitting `_Peripheral` when the notification setup is complete.
+     - returns: `Observable` emitting `_Characteristic` when given characteristic has been changed.
      
      This is **infinite** stream of values.
      */

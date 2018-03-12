@@ -38,11 +38,16 @@ class CharacteristicNotificationManagerTest: XCTestCase {
     let subscribeTime = TestScheduler.Defaults.subscribed
     let disposeTime = TestScheduler.Defaults.disposed
     
+    override func setUp() {
+        super.setUp()
+        setUpProperties()
+    }
+    
     func testObserversNotifyCalls() {
         let charMock1 = createCharacteristicMock(withUuid: CBUUID(string: "0x0000"))
         let charMock2 = createCharacteristicMock(withUuid: CBUUID(string: "0x1111"))
         let charMock3 = charMock1
-        let (char1, _) = setUpObservable(characteristicMock: charMock1, time: createTimes(withOffset: 0))
+        let (char1, _) = createAndSetUpObservable(characteristicMock: charMock1, time: createTimes(withOffset: 0))
         let (char2, _) = createAndSetUpObservable(characteristicMock: charMock2, time: createTimes(withOffset: 100))
         let (_, _) = createAndSetUpObservable(characteristicMock: charMock3, time: createTimes(withOffset: 200))
         
@@ -77,7 +82,7 @@ class CharacteristicNotificationManagerTest: XCTestCase {
         let charMock1 = createCharacteristicMock(withUuid: CBUUID(string: "0x0000"))
         let charMock2 = createCharacteristicMock(withUuid: CBUUID(string: "0x1111"))
         let charMock3 = charMock1
-        let (char1, obs1) = setUpObservable(characteristicMock: charMock1, time: createTimes(withOffset: 0))
+        let (char1, obs1) = createAndSetUpObservable(characteristicMock: charMock1, time: createTimes(withOffset: 0))
         let (char2, obs2) = createAndSetUpObservable(characteristicMock: charMock2, time: createTimes(withOffset: 100))
         let (char3, obs3) = createAndSetUpObservable(characteristicMock: charMock3, time: createTimes(withOffset: 200))
         let events: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
@@ -102,7 +107,7 @@ class CharacteristicNotificationManagerTest: XCTestCase {
     func testObserversReceivingErrors() {
         let charMock1 = createCharacteristicMock(withUuid: CBUUID(string: "0x0000"))
         let charMock2 = charMock1
-        let (char1, obs1) = setUpObservable(characteristicMock: charMock1, time: createTimes(withOffset: 0))
+        let (char1, obs1) = createAndSetUpObservable(characteristicMock: charMock1, time: createTimes(withOffset: 0))
         let (char2, obs2) = createAndSetUpObservable(characteristicMock: charMock2, time: createTimes(withOffset: 100))
         let events: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
             next(subscribeTime, (char1.characteristic, nil)),
@@ -114,13 +119,13 @@ class CharacteristicNotificationManagerTest: XCTestCase {
         
         testScheduler.advanceTo(subscribeTime)
         XCTAssertEqual(obs1.events.count, 1, "should receive 1 event for first observer at time 0")
-        XCTAssertEqual(obs2.events.count, 0, "should receive 0 events for first observer at time 0")
+        XCTAssertEqual(obs2.events.count, 0, "should receive 0 events for second observer at time 0")
         XCTAssertEqual(peripheralMock.setNotifyValueParams.count, 1, "should call setNotifyValue at time 0")
         
         testScheduler.advanceTo(subscribeTime + 50)
         XCTAssertEqual(obs1.events.count, 2, "should receive 2 events for first observer at time 50")
         XCTAssertError(obs1.events[1].value, _BluetoothError.characteristicReadFailed(char1, TestError.error), "should receive correct error as 2 event for first observer at time 50")
-        XCTAssertEqual(obs2.events.count, 0, "should receive 0 events for first observer at time 50")
+        XCTAssertEqual(obs2.events.count, 0, "should receive 0 events for second observer at time 50")
         XCTAssertEqual(peripheralMock.setNotifyValueParams.count, 2, "should 2x call setNotifyValue at time 50")
         
         testScheduler.advanceTo(subscribeTime + 100)
@@ -135,13 +140,42 @@ class CharacteristicNotificationManagerTest: XCTestCase {
         XCTAssertEqual(peripheralMock.setNotifyValueParams.count, 4, "should 4x call setNotifyValue at time 150")
     }
     
-    // MARK: - Utils
-    
-    private func setUpObservable(characteristicMock: CBCharacteristicMock, time: ObservableScheduleTimes = ObservableScheduleTimes()) -> (_Characteristic, ScheduledObservable<_Characteristic>) {
-        setUpProperties()
+    func testObserversReceivingValuesAfterError() {
+        let charMock1 = createCharacteristicMock(withUuid: CBUUID(string: "0x0000"))
+        let charMock2 = charMock1
+        let (char1, obs1) = createAndSetUpObservable(characteristicMock: charMock1, time: createTimes(withOffset: 0))
+        let (_, obs2) = createAndSetUpObservable(characteristicMock: charMock2, time: createTimes(withOffset: 100))
         
-        return createAndSetUpObservable(characteristicMock: characteristicMock, time: time)
+        let events: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
+            next(subscribeTime + 50, (char1.characteristic, TestError.error)),
+            next(subscribeTime + 100, (char1.characteristic, nil))
+            ]
+        testScheduler.createHotObservable(events).subscribe(wrapperMock.peripheralDidUpdateValueForCharacteristic).disposed(by: disposeBag)
+        
+        testScheduler.advanceTo(subscribeTime)
+        XCTAssertEqual(obs1.events.count, 0, "should receive 0 events for first observer at time 0")
+        XCTAssertEqual(obs2.events.count, 0, "should receive 0 events for second observer at time 0")
+        XCTAssertEqual(peripheralMock.setNotifyValueParams.count, 1, "should call setNotifyValue at time 0")
+        
+        testScheduler.advanceTo(subscribeTime + 50)
+        XCTAssertEqual(obs1.events.count, 1, "should receive 1 event for first observer at time 50")
+        XCTAssertEqual(obs2.events.count, 0, "should receive 0 events for second observer at time 50")
+        XCTAssertEqual(peripheralMock.setNotifyValueParams.count, 2, "should 2x call setNotifyValue at time 50")
+        
+        testScheduler.advanceTo(subscribeTime + 100)
+        XCTAssertEqual(obs1.events.count, 1, "should receive 1 event for first observer at time 100")
+        XCTAssertEqual(obs2.events.count, 1, "should receive 0 events for second observer at time 100")
+        XCTAssertEqual(peripheralMock.setNotifyValueParams.count, 3, "should 3x call setNotifyValue at time 100")
+        XCTAssertTrue(peripheralMock.setNotifyValueParams[2].0, "should correctly call setNotifyValue after setting second observer")
+        XCTAssertEqual(peripheralMock.setNotifyValueParams[2].1, char1.characteristic, "should correctly call setNotifyValue when setting second observer")
+        
+        testScheduler.advanceTo(disposeTime + 100)
+        XCTAssertEqual(peripheralMock.setNotifyValueParams.count, 4, "should 4x call setNotifyValue when disposing second observer")
+        XCTAssertFalse(peripheralMock.setNotifyValueParams[3].0, "should correctly call setNotifyValue when disposing second observer")
+        XCTAssertEqual(peripheralMock.setNotifyValueParams[3].1, char1.characteristic, "should correctly call setNotifyValue when when disposing second observer")
     }
+    
+    // MARK: - Utils
     
     private func createAndSetUpObservable(characteristicMock: CBCharacteristicMock, time: ObservableScheduleTimes = ObservableScheduleTimes()) -> (_Characteristic, ScheduledObservable<_Characteristic>) {
         let peripheral = _Peripheral(manager: _CentralManager(), peripheral: peripheralMock, delegateWrapper: wrapperMock)

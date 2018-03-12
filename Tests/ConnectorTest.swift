@@ -46,7 +46,7 @@ class ConnectorTest: XCTestCase {
         testScheduler.advanceTo(subscribeTime)
         
         XCTAssertEqual(obs.events.count, 1, "should receive error event")
-        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralAlreadyConnected(peripheral), "should receive correct error event")
+        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral), "should receive correct error event")
     }
     
     func testAlreadyConnectingPeripheral() {
@@ -58,7 +58,7 @@ class ConnectorTest: XCTestCase {
         testScheduler.advanceTo(subscribeTime)
         
         XCTAssertEqual(obs.events.count, 1, "should receive error event")
-        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsConnecting(peripheral), "should receive correct error event")
+        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral), "should receive correct error event")
     }
     
     func testDisconnectingPeripheral() {
@@ -147,7 +147,7 @@ class ConnectorTest: XCTestCase {
         let (_, _, uuid) = setUpConnectableObserver()
         
         testScheduler.advanceTo(subscribeTime)
-        connector.connectingBox.write { $0.remove(object: uuid) }
+        connector.connectingBox.write { $0.remove(uuid) }
         peripheralMock.state = .connected
         testScheduler.advanceTo(disposeTime)
         
@@ -159,7 +159,7 @@ class ConnectorTest: XCTestCase {
         let (_, _, uuid) = setUpConnectableObserver()
         
         testScheduler.advanceTo(subscribeTime)
-        connector.connectingBox.write { $0.append(uuid) }
+        connector.connectingBox.write { $0.insert(uuid) }
         peripheralMock.state = .disconnected
         testScheduler.advanceTo(disposeTime)
         
@@ -171,7 +171,7 @@ class ConnectorTest: XCTestCase {
         let (_, _, uuid) = setUpConnectableObserver()
         
         testScheduler.advanceTo(subscribeTime)
-        connector.connectingBox.write { $0.remove(object: uuid) }
+        connector.connectingBox.write { $0.remove(uuid) }
         peripheralMock.state = .disconnected
         testScheduler.advanceTo(disposeTime)
         
@@ -210,8 +210,8 @@ class ConnectorTest: XCTestCase {
             centralManager: centralManagerMock,
             delegateWrapper: wrapperMock
         )
-        connector.connectingBox.write { $0.append(contentsOf: connectingUuids) }
-        connector.disconnectingBox.write { $0.append(contentsOf: disconnectingUuids) }
+        connector.connectingBox.write { $0.formUnion(connectingUuids) }
+        connector.disconnectingBox.write { $0.formUnion(disconnectingUuids) }
         testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
         disposeBag = DisposeBag()
     }

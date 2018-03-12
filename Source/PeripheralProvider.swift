@@ -42,14 +42,14 @@ class PeripheralProvider {
      - returns: Delegate wrapper for specified peripheral.
      */
     func provideDelegateWrapper(for peripheral: CBPeripheral) -> CBPeripheralDelegateWrapper {
-        if let delegateWrapper = delegateWrappersBox.read({ $0[peripheral.identifier] }) {
+        if let delegateWrapper = delegateWrappersBox.read({ $0[peripheral.uuidIdentifier] }) {
             return delegateWrapper
         } else {
             delegateWrappersBox.compareAndSet(
-                compare: { $0[peripheral.identifier] == nil },
-                set: { $0[peripheral.identifier] = CBPeripheralDelegateWrapper()}
+                compare: { $0[peripheral.uuidIdentifier] == nil },
+                set: { $0[peripheral.uuidIdentifier] = CBPeripheralDelegateWrapper()}
             )
-            return delegateWrappersBox.read({ $0[peripheral.identifier]! })
+            return delegateWrappersBox.read({ $0[peripheral.uuidIdentifier]! })
         }
     }
 
@@ -75,7 +75,7 @@ class PeripheralProvider {
         peripheralsBox.compareAndSet(
             compare: { peripherals in
                 return !peripherals.contains(where: { $0.peripheral == cbPeripheral })
-        },
+            },
             set: { [weak self] peripherals in
                 guard let strongSelf = self else { return }
                 let delegateWrapper = strongSelf.provideDelegateWrapper(for: cbPeripheral)

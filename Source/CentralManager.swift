@@ -41,7 +41,7 @@ public typealias DisconnectionReason = Error
 ///     .flatMap { manager.scanForPeripherals(nil) }
 /// ```
 /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
-/// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other operations.
+/// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other operations.
 /// - seealso: `Peripheral`
 public class CentralManager {
 
@@ -140,7 +140,7 @@ public class CentralManager {
     /// There can be only one ongoing scanning. It will return `BluetoothError.scanInProgress` error if
     /// this method will be called when there is already ongoing scan.
     /// As a result you will receive `ScannedPeripheral` which contains `Peripheral` object, `AdvertisementData` and
-    /// peripheral's RSSI registered during discovery. You can then `connectToPeripheral(_:options:)` and do other
+    /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other
     /// operations.
     /// - seealso: `Peripheral`
     ///

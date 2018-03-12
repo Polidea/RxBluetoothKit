@@ -42,7 +42,7 @@ extension WeakBox {
  resource from more than 1 thread at a time.
  */
 class ThreadSafeBox<T>: CustomDebugStringConvertible {
-    private let queue = DispatchQueue(label: "com.polidea.RxBluetoothKit.ThreadSafeBox", attributes: .concurrent)
+    private let queue = DispatchQueue(label: "com.polidea.RxBluetoothKit.ThreadSafeBox")
     private var value: T
     init(value: T) {
         self.value = value
@@ -57,7 +57,7 @@ class ThreadSafeBox<T>: CustomDebugStringConvertible {
     }
 
     func write(_ block: @escaping (inout T) -> Void) {
-        queue.async(flags: .barrier) {
+        queue.async {
             block(&self.value)
         }
     }
@@ -67,7 +67,7 @@ class ThreadSafeBox<T>: CustomDebugStringConvertible {
         queue.sync {
             result = compare(value)
             if result {
-                write(set)
+                set(&self.value)
             }
         }
         return result

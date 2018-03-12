@@ -25,36 +25,20 @@ import XCTest
 @testable
 import RxBluetoothKit
 
-class ThreadSafeBoxTest: XCTestCase {
-    var box: ThreadSafeBox<[Int]>!
-    
-    override func setUp() {
-        super.setUp()
-        box = ThreadSafeBox(value: [] as [Int])
+class ArrayUtilsTest: XCTestCase {
+    func testRemoveElement() {
+        var array: [Int] = [0, 1, 2, 3]
+        let res = array.remove(object: 1)
+        
+        XCTAssertTrue(res, "should return true")
+        XCTAssertEqual(array, [0, 2, 3], "should remove one element")
     }
     
-    func testAsync() {
-        let expectedIterations = 1000
-        var currentIteration = expectedIterations
+    func testRemoveNoElementFound() {
+        var array: [Int] = [0, 1, 2, 3]
+        let res = array.remove(object: 4)
         
-        let expectation = XCTestExpectation(description: "Perform \(expectedIterations) iterations on concurrent threads")
-        
-        DispatchQueue.concurrentPerform(iterations: currentIteration) { index in
-            let last = box.read { $0.last } ?? 0
-            box.write { $0.append(last + 1) }
-            
-            DispatchQueue.global().sync {
-                currentIteration -= 1
-                
-                // Final loop
-                guard currentIteration <= 0 else { return }
-                let count = box.read { $0.count }
-                XCTAssertEqual(count, expectedIterations, "should receive \(expectedIterations), instead received \(count)")
-                
-                expectation.fulfill()
-            }
-        }
-        
-        wait(for: [expectation], timeout: 20)
+        XCTAssertFalse(res, "should return false")
+        XCTAssertEqual(array, [0, 1, 2, 3], "should not remove any element")
     }
 }

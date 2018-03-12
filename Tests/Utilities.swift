@@ -47,6 +47,14 @@ func XCTAssertError<ErrorType: Equatable, Element>(_ event: Event<Element>, _ er
     XCTAssertEqual(event.error as? ErrorType, errorType, message, file: file, line: line)
 }
 
+func createEventRecords<T>(records: (Int, Event<T>)...) -> [Recorded<Event<T>>] {
+    var array = [Recorded<Event<T>>]()
+    for (time, event) in records {
+        array.append(Recorded(time: time, value: event))
+    }
+    return array
+}
+
 extension TestScheduler {
     func scheduleObservable<Element>(time: ObservableScheduleTimes = ObservableScheduleTimes(), create: @escaping () -> Observable<Element>) -> ScheduledObservable<Element> {
         var source: Observable<Element>?
@@ -134,5 +142,20 @@ extension _BluetoothError {
             (.unknown, .bluetoothInUnknownState),
             (.unsupported, .bluetoothUnsupported),
         ]
+    }
+}
+
+extension RxError: Equatable {}
+
+public func ==(lhs: RxError, rhs: RxError) -> Bool {
+    switch(lhs, rhs) {
+    case (.unknown, .unknown): return true
+    case (.overflow, .overflow): return true
+    case (.argumentOutOfRange, .argumentOutOfRange): return true
+    case (.noElements, .noElements): return true
+    case (.moreThanOneElement, .moreThanOneElement): return true
+    case (.timeout, .timeout): return true
+    default:
+        return false
     }
 }
