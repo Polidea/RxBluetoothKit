@@ -33,28 +33,42 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerCells()
+        setupTableView()
         setDataSourceRefreshBlock()
+        bindViewModel()
+    }
+
+    private func setupTableView() {
         customView.setTableView(dataSource: dataSource, delegate: self)
-        dataSource.bindItemsObserver(to: viewModel.characteristicsOutput)
-        subscribeViewModelOutputs()
+        registerCells()
     }
-
-    private func subscribeViewModelOutputs() {
-        viewModel.dataUpdateOutput.subscribe(onNext: { [unowned self]  _ in
-            self.customView.refreshTableView()
-        }).disposed(by: disposeBag)
-
-        viewModel.alertTriggerOutput.subscribe(onNext: { [unowned self] message in
-            self.showAlert(title: "Success", message: message)
-        }).disposed(by: disposeBag)
-    }
-
 
     private func setDataSourceRefreshBlock() {
         self.dataSource.refreshDataBlock = { [weak self] in
             self?.customView.refreshTableView()
         }
+    }
+
+    private func bindViewModel() {
+        subscribeViewModelOutputs()
+        dataSource.bindItemsObserver(to: viewModel.characteristicsOutput)
+    }
+
+    private func subscribeViewModelOutputs() {
+        subscribeDataUpdateOutput()
+        subscribeAlertTriggerOutput()
+    }
+
+    private func subscribeDataUpdateOutput() {
+        viewModel.dataUpdateOutput.subscribe(onNext: { [unowned self]  _ in
+            self.customView.refreshTableView()
+        }).disposed(by: disposeBag)
+    }
+
+    private func subscribeAlertTriggerOutput() {
+        viewModel.alertTriggerOutput.subscribe(onNext: { [unowned self] message in
+            self.showAlert(title: Constant.Strings.titleSuccess, message: message)
+        }).disposed(by: disposeBag)
     }
 
     private func registerCells() {
@@ -63,24 +77,28 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     }
 
     private func addWriteActions(to actionSheet: UIAlertController) {
-        let writeValueNotificationAction = UIAlertAction(title: "Write", style: .default) { _ in
+        let writeValueNotificationAction = UIAlertAction(title: Constant.Strings.titleWrite,
+                style: .default) { _ in
             self.showWriteFieldForCharacteristic()
         }
         actionSheet.addAction(writeValueNotificationAction)
     }
 
     private func addReadActions(to actionSheet: UIAlertController) {
-        let readValueNotificationAction = UIAlertAction(title: "Read", style: .default) { [weak self] _ in
+        let readValueNotificationAction = UIAlertAction(title: Constant.Strings.titleRead,
+                style: .default) { [weak self] _ in
             self?.viewModel.triggerValueRead()
         }
         actionSheet.addAction(readValueNotificationAction)
     }
 
     private func addNotificationActions(to actionSheet: UIAlertController) {
-        let turnNotificationOffAction = UIAlertAction(title: "Turn OFF notifications", style: .default) { _ in
+        let turnNotificationOffAction = UIAlertAction(title: Constant.Strings.turnOffNotifications,
+                style: .default) { _ in
             self.viewModel.setNotificationsState(enabled: false)
         }
-        let turnNotificationOnAction = UIAlertAction(title: "Turn ON notifications", style: .default) { _ in
+        let turnNotificationOnAction = UIAlertAction(title: Constant.Strings.turnOnNotifications,
+                style: .default) { _ in
             self.viewModel.setNotificationsState(enabled: true)
         }
         actionSheet.addAction(turnNotificationOffAction)
@@ -88,19 +106,22 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     }
 
     private func addDismissAction(to actionSheet: UIAlertController) {
-        let dismissAction = UIAlertAction(title: "Cancel", style: .cancel) { [unowned self] _ in
+        let dismissAction = UIAlertAction(title: Constant.Strings.titleCancel,
+                style: .cancel) { [unowned self] _ in
             self.dismiss(animated: true, completion: nil)
         }
         actionSheet.addAction(dismissAction)
     }
 
     fileprivate func showWriteFieldForCharacteristic() {
-        let valueWriteController = UIAlertController(title: "Write value", message: "Specify value in HEX to write ",
+        let valueWriteController = UIAlertController(title: Constant.Strings.titleWriteValue,
+                message: Constant.Strings.hexValue,
                 preferredStyle: .alert)
         valueWriteController.addTextField { _ in
         }
-        valueWriteController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        valueWriteController.addAction(UIAlertAction(title: "Write", style: .default) { _ in
+
+        valueWriteController.addAction(UIAlertAction(title: Constant.Strings.titleCancel, style: .cancel, handler: nil))
+        valueWriteController.addAction(UIAlertAction(title: Constant.Strings.titleWrite, style: .default) { _ in
 
             if let _text = valueWriteController.textFields?.first?.text {
                 self.viewModel.writeValueForCharacteristic(hexadecimalString: _text)
@@ -113,7 +134,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     private func showAlert(title title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+        let action = UIAlertAction(title: Constant.Strings.titleOk, style: .default) { [weak self] _ in
             self?.dismiss(animated: true)
         }
         alertController.addAction(action)
@@ -131,7 +152,10 @@ extension CharacteristicsViewController: UITableViewDelegate {
             return
         }
         viewModel.setCurrent(characteristic: characteristic)
-        let actionSheet = UIAlertController(title: "Choose action", message: nil, preferredStyle: .actionSheet)
+
+        let actionSheet = UIAlertController(title: Constant.Strings.titleChooseAction,
+                message: nil,
+                preferredStyle: .actionSheet)
 
         if characteristic.properties.contains(.notify) {
             addNotificationActions(to: actionSheet)

@@ -34,7 +34,7 @@ class ScanResultsViewController: UIViewController, CustomView {
         super.viewDidLoad()
         setupTableView()
         setNavigationBar()
-        bindRx()
+        bindViewModel()
     }
 
     private func setupTableView() {
@@ -62,7 +62,7 @@ class ScanResultsViewController: UIViewController, CustomView {
                 action: #selector(scanningAction))
     }
 
-    private func bindRx() {
+    private func bindViewModel() {
         dataSource.bindItemsObserver(to: viewModel.scanningOutput)
     }
 

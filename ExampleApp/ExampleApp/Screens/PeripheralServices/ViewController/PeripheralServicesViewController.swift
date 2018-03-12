@@ -33,15 +33,19 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
     override func viewDidLoad() {
         super.viewDidLoad()
         setCustomView()
+        setupTableView()
         setDataSourceBlocks()
-        registerCells()
         adjustTitle()
         bindViewModel()
     }
 
     private func setCustomView() {
-        customView.setTableView(dataSource: dataSource, delegate: self)
         customView.toggleActivityIndicator(true)
+    }
+
+    private func setupTableView() {
+        customView.setTableView(dataSource: dataSource, delegate: self)
+        registerCells()
     }
 
     private func setDataSourceBlocks() {

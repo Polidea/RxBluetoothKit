@@ -27,5 +27,17 @@ struct Constant {
         static let servicesSectionTitle = "Discovered Services"
 
         static let characteristicsSectionTitle = "Discovered Characteristics"
+
+        static let titleWrite = "Write"
+        static let titleSuccess = "Success"
+        static let titleRead = "Read"
+        static let titleCancel = "Cancel"
+        static let titleWriteValue = "Write value"
+        static let titleOk = "OK"
+
+        static let turnOffNotifications = "Turn OFF Notification"
+        static let turnOnNotifications = "Turn ON Notification"
+        static let hexValue = "Specify value in HEX to write"
+        static let titleChooseAction = "Choose action"
     }
 }
