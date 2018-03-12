@@ -3,15 +3,15 @@ import RxBluetoothKit
 import RxCocoa
 import RxSwift
 
-class ScanResultsViewModel: ScanResultsViewModelType {
+final class ScanResultsViewModel: ScanResultsViewModelType {
+
+    let bluetoothService: RxBluetoothKitService
 
     var scanningOutput: Observable<ScannedPeripheral> {
         return bluetoothService.scanningOutput
     }
 
     var isScanning: Bool = false
-
-    let bluetoothService: RxBluetoothKitService
 
     init(with bluetoothService: RxBluetoothKitService) {
         self.bluetoothService = bluetoothService

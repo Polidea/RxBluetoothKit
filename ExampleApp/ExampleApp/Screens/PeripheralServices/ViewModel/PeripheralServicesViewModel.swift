@@ -3,15 +3,23 @@ import RxBluetoothKit
 import RxCocoa
 import RxSwift
 
-class PeripheralServicesViewModel: PeripheralServicesViewModelType {
+final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
+
+    let displayedPeripheral: Peripheral
+
+    let bluetoothService: RxBluetoothKitService
 
     var servicesOutput: Observable<[Service]> {
         return bluetoothService.servicesOutput
     }
 
-    let displayedPeripheral: Peripheral
+    var disconnectionOutput: Observable<RxBluetoothKitService.Disconnection> {
+        return bluetoothService.disconnectionReasonOutput
+    }
 
-    let bluetoothService: RxBluetoothKitService
+    var errorOutput: Observable<Error> {
+        return bluetoothService.errorOutput
+    }
 
     private let disposeBag: DisposeBag = DisposeBag()
 

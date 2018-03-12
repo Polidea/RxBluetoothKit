@@ -32,22 +32,38 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        customView.setTableView(dataSource: dataSource, delegate: self)
-        setDataSourceRefreshBlock()
-        registerCells()
+        setupTableView()
         setNavigationBar()
         bindRx()
     }
 
-    private func bindRx() {
-        dataSource.bindItemsObserver(to: viewModel.scanningOutput)
+    private func setupTableView() {
+        customView.setTableView(dataSource: dataSource, delegate: self)
+        registerCells()
+        setDataSourceRefreshBlock()
     }
+
+    private func setDataSourceRefreshBlock() {
+        self.dataSource.refreshDataBlock = { [weak self] in
+            self?.customView.refreshTableView()
+        }
+    }
+
+    private func registerCells() {
+        customView.register(cellType: ScanResultTableViewCell.self,
+                forCellReuseIdentifier: String(describing: ScanResultTableViewCell.self))
+    }
+
 
     private func setNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: Constant.Strings.startScanning,
                 style: .plain,
                 target: self,
                 action: #selector(scanningAction))
+    }
+
+    private func bindRx() {
+        dataSource.bindItemsObserver(to: viewModel.scanningOutput)
     }
 
     @objc private func scanningAction() {
@@ -73,6 +89,12 @@ class ScanResultsViewController: UIViewController, CustomView {
         showPeripheralServices(for: scannedPeripheral)
     }
 
+    private func adjustTitle() {
+        navigationItem.rightBarButtonItem?.title = viewModel.isScanning ? Constant.Strings.stopScanning : Constant.Strings.startScanning
+        title = viewModel.isScanning ? Constant.Strings.scanning : nil
+    }
+
+
     private func showPeripheralServices(for scannedPeripheral: ScannedPeripheral) {
 
         let dataItem = PeripheralServicesViewModelItem(Constant.Strings.servicesSectionTitle,
@@ -94,22 +116,6 @@ class ScanResultsViewController: UIViewController, CustomView {
         let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)
 
         show(viewController, sender: self)
-    }
-
-    private func adjustTitle() {
-        navigationItem.rightBarButtonItem?.title = viewModel.isScanning ? Constant.Strings.stopScanning : Constant.Strings.stopScanning
-        title = viewModel.isScanning ? Constant.Strings.scanning : nil
-    }
-
-    private func setDataSourceRefreshBlock() {
-        self.dataSource.refreshDataBlock = { [weak self] in
-            self?.customView.refreshTableView()
-        }
-    }
-
-    private func registerCells() {
-        customView.register(cellType: ScanResultTableViewCell.self,
-                forCellReuseIdentifier: String(describing: ScanResultTableViewCell.self))
     }
 }
 

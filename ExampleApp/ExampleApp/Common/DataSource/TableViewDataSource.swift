@@ -8,11 +8,15 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
 
     typealias RefreshDataBlock = () -> Void
 
+    typealias OnErrorBlock = (_ error: Error) -> Void
+
     var itemsObservable: Observable<I> {
         return itemsSubject.asObservable()
     }
 
     var refreshDataBlock: RefreshDataBlock?
+
+    var onErrorBlock: OnErrorBlock?
     
     private let itemsSubject = PublishSubject<I>()
 
@@ -29,6 +33,33 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
         bindData()
     }
 
+    func bindData() {
+        itemsObservable.subscribe(onNext: { [weak self] item in
+            self?.dataItem.append(item)
+            self?.refreshData()
+        }, onError: { [unowned self] (error) in
+            self.onErrorBlock?(error)
+        }).disposed(by: disposeBag)
+    }
+
+    func bindItemsObserver(to observable: Observable<I>) {
+        observable.bind(to: itemsSubject).disposed(by: disposeBag)
+    }
+
+    func takeItemAt(index: Int) -> Any {
+        return dataItem.rowData[index]
+    }
+
+
+    private func refreshData() {
+        guard let refreshDataBlock = refreshDataBlock else {
+            return
+        }
+        refreshDataBlock()
+    }
+
+    // MARK: - UITableViewDataSource
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataItem.itemsCount
     }
@@ -39,33 +70,8 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) else {
             return UITableViewCell()
         }
-        
+
         configureBlock(cell, item)
         return cell
-    }
-
-
-    func bindItemsObserver(to observable: Observable<I>) {
-        observable.bind(to: itemsSubject).disposed(by: disposeBag)
-    }
-
-    func takeItemAt(index: Int) -> Any {
-        return dataItem.rowData[index]
-    }
-
-    func bindData() {
-        itemsObservable.subscribe(onNext: { [weak self] item in
-            self?.dataItem.append(item)
-            self?.refreshData()
-        }, onError: { (error) in
-            print(error)
-        }).disposed(by: disposeBag)
-    }
-
-    private func refreshData() {
-        guard let refreshDataBlock = refreshDataBlock else {
-            return
-        }
-        refreshDataBlock()
     }
 }

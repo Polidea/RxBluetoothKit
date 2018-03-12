@@ -3,7 +3,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class PeripheralServicesViewController: UIViewController, CustomView {
+final class PeripheralServicesViewController: UIViewController, CustomView {
 
     typealias ViewClass = BaseView
 
@@ -19,8 +19,6 @@ class PeripheralServicesViewController: UIViewController, CustomView {
         self.dataSource = dataSource
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        view.backgroundColor = .white
-        title = viewModel.displayedPeripheral.name ?? String(describing: viewModel.displayedPeripheral.identifier)
     }
 
     @available(*, unavailable)
@@ -34,21 +32,38 @@ class PeripheralServicesViewController: UIViewController, CustomView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        customView.setTableView(dataSource: dataSource, delegate: self)
+        setCustomView()
+        setDataSourceBlocks()
         registerCells()
-        setDataSourceRefreshBlock()
-        viewModel.connect()
-        bindViewModelOutput()
+        adjustTitle()
+        bindViewModel()
+    }
+
+    private func setCustomView() {
+        customView.setTableView(dataSource: dataSource, delegate: self)
         customView.toggleActivityIndicator(true)
     }
 
-    private func bindViewModelOutput() {
-        dataSource.bindItemsObserver(to: viewModel.servicesOutput)
-        viewModel.servicesOutput.subscribe(onNext: { [unowned self] services in
-            self.customView.toggleActivityIndicator(false)
-        }, onError: { error in
-            print(error)
-        }).disposed(by: disposeBag)
+    private func setDataSourceBlocks() {
+        setDataSourceRefreshBlock()
+        setDataSourceOnErrorBlock()
+    }
+
+    private func bindViewModel() {
+        viewModel.connect()
+        bindViewModelOutput()
+    }
+
+    private func setDataSourceRefreshBlock() {
+        self.dataSource.refreshDataBlock = { [weak self] in
+            self?.customView.refreshTableView()
+        }
+    }
+
+    private func setDataSourceOnErrorBlock() {
+        dataSource.onErrorBlock = { [weak self] error in
+            self?.showAlert("\(error.self)", message: error.localizedDescription)
+        }
     }
 
     private func registerCells() {
@@ -56,10 +71,49 @@ class PeripheralServicesViewController: UIViewController, CustomView {
                 forCellReuseIdentifier: String(describing: PeripheralServiceCell.self))
     }
 
-    private func setDataSourceRefreshBlock() {
-        self.dataSource.refreshDataBlock = { [weak self] in
-            self?.customView.refreshTableView()
+    private func adjustTitle() {
+        title = viewModel.displayedPeripheral.name ?? String(describing: viewModel.displayedPeripheral.identifier)
+    }
+
+    private func bindViewModelOutput() {
+        bindServiceOutputToDataSource()
+        subscribeToServiceOutput()
+        subscribeToDisconnectionOutput()
+        subscribeToErrorOutput()
+    }
+
+    private func bindServiceOutputToDataSource() {
+        dataSource.bindItemsObserver(to: viewModel.servicesOutput)
+    }
+
+    private func subscribeToServiceOutput() {
+        viewModel.servicesOutput.subscribe(onNext: { [unowned self] services in
+            self.customView.toggleActivityIndicator(false)
+        }, onError: { [unowned self] error in
+            self.showAlert("\(error.self)", message: error.localizedDescription)
+        }).disposed(by: disposeBag)
+    }
+
+    private func subscribeToDisconnectionOutput() {
+        viewModel.disconnectionOutput.subscribe(onNext: { [unowned self] disconnection in
+            let message = disconnection.1?.localizedDescription ?? ""
+            self.showAlert("Disconnected: \(disconnection.0)", message: message)
+         }).disposed(by: disposeBag)
+    }
+
+    private func subscribeToErrorOutput() {
+        viewModel.errorOutput.subscribe(onNext: { [unowned self] error in
+            self.showAlert("\(error.self)", message: error.localizedDescription)
+        }).disposed(by: disposeBag)
+    }
+
+    private func showAlert(_ title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.dismiss(animated: true)
         }
+        alertController.addAction(action)
+        present(alertController, animated: true)
     }
 }
 
@@ -88,7 +142,6 @@ extension PeripheralServicesViewController: UITableViewDelegate {
         let dataSource = TableViewDataSource<[Characteristic], CharacteristicsViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
 
         let viewController = CharacteristicsViewController(with: dataSource, viewModel: viewModel)
-
 
         show(viewController, sender: self)
     }

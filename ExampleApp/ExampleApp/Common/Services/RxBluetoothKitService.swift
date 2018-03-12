@@ -5,6 +5,8 @@ import RxCocoa
 
 class RxBluetoothKitService {
 
+    typealias Disconnection = (Peripheral, DisconnectionReason?)
+
     var scanningOutput: Observable<ScannedPeripheral> {
         return scanningSubject.share(replay: 1, scope: .forever).asObservable()
     }
@@ -13,9 +15,21 @@ class RxBluetoothKitService {
         return servicesSubject.asObservable()
     }
 
+    var disconnectionReasonOutput: Observable<Disconnection> {
+        return disconnectionSubject.asObservable()
+    }
+
+    var errorOutput: Observable<Error> {
+        return errorSubject.asObservable()
+    }
+
     private let scanningSubject: PublishSubject<ScannedPeripheral> = PublishSubject()
 
     private let servicesSubject: PublishSubject<[Service]> = PublishSubject()
+
+    private let disconnectionSubject: PublishSubject<Disconnection> = PublishSubject()
+
+    private let errorSubject: PublishSubject<Error> = PublishSubject()
 
     private let centralManager: CentralManager = CentralManager(queue: .main)
 
@@ -76,10 +90,10 @@ class RxBluetoothKitService {
 
     private func observeDisconnect(for peripheral: Peripheral) {
         centralManager.observeDisconnect(for: peripheral).subscribe(onNext: { [unowned self] (peripheral, reason) in
-            print("Disconnected: ", peripheral, reason)
+            self.disconnectionSubject.onNext((peripheral, reason))
             self.removeDisconnected(peripheral)
-        }, onError: { error in
-            print(error)
+        }, onError: { [unowned self] error in
+            self.errorSubject.onNext(error)
         }).disposed(by: disposeBag)
     }
 

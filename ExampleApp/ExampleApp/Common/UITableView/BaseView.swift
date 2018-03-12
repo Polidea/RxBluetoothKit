@@ -54,10 +54,6 @@ class BaseView: UIView {
         tableView.reloadData()
     }
 
-    func indexPathFor(cell: UITableViewCell) -> IndexPath? {
-        return tableView.indexPath(for: cell)
-    }
-
     private func addSubviews() {
         [tableView, activityIndicator].forEach { view in
             view.translatesAutoresizingMaskIntoConstraints = false

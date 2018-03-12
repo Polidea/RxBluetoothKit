@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 import UIKit
 
-class CharacteristicsViewController: UIViewController, CustomView {
+final class CharacteristicsViewController: UIViewController, CustomView {
 
     typealias ViewClass = BaseView
 

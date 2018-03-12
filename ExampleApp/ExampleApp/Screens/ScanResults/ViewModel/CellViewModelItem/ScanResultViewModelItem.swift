@@ -1,7 +1,7 @@
 import RxBluetoothKit
 import UIKit
 
-class ScanResultsViewModelItem: SectionModelItem {
+final class ScanResultsViewModelItem: SectionModelItem {
 
     var rowData: [Any] {
         return peripheralRowItems
@@ -24,10 +24,14 @@ class ScanResultsViewModelItem: SectionModelItem {
         return ScanResultTableViewCell.self
     }
 
-   func append(_ item: Any) {
+    func append(_ item: Any) {
         if let item = item as? ScannedPeripheral {
-            let identicalPeripheral = peripheralRowItems.filter { $0.peripheral == item.peripheral }
-            guard identicalPeripheral.isEmpty else { return }
+            let identicalPeripheral = peripheralRowItems.filter {
+                $0.peripheral == item.peripheral
+            }
+            guard identicalPeripheral.isEmpty else {
+                return
+            }
             peripheralRowItems.append(item)
         }
     }

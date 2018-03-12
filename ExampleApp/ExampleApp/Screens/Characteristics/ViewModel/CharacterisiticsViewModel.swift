@@ -44,11 +44,12 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         guard let characteristic = characteristic else {
             return
         }
-        
+
         characteristic.readValue().subscribe(onSuccess: { [unowned self] char in
             self.characteristicUpdateTrigger.onNext(Void())
         }, onError: { error in
-            print(error)
+            let message = error.localizedDescription
+            self.alertTrigger.onNext(message)
         }).disposed(by: disposeBag)
     }
 
@@ -66,12 +67,12 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
     }
 
     func setNotificationsState(enabled: Bool) {
-          if enabled {
+        if enabled {
             subscribeNotification()
-          } else {
+        } else {
             notificationsDisposable?.dispose()
             characteristicUpdateTrigger.onNext(Void())
-          }
+        }
     }
 
     private func subscribeNotification() {
@@ -80,7 +81,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         }
 
         notificationsDisposable = characteristic.observeValueUpdateAndSetNotification(for: characteristic)
-            .subscribe({ [weak self] _ in
+                .subscribe({ [weak self] _ in
                     self?.characteristicUpdateTrigger.onNext(Void())
                 })
     }

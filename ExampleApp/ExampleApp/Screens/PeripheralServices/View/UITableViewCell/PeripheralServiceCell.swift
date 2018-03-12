@@ -1,11 +1,13 @@
 import RxBluetoothKit
 import UIKit
 
-class PeripheralServiceCell: UITableViewCell, UpdatableCell {
+final class PeripheralServiceCell: UITableViewCell, UpdatableCell {
 
     private let uuidLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
+
     private let isPrimaryLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
-    private let bluetoothImageView: UIImageView = UIImageView(image: UIImage(named: "bluetooth-service"))
+
+    private let bluetoothImageView: UIImageView = UIImageView(image: Constant.ImageRepo.bluetoothService)
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)

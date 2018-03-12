@@ -1,7 +1,7 @@
 import RxBluetoothKit
 import Foundation
 
-class PeripheralServicesViewModelItem: SectionModelItem {
+final class PeripheralServicesViewModelItem: SectionModelItem {
 
     var rowData: [Any] {
         return serviceRowItems
