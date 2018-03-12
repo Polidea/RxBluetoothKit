@@ -8,6 +8,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
+        let navigationController = prepareScanningScene()
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+        return true
+    }
+
+    private func prepareScanningScene() -> UINavigationController {
         let dataItem: ScanResultsViewModelItem = ScanResultsViewModelItem(Constant.Strings.scanResultSectionTitle)
         let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
             guard let cell = cell as? UpdatableCell else { return }
@@ -18,9 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let viewModel = ScanResultsViewModel(with: RxBluetoothKitService())
         let scanResultsViewController = ScanResultsViewController(with: scanResultsDataSource, viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: scanResultsViewController)
-
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
-        return true
+        return navigationController
     }
 }

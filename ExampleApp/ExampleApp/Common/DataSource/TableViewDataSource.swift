@@ -2,18 +2,24 @@ import RxSwift
 import RxBluetoothKit
 import UIKit
 
+/* Generic UITableViewDataSource. I - represents model type, S - represents SectionModelItem, which stores
+   information about given section's itemsCount, sectionName, cells' class and provides collection of model data
+   check: DataSource.SectionModelItem.swift
+*/
+
 class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSource {
 
+    // MARK: - Typealiases
+    // Block used to configure UITableViewCell, passed into init
     typealias CellConfigurationBlock = (_ cell: UITableViewCell, _ item: Any) -> Void
 
+    // Block set by given UIViewController, meant to be called for reloading data
     typealias RefreshDataBlock = () -> Void
 
+    // Block set by given UIViewController, meant to be called inside at any OnError
     typealias OnErrorBlock = (_ error: Error) -> Void
 
-    var itemsObservable: Observable<I> {
-        return itemsSubject.asObservable()
-    }
-
+    // MARK: - Fields
     var refreshDataBlock: RefreshDataBlock?
 
     var onErrorBlock: OnErrorBlock?
@@ -26,6 +32,7 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
 
     private var configureBlock: CellConfigurationBlock
 
+    // MARK: - Initialization
     init(dataItem: S, configureBlock: @escaping CellConfigurationBlock) {
         self.dataItem = dataItem
         self.configureBlock = configureBlock
@@ -33,8 +40,9 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
         bindData()
     }
 
+    // MARK: - Methods
     func bindData() {
-        itemsObservable.subscribe(onNext: { [weak self] item in
+        itemsSubject.subscribe(onNext: { [weak self] item in
             self?.dataItem.append(item)
             self?.refreshData()
         }, onError: { [unowned self] (error) in
@@ -50,7 +58,6 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
         return dataItem.rowData[index]
     }
 
-
     private func refreshData() {
         guard let refreshDataBlock = refreshDataBlock else {
             return
@@ -59,7 +66,6 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
     }
 
     // MARK: - UITableViewDataSource
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataItem.itemsCount
     }
