@@ -44,7 +44,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     }
 
     private func setDataSourceRefreshBlock() {
-        self.dataSource.refreshDataBlock = { [weak self] in
+        self.dataSource.setRefreshBlock { [weak self] in
             self?.customView.refreshTableView()
         }
     }

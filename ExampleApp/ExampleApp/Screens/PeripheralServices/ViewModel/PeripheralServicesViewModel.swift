@@ -30,6 +30,7 @@ final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
     init(with bluetoothService: RxBluetoothKitService, peripheral: Peripheral) {
         self.bluetoothService = bluetoothService
         self.displayedPeripheral = peripheral
+        self.bindErrorOutput()
     }
 
     func connect() {

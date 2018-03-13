@@ -20,10 +20,10 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
     typealias OnErrorBlock = (_ error: Error) -> Void
 
     // MARK: - Fields
-    var refreshDataBlock: RefreshDataBlock = {
+    private var refreshDataBlock: RefreshDataBlock = {
     }
 
-    var onErrorBlock: OnErrorBlock = { _ in
+    private var onErrorBlock: OnErrorBlock = { _ in
     }
 
     private let itemsSubject = PublishSubject<I>()
@@ -42,6 +42,7 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
         bindData()
     }
 
+
     // MARK: - Methods
     func bindData() {
         itemsSubject.subscribe(onNext: { [weak self] item in
@@ -54,6 +55,14 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
 
     func bindItemsObserver(to observable: Observable<I>) {
         observable.bind(to: itemsSubject).disposed(by: disposeBag)
+    }
+
+    func setRefreshBlock(_ block: @escaping RefreshDataBlock) {
+        refreshDataBlock = block
+    }
+
+    func setOnErrorBlock(_ block: @escaping OnErrorBlock) {
+        onErrorBlock = block
     }
 
     func takeItemAt(index: Int) -> Any {

@@ -59,13 +59,13 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
     }
 
     private func setDataSourceRefreshBlock() {
-        self.dataSource.refreshDataBlock = { [weak self] in
+        dataSource.setRefreshBlock { [weak self] in
             self?.customView.refreshTableView()
         }
     }
 
     private func setDataSourceOnErrorBlock() {
-        dataSource.onErrorBlock = { [weak self] error in
+        dataSource.setOnErrorBlock { [weak self] error in
             self?.showAlert("\(error.self)", message: error.localizedDescription)
         }
     }
