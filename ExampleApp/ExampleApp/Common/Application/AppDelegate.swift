@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func prepareScanningScene() -> UINavigationController {
-        let dataItem: ScanResultsViewModelItem = ScanResultsViewModelItem(Constant.Strings.scanResultSectionTitle)
+        let dataItem = ScanResultsViewModelItem(Constant.Strings.scanResultSectionTitle)
         let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
             guard let cell = cell as? UpdatableCell else { return }
             cell.update(with: item)
