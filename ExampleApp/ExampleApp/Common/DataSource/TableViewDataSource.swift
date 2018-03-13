@@ -7,7 +7,7 @@ import UIKit
    check: DataSource.SectionModelItem.swift
 */
 
-class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSource where I == S.ModelDataType {
+final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSource where I == S.ModelDataType {
 
     // MARK: - Typealiases
     // Block used to configure UITableViewCell, passed into init
