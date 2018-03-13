@@ -31,7 +31,7 @@ extension Peripheral {
     /// Function used to receive service with given identifier. It's taken from cache if it's available,
     /// or directly by `discoverServices` call
     /// - Parameter identifier: Unique identifier of Service
-    /// - Returns: `Single` which emits `Next` event, when specified service has been found.
+    /// - Returns: `Single` which emits `next` event, when specified service has been found.
     public func service(with identifier: ServiceIdentifier) -> Single<Service> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -54,7 +54,7 @@ extension Peripheral {
     /// Otherwise - directly by `discoverCharacteristics` call
     /// - Parameter identifier: Unique identifier of Characteristic, that has information
     /// about service which characteristic belongs to.
-    /// - Returns: `Single` which emits `Next` event, when specified characteristic has been found.
+    /// - Returns: `Single` which emits `next` event, when specified characteristic has been found.
     public func characteristic(with identifier: CharacteristicIdentifier) -> Single<Characteristic> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -80,7 +80,7 @@ extension Peripheral {
     /// Otherwise - directly by `discoverDescriptor` call
     /// - Parameter identifier: Unique identifier of Descriptor, that has information
     /// about characteristic which descriptor belongs to.
-    /// - Returns: `Single` which emits `Next` event, when specified descriptor has been found.
+    /// - Returns: `Single` which emits `next` event, when specified descriptor has been found.
     public func descriptor(with identifier: DescriptorIdentifier) -> Single<Descriptor> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -103,8 +103,8 @@ extension Peripheral {
 
     /// Function that allow to observe writes that happened for characteristic.
     /// - Parameter identifier: Identifier of characteristic of which value writes should be observed.
-    /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when write has happened.
-    /// It's **infinite** stream, so `.Complete` is never called.
+    /// - Returns: Observable that emits `next` with `Characteristic` instance every time when write has happened.
+    /// It's **infinite** stream, so `.complete` is never called.
     public func observeWrite(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
@@ -115,17 +115,17 @@ extension Peripheral {
     }
 
     /// Function that triggers write of data to characteristic. Write is called after subscribtion to `Observable` is made.
-    /// Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType), so be sure to check this out before usage of the method.
+    /// Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/documentation/corebluetooth/cbcharacteristicwritetype),
+    /// so be sure to check this out before usage of the method.
     /// - parameter data: Data that'll be written  written to `Characteristic` instance
-    /// - parameter forCharacteristicWithIdentifier: unique identifier of service, which also holds information about service characteristic belongs to.
-    /// `Descriptor` instance to write value to.
-    /// - parameter type: Type of write operation. Possible values: `.WithResponse`, `.WithoutResponse`
+    /// - parameter forCharacteristicWithIdentifier: unique identifier of characteristic, which also holds information about service characteristic belongs to.
+    /// - parameter type: Type of write operation. Possible values: `.withResponse`, `.withoutResponse`
     /// - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
     /// Behavior is following:
-    /// - `WithResponse` -  Observable emits `Next` with `Characteristic` instance write was confirmed without any errors.
-    /// Immediately after that `Complete` is called. If any problem has happened, errors are emitted.
-    /// - `WithoutResponse` - Observable emits `Next` with `Characteristic` instance once write was called.
-    /// Immediately after that `.Complete` is called. Result of this call is not checked, so as a user you are not sure
+    /// - `WithResponse` -  Observable emits `next` with `Characteristic` instance write was confirmed without any errors.
+    /// Immediately after that `complete` is called. If any problem has happened, errors are emitted.
+    /// - `WithoutResponse` - Observable emits `next` with `Characteristic` instance once write was called.
+    /// Immediately after that `.complete` is called. Result of this call is not checked, so as a user you are not sure
     /// if everything completed successfully. Errors are not emitted
     public func writeValue(_ data: Data, for identifier: CharacteristicIdentifier,
                            type: CBCharacteristicWriteType) -> Single<Characteristic> {
@@ -136,9 +136,9 @@ extension Peripheral {
     }
 
     /// Function that allow to observe value updates for `Characteristic` instance.
-    /// - Parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
-    /// - Returns: Observable that emits `Next` with `Characteristic` instance every time when value has changed.
-    /// It's **infinite** stream, so `.Complete` is never called.
+    /// - Parameter identifier: unique identifier of characteristic, which also holds information about service that characteristic belongs to.
+    /// - Returns: Observable that emits `next` with `Characteristic` instance every time when value has changed.
+    /// It's **infinite** stream, so `.complete` is never called.
     public func observeValueUpdate(for identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return characteristic(with: identifier)
             .asObservable()
@@ -149,9 +149,9 @@ extension Peripheral {
 
     /// Function that triggers read of current value of the `Characteristic` instance.
     /// Read is called after subscription to `Observable` is made.
-    /// - Parameter identifier: unique identifier of service, which also holds information about service that characteristic belongs to.
-    /// - Returns: Observable which emits `Next` with given characteristic when value is ready to read. Immediately after that
-    /// `.Complete` is emitted.
+    /// - Parameter identifier: unique identifier of characteristic, which also holds information about service that characteristic belongs to.
+    /// - Returns: Observable which emits `next` with given characteristic when value is ready to read. Immediately after that
+    /// `.complete` is emitted.
     public func readValue(for identifier: CharacteristicIdentifier) -> Single<Characteristic> {
         return characteristic(with: identifier)
             .flatMap { [weak self] in
@@ -159,18 +159,16 @@ extension Peripheral {
             }
     }
 
-    /**
-     Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
-     Returned observable will emit `Characteristic` on every notification change.
-     It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.
-     
-     Notification is automaticaly unregistered once this observable is unsubscribed
-     
-     - parameter characteristic: `Characteristic` for notification setup.
-     - returns: `Observable` emitting `Characteristic` when given characteristic has been changed.
-     
-     This is **infinite** stream of values.
-     */
+    /// Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
+    /// Returned observable will emit `Characteristic` on every notification change.
+    /// It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.
+    ///
+    /// Notification is automaticaly unregistered once this observable is unsubscribed
+    ///
+    /// - parameter characteristic: `Characteristic` for notification setup.
+    /// - returns: `Observable` emitting `Characteristic` when given characteristic has been changed.
+    ///
+    /// This is **infinite** stream of values.
     public func observeValueUpdateAndSetNotification(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
@@ -181,9 +179,8 @@ extension Peripheral {
     }
 
     /// Function that triggers descriptors discovery for characteristic
-    /// - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
-    ///  - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-    /// - Returns: `Single` that emits `Next` with array of `Descriptor` instances, once they're discovered.
+    /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+    /// - Returns: `Single` that emits `next` with array of `Descriptor` instances, once they're discovered.
     public func discoverDescriptors(for identifier: CharacteristicIdentifier) ->
         Single<[Descriptor]> {
         return characteristic(with: identifier)
@@ -194,8 +191,8 @@ extension Peripheral {
 
     /// Function that allow to observe writes that happened for descriptor.
     /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-    /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when write has happened.
-    /// It's **infinite** stream, so `.Complete` is never called.
+    /// - Returns: Observable that emits `next` with `Descriptor` instance every time when write has happened.
+    /// It's **infinite** stream, so `.complete` is never called.
     public func observeWrite(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .asObservable()
@@ -205,9 +202,9 @@ extension Peripheral {
     }
 
     /// Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
-    /// - Parameter data: `Data` that'll be written to `Descriptor` instance
-    ///  - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-    /// - Returns: `Single` that emits `Next` with `Descriptor` instance, once value is written successfully.
+    /// - parameter data: `Data` that'll be written to `Descriptor` instance
+    /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
+    /// - returns: `Single` that emits `next` with `Descriptor` instance, once value is written successfully.
     public func writeValue(_ data: Data, for identifier: DescriptorIdentifier)
         -> Single<Descriptor> {
         return descriptor(with: identifier)
@@ -218,8 +215,8 @@ extension Peripheral {
 
     /// Function that allow to observe value updates for `Descriptor` instance.
     /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
-    /// - Returns: Observable that emits `Next` with `Descriptor` instance every time when value has changed.
-    /// It's **infinite** stream, so `.Complete` is never called.
+    /// - Returns: Observable that emits `next` with `Descriptor` instance every time when value has changed.
+    /// It's **infinite** stream, so `.complete` is never called.
     public func observeValueUpdate(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .asObservable()
@@ -230,9 +227,9 @@ extension Peripheral {
 
     /// Function that triggers read of current value of the `Descriptor` instance.
     /// Read is called after subscription to `Observable` is made.
-    /// - Parameter descriptor: `Descriptor` to read value from
-    /// - Returns: Observable which emits `Next` with given descriptor when value is ready to read. Immediately after that
-    /// `.Complete` is emitted.
+    /// - Parameter identifier: `Descriptor` to read value from
+    /// - Returns: Observable which emits `next` with given descriptor when value is ready to read. Immediately after that
+    /// `.complete` is emitted.
     public func readValue(for identifier: DescriptorIdentifier) -> Single<Descriptor> {
         return descriptor(with: identifier)
             .flatMap { [weak self] in

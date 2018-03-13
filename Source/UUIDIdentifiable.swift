@@ -30,7 +30,6 @@ protocol UUIDIdentifiable {
 /// Filters an item list based on the provided UUID list. The items must conform to UUIDIdentifiable.
 /// Only items returned whose UUID matches an item in the provided UUID list.
 /// Each UUID should have at least one item matching in the items list. Otherwise the result is nil.
-
 /// - uuids: a UUID list or nil
 /// - items: items to be filtered
 /// - Returns: the filtered item list

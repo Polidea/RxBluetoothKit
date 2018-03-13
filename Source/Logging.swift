@@ -9,9 +9,7 @@
 import Foundation
 import CoreBluetooth
 
-/**
- RxBluetoothKit specific logging class which gives access to its settings.
- */
+/// RxBluetoothKit specific logging class which gives access to its settings.
 public class RxBluetoothKitLog {
 
     fileprivate static var currentLogLevel: LogLevel = .none
@@ -35,18 +33,14 @@ public class RxBluetoothKitLog {
         case error = 4
     }
 
-    /**
-     * Set new log level.
-     * - Parameter logLevel: New log level to be applied.
-     */
+    /// Set new log level.
+    /// - Parameter logLevel: New log level to be applied.
     public static func setLogLevel(_ logLevel: LogLevel) {
         currentLogLevel = logLevel
     }
 
-    /**
-     * Get current log level.
-     * - Returns: Currently set log level.
-     */
+    /// Get current log level.
+    /// - Returns: Currently set log level.
     public static func getLogLevel() -> LogLevel {
         return currentLogLevel
     }

@@ -30,17 +30,15 @@ class PeripheralProvider {
 
     private let delegateWrappersBox: ThreadSafeBox<[UUID: CBPeripheralDelegateWrapper]> = ThreadSafeBox(value: [:])
 
-    /**
-     Provides `CBPeripheralDelegateWrapper` for specified `CBPeripheral`.
-     
-     If it was previously created it returns that object, so that there can be only
-     one `CBPeripheralDelegateWrapper` per `CBPeripheral`.
-     
-     If not it creates new one.
-     
-     - parameter peripheral: Peripheral for which to provide delegate wrapper
-     - returns: Delegate wrapper for specified peripheral.
-     */
+    /// Provides `CBPeripheralDelegateWrapper` for specified `CBPeripheral`.
+    ///
+    /// If it was previously created it returns that object, so that there can be only
+    /// one `CBPeripheralDelegateWrapper` per `CBPeripheral`.
+    ///
+    /// If not it creates new one.
+    ///
+    /// - parameter peripheral: Peripheral for which to provide delegate wrapper
+    /// - returns: Delegate wrapper for specified peripheral.
     func provideDelegateWrapper(for peripheral: CBPeripheral) -> CBPeripheralDelegateWrapper {
         if let delegateWrapper = delegateWrappersBox.read({ $0[peripheral.uuidIdentifier] }) {
             return delegateWrapper
@@ -53,16 +51,13 @@ class PeripheralProvider {
         }
     }
 
-    /**
-     Provides `Peripheral` for specified `CBPeripheral`.
-     
-     If it was previously created it returns that object, so that there can be only one `Peripheral` per `CBPeripheral`.
-     
-     If not it creates new one.
-     
-     - parameter peripheral: Peripheral for which to provide delegate wrapper
-     - returns: `Peripheral` for specified peripheral.
-     */
+    /// Provides `Peripheral` for specified `CBPeripheral`.
+    ///
+    /// If it was previously created it returns that object, so that there can be only one `Peripheral`
+    /// per `CBPeripheral`. If not it creates new one.
+    ///
+    /// - parameter peripheral: Peripheral for which to provide delegate wrapper
+    /// - returns: `Peripheral` for specified peripheral.
     func provide(for cbPeripheral: CBPeripheral, centralManager: CentralManager) -> Peripheral {
         if let peripheral = find(cbPeripheral) {
             return peripheral

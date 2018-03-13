@@ -36,11 +36,9 @@ extension WeakBox {
     }
 }
 
-/**
- `ThreadSafeBox` is a helper class that allows use of resource (value) in a thread safe manner.
- All read and write calls are wrapped in concurrent `DispatchQueue` which protects writing to
- resource from more than 1 thread at a time.
- */
+/// `ThreadSafeBox` is a helper class that allows use of resource (value) in a thread safe manner.
+/// All read and write calls are wrapped in concurrent `DispatchQueue` which protects writing to
+/// resource from more than 1 thread at a time.
 class ThreadSafeBox<T>: CustomDebugStringConvertible {
     private let queue = DispatchQueue(label: "com.polidea.RxBluetoothKit.ThreadSafeBox")
     private var value: T

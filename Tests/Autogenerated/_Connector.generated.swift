@@ -25,9 +25,7 @@ import RxSwift
 import CoreBluetooth
 @testable import RxBluetoothKit
 
-/**
- `ConnectorMock` is a class that is responsible for establishing connection with peripherals.
- */
+/// `ConnectorMock` is a class that is responsible for establishing connection with peripherals.
 class _Connector {
     let centralManager: CBCentralManagerMock
     let delegateWrapper: CBCentralManagerDelegateWrapperMock
@@ -42,10 +40,8 @@ class _Connector {
         self.delegateWrapper = delegateWrapper
     }
 
-    /**
-     Establishes connection with a given `_Peripheral`.
-     For more information see `_CentralManager.establishConnection(with:options:)`
-    */
+    /// Establishes connection with a given `_Peripheral`.
+    /// For more information see `_CentralManager.establishConnection(with:options:)`
     func establishConnection(with peripheral: _Peripheral, options: [String: Any]? = nil)
         -> Observable<_Peripheral> {
             return .deferred { [weak self] in

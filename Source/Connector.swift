@@ -24,9 +24,7 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
-/**
- `Connector` is a class that is responsible for establishing connection with peripherals.
- */
+/// `Connector` is a class that is responsible for establishing connection with peripherals.
 class Connector {
     let centralManager: CBCentralManager
     let delegateWrapper: CBCentralManagerDelegateWrapper
@@ -41,10 +39,8 @@ class Connector {
         self.delegateWrapper = delegateWrapper
     }
 
-    /**
-     Establishes connection with a given `Peripheral`.
-     For more information see `CentralManager.establishConnection(with:options:)`
-    */
+    /// Establishes connection with a given `Peripheral`.
+    /// For more information see `CentralManager.establishConnection(with:options:)`
     func establishConnection(with peripheral: Peripheral, options: [String: Any]? = nil)
         -> Observable<Peripheral> {
             return .deferred { [weak self] in
