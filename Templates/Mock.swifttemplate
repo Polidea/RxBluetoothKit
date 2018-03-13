@@ -12,8 +12,8 @@ import RxSwift
     typealias MethodName = String
 
     class Utils {
-        static let classNamesToMock = ["CBCentralManager", "CBPeripheral", "CBDescriptor", "CBService", "CBCharacteristic", "CBL2CAPChannel", "CBPeer", "PeripheralDelegateWrapperProvider", "Connector"]
-        static let classNamesToTestable = ["Peripheral"]
+        static let classNamesToMock = ["CBCentralManager", "CBPeripheral", "CBDescriptor", "CBService", "CBCharacteristic", "CBL2CAPChannel", "CBPeer", "PeripheralProvider", "Connector", "CharacteristicNotificationManager"]
+        static let classNamesToTestable = ["Peripheral", "CentralManager", "Characteristic"]
         static let delegateWrapperNamesToMock = ["CBPeripheralDelegateWrapper", "CBCentralManagerDelegateWrapper"]
         static let namesToMock = classNamesToMock + delegateWrapperNamesToMock
 

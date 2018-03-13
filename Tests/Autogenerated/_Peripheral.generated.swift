@@ -31,21 +31,35 @@ import CoreBluetooth
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
 class _Peripheral {
 
-    let manager: _CentralManager
+    unowned let manager: _CentralManager
 
     /// Implementation of peripheral
     let peripheral: CBPeripheralMock
+
+    private let notificationManager: CharacteristicNotificationManagerMock
 
     let delegateWrapper: CBPeripheralDelegateWrapperMock
 
     /// Creates new `_Peripheral`
     /// - parameter manager: Central instance which is used to perform all of the necessary operations.
     /// - parameter peripheral: Instance representing specific peripheral allowing to perform operations on it.
-    init(manager: _CentralManager, peripheral: CBPeripheralMock) {
-      self.manager = manager
-      self.peripheral = peripheral
-      self.delegateWrapper = manager.peripheralDelegateProvider.provide(for: peripheral)
-      peripheral.delegate = self.delegateWrapper
+    /// - parameter delegateWrapper: Rx wrapper for `CBPeripheralDelegate`.
+    init(
+        manager: _CentralManager,
+        peripheral: CBPeripheralMock,
+        delegateWrapper: CBPeripheralDelegateWrapperMock,
+        notificationManager: CharacteristicNotificationManagerMock
+    ) {
+        self.manager = manager
+        self.peripheral = peripheral
+        self.delegateWrapper = delegateWrapper
+        self.notificationManager = notificationManager
+        peripheral.delegate = self.delegateWrapper
+    }
+
+    convenience init(manager: _CentralManager, peripheral: CBPeripheralMock, delegateWrapper: CBPeripheralDelegateWrapperMock) {
+        let notificationManager = CharacteristicNotificationManagerMock(peripheral: peripheral, delegateWrapper: delegateWrapper)
+        self.init(manager: manager, peripheral: peripheral, delegateWrapper: delegateWrapper, notificationManager: notificationManager)
     }
 
     /// Attaches RxBluetoothKit delegate to CBPeripheralMock.
@@ -115,7 +129,8 @@ class _Peripheral {
     /// Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the
     /// peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
     /// If all of the specified services are already discovered - these are returned without doing any underlying Bluetooth operations.
-    /// Next on returned `Observable` is emitted only when all of the requested services are discovered.
+    /// Next on returned `Observable` is emitted only when all of the requested services are discovered, otherwise`RxError.noElements`
+    /// error is emmited.
     ///
     /// - Parameter serviceUUIDs: An array of [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/) object represents a UUID that identifies the type of service you want to discover.
     /// - Returns: `Single` that emits `Next` with array of `_Service` instances, once they're discovered.
@@ -134,7 +149,7 @@ class _Peripheral {
                 if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
                     return .just(filteredServices)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 
@@ -149,7 +164,8 @@ class _Peripheral {
     /// subscribtion to `Observable` is made.
     /// If all of the specified included services are already discovered - these are returned without doing any underlying Bluetooth
     /// operations.
-    /// Next on returned `Observable` is emitted only when all of the requested included services are discovered.
+    /// Next on returned `Observable` is emitted only when all of the requested included services are discovered, otherwise`RxError.noElements`
+    /// error is emmited.
     ///
     /// - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
     /// included services will be discovered. If you'll pass empty array - none of them will be discovered.
@@ -173,7 +189,7 @@ class _Peripheral {
                 if let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices) {
                     return .just(filteredServices)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 
@@ -191,7 +207,8 @@ class _Peripheral {
     /// Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
     /// subscribtion to `Observable` is made.
     /// If all of the specified characteristics are already discovered - these are returned without doing any underlying Bluetooth operations.
-    /// Next on returned `Observable` is emitted only when all of the requested characteristics are discovered.
+    /// Next on returned `Observable` is emitted only when all of the requested characteristics are discovered, otherwise`RxError.noElements`
+    /// error is emmited.
     ///
     /// - Parameter identifiers: Identifiers of characteristics that should be discovered. If `nil` - all of the
     /// characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
@@ -214,7 +231,7 @@ class _Peripheral {
                 if let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
                     return .just(filteredCharacteristics)
                 }
-                return .empty()
+                throw RxError.noElements
             }
             .take(1)
 
@@ -331,51 +348,21 @@ class _Peripheral {
         ).asSingle()
     }
 
-    /// Function that triggers set of notification state of the `_Characteristic`.
-    /// This change is called after subscribtion to `Observable` is made.
-    /// - warning: This method is not responsible for emitting values every time that `_Characteristic` value is changed.
-    /// For this, refer to other method: `observeValueUpdateForCharacteristic(_)`. These two are often called together.
-    /// - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
-    /// - parameter forCharacteristic: Characterististic of which notification state needs to be changed
-    /// - returns: `Single` which emits `Next` with _Characteristic that state was changed.
-    func setNotifyValue(_ enabled: Bool,
-                               for characteristic: _Characteristic) -> Single<_Characteristic> {
-        let observable = delegateWrapper
-            .peripheralDidUpdateNotificationStateForCharacteristic
-            .filter { $0.0 == characteristic.characteristic }
-            .take(1)
-            .map { (_, error) -> _Characteristic in
-                if let error = error {
-                    throw _BluetoothError.characteristicNotifyChangeFailed(characteristic, error)
-                }
-                return characteristic
-            }
-        return ensureValidPeripheralStateAndCallIfSucceeded(
-            for: observable,
-            postSubscriptionCall: { [weak self] in
-                self?.peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
-            }
-        ).asSingle()
-    }
-
-    /// Function that triggers set of notification state of the `_Characteristic`, and observe for any incoming updates.
-    /// Notification is set after subscribtion to `Observable` is made.
-    /// - parameter characteristic: Characterististic on which notification should be made.
-    /// - returns: `Observable` which emits `Next`, when characteristic value is updated.
-    /// This is **infinite** stream of values.
-    func observeValueUpdateAndSetNotification(for characteristic: _Characteristic)
-        -> Observable<_Characteristic> {
-        return Observable
-            .of(
-                observeValueUpdate(for: characteristic),
-                setNotifyValue(true, for: characteristic)
-                    .asObservable()
-                    .ignoreElements()
-                    .asObservable()
-                    .map { _ in characteristic }
-                    .subscribeOn(CurrentThreadScheduler.instance)
-            )
-            .merge()
+    /**
+     Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
+     Returned observable will emit `_Characteristic` on every notification change.
+     It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.
+     
+     Notification is automaticaly unregistered once this observable is unsubscribed
+     
+     - parameter characteristic: `_Characteristic` for notification setup.
+     - returns: `Observable` emitting `_Characteristic` when given characteristic has been changed.
+     
+     This is **infinite** stream of values.
+     */
+    func observeValueUpdateAndSetNotification(for characteristic: _Characteristic) -> Observable<_Characteristic> {
+        let observable = notificationManager.observeValueUpdateAndSetNotification(for: characteristic)
+        return ensureValidPeripheralState(for: observable)
     }
 
     // MARK: Descriptors

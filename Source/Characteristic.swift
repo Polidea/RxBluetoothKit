@@ -110,20 +110,17 @@ public class Characteristic {
         return service.peripheral.readValue(for: self)
     }
 
-    /// Function that triggers set of notification state of the `Characteristic`.
-    /// This change is called after subscribtion to `Observable` is made.
-    /// - warning: This method is not responsible for emitting values every time that `Characteristic` value is changed.
-    /// For this, refer to other method: `observeValueUpdateForCharacteristic(_)`. These two are often called together.
-    /// - parameter enabled: New value of notifications state. Specify `true` if you're interested in getting values
-    /// - returns: `Single` which emits `Next` with Characteristic that state was changed.
-    public func setNotifyValue(_ enabled: Bool) -> Single<Characteristic> {
-        return service.peripheral.setNotifyValue(enabled, for: self)
-    }
-
-    /// Function that triggers set of notification state of the `Characteristic`, and observe for any incoming updates.
-    /// Notification is set after subscribtion to `Observable` is made.
-    /// - returns: `Observable` which emits `Next`, when characteristic value is updated.
-    /// This is **infinite** stream of values.
+    /**
+     Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
+     Returned observable will emit `Characteristic` on every notification change.
+     It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.
+     
+     Notification is automaticaly unregistered once this observable is unsubscribed
+     
+     - returns: `Observable` emitting `Next` with `Characteristic` when given characteristic has been changed.
+     
+     This is **infinite** stream of values.
+     */
     public func observeValueUpdateAndSetNotification() -> Observable<Characteristic> {
         return service.peripheral.observeValueUpdateAndSetNotification(for: self)
     }

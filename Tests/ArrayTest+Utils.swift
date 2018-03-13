@@ -20,38 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import Foundation
 import XCTest
+@testable
+import RxBluetoothKit
 
-class PeripheralDelegateWrapperProviderTest: XCTestCase {
-    
-    var provider: _PeripheralDelegateWrapperProvider!
-    
-    override func setUp() {
-        super.setUp()
-        provider = _PeripheralDelegateWrapperProvider()
+class ArrayUtilsTest: XCTestCase {
+    func testRemoveElement() {
+        var array: [Int] = [0, 1, 2, 3]
+        let res = array.remove(object: 1)
+        
+        XCTAssertTrue(res, "should return true")
+        XCTAssertEqual(array, [0, 2, 3], "should remove one element")
     }
     
-    func testDelegateWrapperReuse() {
-        let arg = CBPeripheralMock()
-        arg.uuidIdentifier = UUID()
+    func testRemoveNoElementFound() {
+        var array: [Int] = [0, 1, 2, 3]
+        let res = array.remove(object: 4)
         
-        let result = provider.provide(for: arg)
-        let nextResult = provider.provide(for: arg)
-        
-        XCTAssertTrue(result === nextResult, "should reuse previously created delegate wrapper")
-    }
-    
-    func testDelegateWrapperCreation() {
-        let args = (
-            firstPeripheral: CBPeripheralMock(),
-            secondPeripheral: CBPeripheralMock()
-        )
-        args.firstPeripheral.uuidIdentifier = UUID()
-        args.secondPeripheral.uuidIdentifier = UUID()
-        
-        let result = provider.provide(for: args.firstPeripheral)
-        let nextResult = provider.provide(for: args.secondPeripheral)
-        
-        XCTAssertTrue(result !== nextResult, "should create different delegate wrapper for each peripheral")
+        XCTAssertFalse(res, "should return false")
+        XCTAssertEqual(array, [0, 1, 2, 3], "should not remove any element")
     }
 }

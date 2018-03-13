@@ -88,8 +88,8 @@ class CentralManagerTest_ObserveConnect: BaseCentralManagerTest {
     }
     
     func testDeviceConnectedEventWithoutPeripheral() {
-        let obs = setUpObserveConnectWithoutPeripheral()
         let peripheralMocks = [CBPeripheralMock(), CBPeripheralMock()]
+        let obs = setUpObserveConnectWithoutPeripheral(peripheralMocks: peripheralMocks)
         let events: [Recorded<Event<CBPeripheralMock>>] = [
             next(subscribeTime - 100, CBPeripheralMock()),
             next(subscribeTime + 100, peripheralMocks[0]),
@@ -125,8 +125,8 @@ class CentralManagerTest_ObserveConnect: BaseCentralManagerTest {
     }
     
     func testErrorAfterConnectedEventWithoutPeripheral() {
-        let obs = setUpObserveConnectWithoutPeripheral()
         let peripheralMock = CBPeripheralMock()
+        let obs = setUpObserveConnectWithoutPeripheral(peripheralMocks: [peripheralMock])
         let events: [Recorded<Event<CBPeripheralMock>>] = [
             next(subscribeTime + 100, peripheralMock),
             ]
@@ -162,18 +162,19 @@ class CentralManagerTest_ObserveConnect: BaseCentralManagerTest {
     func setUpObserveConnect() -> (_Peripheral, ScheduledObservable<_Peripheral>) {
         setUpProperties()
         
-        wrapperProviderMock.provideReturn = CBPeripheralDelegateWrapperMock()
-        let peripheral = _Peripheral(manager: manager, peripheral: CBPeripheralMock())
+        let peripheral = _Peripheral(manager: manager, peripheral: CBPeripheralMock(), delegateWrapper: CBPeripheralDelegateWrapperMock())
+        providerMock.provideReturn = peripheral
         let connectObservable: ScheduledObservable<_Peripheral> = testScheduler.scheduleObservable {
             self.manager.observeConnect(for: peripheral).asObservable()
         }
         return (peripheral, connectObservable)
     }
     
-    func setUpObserveConnectWithoutPeripheral() -> ScheduledObservable<_Peripheral> {
+    func setUpObserveConnectWithoutPeripheral(peripheralMocks: [CBPeripheralMock] = []) -> ScheduledObservable<_Peripheral> {
         setUpProperties()
         
-        wrapperProviderMock.provideReturn = CBPeripheralDelegateWrapperMock()
+        let peripherals = peripheralMocks.map { _Peripheral(manager: manager, peripheral: $0, delegateWrapper: CBPeripheralDelegateWrapperMock()) }
+        providerMock.provideReturns = peripherals
         let connectObservable: ScheduledObservable<_Peripheral> = testScheduler.scheduleObservable {
             self.manager.observeConnect().asObservable()
         }

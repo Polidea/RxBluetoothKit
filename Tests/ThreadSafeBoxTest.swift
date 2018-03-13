@@ -46,10 +46,10 @@ class ThreadSafeBoxTest: XCTestCase {
             
             resultQueue.sync {
                 currentIteration -= 1
-                
                 // Final loop
                 guard currentIteration <= 0 else { return }
                 let count = box.read { $0.count }
+                
                 XCTAssertEqual(count, expectedIterations, "should receive \(expectedIterations), instead received \(count)")
                 
                 expectation.fulfill()
@@ -57,5 +57,15 @@ class ThreadSafeBoxTest: XCTestCase {
         }
         
         wait(for: [expectation], timeout: 20)
+    }
+    
+    func testWriteAndRead() {
+        box.write { $0.append(0) }
+        box.write { $0.append(1) }
+        var result: [Int]?
+        box.read{ result = $0 }
+        
+        XCTAssertEqual(result?.count, 2, "should have two elements")
+        XCTAssertEqual(result!, [0, 1], "should have correct values")
     }
 }

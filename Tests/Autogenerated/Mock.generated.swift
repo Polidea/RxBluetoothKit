@@ -201,22 +201,58 @@ class CBPeerMock: NSObject {
     }
 
 }
-class PeripheralDelegateWrapperProviderMock: NSObject {
-    var lock: NSLock!
-    var peripheralDelegateWrappersMap: [UUID: CBPeripheralDelegateWrapperMock]!
+class PeripheralProviderMock: NSObject {
+    var peripheralsBox: ThreadSafeBox<[_Peripheral]>!
+    var delegateWrappersBox: ThreadSafeBox<[UUID: CBPeripheralDelegateWrapperMock]>!
 
     override init() {
     }
 
-    var provideParams: [(CBPeripheralMock)] = []
-    var provideReturns: [CBPeripheralDelegateWrapperMock] = []
-    var provideReturn: CBPeripheralDelegateWrapperMock?
-    func provide(for peripheral: CBPeripheralMock) -> CBPeripheralDelegateWrapperMock {
-        provideParams.append((peripheral))
+    var provideDelegateWrapperParams: [(CBPeripheralMock)] = []
+    var provideDelegateWrapperReturns: [CBPeripheralDelegateWrapperMock] = []
+    var provideDelegateWrapperReturn: CBPeripheralDelegateWrapperMock?
+    func provideDelegateWrapper(for peripheral: CBPeripheralMock) -> CBPeripheralDelegateWrapperMock {
+        provideDelegateWrapperParams.append((peripheral))
+        if provideDelegateWrapperReturns.isEmpty {
+            return provideDelegateWrapperReturn!
+        } else {
+            return provideDelegateWrapperReturns.removeFirst()
+        }
+    }
+
+    var provideParams: [(CBPeripheralMock, _CentralManager)] = []
+    var provideReturns: [_Peripheral] = []
+    var provideReturn: _Peripheral?
+    func provide(for cbPeripheral: CBPeripheralMock, centralManager: _CentralManager) -> _Peripheral {
+        provideParams.append((cbPeripheral, centralManager))
         if provideReturns.isEmpty {
             return provideReturn!
         } else {
             return provideReturns.removeFirst()
+        }
+    }
+
+    var createAndAddToBoxParams: [(CBPeripheralMock, _CentralManager)] = []
+    var createAndAddToBoxReturns: [_Peripheral] = []
+    var createAndAddToBoxReturn: _Peripheral?
+    func createAndAddToBox(_ cbPeripheral: CBPeripheralMock, manager: _CentralManager) -> _Peripheral {
+        createAndAddToBoxParams.append((cbPeripheral, manager))
+        if createAndAddToBoxReturns.isEmpty {
+            return createAndAddToBoxReturn!
+        } else {
+            return createAndAddToBoxReturns.removeFirst()
+        }
+    }
+
+    var findParams: [(CBPeripheralMock)] = []
+    var findReturns: [_Peripheral?] = []
+    var findReturn: _Peripheral??
+    func find(_ cbPeripheral: CBPeripheralMock) -> _Peripheral? {
+        findParams.append((cbPeripheral))
+        if findReturns.isEmpty {
+            return findReturn!
+        } else {
+            return findReturns.removeFirst()
         }
     }
 
@@ -289,6 +325,54 @@ class ConnectorMock: NSObject {
             return createFailToConnectObservableReturn!
         } else {
             return createFailToConnectObservableReturns.removeFirst()
+        }
+    }
+
+}
+class CharacteristicNotificationManagerMock: NSObject {
+    var peripheral: CBPeripheralMock!
+    var delegateWrapper: CBPeripheralDelegateWrapperMock!
+    var uuidToActiveObservableMap: [CBUUID: Observable<_Characteristic>]!
+    var lock: NSLock!
+
+    override init() {
+    }
+    init(peripheral: CBPeripheralMock, delegateWrapper: CBPeripheralDelegateWrapperMock) {
+    }
+
+    var observeValueUpdateAndSetNotificationParams: [(_Characteristic)] = []
+    var observeValueUpdateAndSetNotificationReturns: [Observable<_Characteristic>] = []
+    var observeValueUpdateAndSetNotificationReturn: Observable<_Characteristic>?
+    func observeValueUpdateAndSetNotification(for characteristic: _Characteristic) -> Observable<_Characteristic> {
+        observeValueUpdateAndSetNotificationParams.append((characteristic))
+        if observeValueUpdateAndSetNotificationReturns.isEmpty {
+            return observeValueUpdateAndSetNotificationReturn!
+        } else {
+            return observeValueUpdateAndSetNotificationReturns.removeFirst()
+        }
+    }
+
+    var createValueUpdateObservableParams: [(_Characteristic)] = []
+    var createValueUpdateObservableReturns: [Observable<_Characteristic>] = []
+    var createValueUpdateObservableReturn: Observable<_Characteristic>?
+    func createValueUpdateObservable(for characteristic: _Characteristic) -> Observable<_Characteristic> {
+        createValueUpdateObservableParams.append((characteristic))
+        if createValueUpdateObservableReturns.isEmpty {
+            return createValueUpdateObservableReturn!
+        } else {
+            return createValueUpdateObservableReturns.removeFirst()
+        }
+    }
+
+    var setNotifyValueParams: [(Bool, _Characteristic)] = []
+    var setNotifyValueReturns: [Single<_Characteristic>] = []
+    var setNotifyValueReturn: Single<_Characteristic>?
+    func setNotifyValue(_ enabled: Bool, for characteristic: _Characteristic) -> Single<_Characteristic> {
+        setNotifyValueParams.append((enabled, characteristic))
+        if setNotifyValueReturns.isEmpty {
+            return setNotifyValueReturn!
+        } else {
+            return setNotifyValueReturns.removeFirst()
         }
     }
 

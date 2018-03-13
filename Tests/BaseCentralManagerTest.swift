@@ -28,18 +28,18 @@ class BaseCentralManagerTest: XCTestCase {
     
     var centralManagerMock: CBCentralManagerMock!
     var wrapperMock: CBCentralManagerDelegateWrapperMock!
-    var wrapperProviderMock: PeripheralDelegateWrapperProviderMock!
+    var providerMock: PeripheralProviderMock!
     var connectorMock: ConnectorMock!
     
     func setUpProperties() {
         centralManagerMock = CBCentralManagerMock()
         wrapperMock = CBCentralManagerDelegateWrapperMock()
-        wrapperProviderMock = PeripheralDelegateWrapperProviderMock()
+        providerMock = PeripheralProviderMock()
         connectorMock = ConnectorMock()
         manager = _CentralManager(
             centralManager: centralManagerMock,
             delegateWrapper: wrapperMock,
-            peripheralDelegateProvider: wrapperProviderMock,
+            peripheralProvider: providerMock,
             connector: connectorMock
         )
     }
