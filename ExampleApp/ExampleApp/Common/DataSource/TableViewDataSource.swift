@@ -20,10 +20,12 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
     typealias OnErrorBlock = (_ error: Error) -> Void
 
     // MARK: - Fields
-    var refreshDataBlock: RefreshDataBlock?
+    var refreshDataBlock: RefreshDataBlock = {
+    }
 
-    var onErrorBlock: OnErrorBlock?
-    
+    var onErrorBlock: OnErrorBlock = { _ in
+    }
+
     private let itemsSubject = PublishSubject<I>()
 
     private let dataItem: S
@@ -46,7 +48,7 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
             self?.dataItem.append(item)
             self?.refreshData()
         }, onError: { [unowned self] (error) in
-            self.onErrorBlock?(error)
+            self.onErrorBlock(error)
         }).disposed(by: disposeBag)
     }
 
@@ -59,9 +61,6 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
     }
 
     private func refreshData() {
-        guard let refreshDataBlock = refreshDataBlock else {
-            return
-        }
         refreshDataBlock()
     }
 
