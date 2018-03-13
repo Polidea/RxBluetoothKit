@@ -40,27 +40,29 @@ class CharacteristicNotificationManager {
     func observeValueUpdateAndSetNotification(for characteristic: Characteristic) -> Observable<Characteristic> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
-            strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+            strongSelf.lock.lock(); defer { strongSelf.lock.unlock()}
 
             if let activeObservable = strongSelf.uuidToActiveObservableMap[characteristic.uuid] {
                 return activeObservable
             }
 
-            let notifyValue = strongSelf.setNotifyValue(true, for: characteristic).asObservable()
-                .map { _ in characteristic }
             let notificationObserable = strongSelf.createValueUpdateObservable(for: characteristic)
-            let observable = Observable.of(notifyValue, notificationObserable)
-                .merge()
-                .do(onDispose: { [weak self] in
+            let observable = notificationObserable
+                .do(onSubscribed: { [weak self] in
                     guard let strongSelf = self else { return }
-                    do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                        let counter = strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 1
-                        strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] = counter - 1
-                        if counter <= 1 {
-                            strongSelf.uuidToActiveObservableMap.removeValue(forKey: characteristic.uuid)
-                            _ = strongSelf.setNotifyValue(false, for: characteristic)
-                                .subscribe()
-                        }
+                    strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+                    let counter = strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 0
+                    strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] = counter + 1
+                    self?.setNotifyValue(true, for: characteristic)
+                }, onDispose: { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+                    let counter = strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 1
+                    strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] = counter - 1
+
+                    if counter <= 1 {
+                        strongSelf.uuidToActiveObservableMap.removeValue(forKey: characteristic.uuid)
+                        strongSelf.setNotifyValue(false, for: characteristic)
                     }
                 })
                 .share()
@@ -82,14 +84,7 @@ class CharacteristicNotificationManager {
             }
     }
 
-    private func setNotifyValue(_ enabled: Bool, for characteristic: Characteristic) -> Completable {
-        return .deferred { [weak self] in
-            if enabled {
-                let counter = self?.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 0
-                self?.uuidToActiveObservablesCountMap[characteristic.uuid] = counter + 1
-            }
-            self?.peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
-            return .empty()
-        }
+    private func setNotifyValue(_ enabled: Bool, for characteristic: Characteristic) {
+        peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
     }
 }

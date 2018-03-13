@@ -118,7 +118,7 @@ class _Characteristic {
      
      Notification is automaticaly unregistered once this observable is unsubscribed
      
-     - returns: `Observable` emitting `Next` with `_Characteristic` when give characteristic has been changed.
+     - returns: `Observable` emitting `Next` with `_Characteristic` when given characteristic has been changed.
      
      This is **infinite** stream of values.
      */
