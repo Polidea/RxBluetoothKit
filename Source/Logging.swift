@@ -1,11 +1,3 @@
-//
-//  Logging.swift
-//  RxBluetoothKit
-//
-//  Created by Przemysław Lenart on 23/05/17.
-//  Copyright © 2017 Polidea. All rights reserved.
-//
-
 import Foundation
 import CoreBluetooth
 
