@@ -14,10 +14,3 @@ protocol SectionModelItem {
 
     func append(_ item: ModelDataType)
 }
-
-extension SectionModelItem {
-
-    var itemsCount: Int {
-        return rowData.count
-    }
-}
