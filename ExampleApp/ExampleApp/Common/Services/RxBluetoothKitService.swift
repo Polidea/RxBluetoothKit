@@ -4,8 +4,8 @@ import RxSwift
 import RxCocoa
 
 // RxBluetoothKitService is a class encapsulating logic of most operations you might want to perform
-// on a CentralManager object. Here you can see an example usage of such features as scanning for Peripherals,
-//
+// on a CentralManager object. Here you can see an example usage of such features as scanning for peripherals,
+// discovering services and peripherals.
 
 class RxBluetoothKitService {
 
@@ -40,6 +40,7 @@ class RxBluetoothKitService {
     private let errorSubject: PublishSubject<Error> = PublishSubject()
 
     // MARK: - Private fields
+
     private let centralManager: CentralManager = CentralManager(queue: .main)
 
     private let scheduler: ConcurrentDispatchQueueScheduler
@@ -76,7 +77,7 @@ class RxBluetoothKitService {
     }
     // If you wish to stop scanning for peripherals, you need to dispose the Disposable object, that is created when
     // you either subscribe for events from an observable returned by centralManager.scanForPeripherals(:_), or you bind
-    // it to an observer. Check starScanning() above for details.
+    // an observer to it. Check starScanning() above for details.
     func stopScanning() {
         scanningDisposable.dispose()
     }
@@ -117,8 +118,8 @@ class RxBluetoothKitService {
         }
     }
 
-    // When you observeDisconnection from a Peripheral, you want to be sure that you take an action on both .next and
-    // .error events. For instance, when your device enters BluetoothState.poweredOff, you will receive .error event.
+    // When you observe disconnection from a peripheral, you want to be sure that you take an action on both .next and
+    // .error events. For instance, when your device enters BluetoothState.poweredOff, you will receive an .error event.
     private func observeDisconnect(for peripheral: Peripheral) {
         centralManager.observeDisconnect(for: peripheral).subscribe(onNext: { [unowned self] (peripheral, reason) in
             self.disconnectionSubject.onNext((peripheral, reason))
@@ -128,7 +129,7 @@ class RxBluetoothKitService {
         }).disposed(by: disposeBag)
     }
 
-    // Removal of disconnected Peripheral from the Peripheral's collection
+    // Removal of disconnected Peripheral from the Peripheral's collection.
     private func removeDisconnected(_ peripheral: Peripheral) {
         connectedPeripherals = connectedPeripherals.filter() {
             $0 !== peripheral
