@@ -7,7 +7,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     typealias ViewClass = BaseView
 
-    typealias CharacteristicsDataSource = TableViewDataSource<[Characteristic], CharacteristicsViewModelItem>
+    typealias CharacteristicsDataSource = TableViewDataSource<Characteristic, CharacteristicsViewModelItem>
 
     private let viewModel: CharacteristicsViewModelType
 

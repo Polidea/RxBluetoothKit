@@ -3,7 +3,9 @@ import Foundation
 
 final class PeripheralServicesViewModelItem: SectionModelItem {
 
-    var rowData: [Any] {
+    typealias DataModelType = Service
+
+    var rowData: [DataModelType] {
         return serviceRowItems
     }
 
@@ -13,20 +15,17 @@ final class PeripheralServicesViewModelItem: SectionModelItem {
 
     var sectionName: String?
 
-    private(set) var serviceRowItems: [Service]
+    private(set) var serviceRowItems: [DataModelType] = []
 
-    init(_ sectionName: String, peripheralRowItems: [Service]?) {
+    init(_ sectionName: String) {
         self.sectionName = sectionName
-        self.serviceRowItems = peripheralRowItems ?? []
     }
 
-    func cellClass() -> UIView.Type {
+    var cellClass: UIView.Type {
         return PeripheralServiceCell.self
     }
 
-    func append(_ item: Any) {
-        if let item = item as? [Service] {
-            serviceRowItems.append(contentsOf: item)
-        }
+    func append(_ item: DataModelType) {
+        serviceRowItems.append(item)
     }
 }

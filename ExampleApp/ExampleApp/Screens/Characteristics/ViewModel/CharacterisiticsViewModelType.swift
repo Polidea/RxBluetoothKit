@@ -5,7 +5,7 @@ import RxSwift
 
 protocol CharacteristicsViewModelType {
 
-    var characteristicsOutput: Observable<[Characteristic]> { get }
+    var characteristicsOutput: Observable<Characteristic> { get }
 
     var dataUpdateOutput: Observable<Void> { get }
 

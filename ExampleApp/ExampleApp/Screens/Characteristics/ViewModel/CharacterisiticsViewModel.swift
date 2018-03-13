@@ -5,10 +5,6 @@ import RxSwift
 
 class CharacteristicsViewModel: CharacteristicsViewModelType {
 
-    var characteristicsOutput: Observable<[Characteristic]> {
-        return bluetoothService.discoverCharacteristics(for: service)
-    }
-
     var dataUpdateOutput: Observable<Void> {
         return characteristicUpdateTrigger.asObservable()
     }
@@ -17,11 +13,17 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         return alertTrigger.asObservable()
     }
 
+    var characteristicsOutput: Observable<Characteristic> {
+        return discoveredCharacteristicsSubject.asObservable()
+    }
+
     private let disposeBag: DisposeBag = DisposeBag()
 
     private let bluetoothService: RxBluetoothKitService
 
     private let service: Service
+
+    private let discoveredCharacteristicsSubject: PublishSubject<Characteristic> = PublishSubject()
 
     private let characteristicUpdateTrigger: PublishSubject<Void> = PublishSubject()
 
@@ -34,6 +36,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
     init(with bluetoothService: RxBluetoothKitService, service: Service) {
         self.bluetoothService = bluetoothService
         self.service = service
+        self.bindCharacteristicsOutput()
     }
 
     func setCurrent(characteristic: Characteristic) {
@@ -73,6 +76,17 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
             notificationsDisposable?.dispose()
             characteristicUpdateTrigger.onNext(Void())
         }
+    }
+
+    private func bindCharacteristicsOutput() {
+        bluetoothService.discoverCharacteristics(for: service).subscribe(onNext: { [unowned self] characteristics in
+            characteristics.forEach { characteristic in
+                self.discoveredCharacteristicsSubject.onNext(characteristic)
+            }
+        }, onError: { error in
+            let message = error.localizedDescription
+            self.alertTrigger.onNext(message)
+        }).disposed(by: disposeBag)
     }
 
     private func subscribeNotification() {

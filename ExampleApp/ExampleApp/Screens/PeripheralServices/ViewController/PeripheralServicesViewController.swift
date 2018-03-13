@@ -7,7 +7,7 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
 
     typealias ViewClass = BaseView
 
-    typealias PeripheralServicesDataSource = TableViewDataSource<[Service], PeripheralServicesViewModelItem>
+    typealias PeripheralServicesDataSource = TableViewDataSource<Service, PeripheralServicesViewModelItem>
 
     private let viewModel: PeripheralServicesViewModelType
 
@@ -143,7 +143,7 @@ extension PeripheralServicesViewController: UITableViewDelegate {
             cell.update(with: item)
         }
 
-        let dataSource = TableViewDataSource<[Characteristic], CharacteristicsViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
+        let dataSource = TableViewDataSource<Characteristic, CharacteristicsViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
 
         let viewController = CharacteristicsViewController(with: dataSource, viewModel: viewModel)
 

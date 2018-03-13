@@ -3,7 +3,9 @@ import UIKit
 
 final class ScanResultsViewModelItem: SectionModelItem {
 
-    var rowData: [Any] {
+    typealias ModelDataType = ScannedPeripheral
+
+    var rowData: [ModelDataType] {
         return peripheralRowItems
     }
 
@@ -13,26 +15,25 @@ final class ScanResultsViewModelItem: SectionModelItem {
 
     var sectionName: String?
 
-    private(set) var peripheralRowItems: [ScannedPeripheral]
+    var cellClass: UIView.Type {
+        return ScanResultTableViewCell.self
+    }
 
-    init(_ sectionName: String, peripheralRowItems: [ScannedPeripheral] = []) {
+    private(set) var peripheralRowItems: [ModelDataType]
+
+    init(_ sectionName: String, peripheralRowItems: [ModelDataType] = []) {
         self.sectionName = sectionName
         self.peripheralRowItems = peripheralRowItems
     }
 
-    func cellClass() -> UIView.Type {
-        return ScanResultTableViewCell.self
-    }
-
-    func append(_ item: Any) {
-        if let item = item as? ScannedPeripheral {
-            let identicalPeripheral = peripheralRowItems.filter {
-                $0.peripheral == item.peripheral
-            }
-            guard identicalPeripheral.isEmpty else {
-                return
-            }
-            peripheralRowItems.append(item)
+    func append(_ item: ModelDataType) {
+        let identicalPeripheral = peripheralRowItems.filter {
+            $0.peripheral == item.peripheral
         }
+
+        guard identicalPeripheral.isEmpty else {
+            return
+        }
+        peripheralRowItems.append(item)
     }
 }

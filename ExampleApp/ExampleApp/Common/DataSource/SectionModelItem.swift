@@ -2,24 +2,22 @@ import UIKit
 
 protocol SectionModelItem {
 
+    associatedtype ModelDataType
+
     var itemsCount: Int { get }
 
     var sectionName: String? { get }
 
-    var rowData: [Any] { get }
+    var rowData: [ModelDataType] { get }
 
-    func cellClass() -> UIView.Type
+    var cellClass: UIView.Type { get }
 
-    func append(_ item: Any)
+    func append(_ item: ModelDataType)
 }
 
 extension SectionModelItem {
 
     var itemsCount: Int {
         return rowData.count
-    }
-
-    var rowData: [Any] {
-        return []
     }
 }

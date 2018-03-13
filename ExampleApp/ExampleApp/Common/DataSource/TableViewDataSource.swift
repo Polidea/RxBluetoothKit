@@ -7,7 +7,7 @@ import UIKit
    check: DataSource.SectionModelItem.swift
 */
 
-class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSource {
+class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSource where I == S.ModelDataType {
 
     // MARK: - Typealiases
     // Block used to configure UITableViewCell, passed into init
@@ -71,7 +71,7 @@ class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let reuseIdentifier = String(describing: dataItem.cellClass())
+        let reuseIdentifier = String(describing: dataItem.cellClass)
         let item = dataItem.rowData[indexPath.item]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) else {
             return UITableViewCell()

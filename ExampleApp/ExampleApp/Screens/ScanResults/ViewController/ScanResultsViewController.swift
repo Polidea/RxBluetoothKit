@@ -97,8 +97,7 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     private func showPeripheralServices(for scannedPeripheral: ScannedPeripheral) {
 
-        let dataItem = PeripheralServicesViewModelItem(Constant.Strings.servicesSectionTitle,
-                peripheralRowItems: scannedPeripheral.peripheral.services)
+        let dataItem = PeripheralServicesViewModelItem(Constant.Strings.servicesSectionTitle)
 
         let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
             guard let cell = cell as? UpdatableCell else {
@@ -110,7 +109,7 @@ class ScanResultsViewController: UIViewController, CustomView {
         let viewModel = PeripheralServicesViewModel(with: self.viewModel.bluetoothService,
                 peripheral: scannedPeripheral.peripheral)
 
-        let dataSource = TableViewDataSource<[Service], PeripheralServicesViewModelItem>(dataItem: dataItem,
+        let dataSource = TableViewDataSource<Service, PeripheralServicesViewModelItem>(dataItem: dataItem,
                 configureBlock: configureBlock)
 
         let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)

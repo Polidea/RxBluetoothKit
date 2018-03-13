@@ -9,8 +9,8 @@ final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
 
     let bluetoothService: RxBluetoothKitService
 
-    var servicesOutput: Observable<[Service]> {
-        return bluetoothService.servicesOutput
+    var servicesOutput: Observable<Service> {
+        return discoveredServicesSubject.asObservable()
     }
 
     var disconnectionOutput: Observable<RxBluetoothKitService.Disconnection> {
@@ -18,8 +18,12 @@ final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
     }
 
     var errorOutput: Observable<Error> {
-        return bluetoothService.errorOutput
+        return errorOutputSubject.asObservable()
     }
+
+    private let discoveredServicesSubject: PublishSubject<Service> = PublishSubject()
+
+    private let errorOutputSubject: PublishSubject<Error> = PublishSubject()
 
     private let disposeBag: DisposeBag = DisposeBag()
 
@@ -30,5 +34,17 @@ final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
 
     func connect() {
         bluetoothService.discoverServices(for: displayedPeripheral)
+
+        bluetoothService.servicesOutput.subscribe(onNext: { services in
+            services.forEach { [unowned self] service in
+                self.discoveredServicesSubject.onNext(service)
+            }
+        }, onError: { [unowned self] error in
+            self.errorOutputSubject.onNext(error)
+        }).disposed(by: disposeBag)
+    }
+
+    private func bindErrorOutput() {
+        bluetoothService.errorOutput.bind(to: errorOutputSubject).disposed(by: disposeBag)
     }
 }

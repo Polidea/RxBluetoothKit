@@ -3,7 +3,9 @@ import UIKit
 
 class CharacteristicsViewModelItem: SectionModelItem {
 
-    var rowData: [Any] {
+    typealias ModelDataType = Characteristic
+
+    var rowData: [ModelDataType] {
         return characteristicsRowItems
     }
 
@@ -13,19 +15,18 @@ class CharacteristicsViewModelItem: SectionModelItem {
 
     var sectionName: String?
 
-    private(set) var characteristicsRowItems: [Characteristic]
+    var cellClass: UIView.Type {
+        return CharacterisiticsTableViewCell.self
+    }
 
-    init(_ sectionName: String, characteristicsRowItems: [Characteristic]?) {
+    private(set) var characteristicsRowItems: [ModelDataType]
+
+    init(_ sectionName: String, characteristicsRowItems: [ModelDataType]?) {
         self.sectionName = sectionName
         self.characteristicsRowItems = characteristicsRowItems ?? []
     }
 
-    func cellClass() -> UIView.Type {
-        return CharacterisiticsTableViewCell.self
-    }
-
-    func append(_ item: Any) {
-        guard let item = item as? [Characteristic] else { return }
-        characteristicsRowItems.append(contentsOf: item)
+    func append(_ item: ModelDataType) {
+        characteristicsRowItems.append(item)
     }
 }
