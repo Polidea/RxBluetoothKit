@@ -7,7 +7,7 @@ import RxCocoa
 // on a CentralManager object. Here you can see an example usage of such features as scanning for peripherals,
 // discovering services and peripherals.
 
-class RxBluetoothKitService {
+final class RxBluetoothKitService {
 
     typealias Disconnection = (Peripheral, DisconnectionReason?)
 
