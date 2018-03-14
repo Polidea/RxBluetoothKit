@@ -13,7 +13,7 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     private let viewModel: ScanResultsViewModelType
 
-    private let disposeBag: DisposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     init(with dataSource: ScansResultDataSource, viewModel: ScanResultsViewModelType) {
         self.dataSource = dataSource

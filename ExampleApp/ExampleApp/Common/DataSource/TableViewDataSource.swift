@@ -28,7 +28,7 @@ final class TableViewDataSource<S: SectionModelItem>: NSObject, UITableViewDataS
 
     private let dataItem: S
 
-    private let disposeBag: DisposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     // MARK: - Initialization
     init(dataItem: S) {

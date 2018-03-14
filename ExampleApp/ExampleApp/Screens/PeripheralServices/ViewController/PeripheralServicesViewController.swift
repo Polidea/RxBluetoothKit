@@ -13,7 +13,7 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
 
     private let dataSource: PeripheralServicesDataSource
 
-    private let disposeBag: DisposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     init(with dataSource: PeripheralServicesDataSource, viewModel: PeripheralServicesViewModelType) {
         self.dataSource = dataSource

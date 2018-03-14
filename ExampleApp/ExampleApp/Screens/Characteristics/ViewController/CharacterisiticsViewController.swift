@@ -13,7 +13,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     private let dataSource: CharacteristicsDataSource
 
-    private let disposeBag: DisposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     init(with dataSource: CharacteristicsDataSource, viewModel: CharacteristicsViewModelType) {
         self.dataSource = dataSource

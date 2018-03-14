@@ -3,15 +3,15 @@ import UIKit
 
 final class ScanResultTableViewCell: UITableViewCell {
 
-    private let peripheralNameLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
+    private let peripheralNameLabel = UILabel(style: Stylesheet.Commons.titleLabel)
 
-    private let advertisementDataLabel: UILabel = UILabel(style: Stylesheet.Commons.descriptionLabel)
+    private let advertisementDataLabel = UILabel(style: Stylesheet.Commons.descriptionLabel)
 
-    private let rssiLabel: UILabel = UILabel(style: Stylesheet.Commons.descriptionLabel)
+    private let rssiLabel = UILabel(style: Stylesheet.Commons.descriptionLabel)
 
-    private let bluetoothImageView: UIImageView = UIImageView(image: Constant.ImageRepo.bluetooth)
+    private let bluetoothImageView = UIImageView(image: Constant.ImageRepo.bluetooth)
 
-    private let connectButton: UIButton = UIButton(style: Stylesheet.Commons.blackButton)
+    private let connectButton = UIButton(style: Stylesheet.Commons.blackButton)
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)

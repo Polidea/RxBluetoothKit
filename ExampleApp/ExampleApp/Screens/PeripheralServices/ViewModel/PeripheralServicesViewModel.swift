@@ -21,11 +21,11 @@ final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
         return errorOutputSubject.asObservable()
     }
 
-    private let discoveredServicesSubject: PublishSubject<Service> = PublishSubject()
+    private let discoveredServicesSubject = PublishSubject<Service>()
 
-    private let errorOutputSubject: PublishSubject<Error> = PublishSubject()
+    private let errorOutputSubject = PublishSubject<Error>()
 
-    private let disposeBag: DisposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     init(with bluetoothService: RxBluetoothKitService, peripheral: Peripheral) {
         self.bluetoothService = bluetoothService

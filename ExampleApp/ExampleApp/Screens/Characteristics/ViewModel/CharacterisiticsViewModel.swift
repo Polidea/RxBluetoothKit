@@ -17,17 +17,17 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         return discoveredCharacteristicsSubject.asObservable()
     }
 
-    private let disposeBag: DisposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     private let bluetoothService: RxBluetoothKitService
 
     private let service: Service
 
-    private let discoveredCharacteristicsSubject: PublishSubject<Characteristic> = PublishSubject()
+    private let discoveredCharacteristicsSubject = PublishSubject<Characteristic>()
 
-    private let characteristicUpdateTrigger: PublishSubject<Void> = PublishSubject()
+    private let characteristicUpdateTrigger = PublishSubject<Void>()
 
-    private let alertTrigger: PublishSubject<String> = PublishSubject()
+    private let alertTrigger = PublishSubject<String>()
 
     private var characteristic: Characteristic?
 

@@ -3,11 +3,11 @@ import UIKit
 
 class CharacterisiticsTableViewCell: UITableViewCell {
 
-    let uuidLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
+    let uuidLabel = UILabel(style: Stylesheet.Commons.titleLabel)
 
-    let isNotyfingLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
+    let isNotyfingLabel = UILabel(style: Stylesheet.Commons.titleLabel)
 
-    let valueLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
+    let valueLabel = UILabel(style: Stylesheet.Commons.titleLabel)
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -51,7 +51,6 @@ class CharacterisiticsTableViewCell: UITableViewCell {
 extension CharacterisiticsTableViewCell: UpdatableCell {
 
     func update(with item: Characteristic) {
-        guard let item = item as? Characteristic else { return }
         let uuid = item.uuid.uuidString ?? ""
         let value = item.value?.hexadecimalString ?? "No value"
         uuidLabel.text = "UUID: \(uuid)"

@@ -3,11 +3,11 @@ import UIKit
 
 final class PeripheralServiceCell: UITableViewCell, UpdatableCell {
 
-    private let uuidLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
+    private let uuidLabel = UILabel(style: Stylesheet.Commons.titleLabel)
 
-    private let isPrimaryLabel: UILabel = UILabel(style: Stylesheet.Commons.titleLabel)
+    private let isPrimaryLabel = UILabel(style: Stylesheet.Commons.titleLabel)
 
-    private let bluetoothImageView: UIImageView = UIImageView(image: Constant.ImageRepo.bluetoothService)
+    private let bluetoothImageView = UIImageView(image: Constant.ImageRepo.bluetoothService)
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
