@@ -40,9 +40,9 @@ final class TableViewDataSource<S: SectionModelItem>: NSObject, UITableViewDataS
 
     // MARK: - Methods
     func bindData() {
-        itemsSubject.subscribe(onNext: { [weak self] item in
-            self?.dataItem.append(item)
-            self?.refreshData()
+        itemsSubject.subscribe(onNext: { [unowned self] item in
+            self.dataItem.append(item)
+            self.refreshData()
         }, onError: { [unowned self] (error) in
             self.onErrorBlock(error)
         }).disposed(by: disposeBag)
