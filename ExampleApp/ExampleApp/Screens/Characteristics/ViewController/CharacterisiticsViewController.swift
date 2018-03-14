@@ -7,7 +7,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     typealias ViewClass = BaseView
 
-    typealias CharacteristicsDataSource = TableViewDataSource<Characteristic, CharacteristicsViewModelItem>
+    typealias CharacteristicsDataSource = TableViewDataSource<CharacteristicsViewModelItem>
 
     private let viewModel: CharacteristicsViewModelType
 
@@ -132,7 +132,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     }
 
-    private func showAlert(title title: String, message: String) {
+    private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Constant.Strings.titleOk, style: .default) { [weak self] _ in
             self?.dismiss(animated: true)

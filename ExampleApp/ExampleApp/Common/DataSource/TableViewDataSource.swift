@@ -7,11 +7,9 @@ import UIKit
    check: DataSource.SectionModelItem.swift
 */
 
-final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDataSource where I == S.ModelDataType {
+final class TableViewDataSource<S: SectionModelItem>: NSObject, UITableViewDataSource {
 
     // MARK: - Typealiases
-    // Block used to configure UITableViewCell, passed into init
-    typealias CellConfigurationBlock = (_ cell: UITableViewCell, _ item: Any) -> Void
 
     // Block set by given UIViewController, meant to be called for reloading data
     typealias RefreshDataBlock = () -> Void
@@ -26,18 +24,15 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
     private var onErrorBlock: OnErrorBlock = { _ in
     }
 
-    private let itemsSubject = PublishSubject<I>()
+    private let itemsSubject = PublishSubject<S.ModelDataType>()
 
     private let dataItem: S
 
     private let disposeBag: DisposeBag = DisposeBag()
 
-    private var configureBlock: CellConfigurationBlock
-
     // MARK: - Initialization
-    init(dataItem: S, configureBlock: @escaping CellConfigurationBlock) {
+    init(dataItem: S) {
         self.dataItem = dataItem
-        self.configureBlock = configureBlock
         super.init()
         bindData()
     }
@@ -53,7 +48,7 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
         }).disposed(by: disposeBag)
     }
 
-    func bindItemsObserver(to observable: Observable<I>) {
+    func bindItemsObserver(to observable: Observable<S.ModelDataType>) {
         observable.bind(to: itemsSubject).disposed(by: disposeBag)
     }
 
@@ -81,11 +76,10 @@ final class TableViewDataSource<I, S:SectionModelItem>: NSObject, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = String(describing: dataItem.cellClass)
         let item = dataItem.rowData[indexPath.item]
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as? S.CellType else {
             return UITableViewCell()
         }
-
-        configureBlock(cell, item)
+        cell.update(with: item)
         return cell
     }
 }

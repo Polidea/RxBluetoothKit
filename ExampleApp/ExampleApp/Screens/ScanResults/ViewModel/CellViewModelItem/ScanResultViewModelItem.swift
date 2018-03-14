@@ -15,7 +15,7 @@ final class ScanResultsViewModelItem: SectionModelItem {
 
     var sectionName: String?
 
-    var cellClass: UIView.Type {
+    var cellClass: ScanResultTableViewCell.Type {
         return ScanResultTableViewCell.self
     }
 

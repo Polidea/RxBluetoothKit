@@ -16,12 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func prepareScanningScene() -> UINavigationController {
         let dataItem = ScanResultsViewModelItem(Constant.Strings.scanResultSectionTitle)
-        let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
-            guard let cell = cell as? UpdatableCell else { return }
-            cell.update(with: item)
-        }
-
-        let scanResultsDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>(dataItem: dataItem, configureBlock: configureBlock)
+        let scanResultsDataSource = TableViewDataSource<ScanResultsViewModelItem>(dataItem: dataItem)
         let viewModel = ScanResultsViewModel(with: RxBluetoothKitService())
         let scanResultsViewController = ScanResultsViewController(with: scanResultsDataSource, viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: scanResultsViewController)

@@ -1,6 +1,9 @@
 import Foundation
+import UIKit
 
 protocol UpdatableCell {
 
-    func update(with item: Any)
+    associatedtype ModelDataType
+
+    func update(with item: ModelDataType)
 }

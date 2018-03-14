@@ -2,7 +2,11 @@ import UIKit
 
 protocol SectionModelItem {
 
-    associatedtype ModelDataType
+    typealias UpdatableTableViewCell = UITableViewCell & UpdatableCell
+
+    associatedtype CellType : UpdatableTableViewCell
+
+    typealias ModelDataType = CellType.ModelDataType
 
     var itemsCount: Int { get }
 
@@ -10,7 +14,7 @@ protocol SectionModelItem {
 
     var rowData: [ModelDataType] { get }
 
-    var cellClass: UIView.Type { get }
+    var cellClass: CellType.Type { get }
 
     func append(_ item: ModelDataType)
 }

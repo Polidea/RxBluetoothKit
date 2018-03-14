@@ -76,11 +76,8 @@ final class ScanResultTableViewCell: UITableViewCell {
 }
 
 extension ScanResultTableViewCell: UpdatableCell {
-    func update(with item: Any) {
-        guard let item = item as? ScannedPeripheral else {
-            return
-        }
 
+    func update(with item: ScannedPeripheral) {
         peripheralNameLabel.text = item.advertisementData.localName ?? item.peripheral.identifier.uuidString
         advertisementDataLabel.text = "\(item.advertisementData.advertisementData)"
         rssiLabel.text = "RSSI: \(item.rssi)"

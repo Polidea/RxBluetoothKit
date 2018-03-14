@@ -7,9 +7,9 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     typealias ViewClass = BaseView
 
-    typealias ScansResultDataSource = TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
+    typealias ScansResultDataSource = TableViewDataSource<ScanResultsViewModelItem>
 
-    private let dataSource: TableViewDataSource<ScannedPeripheral, ScanResultsViewModelItem>
+    private let dataSource: TableViewDataSource<ScanResultsViewModelItem>
 
     private let viewModel: ScanResultsViewModelType
 
@@ -99,18 +99,10 @@ class ScanResultsViewController: UIViewController, CustomView {
 
         let dataItem = PeripheralServicesViewModelItem(Constant.Strings.servicesSectionTitle)
 
-        let configureBlock: (UITableViewCell, Any) -> Void = { (cell, item) in
-            guard let cell = cell as? UpdatableCell else {
-                return
-            }
-            cell.update(with: item)
-        }
-
         let viewModel = PeripheralServicesViewModel(with: self.viewModel.bluetoothService,
                 peripheral: scannedPeripheral.peripheral)
 
-        let dataSource = TableViewDataSource<Service, PeripheralServicesViewModelItem>(dataItem: dataItem,
-                configureBlock: configureBlock)
+        let dataSource = TableViewDataSource<PeripheralServicesViewModelItem>(dataItem: dataItem)
 
         let viewController = PeripheralServicesViewController(with: dataSource, viewModel: viewModel)
 

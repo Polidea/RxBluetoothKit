@@ -21,7 +21,7 @@ final class PeripheralServicesViewModelItem: SectionModelItem {
         self.sectionName = sectionName
     }
 
-    var cellClass: UIView.Type {
+    var cellClass: PeripheralServiceCell.Type {
         return PeripheralServiceCell.self
     }
 

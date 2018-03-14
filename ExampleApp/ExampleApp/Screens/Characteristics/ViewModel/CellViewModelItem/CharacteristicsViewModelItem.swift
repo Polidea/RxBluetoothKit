@@ -15,7 +15,7 @@ class CharacteristicsViewModelItem: SectionModelItem {
 
     var sectionName: String?
 
-    var cellClass: UIView.Type {
+    var cellClass: CharacterisiticsTableViewCell.Type {
         return CharacterisiticsTableViewCell.self
     }
 

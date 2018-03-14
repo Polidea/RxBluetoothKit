@@ -50,7 +50,7 @@ class CharacterisiticsTableViewCell: UITableViewCell {
 
 extension CharacterisiticsTableViewCell: UpdatableCell {
 
-    func update(with item: Any) {
+    func update(with item: Characteristic) {
         guard let item = item as? Characteristic else { return }
         let uuid = item.uuid.uuidString ?? ""
         let value = item.value?.hexadecimalString ?? "No value"

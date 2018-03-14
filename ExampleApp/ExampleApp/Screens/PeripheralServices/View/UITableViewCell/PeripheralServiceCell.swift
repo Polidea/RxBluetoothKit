@@ -40,8 +40,7 @@ final class PeripheralServiceCell: UITableViewCell, UpdatableCell {
         isPrimaryLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0).isActive = true
     }
 
-    func update(with item: Any) {
-        guard let item = item as? Service else { return }
+    func update(with item: Service) {
         uuidLabel.text = String(describing: item.uuid)
         isPrimaryLabel.text = "Is primary: \(item.isPrimary)"
     }
