@@ -94,7 +94,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
             return
         }
 
-        notificationsDisposable = characteristic.observeValueUpdateAndSetNotification(for: characteristic)
+        notificationsDisposable = characteristic.observeValueUpdateAndSetNotification()
                 .subscribe({ [weak self] _ in
                     self?.characteristicUpdateTrigger.onNext(Void())
                 })
