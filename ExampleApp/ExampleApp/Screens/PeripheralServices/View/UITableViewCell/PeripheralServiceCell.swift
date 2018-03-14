@@ -27,17 +27,17 @@ final class PeripheralServiceCell: UITableViewCell, UpdatableCell {
         }
 
         bluetoothImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        bluetoothImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
-        bluetoothImageView.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
-        bluetoothImageView.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
+        bluetoothImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
+        bluetoothImageView.heightAnchor.constraint(equalToConstant: Constant.Constraints.smallWidth).isActive = true
+        bluetoothImageView.widthAnchor.constraint(equalToConstant: Constant.Constraints.smallHeight).isActive = true
 
-        uuidLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16.0).isActive = true
-        uuidLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 8.0).isActive = true
-        uuidLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0).isActive = true
+        uuidLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constant.Constraints.verticalDefault).isActive = true
+        uuidLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
+        uuidLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalSmall).isActive = true
 
-        isPrimaryLabel.topAnchor.constraint(equalTo: self.uuidLabel.bottomAnchor, constant: 8).isActive = true
-        isPrimaryLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 8.0).isActive = true
-        isPrimaryLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0).isActive = true
+        isPrimaryLabel.topAnchor.constraint(equalTo: self.uuidLabel.bottomAnchor, constant: Constant.Constraints.verticalDefault).isActive = true
+        isPrimaryLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
+        isPrimaryLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalSmall).isActive = true
     }
 
     func update(with item: Service) {

@@ -18,10 +18,10 @@ final class ScanResultsViewModel: ScanResultsViewModelType {
     }
 
     func scanAction() {
-        if !isScanning {
-            bluetoothService.startScanning()
-        } else {
+        if isScanning {
             bluetoothService.stopScanning()
+        } else {
+            bluetoothService.startScanning()
         }
 
         isScanning = !isScanning

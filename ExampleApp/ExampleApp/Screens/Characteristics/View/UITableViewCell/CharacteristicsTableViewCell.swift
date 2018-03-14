@@ -33,17 +33,17 @@ class CharacterisiticsTableViewCell: UITableViewCell {
             addSubview($0)
         }
 
-        uuidLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8.0).isActive = true
-        uuidLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
-        uuidLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0).isActive = true
+        uuidLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constant.Constraints.verticalSmall).isActive = true
+        uuidLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
+        uuidLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalSmall).isActive = true
 
-        isNotyfingLabel.topAnchor.constraint(equalTo: uuidLabel.bottomAnchor, constant: 8.0).isActive = true
-        isNotyfingLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
-        isNotyfingLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0).isActive = true
+        isNotyfingLabel.topAnchor.constraint(equalTo: uuidLabel.bottomAnchor, constant: Constant.Constraints.verticalSmall).isActive = true
+        isNotyfingLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
+        isNotyfingLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalSmall).isActive = true
 
-        valueLabel.topAnchor.constraint(equalTo: isNotyfingLabel.bottomAnchor, constant: 8.0).isActive = true
-        valueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
-        valueLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8.0).isActive = true
+        valueLabel.topAnchor.constraint(equalTo: isNotyfingLabel.bottomAnchor, constant: Constant.Constraints.verticalSmall).isActive = true
+        valueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
+        valueLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalSmall).isActive = true
         valueLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 }

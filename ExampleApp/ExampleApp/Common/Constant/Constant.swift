@@ -7,7 +7,19 @@ struct Constant {
 
         static let horizontalDefault: CGFloat = 16.0
 
+        static let verticalSmall: CGFloat = 8.0
+
+        static let verticalDefault: CGFloat = 16.0
+
+        static let verticalMedium: CGFloat = 20.0
+
         static let navigationBarHeight: CGFloat = 64.0
+
+        static let smallWidth: CGFloat = 32.0
+
+        static let mediumWidth: CGFloat = 80.0
+
+        static let smallHeight: CGFloat = 32.0
     }
 
     struct ImageRepo {

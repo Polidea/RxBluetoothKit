@@ -50,27 +50,27 @@ final class ScanResultTableViewCell: UITableViewCell {
             addSubview(view)
         }
 
-        bluetoothImageView.topAnchor.constraint(equalTo: topAnchor, constant: 20.0).isActive = true
-        bluetoothImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8.0).isActive = true
-        bluetoothImageView.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
-        bluetoothImageView.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
+        bluetoothImageView.topAnchor.constraint(equalTo: topAnchor, constant: Constant.Constraints.verticalMedium).isActive = true
+        bluetoothImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
+        bluetoothImageView.heightAnchor.constraint(equalToConstant: Constant.Constraints.smallHeight).isActive = true
+        bluetoothImageView.widthAnchor.constraint(equalToConstant: Constant.Constraints.smallWidth).isActive = true
 
-        peripheralNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12.0).isActive = true
-        peripheralNameLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
+        peripheralNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constant.Constraints.verticalDefault).isActive = true
+        peripheralNameLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: Constant.Constraints.horizontalDefault).isActive = true
 
-        advertisementDataLabel.topAnchor.constraint(equalTo: peripheralNameLabel.bottomAnchor, constant: 12.0).isActive = true
-        advertisementDataLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
-        advertisementDataLabel.rightAnchor.constraint(equalTo: connectButton.leftAnchor, constant: -16).isActive = true
+        advertisementDataLabel.topAnchor.constraint(equalTo: peripheralNameLabel.bottomAnchor, constant: Constant.Constraints.verticalDefault).isActive = true
+        advertisementDataLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: Constant.Constraints.horizontalDefault).isActive = true
+        advertisementDataLabel.rightAnchor.constraint(equalTo: connectButton.leftAnchor, constant: -Constant.Constraints.horizontalDefault).isActive = true
 
-        rssiLabel.topAnchor.constraint(equalTo: advertisementDataLabel.bottomAnchor, constant: 12.0).isActive = true
-        rssiLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: 16.0).isActive = true
-        rssiLabel.rightAnchor.constraint(equalTo: connectButton.leftAnchor, constant: -16.0).isActive = true
+        rssiLabel.topAnchor.constraint(equalTo: advertisementDataLabel.bottomAnchor, constant: Constant.Constraints.verticalDefault).isActive = true
+        rssiLabel.leftAnchor.constraint(equalTo: bluetoothImageView.rightAnchor, constant: Constant.Constraints.horizontalDefault).isActive = true
+        rssiLabel.rightAnchor.constraint(equalTo: connectButton.leftAnchor, constant: -Constant.Constraints.horizontalDefault).isActive = true
 
-        connectButton.topAnchor.constraint(equalTo: rssiLabel.bottomAnchor, constant: 8.0).isActive = true
-        connectButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16.0).isActive = true
-        connectButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
-        connectButton.widthAnchor.constraint(equalToConstant: 76.0).isActive = true
-        connectButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0).isActive = true
+        connectButton.topAnchor.constraint(equalTo: rssiLabel.bottomAnchor, constant: Constant.Constraints.verticalSmall).isActive = true
+        connectButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalDefault).isActive = true
+        connectButton.heightAnchor.constraint(equalToConstant: Constant.Constraints.smallHeight).isActive = true
+        connectButton.widthAnchor.constraint(equalToConstant: Constant.Constraints.mediumWidth).isActive = true
+        connectButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.Constraints.verticalSmall).isActive = true
     }
 
 }
