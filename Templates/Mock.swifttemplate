@@ -1,0 +1,177 @@
+import CoreBluetooth
+@testable
+import RxBluetoothKit
+import RxSwift
+<%_ 
+    struct MethodInfo {
+        let name: String
+        let callName: String
+        let formattedName: String
+        let lastParamName: String?
+    }
+    typealias MethodName = String
+
+    class Utils {
+        static let classNamesToMock = ["CBCentralManager", "CBPeripheral", "CBDescriptor", "CBService", "CBCharacteristic", "CBL2CAPChannel", "CBPeer", "PeripheralProvider", "Connector", "CharacteristicNotificationManager"]
+        static let classNamesToTestable = ["Peripheral", "CentralManager", "Characteristic"]
+        static let delegateWrapperNamesToMock = ["CBPeripheralDelegateWrapper", "CBCentralManagerDelegateWrapper"]
+        static let namesToMock = classNamesToMock + delegateWrapperNamesToMock
+
+        static func capitalizeFirstLetter(_ text: String) -> String {
+            return text.prefix(1).uppercased() + text.dropFirst()
+        }
+
+        static func createMethodVariableNames(_ type: Type) -> [MethodName: MethodInfo] {
+            var methodVariableNames: [MethodName: MethodInfo] = [:] 
+            for method in type.allMethods {
+                if let index = methodVariableNames.index(where: { _, value in value.callName == method.callName }) {
+                    let methodInfo = methodVariableNames[index].value
+                    let methodInfoLastParamName = methodInfo.lastParamName ?? ""
+                    methodVariableNames[methodInfo.name] = MethodInfo(
+                        name: methodInfo.name,
+                        callName: methodInfo.callName,
+                        formattedName: "\(methodInfo.callName)With\(capitalizeFirstLetter(methodInfoLastParamName))",
+                        lastParamName: methodInfo.lastParamName
+                    )
+                    let methodLastParamName = method.parameters.last?.name ?? ""
+                    methodVariableNames[method.name] = MethodInfo(
+                        name: method.name,
+                        callName: method.callName,
+                        formattedName: "\(method.callName)With\(capitalizeFirstLetter(methodLastParamName))",
+                        lastParamName: methodLastParamName
+                    )
+                } else {
+                    methodVariableNames[method.name] = MethodInfo(
+                        name: method.name,
+                        callName: method.callName,
+                        formattedName: method.callName,
+                        lastParamName: method.parameters.last?.name
+                    )
+                }
+            }
+            return methodVariableNames
+        }
+
+        static func changeTypeName(_ typeName: String) -> String {
+            var result = changeTypeNameToTestable(typeName)            
+            return changeTypeNameToMock(result)
+        }
+
+        static func changeTypeNameToTestable(_ typeName: String) -> String {
+            let regexGroup = classNamesToTestable.reduce("", { "\($0)\($1)|" }).dropLast()
+            let regex = try! NSRegularExpression(pattern: "\\b(\(regexGroup))\\b", options: NSRegularExpression.Options.caseInsensitive)
+            let range = NSMakeRange(0, typeName.characters.count)
+            return regex.stringByReplacingMatches(in: typeName, options: [], range: range, withTemplate: "_$0")
+        }
+
+        static func changeTypeNameToMock(_ typeName: String) -> String {
+            let regexGroup = namesToMock.reduce("", { "\($0)\($1)|" }).dropLast()
+            let regex = try! NSRegularExpression(pattern: "\\b(\(regexGroup))\\b", options: NSRegularExpression.Options.caseInsensitive)
+            let range = NSMakeRange(0, typeName.characters.count)
+            return regex.stringByReplacingMatches(in: typeName, options: [], range: range, withTemplate: "$0Mock")
+        }
+
+        static func printVariable(_ variable: Variable, useDefaultValue: Bool = false) -> String {
+            let forceUnwrap = variable.isOptional ? "" : "!"
+            if let defaultValue = variable.defaultValue, useDefaultValue {
+                let changedDefaultValue = changeTypeName(defaultValue)
+                return "var \(variable.name) = \(changedDefaultValue)"
+            } else {
+                let changedTypeName = changeTypeName(variable.typeName.name)
+                return "var \(variable.name): \(changedTypeName)\(forceUnwrap)"
+            }
+        }
+
+        static func printMethodParamTypes(_ method: SourceryRuntime.Method) -> String {
+            return method.parameters.reduce("", { "\($0)\(changeTypeName($1.typeName.name)), " }).dropLast(2)
+        }
+
+        static func printMethodName(_ method: SourceryRuntime.Method, changeTypeNames: Bool = true) -> String {
+            var methodParams = method.parameters.reduce("", { value, parameter in
+                var labelPart = ""
+                if (value.count == 0 && parameter.argumentLabel == nil) {
+                    labelPart = "_ "
+                } else if (parameter.argumentLabel != nil && parameter.argumentLabel != parameter.name) {
+                    labelPart = "\(parameter.argumentLabel!) "
+                }
+                var typePart = changeTypeNames ? changeTypeName(parameter.typeName.name) : parameter.typeName.name
+                var defaultPart = parameter.defaultValue != nil ? " = \(parameter.defaultValue!)" : ""
+                return "\(value)\(labelPart)\(parameter.name): \(typePart)\(defaultPart), "
+            }).dropLast(2)
+            return "\(method.callName)(\(methodParams))"
+        }
+    }
+    -%>
+
+// MARK: - generated class mocks
+
+<%_ for classNameToMock in Utils.classNamesToMock { 
+        let typeToMock = type[classNameToMock]! -%>
+class <%= typeToMock.name %>Mock: NSObject {
+<%_     for variable in typeToMock.allVariables { -%>
+    <%= Utils.printVariable(variable) %>
+<%      } -%>
+
+<%_     let mainInit = typeToMock.initializers.filter({ !$0.isConvenienceInitializer }).first
+        let convenienceInits = typeToMock.initializers.filter({ $0.isConvenienceInitializer && $0.parameters.count > 0 }) -%>
+    override init() {
+    }
+<%_     if mainInit != nil { -%>
+    <%= Utils.printMethodName(mainInit!) %> {
+    }
+<%_     } -%>
+<%_     for convenienceInit in convenienceInits { -%>
+    <%= Utils.printMethodName(convenienceInit) %> {
+    }
+<%_     } -%>
+
+<%_     let methodVariableNames = Utils.createMethodVariableNames(typeToMock)
+        let filteredMethods = typeToMock.allMethods.filter { !$0.isInitializer }
+        for method in filteredMethods {
+            let formattedName = methodVariableNames[method.name]!.formattedName
+            let methodParamsName = "\(formattedName)Params"
+            let methodReturnsName = "\(formattedName)Returns"
+            let methodReturnName = "\(formattedName)Return"
+            let isReturningType = !method.returnTypeName.isVoid 
+            let methodReturnDeclaration = isReturningType ? " -> \(Utils.changeTypeName(method.returnTypeName.name))" : "" -%>
+    var <%= methodParamsName %>: [(<%= Utils.printMethodParamTypes(method) %>)] = []
+<%      if isReturningType { -%>
+    var <%= methodReturnsName %>: [<%= Utils.changeTypeName(method.returnTypeName.name) %>] = []
+    var <%= methodReturnName %>: <%= Utils.changeTypeName(method.returnTypeName.name) %>?
+<%      } -%>
+    func <%= Utils.printMethodName(method) %><%= methodReturnDeclaration %> {
+        <%= methodParamsName %>.append((<%= method.parameters.reduce("", { "\($0)\($1.name), " }).dropLast(2) %>))
+<%          if isReturningType { -%>
+        if <%= methodReturnsName %>.isEmpty {
+            return <%= methodReturnName %>!
+        } else {
+            return <%= methodReturnsName %>.removeFirst()
+        }
+<%          } -%>
+    }
+
+<%      } -%>
+}
+<% } -%>
+
+// MARK: - generated wrapper mocks
+
+<%_ for classNameToMock in Utils.delegateWrapperNamesToMock { 
+        let typeToMock = type[classNameToMock]! 
+        let inheritedTypes = typeToMock.implements.count > 0 ? typeToMock.implements.keys.reduce(", ", { "\($0)\($1), " }).dropLast(2) : "" -%>
+class <%= typeToMock.name %>Mock: NSObject <%= inheritedTypes %> {
+<%_     for variable in typeToMock.allVariables { -%>
+    <%= Utils.printVariable(variable, useDefaultValue: true) %>
+<%      } -%>
+
+    override init() {
+    }
+
+<%_     let filteredMethods = typeToMock.methods.filter { !$0.isInitializer }
+        for method in filteredMethods { -%>
+    func <%= Utils.printMethodName(method, changeTypeNames: false) %> {
+    }
+
+<%_     } -%>
+}
+<%_ } -%>

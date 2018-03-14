@@ -1,18 +1,8 @@
-//
-//  Logging.swift
-//  RxBluetoothKit
-//
-//  Created by Przemysław Lenart on 23/05/17.
-//  Copyright © 2017 Polidea. All rights reserved.
-//
-
 import Foundation
 import CoreBluetooth
 import RxSwift
 
-/**
- RxBluetoothKit specific logging class which gives access to its settings.
- */
+/// RxBluetoothKit specific logging class which gives access to its settings.
 public class RxBluetoothKitLog: ReactiveCompatible {
 
     fileprivate static var currentLogLevel: LogLevel = .none
@@ -38,18 +28,14 @@ public class RxBluetoothKitLog: ReactiveCompatible {
         case error = 4
     }
 
-    /**
-     * Set new log level.
-     * - Parameter logLevel: New log level to be applied.
-     */
+    /// Set new log level.
+    /// - Parameter logLevel: New log level to be applied.
     public static func setLogLevel(_ logLevel: LogLevel) {
         currentLogLevel = logLevel
     }
 
-    /**
-     * Get current log level.
-     * - Returns: Currently set log level.
-     */
+    /// Get current log level.
+    /// - Returns: Currently set log level.
     public static func getLogLevel() -> LogLevel {
         return currentLogLevel
     }
@@ -182,7 +168,7 @@ extension CBCentralManager: Loggable {
 
 extension CBPeripheral: Loggable {
     @objc var logDescription: String {
-        return "Peripheral(uuid: \(value(forKey: "identifier") as! NSUUID as UUID), name: \(String(describing: name)))"
+        return "Peripheral(uuid: \(uuidIdentifier), name: \(String(describing: name)))"
     }
 }
 

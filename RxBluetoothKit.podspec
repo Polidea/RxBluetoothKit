@@ -8,13 +8,15 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = "https://github.com/polidea/RxBluetoothKit"
-  s.license          = 'MIT'
+  s.license          = 'Apache Licence, Version 2.0'
   s.author           = { "Przemysław Lenart" => "przemek.lenart@polidea.com", "Kacper Harasim" => "kacper.harasim@polidea.com" }
   s.source           = { :git => "https://github.com/polidea/RxBluetoothKit.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/polidea'
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
+  s.watchos.deployment_target = '4.0'
+  s.tvos.deployment_target = '11.0'
 
   s.requires_arc = true
 

@@ -13,7 +13,7 @@
     <a title="RxBluetoothKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">RxBluetoothKit Docs</a> (83% documented)</p>
+        <p><a href="index.html">RxBluetoothKit Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -31,7 +31,7 @@
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Classes/BluetoothManager.html">BluetoothManager</a>
+                <a href="Classes/CentralManager.html">CentralManager</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Characteristic.html">Characteristic</a>
@@ -118,8 +118,16 @@
               <li class="nav-group-task">
                 <a href="Structs/RestoredState.html">RestoredState</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Structs/RestoredState.html">RestoredState</a>
+                <a href="Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
               </li>
             </ul>
           </li>
@@ -140,7 +148,7 @@ Provides nice API to work with, and makes your code more readable, reliable and 
 
 <ul>
 <li>3.0 version supports Swift 3.0 and 3.1</li>
-<li>4.0 version of the library supports Swift 3.2 and 4.0</li>
+<li>5.0 version of the library supports Swift 3.2 and 4.0</li>
 </ul>
 <h2 id='documentation-amp-support' class='heading'>Documentation &amp; Support</h2>
 
@@ -190,7 +198,7 @@ To integrate RxBluetoothKit into your Xcode project using Carthage  specify it i
 It has multiple components, that should be familiar to you:</p>
 
 <ul>
-<li>BluetoothManager</li>
+<li>CentralManager</li>
 <li>ScannedPeripheral</li>
 <li>Peripheral</li>
 <li>Service</li>
@@ -201,8 +209,8 @@ It has multiple components, that should be familiar to you:</p>
 <p>Every one of them is backed by it&rsquo;s CB counterpart hidden behind layer of abstraction. We&rsquo;ve chosen this architecture, because we believe in <em>testing</em>.</p>
 <h2 id='usage' class='heading'>Usage</h2>
 
-<p>To begin work you should create an instance of BluetoothManager. Doing it is really easy - all you need to specify is queue(main queue is used by default):</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">manager</span> <span class="o">=</span> <span class="kt">BluetoothManager</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="o">.</span><span class="n">main</span><span class="p">)</span>
+<p>To begin work you should create an instance of CentralManager. Doing it is really easy - all you need to specify is queue(main queue is used by default):</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">manager</span> <span class="o">=</span> <span class="kt">CentralManager</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="o">.</span><span class="n">main</span><span class="p">)</span>
 </code></pre>
 
 <p>You are responsible for maintaining instance of manager object, and passing it between parts of your app.
@@ -240,26 +248,28 @@ Fortunately, this is also really easy to do, thanks to awesome RxSwift operators
 <h4 id='waiting-for-proper-bluetoothstate' class='heading'>Waiting for proper BluetoothState</h4>
 
 <p>In a following scenario: just after app launch, you want to perform scans. But, there are some problems with this approach - in order to perform work with bluetooth, you&rsquo;re manager should be in <strong>.poweredOn</strong> state. Specially for this case, our library provides you with another observable, that you should use for monitoring state.</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">stateObservable</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">rx_state</span>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">stateObservable</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="nf">observeState</span><span class="p">()</span>
 </code></pre>
 
-<p>After subscribe, this observable will immediately emit next event with current value of BluetoothManager state, and later will fire every time state changes.
-You could easily chain it with operation you want to perform after changing to proper state. Let&rsquo;s see how it looks with scanning:</p>
-<pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="n">rx_state</span>
+<p>This observable will emit next event with new value of BluetoothManager state every time state changes.
+You could easily chain it with operation you want to perform after changing to proper state. To get current bluetooth state, use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOv">CentralManager.state</a></code>
+property. Let&rsquo;s see how it looks with scanning:</p>
+<pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="nf">observeState</span><span class="p">()</span>
+    <span class="o">.</span><span class="nf">startWith</span><span class="p">(</span><span class="n">manager</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
     <span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="o">.</span><span class="n">poweredOn</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">timeout</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">)</span>
     <span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="p">[</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="p">[</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span>
 </code></pre>
 
-<p>Firstly, filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use <strong>take</strong> to be sure, that after getting .PoweredOn state, nothing else ever will be emitted by the observable.
+<p>Firstly, use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOv">CentralManager.state</a></code> as a start value, next filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use <strong>take</strong> to be sure, that after getting .poweredOn state, nothing else ever will be emitted by the observable.
 In last <code>flatMap</code> operation bluetooth is ready to perform further operations.</p>
 <h3 id='connecting' class='heading'>Connecting</h3>
 
-<p>After receiving scanned peripheral, to do something with it, we need to first call connect.
+<p>After receiving scanned peripheral, to do something with it, we need to first call <code>establishConnection</code>.
 It&rsquo;s really straightforward: just flatMap result into another Observable!</p>
 <pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="p">[</span><span class="n">serviceId</span><span class="p">])</span><span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">peripheral</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span> <span class="n">peripheral</span> <span class="k">in</span>
         <span class="nf">print</span><span class="p">(</span><span class="s">"Connected to: </span><span class="se">\(</span><span class="n">peripheral</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
     <span class="p">})</span>
@@ -267,11 +277,11 @@ It&rsquo;s really straightforward: just flatMap result into another Observable!<
 <h3 id='discovering-services' class='heading'>Discovering services</h3>
 
 <p>After connecting, the most common task is to discover Services.
-Because all of wanted services are discovered at once, method returns <code>Observable&lt;[Service]&gt;</code>.  In order to make it into <code>Observable&lt;Service&gt;</code> and fire for each of service discovered, we advice you to use our RxSwift operator <code>Observable.from()</code></p>
+Because all of wanted services are discovered at once, method returns <code>Single&lt;[Service]&gt;</code>.  In order to make it into <code>Observable&lt;Service&gt;</code> and fire for each of service discovered, we advice you to use our RxSwift operator <code>Observable.from()</code></p>
 
 <p>Here&rsquo;s how it works in RxBluetoothKit:</p>
-<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span> <span class="n">service</span> <span class="k">in</span>
         <span class="nf">print</span><span class="p">(</span><span class="s">"Discovered service: </span><span class="se">\(</span><span class="n">service</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
@@ -282,10 +292,10 @@ Because all of wanted services are discovered at once, method returns <code>Obse
 <p>Discovering characteristics method is very similar to <strong>discoverServices</strong>.
 This time API&rsquo;s returning <code>Observable&lt;[Characteristic]&gt;</code> and to process one
 characteristic at a time, you need to once again use <code>Observable.from()</code></p>
-<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span> <span class="n">characteristic</span> <span class="k">in</span>
         <span class="nf">print</span><span class="p">(</span><span class="s">"Discovered characteristic: </span><span class="se">\(</span><span class="n">characteristic</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
@@ -296,10 +306,10 @@ characteristic at a time, you need to once again use <code>Observable.from()</co
 <p>Once you&rsquo;ve got characteristic, next common step is to read value from it.
 In order to do that, you should use <code>readValue()</code> function defined on <code><a href="Classes/Characteristic.html">Characteristic</a></code>. It returns <code>Observable&lt;Characteristic&gt;</code> which emits element, when value of characteristic is ready to read.
 We decided to return <code><a href="Classes/Characteristic.html">Characteristic</a></code> instead of <code>NSData</code> due to one purpose - to allow you chain operations on characteristic in easy way.</p>
-<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">readValue</span><span class="p">()</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span>
@@ -310,25 +320,22 @@ We decided to return <code><a href="Classes/Characteristic.html">Characteristic<
 
 <p>Notifying on characteristic value changes? Nothing easier.
 After subscribing observable returned by this method, you will get proper message every single time:</p>
-<pre class="highlight swift"><code><span class="n">characteristic</span><span class="o">.</span><span class="nf">setNotificationAndMonitorUpdates</span><span class="p">()</span>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposable</span> <span class="o">=</span> <span class="n">characteristic</span><span class="o">.</span><span class="nf">observeValueUpdateAndSetNotification</span><span class="p">()</span>
     <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span>
         <span class="k">let</span> <span class="nv">newValue</span> <span class="o">=</span> <span class="nv">$0</span><span class="o">.</span><span class="n">value</span>
     <span class="p">})</span>
 </code></pre>
 
-<p>If you are not interested anymore in updates, just use this:</p>
-<pre class="highlight swift"><code><span class="n">characteristic</span><span class="o">.</span><span class="nf">setNotifyValue</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
-    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span> <span class="n">characteristic</span> <span class="k">in</span>
-        <span class="c1">//Notification are now disabled.</span>
-    <span class="p">})</span>
+<p>If you are not interested anymore in updates, just unsubscribe:</p>
+<pre class="highlight swift"><code><span class="n">disposable</span><span class="o">.</span><span class="nf">dispose</span><span class="p">()</span>
 </code></pre>
 <h3 id='writing-value-to-characteristic' class='heading'>Writing value to characteristic</h3>
 
 <p>While deciding to write to characteristic you have two writing options, that determine write behavior:</p>
 
 <ul>
-<li>WithResponse</li>
-<li>WithoutResponse</li>
+<li>withResponse</li>
+<li>withoutResponse</li>
 </ul>
 
 <p>Choosing <code>withResponse</code>, you&rsquo;re waiting to receive .next event on Observable while device has confirmed that value has been written to it. Also, if any error has ocurred - you will receive <code>.error</code> on Observable.
@@ -368,17 +375,19 @@ Thats <code><a href="Protocols/ServiceIdentifier.html">ServiceIdentifier</a></co
 
 <p>After implementing these types, whole set of new new methods is becoming available.
 Earlier implementation of reading from characteristic looked like that:</p>
-<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">]))</span> <span class="p">}</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span>
-    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">readValue</span> <span class="p">}</span>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">readValue</span><span class="p">()</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span>
         <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="nv">$0</span><span class="o">.</span><span class="n">value</span>
     <span class="p">})</span>
 </code></pre>
 
 <p>When you use new <code><a href="Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></code> protocol, you could do it way simpler:</p>
-<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">readValue</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt">DeviceCharacteristic</span><span class="o">.</span><span class="n">manufacturerName</span><span class="p">)</span>
     <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span>
         <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="nv">$0</span><span class="o">.</span><span class="n">value</span>
@@ -392,46 +401,40 @@ We really encourage you to use these versions of methods in order to make your c
 <p>Here you&rsquo;ll find other useful functionalities of library</p>
 <h4 id='bluetooth-state-restoration' class='heading'>Bluetooth state restoration</h4>
 
-<p>By giving proper identifier to <code><a href="Classes/BluetoothManager.html">BluetoothManager</a></code> in constructor(<code>options</code> property), you can achieve state restoration functionality. Later, just make sure to subscribe to <code>listenOnRestoredState</code> observable, and inspect <code><a href="Structs/RestoredState.html">RestoredState</a></code> instance, which consists any useful info about restored state.</p>
+<p>By giving proper identifier to <code><a href="Classes/CentralManager.html">CentralManager</a></code> in constructor(<code>options</code> property), you can achieve state restoration functionality. Later, just make sure to subscribe to <code>listenOnRestoredState</code> observable, and inspect <code><a href="Structs/RestoredState.html">RestoredState</a></code> instance, which consists any useful info about restored state.</p>
 <h4 id='monitoring-state-of-bluetooth' class='heading'>Monitoring state of Bluetooth</h4>
 
-<p>Used earlier <code>rx_state</code> is very useful function on <code><a href="Classes/BluetoothManager.html">BluetoothManager</a></code>. While subscribed, it emits <code>next</code> immediately with current <code><a href="Enums/BluetoothState.html">BluetoothState</a></code>.
-After that, it emits new element after state changes.</p>
+<p>Used earlier <code>observeState</code> is very useful function on <code><a href="Classes/CentralManager.html">CentralManager</a></code>. It emits <code>next</code> event with new value of BluetoothManager state every time it changes. To get current bluetooth state, you should use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOv">CentralManager.state</a></code>
+property.</p>
 <h4 id='monitor-connection-state-of-peripheral' class='heading'>Monitor connection state of Peripheral</h4>
 
-<p>Property <code>rx_isConnected</code> on <code><a href="Classes/Peripheral.html">Peripheral</a></code> instance allows monitoring for changes in Peripheral connection state. Immediately after subscribtion <code>.next</code> with current state is emitted. After that, it emits new element after connection state changes.</p>
+<p>Property <code>isConnected</code> on <code><a href="Classes/Peripheral.html">Peripheral</a></code> allows checking if Peripheral is connected. To monitor Peripheral connection state changes use <code>observeConnection</code> method. It emits new element after connection state changes.</p>
 <h4 id='retrieving-peripherals' class='heading'>Retrieving Peripherals</h4>
 
-<p><code><a href="Classes/BluetoothManager.html">BluetoothManager</a></code> also lets to retrieve peripherals in two ways:</p>
+<p><code><a href="Classes/CentralManager.html">CentralManager</a></code> also lets to retrieve peripherals in two ways:</p>
 
 <ul>
-<li>via its identifier using array of <code>NSUUID</code> objects,</li>
+<li>via its identifier using array of <code>UUID</code> objects,</li>
 <li>connected ones via services identifiers using array of <code>CBUUID</code> objects.
-In both cases, return type is <code>Observable&lt;[Peripheral]&gt;</code>, which emits .Next, and after that immediately .Complete is received.</li>
+In both cases, return type is <code>[Peripheral]</code>.</li>
 </ul>
 <h4 id='cancel-connection' class='heading'>Cancel connection</h4>
 
-<p>Connection can be cancelled - just use <code>cancelConnection</code> method on <code><a href="Classes/Peripheral.html">Peripheral</a></code>, or <code><a href="Classes/BluetoothManager.html">BluetoothManager</a></code>.
-Emits next, while disconnection confirmation is received.</p>
+<p>Connection can be cancelled. To do this dispose Disposable that you get during Peripheral connection.</p>
 <h4 id='read-rssi' class='heading'>Read RSSI</h4>
 
 <p>Triggers read of Peripheral RSSI value. To do it, call <code>readRSSI()</code> on Peripheral instance.
-Method returns <code>Observable&lt;Peripheral, Int&gt;</code>. Peripheral is returned in order to enable chaining.</p>
+Method returns <code>Single&lt;(Peripheral, Int)&gt;</code>. Peripheral is returned in order to enable chaining.</p>
 <h4 id='monitor-services-modification' class='heading'>Monitor services modification</h4>
 
-<p>When you want to know, when services are modified, call <code>monitorServicesModification() -&gt; Observable&lt;(Peripheral, [Service])&gt;</code> on Peripheral. Next event is generated each time, when service changes.</p>
+<p>When you want to know, when services are modified, call <code>observeServicesModification() -&gt; Observable&lt;(Peripheral, [Service])&gt;</code> on Peripheral. Next event is generated each time, when service changes.</p>
 <h4 id='monitor-name-update' class='heading'>Monitor name update</h4>
 
-<p>Call <code>monitorNameUpdate() -&gt; Observable&lt;(Peripheral, String?)&gt;</code> in order to know, when peripheral changes its name.</p>
+<p>Call <code>observeNameUpdate() -&gt; Observable&lt;(Peripheral, String?)&gt;</code> in order to know, when peripheral changes its name.</p>
 <h4 id='monitoring-write' class='heading'>Monitoring write</h4>
 
-<p>By calling <code>monitorWrite(for: characteristic: Characteristic) -&gt; Observable&lt;Characteristic&gt;</code> you&rsquo;re able to receive event each time, when value is being written to characteristic.</p>
+<p>By calling <code>observeWrite(for characteristic: Characteristic) -&gt; Observable&lt;Characteristic&gt;</code> you&rsquo;re able to receive event each time, when value is being written to characteristic.</p>
 <h3 id='additional-features' class='heading'>Additional features</h3>
-<h4 id='scan-sharing-amp-queueing' class='heading'>Scan sharing &amp; queueing</h4>
-
-<p>Library supports scan sharing, which helps if you want to perform multiple scans at once in your application.
-Thanks to that, if you want to perform scan B, while scan A is in progress, if your identifiers used to start scan B are subset of identifiers used by scan A - scan is shared.
-Also, thanks to queueing, if it&rsquo;s not subset - it&rsquo;ll be queued until scan A will be stopped.</p>
 <h4 id='error-bubbling' class='heading'>Error bubbling</h4>
 
 <p>Library supports <strong>complex</strong> Bluetooth error handling functionalities. Errors from Bluetooth delegate methods are propagated into all of the API calls. So for example - if during services discovery bluetooth state changes to <code>.poweredOff</code>, proper error containing this information will be propagated into <code>discoverServices</code> call.</p>
@@ -440,6 +443,8 @@ Also, thanks to queueing, if it&rsquo;s not subset - it&rsquo;ll be queued until
 <ul>
 <li>iOS 8.0+</li>
 <li>OSX 10.10+</li>
+<li>watchOS 4.0+</li>
+<li>tvOS 11.0+</li>
 <li>Xcode 7.3+</li>
 </ul>
 <h2 id='authors' class='heading'>Authors</h2>
@@ -460,12 +465,12 @@ To keep code in order, we advice you to use SwiftLint. In repository, we provide
 <a href="https://github.com/abeintopalo">abeintopalo</a></p>
 <h2 id='license' class='heading'>License</h2>
 
-<p>RxBluetoothKit is available under the MIT license. See the LICENSE file for more info.</p>
+<p>RxBluetoothKit is available under the Apache License, Version 2.0. See the LICENSE file for more info.</p>
 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-01-15)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-03-14)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

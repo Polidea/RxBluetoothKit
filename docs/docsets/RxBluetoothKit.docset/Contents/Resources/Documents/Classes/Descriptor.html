@@ -14,7 +14,7 @@
     <a title="Descriptor Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit Docs</a> (83% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -32,7 +32,7 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/BluetoothManager.html">BluetoothManager</a>
+                <a href="../Classes/CentralManager.html">CentralManager</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Characteristic.html">Characteristic</a>
@@ -119,8 +119,16 @@
               <li class="nav-group-task">
                 <a href="../Structs/RestoredState.html">RestoredState</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Structs/RestoredState.html">RestoredState</a>
+                <a href="../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
               </li>
             </ul>
           </li>
@@ -147,6 +155,33 @@ Descriptors provide more information about a characteristic’s value.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:14RxBluetoothKit10DescriptorC10descriptorSo12CBDescriptorCv"></a>
+                    <a name="//apple_ref/swift/Property/descriptor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC10descriptorSo12CBDescriptorCv">descriptor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Intance of CoreBluetooth descriptor class</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">descriptor</span><span class="p">:</span> <span class="kt">CBDescriptor</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:14RxBluetoothKit10DescriptorC14characteristicAA14CharacteristicCv"></a>
                     <a name="//apple_ref/swift/Property/characteristic" class="dashAnchor"></a>
                     <a class="token" href="#/s:14RxBluetoothKit10DescriptorC14characteristicAA14CharacteristicCv">characteristic</a>
@@ -167,39 +202,6 @@ Descriptors provide more information about a characteristic’s value.</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span></code></pre>
 
                         </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Descriptor.swift#L35">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:14RxBluetoothKit10DescriptorC8objectIdSuv"></a>
-                    <a name="//apple_ref/swift/Property/objectId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC8objectIdSuv">objectId</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Unique identifier of an object. Should be removed in 4.0</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">UInt</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Descriptor.swift#L39-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -228,9 +230,6 @@ Descriptors provide more information about a characteristic’s value.</p>
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Descriptor.swift#L44-L46">Show on GitHub</a>
-                      </div>
                     </section>
                   </div>
                 </li>
@@ -258,18 +257,15 @@ Descriptors provide more information about a characteristic’s value.</p>
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Descriptor.swift#L49-L51">Show on GitHub</a>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit10DescriptorC12monitorWrite0A5Swift10ObservableCyACGyF"></a>
-                    <a name="//apple_ref/swift/Method/monitorWrite()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC12monitorWrite0A5Swift10ObservableCyACGyF">monitorWrite()</a>
+                    <a name="/s:14RxBluetoothKit10DescriptorC12observeWrite0A5Swift10ObservableCyACGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeWrite()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC12observeWrite0A5Swift10ObservableCyACGyF">observeWrite()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -277,24 +273,21 @@ Descriptors provide more information about a characteristic’s value.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Function that allow to monitor writes that happened for descriptor.</p>
+                        <p>Function that allow to observe writes that happened for descriptor.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">monitorWrite</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Descriptor</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeWrite</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Descriptor</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable that emits <code>Next</code> with <code>Descriptor</code> instance every time when write has happened.
-It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never called.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Descriptor.swift#L61-L63">Show on GitHub</a>
+                        <p>Observable that emits <code>next</code> with <code>Descriptor</code> instance every time when write has happened.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
                     </section>
                   </div>
@@ -302,9 +295,9 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit10DescriptorC10writeValue0A5Swift10ObservableCyACG10Foundation4DataVF"></a>
+                    <a name="/s:14RxBluetoothKit10DescriptorC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOACG10Foundation4DataVF"></a>
                     <a name="//apple_ref/swift/Method/writeValue(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC10writeValue0A5Swift10ObservableCyACG10Foundation4DataVF">writeValue(_:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOACG10Foundation4DataVF">writeValue(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -319,7 +312,7 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Descriptor</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt">Descriptor</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -335,7 +328,7 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never 
                               </td>
                               <td>
                                 <div>
-                                  <p><code>NSData</code> that&rsquo;ll be written to <code>Descriptor</code> instance</p>
+                                  <p><code>Data</code> that&rsquo;ll be written to <code>Descriptor</code> instance</p>
                                 </div>
                               </td>
                             </tr>
@@ -344,11 +337,7 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never 
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable that emits <code>Next</code> with <code>Descriptor</code> instance, once value is written successfully.
-Immediately after that <code>.Complete</code> is emitted.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Descriptor.swift#L69-L71">Show on GitHub</a>
+                        <p><code>Single</code> that emits <code>Next</code> with <code>Descriptor</code> instance, once value is written successfully.</p>
                       </div>
                     </section>
                   </div>
@@ -356,9 +345,9 @@ Immediately after that <code>.Complete</code> is emitted.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit10DescriptorC18monitorValueUpdate0A5Swift10ObservableCyACGyF"></a>
-                    <a name="//apple_ref/swift/Method/monitorValueUpdate()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC18monitorValueUpdate0A5Swift10ObservableCyACGyF">monitorValueUpdate()</a>
+                    <a name="/s:14RxBluetoothKit10DescriptorC18observeValueUpdate0A5Swift10ObservableCyACGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdate()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC18observeValueUpdate0A5Swift10ObservableCyACGyF">observeValueUpdate()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -366,24 +355,21 @@ Immediately after that <code>.Complete</code> is emitted.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Function that allow to monitor value updates for <code>Descriptor</code> instance.</p>
+                        <p>Function that allow to observe value updates for <code>Descriptor</code> instance.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">monitorValueUpdate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Descriptor</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Descriptor</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable that emits <code>Next</code> with <code>Descriptor</code> instance every time when value has changed.
-It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never called.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Descriptor.swift#L76-L78">Show on GitHub</a>
+                        <p>Observable that emits <code>next</code> with <code>Descriptor</code> instance every time when value has changed.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
                     </section>
                   </div>
@@ -391,9 +377,9 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit10DescriptorC9readValue0A5Swift10ObservableCyACGyF"></a>
+                    <a name="/s:14RxBluetoothKit10DescriptorC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOACGyF"></a>
                     <a name="//apple_ref/swift/Method/readValue()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC9readValue0A5Swift10ObservableCyACGyF">readValue()</a>
+                    <a class="token" href="#/s:14RxBluetoothKit10DescriptorC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOACGyF">readValue()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -409,17 +395,13 @@ Read is called after subscription to <code>Observable</code> is made.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValue</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Descriptor</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValue</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt">Descriptor</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable which emits <code>Next</code> with given descriptor when value is ready to read.
-Immediately after that <code>.Complete</code> is emitted.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Descriptor.swift#L84-L86">Show on GitHub</a>
+                        <p><code>Single</code> which emits <code>next</code> with given descriptor when value is ready to read.</p>
                       </div>
                     </section>
                   </div>
@@ -429,7 +411,7 @@ Immediately after that <code>.Complete</code> is emitted.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-01-15)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-03-14)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

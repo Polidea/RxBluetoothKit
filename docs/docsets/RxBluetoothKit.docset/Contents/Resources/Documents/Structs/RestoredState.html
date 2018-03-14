@@ -14,7 +14,7 @@
     <a title="RestoredState Structure Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit Docs</a> (83% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -32,7 +32,7 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/BluetoothManager.html">BluetoothManager</a>
+                <a href="../Classes/CentralManager.html">CentralManager</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Characteristic.html">Characteristic</a>
@@ -119,8 +119,16 @@
               <li class="nav-group-task">
                 <a href="../Structs/RestoredState.html">RestoredState</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Structs/RestoredState.html">RestoredState</a>
+                <a href="../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
               </li>
             </ul>
           </li>
@@ -130,7 +138,13 @@
         <section>
           <section class="section">
             <h1>RestoredState</h1>
-            <p>Convenience class which helps reading state of restored BluetoothManager.</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RestoredState</span></code></pre>
+
+                </div>
+              </div>
+            <p>Convenience class which helps reading state of restored CentralManager.</p>
 
           </section>
           <section class="section task-group-section">
@@ -139,9 +153,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/"></a>
+                    <a name="/s:14RxBluetoothKit13RestoredStateV08restoredE4Datas10DictionaryVySSypGv"></a>
                     <a name="//apple_ref/swift/Property/restoredStateData" class="dashAnchor"></a>
-                    <a class="token" href="#/">restoredStateData</a>
+                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV08restoredE4Datas10DictionaryVySSypGv">restoredStateData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -152,23 +166,13 @@
                         <p>Restored state dictionary.</p>
 
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/"></a>
-                    <a name="//apple_ref/swift/Property/bluetoothManager" class="dashAnchor"></a>
-                    <a class="token" href="#/">bluetoothManager</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">restoredStateData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -176,9 +180,36 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/"></a>
+                    <a name="/s:14RxBluetoothKit13RestoredStateV14centralManagerAA07CentralG0CXov"></a>
+                    <a name="//apple_ref/swift/Property/centralManager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV14centralManagerAA07CentralG0CXov">centralManager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">unowned</span> <span class="k">let</span> <span class="nv">centralManager</span><span class="p">:</span> <span class="kt"><a href="../Classes/CentralManager.html">CentralManager</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit13RestoredStateV11peripheralsSayAA10PeripheralCGv"></a>
                     <a name="//apple_ref/swift/Property/peripherals" class="dashAnchor"></a>
-                    <a class="token" href="#/">peripherals</a>
+                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV11peripheralsSayAA10PeripheralCGv">peripherals</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -191,15 +222,23 @@ These are peripherals that were connected to the central manager (or had a conne
 at the time the app was terminated by the system.</p>
 
                       </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">peripherals</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/"></a>
+                    <a name="/s:14RxBluetoothKit13RestoredStateV11scanOptionss10DictionaryVySSyXlGSgv"></a>
                     <a name="//apple_ref/swift/Property/scanOptions" class="dashAnchor"></a>
-                    <a class="token" href="#/">scanOptions</a>
+                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV11scanOptionss10DictionaryVySSyXlGSgv">scanOptions</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -211,15 +250,23 @@ at the time the app was terminated by the system.</p>
 by the central manager at the time the app was terminated by the system.</p>
 
                       </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">scanOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/"></a>
+                    <a name="/s:14RxBluetoothKit13RestoredStateV8servicesSayAA7ServiceCGv"></a>
                     <a name="//apple_ref/swift/Property/services" class="dashAnchor"></a>
-                    <a class="token" href="#/">services</a>
+                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV8servicesSayAA7ServiceCGv">services</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -232,6 +279,14 @@ These are all the services the central manager was scanning for at the time the 
 was terminated by the system.</p>
 
                       </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">services</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -240,7 +295,7 @@ was terminated by the system.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-01-15)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-03-14)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

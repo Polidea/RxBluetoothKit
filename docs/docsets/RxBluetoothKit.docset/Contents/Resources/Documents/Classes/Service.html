@@ -14,7 +14,7 @@
     <a title="Service Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit Docs</a> (83% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -32,7 +32,7 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/BluetoothManager.html">BluetoothManager</a>
+                <a href="../Classes/CentralManager.html">CentralManager</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Characteristic.html">Characteristic</a>
@@ -119,8 +119,16 @@
               <li class="nav-group-task">
                 <a href="../Structs/RestoredState.html">RestoredState</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Structs/RestoredState.html">RestoredState</a>
+                <a href="../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
               </li>
             </ul>
           </li>
@@ -145,6 +153,33 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:14RxBluetoothKit7ServiceC7serviceSo9CBServiceCv"></a>
+                    <a name="//apple_ref/swift/Property/service" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC7serviceSo9CBServiceCv">service</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Intance of CoreBluetooth service class</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">service</span><span class="p">:</span> <span class="kt">CBService</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:14RxBluetoothKit7ServiceC10peripheralAA10PeripheralCv"></a>
                     <a name="//apple_ref/swift/Property/peripheral" class="dashAnchor"></a>
                     <a class="token" href="#/s:14RxBluetoothKit7ServiceC10peripheralAA10PeripheralCv">peripheral</a>
@@ -165,9 +200,6 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span></code></pre>
 
                         </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Service.swift#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -196,39 +228,6 @@
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Service.swift#L36-L38">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:14RxBluetoothKit7ServiceC8objectIdSuv"></a>
-                    <a name="//apple_ref/swift/Property/objectId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC8objectIdSuv">objectId</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Unique identifier of an object. Should be removed in 4.0</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">UInt</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Service.swift#L42-L44">Show on GitHub</a>
-                      </div>
                     </section>
                   </div>
                 </li>
@@ -255,9 +254,6 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">uuid</span><span class="p">:</span> <span class="kt">CBUUID</span></code></pre>
 
                         </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Service.swift#L47-L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -286,9 +282,6 @@
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Service.swift#L52-L56">Show on GitHub</a>
-                      </div>
                     </section>
                   </div>
                 </li>
@@ -316,18 +309,15 @@
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Service.swift#L59-L63">Show on GitHub</a>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit7ServiceC23discoverCharacteristics0A5Swift10ObservableCySayAA14CharacteristicCGGSaySo6CBUUIDCGSgF"></a>
+                    <a name="/s:14RxBluetoothKit7ServiceC23discoverCharacteristics0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA14CharacteristicCGGSaySo6CBUUIDCGSgF"></a>
                     <a name="//apple_ref/swift/Method/discoverCharacteristics(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC23discoverCharacteristics0A5Swift10ObservableCySayAA14CharacteristicCGGSaySo6CBUUIDCGSgF">discoverCharacteristics(_:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC23discoverCharacteristics0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA14CharacteristicCGGSaySo6CBUUIDCGSgF">discoverCharacteristics(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -343,7 +333,7 @@ subscribtion to <code>Observable</code> is made.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverCharacteristics</span><span class="p">(</span><span class="n">_</span> <span class="nv">characteristicUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverCharacteristics</span><span class="p">(</span><span class="n">_</span> <span class="nv">characteristicUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -369,11 +359,8 @@ characteristics will be discovered. If you&rsquo;ll pass empty array - none of t
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable that emits <code>Next</code> with array of <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instances, once they&rsquo;re discovered.
-Immediately after that <code>.Complete</code> is emitted.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Service.swift#L76-L78">Show on GitHub</a>
+                        <p><code>Single</code> that emits <code>next</code> with array of <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instances, once they&rsquo;re discovered.
+If not all requested characteristics are discovered, <code>RxError.noElements</code> error is emmited.</p>
                       </div>
                     </section>
                   </div>
@@ -381,9 +368,9 @@ Immediately after that <code>.Complete</code> is emitted.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit7ServiceC24discoverIncludedServices0A5Swift10ObservableCySayACGGSaySo6CBUUIDCGSgF"></a>
+                    <a name="/s:14RxBluetoothKit7ServiceC24discoverIncludedServices0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayACGGSaySo6CBUUIDCGSgF"></a>
                     <a name="//apple_ref/swift/Method/discoverIncludedServices(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC24discoverIncludedServices0A5Swift10ObservableCySayACGGSaySo6CBUUIDCGSgF">discoverIncludedServices(_:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC24discoverIncludedServices0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayACGGSaySo6CBUUIDCGSgF">discoverIncludedServices(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -391,45 +378,16 @@ Immediately after that <code>.Complete</code> is emitted.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Function that triggers included services discovery for specified services. Discovery is called after
-subscribtion to <code>Observable</code> is made.</p>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverIncludedServices</span><span class="p">(</span><span class="n">_</span> <span class="nv">includedServiceUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Service</span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverIncludedServices</span><span class="p">(</span><span class="n">_</span> <span class="nv">includedServiceUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Service</span><span class="p">]</span><span class="o">&gt;</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>includedServiceUUIDs</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifiers of included services that should be discovered. If <code>nil</code> - all of the
-included services will be discovered. If you&rsquo;ll pass empty array - none of them will be discovered.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>Observable that emits <code>Next</code> with array of <code>Service</code> instances, once they&rsquo;re discovered.
-Immediately after that <code>.Complete</code> is emitted.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Service.swift#L86-L88">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -439,7 +397,7 @@ Immediately after that <code>.Complete</code> is emitted.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-01-15)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-03-14)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

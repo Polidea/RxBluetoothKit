@@ -1,32 +1,9 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2016 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
-import Quick
-import Nimble
 import RxTest
 import RxSwift
 import CoreBluetooth
 import RxBluetoothKit
+import XCTest
 
 // Helps
 final class Box<T> {
@@ -37,11 +14,23 @@ final class Box<T> {
     }
 }
 
-func expectError<ErrorType: Equatable, Element>(event: Event<Element>, errorType: ErrorType, file: String = #file, line: UInt = #line) {
-    expect(event.isStopEvent, file: file, line: line).to(beTrue())
-    expect(event.error, file: file, line: line).toNot(beNil())
-    expect(event.error is ErrorType, file: file, line: line).to(beTrue())
-    expect(event.error as? ErrorType, file: file, line: line).to(equal(errorType))
+enum TestError: Error {
+    case error
+}
+
+func XCTAssertError<ErrorType: Equatable, Element>(_ event: Event<Element>, _ errorType: ErrorType, _ message: String = "", file: StaticString = #file, line: UInt = #line) {
+    XCTAssertTrue(event.isStopEvent, message, file: file, line: line)
+    XCTAssertNotNil(event.error, message, file: file, line: line)
+    XCTAssertTrue(event.error is ErrorType, message, file: file, line: line)
+    XCTAssertEqual(event.error as? ErrorType, errorType, message, file: file, line: line)
+}
+
+func createEventRecords<T>(records: (Int, Event<T>)...) -> [Recorded<Event<T>>] {
+    var array = [Recorded<Event<T>>]()
+    for (time, event) in records {
+        array.append(Recorded(time: time, value: event))
+    }
+    return array
 }
 
 extension TestScheduler {
@@ -122,8 +111,8 @@ extension ObservableScheduleTimes {
     }
 }
 
-extension BluetoothError {
-    static var invalidStateErrors: [(BluetoothState, BluetoothError)] {
+extension _BluetoothError {
+    static var invalidStateErrors: [(CBManagerState, _BluetoothError)] {
         return [
             (.poweredOff, .bluetoothPoweredOff),
             (.resetting, .bluetoothResetting),
@@ -131,5 +120,20 @@ extension BluetoothError {
             (.unknown, .bluetoothInUnknownState),
             (.unsupported, .bluetoothUnsupported),
         ]
+    }
+}
+
+extension RxError: Equatable {}
+
+public func ==(lhs: RxError, rhs: RxError) -> Bool {
+    switch(lhs, rhs) {
+    case (.unknown, .unknown): return true
+    case (.overflow, .overflow): return true
+    case (.argumentOutOfRange, .argumentOutOfRange): return true
+    case (.noElements, .noElements): return true
+    case (.moreThanOneElement, .moreThanOneElement): return true
+    case (.timeout, .timeout): return true
+    default:
+        return false
     }
 }

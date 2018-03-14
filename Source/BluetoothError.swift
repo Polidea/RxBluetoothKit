@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2016 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import CoreBluetooth
 
@@ -29,6 +7,8 @@ public enum BluetoothError: Error {
     /// To mitigate it dispose all of your subscriptions before deinitializing
     /// object that created Observables that subscriptions are made to.
     case destroyed
+    // Emitted when `CentralManager.scanForPeripherals` called and there is already ongoing scan
+    case scanInProgress
     // States
     case bluetoothUnsupported
     case bluetoothUnauthorized
@@ -36,6 +16,7 @@ public enum BluetoothError: Error {
     case bluetoothInUnknownState
     case bluetoothResetting
     // Peripheral
+    case peripheralIsConnectingOrAlreadyConnected(Peripheral)
     case peripheralConnectionFailed(Peripheral, Error?)
     case peripheralDisconnected(Peripheral, Error?)
     case peripheralRSSIReadFailed(Peripheral, Error?)
@@ -51,6 +32,8 @@ public enum BluetoothError: Error {
     case descriptorsDiscoveryFailed(Characteristic, Error?)
     case descriptorWriteFailed(Descriptor, Error?)
     case descriptorReadFailed(Descriptor, Error?)
+    //L2CAP
+    case openingL2CAPChannelFailed(Peripheral, Error?)
 }
 
 extension BluetoothError: CustomStringConvertible {
@@ -60,9 +43,14 @@ extension BluetoothError: CustomStringConvertible {
         switch self {
         case .destroyed:
             return """
-                   The object that is the source of this Observable was destroyed.
-                   It's programmer's error, please check documentation of error for more details
-                   """
+            The object that is the source of this Observable was destroyed.
+            It's programmer's error, please check documentation of error for more details
+            """
+        case .scanInProgress:
+            return """
+            Tried to scan for peripheral when there is already ongoing scan.
+            You can have only 1 ongoing scanning, please check documentation of CentralManager for more details
+            """
         case .bluetoothUnsupported:
             return "Bluetooth is unsupported"
         case .bluetoothUnauthorized:
@@ -74,6 +62,12 @@ extension BluetoothError: CustomStringConvertible {
         case .bluetoothResetting:
             return "Bluetooth is resetting"
             // Peripheral
+        case .peripheralIsConnectingOrAlreadyConnected:
+            return """
+            Peripheral is already connected or is in connecting state.
+            You cannot connect to peripheral when you have previously connected to it
+            or there is ongoing connection try.
+            """
         case let .peripheralConnectionFailed(_, err):
             return "Connection error has occured: \(err?.localizedDescription ?? "-")"
         case let .peripheralDisconnected(_, err):
@@ -101,6 +95,8 @@ extension BluetoothError: CustomStringConvertible {
             return "Descriptor write error has occured: \(err?.localizedDescription ?? "-")"
         case let .descriptorReadFailed(_, err):
             return "Descriptor read error has occured: \(err?.localizedDescription ?? "-")"
+        case let .openingL2CAPChannelFailed(_, err):
+            return "Opening L2CAP channel error has occured: \(err?.localizedDescription ?? "-")"
         }
     }
 }
@@ -130,6 +126,8 @@ extension BluetoothError: Equatable {}
 
 public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     switch (lhs, rhs) {
+    case (.scanInProgress, .scanInProgress): return true
+    // States
     case (.bluetoothUnsupported, .bluetoothUnsupported): return true
     case (.bluetoothUnauthorized, .bluetoothUnauthorized): return true
     case (.bluetoothPoweredOff, .bluetoothPoweredOff): return true
@@ -139,6 +137,7 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case let (.servicesDiscoveryFailed(l, _), .servicesDiscoveryFailed(r, _)): return l == r
     case let (.includedServicesDiscoveryFailed(l, _), .includedServicesDiscoveryFailed(r, _)): return l == r
         // Peripherals
+    case let (.peripheralIsConnectingOrAlreadyConnected(l), .peripheralIsConnectingOrAlreadyConnected(r)): return l == r
     case let (.peripheralConnectionFailed(l, _), .peripheralConnectionFailed(r, _)): return l == r
     case let (.peripheralDisconnected(l, _), .peripheralDisconnected(r, _)): return l == r
     case let (.peripheralRSSIReadFailed(l, _), .peripheralRSSIReadFailed(r, _)): return l == r
@@ -151,6 +150,8 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case let (.descriptorsDiscoveryFailed(l, _), .descriptorsDiscoveryFailed(r, _)): return l == r
     case let (.descriptorWriteFailed(l, _), .descriptorWriteFailed(r, _)): return l == r
     case let (.descriptorReadFailed(l, _), .descriptorReadFailed(r, _)): return l == r
+    // L2CAP
+    case let (.openingL2CAPChannelFailed(l, _), .openingL2CAPChannelFailed(r, _)): return l == r
     default: return false
     }
 }
