@@ -8,7 +8,7 @@ RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices m
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
 * 3.0 version supports Swift 3.0 and 3.1
-* 4.0 version of the library supports Swift 3.2 and 4.0
+* 5.0 version of the library supports Swift 3.2 and 4.0
 
 
 ## Documentation & Support
@@ -117,12 +117,12 @@ This observable will emit next event with new value of BluetoothManager state ev
 You could easily chain it with operation you want to perform after changing to proper state. To get current bluetooth state, use `CentralManager.state`
 property. Let's see how it looks with scanning:
 ```swift
-manager.observeState
+manager.observeState()
 	.startWith(manager.state)
 	.filter { $0 == .poweredOn }
 	.timeout(3.0, scheduler)
 	.take(1)
-	.flatMap { manager.scanForPeripherals(withServices: [serviceId]) }
+	.flatMap { _ in manager.scanForPeripherals(withServices: [serviceId]) }
 ```
 Firstly, use `CentralManager.state` as a start value, next filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use **take** to be sure, that after getting .poweredOn state, nothing else ever will be emitted by the observable.
 In last `flatMap` operation bluetooth is ready to perform further operations.
@@ -309,6 +309,8 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 ## Requirements
 - iOS 8.0+
 - OSX 10.10+
+- watchOS 4.0+
+- tvOS 11.0+
 - Xcode 7.3+
 
 ## Authors

@@ -14,7 +14,7 @@
     <a title="Characteristic Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit Docs</a> (83% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -32,7 +32,7 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/BluetoothManager.html">BluetoothManager</a>
+                <a href="../Classes/CentralManager.html">CentralManager</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Characteristic.html">Characteristic</a>
@@ -119,8 +119,16 @@
               <li class="nav-group-task">
                 <a href="../Structs/RestoredState.html">RestoredState</a>
               </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Structs/RestoredState.html">RestoredState</a>
+                <a href="../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
               </li>
             </ul>
           </li>
@@ -145,6 +153,33 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:14RxBluetoothKit14CharacteristicC14characteristicSo16CBCharacteristicCv"></a>
+                    <a name="//apple_ref/swift/Property/characteristic" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC14characteristicSo16CBCharacteristicCv">characteristic</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Intance of CoreBluetooth characteristic class</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt">CBCharacteristic</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:14RxBluetoothKit14CharacteristicC7serviceAA7ServiceCv"></a>
                     <a name="//apple_ref/swift/Property/service" class="dashAnchor"></a>
                     <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC7serviceAA7ServiceCv">service</a>
@@ -165,9 +200,6 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span></code></pre>
 
                         </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L33">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -196,39 +228,6 @@
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L36-L38">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:14RxBluetoothKit14CharacteristicC8objectIdSuv"></a>
-                    <a name="//apple_ref/swift/Property/objectId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC8objectIdSuv">objectId</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Unique identifier of an object. Should be removed in 4.0</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">UInt</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L42-L44">Show on GitHub</a>
-                      </div>
                     </section>
                   </div>
                 </li>
@@ -255,9 +254,6 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">uuid</span><span class="p">:</span> <span class="kt">CBUUID</span></code></pre>
 
                         </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L47-L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -286,9 +282,6 @@
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L52-L54">Show on GitHub</a>
-                      </div>
                     </section>
                   </div>
                 </li>
@@ -315,9 +308,6 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">properties</span><span class="p">:</span> <span class="kt">CBCharacteristicProperties</span></code></pre>
 
                         </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L57-L59">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -346,18 +336,15 @@
 
                         </div>
                       </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L62-L64">Show on GitHub</a>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CharacteristicC19discoverDescriptors0A5Swift10ObservableCySayAA10DescriptorCGGyF"></a>
+                    <a name="/s:14RxBluetoothKit14CharacteristicC19discoverDescriptors0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA10DescriptorCGGyF"></a>
                     <a name="//apple_ref/swift/Method/discoverDescriptors()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC19discoverDescriptors0A5Swift10ObservableCySayAA10DescriptorCGGyF">discoverDescriptors()</a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC19discoverDescriptors0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA10DescriptorCGGyF">discoverDescriptors()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -372,17 +359,13 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverDescriptors</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverDescriptors</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable that emits <code>Next</code> with array of <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instances, once they&rsquo;re discovered.
-Immediately after that <code>.Complete</code> is emitted.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L74-L76">Show on GitHub</a>
+                        <p><code>Single</code> that emits <code>next</code> with array of <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instances, once they&rsquo;re discovered.</p>
                       </div>
                     </section>
                   </div>
@@ -390,9 +373,9 @@ Immediately after that <code>.Complete</code> is emitted.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CharacteristicC12monitorWrite0A5Swift10ObservableCyACGyF"></a>
-                    <a name="//apple_ref/swift/Method/monitorWrite()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC12monitorWrite0A5Swift10ObservableCyACGyF">monitorWrite()</a>
+                    <a name="/s:14RxBluetoothKit14CharacteristicC12observeWrite0A5Swift10ObservableCyACGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeWrite()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC12observeWrite0A5Swift10ObservableCyACGyF">observeWrite()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -400,24 +383,21 @@ Immediately after that <code>.Complete</code> is emitted.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Function that allow to monitor writes that happened for characteristic.</p>
+                        <p>Function that allow to observe writes that happened for characteristic.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">monitorWrite</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeWrite</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable that emits <code>Next</code> with <code>Characteristic</code> instance every time when write has happened.
-It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never called.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L81-L83">Show on GitHub</a>
+                        <p><code>Observable</code> that emits <code>next</code> with <code>Characteristic</code> instance every time when write has happened.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
                     </section>
                   </div>
@@ -425,9 +405,9 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CharacteristicC10writeValue0A5Swift10ObservableCyACG10Foundation4DataV_SC25CBCharacteristicWriteTypeO4typetF"></a>
+                    <a name="/s:14RxBluetoothKit14CharacteristicC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOACG10Foundation4DataV_SC25CBCharacteristicWriteTypeO4typetF"></a>
                     <a name="//apple_ref/swift/Method/writeValue(_:type:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC10writeValue0A5Swift10ObservableCyACG10Foundation4DataV_SC25CBCharacteristicWriteTypeO4typetF">writeValue(_:type:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOACG10Foundation4DataV_SC25CBCharacteristicWriteTypeO4typetF">writeValue(_:type:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -439,10 +419,10 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never 
 Behavior of this function strongly depends on <a href="https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType">CBCharacteristicWriteType</a>, so be sure to check this out before usage of the method.</p>
 
 <ul>
-<li><p><code>WithResponse</code> -  Observable emits <code>Next</code> with <code>Characteristic</code> instance write was confirmed without any errors.
-Immediately after that <code>Complete</code> is called. If any problem has happened, errors are emitted.</p></li>
-<li><p><code>WithoutResponse</code> - Observable emits <code>Next</code> with <code>Characteristic</code> instance once write was called.
-Immediately after that <code>.Complete</code> is called. Result of this call is not checked, so as a user you are not sure
+<li><p><code>withResponse</code> -  <code>Observable</code> emits <code>next</code> with <code>Characteristic</code> instance write was confirmed without any errors.
+If any problem has happened, errors are emitted.</p></li>
+<li><p><code>withoutResponse</code> - <code>Observable</code> emits <code>next</code> with <code>Characteristic</code> instance once write was called.
+Result of this call is not checked, so as a user you are not sure
 if everything completed successfully. Errors are not emitted</p></li>
 </ul>
 
@@ -451,7 +431,7 @@ if everything completed successfully. Errors are not emitted</p></li>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">CBCharacteristicWriteType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">CBCharacteristicWriteType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -462,12 +442,12 @@ if everything completed successfully. Errors are not emitted</p></li>
                             <tr>
                               <td>
                                 <code>
-                                <em>forCharacteristic</em>
+                                <em>data</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p><code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance to write value to.</p>
+                                  <p><code>Data</code> that&rsquo;ll be written to the <code>Characteristic</code></p>
                                 </div>
                               </td>
                             </tr>
@@ -479,7 +459,7 @@ if everything completed successfully. Errors are not emitted</p></li>
                               </td>
                               <td>
                                 <div>
-                                  <p>Type of write operation. Possible values: <code>.WithResponse</code>, <code>.WithoutResponse</code></p>
+                                  <p>Type of write operation. Possible values: <code>.withResponse</code>, <code>.withoutResponse</code></p>
                                 </div>
                               </td>
                             </tr>
@@ -488,11 +468,8 @@ if everything completed successfully. Errors are not emitted</p></li>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable that emition depends on <code>CBCharacteristicWriteType</code> passed to the function call.
+                        <p><code>Single</code> whose emission depends on <code>CBCharacteristicWriteType</code> passed to the function call.
 Behavior is following:</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L97-L99">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -500,9 +477,9 @@ Behavior is following:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CharacteristicC18monitorValueUpdate0A5Swift10ObservableCyACGyF"></a>
-                    <a name="//apple_ref/swift/Method/monitorValueUpdate()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC18monitorValueUpdate0A5Swift10ObservableCyACGyF">monitorValueUpdate()</a>
+                    <a name="/s:14RxBluetoothKit14CharacteristicC18observeValueUpdate0A5Swift10ObservableCyACGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdate()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC18observeValueUpdate0A5Swift10ObservableCyACGyF">observeValueUpdate()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -510,24 +487,21 @@ Behavior is following:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Function that allow to monitor value updates for <code>Characteristic</code> instance.</p>
+                        <p>Function that allow to observe value updates for <code>Characteristic</code> instance.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">monitorValueUpdate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable that emits <code>Next</code> with <code>Characteristic</code> instance every time when value has changed.
-It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never called.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L104-L106">Show on GitHub</a>
+                        <p><code>Observable</code> that emits <code>Next</code> with <code>Characteristic</code> instance every time when value has changed.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
                     </section>
                   </div>
@@ -535,9 +509,9 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.Complete</code> is never 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CharacteristicC9readValue0A5Swift10ObservableCyACGyF"></a>
+                    <a name="/s:14RxBluetoothKit14CharacteristicC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOACGyF"></a>
                     <a name="//apple_ref/swift/Method/readValue()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC9readValue0A5Swift10ObservableCyACGyF">readValue()</a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOACGyF">readValue()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -553,17 +527,13 @@ Read is called after subscription to <code>Observable</code> is made.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValue</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValue</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable which emits <code>Next</code> with given characteristic when value is ready to read. Immediately after that
-<code>.Complete</code> is emitted.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L112-L114">Show on GitHub</a>
+                        <p><code>Single</code> which emits <code>next</code> with given characteristic when value is ready to read.</p>
                       </div>
                     </section>
                   </div>
@@ -571,9 +541,9 @@ Read is called after subscription to <code>Observable</code> is made.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CharacteristicC14setNotifyValue0A5Swift10ObservableCyACGSbF"></a>
-                    <a name="//apple_ref/swift/Method/setNotifyValue(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC14setNotifyValue0A5Swift10ObservableCyACGSbF">setNotifyValue(_:)</a>
+                    <a name="/s:14RxBluetoothKit14CharacteristicC36observeValueUpdateAndSetNotification0A5Swift10ObservableCyACGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdateAndSetNotification()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC36observeValueUpdateAndSetNotification0A5Swift10ObservableCyACGyF">observeValueUpdateAndSetNotification()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -581,85 +551,26 @@ Read is called after subscription to <code>Observable</code> is made.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Function that triggers set of notification state of the <code>Characteristic</code>.
-This change is called after subscribtion to <code>Observable</code> is made.</p>
-<div class="aside aside-warning">
-    <p class="aside-title">Warning</p>
-    This method is not responsible for emitting values every time that <code>Characteristic</code> value is changed.
-For this, refer to other method: <code>monitorValueUpdateForCharacteristic(_)</code>. These two are often called together.
+                        <p>Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
+Returned observable will emit <code>Characteristic</code> on every notification change.
+It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.</p>
 
-</div>
+<p>Notification is automaticaly unregistered once this observable is unsubscribed</p>
 
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setNotifyValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">enabled</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>enabled</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New value of notifications state. Specify <code>true</code> if you&rsquo;re interested in getting values</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>Observable which emits <code>Next</code> with Characteristic that state was changed. Immediately after <code>.Complete</code> is emitted</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L122-L124">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:14RxBluetoothKit14CharacteristicC32setNotificationAndMonitorUpdates0A5Swift10ObservableCyACGyF"></a>
-                    <a name="//apple_ref/swift/Method/setNotificationAndMonitorUpdates()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CharacteristicC32setNotificationAndMonitorUpdates0A5Swift10ObservableCyACGyF">setNotificationAndMonitorUpdates()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Function that triggers set of notification state of the <code>Characteristic</code>, and monitor for any incoming updates.
-Notification is set after subscribtion to <code>Observable</code> is made.</p>
+<p>This is <strong>infinite</strong> stream of values.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setNotificationAndMonitorUpdates</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdateAndSetNotification</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Characteristic</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Observable which emits <code>Next</code>, when characteristic value is updated.
-This is <strong>infinite</strong> stream of values.</p>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/4.0.2/Source/Characteristic.swift#L131-L133">Show on GitHub</a>
+                        <p><code>Observable</code> emitting <code>next</code> with <code>Characteristic</code> when given characteristic has been changed.</p>
                       </div>
                     </section>
                   </div>
@@ -669,7 +580,7 @@ This is <strong>infinite</strong> stream of values.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-01-15)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-03-14)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
