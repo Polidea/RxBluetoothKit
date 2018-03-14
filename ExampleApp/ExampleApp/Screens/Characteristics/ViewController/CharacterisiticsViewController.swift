@@ -122,12 +122,13 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
         valueWriteController.addAction(UIAlertAction(title: Constant.Strings.titleCancel, style: .cancel, handler: nil))
         valueWriteController.addAction(UIAlertAction(title: Constant.Strings.titleWrite, style: .default) { _ in
-
-            if let _text = valueWriteController.textFields?.first?.text {
-                self.viewModel.writeValueForCharacteristic(hexadecimalString: _text)
+            guard let text = valueWriteController.textFields?.first?.text else {
+                return
             }
+            self.viewModel.writeValueForCharacteristic(hexadecimalString: text)
 
         })
+
         present(valueWriteController, animated: true, completion: nil)
 
     }
