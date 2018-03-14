@@ -1,10 +1,13 @@
 import Foundation
 import CoreBluetooth
+import RxSwift
 
 /// RxBluetoothKit specific logging class which gives access to its settings.
-public class RxBluetoothKitLog {
+public class RxBluetoothKitLog: ReactiveCompatible {
 
     fileprivate static var currentLogLevel: LogLevel = .none
+
+    fileprivate static let subject = PublishSubject<String>()
 
     private init() {
     }
@@ -64,7 +67,9 @@ public class RxBluetoothKitLog {
 
     fileprivate static func log(with logLevel: LogLevel, message: @autoclosure () -> String) {
         if currentLogLevel <= logLevel {
-            print(tag(with: logLevel), message())
+            let string = "\(tag(with: logLevel)) \(message())"
+            subject.onNext(string)
+            print(string)
         }
     }
 
@@ -134,6 +139,27 @@ extension BluetoothState: Loggable {
     }
 }
 
+extension CBCharacteristicWriteType: Loggable {
+    var logDescription: String {
+        switch self {
+        case .withResponse: return "withResponse"
+        case .withoutResponse: return "withoutResponse"
+        }
+    }
+}
+
+extension UUID: Loggable {
+    var logDescription: String {
+        return uuidString
+    }
+}
+
+extension CBUUID: Loggable {
+    @objc var logDescription: String {
+        return uuidString
+    }
+}
+
 extension CBCentralManager: Loggable {
     @objc var logDescription: String {
         return "CentralManager(\(UInt(bitPattern: ObjectIdentifier(self))))"
@@ -160,12 +186,28 @@ extension CBService: Loggable {
 
 extension CBDescriptor: Loggable {
     @objc var logDescription: String {
-        return "Service(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
+        return "Descriptor(uuid: \(uuid), id: \((UInt(bitPattern: ObjectIdentifier(self)))))"
     }
 }
 
 extension Array where Element: Loggable {
     var logDescription: String {
         return "[\(map { $0.logDescription }.joined(separator: ", "))]"
+    }
+}
+
+extension Reactive where Base == RxBluetoothKitLog {
+    /**
+     * This is continuous value, which emits before a log is printed to standard output.
+     *
+     * - it never fails
+     * - it delivers events on `MainScheduler.instance`
+     * - `share(scope: .whileConnected)` sharing strategy
+     */
+    public var log: Observable<String> {
+        return RxBluetoothKitLog.subject.asObserver()
+            .observeOn(MainScheduler.instance)
+            .catchErrorJustReturn("")
+            .share(scope: .whileConnected)
     }
 }

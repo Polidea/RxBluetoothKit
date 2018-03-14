@@ -8,12 +8,18 @@ RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices m
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
 * 3.0 version supports Swift 3.0 and 3.1
-* 4.0 version of the library supports Swift 3.2 and 4.0
+* 5.0 version of the library supports Swift 3.2 and 4.0
 
 
-For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active), or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
+## Documentation & Support
 
-Read the official announcement at [Polidea Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/).
+Documentation can be found [here](https://polidea.github.io/RxBluetoothKit/).
+
+Want to talk about it? Ask questions? Give feedback? Join our discussion on [Gitter](https://gitter.im/RxBLELibraries/RxBluetoothKit?utm_source=share-link&utm_medium=link&utm_campaign=share-link)!
+
+For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active) or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
+
+Follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/) blog to get all the news and updates!
 
 ## Features
 - [x] CBCentralManger RxSwift support
@@ -21,7 +27,6 @@ Read the official announcement at [Polidea Blog](https://www.polidea.com/blog/Rx
 - [x] Scan sharing
 - [x] Scan queueing
 - [x] Bluetooth error bubbling
-- [x] [Documentation](http://cocoadocs.org/docsets/RxBluetoothKit/4.0.0/)
 
 ## Sample
 In Example folder you can find application we've provided to you. It's a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.
@@ -77,10 +82,10 @@ To start any interaction, with bluetooth devices, you have to first scan some of
 #### Basic
 
 ```swift
-manager.scanForPeripherals(withServices: [serviceIds])
-.flatMap { scannedPeripheral in
-	let advertisement = scannedPeripheral.advertisement
-}
+manager.scanForPeripherals(withServices: serviceIds)
+    .subscribe(onNext: { scannedPeripheral in
+        let advertisementData = scannedPeripheral.advertisementData
+    })
 ```
 This is the simplest version of this operation. After subscription to observable, scan is performed infinitely.  What you receive from method is `ScannedPeripheral` instance, that provides access to following information:
 - Peripheral: object that you can use, to perform actions like connecting, discovering services etc.
@@ -112,12 +117,12 @@ This observable will emit next event with new value of BluetoothManager state ev
 You could easily chain it with operation you want to perform after changing to proper state. To get current bluetooth state, use `CentralManager.state`
 property. Let's see how it looks with scanning:
 ```swift
-manager.observeState
+manager.observeState()
 	.startWith(manager.state)
 	.filter { $0 == .poweredOn }
 	.timeout(3.0, scheduler)
 	.take(1)
-	.flatMap { manager.scanForPeripherals(withServices: [serviceId]) }
+	.flatMap { _ in manager.scanForPeripherals(withServices: [serviceId]) }
 ```
 Firstly, use `CentralManager.state` as a start value, next filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use **take** to be sure, that after getting .poweredOn state, nothing else ever will be emitted by the observable.
 In last `flatMap` operation bluetooth is ready to perform further operations.
@@ -304,6 +309,8 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 ## Requirements
 - iOS 8.0+
 - OSX 10.10+
+- watchOS 4.0+
+- tvOS 11.0+
 - Xcode 7.3+
 
 ## Authors

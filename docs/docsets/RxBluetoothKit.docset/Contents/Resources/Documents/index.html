@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RxBluetoothKit  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="RxBluetoothKit  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">RxBluetoothKit Docs</a> (82% documented)</p>
+        <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">RxBluetoothKit Reference</a>
+        <img id="carat" src="img/carat.png" />
+        RxBluetoothKit  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/CentralManager.html">CentralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Characteristic.html">Characteristic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Descriptor.html">Descriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Peripheral.html">Peripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/RxBluetoothKitLog/LogLevel.html">– LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ScannedPeripheral.html">ScannedPeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Service.html">Service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/BluetoothError.html">BluetoothError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/BluetoothState.html">BluetoothState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/Reactive.html">Reactive</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:14RxBluetoothKit2eeoiSbAA0B5ErrorO_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:14RxBluetoothKit2eeoiSbAA10DescriptorC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:14RxBluetoothKit2eeoiSbAA10PeripheralC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:14RxBluetoothKit2eeoiSbAA14CharacteristicC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:14RxBluetoothKit2eeoiSbAA7ServiceC_ADtF">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/RestoredState.html">RestoredState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <p><img src="http://i.imgur.com/aeT4p5o.png" alt="RxBluetoothKit Swift"></p>
+
+<p><a href="https://travis-ci.org/Polidea/RxBluetoothKit"><img src="http://img.shields.io/travis/Polidea/RxBluetoothKit.svg?style=flat" alt="CI Status"></a>
+<a href="http://cocoapods.org/pods/RxBluetoothKit"><img src="https://img.shields.io/cocoapods/p/RxBluetoothKit.svg?style=flat" alt="Platform"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a></p>
+
+<p>RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices much more pleasant. It&rsquo;s backed by RxSwift and CoreBluetooth.
+Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.</p>
+
+<ul>
+<li>3.0 version supports Swift 3.0 and 3.1</li>
+<li>5.0 version of the library supports Swift 3.2 and 4.0</li>
+</ul>
+<h2 id='documentation-amp-support' class='heading'>Documentation &amp; Support</h2>
+
+<p>Documentation can be found <a href="https://polidea.github.io/RxBluetoothKit/">here</a>.</p>
+
+<p>Want to talk about it? Ask questions? Give feedback? Join our discussion on <a href="https://gitter.im/RxBLELibraries/RxBluetoothKit?utm_source=share-link&utm_medium=link&utm_campaign=share-link">Gitter</a>!</p>
+
+<p>For support head to <a href="http://stackoverflow.com/questions/tagged/rxiosble?sort=active">StackOverflow</a> or open <a href="https://github.com/Polidea/RxBluetoothKit/issues/new">an issue</a> on GitHub.</p>
+
+<p>Follow <a href="https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/">Polidea&rsquo;s Blog</a> blog to get all the news and updates!</p>
+<h2 id='features' class='heading'>Features</h2>
+
+<ul>
+<li>[x] CBCentralManger RxSwift support</li>
+<li>[x] CBPeripheral RxSwift support</li>
+<li>[x] Scan sharing</li>
+<li>[x] Scan queueing</li>
+<li>[x] Bluetooth error bubbling</li>
+</ul>
+<h2 id='sample' class='heading'>Sample</h2>
+
+<p>In Example folder you can find application we&rsquo;ve provided to you. It&rsquo;s a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.</p>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='cocoapods' class='heading'>CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for CocoaProjects.
+To integrate RxBluetoothKit into your Xcode project using CocoaPods specify it in your <code>Podfile</code>:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'RxBluetoothKit'</span>
+</code></pre>
+
+<p>Then, run following command:
+<code>$ pod install</code></p>
+<h3 id='carthage' class='heading'>Carthage</h3>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+To integrate RxBluetoothKit into your Xcode project using Carthage  specify it in your <code>Cartfile</code>:</p>
+<pre class="highlight swift"><code><span class="n">github</span> <span class="s">"Polidea/RxBluetoothKit"</span>
+</code></pre>
+
+<p>Then, run <code>carthage update</code> to build framework and drag <code>RxBluetoothKit.framework</code> into your Xcode project.</p>
+<h3 id='swift-package-manager' class='heading'>Swift Package Manager</h3>
+
+<p>Versions &gt;= 4.0 of the library integrate with the Swift Package Manager. In order to do that please specify our project as one of your dependencies in <code>Package.swift</code> file.</p>
+<h2 id='architecture' class='heading'>Architecture</h2>
+
+<p>Library is built on top of Apple&rsquo;s CoreBluetooth.
+It has multiple components, that should be familiar to you:</p>
+
+<ul>
+<li>CentralManager</li>
+<li>ScannedPeripheral</li>
+<li>Peripheral</li>
+<li>Service</li>
+<li>Characteristic</li>
+<li>Descriptor</li>
+</ul>
+
+<p>Every one of them is backed by it&rsquo;s CB counterpart hidden behind layer of abstraction. We&rsquo;ve chosen this architecture, because we believe in <em>testing</em>.</p>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>To begin work you should create an instance of CentralManager. Doing it is really easy - all you need to specify is queue(main queue is used by default):</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">manager</span> <span class="o">=</span> <span class="kt">CentralManager</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="o">.</span><span class="n">main</span><span class="p">)</span>
+</code></pre>
+
+<p>You are responsible for maintaining instance of manager object, and passing it between parts of your app.
+<strong>Note:</strong> All operations are executed in queue which you have provided, so make sure to observe UI related effects in main thread when it&rsquo;s needed.</p>
+<h3 id='scanning-peripherals' class='heading'>Scanning peripherals</h3>
+
+<p>To start any interaction, with bluetooth devices, you have to first scan some of them. So - get ready!</p>
+<h4 id='basic' class='heading'>Basic</h4>
+<pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="n">serviceIds</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span> <span class="n">scannedPeripheral</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="nv">advertisementData</span> <span class="o">=</span> <span class="n">scannedPeripheral</span><span class="o">.</span><span class="n">advertisementData</span>
+    <span class="p">})</span>
+</code></pre>
+
+<p>This is the simplest version of this operation. After subscription to observable, scan is performed infinitely.  What you receive from method is <code><a href="Classes/ScannedPeripheral.html">ScannedPeripheral</a></code> instance, that provides access to following information:</p>
+
+<ul>
+<li>Peripheral: object that you can use, to perform actions like connecting, discovering services etc.</li>
+<li>AdvertisementData: strongly typed wrapper around CBPeripheral advertisement data dictionary.. Thanks to it, you no longer have to worry about all of the keys needed to pull out information.</li>
+<li>RSSI</li>
+</ul>
+<h4 id='cancelling' class='heading'>Cancelling</h4>
+
+<p>By default scanning operation is not cancelled. It&rsquo;s the user&rsquo;s responsibility to do that in situations where scanning in not needed anymore.
+Fortunately, this is also really easy to do, thanks to awesome RxSwift operators.</p>
+<pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="p">[</span><span class="n">serviceIds</span><span class="p">])</span><span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">//Doing this, after first received result, scan is immediately cancelled.</span>
+</code></pre>
+
+<p>Ok, that&rsquo;s fun, but what if you also want to apply timeout policy? That&rsquo;s also easy to do:</p>
+<pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="p">[</span><span class="n">serviceIds</span><span class="p">])</span><span class="o">.</span><span class="nf">timeout</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">timerScheduler</span><span class="p">)</span>
+</code></pre>
+
+<p>As you can see: thanks to all available RxSwift operators, in a simple way you might create really interesting and complex usage scenarios, like for example retrying scans, if you receive timeout.</p>
+<h4 id='waiting-for-proper-bluetoothstate' class='heading'>Waiting for proper BluetoothState</h4>
+
+<p>In a following scenario: just after app launch, you want to perform scans. But, there are some problems with this approach - in order to perform work with bluetooth, you&rsquo;re manager should be in <strong>.poweredOn</strong> state. Specially for this case, our library provides you with another observable, that you should use for monitoring state.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">stateObservable</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="nf">observeState</span><span class="p">()</span>
+</code></pre>
+
+<p>This observable will emit next event with new value of BluetoothManager state every time state changes.
+You could easily chain it with operation you want to perform after changing to proper state. To get current bluetooth state, use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOv">CentralManager.state</a></code>
+property. Let&rsquo;s see how it looks with scanning:</p>
+<pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="nf">observeState</span><span class="p">()</span>
+    <span class="o">.</span><span class="nf">startWith</span><span class="p">(</span><span class="n">manager</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="o">.</span><span class="n">poweredOn</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">timeout</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="p">[</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span>
+</code></pre>
+
+<p>Firstly, use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOv">CentralManager.state</a></code> as a start value, next filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use <strong>take</strong> to be sure, that after getting .poweredOn state, nothing else ever will be emitted by the observable.
+In last <code>flatMap</code> operation bluetooth is ready to perform further operations.</p>
+<h3 id='connecting' class='heading'>Connecting</h3>
+
+<p>After receiving scanned peripheral, to do something with it, we need to first call <code>establishConnection</code>.
+It&rsquo;s really straightforward: just flatMap result into another Observable!</p>
+<pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="p">[</span><span class="n">serviceId</span><span class="p">])</span><span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span> <span class="n">peripheral</span> <span class="k">in</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Connected to: </span><span class="se">\(</span><span class="n">peripheral</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">})</span>
+</code></pre>
+<h3 id='discovering-services' class='heading'>Discovering services</h3>
+
+<p>After connecting, the most common task is to discover Services.
+Because all of wanted services are discovered at once, method returns <code>Single&lt;[Service]&gt;</code>.  In order to make it into <code>Observable&lt;Service&gt;</code> and fire for each of service discovered, we advice you to use our RxSwift operator <code>Observable.from()</code></p>
+
+<p>Here&rsquo;s how it works in RxBluetoothKit:</p>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span> <span class="n">service</span> <span class="k">in</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Discovered service: </span><span class="se">\(</span><span class="n">service</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">})</span>
+</code></pre>
+<h3 id='discovering-characteristics' class='heading'>Discovering characteristics</h3>
+
+<p>Discovering characteristics method is very similar to <strong>discoverServices</strong>.
+This time API&rsquo;s returning <code>Observable&lt;[Characteristic]&gt;</code> and to process one
+characteristic at a time, you need to once again use <code>Observable.from()</code></p>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span> <span class="n">characteristic</span> <span class="k">in</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Discovered characteristic: </span><span class="se">\(</span><span class="n">characteristic</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">})</span>
+</code></pre>
+<h3 id='reading-value-of-characteristic' class='heading'>Reading value of characteristic</h3>
+
+<p>Once you&rsquo;ve got characteristic, next common step is to read value from it.
+In order to do that, you should use <code>readValue()</code> function defined on <code><a href="Classes/Characteristic.html">Characteristic</a></code>. It returns <code>Observable&lt;Characteristic&gt;</code> which emits element, when value of characteristic is ready to read.
+We decided to return <code><a href="Classes/Characteristic.html">Characteristic</a></code> instead of <code>NSData</code> due to one purpose - to allow you chain operations on characteristic in easy way.</p>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">readValue</span><span class="p">()</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="nv">$0</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">})</span>
+</code></pre>
+<h3 id='notifying-on-characteristic-changes' class='heading'>Notifying on characteristic changes</h3>
+
+<p>Notifying on characteristic value changes? Nothing easier.
+After subscribing observable returned by this method, you will get proper message every single time:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposable</span> <span class="o">=</span> <span class="n">characteristic</span><span class="o">.</span><span class="nf">observeValueUpdateAndSetNotification</span><span class="p">()</span>
+    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">newValue</span> <span class="o">=</span> <span class="nv">$0</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">})</span>
+</code></pre>
+
+<p>If you are not interested anymore in updates, just unsubscribe:</p>
+<pre class="highlight swift"><code><span class="n">disposable</span><span class="o">.</span><span class="nf">dispose</span><span class="p">()</span>
+</code></pre>
+<h3 id='writing-value-to-characteristic' class='heading'>Writing value to characteristic</h3>
+
+<p>While deciding to write to characteristic you have two writing options, that determine write behavior:</p>
+
+<ul>
+<li>withResponse</li>
+<li>withoutResponse</li>
+</ul>
+
+<p>Choosing <code>withResponse</code>, you&rsquo;re waiting to receive .next event on Observable while device has confirmed that value has been written to it. Also, if any error has ocurred - you will receive <code>.error</code> on Observable.
+On the other hand - if you decided to go with <code>withoutResponse</code> - you&rsquo;re receiving Characteristic just after write command has been called. Also, no errors will be emitted.
+Let&rsquo;s jump over to the code:</p>
+<pre class="highlight swift"><code><span class="n">characteristic</span><span class="o">.</span><span class="nf">writeValue</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="n">withResponse</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">subscribe</span> <span class="p">{</span> <span class="n">event</span> <span class="k">in</span>
+        <span class="c1">//respond to errors / successful read</span>
+    <span class="p">}</span>
+</code></pre>
+<h3 id='convenience-calling-methods' class='heading'>Convenience calling methods</h3>
+
+<p>In order to enable even easier interaction with RxBluetooth, we&rsquo;ve provided custom protocols we advice you to implement.
+Thats <code><a href="Protocols/ServiceIdentifier.html">ServiceIdentifier</a></code>, <code><a href="Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></code> and <code><a href="Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a></code>. Most of the time you&rsquo;re writing Bluetooth code to communicate with specific device, while knowing its specification like services and characteristic. Thats exactly the case, where you should implement these protocols. Sample implementation might look like:</p>
+<pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">DeviceCharacteristic</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">CharacteristicIdentifier</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">manufacturerName</span> <span class="o">=</span> <span class="s">"2A29"</span>
+
+    <span class="k">var</span> <span class="nv">uuid</span><span class="p">:</span> <span class="kt">CBUUID</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">CBUUID</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">rawValue</span><span class="p">)</span>
+    <span class="p">}</span>
+        <span class="c1">//Service to which characteristic belongs</span>
+    <span class="k">var</span> <span class="nv">service</span><span class="p">:</span> <span class="kt">ServiceIdentifier</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="k">self</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="o">.</span><span class="kt">ManufacturerName</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kt">XXXService</span><span class="o">.</span><span class="kt">DeviceInformation</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">enum</span> <span class="kt">DeviceService</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">ServiceIdentifier</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">deviceInformation</span> <span class="o">=</span> <span class="s">"180A"</span>
+
+    <span class="k">var</span> <span class="nv">uuid</span><span class="p">:</span> <span class="kt">CBUUID</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">CBUUID</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">rawValue</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>After implementing these types, whole set of new new methods is becoming available.
+Earlier implementation of reading from characteristic looked like that:</p>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverServices</span><span class="p">([</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">discoverCharacteristics</span><span class="p">([</span><span class="n">characteristicId</span><span class="p">])}</span><span class="o">.</span><span class="nf">asObservable</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">from</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">readValue</span><span class="p">()</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="nv">$0</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">})</span>
+</code></pre>
+
+<p>When you use new <code><a href="Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></code> protocol, you could do it way simpler:</p>
+<pre class="highlight swift"><code><span class="n">peripheral</span><span class="o">.</span><span class="nf">establishConnection</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="nf">readValue</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt">DeviceCharacteristic</span><span class="o">.</span><span class="n">manufacturerName</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="nv">onNext</span><span class="p">:</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="nv">$0</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">})</span>
+</code></pre>
+
+<p>Set of methods that are taking instances conforming <code><a href="Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></code> or <code><a href="Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a></code> does all of the heavy lifting like discovering services, characteristics and descriptors for you. Moreover, in order to optimise - when one of these is available in cache, discovery is not called at all.
+We really encourage you to use these versions of methods in order to make your code even shorter and cleaner.</p>
+<h3 id='other-useful-functionalities' class='heading'>Other useful functionalities</h3>
+
+<p>Here you&rsquo;ll find other useful functionalities of library</p>
+<h4 id='bluetooth-state-restoration' class='heading'>Bluetooth state restoration</h4>
+
+<p>By giving proper identifier to <code><a href="Classes/CentralManager.html">CentralManager</a></code> in constructor(<code>options</code> property), you can achieve state restoration functionality. Later, just make sure to subscribe to <code>listenOnRestoredState</code> observable, and inspect <code><a href="Structs/RestoredState.html">RestoredState</a></code> instance, which consists any useful info about restored state.</p>
+<h4 id='monitoring-state-of-bluetooth' class='heading'>Monitoring state of Bluetooth</h4>
+
+<p>Used earlier <code>observeState</code> is very useful function on <code><a href="Classes/CentralManager.html">CentralManager</a></code>. It emits <code>next</code> event with new value of BluetoothManager state every time it changes. To get current bluetooth state, you should use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOv">CentralManager.state</a></code>
+property.</p>
+<h4 id='monitor-connection-state-of-peripheral' class='heading'>Monitor connection state of Peripheral</h4>
+
+<p>Property <code>isConnected</code> on <code><a href="Classes/Peripheral.html">Peripheral</a></code> allows checking if Peripheral is connected. To monitor Peripheral connection state changes use <code>observeConnection</code> method. It emits new element after connection state changes.</p>
+<h4 id='retrieving-peripherals' class='heading'>Retrieving Peripherals</h4>
+
+<p><code><a href="Classes/CentralManager.html">CentralManager</a></code> also lets to retrieve peripherals in two ways:</p>
+
+<ul>
+<li>via its identifier using array of <code>UUID</code> objects,</li>
+<li>connected ones via services identifiers using array of <code>CBUUID</code> objects.
+In both cases, return type is <code>[Peripheral]</code>.</li>
+</ul>
+<h4 id='cancel-connection' class='heading'>Cancel connection</h4>
+
+<p>Connection can be cancelled. To do this dispose Disposable that you get during Peripheral connection.</p>
+<h4 id='read-rssi' class='heading'>Read RSSI</h4>
+
+<p>Triggers read of Peripheral RSSI value. To do it, call <code>readRSSI()</code> on Peripheral instance.
+Method returns <code>Single&lt;(Peripheral, Int)&gt;</code>. Peripheral is returned in order to enable chaining.</p>
+<h4 id='monitor-services-modification' class='heading'>Monitor services modification</h4>
+
+<p>When you want to know, when services are modified, call <code>observeServicesModification() -&gt; Observable&lt;(Peripheral, [Service])&gt;</code> on Peripheral. Next event is generated each time, when service changes.</p>
+<h4 id='monitor-name-update' class='heading'>Monitor name update</h4>
+
+<p>Call <code>observeNameUpdate() -&gt; Observable&lt;(Peripheral, String?)&gt;</code> in order to know, when peripheral changes its name.</p>
+<h4 id='monitoring-write' class='heading'>Monitoring write</h4>
+
+<p>By calling <code>observeWrite(for characteristic: Characteristic) -&gt; Observable&lt;Characteristic&gt;</code> you&rsquo;re able to receive event each time, when value is being written to characteristic.</p>
+<h3 id='additional-features' class='heading'>Additional features</h3>
+<h4 id='error-bubbling' class='heading'>Error bubbling</h4>
+
+<p>Library supports <strong>complex</strong> Bluetooth error handling functionalities. Errors from Bluetooth delegate methods are propagated into all of the API calls. So for example - if during services discovery bluetooth state changes to <code>.poweredOff</code>, proper error containing this information will be propagated into <code>discoverServices</code> call.</p>
+<h2 id='requirements' class='heading'>Requirements</h2>
+
+<ul>
+<li>iOS 8.0+</li>
+<li>OSX 10.10+</li>
+<li>watchOS 4.0+</li>
+<li>tvOS 11.0+</li>
+<li>Xcode 7.3+</li>
+</ul>
+<h2 id='authors' class='heading'>Authors</h2>
+
+<ul>
+<li>Przemysław Lenart, <a href="mailto:przemek.lenart@polidea.com">przemek.lenart@polidea.com</a>~</li>
+<li>Kacper Harasim, <a href="mailto:kacper.harasim@polidea.com">kacper.harasim@polidea.com</a></li>
+</ul>
+<h2 id='contributing' class='heading'>Contributing</h2>
+
+<p>If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request.
+To keep code in order, we advice you to use SwiftLint. In repository, we provide configured <code>.swiftlint.yml</code> file, that matches our criteria of clean and <q>Swifty</q> code.</p>
+<h3 id='contributors-thanks' class='heading'>Contributors, thanks!</h3>
+
+<p>Maciek Oczko (<a href="mailto:maciek.oczko@polidea.com">maciek.oczko@polidea.com</a>)</p>
+
+<p><a href="https://github.com/moogle19">moogle19</a>
+<a href="https://github.com/abeintopalo">abeintopalo</a></p>
+<h2 id='license' class='heading'>License</h2>
+
+<p>RxBluetoothKit is available under the Apache License, Version 2.0. See the LICENSE file for more info.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-03-14)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

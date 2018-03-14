@@ -19,7 +19,7 @@ extension WeakBox {
 /// resource from more than 1 thread at a time.
 class ThreadSafeBox<T>: CustomDebugStringConvertible {
     private let queue = DispatchQueue(label: "com.polidea.RxBluetoothKit.ThreadSafeBox")
-    private var value: T
+    fileprivate var value: T
     init(value: T) {
         self.value = value
     }
