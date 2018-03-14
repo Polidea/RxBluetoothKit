@@ -31,17 +31,17 @@ final class RxBluetoothKitService {
 
     // MARK: - Private subjects
 
-    private let scanningSubject: PublishSubject<ScannedPeripheral> = PublishSubject()
+    private let scanningSubject = PublishSubject<ScannedPeripheral>()
 
-    private let servicesSubject: PublishSubject<[Service]> = PublishSubject()
+    private let servicesSubject = PublishSubject<[Service]>()
 
-    private let disconnectionSubject: PublishSubject<Disconnection> = PublishSubject()
+    private let disconnectionSubject = PublishSubject<Disconnection>()
 
-    private let errorSubject: PublishSubject<Error> = PublishSubject()
+    private let errorSubject = PublishSubject<Error>()
 
     // MARK: - Private fields
 
-    private let centralManager: CentralManager = CentralManager(queue: .main)
+    private let centralManager = CentralManager(queue: .main)
 
     private let scheduler: ConcurrentDispatchQueueScheduler
 
