@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "RxBluetoothKit"
-  s.version          = "4.0.2"
+  s.version          = "5.0.0"
   s.summary          = "Bluetooth library for RxSwift"
 
   s.description      = <<-DESC
@@ -8,8 +8,8 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = "https://github.com/polidea/RxBluetoothKit"
-  s.license          = 'Apache Licence, Version 2.0'
-  s.author           = { "Przemysław Lenart" => "przemek.lenart@polidea.com", "Kacper Harasim" => "kacper.harasim@polidea.com" }
+  s.license          = 'Apache License, Version 2.0.'
+  s.author           = { "Przemysław Lenart" => "przemek.lenart@polidea.com", "Kacper Harasim" => "kacper.harasim@polidea.com", "Michał Laskowski" => "michal.laskowski@polidea.com", "Paweł Janeczek" => "pawel.janeczek@polidea.com" }
   s.source           = { :git => "https://github.com/polidea/RxBluetoothKit.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/polidea'
 

@@ -174,6 +174,9 @@
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L10">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -200,6 +203,9 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L13">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -228,6 +234,9 @@
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L16-L18">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -254,6 +263,9 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">uuid</span><span class="p">:</span> <span class="kt">CBUUID</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L21-L23">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -282,6 +294,9 @@
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L26-L28">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -309,6 +324,9 @@
 
                         </div>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L31-L33">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -335,6 +353,9 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">descriptors</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">]?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L36-L38">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -367,6 +388,9 @@
                         <h4>Return Value</h4>
                         <p><code>Single</code> that emits <code>next</code> with array of <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instances, once they&rsquo;re discovered.</p>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L52-L54">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -398,6 +422,9 @@
                         <h4>Return Value</h4>
                         <p><code>Observable</code> that emits <code>next</code> with <code>Characteristic</code> instance every time when write has happened.
 It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L59-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -471,6 +498,9 @@ if everything completed successfully. Errors are not emitted</p></li>
                         <p><code>Single</code> whose emission depends on <code>CBCharacteristicWriteType</code> passed to the function call.
 Behavior is following:</p>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L75-L77">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -503,6 +533,9 @@ Behavior is following:</p>
                         <p><code>Observable</code> that emits <code>Next</code> with <code>Characteristic</code> instance every time when value has changed.
 It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L82-L84">Show on GitHub</a>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -534,6 +567,9 @@ Read is called after subscription to <code>Observable</code> is made.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p><code>Single</code> which emits <code>next</code> with given characteristic when value is ready to read.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L89-L91">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -571,6 +607,9 @@ It is possible to setup more observables for the same characteristic and the lif
                       <div>
                         <h4>Return Value</h4>
                         <p><code>Observable</code> emitting <code>next</code> with <code>Characteristic</code> when given characteristic has been changed.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.0/Source/Characteristic.swift#L102-L104">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

@@ -1,3 +1,10 @@
+# 5.0
+- Changed `BluetoothManager` to `CentralManager`
+- Reimplemented connection and notification API's
+- Added watchOS and tvOS targets
+- Added support for L2CAP
+- Rewritten unit tests
+
 # 4.0.2
 - Allow projects that depend on RxBluetoothKit to update RxSwift to 4.1.0 and newer.
 
