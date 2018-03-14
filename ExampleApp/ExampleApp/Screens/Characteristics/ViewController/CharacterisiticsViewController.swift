@@ -86,8 +86,8 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     private func addReadActions(to actionSheet: UIAlertController) {
         let readValueNotificationAction = UIAlertAction(title: Constant.Strings.titleRead,
-                style: .default) { [weak self] _ in
-            self?.viewModel.triggerValueRead()
+                style: .default) { _ in
+            self.viewModel.triggerValueRead()
         }
         actionSheet.addAction(readValueNotificationAction)
     }
@@ -107,7 +107,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     private func addDismissAction(to actionSheet: UIAlertController) {
         let dismissAction = UIAlertAction(title: Constant.Strings.titleCancel,
-                style: .cancel) { [unowned self] _ in
+                style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
         }
         actionSheet.addAction(dismissAction)
@@ -134,8 +134,8 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: Constant.Strings.titleOk, style: .default) { [weak self] _ in
-            self?.dismiss(animated: true)
+        let action = UIAlertAction(title: Constant.Strings.titleOk, style: .default) { _ in
+            self.dismiss(animated: true)
         }
         alertController.addAction(action)
         present(alertController, animated: true)
