@@ -1,7 +1,17 @@
+# 4.0.2
+- Allow projects that depend on RxBluetoothKit to update RxSwift to 4.1.0 and newer.
+
+# 4.0.1
+- Add missing logs for CBPeripheral and CBCentralManager classes.
+- Fixed implementation of scanning subscription queue.
+
 # 4.0
 - App updated to newest iOS & macOS SDK
 - Swift 4 adoption
 - Possible memory leaks removed
+
+# 3.1.2
+- Fix building on macOS with the newest SDK
 
 # 3.1.1
 - `listenedOnRestoredState` should not be missing events from delegate now in case of race condition

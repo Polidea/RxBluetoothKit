@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "RxBluetoothKit"
-  s.version          = "4.0.0"
+  s.version          = "4.0.2"
   s.summary          = "Bluetooth library for RxSwift"
 
   s.description      = <<-DESC
@@ -22,5 +22,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Source/*.swift'
   s.frameworks   = 'CoreBluetooth'
-  s.dependency 'RxSwift', '~> 4.0.0'
+  s.dependency 'RxSwift', '~> 4.0'
 end

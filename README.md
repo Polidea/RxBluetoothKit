@@ -11,9 +11,15 @@ Provides nice API to work with, and makes your code more readable, reliable and 
 * 4.0 version of the library supports Swift 3.2 and 4.0
 
 
-For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active), or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
+## Documentation & Support
 
-Read the official announcement at [Polidea Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/).
+Documentation can be found [here](https://polidea.github.io/RxBluetoothKit/).
+
+Want to talk about it? Ask questions? Give feedback? Join our discussion on [Gitter](https://gitter.im/RxBLELibraries/RxBluetoothKit?utm_source=share-link&utm_medium=link&utm_campaign=share-link)!
+
+For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active) or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
+
+Follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/) blog to get all the news and updates!
 
 ## Features
 - [x] CBCentralManger RxSwift support
@@ -21,7 +27,6 @@ Read the official announcement at [Polidea Blog](https://www.polidea.com/blog/Rx
 - [x] Scan sharing
 - [x] Scan queueing
 - [x] Bluetooth error bubbling
-- [x] [Documentation](http://cocoadocs.org/docsets/RxBluetoothKit/4.0.0/)
 
 ## Sample
 In Example folder you can find application we've provided to you. It's a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.
@@ -77,10 +82,10 @@ To start any interaction, with bluetooth devices, you have to first scan some of
 #### Basic
 
 ```swift
-manager.scanForPeripherals(withServices: [serviceIds])
-.flatMap { scannedPeripheral in
-	let advertisement = scannedPeripheral.advertisement
-}
+manager.scanForPeripherals(withServices: serviceIds)
+    .subscribe(onNext: { scannedPeripheral in
+        let advertisementData = scannedPeripheral.advertisementData
+    })
 ```
 This is the simplest version of this operation. After subscription to observable, scan is performed infinitely.  What you receive from method is `ScannedPeripheral` instance, that provides access to following information:
 - Peripheral: object that you can use, to perform actions like connecting, discovering services etc.

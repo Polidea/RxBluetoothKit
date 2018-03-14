@@ -17,7 +17,7 @@ class ObservableQueueSubscribeOnTest: XCTestCase {
     override func setUp() {
         super.setUp()
         testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
-        serializedQueue = SerializedSubscriptionQueue(scheduler: testScheduler)
+        serializedQueue = SerializedSubscriptionQueue()
     }
     
     func testTwoUsersRegisteringColdSubscription() {
