@@ -11,7 +11,7 @@ protocol CharacteristicsViewModelType {
 
     var alertTriggerOutput: Observable<String> { get }
 
-    func setCurrent(characteristic: Characteristic)
+    func setSelected(characteristic: Characteristic)
 
     func triggerValueRead()
 

@@ -117,16 +117,14 @@ final class CharacteristicsViewController: UIViewController, CustomView {
         let valueWriteController = UIAlertController(title: Constant.Strings.titleWriteValue,
                 message: Constant.Strings.hexValue,
                 preferredStyle: .alert)
-        valueWriteController.addTextField { _ in
-        }
 
+        valueWriteController.addTextField()
         valueWriteController.addAction(UIAlertAction(title: Constant.Strings.titleCancel, style: .cancel, handler: nil))
         valueWriteController.addAction(UIAlertAction(title: Constant.Strings.titleWrite, style: .default) { _ in
             guard let text = valueWriteController.textFields?.first?.text else {
                 return
             }
             self.viewModel.writeValueForCharacteristic(hexadecimalString: text)
-
         })
 
         present(valueWriteController, animated: true, completion: nil)
@@ -152,7 +150,7 @@ extension CharacteristicsViewController: UITableViewDelegate {
         guard let characteristic = dataSource.takeItemAt(index: indexPath.row) as? Characteristic else {
             return
         }
-        viewModel.setCurrent(characteristic: characteristic)
+        viewModel.setSelected(characteristic: characteristic)
 
         let actionSheet = UIAlertController(title: Constant.Strings.titleChooseAction,
                 message: nil,
@@ -161,6 +159,7 @@ extension CharacteristicsViewController: UITableViewDelegate {
         if characteristic.properties.contains(.notify) {
             addNotificationActions(to: actionSheet)
         }
+
         if characteristic.properties.contains(.read) {
             addReadActions(to: actionSheet)
         }

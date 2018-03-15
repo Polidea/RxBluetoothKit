@@ -23,13 +23,15 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     private let service: Service
 
+    private var selectedCharacteristic: Characteristic?
+
     private let discoveredCharacteristicsSubject = PublishSubject<Characteristic>()
 
     private let characteristicUpdateTrigger = PublishSubject<Void>()
 
     private let alertTrigger = PublishSubject<String>()
 
-    private var characteristic: Characteristic?
+    private var notificationDisposables: [Characteristic: Disposable] = [:]
 
     private var notificationsDisposable: Disposable?
 
@@ -39,12 +41,12 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         self.bindCharacteristicsOutput()
     }
 
-    func setCurrent(characteristic: Characteristic) {
-        self.characteristic = characteristic
+    func setSelected(characteristic: Characteristic) {
+        self.selectedCharacteristic = characteristic
     }
 
     func triggerValueRead() {
-        guard let characteristic = characteristic else {
+        guard let characteristic = selectedCharacteristic else {
             return
         }
 
@@ -57,7 +59,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
     }
 
     func writeValueForCharacteristic(hexadecimalString: String) {
-        guard let characteristic = characteristic else {
+        guard let characteristic = selectedCharacteristic else {
             return
         }
         let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
@@ -90,7 +92,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
     }
 
     private func subscribeNotification() {
-        guard let characteristic = characteristic else {
+        guard let characteristic = selectedCharacteristic else {
             return
         }
 
