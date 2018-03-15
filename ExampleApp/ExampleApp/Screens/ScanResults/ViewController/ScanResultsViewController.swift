@@ -99,8 +99,7 @@ class ScanResultsViewController: UIViewController, CustomView {
 
         let dataItem = PeripheralServicesViewModelItem(Constant.Strings.servicesSectionTitle)
 
-        let viewModel = PeripheralServicesViewModel(with: self.viewModel.bluetoothService,
-                peripheral: scannedPeripheral.peripheral)
+        let viewModel = PeripheralServicesViewModel(with: self.viewModel.bluetoothService, peripheral: scannedPeripheral.peripheral)
 
         let dataSource = TableViewDataSource<PeripheralServicesViewModelItem>(dataItem: dataItem)
 

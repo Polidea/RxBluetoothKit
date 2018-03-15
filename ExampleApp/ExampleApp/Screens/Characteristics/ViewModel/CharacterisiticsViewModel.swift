@@ -21,9 +21,9 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     private let bluetoothService: RxBluetoothKitService
 
-    private let service: Service
+    private let selectedService: Service
 
-    private var selectedCharacteristic: Characteristic?
+    private let selectedPeripheral: Peripheral
 
     private let discoveredCharacteristicsSubject = PublishSubject<Characteristic>()
 
@@ -31,13 +31,15 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     private let alertTrigger = PublishSubject<String>()
 
+    private var selectedCharacteristic: Characteristic?
+
     private var notificationDisposables: [Characteristic: Disposable] = [:]
 
-    private var notificationsDisposable: Disposable?
 
-    init(with bluetoothService: RxBluetoothKitService, service: Service) {
+    init(with bluetoothService: RxBluetoothKitService, service: Service, peripheral: Peripheral) {
         self.bluetoothService = bluetoothService
-        self.service = service
+        self.selectedService = service
+        self.selectedPeripheral = peripheral
         self.bindCharacteristicsOutput()
     }
 
@@ -53,8 +55,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         characteristic.readValue().subscribe(onSuccess: { [unowned self] char in
             self.characteristicUpdateTrigger.onNext(Void())
         }, onError: { error in
-            let message = error.localizedDescription
-            self.alertTrigger.onNext(message)
+            self.alertTrigger.onNext(error.localizedDescription)
         }).disposed(by: disposeBag)
     }
 
@@ -73,32 +74,53 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     func setNotificationsState(enabled: Bool) {
         if enabled {
-            subscribeNotification()
+            subscribeForNotifications()
         } else {
-            notificationsDisposable?.dispose()
+            guard let characteristic = selectedCharacteristic,
+                  let disposable = notificationDisposables[characteristic] else {
+                return
+            }
+            disposable.dispose()
+            notificationDisposables[characteristic] = nil
             characteristicUpdateTrigger.onNext(Void())
         }
     }
 
     private func bindCharacteristicsOutput() {
-        bluetoothService.discoverCharacteristics(for: service).subscribe(onNext: { [unowned self] characteristics in
+        bluetoothService.discoverCharacteristics(for: selectedService).subscribe(onNext: { [unowned self] characteristics in
             characteristics.forEach { characteristic in
                 self.discoveredCharacteristicsSubject.onNext(characteristic)
             }
         }, onError: { error in
-            let message = error.localizedDescription
-            self.alertTrigger.onNext(message)
+            self.alertTrigger.onNext(error.localizedDescription)
         }).disposed(by: disposeBag)
     }
 
-    private func subscribeNotification() {
+    private func subscribeForNotifications() {
         guard let characteristic = selectedCharacteristic else {
             return
         }
 
-        notificationsDisposable = characteristic.observeValueUpdateAndSetNotification()
-                .subscribe({ [weak self] _ in
+        let disposable = observeValueUpdateAndSetNotification(for: characteristic)
+        observeCharacteristicsStateChanged(characteristic: characteristic)
+        notificationDisposables[characteristic] = disposable
+    }
+
+    private func observeCharacteristicsStateChanged(characteristic: Characteristic) {
+        selectedPeripheral.observeCharacteristicStateChanged(for: characteristic)
+                .subscribe(onNext: { [weak self] tuple in
                     self?.characteristicUpdateTrigger.onNext(Void())
+                }, onError: { [weak self] error in
+                    self?.alertTrigger.onNext(error.localizedDescription)
+                }).disposed(by: disposeBag)
+    }
+
+    private func observeValueUpdateAndSetNotification(for characteristic: Characteristic) -> Disposable {
+        return characteristic.observeValueUpdateAndSetNotification()
+                .subscribe(onNext: { [weak self] (characteristic) in
+                    self?.characteristicUpdateTrigger.onNext(Void())
+                }, onError: { [weak self] (error) in
+                    self?.alertTrigger.onNext(error.localizedDescription)
                 })
     }
 }

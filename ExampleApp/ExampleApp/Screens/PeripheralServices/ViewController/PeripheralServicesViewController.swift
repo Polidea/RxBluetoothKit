@@ -149,7 +149,7 @@ extension PeripheralServicesViewController: UITableViewDelegate {
             return
         }
 
-        let viewModel = CharacteristicsViewModel(with: self.viewModel.bluetoothService, service: item)
+        let viewModel = CharacteristicsViewModel(with: self.viewModel.bluetoothService, service: item, peripheral: self.viewModel.displayedPeripheral)
 
         let dataItem = CharacteristicsViewModelItem(Constant.Strings.characteristicsSectionTitle,
                 characteristicsRowItems: item.characteristics)
