@@ -48,6 +48,7 @@ struct Constant {
         static let titleOk = "OK"
 
         static let turnOffNotifications = "Turn OFF Notification"
+        static let disconnect = "Disconnect"
         static let turnOnNotifications = "Turn ON Notification"
         static let hexValue = "Specify value in HEX to write"
         static let titleChooseAction = "Choose action"

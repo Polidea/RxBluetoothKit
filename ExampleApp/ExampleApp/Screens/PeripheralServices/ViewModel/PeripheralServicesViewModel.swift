@@ -45,6 +45,10 @@ final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
         }).disposed(by: disposeBag)
     }
 
+    func disconnect() {
+        bluetoothService.disconnect(displayedPeripheral)
+    }
+
     private func bindErrorOutput() {
         bluetoothService.errorOutput.bind(to: errorOutputSubject).disposed(by: disposeBag)
     }

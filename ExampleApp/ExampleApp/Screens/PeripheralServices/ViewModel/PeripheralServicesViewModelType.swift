@@ -15,4 +15,6 @@ protocol PeripheralServicesViewModelType {
     var errorOutput: Observable<Error> { get }
 
     func connect()
+
+    func disconnect()
 }

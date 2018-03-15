@@ -47,9 +47,11 @@ final class RxBluetoothKitService {
 
     private let disposeBag = DisposeBag()
 
-    private var connectedPeripherals: [Peripheral] = []
+    private var peripheralConnections: [Peripheral: Disposable] = [:]
 
     private var scanningDisposable: Disposable!
+
+    private var connectionDisposable: Disposable!
 
     // MARK: - Initialization
     init() {
@@ -71,10 +73,14 @@ final class RxBluetoothKitService {
                 }
                 .subscribeOn(MainScheduler.instance)
                 .timeout(4.0, scheduler: scheduler)
-                .flatMap { [unowned self] _ -> Observable<ScannedPeripheral> in
+                .flatMap { [weak self] _ -> Observable<ScannedPeripheral> in
+                    guard let `self` = self else {
+                        return Observable.empty()
+                    }
                     return self.centralManager.scanForPeripherals(withServices: nil)
                 }.bind(to: scanningSubject)
     }
+
     // If you wish to stop scanning for peripherals, you need to dispose the Disposable object, that is created when
     // you either subscribe for events from an observable returned by centralManager.scanForPeripherals(:_), or you bind
     // an observer to it. Check starScanning() above for details.
@@ -88,34 +94,28 @@ final class RxBluetoothKitService {
     // When you discover a service, first you need to establish a connection with a peripheral. Then you call
     // discoverServices(:_) that peripheral object.
     func discoverServices(for peripheral: Peripheral) {
-        centralManager.establishConnection(peripheral)
-                .do(onNext: { [unowned self] _ in
-                    self.addConnected(peripheral)
-                    self.observeDisconnect(for: peripheral)
+        let disposable = peripheral.establishConnection()
+                .do(onNext: { [weak self] _ in
+                    self?.observeDisconnect(for: peripheral)
                 })
                 .flatMap {
                     $0.discoverServices(nil)
                 }.bind(to: servicesSubject)
-                .disposed(by: disposeBag)
+
+
+        peripheralConnections[peripheral] = disposable
     }
 
+    // Removal of disconnected Peripheral from the Peripheral's collection.
+    func disconnect(_ peripheral: Peripheral) {
+        guard let disposable = peripheralConnections[peripheral] else { return }
+        disposable.dispose()
+        peripheralConnections[peripheral] = nil
+    }
 
     // MARK: - Discovering Characteristics
     func discoverCharacteristics(for service: Service) -> Observable<[Characteristic]> {
         return service.discoverCharacteristics(nil).asObservable()
-    }
-
-    // MARK: - Utility functions
-
-    // You might be connected with more than one peripheral at a time, so it's a good decision to keep a collection
-    // of currently connected peripherals.
-    private func addConnected(_ peripheral: Peripheral) {
-        let peripherals = connectedPeripherals.filter {
-            $0 == peripheral
-        }
-        if peripherals.isEmpty {
-            connectedPeripherals.append(peripheral)
-        }
     }
 
     // When you observe disconnection from a peripheral, you want to be sure that you take an action on both .next and
@@ -123,16 +123,21 @@ final class RxBluetoothKitService {
     private func observeDisconnect(for peripheral: Peripheral) {
         centralManager.observeDisconnect(for: peripheral).subscribe(onNext: { [unowned self] (peripheral, reason) in
             self.disconnectionSubject.onNext((peripheral, reason))
-            self.removeDisconnected(peripheral)
+            self.disconnect(peripheral)
         }, onError: { [unowned self] error in
             self.errorSubject.onNext(error)
         }).disposed(by: disposeBag)
     }
 
-    // Removal of disconnected Peripheral from the Peripheral's collection.
-    private func removeDisconnected(_ peripheral: Peripheral) {
-        connectedPeripherals = connectedPeripherals.filter() {
-            $0 !== peripheral
+}
+
+extension Peripheral: Hashable {
+
+    // DJB Hashing
+    public var hashValue: Int {
+        let scalarArray: [UInt32] = []
+        return scalarArray.reduce(5381) {
+            ($0 << 5) &+ $0 &+ Int($1)
         }
     }
 }

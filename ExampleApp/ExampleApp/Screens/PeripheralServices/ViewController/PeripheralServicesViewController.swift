@@ -93,6 +93,7 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
     private func subscribeToServiceOutput() {
         viewModel.servicesOutput.subscribe(onNext: { [unowned self] services in
             self.customView.toggleActivityIndicator(false)
+            self.addDisconnectBarButtonItem()
         }, onError: { [unowned self] error in
             self.showAlert("\(error.self)", message: error.localizedDescription)
         }).disposed(by: disposeBag)
@@ -101,6 +102,7 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
     private func subscribeToDisconnectionOutput() {
         viewModel.disconnectionOutput.subscribe(onNext: { [unowned self] disconnection in
             let message = disconnection.1?.localizedDescription ?? ""
+            self.removeDisconnectBarButtonItem()
             self.showAlert("Disconnected: \(disconnection.0)", message: message)
          }).disposed(by: disposeBag)
     }
@@ -115,9 +117,25 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             self?.dismiss(animated: true)
+            self?.navigationController?.popViewController(animated: true)
         }
         alertController.addAction(action)
         present(alertController, animated: true)
+    }
+
+    private func addDisconnectBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: Constant.Strings.disconnect,
+                style: .plain,
+                target: self,
+                action: #selector(disconnectAction))
+    }
+
+    private func removeDisconnectBarButtonItem() {
+        navigationItem.rightBarButtonItem = nil
+    }
+
+    @objc private func disconnectAction() {
+        viewModel.disconnect()
     }
 }
 
