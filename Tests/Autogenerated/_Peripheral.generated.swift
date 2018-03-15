@@ -348,6 +348,19 @@ class _Peripheral {
         return ensureValidPeripheralState(for: observable)
     }
 
+    func observeCharacteristicStateChanged(for characteristic: _Characteristic) -> Observable<_Characteristic> {
+        return delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic
+            .filter { $0.0 == characteristic.characteristic }
+            .map { [weak self] (cbCharacteristic, error) -> _Characteristic in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                let characteristic = _Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                if let error = error {
+                    throw _BluetoothError.characteristicStateChangedFailed(characteristic, error)
+                }
+                return characteristic
+        }
+    }
+
     // MARK: Descriptors
 
     /// Function that triggers descriptors discovery for characteristic
