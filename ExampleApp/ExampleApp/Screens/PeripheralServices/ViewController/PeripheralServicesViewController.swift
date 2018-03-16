@@ -86,10 +86,14 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
         subscribeToErrorOutput()
     }
 
+    // We pass viewModel's services output to dataSource where it is bound to collection which feeds our UITableView
+    // with data.
     private func bindServiceOutputToDataSource() {
         dataSource.bindItemsObserver(to: viewModel.servicesOutput)
     }
 
+    // This subscription is used to manage view's UIActivityIndicatorView animation and displaying 'Disconnect' button
+    // depending on the upcoming event.
     private func subscribeToServiceOutput() {
         viewModel.servicesOutput.subscribe(onNext: { [unowned self] services in
             self.customView.toggleActivityIndicator(false)
@@ -104,7 +108,7 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
             let message = disconnection.1?.localizedDescription ?? ""
             self.removeDisconnectBarButtonItem()
             self.showAlert("Disconnected: \(disconnection.0)", message: message)
-         }).disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
 
     private func subscribeToErrorOutput() {

@@ -12,15 +12,15 @@ extension Data {
     static func fromHexString(string: String) -> Data {
         var data = Data(capacity: string.characters.count / 2)
 
-            let regex = try? NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
-            regex?.enumerateMatches(in: string, options: [], range: NSMakeRange(0, string.characters.count)) { match, _, _ in
-                if let match = match {
-                    let byteString = (string as NSString).substring(with: match.range)
-                    if var num = UInt8(byteString, radix: 16) {
-                        data.append(&num, count: 1)
-                    }
+        let regex = try? NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+        regex?.enumerateMatches(in: string, options: [], range: NSMakeRange(0, string.characters.count)) { match, _, _ in
+            if let match = match {
+                let byteString = (string as NSString).substring(with: match.range)
+                if var num = UInt8(byteString, radix: 16) {
+                    data.append(&num, count: 1)
                 }
             }
+        }
 
         return data
     }

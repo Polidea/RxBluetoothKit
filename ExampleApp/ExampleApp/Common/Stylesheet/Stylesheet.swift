@@ -10,7 +10,7 @@ enum Stylesheet {
             $0.textColor = .blue
             $0.textAlignment = .center
         }
-        
+
         static let descriptionLabel = Style<UILabel> {
             $0.font = .systemFont(ofSize: 12)
             $0.numberOfLines = 0

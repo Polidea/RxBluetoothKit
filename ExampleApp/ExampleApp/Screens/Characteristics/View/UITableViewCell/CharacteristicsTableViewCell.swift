@@ -26,7 +26,7 @@ class CharacterisiticsTableViewCell: UITableViewCell {
         isNotyfingLabel.text = nil
         valueLabel.text = nil
     }
-    
+
     private func setConstraints() {
         [uuidLabel, isNotyfingLabel, valueLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false

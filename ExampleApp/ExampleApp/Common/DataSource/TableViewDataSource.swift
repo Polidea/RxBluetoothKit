@@ -7,14 +7,14 @@ import UIKit
    check: DataSource.SectionModelItem.swift
 */
 
-final class TableViewDataSource<S: SectionModelItem>: NSObject, UITableViewDataSource {
+final class TableViewDataSource<S:SectionModelItem>: NSObject, UITableViewDataSource {
 
     // MARK: - Typealiases
 
-    // Block set by given UIViewController, meant to be called for reloading data
+    // Block set by a UIViewController, meant to be called for reloading data
     typealias RefreshDataBlock = () -> Void
 
-    // Block set by given UIViewController, meant to be called inside at any OnError
+    // Block set by a UIViewController, meant to be called inside at any OnError
     typealias OnErrorBlock = (_ error: Error) -> Void
 
     // MARK: - Fields
@@ -36,7 +36,6 @@ final class TableViewDataSource<S: SectionModelItem>: NSObject, UITableViewDataS
         super.init()
         bindData()
     }
-
 
     // MARK: - Methods
     func bindData() {

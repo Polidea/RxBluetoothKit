@@ -5,6 +5,7 @@ import RxSwift
 
 class CharacteristicsViewModel: CharacteristicsViewModelType {
 
+    // MARK: - Public outputs
     var dataUpdateOutput: Observable<Void> {
         return characteristicUpdateTrigger.asObservable()
     }
@@ -17,6 +18,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         return discoveredCharacteristicsSubject.asObservable()
     }
 
+    // MARK: - Private fields
     private let disposeBag = DisposeBag()
 
     private let bluetoothService: RxBluetoothKitService
@@ -31,10 +33,11 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     private let alertTrigger = PublishSubject<String>()
 
-    weak private var selectedCharacteristic: Characteristic?
-
     private var notificationDisposables: [Characteristic: Disposable] = [:]
 
+    weak private var selectedCharacteristic: Characteristic?
+
+    // MARK: - Initialization
     init(with bluetoothService: RxBluetoothKitService, service: Service, peripheral: Peripheral) {
         self.bluetoothService = bluetoothService
         self.selectedService = service
@@ -42,10 +45,14 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         self.bindCharacteristicsOutput()
     }
 
+    // MARK: - Public methods
+
+    // Method used to pass the characteristic selected by the user and to be able to perform further operations on it
     func setSelected(characteristic: Characteristic) {
         self.selectedCharacteristic = characteristic
     }
 
+    // Triggers reading value from the selected characteristic
     func triggerValueRead() {
         guard let characteristic = selectedCharacteristic else {
             return
@@ -58,6 +65,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         }).disposed(by: disposeBag)
     }
 
+    // Performs writing operation to selected characteristic
     func writeValueForCharacteristic(hexadecimalString: String) {
         guard let characteristic = selectedCharacteristic,
               let writeType = characteristic.determineWriteType() else {
@@ -73,6 +81,9 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
                 }).disposed(by: disposeBag)
     }
 
+    // If user sets notification on for the selected characteristic, we subscribe for notifications, otherwise
+    // we dispose the disposable that was created with prior subscription and we remove that disposable for our
+    // notificationDisposables dicitonary
     func setNotificationsState(enabled: Bool) {
         if enabled {
             subscribeForNotifications()
@@ -87,6 +98,8 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         }
     }
 
+    // Discovered characteristic is being bound to it's subject, we catch the .error event and pass it to alertTrigger
+    // so it can be easily consumed by the view controller.
     private func bindCharacteristicsOutput() {
         bluetoothService.discoverCharacteristics(for: selectedService).subscribe(onNext: { [unowned self] characteristics in
             characteristics.forEach { characteristic in
@@ -107,6 +120,8 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         notificationDisposables[characteristic] = disposable
     }
 
+    // observeValueUpdateAndSetNotification(:_) returns a disposable from subscription, which triggers notifying start
+    // on a selected characteristic.
     private func observeValueUpdateAndSetNotification(for characteristic: Characteristic) -> Disposable {
         return characteristic.observeValueUpdateAndSetNotification()
                 .subscribe(onNext: { [weak self] (characteristic) in
@@ -116,6 +131,8 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
                 })
     }
 
+    // observeCharacteristicsStateChanged tells us when exactly a characteristic has changed it's state (e.g isNotifying).
+    // We need to use this method, because hardware needs an amount of time to switch characteristic's state.
     private func observeCharacteristicsStateChanged(characteristic: Characteristic) {
         selectedPeripheral.observeCharacteristicStateChanged(for: characteristic)
                 .subscribe(onNext: { [weak self] tuple in

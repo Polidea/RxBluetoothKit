@@ -3,9 +3,9 @@ import RxBluetoothKit
 import RxSwift
 import RxCocoa
 
-// RxBluetoothKitService is a class encapsulating logic of most operations you might want to perform
+// RxBluetoothKitService is a class encapsulating logic for most operations you might want to perform
 // on a CentralManager object. Here you can see an example usage of such features as scanning for peripherals,
-// discovering services and peripherals.
+// discovering services and discovering peripherals.
 
 final class RxBluetoothKitService {
 
@@ -81,7 +81,7 @@ final class RxBluetoothKitService {
                 }.bind(to: scanningSubject)
     }
 
-    // If you wish to stop scanning for peripherals, you need to dispose the Disposable object, that is created when
+    // If you wish to stop scanning for peripherals, you need to dispose the Disposable object, created when
     // you either subscribe for events from an observable returned by centralManager.scanForPeripherals(:_), or you bind
     // an observer to it. Check starScanning() above for details.
     func stopScanning() {
@@ -108,7 +108,8 @@ final class RxBluetoothKitService {
         peripheralConnections[peripheral] = disposable
     }
 
-    // Removal of disconnected Peripheral from the Peripheral's collection.
+    // Disposal of a given connection disposable disconnects automatically from a peripheral
+    //So firstly, you discconect from a perpiheral and then you remove of disconnected Peripheral from the Peripheral's collection.
     func disconnect(_ peripheral: Peripheral) {
         guard let disposable = peripheralConnections[peripheral] else { return }
         disposable.dispose()
