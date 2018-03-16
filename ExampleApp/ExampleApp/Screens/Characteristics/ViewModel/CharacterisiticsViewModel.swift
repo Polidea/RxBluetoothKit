@@ -121,7 +121,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
                 .subscribe(onNext: { [weak self] tuple in
                     self?.characteristicUpdateTrigger.onNext(Void())
                 }, onError: { [weak self] error in
-                    self?.alertTrigger.onNext(error.localizedDescription)
+                    self?.alertTrigger.onNext("\(error)")
                 }).disposed(by: disposeBag)
     }
 }

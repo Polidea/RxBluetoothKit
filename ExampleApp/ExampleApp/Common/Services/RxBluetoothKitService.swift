@@ -100,7 +100,9 @@ final class RxBluetoothKitService {
                 })
                 .flatMap {
                     $0.discoverServices(nil)
-                }.bind(to: servicesSubject)
+                }
+                .timeout(10.0, scheduler: scheduler)
+                .bind(to: servicesSubject)
 
 
         peripheralConnections[peripheral] = disposable
