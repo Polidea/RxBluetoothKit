@@ -35,7 +35,6 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     private var notificationDisposables: [Characteristic: Disposable] = [:]
 
-
     init(with bluetoothService: RxBluetoothKitService, service: Service, peripheral: Peripheral) {
         self.bluetoothService = bluetoothService
         self.selectedService = service
@@ -60,12 +59,14 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
     }
 
     func writeValueForCharacteristic(hexadecimalString: String) {
-        guard let characteristic = selectedCharacteristic else {
+        guard let characteristic = selectedCharacteristic,
+              let writeType = characteristic.determineWriteType() else {
             return
         }
+
         let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
-        let type: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
-        characteristic.writeValue(hexadecimalData as Data, type: type)
+
+        characteristic.writeValue(hexadecimalData as Data, type: writeType)
                 .subscribe({ [unowned self] _ in
                     let message = "Wrote \(hexadecimalString) to characteristic: \(characteristic.uuid.uuidString)"
                     self.alertTrigger.onNext(message)

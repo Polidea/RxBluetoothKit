@@ -150,6 +150,7 @@ extension CharacteristicsViewController: UITableViewDelegate {
         guard let characteristic = dataSource.takeItemAt(index: indexPath.row) as? Characteristic else {
             return
         }
+        
         viewModel.setSelected(characteristic: characteristic)
 
         let actionSheet = UIAlertController(title: Constant.Strings.titleChooseAction,

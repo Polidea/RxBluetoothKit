@@ -31,6 +31,7 @@
 		E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */; };
 		E4F473D4EDF94BB994FBC8C8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E5ED01C8DC470E43C4F /* Constant.swift */; };
 		E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */; };
+		E4F476F2A4C2B2F809662820 /* Characterist+CBCharacteristicWriteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47416F8037D936EC4CEDF /* Characterist+CBCharacteristicWriteType.swift */; };
 		E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */; };
 		E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */; };
 		E4F479F20F93F97493780F10 /* CharacterisiticsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */; };
@@ -60,6 +61,7 @@
 		8EA4B7E8204857D100154115 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EA4B7EA204857D100154115 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A380B061A30914A560F6D365 /* Pods_ExampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4F47416F8037D936EC4CEDF /* Characterist+CBCharacteristicWriteType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Characterist+CBCharacteristicWriteType.swift"; sourceTree = "<group>"; };
 		E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewModelType.swift; sourceTree = "<group>"; };
 		E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsTableViewCell.swift; sourceTree = "<group>"; };
 		E4F4772515FC28597CF67243 /* Data+utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+utils.swift"; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				E4F47E49159019F0B78F129F /* UIView */,
 				E4F4775217BF3E6F45EEE40D /* Data */,
 				E4F4742C374DCCDAC4BF63D7 /* Constant */,
+				E4F479555A14734D05F0FB16 /* Characteristic */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -359,6 +362,14 @@
 			path = CellViewModelItem;
 			sourceTree = "<group>";
 		};
+		E4F479555A14734D05F0FB16 /* Characteristic */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47416F8037D936EC4CEDF /* Characterist+CBCharacteristicWriteType.swift */,
+			);
+			path = Characteristic;
+			sourceTree = "<group>";
+		};
 		E4F47CD12E8DBC73B6BD3BE1 /* UITableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -559,6 +570,7 @@
 				E4F472234EA95D95CC83C0CD /* Stylesheet.swift in Sources */,
 				E4F4716C35B10A40F7861EB6 /* Data+utils.swift in Sources */,
 				E4F473D4EDF94BB994FBC8C8 /* Constant.swift in Sources */,
+				E4F476F2A4C2B2F809662820 /* Characterist+CBCharacteristicWriteType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
