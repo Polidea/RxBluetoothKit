@@ -51,7 +51,7 @@ class CharacterisiticsTableViewCell: UITableViewCell {
 extension CharacterisiticsTableViewCell: UpdatableCell {
 
     func update(with item: Characteristic) {
-        let uuid = item.uuid.uuidString ?? ""
+        let uuid = item.uuid.uuidString
         let value = item.value?.hexadecimalString ?? "No value"
         uuidLabel.text = "UUID: \(uuid)"
         isNotyfingLabel.text = "Is notyfying: \(item.isNotifying)"

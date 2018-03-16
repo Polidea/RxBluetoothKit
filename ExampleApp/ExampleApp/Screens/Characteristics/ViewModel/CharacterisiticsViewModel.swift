@@ -31,7 +31,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     private let alertTrigger = PublishSubject<String>()
 
-    private var selectedCharacteristic: Characteristic?
+    weak private var selectedCharacteristic: Characteristic?
 
     private var notificationDisposables: [Characteristic: Disposable] = [:]
 
@@ -106,15 +106,6 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         notificationDisposables[characteristic] = disposable
     }
 
-    private func observeCharacteristicsStateChanged(characteristic: Characteristic) {
-        selectedPeripheral.observeCharacteristicStateChanged(for: characteristic)
-                .subscribe(onNext: { [weak self] tuple in
-                    self?.characteristicUpdateTrigger.onNext(Void())
-                }, onError: { [weak self] error in
-                    self?.alertTrigger.onNext(error.localizedDescription)
-                }).disposed(by: disposeBag)
-    }
-
     private func observeValueUpdateAndSetNotification(for characteristic: Characteristic) -> Disposable {
         return characteristic.observeValueUpdateAndSetNotification()
                 .subscribe(onNext: { [weak self] (characteristic) in
@@ -122,5 +113,14 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
                 }, onError: { [weak self] (error) in
                     self?.alertTrigger.onNext(error.localizedDescription)
                 })
+    }
+
+    private func observeCharacteristicsStateChanged(characteristic: Characteristic) {
+        selectedPeripheral.observeCharacteristicStateChanged(for: characteristic)
+                .subscribe(onNext: { [weak self] tuple in
+                    self?.characteristicUpdateTrigger.onNext(Void())
+                }, onError: { [weak self] error in
+                    self?.alertTrigger.onNext(error.localizedDescription)
+                }).disposed(by: disposeBag)
     }
 }
