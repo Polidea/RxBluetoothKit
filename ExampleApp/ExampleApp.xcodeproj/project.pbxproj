@@ -31,6 +31,7 @@
 		E4F47371FBE8584A2D42083B /* CharacteristicsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */; };
 		E4F473D4EDF94BB994FBC8C8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E5ED01C8DC470E43C4F /* Constant.swift */; };
 		E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */; };
+		E4F476C2E495D93F30E0B83A /* Peripheral+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47D5A29E4D6FC076E3B96 /* Peripheral+Hashable.swift */; };
 		E4F476F2A4C2B2F809662820 /* Characterist+CBCharacteristicWriteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47416F8037D936EC4CEDF /* Characterist+CBCharacteristicWriteType.swift */; };
 		E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */; };
 		E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */; };
@@ -38,6 +39,7 @@
 		E4F47ABC5CD0FA38873E13C1 /* CharacteristicsViewModelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */; };
 		E4F47B82AF12FF8729FF129F /* UIView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47B713CD5AC588C87CBCB /* UIView+Style.swift */; };
 		E4F47D45E9B9F3C979B66117 /* CharacterisiticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47BCF24D436B7B2FDC475 /* CharacterisiticsViewModel.swift */; };
+		E4F47FD23BC64CC3EE0D398A /* Characteristic+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47B7205B3A0F853D86260 /* Characteristic+Hashable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,9 +70,11 @@
 		E4F477998A57AF111CF514EA /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		E4F478C9F51F0566BA80AFFB /* Stylesheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
 		E4F47B713CD5AC588C87CBCB /* UIView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Style.swift"; sourceTree = "<group>"; };
+		E4F47B7205B3A0F853D86260 /* Characteristic+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Characteristic+Hashable.swift"; sourceTree = "<group>"; };
 		E4F47BCF24D436B7B2FDC475 /* CharacterisiticsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewModel.swift; sourceTree = "<group>"; };
 		E4F47C45E5B969449636C081 /* RxBluetoothKitService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxBluetoothKitService.swift; sourceTree = "<group>"; };
 		E4F47C6A4A44ECF5D5AFC74A /* CharacteristicsViewModelItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsViewModelItem.swift; sourceTree = "<group>"; };
+		E4F47D5A29E4D6FC076E3B96 /* Peripheral+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Peripheral+Hashable.swift"; sourceTree = "<group>"; };
 		E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewController.swift; sourceTree = "<group>"; };
 		E4F47E5ED01C8DC470E43C4F /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -154,6 +158,7 @@
 				E4F4775217BF3E6F45EEE40D /* Data */,
 				E4F4742C374DCCDAC4BF63D7 /* Constant */,
 				E4F479555A14734D05F0FB16 /* Characteristic */,
+				E4F47AAD3CD3E9475BE33312 /* Peripheral */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -366,8 +371,17 @@
 			isa = PBXGroup;
 			children = (
 				E4F47416F8037D936EC4CEDF /* Characterist+CBCharacteristicWriteType.swift */,
+				E4F47B7205B3A0F853D86260 /* Characteristic+Hashable.swift */,
 			);
 			path = Characteristic;
+			sourceTree = "<group>";
+		};
+		E4F47AAD3CD3E9475BE33312 /* Peripheral */ = {
+			isa = PBXGroup;
+			children = (
+				E4F47D5A29E4D6FC076E3B96 /* Peripheral+Hashable.swift */,
+			);
+			path = Peripheral;
 			sourceTree = "<group>";
 		};
 		E4F47CD12E8DBC73B6BD3BE1 /* UITableViewCell */ = {
@@ -571,6 +585,8 @@
 				E4F4716C35B10A40F7861EB6 /* Data+utils.swift in Sources */,
 				E4F473D4EDF94BB994FBC8C8 /* Constant.swift in Sources */,
 				E4F476F2A4C2B2F809662820 /* Characterist+CBCharacteristicWriteType.swift in Sources */,
+				E4F47FD23BC64CC3EE0D398A /* Characteristic+Hashable.swift in Sources */,
+				E4F476C2E495D93F30E0B83A /* Peripheral+Hashable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
