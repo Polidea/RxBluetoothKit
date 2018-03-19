@@ -179,7 +179,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         XCTAssertEqual(obs.events[0].value.element, characteristic, "should receive event for correct characteristic")
     }
     
-     func testobserveCharacteristicStateChanged() {
+     func testObserveCharacteristicIsNotifyingValue() {
         let mockCharacteristic = createCharacteristic(uuid: "0x0001", service: service)
         let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)
 
@@ -194,6 +194,27 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         
         testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic).disposed(by: disposeBag)
 
+        testScheduler.advanceTo(subscribeTime + 200)
+        
+        XCTAssertEqual(obs.events.count, 2, "Should receive two events")
+        XCTAssertEqual(obs.events[0].value.element, characteristic, "should receive event for correct characteristic")
+    }
+    
+    func testCharacteristicIsNotifyingValueChange() {
+        let mockCharacteristic = createCharacteristic(uuid: "0x0001", service: service)
+        let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)
+        
+        let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
+            characteristic.observeNotifyValue()
+        }
+        
+        let updateEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
+            next(subscribeTime + 100, (mockCharacteristic, nil)),
+            next(subscribeTime + 200, (mockCharacteristic, nil))
+        ]
+        
+        testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic).disposed(by: disposeBag)
+        
         testScheduler.advanceTo(subscribeTime + 200)
         
         XCTAssertEqual(obs.events.count, 2, "Should receive two events")

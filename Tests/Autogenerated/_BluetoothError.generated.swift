@@ -91,7 +91,7 @@ extension _BluetoothError: CustomStringConvertible {
         case let .characteristicNotifyChangeFailed(_, err):
             return "_Characteristic notify change error has occured: \(err?.localizedDescription ?? "-")"
         case let .characteristicSetNotifyValueFailed(_, err):
-            return "_Characteristic state change error has occured: \(err?.localizedDescription ?? "-")"
+            return "_Characteristic isNotyfing value change error has occured: \(err?.localizedDescription ?? "-")"
         // Descriptors
         case let .descriptorsDiscoveryFailed(_, err):
             return "_Descriptor discovery error has occured: \(err?.localizedDescription ?? "-")"
