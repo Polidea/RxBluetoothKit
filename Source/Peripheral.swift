@@ -346,7 +346,7 @@ public class Peripheral {
         let observable = notificationManager.observeValueUpdateAndSetNotification(for: characteristic)
         return ensureValidPeripheralState(for: observable)
     }
-    
+
     /// Use this function in order to know the exact time, when isNotyfing value has changed on a Characteristic.
     ///
     /// - parameter characteristic: `Characteristic` which you observe for isNotyfing changes.
@@ -358,7 +358,7 @@ public class Peripheral {
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let characteristic = Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
                 if let error = error {
-                    throw BluetoothError.characteristicStateChangedFailed(characteristic, error)
+                    throw BluetoothError.characteristicSetNotifyValueFailed(characteristic, error)
                 }
                 return characteristic
         }

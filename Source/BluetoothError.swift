@@ -28,7 +28,7 @@ public enum BluetoothError: Error {
     case characteristicWriteFailed(Characteristic, Error?)
     case characteristicReadFailed(Characteristic, Error?)
     case characteristicNotifyChangeFailed(Characteristic, Error?)
-    case characteristicStateChangedFailed(Characteristic, Error?)
+    case characteristicSetNotifyValueFailed(Characteristic, Error?)
     // Descriptors
     case descriptorsDiscoveryFailed(Characteristic, Error?)
     case descriptorWriteFailed(Descriptor, Error?)
@@ -89,8 +89,8 @@ extension BluetoothError: CustomStringConvertible {
             return "Characteristic read error has occured: \(err?.localizedDescription ?? "-")"
         case let .characteristicNotifyChangeFailed(_, err):
             return "Characteristic notify change error has occured: \(err?.localizedDescription ?? "-")"
-        case let .characteristicStateChangedFailed(_, err):
-            return "Characteristic state change error has occured: \(err?.localizedDescription ?? "-")"
+        case let .characteristicSetNotifyValueFailed(_, err):
+            return "Characteristic isNotyfing value change error has occured: \(err?.localizedDescription ?? "-")"
         // Descriptors
         case let .descriptorsDiscoveryFailed(_, err):
             return "Descriptor discovery error has occured: \(err?.localizedDescription ?? "-")"
@@ -149,7 +149,7 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case let (.characteristicWriteFailed(l, _), .characteristicWriteFailed(r, _)): return l == r
     case let (.characteristicReadFailed(l, _), .characteristicReadFailed(r, _)): return l == r
     case let (.characteristicNotifyChangeFailed(l, _), .characteristicNotifyChangeFailed(r, _)): return l == r
-    case let (.characteristicStateChangedFailed(l, _), .characteristicStateChangedFailed(r, _)): return l == r
+    case let (.characteristicSetNotifyValueFailed(l, _), .characteristicSetNotifyValueFailed(r, _)): return l == r
     // Descriptors
     case let (.descriptorsDiscoveryFailed(l, _), .descriptorsDiscoveryFailed(r, _)): return l == r
     case let (.descriptorWriteFailed(l, _), .descriptorWriteFailed(r, _)): return l == r

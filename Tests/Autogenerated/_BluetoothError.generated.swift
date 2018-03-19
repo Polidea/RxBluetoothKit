@@ -29,7 +29,7 @@ enum _BluetoothError: Error {
     case characteristicWriteFailed(_Characteristic, Error?)
     case characteristicReadFailed(_Characteristic, Error?)
     case characteristicNotifyChangeFailed(_Characteristic, Error?)
-    case characteristicStateChangedFailed(_Characteristic, Error?)
+    case characteristicSetNotifyValueFailed(_Characteristic, Error?)
     // Descriptors
     case descriptorsDiscoveryFailed(_Characteristic, Error?)
     case descriptorWriteFailed(_Descriptor, Error?)
@@ -90,7 +90,7 @@ extension _BluetoothError: CustomStringConvertible {
             return "_Characteristic read error has occured: \(err?.localizedDescription ?? "-")"
         case let .characteristicNotifyChangeFailed(_, err):
             return "_Characteristic notify change error has occured: \(err?.localizedDescription ?? "-")"
-        case let .characteristicStateChangedFailed(_, err):
+        case let .characteristicSetNotifyValueFailed(_, err):
             return "_Characteristic state change error has occured: \(err?.localizedDescription ?? "-")"
         // Descriptors
         case let .descriptorsDiscoveryFailed(_, err):
@@ -150,7 +150,7 @@ func == (lhs: _BluetoothError, rhs: _BluetoothError) -> Bool {
     case let (.characteristicWriteFailed(l, _), .characteristicWriteFailed(r, _)): return l == r
     case let (.characteristicReadFailed(l, _), .characteristicReadFailed(r, _)): return l == r
     case let (.characteristicNotifyChangeFailed(l, _), .characteristicNotifyChangeFailed(r, _)): return l == r
-    case let (.characteristicStateChangedFailed(l, _), .characteristicStateChangedFailed(r, _)): return l == r
+    case let (.characteristicSetNotifyValueFailed(l, _), .characteristicSetNotifyValueFailed(r, _)): return l == r
     // Descriptors
     case let (.descriptorsDiscoveryFailed(l, _), .descriptorsDiscoveryFailed(r, _)): return l == r
     case let (.descriptorWriteFailed(l, _), .descriptorWriteFailed(r, _)): return l == r
