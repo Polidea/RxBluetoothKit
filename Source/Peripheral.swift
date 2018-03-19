@@ -346,7 +346,11 @@ public class Peripheral {
         let observable = notificationManager.observeValueUpdateAndSetNotification(for: characteristic)
         return ensureValidPeripheralState(for: observable)
     }
-
+    
+    /// Use this function in order to know the exact time, when isNotyfing value has changed on a Characteristic.
+    ///
+    /// - parameter characteristic: `Characteristic` which you observe for isNotyfing changes.
+    /// - returns: `Observable` emitting `Characteristic` when given characteristic has changed it's isNoytfing value.
     public func observeNotifyValue(for characteristic: Characteristic) -> Observable<Characteristic> {
         return delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
