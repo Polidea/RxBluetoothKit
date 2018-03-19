@@ -347,6 +347,23 @@ public class Peripheral {
         return ensureValidPeripheralState(for: observable)
     }
 
+    /// Use this function in order to know the exact time, when isNotyfing value has changed on a Characteristic.
+    ///
+    /// - parameter characteristic: `Characteristic` which you observe for isNotyfing changes.
+    /// - returns: `Observable` emitting `Characteristic` when given characteristic has changed it's isNoytfing value.
+    public func observeNotifyValue(for characteristic: Characteristic) -> Observable<Characteristic> {
+        return delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic
+            .filter { $0.0 == characteristic.characteristic }
+            .map { [weak self] (cbCharacteristic, error) -> Characteristic in
+                guard let strongSelf = self else { throw BluetoothError.destroyed }
+                let characteristic = Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                if let error = error {
+                    throw BluetoothError.characteristicSetNotifyValueFailed(characteristic, error)
+                }
+                return characteristic
+        }
+    }
+
     // MARK: Descriptors
 
     /// Function that triggers descriptors discovery for characteristic

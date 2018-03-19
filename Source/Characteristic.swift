@@ -60,6 +60,13 @@ public class Characteristic {
         return service.peripheral.observeWrite(for: self)
     }
 
+    /// Function that allows to know the exact time, when isNotyfing value has changed on a characteristic.
+    ///
+    /// - returns: `Observable` emitting `Characteristic` when isNoytfing value has changed.
+    public func observeNotifyValue() -> Observable<Characteristic> {
+        return service.peripheral.observeNotifyValue(for: self)
+    }
+
     /// Function that triggers write of data to characteristic. Write is called after subscribtion to `Observable` is made.
     /// Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType), so be sure to check this out before usage of the method.
     /// - parameter data: `Data` that'll be written to the `Characteristic`
