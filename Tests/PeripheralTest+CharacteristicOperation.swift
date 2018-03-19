@@ -184,7 +184,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)
 
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
-            self.peripheral.observeCharacteristicStateChanged(for: characteristic)
+            self.peripheral.observeNotifyValue(for: characteristic)
         }
 
         let updateEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [

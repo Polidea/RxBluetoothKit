@@ -347,7 +347,7 @@ public class Peripheral {
         return ensureValidPeripheralState(for: observable)
     }
 
-    public func observeCharacteristicStateChanged(for characteristic: Characteristic) -> Observable<Characteristic> {
+    public func observeNotifyValue(for characteristic: Characteristic) -> Observable<Characteristic> {
         return delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
