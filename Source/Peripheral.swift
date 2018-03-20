@@ -99,7 +99,7 @@ public class Peripheral {
     /// For more information look into `CentralManager.establishConnection(with:options:)` because this method calls it directly.
     /// - parameter options: Dictionary to customise the behaviour of connection.
     /// - returns: `Observable` which emits `next` event after connection is established.
-    public func establishConnection(options: [String: AnyObject]? = nil) -> Observable<Peripheral> {
+    public func establishConnection(options: [String: Any]? = nil) -> Observable<Peripheral> {
         return manager.establishConnection(self, options: options)
     }
 
