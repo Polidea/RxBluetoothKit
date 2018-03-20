@@ -47,4 +47,5 @@ create_testable_file PeripheralProvider
 create_testable_file Connector
 create_testable_file CharacteristicNotificationManager
 create_testable_file "Peripheral+Convenience"
+create_testable_file "CentralManager+RestoredState"
 
