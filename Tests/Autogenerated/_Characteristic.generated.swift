@@ -61,7 +61,7 @@ class _Characteristic {
         return service.peripheral.observeWrite(for: self)
     }
 
-    /// Function that aloows to know the exact time, when isNotyfing value has changed on a characteristic.
+    /// Function that allows to know the exact time, when isNotyfing value has changed on a characteristic.
     ///
     /// - returns: `Observable` emitting `_Characteristic` when isNoytfing value has changed.
     func observeNotifyValue() -> Observable<_Characteristic> {
