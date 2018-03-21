@@ -34,6 +34,9 @@ class CBCentralManagerDelegateWrapper: NSObject, CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        RxBluetoothKitLog.d("""
+            \(central.logDescription) didConnect(to: \(peripheral.logDescription))
+            """)
         didConnectPeripheral.onNext(peripheral)
     }
 
