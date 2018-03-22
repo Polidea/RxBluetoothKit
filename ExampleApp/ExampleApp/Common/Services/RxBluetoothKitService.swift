@@ -25,6 +25,10 @@ final class RxBluetoothKitService {
         return disconnectionSubject.asObservable()
     }
 
+    var readValueOutput: Observable<Result<Characteristic, Error>> {
+        return readValueSubject.asObservable()
+    }
+
     var writeValueOutput: Observable<Result<Characteristic, Error>> {
         return writeValueSubject.asObservable()
     }
@@ -42,6 +46,8 @@ final class RxBluetoothKitService {
     private let disconnectionSubject = PublishSubject<Disconnection>()
 
     private let writeValueSubject = PublishSubject<Result<Characteristic, Error>>()
+
+    private let readValueSubject = PublishSubject<Result<Characteristic, Error>>()
 
     private let errorSubject = PublishSubject<Error>()
 
@@ -85,6 +91,14 @@ final class RxBluetoothKitService {
                     }
                     return self.centralManager.scanForPeripherals(withServices: nil)
                 }.bind(to: scanningSubject)
+    }
+
+    func readValueFrom(_ characteristic: Characteristic) {
+        characteristic.readValue().subscribe(onSuccess: { [unowned self] characteristic in
+            self.readValueSubject.onNext(Result.success(characteristic))
+        }, onError: { [unowned self] error in
+            self.readValueSubject.onNext(Result.error(error))
+        }).disposed(by: disposeBag)
     }
 
     // If you wish to stop scanning for peripherals, you need to dispose the Disposable object, created when

@@ -9,9 +9,9 @@ protocol CharacteristicsViewModelType {
 
     var dataUpdateOutput: Observable<Void> { get }
 
-    var alertTriggerOutput: Observable<AlertResult> { get }
+    var characteristicWriteOutput: Observable<Result<Characteristic, Error>> { get }
 
-    var characteristicWriteValue: Observable<Result<Characteristic, BluetoothError>> { get }
+    var characteristicReadOutput: Observable<Result<Characteristic, Error>> { get }
 
     func setSelected(characteristic: Characteristic)
 

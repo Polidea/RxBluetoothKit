@@ -53,5 +53,7 @@ struct Constant {
         static let turnOnNotifications = "Turn ON Notification"
         static let hexValue = "Specify value in HEX to write"
         static let titleChooseAction = "Choose action"
+
+        static let succesfullWriteTo = "Succesfully wrote value to:"
     }
 }

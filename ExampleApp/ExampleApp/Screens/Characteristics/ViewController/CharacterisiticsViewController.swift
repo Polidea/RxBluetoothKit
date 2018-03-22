@@ -56,17 +56,23 @@ final class CharacteristicsViewController: UIViewController, CustomView {
 
     private func subscribeViewModelOutputs() {
         subscribeDataUpdateOutput()
-        subscribeAlertTriggerOutput()
-        subscribeCharacteristicWriteOutput()
+        subscribeCharacteristicActionOutput(viewModel.characteristicReadOutput) { [weak self] in
+            self?.customView.refreshTableView()
+        }
+        subscribeCharacteristicActionOutput(viewModel.characteristicWriteOutput)
     }
 
-    private func subscribeCharacteristicWriteOutput() {
-        viewModel.characteristicWriteValue.subscribe(onNext: { [unowned self] result in
+    private func subscribeCharacteristicActionOutput(_ outputStream: Observable<Result<Characteristic, Error>>,
+                                                     additionalAction: (() -> Void)? = nil) {
+        outputStream.subscribe(onNext: { [unowned self] result in
             switch result {
-                case .success(let characteristic):
-                     self.showAlert(title: Constant.Strings.titleSuccess, message: "Succesfully wrote value to: \(characteristic.uuid.uuidString)")
-                case .error(let error):
-                    self.showAlert(title: Constant.Strings.titleError, message: error.description)
+            case .success(let characteristic):
+                self.showAlert(title: Constant.Strings.titleSuccess, message: "\(characteristic.uuid.uuidString)")
+                additionalAction?()
+            case .error(let error):
+                let bluetoothError = error as? BluetoothError
+                let message = bluetoothError?.description ?? error.localizedDescription
+                self.showAlert(title: Constant.Strings.titleError, message: message)
             }
         }).disposed(by: disposeBag)
     }
@@ -74,12 +80,6 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     private func subscribeDataUpdateOutput() {
         viewModel.dataUpdateOutput.subscribe(onNext: { [unowned self]  _ in
             self.customView.refreshTableView()
-        }).disposed(by: disposeBag)
-    }
-
-    private func subscribeAlertTriggerOutput() {
-        viewModel.alertTriggerOutput.subscribe(onNext: { [unowned self] result in
-            self.showAlert(title: result.title, message: result.message)
         }).disposed(by: disposeBag)
     }
 
@@ -146,7 +146,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Constant.Strings.titleOk, style: .default) { _ in
-                self.dismiss(animated: true)
+            self.dismiss(animated: true)
 //                self.navigationController?.popToRootViewController(animated: true)
         }
 
