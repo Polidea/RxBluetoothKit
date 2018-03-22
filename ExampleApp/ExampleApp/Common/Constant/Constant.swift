@@ -35,9 +35,7 @@ struct Constant {
         static let startScanning = "Start scanning"
         static let stopScanning = "Stop scanning"
         static let scanning = "Scanning..."
-
         static let servicesSectionTitle = "Discovered Services"
-
         static let characteristicsSectionTitle = "Discovered Characteristics"
 
         static let titleWrite = "Write"
@@ -49,11 +47,13 @@ struct Constant {
         static let titleError = "Error"
 
         static let turnOffNotifications = "Turn OFF Notification"
+        static let connect = "Connect"
+        static let connected = "Connected"
         static let disconnect = "Disconnect"
+        static let disconnected = "Disconnected"
         static let turnOnNotifications = "Turn ON Notification"
         static let hexValue = "Specify value in HEX to write"
         static let titleChooseAction = "Choose action"
-
-        static let succesfullWriteTo = "Succesfully wrote value to:"
+        static let successfulWroteTo = "Successfully wrote value to:"
     }
 }

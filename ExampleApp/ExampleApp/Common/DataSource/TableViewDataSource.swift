@@ -41,14 +41,21 @@ final class TableViewDataSource<S:SectionModelItem>: NSObject, UITableViewDataSo
     func bindData() {
         itemsSubject.subscribe(onNext: { [unowned self] item in
             self.dataItem.append(item)
-            self.refreshData()
+            self.refreshDataBlock()
         }, onError: { [unowned self] (error) in
             self.onErrorBlock(error)
         }).disposed(by: disposeBag)
     }
 
-    func bindItemsObserver(to observable: Observable<S.ModelDataType>) {
-        observable.bind(to: itemsSubject).disposed(by: disposeBag)
+    func bindItemsObserver(to observable: Observable<Result<S.ModelDataType, Error>>) {
+        observable.subscribe(onNext: { [unowned self] result in
+            switch result {
+            case .success(let value):
+                self.itemsSubject.onNext(value)
+            case .error(let error):
+                self.onErrorBlock(error)
+            }
+        }).disposed(by: disposeBag)
     }
 
     func setRefreshBlock(_ block: @escaping RefreshDataBlock) {
@@ -61,10 +68,6 @@ final class TableViewDataSource<S:SectionModelItem>: NSObject, UITableViewDataSo
 
     func takeItemAt(index: Int) -> Any {
         return dataItem.rowData[index]
-    }
-
-    private func refreshData() {
-        refreshDataBlock()
     }
 
     // MARK: - UITableViewDataSource

@@ -27,6 +27,14 @@ class CharacteristicsViewModelItem: SectionModelItem {
     }
 
     func append(_ item: ModelDataType) {
+        let identicalCharacteristic = characteristicsRowItems.filter {
+            $0.characteristic == item.characteristic
+        }
+
+        guard identicalCharacteristic.isEmpty else {
+            return
+        }
+
         characteristicsRowItems.append(item)
     }
 }

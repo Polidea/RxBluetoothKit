@@ -22,6 +22,7 @@ class BaseView: UIView {
         super.init(frame: .zero)
         addSubviews()
         setupConstraints()
+
     }
 
     @available(*, unavailable)

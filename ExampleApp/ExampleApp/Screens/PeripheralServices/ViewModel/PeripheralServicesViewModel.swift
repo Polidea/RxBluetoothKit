@@ -9,47 +9,43 @@ final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
 
     let bluetoothService: RxBluetoothKitService
 
-    var servicesOutput: Observable<Service> {
+    var servicesOutput: Observable<Result<Service, Error>> {
         return discoveredServicesSubject.asObservable()
     }
 
-    var disconnectionOutput: Observable<RxBluetoothKitService.Disconnection> {
+    var disconnectionOutput: Observable<Result<RxBluetoothKitService.Disconnection, Error>> {
         return bluetoothService.disconnectionReasonOutput
     }
 
-    var errorOutput: Observable<Error> {
-        return errorOutputSubject.asObservable()
-    }
-
-    private let discoveredServicesSubject = PublishSubject<Service>()
-
-    private let errorOutputSubject = PublishSubject<Error>()
+    private let discoveredServicesSubject = PublishSubject<Result<Service, Error>>()
 
     private let disposeBag = DisposeBag()
 
     init(with bluetoothService: RxBluetoothKitService, peripheral: Peripheral) {
         self.bluetoothService = bluetoothService
         self.displayedPeripheral = peripheral
-        self.bindErrorOutput()
     }
 
     func connect() {
-        bluetoothService.discoverServices(for: displayedPeripheral)
+        guard displayedPeripheral.isConnected else {
+            bluetoothService.discoverServices(for: displayedPeripheral)
 
-        bluetoothService.servicesOutput.subscribe(onNext: { services in
-            services.forEach { [unowned self] service in
-                self.discoveredServicesSubject.onNext(service)
-            }
-        }, onError: { [unowned self] error in
-            self.errorOutputSubject.onNext(error)
-        }).disposed(by: disposeBag)
+            bluetoothService.discoveredServicesOutput.asObservable().subscribe(onNext: { [unowned self] (result) in
+                switch result {
+                case .success(let services):
+                    services.forEach { service in
+                        self.discoveredServicesSubject.onNext(Result.success(service))
+                    }
+                case .error(let error):
+                    self.discoveredServicesSubject.onNext(Result.error(error))
+                }
+            }).disposed(by: disposeBag)
+
+            return
+        }
     }
 
     func disconnect() {
         bluetoothService.disconnect(displayedPeripheral)
-    }
-
-    private func bindErrorOutput() {
-        bluetoothService.errorOutput.bind(to: errorOutputSubject).disposed(by: disposeBag)
     }
 }

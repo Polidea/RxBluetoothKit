@@ -33,7 +33,7 @@ class CharacterisiticsTableViewCell: UITableViewCell {
             addSubview($0)
         }
 
-        uuidLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constant.Constraints.verticalSmall).isActive = true
+        uuidLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constant.Constraints.verticalDefault).isActive = true
         uuidLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
         uuidLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalSmall).isActive = true
 
@@ -44,7 +44,7 @@ class CharacterisiticsTableViewCell: UITableViewCell {
         valueLabel.topAnchor.constraint(equalTo: isNotyfingLabel.bottomAnchor, constant: Constant.Constraints.verticalSmall).isActive = true
         valueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: Constant.Constraints.horizontalSmall).isActive = true
         valueLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalSmall).isActive = true
-        valueLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        valueLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.Constraints.verticalDefault).isActive = true
     }
 }
 

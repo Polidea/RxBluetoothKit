@@ -7,7 +7,7 @@ final class ScanResultsViewModel: ScanResultsViewModelType {
 
     let bluetoothService: RxBluetoothKitService
 
-    var scanningOutput: Observable<ScannedPeripheral> {
+    var scanningOutput: Observable<Result<ScannedPeripheral, Error>> {
         return bluetoothService.scanningOutput
     }
 

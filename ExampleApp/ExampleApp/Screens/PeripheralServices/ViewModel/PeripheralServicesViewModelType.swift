@@ -4,15 +4,13 @@ import Foundation
 
 protocol PeripheralServicesViewModelType {
 
-    var servicesOutput: Observable<Service> { get }
-
     var displayedPeripheral: Peripheral { get }
 
     var bluetoothService: RxBluetoothKitService { get }
 
-    var disconnectionOutput: Observable<RxBluetoothKitService.Disconnection> { get }
+    var servicesOutput: Observable<Result<Service, Error>> { get }
 
-    var errorOutput: Observable<Error> { get }
+    var disconnectionOutput: Observable<Result<RxBluetoothKitService.Disconnection, Error>> { get }
 
     func connect()
 

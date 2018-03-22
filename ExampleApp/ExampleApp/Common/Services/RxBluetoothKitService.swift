@@ -13,15 +13,19 @@ final class RxBluetoothKitService {
 
     // MARK: - Public outputs
 
-    var scanningOutput: Observable<ScannedPeripheral> {
+    var scanningOutput: Observable<Result<ScannedPeripheral, Error>> {
         return scanningSubject.share(replay: 1, scope: .forever).asObservable()
     }
 
-    var servicesOutput: Observable<[Service]> {
-        return servicesSubject.asObservable()
+    var discoveredServicesOutput: Observable<Result<[Service], Error>> {
+        return discoveredServicesSubject.asObservable()
     }
 
-    var disconnectionReasonOutput: Observable<Disconnection> {
+    var discoveredCharacteristicsOutput: Observable<Result<[Characteristic], Error>> {
+        return discoveredCharacteristicsSubject.asObservable()
+    }
+
+    var disconnectionReasonOutput: Observable<Result<Disconnection, Error>> {
         return disconnectionSubject.asObservable()
     }
 
@@ -33,23 +37,25 @@ final class RxBluetoothKitService {
         return writeValueSubject.asObservable()
     }
 
-    var errorOutput: Observable<Error> {
-        return errorSubject.asObservable()
+    var updatedValueAndNotificationOutput: Observable<Result<Characteristic, Error>> {
+        return updatedValueAndNotificationSubject.asObservable()
     }
 
     // MARK: - Private subjects
 
-    private let scanningSubject = PublishSubject<ScannedPeripheral>()
+    private let discoveredCharacteristicsSubject = PublishSubject<Result<[Characteristic], Error>>()
 
-    private let servicesSubject = PublishSubject<[Service]>()
+    private let scanningSubject = PublishSubject<Result<ScannedPeripheral, Error>>()
 
-    private let disconnectionSubject = PublishSubject<Disconnection>()
+    private let discoveredServicesSubject = PublishSubject<Result<[Service], Error>>()
 
-    private let writeValueSubject = PublishSubject<Result<Characteristic, Error>>()
+    private let disconnectionSubject = PublishSubject<Result<Disconnection, Error>>()
 
     private let readValueSubject = PublishSubject<Result<Characteristic, Error>>()
 
-    private let errorSubject = PublishSubject<Error>()
+    private let writeValueSubject = PublishSubject<Result<Characteristic, Error>>()
+
+    private let updatedValueAndNotificationSubject = PublishSubject<Result<Characteristic, Error>>()
 
     // MARK: - Private fields
 
@@ -65,6 +71,8 @@ final class RxBluetoothKitService {
 
     private var connectionDisposable: Disposable!
 
+    private var notificationDisposables: [Characteristic: Disposable] = [:]
+
     // MARK: - Initialization
     init() {
         let timerQueue = DispatchQueue(label: Constant.Strings.defaultDispatchQueueLabel)
@@ -79,26 +87,22 @@ final class RxBluetoothKitService {
     // centralManager.state.
     func startScanning() {
         scanningDisposable = centralManager.observeState()
-                .startWith(centralManager.state)
-                .filter {
-                    $0 == .poweredOn
-                }
-                .subscribeOn(MainScheduler.instance)
-                .timeout(4.0, scheduler: scheduler)
-                .flatMap { [weak self] _ -> Observable<ScannedPeripheral> in
-                    guard let `self` = self else {
-                        return Observable.empty()
-                    }
-                    return self.centralManager.scanForPeripherals(withServices: nil)
-                }.bind(to: scanningSubject)
-    }
-
-    func readValueFrom(_ characteristic: Characteristic) {
-        characteristic.readValue().subscribe(onSuccess: { [unowned self] characteristic in
-            self.readValueSubject.onNext(Result.success(characteristic))
-        }, onError: { [unowned self] error in
-            self.readValueSubject.onNext(Result.error(error))
-        }).disposed(by: disposeBag)
+        .startWith(centralManager.state)
+        .filter {
+            $0 == .poweredOn
+        }
+        .subscribeOn(MainScheduler.instance)
+        .timeout(4.0, scheduler: scheduler)
+        .flatMap { [weak self] _ -> Observable<ScannedPeripheral> in
+            guard let `self` = self else {
+                return Observable.empty()
+            }
+            return self.centralManager.scanForPeripherals(withServices: nil)
+        }.subscribe(onNext: { [weak self] scannedPeripheral in
+                    self?.scanningSubject.onNext(Result.success(scannedPeripheral))
+                }, onError: { [weak self] error in
+                    self?.scanningSubject.onNext(Result.error(error))
+                })
     }
 
     // If you wish to stop scanning for peripherals, you need to dispose the Disposable object, created when
@@ -108,29 +112,29 @@ final class RxBluetoothKitService {
         scanningDisposable.dispose()
     }
 
-
-    // MARK: - Discovering Services
+    // MARK: - Peripheral Connection & Discovering Services
 
     // When you discover a service, first you need to establish a connection with a peripheral. Then you call
-    // discoverServices(:_) that peripheral object.
+    // discoverServices(:_) for that peripheral object.
     func discoverServices(for peripheral: Peripheral) {
         let disposable = peripheral.establishConnection()
-                .do(onNext: { [weak self] _ in
-                    self?.observeDisconnect(for: peripheral)
-                })
-                .flatMap {
-                    $0.discoverServices(nil)
-                }.subscribe(onNext: { [weak self] services in
-                    self?.servicesSubject.onNext(services)
-                }, onError: { (error) in
-                    print(error)
+        .do(onNext: { [weak self] _ in
+            self?.observeDisconnect(for: peripheral)
+        })
+        .flatMap {
+            $0.discoverServices(nil)
+        }.subscribe(onNext: { [weak self] services in
+                    self?.discoveredServicesSubject.onNext(Result.success(services))
+                }, onError: { [weak self] error in
+                    self?.discoveredServicesSubject.onNext(Result.error(error))
                 })
 
         peripheralConnections[peripheral] = disposable
     }
 
     // Disposal of a given connection disposable disconnects automatically from a peripheral
-    //So firstly, you discconect from a perpiheral and then you remove of disconnected Peripheral from the Peripheral's collection.
+    // So firstly, you discconect from a perpiheral and then you remove of disconnected Peripheral
+    // from the Peripheral's collection.
     func disconnect(_ peripheral: Peripheral) {
         guard let disposable = peripheralConnections[peripheral] else {
             return
@@ -140,8 +144,21 @@ final class RxBluetoothKitService {
     }
 
     // MARK: - Discovering Characteristics
-    func discoverCharacteristics(for service: Service) -> Observable<[Characteristic]> {
-        return service.discoverCharacteristics(nil).asObservable()
+    func discoverCharacteristics(for service: Service) {
+        service.discoverCharacteristics(nil).subscribe(onSuccess: { [unowned self] characteristics in
+            self.discoveredCharacteristicsSubject.onNext(Result.success(characteristics))
+        }, onError: { error in
+            self.discoveredCharacteristicsSubject.onNext(Result.error(error))
+        }).disposed(by: disposeBag)
+    }
+
+    // MARK: - Reading from and writing to a characteristic
+    func readValueFrom(_ characteristic: Characteristic) {
+        characteristic.readValue().subscribe(onSuccess: { [unowned self] characteristic in
+            self.readValueSubject.onNext(Result.success(characteristic))
+        }, onError: { [unowned self] error in
+            self.readValueSubject.onNext(Result.error(error))
+        }).disposed(by: disposeBag)
     }
 
     func writeValueTo(characteristic: Characteristic, data: Data) {
@@ -156,14 +173,61 @@ final class RxBluetoothKitService {
         }).disposed(by: disposeBag)
     }
 
+    // MARK: - Characteristic notifications
+
+    // observeValueUpdateAndSetNotification(:_) returns a disposable from subscription, which triggers notifying start
+    // on a selected characteristic.
+    func observeValueUpdateAndSetNotification(for characteristic: Characteristic) {
+        if let _ = notificationDisposables[characteristic] {
+            self.updatedValueAndNotificationSubject.onNext(Result.error(RxBluetoothServiceError.redundantStateChange))
+        } else {
+            let disposable = characteristic.observeValueUpdateAndSetNotification()
+            .subscribe(onNext: { [weak self] (characteristic) in
+                self?.updatedValueAndNotificationSubject.onNext(Result.success(characteristic))
+            }, onError: { [weak self] (error) in
+                self?.updatedValueAndNotificationSubject.onNext(Result.error(error))
+            })
+
+            notificationDisposables[characteristic] = disposable
+        }
+    }
+
+    func disposeNotification(for characteristic: Characteristic) {
+        if let disposable = notificationDisposables[characteristic] {
+            disposable.dispose()
+            notificationDisposables[characteristic] = nil
+        } else {
+            self.updatedValueAndNotificationSubject.onNext(Result.error(RxBluetoothServiceError.redundantStateChange))
+        }
+    }
+
+    // observeNotifyValue tells us when exactly a characteristic has changed it's state (e.g isNotifying).
+    // We need to use this method, because hardware needs an amount of time to switch characteristic's state.
+    func observeNotifyValue(peripheral: Peripheral, characteristic: Characteristic) {
+        peripheral.observeNotifyValue(for: characteristic)
+        .subscribe(onNext: { [unowned self] (characteristic) in
+            self.updatedValueAndNotificationSubject.onNext(Result.success(characteristic))
+        }, onError: { [unowned self] (error) in
+            self.updatedValueAndNotificationSubject.onNext(Result.error(error))
+        }).disposed(by: disposeBag)
+    }
+
+    // MARK: - Private methods
+
     // When you observe disconnection from a peripheral, you want to be sure that you take an action on both .next and
     // .error events. For instance, when your device enters BluetoothState.poweredOff, you will receive an .error event.
     private func observeDisconnect(for peripheral: Peripheral) {
         centralManager.observeDisconnect(for: peripheral).subscribe(onNext: { [unowned self] (peripheral, reason) in
-            self.disconnectionSubject.onNext((peripheral, reason))
+            self.disconnectionSubject.onNext(Result.success((peripheral, reason)))
             self.disconnect(peripheral)
         }, onError: { [unowned self] error in
-            self.errorSubject.onNext(error)
+            self.disconnectionSubject.onNext(Result.error(error))
         }).disposed(by: disposeBag)
     }
+}
+
+enum RxBluetoothServiceError: Error {
+
+    case redundantStateChange
+
 }

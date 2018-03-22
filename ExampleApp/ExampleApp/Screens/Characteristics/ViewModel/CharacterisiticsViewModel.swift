@@ -6,12 +6,9 @@ import RxSwift
 class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     // MARK: - Public outputs
-    var dataUpdateOutput: Observable<Void> {
-        return characteristicUpdateTrigger.asObservable()
-    }
 
-    var characteristicsOutput: Observable<Characteristic> {
-        return discoveredCharacteristicsSubject.asObservable()
+    var characteristicsOutput: Observable<Result<Characteristic, Error>> {
+        return discoveredCharacteristicsSubject
     }
 
     var characteristicWriteOutput: Observable<Result<Characteristic, Error>> {
@@ -22,8 +19,13 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         return bluetoothService.readValueOutput
     }
 
+    var updatedValueAndNotificationOutput: Observable<Result<Characteristic, Error>> {
+        return bluetoothService.updatedValueAndNotificationOutput
+    }
+
     // MARK: - Private fields
-    private let disposeBag = DisposeBag()
+
+    weak private var selectedCharacteristic: Characteristic?
 
     private let bluetoothService: RxBluetoothKitService
 
@@ -31,13 +33,11 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     private let selectedPeripheral: Peripheral
 
-    private let discoveredCharacteristicsSubject = PublishSubject<Characteristic>()
+    private let discoveredCharacteristicsSubject = PublishSubject<Result<Characteristic, Error>>()
 
     private let characteristicUpdateTrigger = PublishSubject<Void>()
 
-    private var notificationDisposables: [Characteristic: Disposable] = [:]
-
-    weak private var selectedCharacteristic: Characteristic?
+    private let disposeBag = DisposeBag()
 
     // MARK: - Initialization
     init(with bluetoothService: RxBluetoothKitService, service: Service, peripheral: Peripheral) {
@@ -65,8 +65,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     // Performs writing operation to selected characteristic
     func writeToCharacteristic(value: String) {
-        guard let characteristic = selectedCharacteristic,
-              let writeType = characteristic.determineWriteType() else {
+        guard let characteristic = selectedCharacteristic else {
             return
         }
 
@@ -81,26 +80,24 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         if enabled {
             subscribeForNotifications()
         } else {
-            guard let characteristic = selectedCharacteristic,
-                  let disposable = notificationDisposables[characteristic] else {
-                return
-            }
-            disposable.dispose()
-            notificationDisposables[characteristic] = nil
-            characteristicUpdateTrigger.onNext(Void())
+            guard let characteristic = selectedCharacteristic else { return }
+            bluetoothService.disposeNotification(for: characteristic)
         }
     }
 
     // Discovered characteristic is being bound to it's subject, we catch the .error event and pass it to alertTrigger
     // so it can be easily consumed by the view controller.
     private func bindCharacteristicsOutput() {
-        bluetoothService.discoverCharacteristics(for: selectedService).subscribe(onNext: { [unowned self] characteristics in
-            characteristics.forEach { characteristic in
-                self.discoveredCharacteristicsSubject.onNext(characteristic)
+        bluetoothService.discoverCharacteristics(for: selectedService)
+        bluetoothService.discoveredCharacteristicsOutput.subscribe(onNext: { [unowned self] result in
+            switch result {
+            case .success(let characteristics):
+                characteristics.forEach { characteristic in
+                    self.discoveredCharacteristicsSubject.onNext(Result.success(characteristic))
+                }
+            case .error(let error):
+                self.discoveredCharacteristicsSubject.onNext(Result.error(error))
             }
-        }, onError: { [unowned self] error in
-//            let result = AlertResult.error(error)
-//            self.alertTrigger.onNext(result)
         }).disposed(by: disposeBag)
     }
 
@@ -109,32 +106,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
             return
         }
 
-        let disposable = observeValueUpdateAndSetNotification(for: characteristic)
-        observeNotifyValue(characteristic: characteristic)
-        notificationDisposables[characteristic] = disposable
-    }
-
-    // observeValueUpdateAndSetNotification(:_) returns a disposable from subscription, which triggers notifying start
-    // on a selected characteristic.
-    private func observeValueUpdateAndSetNotification(for characteristic: Characteristic) -> Disposable {
-        return characteristic.observeValueUpdateAndSetNotification()
-                .subscribe(onNext: { [weak self] (characteristic) in
-                    self?.characteristicUpdateTrigger.onNext(Void())
-                }, onError: { [weak self] (error) in
-//                    let result = AlertResult.error(error)
-//                    self?.alertTrigger.onNext(result)
-                })
-    }
-
-    // observeNotifyValue tells us when exactly a characteristic has changed it's state (e.g isNotifying).
-    // We need to use this method, because hardware needs an amount of time to switch characteristic's state.
-    private func observeNotifyValue(characteristic: Characteristic) {
-        selectedPeripheral.observeNotifyValue(for: characteristic)
-                .subscribe(onNext: { [weak self] tuple in
-                    self?.characteristicUpdateTrigger.onNext(Void())
-                }, onError: { [unowned self] error in
-//                    let result = AlertResult.error(error)
-//                    self.alertTrigger.onNext(result)
-                }).disposed(by: disposeBag)
+        bluetoothService.observeValueUpdateAndSetNotification(for: characteristic)
+        bluetoothService.observeNotifyValue(peripheral: selectedPeripheral, characteristic: characteristic)
     }
 }

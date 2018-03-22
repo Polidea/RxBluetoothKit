@@ -22,10 +22,18 @@ enum Stylesheet {
             $0.clipsToBounds = true
         }
 
-        static let blackButton = Style<UIButton> {
+        static let connectButton = Style<UIButton> {
             $0.layer.cornerRadius = 8
             $0.backgroundColor = .black
             $0.setTitleColor(.white, for: .normal)
+            $0.setTitle(Constant.Strings.connect, for: .normal)
+        }
+
+        static let connectedButton = Style<UIButton> {
+            $0.layer.cornerRadius = 8
+            $0.backgroundColor = .green
+            $0.setTitleColor(.white, for: .normal)
+            $0.setTitle(Constant.Strings.connected, for: .normal)
         }
     }
 }

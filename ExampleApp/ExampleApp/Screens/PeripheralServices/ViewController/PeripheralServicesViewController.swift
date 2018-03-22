@@ -83,7 +83,6 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
         bindServiceOutputToDataSource()
         subscribeToServiceOutput()
         subscribeToDisconnectionOutput()
-        subscribeToErrorOutput()
     }
 
     // We pass viewModel's services output to dataSource where it is bound to collection which feeds our UITableView
@@ -104,22 +103,24 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
     }
 
     private func subscribeToDisconnectionOutput() {
-        viewModel.disconnectionOutput.subscribe(onNext: { [unowned self] disconnection in
-            let message = disconnection.1?.localizedDescription ?? ""
-            self.removeDisconnectBarButtonItem()
-            self.showAlert("Disconnected: \(disconnection.0)", message: message)
-        }).disposed(by: disposeBag)
-    }
-
-    private func subscribeToErrorOutput() {
-        viewModel.errorOutput.subscribe(onNext: { [unowned self] error in
-            self.showAlert("\(error.self)", message: error.localizedDescription)
+        viewModel.disconnectionOutput.subscribe(onNext: { [unowned self] result in
+            var alert: (title: String, message: String) = ("", "")
+            switch result {
+            case .success(let disconnection):
+                alert.title = Constant.Strings.disconnect + " \(disconnection.0)"
+                alert.message = disconnection.1?.localizedDescription ?? ""
+                self.removeDisconnectBarButtonItem()
+            case .error(let error):
+                alert.title = Constant.Strings.titleError
+                alert.message = error.localizedDescription
+            }
+            self.showAlert(alert.title, message: alert.message)
         }).disposed(by: disposeBag)
     }
 
     private func showAlert(_ title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default) { _ in
+        let action = UIAlertAction(title: Constant.Strings.titleOk, style: .default) { _ in
             self.dismiss(animated: true)
             self.navigationController?.popToRootViewController(animated: true)
         }

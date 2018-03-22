@@ -11,7 +11,7 @@ final class ScanResultTableViewCell: UITableViewCell {
 
     private let bluetoothImageView = UIImageView(image: Constant.ImageRepo.bluetooth)
 
-    private let connectButton = UIButton(style: Stylesheet.Commons.blackButton)
+    private let connectButton = UIButton(style: Stylesheet.Commons.connectButton)
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -72,7 +72,6 @@ final class ScanResultTableViewCell: UITableViewCell {
         connectButton.widthAnchor.constraint(equalToConstant: Constant.Constraints.mediumWidth).isActive = true
         connectButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.Constraints.verticalSmall).isActive = true
     }
-
 }
 
 extension ScanResultTableViewCell: UpdatableCell {
@@ -81,5 +80,7 @@ extension ScanResultTableViewCell: UpdatableCell {
         peripheralNameLabel.text = item.advertisementData.localName ?? item.peripheral.identifier.uuidString
         advertisementDataLabel.text = "\(item.advertisementData.advertisementData)"
         rssiLabel.text = "RSSI: \(item.rssi)"
+        let style = item.peripheral.isConnected ? Stylesheet.Commons.connectedButton : Stylesheet.Commons.connectButton
+        connectButton.apply(style)
     }
 }

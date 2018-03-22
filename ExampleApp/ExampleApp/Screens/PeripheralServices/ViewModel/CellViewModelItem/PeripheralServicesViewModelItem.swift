@@ -26,6 +26,14 @@ final class PeripheralServicesViewModelItem: SectionModelItem {
     }
 
     func append(_ item: DataModelType) {
+        let identicalService = serviceRowItems.filter {
+            $0.service == item.service
+        }
+
+        guard identicalService.isEmpty else {
+            return
+        }
+
         serviceRowItems.append(item)
     }
 }

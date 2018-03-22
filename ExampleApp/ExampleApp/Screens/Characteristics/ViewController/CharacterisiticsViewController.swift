@@ -19,7 +19,6 @@ final class CharacteristicsViewController: UIViewController, CustomView {
         self.dataSource = dataSource
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        view.backgroundColor = .white
     }
 
     @available(*, unavailable)
@@ -55,10 +54,14 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     }
 
     private func subscribeViewModelOutputs() {
-        subscribeDataUpdateOutput()
         subscribeCharacteristicActionOutput(viewModel.characteristicReadOutput) { [weak self] in
             self?.customView.refreshTableView()
         }
+
+        subscribeCharacteristicActionOutput(viewModel.updatedValueAndNotificationOutput) { [weak self] in
+            self?.customView.refreshTableView()
+        }
+
         subscribeCharacteristicActionOutput(viewModel.characteristicWriteOutput)
     }
 
@@ -66,20 +69,14 @@ final class CharacteristicsViewController: UIViewController, CustomView {
                                                      additionalAction: (() -> Void)? = nil) {
         outputStream.subscribe(onNext: { [unowned self] result in
             switch result {
-            case .success(let characteristic):
-                self.showAlert(title: Constant.Strings.titleSuccess, message: "\(characteristic.uuid.uuidString)")
+            case .success:
+                self.showAlert(title: Constant.Strings.titleSuccess)
                 additionalAction?()
             case .error(let error):
                 let bluetoothError = error as? BluetoothError
                 let message = bluetoothError?.description ?? error.localizedDescription
                 self.showAlert(title: Constant.Strings.titleError, message: message)
             }
-        }).disposed(by: disposeBag)
-    }
-
-    private func subscribeDataUpdateOutput() {
-        viewModel.dataUpdateOutput.subscribe(onNext: { [unowned self]  _ in
-            self.customView.refreshTableView()
         }).disposed(by: disposeBag)
     }
 
@@ -93,6 +90,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
                 style: .default) { _ in
             self.showWriteFieldForCharacteristic()
         }
+
         actionSheet.addAction(writeValueNotificationAction)
     }
 
@@ -101,6 +99,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
                 style: .default) { _ in
             self.viewModel.triggerValueRead()
         }
+
         actionSheet.addAction(readValueNotificationAction)
     }
 
@@ -109,10 +108,12 @@ final class CharacteristicsViewController: UIViewController, CustomView {
                 style: .default) { _ in
             self.viewModel.setNotificationsState(enabled: false)
         }
+
         let turnNotificationOnAction = UIAlertAction(title: Constant.Strings.turnOnNotifications,
                 style: .default) { _ in
             self.viewModel.setNotificationsState(enabled: true)
         }
+
         actionSheet.addAction(turnNotificationOffAction)
         actionSheet.addAction(turnNotificationOnAction)
     }
@@ -122,6 +123,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
                 style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
         }
+
         actionSheet.addAction(dismissAction)
     }
 
@@ -131,7 +133,9 @@ final class CharacteristicsViewController: UIViewController, CustomView {
                 preferredStyle: .alert)
 
         valueWriteController.addTextField()
+
         valueWriteController.addAction(UIAlertAction(title: Constant.Strings.titleCancel, style: .cancel, handler: nil))
+
         valueWriteController.addAction(UIAlertAction(title: Constant.Strings.titleWrite, style: .default) { _ in
             guard let text = valueWriteController.textFields?.first?.text else {
                 return
@@ -140,14 +144,12 @@ final class CharacteristicsViewController: UIViewController, CustomView {
         })
 
         present(valueWriteController, animated: true, completion: nil)
-
     }
 
-    private func showAlert(title: String, message: String) {
+    private func showAlert(title: String, message: String? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Constant.Strings.titleOk, style: .default) { _ in
             self.dismiss(animated: true)
-//                self.navigationController?.popToRootViewController(animated: true)
         }
 
         alertController.addAction(action)
@@ -184,7 +186,6 @@ extension CharacteristicsViewController: UITableViewDelegate {
         }
 
         addDismissAction(to: actionSheet)
-
         present(actionSheet, animated: true, completion: nil)
     }
 }

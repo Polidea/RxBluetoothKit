@@ -4,7 +4,7 @@ import RxSwift
 
 protocol ScanResultsViewModelType {
 
-    var scanningOutput: Observable<ScannedPeripheral> { get }
+    var scanningOutput: Observable<Result<ScannedPeripheral, Error>> { get }
 
     var bluetoothService: RxBluetoothKitService { get }
 
