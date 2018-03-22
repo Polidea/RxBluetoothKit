@@ -9,13 +9,15 @@ protocol CharacteristicsViewModelType {
 
     var dataUpdateOutput: Observable<Void> { get }
 
-    var alertTriggerOutput: Observable<String> { get }
+    var alertTriggerOutput: Observable<AlertResult> { get }
+
+    var characteristicWriteValue: Observable<Result<Characteristic, BluetoothError>> { get }
 
     func setSelected(characteristic: Characteristic)
 
     func triggerValueRead()
 
-    func writeValueForCharacteristic(hexadecimalString: String)
+    func writeToCharacteristic(value: String)
 
     func setNotificationsState(enabled: Bool)
 

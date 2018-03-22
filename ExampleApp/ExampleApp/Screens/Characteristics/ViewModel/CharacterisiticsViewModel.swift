@@ -10,12 +10,23 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         return characteristicUpdateTrigger.asObservable()
     }
 
-    var alertTriggerOutput: Observable<String> {
+    var alertTriggerOutput: Observable<AlertResult> {
         return alertTrigger.asObservable()
     }
 
     var characteristicsOutput: Observable<Characteristic> {
         return discoveredCharacteristicsSubject.asObservable()
+    }
+
+    var characteristicWriteValue: Observable<Result<Characteristic, BluetoothError>> {
+        return bluetoothService.writeValueOutput.map { result -> Result<Characteristic, BluetoothError> in
+            result.mapError { error -> BluetoothError in
+                guard let bluetoothError = error as? BluetoothError else {
+                    return BluetoothError.destroyed
+                }
+                return bluetoothError
+            }
+        }
     }
 
     // MARK: - Private fields
@@ -31,7 +42,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     private let characteristicUpdateTrigger = PublishSubject<Void>()
 
-    private let alertTrigger = PublishSubject<String>()
+    private let alertTrigger = PublishSubject<AlertResult>()
 
     private var notificationDisposables: [Characteristic: Disposable] = [:]
 
@@ -47,7 +58,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
     // MARK: - Public methods
 
-    // Method used to pass the characteristic selected by the user and to be able to perform further operations on it
+// Method used to pass the characteristic selected by the user and to be able to perform further operations on it
     func setSelected(characteristic: Characteristic) {
         self.selectedCharacteristic = characteristic
     }
@@ -60,25 +71,21 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
 
         characteristic.readValue().subscribe(onSuccess: { [unowned self] char in
             self.characteristicUpdateTrigger.onNext(Void())
-        }, onError: { error in
-            self.alertTrigger.onNext(error.localizedDescription)
+        }, onError: { [unowned self] error in
+            let result = AlertResult.error(error)
+            self.alertTrigger.onNext(result)
         }).disposed(by: disposeBag)
     }
 
     // Performs writing operation to selected characteristic
-    func writeValueForCharacteristic(hexadecimalString: String) {
+    func writeToCharacteristic(value: String) {
         guard let characteristic = selectedCharacteristic,
               let writeType = characteristic.determineWriteType() else {
             return
         }
 
-        let hexadecimalData: Data = Data.fromHexString(string: hexadecimalString)
-
-        characteristic.writeValue(hexadecimalData as Data, type: writeType)
-                .subscribe({ [unowned self] _ in
-                    let message = "Wrote \(hexadecimalString) to characteristic: \(characteristic.uuid.uuidString)"
-                    self.alertTrigger.onNext(message)
-                }).disposed(by: disposeBag)
+        let hexadecimalData: Data = Data.fromHexString(string: value)
+        bluetoothService.writeValueTo(characteristic: characteristic, data: hexadecimalData)
     }
 
     // If user sets notification on for the selected characteristic, we subscribe for notifications, otherwise
@@ -105,8 +112,9 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
             characteristics.forEach { characteristic in
                 self.discoveredCharacteristicsSubject.onNext(characteristic)
             }
-        }, onError: { error in
-            self.alertTrigger.onNext(error.localizedDescription)
+        }, onError: { [unowned self] error in
+            let result = AlertResult.error(error)
+            self.alertTrigger.onNext(result)
         }).disposed(by: disposeBag)
     }
 
@@ -116,7 +124,7 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
         }
 
         let disposable = observeValueUpdateAndSetNotification(for: characteristic)
-        observeCharacteristicsStateChanged(characteristic: characteristic)
+        observeNotifyValue(characteristic: characteristic)
         notificationDisposables[characteristic] = disposable
     }
 
@@ -127,18 +135,45 @@ class CharacteristicsViewModel: CharacteristicsViewModelType {
                 .subscribe(onNext: { [weak self] (characteristic) in
                     self?.characteristicUpdateTrigger.onNext(Void())
                 }, onError: { [weak self] (error) in
-                    self?.alertTrigger.onNext(error.localizedDescription)
+                    let result = AlertResult.error(error)
+                    self?.alertTrigger.onNext(result)
                 })
     }
 
-    // observeCharacteristicsStateChanged tells us when exactly a characteristic has changed it's state (e.g isNotifying).
+    // observeNotifyValue tells us when exactly a characteristic has changed it's state (e.g isNotifying).
     // We need to use this method, because hardware needs an amount of time to switch characteristic's state.
-    private func observeCharacteristicsStateChanged(characteristic: Characteristic) {
-        selectedPeripheral.observeCharacteristicStateChanged(for: characteristic)
+    private func observeNotifyValue(characteristic: Characteristic) {
+        selectedPeripheral.observeNotifyValue(for: characteristic)
                 .subscribe(onNext: { [weak self] tuple in
                     self?.characteristicUpdateTrigger.onNext(Void())
-                }, onError: { [weak self] error in
-                    self?.alertTrigger.onNext("\(error)")
+                }, onError: { [unowned self] error in
+                    let result = AlertResult.error(error)
+                    self.alertTrigger.onNext(result)
                 }).disposed(by: disposeBag)
+    }
+}
+
+enum AlertResult {
+
+    case success(message: String)
+    case error(Error)
+
+    var title: String {
+        switch self {
+        case .success:
+            return Constant.Strings.titleSuccess
+        case .error:
+            return Constant.Strings.titleError
+        }
+    }
+
+    var message: String {
+        switch self {
+        case .success(let message):
+            return message
+        case .error(let error):
+            let bluetooth = error as? BluetoothError
+            return bluetooth?.description ?? error.localizedDescription
+        }
     }
 }

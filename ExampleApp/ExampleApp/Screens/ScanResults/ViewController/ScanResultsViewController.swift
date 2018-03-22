@@ -32,6 +32,7 @@ class ScanResultsViewController: UIViewController, CustomView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        RxBluetoothKitLog.setLogLevel(.debug)
         setupTableView()
         setNavigationBar()
         bindViewModel()

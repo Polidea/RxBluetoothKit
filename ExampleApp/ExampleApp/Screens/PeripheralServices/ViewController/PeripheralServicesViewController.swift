@@ -119,9 +119,9 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
 
     private func showAlert(_ title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            self?.dismiss(animated: true)
-            self?.navigationController?.popViewController(animated: true)
+        let action = UIAlertAction(title: "OK", style: .default) { _ in
+            self.dismiss(animated: true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
         alertController.addAction(action)
         present(alertController, animated: true)

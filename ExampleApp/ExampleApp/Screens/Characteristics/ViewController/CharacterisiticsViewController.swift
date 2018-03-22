@@ -57,6 +57,18 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     private func subscribeViewModelOutputs() {
         subscribeDataUpdateOutput()
         subscribeAlertTriggerOutput()
+        subscribeCharacteristicWriteOutput()
+    }
+
+    private func subscribeCharacteristicWriteOutput() {
+        viewModel.characteristicWriteValue.subscribe(onNext: { [unowned self] result in
+            switch result {
+                case .success(let characteristic):
+                     self.showAlert(title: Constant.Strings.titleSuccess, message: "Succesfully wrote value to: \(characteristic.uuid.uuidString)")
+                case .error(let error):
+                    self.showAlert(title: Constant.Strings.titleError, message: error.description)
+            }
+        }).disposed(by: disposeBag)
     }
 
     private func subscribeDataUpdateOutput() {
@@ -66,8 +78,8 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     }
 
     private func subscribeAlertTriggerOutput() {
-        viewModel.alertTriggerOutput.subscribe(onNext: { [unowned self] message in
-            self.showAlert(title: Constant.Strings.titleSuccess, message: message)
+        viewModel.alertTriggerOutput.subscribe(onNext: { [unowned self] result in
+            self.showAlert(title: result.title, message: result.message)
         }).disposed(by: disposeBag)
     }
 
@@ -124,7 +136,7 @@ final class CharacteristicsViewController: UIViewController, CustomView {
             guard let text = valueWriteController.textFields?.first?.text else {
                 return
             }
-            self.viewModel.writeValueForCharacteristic(hexadecimalString: text)
+            self.viewModel.writeToCharacteristic(value: text)
         })
 
         present(valueWriteController, animated: true, completion: nil)
@@ -134,8 +146,10 @@ final class CharacteristicsViewController: UIViewController, CustomView {
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: Constant.Strings.titleOk, style: .default) { _ in
-            self.dismiss(animated: true)
+                self.dismiss(animated: true)
+//                self.navigationController?.popToRootViewController(animated: true)
         }
+
         alertController.addAction(action)
         present(alertController, animated: true)
     }

@@ -33,6 +33,7 @@
 		E4F47404A721B10D5A81C3EB /* CharacterisiticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47E4F33E88D59D7E7590A /* CharacterisiticsViewController.swift */; };
 		E4F476C2E495D93F30E0B83A /* Peripheral+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47D5A29E4D6FC076E3B96 /* Peripheral+Hashable.swift */; };
 		E4F476F2A4C2B2F809662820 /* Characterist+CBCharacteristicWriteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47416F8037D936EC4CEDF /* Characterist+CBCharacteristicWriteType.swift */; };
+		E4F47815B940017747AB8468 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F473E01B35D7F44C80E359 /* Result.swift */; };
 		E4F478A61322FA41D7E66DCA /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F3D34AABEBCCB73FF18 /* BaseView.swift */; };
 		E4F478FC0F5A9E7799AEFC1D /* PeripheralServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F47F7964D4B612BA8B182F /* PeripheralServicesViewModel.swift */; };
 		E4F479F20F93F97493780F10 /* CharacterisiticsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */; };
@@ -63,6 +64,7 @@
 		8EA4B7E8204857D100154115 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EA4B7EA204857D100154115 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A380B061A30914A560F6D365 /* Pods_ExampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4F473E01B35D7F44C80E359 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		E4F47416F8037D936EC4CEDF /* Characterist+CBCharacteristicWriteType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Characterist+CBCharacteristicWriteType.swift"; sourceTree = "<group>"; };
 		E4F4761AD66E5AD124D8273D /* CharacterisiticsViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterisiticsViewModelType.swift; sourceTree = "<group>"; };
 		E4F476668F210414C73A5FBC /* CharacteristicsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicsTableViewCell.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				E4F4742C374DCCDAC4BF63D7 /* Constant */,
 				E4F479555A14734D05F0FB16 /* Characteristic */,
 				E4F47AAD3CD3E9475BE33312 /* Peripheral */,
+				E4F471C922D700DA26657D17 /* Result */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -325,6 +328,14 @@
 				E4F477FD294C73A2FE40847C /* CellViewModelItem */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E4F471C922D700DA26657D17 /* Result */ = {
+			isa = PBXGroup;
+			children = (
+				E4F473E01B35D7F44C80E359 /* Result.swift */,
+			);
+			path = Result;
 			sourceTree = "<group>";
 		};
 		E4F4742C374DCCDAC4BF63D7 /* Constant */ = {
@@ -587,6 +598,7 @@
 				E4F476F2A4C2B2F809662820 /* Characterist+CBCharacteristicWriteType.swift in Sources */,
 				E4F47FD23BC64CC3EE0D398A /* Characteristic+Hashable.swift in Sources */,
 				E4F476C2E495D93F30E0B83A /* Peripheral+Hashable.swift in Sources */,
+				E4F47815B940017747AB8468 /* Result.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

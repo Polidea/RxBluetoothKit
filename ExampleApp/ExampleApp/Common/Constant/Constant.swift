@@ -46,6 +46,7 @@ struct Constant {
         static let titleCancel = "Cancel"
         static let titleWriteValue = "Write value"
         static let titleOk = "OK"
+        static let titleError = "Error"
 
         static let turnOffNotifications = "Turn OFF Notification"
         static let disconnect = "Disconnect"
