@@ -2,9 +2,12 @@ import RxSwift
 import RxBluetoothKit
 import UIKit
 
-/* Generic UITableViewDataSource. I - represents model type, S - represents SectionModelItem, which stores
-   information about given section's itemsCount, sectionName, cells' class and provides collection of model data
-   check: DataSource.SectionModelItem.swift
+/*
+    Generic UITableViewDataSource
+
+    S - represents SectionModelItem, which stores
+    information about given section's itemsCount, sectionName, cells' class and provides collection of model data
+    check: DataSource/SectionModelItem.swift
 */
 
 final class TableViewDataSource<S:SectionModelItem>: NSObject, UITableViewDataSource {
