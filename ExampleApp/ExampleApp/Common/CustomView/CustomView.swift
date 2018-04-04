@@ -1,6 +1,6 @@
 import UIKit
 
-public protocol CustomView {
+protocol CustomView {
 
     associatedtype ViewClass: UIView
 
@@ -16,3 +16,4 @@ extension CustomView where Self: UIViewController {
         return customView
     }
 }
+

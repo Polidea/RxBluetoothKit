@@ -119,7 +119,7 @@ extension ScanResultsViewController: UITableViewDelegate {
         guard let cell = cell as? ScanResultTableViewCell else {
             return
         }
-
+        
         cell.setConnectTarget(self, action: #selector(connectAction), for: .touchUpInside)
     }
 }
