@@ -9,7 +9,7 @@ protocol CustomView {
 
 extension CustomView where Self: UIViewController {
 
-    public var customView: ViewClass {
+    var customView: ViewClass {
         guard let customView = self.view as? ViewClass else {
             fatalError("Couldn't cast. Type incompatibility \(#file):\(#line)")
         }
