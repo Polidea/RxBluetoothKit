@@ -63,34 +63,36 @@ public class Peripheral {
 
     private func setupSubjects() {
         delegateWrapper.peripheralDidDiscoverServices.subscribe { [weak self] event in
-            self?.remainingServicesDiscoveryRequest.write { [weak self] value in
+            self?.remainingServicesDiscoveryRequest.writeSync { value in
                 if value > 0 {
                     value -= 1
                 }
-                self?.peripheralDidDiscoverServices.on(event)
             }
+            self?.peripheralDidDiscoverServices.on(event)
         }.disposed(by: disposeBag)
 
         delegateWrapper.peripheralDidDiscoverIncludedServicesForService.subscribe { [weak self] event in
-            self?.remainingIncludedServicesDiscoveryRequest.write { [weak self] array in
+            self?.remainingIncludedServicesDiscoveryRequest.writeSync { array in
                 if let element = event.element {
                     let oldValue = array[element.0.uuid] ?? 1
-                    array[element.0.uuid] = oldValue - 1
+                    if oldValue > 0 {
+                        array[element.0.uuid] = oldValue - 1
+                    }
                 }
-
-                self?.peripheralDidDiscoverIncludedServicesForService.on(event)
             }
+            self?.peripheralDidDiscoverIncludedServicesForService.on(event)
         }.disposed(by: disposeBag)
 
         delegateWrapper.peripheralDidDiscoverCharacteristicsForService.subscribe { [weak self] event in
-            self?.remainingCharacteristicsDiscoveryRequest.write { [weak self] array in
+            self?.remainingCharacteristicsDiscoveryRequest.writeSync { array in
                 if let element = event.element {
                     let oldValue = array[element.0.uuid] ?? 1
-                    array[element.0.uuid] = oldValue - 1
+                    if oldValue > 0 {
+                        array[element.0.uuid] = oldValue - 1
+                    }
                 }
-
-                self?.peripheralDidDiscoverCharacteristicsForService.on(event)
             }
+            self?.peripheralDidDiscoverCharacteristicsForService.on(event)
         }.disposed(by: disposeBag)
     }
 
@@ -171,7 +173,7 @@ public class Peripheral {
             let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices, requireAll: true) {
             return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
-        let observable = delegateWrapper.peripheralDidDiscoverServices
+        let observable = peripheralDidDiscoverServices
             .filter { [weak self] (services, error) in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 guard let cachedServices = strongSelf.services, error == nil else { return true }
@@ -193,10 +195,10 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.remainingServicesDiscoveryRequest.write { [weak self] value in
+                self?.remainingServicesDiscoveryRequest.writeSync { value in
                     value += 1
-                    self?.peripheral.discoverServices(serviceUUIDs)
                 }
+                self?.peripheral.discoverServices(serviceUUIDs)
             }
         )
         .asSingle()
@@ -217,8 +219,7 @@ public class Peripheral {
             let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: services, requireAll: true) {
             return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
-        let observable = delegateWrapper
-            .peripheralDidDiscoverIncludedServicesForService
+        let observable = peripheralDidDiscoverIncludedServicesForService
             .filter { $0.0 == service.service }
             .filter { [weak self] (cbService, error) in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -246,11 +247,11 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.remainingIncludedServicesDiscoveryRequest.write { [weak self] array in
+                self?.remainingIncludedServicesDiscoveryRequest.writeSync { array in
                     let oldValue = array[service.uuid] ?? 0
                     array[service.uuid] = oldValue + 1
-                    self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service)
                 }
+                self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service)
             }
         )
         .asSingle()
@@ -272,8 +273,7 @@ public class Peripheral {
             let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics, requireAll: true) {
             return ensureValidPeripheralState(for: .just(filteredCharacteristics)).asSingle()
         }
-        let observable = delegateWrapper
-            .peripheralDidDiscoverCharacteristicsForService
+        let observable = peripheralDidDiscoverCharacteristicsForService
             .filter { $0.0 == service.service }
             .filter { [weak self] (cbService, error) in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -300,12 +300,11 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.remainingCharacteristicsDiscoveryRequest.write { [weak self] array in
+                self?.remainingCharacteristicsDiscoveryRequest.writeSync { array in
                     let oldValue = array[service.uuid] ?? 0
                     array[service.uuid] = oldValue + 1
-
-                    self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service)
                 }
+                self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service)
             }
         ).asSingle()
     }
