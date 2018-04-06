@@ -227,7 +227,7 @@ public class CentralManager {
     /// - parameter peripheral: Optional `Peripheral` which is observed for disconnection. When not specified it will observe for any `Peripheral`.
     /// - returns: Observable which emits next events when `Peripheral` instance was disconnected.
     /// It provides optional error which may contain more information about the cause of the disconnection
-    /// if it wasn't the `cancelConnection` call.
+    /// if it wasn't the `cancelPeripheralConnection` call.
     ///
     /// It's **infinite** stream, so `.complete` is never called.
     public func observeDisconnect(for peripheral: Peripheral? = nil) -> Observable<(Peripheral, DisconnectionReason?)> {
