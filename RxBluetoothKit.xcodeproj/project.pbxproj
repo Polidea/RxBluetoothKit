@@ -311,7 +311,7 @@
 		1DCA1EEE2028628D0090D14E /* _CharacteristicNotificationManager.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _CharacteristicNotificationManager.generated.swift; sourceTree = "<group>"; };
 		1DCA1EF42028680D0090D14E /* CharacteristicNotificationManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicNotificationManagerTest.swift; sourceTree = "<group>"; };
 		26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceIdentifiers.swift; sourceTree = "<group>"; };
-		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; };
 		2666FCED1CCE42A5005E81CE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
 		2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RxBluetoothKit.h; path = Source/RxBluetoothKit.h; sourceTree = "<group>"; };
 		2666FD061CCE430F005E81CE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };

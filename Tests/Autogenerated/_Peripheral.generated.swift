@@ -4,6 +4,7 @@ import CoreBluetooth
 @testable import RxBluetoothKit
 
 // swiftlint:disable line_length
+// swiftlint:disable type_body_length
 
 /// _Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
 /// allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.
@@ -19,6 +20,17 @@ class _Peripheral {
     private let notificationManager: CharacteristicNotificationManagerMock
 
     let delegateWrapper: CBPeripheralDelegateWrapperMock
+
+    private let remainingServicesDiscoveryRequest = ThreadSafeBox<Int>(value: 0)
+    private let peripheralDidDiscoverServices = PublishSubject<([CBServiceMock]?, Error?)>()
+
+    private let remainingIncludedServicesDiscoveryRequest = ThreadSafeBox<[CBUUID: Int]>(value: [CBUUID: Int]())
+    private let peripheralDidDiscoverIncludedServicesForService = PublishSubject<(CBServiceMock, Error?)>()
+
+    private let remainingCharacteristicsDiscoveryRequest = ThreadSafeBox<[CBUUID: Int]>(value: [CBUUID: Int]())
+    private let peripheralDidDiscoverCharacteristicsForService = PublishSubject<(CBServiceMock, Error?)>()
+
+    private let disposeBag = DisposeBag()
 
     /// Creates new `_Peripheral`
     /// - parameter manager: Central instance which is used to perform all of the necessary operations.
@@ -36,11 +48,51 @@ class _Peripheral {
         self.delegateWrapper = delegateWrapper
         self.notificationManager = notificationManager
         peripheral.delegate = self.delegateWrapper
+
+        setupSubjects()
     }
 
-    convenience init(manager: _CentralManager, peripheral: CBPeripheralMock, delegateWrapper: CBPeripheralDelegateWrapperMock) {
+    convenience init(manager: _CentralManager,
+                     peripheral: CBPeripheralMock,
+                     delegateWrapper: CBPeripheralDelegateWrapperMock) {
         let notificationManager = CharacteristicNotificationManagerMock(peripheral: peripheral, delegateWrapper: delegateWrapper)
-        self.init(manager: manager, peripheral: peripheral, delegateWrapper: delegateWrapper, notificationManager: notificationManager)
+        self.init(manager: manager,
+                  peripheral: peripheral,
+                  delegateWrapper: delegateWrapper,
+                  notificationManager: notificationManager)
+    }
+
+    private func setupSubjects() {
+        delegateWrapper.peripheralDidDiscoverServices.subscribe { [weak self] event in
+            self?.remainingServicesDiscoveryRequest.write { [weak self] value in
+                if value > 0 {
+                    value -= 1
+                }
+                self?.peripheralDidDiscoverServices.on(event)
+            }
+        }.disposed(by: disposeBag)
+
+        delegateWrapper.peripheralDidDiscoverIncludedServicesForService.subscribe { [weak self] event in
+            self?.remainingIncludedServicesDiscoveryRequest.write { [weak self] array in
+                if let element = event.element {
+                    let oldValue = array[element.0.uuid] ?? 1
+                    array[element.0.uuid] = oldValue - 1
+                }
+
+                self?.peripheralDidDiscoverIncludedServicesForService.on(event)
+            }
+        }.disposed(by: disposeBag)
+
+        delegateWrapper.peripheralDidDiscoverCharacteristicsForService.subscribe { [weak self] event in
+            self?.remainingCharacteristicsDiscoveryRequest.write { [weak self] array in
+                if let element = event.element {
+                    let oldValue = array[element.0.uuid] ?? 1
+                    array[element.0.uuid] = oldValue - 1
+                }
+
+                self?.peripheralDidDiscoverCharacteristicsForService.on(event)
+            }
+        }.disposed(by: disposeBag)
     }
 
     /// Attaches RxBluetoothKit delegate to CBPeripheralMock.
@@ -109,8 +161,6 @@ class _Peripheral {
     /// Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the
     /// peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
     /// If all of the specified services are already discovered - these are returned without doing any underlying Bluetooth operations.
-    /// Next on returned `Observable` is emitted only when all of the requested services are discovered, otherwise`RxError.noElements`
-    /// error is emmited.
     ///
     /// - Parameter serviceUUIDs: An array of [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/)
     /// objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/)
@@ -119,25 +169,36 @@ class _Peripheral {
     func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Single<[_Service]> {
         if let identifiers = serviceUUIDs, !identifiers.isEmpty,
             let cachedServices = self.services,
-            let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
+            let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices, requireAll: true) {
             return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
         let observable = delegateWrapper.peripheralDidDiscoverServices
+            .filter { [weak self] (services, error) in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                guard let cachedServices = strongSelf.services, error == nil else { return true }
+                let foundRequestedServices = serviceUUIDs != nil && filterUUIDItems(uuids: serviceUUIDs, items: cachedServices, requireAll: true) != nil
+                return foundRequestedServices || strongSelf.remainingServicesDiscoveryRequest.read { $0 == 0 }
+            }
             .flatMap { [weak self] (_, error) -> Observable<[_Service]> in
                 guard let strongSelf = self else { throw _BluetoothError.destroyed }
                 guard let cachedServices = strongSelf.services, error == nil else {
                     throw _BluetoothError.servicesDiscoveryFailed(strongSelf, error)
                 }
-                if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices) {
+                if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices, requireAll: false) {
                     return .just(filteredServices)
                 }
-                throw RxError.noElements
+                return .empty()
             }
             .take(1)
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
-            postSubscriptionCall: { [weak self] in self?.peripheral.discoverServices(serviceUUIDs) }
+            postSubscriptionCall: { [weak self] in
+                self?.remainingServicesDiscoveryRequest.write { [weak self] value in
+                    value += 1
+                    self?.peripheral.discoverServices(serviceUUIDs)
+                }
+            }
         )
         .asSingle()
     }
@@ -146,8 +207,6 @@ class _Peripheral {
     /// subscribtion to `Observable` is made.
     /// If all of the specified included services are already discovered - these are returned without doing any underlying Bluetooth
     /// operations.
-    /// Next on returned `Observable` is emitted only when all of the requested included services are discovered, otherwise`RxError.noElements`
-    /// error is emmited.
     ///
     /// - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
     /// included services will be discovered. If you'll pass empty array - none of them will be discovered.
@@ -156,29 +215,43 @@ class _Peripheral {
     func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: _Service) -> Single<[_Service]> {
         if let identifiers = includedServiceUUIDs, !identifiers.isEmpty,
             let services = service.includedServices,
-            let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: services) {
+            let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: services, requireAll: true) {
             return ensureValidPeripheralState(for: .just(filteredServices)).asSingle()
         }
         let observable = delegateWrapper
             .peripheralDidDiscoverIncludedServicesForService
             .filter { $0.0 == service.service }
-            .flatMap { [weak self] (service, error) -> Observable<[_Service]> in
+            .filter { [weak self] (cbService, error) in
                 guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                guard let includedRxServices = service.includedServices, error == nil else {
+                guard let includedCBServices = cbService.includedServices, error == nil else { return true }
+
+                let includedServices = includedCBServices.map { _Service(peripheral: strongSelf, service: $0) }
+                let foundRequestedServices = includedServiceUUIDs != nil && filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices, requireAll: true) != nil
+                return foundRequestedServices || strongSelf.remainingIncludedServicesDiscoveryRequest.read { array in
+                    return (array[cbService.uuid] ?? 0) == 0
+                }
+            }
+            .flatMap { [weak self] (cbService, error) -> Observable<[_Service]> in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                guard let includedRxServices = cbService.includedServices, error == nil else {
                     throw _BluetoothError.includedServicesDiscoveryFailed(strongSelf, error)
                 }
                 let includedServices = includedRxServices.map { _Service(peripheral: strongSelf, service: $0) }
-                if let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices) {
+                if let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices, requireAll: false) {
                     return .just(filteredServices)
                 }
-                throw RxError.noElements
+                return .empty()
             }
             .take(1)
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service)
+                self?.remainingIncludedServicesDiscoveryRequest.write { [weak self] array in
+                    let oldValue = array[service.uuid] ?? 0
+                    array[service.uuid] = oldValue + 1
+                    self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service)
+                }
             }
         )
         .asSingle()
@@ -189,8 +262,6 @@ class _Peripheral {
     /// Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
     /// subscribtion to `Observable` is made.
     /// If all of the specified characteristics are already discovered - these are returned without doing any underlying Bluetooth operations.
-    /// Next on returned `Observable` is emitted only when all of the requested characteristics are discovered, otherwise`RxError.noElements`
-    /// error is emmited.
     ///
     /// - Parameter characteristicUUIDs: Identifiers of characteristics that should be discovered. If `nil` - all of the
     /// characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
@@ -199,28 +270,43 @@ class _Peripheral {
     func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: _Service) -> Single<[_Characteristic]> {
         if let identifiers = characteristicUUIDs, !identifiers.isEmpty,
             let characteristics = service.characteristics,
-            let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
+            let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics, requireAll: true) {
             return ensureValidPeripheralState(for: .just(filteredCharacteristics)).asSingle()
         }
         let observable = delegateWrapper
             .peripheralDidDiscoverCharacteristicsForService
             .filter { $0.0 == service.service }
+            .filter { [weak self] (cbService, error) in
+                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                guard let cbCharacteristics = cbService.characteristics, error == nil else { return true }
+
+                let characteristics = cbCharacteristics.map { _Characteristic(characteristic: $0, service: service) }
+                let foundRequestedCharacteristis = characteristicUUIDs != nil && filterUUIDItems(uuids: characteristicUUIDs, items: characteristics, requireAll: true) != nil
+                return foundRequestedCharacteristis || strongSelf.remainingCharacteristicsDiscoveryRequest.read { array in
+                    return (array[cbService.uuid] ?? 0) == 0
+                }
+            }
             .flatMap { (cbService, error) -> Observable<[_Characteristic]> in
                 guard let cbCharacteristics = cbService.characteristics, error == nil else {
                     throw _BluetoothError.characteristicsDiscoveryFailed(service, error)
                 }
                 let characteristics = cbCharacteristics.map { _Characteristic(characteristic: $0, service: service) }
-                if let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics) {
+                if let filteredCharacteristics = filterUUIDItems(uuids: characteristicUUIDs, items: characteristics, requireAll: false) {
                     return .just(filteredCharacteristics)
                 }
-                throw RxError.noElements
+                return .empty()
             }
             .take(1)
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service)
+                self?.remainingCharacteristicsDiscoveryRequest.write { [weak self] array in
+                    let oldValue = array[service.uuid] ?? 0
+                    array[service.uuid] = oldValue + 1
+
+                    self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service)
+                }
             }
         ).asSingle()
     }
