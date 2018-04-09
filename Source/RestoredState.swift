@@ -22,8 +22,14 @@ public struct RestoredState {
     public var peripherals: [Peripheral] {
         let objects = restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [AnyObject]
         guard let arrayOfAnyObjects = objects else { return [] }
-        return arrayOfAnyObjects.flatMap { $0 as? CBPeripheral }
-            .map { centralManager.retrievePeripheral(for: $0) }
+
+        #if swift(>=4.1)
+            let cbPeripherals = arrayOfAnyObjects.compactMap { $0 as? CBPeripheral }
+        #else
+            let cbPeripherals = arrayOfAnyObjects.flatMap { $0 as? CBPeripheral }
+        #endif
+
+        return cbPeripherals.map { centralManager.retrievePeripheral(for: $0) }
     }
 
     /// Dictionary that contains all of the peripheral scan options that were being used
@@ -38,8 +44,14 @@ public struct RestoredState {
     public var services: [Service] {
         let objects = restoredStateData[CBCentralManagerRestoredStateScanServicesKey] as? [AnyObject]
         guard let arrayOfAnyObjects = objects else { return [] }
-        return arrayOfAnyObjects.flatMap { $0 as? CBService }
-            .map { Service(peripheral: centralManager.retrievePeripheral(for: $0.peripheral),
+
+        #if swift(>=4.1)
+            let cbServices = arrayOfAnyObjects.compactMap { $0 as? CBService }
+        #else
+            let cbServices = arrayOfAnyObjects.flatMap { $0 as? CBService }
+        #endif
+
+        return cbServices.map { Service(peripheral: centralManager.retrievePeripheral(for: $0.peripheral),
                            service: $0) }
     }
 }

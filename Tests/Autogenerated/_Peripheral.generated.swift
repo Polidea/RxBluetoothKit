@@ -368,17 +368,22 @@ class _Peripheral {
         }
         switch type {
         case .withoutResponse:
-            return Observable<_Characteristic>.deferred { [weak self] in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                return strongSelf.observeWriteWithoutResponseReadiness()
-                    .map { _ in true }
-                    .startWith(strongSelf.canSendWriteWithoutResponse)
-                    .filter { $0 }
-                    .take(1)
-                    .flatMap { _ in
-                        writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
-                    }
-            }.asSingle()
+            if #available(iOS 11.0, *) {
+                return Observable<_Characteristic>.deferred { [weak self] in
+                    guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                    return strongSelf.observeWriteWithoutResponseReadiness()
+                        .map { _ in true }
+                        .startWith(strongSelf.canSendWriteWithoutResponse)
+                        .filter { $0 }
+                        .take(1)
+                        .flatMap { _ in
+                            writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
+                        }
+                    }.asSingle()
+            } else {
+                return writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
+                    .asSingle()
+            }
         case .withResponse:
             return writeOperationPerformingAndListeningObservable(observeWrite(for: characteristic).take(1))
                 .asSingle()

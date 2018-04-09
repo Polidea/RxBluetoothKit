@@ -23,8 +23,14 @@ struct _RestoredState {
     var peripherals: [_Peripheral] {
         let objects = restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [AnyObject]
         guard let arrayOfAnyObjects = objects else { return [] }
-        return arrayOfAnyObjects.flatMap { $0 as? CBPeripheralMock }
-            .map { centralManager.retrievePeripheral(for: $0) }
+
+        #if swift(>=4.1)
+            let cbPeripherals = arrayOfAnyObjects.compactMap { $0 as? CBPeripheralMock }
+        #else
+            let cbPeripherals = arrayOfAnyObjects.flatMap { $0 as? CBPeripheralMock }
+        #endif
+
+        return cbPeripherals.map { centralManager.retrievePeripheral(for: $0) }
     }
 
     /// Dictionary that contains all of the peripheral scan options that were being used
@@ -39,8 +45,14 @@ struct _RestoredState {
     var services: [_Service] {
         let objects = restoredStateData[CBCentralManagerRestoredStateScanServicesKey] as? [AnyObject]
         guard let arrayOfAnyObjects = objects else { return [] }
-        return arrayOfAnyObjects.flatMap { $0 as? CBServiceMock }
-            .map { _Service(peripheral: centralManager.retrievePeripheral(for: $0.peripheral),
+
+        #if swift(>=4.1)
+            let cbServices = arrayOfAnyObjects.compactMap { $0 as? CBServiceMock }
+        #else
+            let cbServices = arrayOfAnyObjects.flatMap { $0 as? CBServiceMock }
+        #endif
+
+        return cbServices.map { _Service(peripheral: centralManager.retrievePeripheral(for: $0.peripheral),
                            service: $0) }
     }
 }
