@@ -98,6 +98,51 @@ class PeripheralServiceTest: BasePeripheralTest {
         XCTAssertServiceList(observable: obs, uuids: mockServices.map { $0.uuid })
     }
     
+    func testDiscoveryQueue() {
+        let mockServices = [
+            createService(uuid: "0x0000"),
+            createService(uuid: "0x0001")
+        ]
+        
+        let obs0: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable {
+            self.peripheral.discoverServices(nil).asObservable()
+        }
+        let obs1: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable {
+            self.peripheral.discoverServices([mockServices[0].uuid]).asObservable()
+        }
+        let obs2: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable {
+            self.peripheral.discoverServices([mockServices[1].uuid]).asObservable()
+        }
+        testScheduler.scheduleAt(subscribeTime + 100) {
+            self.peripheral.peripheral.services = [mockServices[0]]
+            self.peripheral.delegateWrapper.peripheralDidDiscoverServices.asObserver().onNext(([mockServices[0]], nil))
+        }
+        testScheduler.scheduleAt(subscribeTime + 200) {
+            self.peripheral.peripheral.services = mockServices
+            self.peripheral.delegateWrapper.peripheralDidDiscoverServices.asObserver().onNext((mockServices, nil))
+        }
+        testScheduler.scheduleAt(subscribeTime + 300) {
+            self.peripheral.peripheral.services = mockServices
+            self.peripheral.delegateWrapper.peripheralDidDiscoverServices.asObserver().onNext((mockServices, nil))
+        }
+        
+        testScheduler.advanceTo(subscribeTime + 100)
+        
+        XCTAssertEqual(peripheral.peripheral.discoverServicesParams.count, 3, "should call discover services 3 times")
+        XCTAssertEqual(obs0.events.count, 0, "should not receive event for first request")
+        XCTAssertServiceList(observable: obs1, uuids: [mockServices[0].uuid])
+        XCTAssertEqual(obs2.events.count, 0, "should not receive event for third request")
+        
+        testScheduler.advanceTo(subscribeTime + 200)
+        
+        XCTAssertServiceList(observable: obs2, uuids: [mockServices[1].uuid] )
+        XCTAssertEqual(obs0.events.count, 0, "should not receive event for first request")
+        
+        testScheduler.advanceTo(subscribeTime + 300)
+        
+        XCTAssertServiceList(observable: obs0, uuids: mockServices.map { $0.uuid } )
+    }
+    
     func testDiscoverServicesForDisconnectedPeripheral() {
         peripheral.peripheral.state = .disconnected
         

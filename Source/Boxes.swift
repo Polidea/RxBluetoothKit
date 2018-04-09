@@ -38,6 +38,12 @@ class ThreadSafeBox<T>: CustomDebugStringConvertible {
         }
     }
 
+    func writeSync(_ block: @escaping (inout T) -> Void) {
+        queue.sync {
+            block(&self.value)
+        }
+    }
+
     @discardableResult func compareAndSet(compare: (T) -> Bool, set: @escaping (inout T) -> Void) -> Bool {
         var result: Bool = false
         queue.sync {
