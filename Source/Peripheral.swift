@@ -367,7 +367,7 @@ public class Peripheral {
         }
         switch type {
         case .withoutResponse:
-            if #available(iOS 11.0, *) {
+            if #available(iOS 11.0, macOS 10.13, tvOS 11.0, watchOS 4.0, *) {
                 return Observable<Characteristic>.deferred { [weak self] in
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
                     return strongSelf.observeWriteWithoutResponseReadiness()
