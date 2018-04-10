@@ -1,3 +1,12 @@
+# 5.0.1
+- Added method to observe notyfing state change for the characteristic (#229)
+- Aligned the API for `establishConnection` with the rest of the implementation
+- Made restore state api public (#224)
+- Enabled getting an `Observable<Peripheral>` from already connected peripheral provided by the system (#238)
+- Fixed writting without response on older systems (#241)
+- Added queues for discovery requests (fixed #235)
+- Added support for XCode 9.3 and swift 4.1
+
 # 5.0
 - Changed `BluetoothManager` to `CentralManager`
 - Reimplemented connection and notification API's
