@@ -83,7 +83,7 @@ import RxSwift
         }
 
         static func printMethodParamTypes(_ method: SourceryRuntime.Method) -> String {
-            return method.parameters.reduce("", { "\($0)\(changeTypeName($1.typeName.name)), " }).dropLast(2)
+            return String(method.parameters.reduce("", { "\($0)\(changeTypeName($1.typeName.name)), " }).dropLast(2))
         }
 
         static func printMethodName(_ method: SourceryRuntime.Method, changeTypeNames: Bool = true) -> String {
