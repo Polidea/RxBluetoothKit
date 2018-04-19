@@ -120,11 +120,21 @@ class _CentralManager {
     /// As a result you will receive `_ScannedPeripheral` which contains `_Peripheral` object, `AdvertisementData` and
     /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other
     /// operations.
+    ///
     /// - seealso: `_Peripheral`
     ///
     /// - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
     /// - parameter options: Optional scanning options.
     /// - returns: Infinite stream of scanned peripherals.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.scanInProgress`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
                     -> Observable<_ScannedPeripheral> {
         return .deferred { [weak self] in
@@ -177,9 +187,20 @@ class _CentralManager {
     /// following `_BluetoothError.peripheralConnectionFailed` or `_BluetoothError.peripheralDisconnected` emission.
     /// Additionally you can pass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
     /// to customise the behaviour of connection.
+    ///
     /// - parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to establish connection.
     /// - parameter options: Dictionary to customise the behaviour of connection.
     /// - returns: `Observable` which emits next event after connection is established.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.peripheralIsAlreadyObservingConnection`
+    /// * `_BluetoothError.peripheralConnectionFailed`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func establishConnection(_ peripheral: _Peripheral, options: [String: Any]? = nil) -> Observable<_Peripheral> {
         let observable = connector.establishConnection(with: peripheral, options: options)
         return ensure(.poweredOn, observable: observable)
@@ -210,10 +231,19 @@ class _CentralManager {
     // MARK: Connection and disconnection observing
 
     /// Emits `_Peripheral` instance when it's connected.
+    ///
     /// - parameter peripheral: Optional `_Peripheral` which is observed for connection. When not specified it will observe fo any `_Peripheral`.
     /// - returns: Observable which emits next events when `peripheral` was connected.
     ///
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func observeConnect(for peripheral: _Peripheral? = nil) -> Observable<_Peripheral> {
         let observable = delegateWrapper.didConnectPeripheral
             .filter { peripheral != nil ? ($0 == peripheral!.peripheral) : true }
@@ -231,6 +261,14 @@ class _CentralManager {
     /// if it wasn't the `cancelPeripheralConnection` call.
     ///
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func observeDisconnect(for peripheral: _Peripheral? = nil) -> Observable<(_Peripheral, DisconnectionReason?)> {
         let observable = delegateWrapper.didDisconnectPeripheral
             .filter { peripheral != nil ? ($0.0 == peripheral!.peripheral) : true }

@@ -5,6 +5,17 @@ cd "${DIR}"
 
 cd ..
 
+RED='\033[0;31m'
+NC='\033[0m'
+
+hash jazzy &> /dev/null
+if [ $? -eq 1 ]; then
+    echo "${RED}Could not found jazzy  command!${NC}"
+    echo "Install it with command: [sudo] gem install jazzy"
+    exit 1
+fi
+
+
 LIBRARY_VERSION="$1"
 
 if [ -z "$LIBRARY_VERSION" ]; then

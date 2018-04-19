@@ -37,6 +37,16 @@ public class Descriptor {
     /// Function that allow to observe writes that happened for descriptor.
     /// - Returns: Observable that emits `next` with `Descriptor` instance every time when write has happened.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeWrite() -> Observable<Descriptor> {
         return characteristic.service.peripheral.observeWrite(for: self)
     }
@@ -44,6 +54,16 @@ public class Descriptor {
     /// Function that triggers write of data to descriptor. Write is called after subscribtion to `Observable` is made.
     /// - Parameter data: `Data` that'll be written to `Descriptor` instance
     /// - Returns: `Single` that emits `Next` with `Descriptor` instance, once value is written successfully.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func writeValue(_ data: Data) -> Single<Descriptor> {
         return characteristic.service.peripheral.writeValue(data, for: self)
     }
@@ -51,6 +71,16 @@ public class Descriptor {
     /// Function that allow to observe value updates for `Descriptor` instance.
     /// - Returns: Observable that emits `next` with `Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdate() -> Observable<Descriptor> {
         return characteristic.service.peripheral.observeValueUpdate(for: self)
     }
@@ -58,6 +88,16 @@ public class Descriptor {
     /// Function that triggers read of current value of the `Descriptor` instance.
     /// Read is called after subscription to `Observable` is made.
     /// - Returns: `Single` which emits `next` with given descriptor when value is ready to read.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func readValue() -> Single<Descriptor> {
         return characteristic.service.peripheral.readValue(for: self)
     }

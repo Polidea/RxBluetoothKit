@@ -143,6 +143,14 @@ public class Peripheral {
     ///  Continuous value indicating if peripheral is in connected state. This is continuous value, which emits `.next` whenever state change occurs
     /// - returns Observable which emits next events when `Peripheral` is connected or disconnected.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeConnection() -> Observable<Bool> {
         let disconnected = manager.observeDisconnect(for: self).map { _ in false }
         let connected = manager.observeConnect(for: self).map { _ in true }
@@ -153,6 +161,17 @@ public class Peripheral {
     /// For more information look into `CentralManager.establishConnection(with:options:)` because this method calls it directly.
     /// - parameter options: Dictionary to customise the behaviour of connection.
     /// - returns: `Observable` which emits `next` event after connection is established.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.peripheralIsAlreadyObservingConnection`
+    /// * `BluetoothError.peripheralConnectionFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func establishConnection(options: [String: Any]? = nil) -> Observable<Peripheral> {
         return manager.establishConnection(self, options: options)
     }
@@ -167,6 +186,16 @@ public class Peripheral {
     /// objects that you are interested in. Here, each [CBUUID](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/)
     /// object represents a UUID that identifies the type of service you want to discover.
     /// - Returns: `Single` that emits `next` with array of `Service` instances, once they're discovered.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.servicesDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func discoverServices(_ serviceUUIDs: [CBUUID]?) -> Single<[Service]> {
         if let identifiers = serviceUUIDs, !identifiers.isEmpty,
             let cachedServices = self.services,
@@ -213,6 +242,16 @@ public class Peripheral {
     /// included services will be discovered. If you'll pass empty array - none of them will be discovered.
     /// - Parameter service: Service of which included services should be discovered.
     /// - Returns: `Single` that emits `next` with array of `Service` instances, once they're discovered.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.includedServicesDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?, for service: Service) -> Single<[Service]> {
         if let identifiers = includedServiceUUIDs, !identifiers.isEmpty,
             let services = service.includedServices,
@@ -267,6 +306,16 @@ public class Peripheral {
     /// characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
     /// - Parameter service: Service of which characteristics should be discovered.
     /// - Returns: `Single` that emits `next` with array of `Characteristic` instances, once they're discovered.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicsDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: Service) -> Single<[Characteristic]> {
         if let identifiers = characteristicUUIDs, !identifiers.isEmpty,
             let characteristics = service.characteristics,
@@ -313,6 +362,16 @@ public class Peripheral {
     /// - Parameter characteristic: Optional `Characteristic` of which value changes should be observed. When not specified it will observe for any `Characteristic`.
     /// - Returns: Observable that emits `next` with `Characteristic` instance every time when write has happened.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeWrite(for characteristic: Characteristic? = nil) -> Observable<Characteristic> {
         let observable = delegateWrapper
             .peripheralDidWriteValueForCharacteristic
@@ -352,6 +411,16 @@ public class Peripheral {
     /// - parameter characteristic: `Characteristic` instance to write value to.
     /// - parameter type: Type of write operation. Possible values: `.withResponse`, `.withoutResponse`
     /// - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func writeValue(_ data: Data,
                            for characteristic: Characteristic,
                            type: CBCharacteristicWriteType) -> Single<Characteristic> {
@@ -393,6 +462,16 @@ public class Peripheral {
     /// - Parameter characteristic: Optional `Characteristic` of which value changes should be observed. When not specified it will observe for any `Characteristic`.
     /// - Returns: Observable that emits `next` with `Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdate(for characteristic: Characteristic? = nil) -> Observable<Characteristic> {
         let observable = delegateWrapper
             .peripheralDidUpdateValueForCharacteristic
@@ -412,6 +491,9 @@ public class Peripheral {
     /// Read is called after subscription to `Observable` is made.
     /// - Parameter characteristic: `Characteristic` to read value from
     /// - Returns: `Single` which emits `next` with given characteristic when value is ready to read.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
     public func readValue(for characteristic: Characteristic) -> Single<Characteristic> {
         let observable = observeValueUpdate(for: characteristic).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
@@ -432,6 +514,16 @@ public class Peripheral {
     /// - returns: `Observable` emitting `Characteristic` when given characteristic has been changed.
     ///
     /// This is **infinite** stream of values.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdateAndSetNotification(for characteristic: Characteristic) -> Observable<Characteristic> {
         let observable = notificationManager.observeValueUpdateAndSetNotification(for: characteristic)
         return ensureValidPeripheralState(for: observable)
@@ -441,6 +533,16 @@ public class Peripheral {
     ///
     /// - parameter characteristic: `Characteristic` which you observe for isNotyfing changes.
     /// - returns: `Observable` emitting `Characteristic` when given characteristic has changed it's isNoytfing value.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicSetNotifyValueFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeNotifyValue(for characteristic: Characteristic) -> Observable<Characteristic> {
         return delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
@@ -460,6 +562,16 @@ public class Peripheral {
     /// If all of the descriptors are already discovered - these are returned without doing any underlying Bluetooth operations.
     /// - Parameter characteristic: `Characteristic` instance for which descriptors should be discovered.
     /// - Returns: `Single` that emits `next` with array of `Descriptor` instances, once they're discovered.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorsDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func discoverDescriptors(for characteristic: Characteristic) -> Single<[Descriptor]> {
         if let descriptors = characteristic.descriptors {
             let resultDescriptors = descriptors.map { Descriptor(descriptor: $0.descriptor, characteristic: characteristic) }
@@ -489,6 +601,16 @@ public class Peripheral {
     /// - Parameter descriptor: Optional `Descriptor` of which value changes should be observed. When not specified it will observe for any `Descriptor`.
     /// - Returns: Observable that emits `next` with `Descriptor` instance every time when write has happened.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeWrite(for descriptor: Descriptor? = nil) -> Observable<Descriptor> {
         let observable = delegateWrapper
             .peripheralDidWriteValueForDescriptor
@@ -508,6 +630,16 @@ public class Peripheral {
     /// - Parameter descriptor: Optional `Descriptor` of which value changes should be observed. When not specified it will observe for any `Descriptor`.
     /// - Returns: Observable that emits `next` with `Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdate(for descriptor: Descriptor? = nil) -> Observable<Descriptor> {
         let observable = delegateWrapper
             .peripheralDidUpdateValueForDescriptor
@@ -527,6 +659,16 @@ public class Peripheral {
     /// Read is called after subscription to `Observable` is made.
     /// - Parameter descriptor: `Descriptor` to read value from
     /// - Returns: `Single` which emits `next` with given descriptor when value is ready to read.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func readValue(for descriptor: Descriptor) -> Single<Descriptor> {
         let observable = observeValueUpdate(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
@@ -541,6 +683,16 @@ public class Peripheral {
     /// - Parameter data: `Data` that'll be written to `Descriptor` instance
     /// - Parameter descriptor: `Descriptor` instance to write value to.
     /// - Returns: `Single` that emits `next` with `Descriptor` instance, once value is written successfully.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func writeValue(_ data: Data, for descriptor: Descriptor) -> Single<Descriptor> {
         let observeWrite = self.observeWrite(for: descriptor).take(1)
         return ensureValidPeripheralStateAndCallIfSucceeded(
@@ -556,6 +708,16 @@ public class Peripheral {
     /// Function that triggers read of `Peripheral` RSSI value. Read is called after subscription to `Observable` is made.
     /// - returns: `Single` that emits tuple: `(Peripheral, Int)` once new RSSI value is read.
     /// `Int` is new RSSI value, `Peripheral` is returned to allow easier chaining.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.peripheralRSSIReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func readRSSI() -> Single<(Peripheral, Int)> {
         let observable = delegateWrapper
             .peripheralDidReadRSSI
@@ -580,6 +742,15 @@ public class Peripheral {
     /// - returns: `Observable` that emits tuples: `(Peripheral, String?)` when name has changed.
     ///    It's `optional String` because peripheral could also lost his name.
     ///    It's **infinite** stream of values, so `.complete` is never emitted.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeNameUpdate() -> Observable<(Peripheral, String?)> {
         let observable = delegateWrapper.peripheralDidUpdateName.map { [weak self] name -> (Peripheral, String?) in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -594,6 +765,15 @@ public class Peripheral {
     ///
     /// - returns: `Observable` that emits tuples: `(Peripheral, [Service])` when services were modified.
     ///    It's **infinite** stream of values, so `.complete` is never emitted.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeServicesModification() -> Observable<(Peripheral, [Service])> {
         let observable = delegateWrapper.peripheralDidModifyServices
             .map { [weak self] services -> [Service] in
@@ -619,6 +799,16 @@ public class Peripheral {
     /// - parameter PSM: `PSM` (Protocol/Service Multiplexer) of the channel
     /// - returns: `Single` that emits `CBL2CAPChannel` when channel has opened
     /// - since: iOS 11, tvOS 11, watchOS 4
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.openingL2CAPChannelFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     #if os(iOS) || os(tvOS) || os(watchOS)
     @available(iOS 11, tvOS 11, watchOS 4, *)
     public func openL2CAPChannel(PSM: CBL2CAPPSM) -> Single<CBL2CAPChannel> {

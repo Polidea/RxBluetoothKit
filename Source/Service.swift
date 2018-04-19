@@ -46,6 +46,16 @@ public class Service {
     /// characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
     /// - Returns: `Single` that emits `next` with array of `Characteristic` instances, once they're discovered.
     /// If not all requested characteristics are discovered, `RxError.noElements` error is emmited.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicsDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?) -> Single<[Characteristic]> {
         return peripheral.discoverCharacteristics(characteristicUUIDs, for: self)
     }
@@ -55,7 +65,17 @@ public class Service {
     /// - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
     /// included services will be discovered. If you'll pass empty array - none of them will be discovered.
     /// - Returns: `Single` that emits `next` with array of `Service` instances, once they're discovered.
-    // If not all requested services are discovered, `RxError.noElements` error is emmited.
+    /// If not all requested services are discovered, `RxError.noElements` error is emmited.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.includedServicesDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?) -> Single<[Service]> {
         return peripheral.discoverIncludedServices(includedServiceUUIDs, for: self)
     }

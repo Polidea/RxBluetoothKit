@@ -10,6 +10,17 @@ extension Peripheral {
     /// or directly by `discoverServices` call
     /// - Parameter identifier: Unique identifier of Service
     /// - Returns: `Single` which emits `next` event, when specified service has been found.
+    ///
+    /// Observable can ends with following errors:
+    /// * `RxError.noElements`
+    /// * `BluetoothError.servicesDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func service(with identifier: ServiceIdentifier) -> Single<Service> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -33,6 +44,17 @@ extension Peripheral {
     /// - Parameter identifier: Unique identifier of Characteristic, that has information
     /// about service which characteristic belongs to.
     /// - Returns: `Single` which emits `next` event, when specified characteristic has been found.
+    ///
+    /// Observable can ends with following errors:
+    /// * `RxError.noElements`
+    /// * `BluetoothError.characteristicsDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func characteristic(with identifier: CharacteristicIdentifier) -> Single<Characteristic> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -59,6 +81,17 @@ extension Peripheral {
     /// - Parameter identifier: Unique identifier of Descriptor, that has information
     /// about characteristic which descriptor belongs to.
     /// - Returns: `Single` which emits `next` event, when specified descriptor has been found.
+    ///
+    /// Observable can ends with following errors:
+    /// * `RxError.noElements`
+    /// * `BluetoothError.descriptorsDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func descriptor(with identifier: DescriptorIdentifier) -> Single<Descriptor> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
@@ -83,6 +116,16 @@ extension Peripheral {
     /// - Parameter identifier: Identifier of characteristic of which value writes should be observed.
     /// - Returns: Observable that emits `next` with `Characteristic` instance every time when write has happened.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeWrite(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
@@ -105,6 +148,16 @@ extension Peripheral {
     /// - `WithoutResponse` - Observable emits `next` with `Characteristic` instance once write was called.
     /// Immediately after that `.complete` is called. Result of this call is not checked, so as a user you are not sure
     /// if everything completed successfully. Errors are not emitted
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func writeValue(_ data: Data, for identifier: CharacteristicIdentifier,
                            type: CBCharacteristicWriteType) -> Single<Characteristic> {
         return characteristic(with: identifier)
@@ -117,6 +170,16 @@ extension Peripheral {
     /// - Parameter identifier: unique identifier of characteristic, which also holds information about service that characteristic belongs to.
     /// - Returns: Observable that emits `next` with `Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdate(for identifier: CharacteristicIdentifier) -> Observable<Characteristic> {
         return characteristic(with: identifier)
             .asObservable()
@@ -130,6 +193,16 @@ extension Peripheral {
     /// - Parameter identifier: unique identifier of characteristic, which also holds information about service that characteristic belongs to.
     /// - Returns: Observable which emits `next` with given characteristic when value is ready to read. Immediately after that
     /// `.complete` is emitted.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func readValue(for identifier: CharacteristicIdentifier) -> Single<Characteristic> {
         return characteristic(with: identifier)
             .flatMap { [weak self] in
@@ -147,6 +220,16 @@ extension Peripheral {
     /// - returns: `Observable` emitting `Characteristic` when given characteristic has been changed.
     ///
     /// This is **infinite** stream of values.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdateAndSetNotification(for identifier: CharacteristicIdentifier)
         -> Observable<Characteristic> {
         return characteristic(with: identifier)
@@ -159,6 +242,16 @@ extension Peripheral {
     /// Function that triggers descriptors discovery for characteristic
     /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
     /// - Returns: `Single` that emits `next` with array of `Descriptor` instances, once they're discovered.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorsDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func discoverDescriptors(for identifier: CharacteristicIdentifier) ->
         Single<[Descriptor]> {
         return characteristic(with: identifier)
@@ -171,6 +264,16 @@ extension Peripheral {
     /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
     /// - Returns: Observable that emits `next` with `Descriptor` instance every time when write has happened.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeWrite(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .asObservable()
@@ -183,6 +286,16 @@ extension Peripheral {
     /// - parameter data: `Data` that'll be written to `Descriptor` instance
     /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
     /// - returns: `Single` that emits `next` with `Descriptor` instance, once value is written successfully.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func writeValue(_ data: Data, for identifier: DescriptorIdentifier)
         -> Single<Descriptor> {
         return descriptor(with: identifier)
@@ -195,6 +308,16 @@ extension Peripheral {
     /// - parameter identifier: unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.
     /// - Returns: Observable that emits `next` with `Descriptor` instance every time when value has changed.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdate(for identifier: DescriptorIdentifier) -> Observable<Descriptor> {
         return descriptor(with: identifier)
             .asObservable()
@@ -208,6 +331,16 @@ extension Peripheral {
     /// - Parameter identifier: `Descriptor` to read value from
     /// - Returns: Observable which emits `next` with given descriptor when value is ready to read. Immediately after that
     /// `.complete` is emitted.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func readValue(for identifier: DescriptorIdentifier) -> Single<Descriptor> {
         return descriptor(with: identifier)
             .flatMap { [weak self] in
