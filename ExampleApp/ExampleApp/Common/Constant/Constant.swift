@@ -17,8 +17,6 @@ struct Constant {
 
         static let smallWidth: CGFloat = 32.0
 
-        static let mediumWidth: CGFloat = 80.0
-
         static let smallHeight: CGFloat = 32.0
     }
 

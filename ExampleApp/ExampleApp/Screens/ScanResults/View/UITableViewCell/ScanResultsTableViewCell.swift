@@ -69,7 +69,6 @@ final class ScanResultTableViewCell: UITableViewCell {
         connectButton.topAnchor.constraint(equalTo: rssiLabel.bottomAnchor, constant: Constant.Constraints.verticalSmall).isActive = true
         connectButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constant.Constraints.horizontalDefault).isActive = true
         connectButton.heightAnchor.constraint(equalToConstant: Constant.Constraints.smallHeight).isActive = true
-        connectButton.widthAnchor.constraint(equalToConstant: Constant.Constraints.mediumWidth).isActive = true
         connectButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.Constraints.verticalSmall).isActive = true
     }
 }

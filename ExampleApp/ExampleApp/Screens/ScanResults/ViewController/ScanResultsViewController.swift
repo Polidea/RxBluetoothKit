@@ -36,6 +36,11 @@ class ScanResultsViewController: UIViewController, CustomView {
         setNavigationBar()
         bindViewModel()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        customView.refreshTableView()
+    }
 
     private func setupTableView() {
         customView.setTableView(dataSource: dataSource, delegate: self)
