@@ -8,7 +8,7 @@ def shared_pods
 end
 
 def rx_bluetooth_kit
-  pod 'RxBluetoothKit', :git => 'https://github.com/Polidea/RxBluetoothKit.git', :branch => '5.0-release'
+  pod 'RxBluetoothKit', '~> 5.0'
 end
 
 target 'ExampleApp' do
