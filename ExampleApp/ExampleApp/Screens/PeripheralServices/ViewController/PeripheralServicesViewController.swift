@@ -54,7 +54,7 @@ final class PeripheralServicesViewController: UIViewController, CustomView {
     }
 
     private func bindViewModel() {
-        viewModel.connect()
+        viewModel.discoverServices()
         bindViewModelOutput()
     }
 

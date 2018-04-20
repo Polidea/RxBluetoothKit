@@ -117,19 +117,28 @@ final class RxBluetoothKitService {
     // When you discover a service, first you need to establish a connection with a peripheral. Then you call
     // discoverServices(:_) for that peripheral object.
     func discoverServices(for peripheral: Peripheral) {
-        let disposable = peripheral.establishConnection()
-        .do(onNext: { [weak self] _ in
-            self?.observeDisconnect(for: peripheral)
-        })
-        .flatMap {
-            $0.discoverServices(nil)
-        }.subscribe(onNext: { [weak self] services in
+        let isConnected = peripheral.isConnected
+        
+        let createConnectedObservable = { return peripheral.discoverServices(nil).asObservable() }
+        let createDisconnectedObservable = {
+            return peripheral.establishConnection()
+                .do(onNext: { [weak self] _ in
+                    self?.observeDisconnect(for: peripheral)
+                })
+                .flatMap { $0.discoverServices(nil) }
+        }
+        let observable = isConnected ? createConnectedObservable(): createDisconnectedObservable()
+        let disposable = observable.subscribe(onNext: { [weak self] services in
                     self?.discoveredServicesSubject.onNext(Result.success(services))
                 }, onError: { [weak self] error in
                     self?.discoveredServicesSubject.onNext(Result.error(error))
                 })
 
-        peripheralConnections[peripheral] = disposable
+        if isConnected {
+            disposeBag.insert(disposable)
+        } else {
+            peripheralConnections[peripheral] = disposable
+        }
     }
 
     // Disposal of a given connection disposable disconnects automatically from a peripheral

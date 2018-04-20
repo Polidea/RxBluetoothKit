@@ -12,7 +12,7 @@ protocol PeripheralServicesViewModelType {
 
     var disconnectionOutput: Observable<Result<RxBluetoothKitService.Disconnection, Error>> { get }
 
-    func connect()
+    func discoverServices()
 
     func disconnect()
 }

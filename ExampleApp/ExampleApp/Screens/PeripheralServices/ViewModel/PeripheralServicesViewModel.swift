@@ -26,23 +26,19 @@ final class PeripheralServicesViewModel: PeripheralServicesViewModelType {
         self.displayedPeripheral = peripheral
     }
 
-    func connect() {
-        guard displayedPeripheral.isConnected else {
-            bluetoothService.discoverServices(for: displayedPeripheral)
-
-            bluetoothService.discoveredServicesOutput.asObservable().subscribe(onNext: { [unowned self] (result) in
-                switch result {
-                case .success(let services):
-                    services.forEach { service in
-                        self.discoveredServicesSubject.onNext(Result.success(service))
-                    }
-                case .error(let error):
-                    self.discoveredServicesSubject.onNext(Result.error(error))
+    func discoverServices() {
+        bluetoothService.discoverServices(for: displayedPeripheral)
+        
+        bluetoothService.discoveredServicesOutput.asObservable().subscribe(onNext: { [unowned self] (result) in
+            switch result {
+            case .success(let services):
+                services.forEach { service in
+                    self.discoveredServicesSubject.onNext(Result.success(service))
                 }
-            }).disposed(by: disposeBag)
-
-            return
-        }
+            case .error(let error):
+                self.discoveredServicesSubject.onNext(Result.error(error))
+            }
+        }).disposed(by: disposeBag)
     }
 
     func disconnect() {
