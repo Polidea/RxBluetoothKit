@@ -49,6 +49,16 @@ public class Characteristic {
 
     /// Function that triggers descriptors discovery for characteristic.
     /// - returns: `Single` that emits `next` with array of `Descriptor` instances, once they're discovered.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.descriptorsDiscoveryFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func discoverDescriptors() -> Single<[Descriptor]> {
         return service.peripheral.discoverDescriptors(for: self)
     }
@@ -56,6 +66,16 @@ public class Characteristic {
     /// Function that allow to observe writes that happened for characteristic.
     /// - Returns: `Observable` that emits `next` with `Characteristic` instance every time when write has happened.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeWrite() -> Observable<Characteristic> {
         return service.peripheral.observeWrite(for: self)
     }
@@ -63,6 +83,16 @@ public class Characteristic {
     /// Function that allows to know the exact time, when isNotyfing value has changed on a characteristic.
     ///
     /// - returns: `Observable` emitting `Characteristic` when isNoytfing value has changed.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicSetNotifyValueFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeNotifyValue() -> Observable<Characteristic> {
         return service.peripheral.observeNotifyValue(for: self)
     }
@@ -79,6 +109,16 @@ public class Characteristic {
     /// - `withoutResponse` - `Observable` emits `next` with `Characteristic` instance once write was called.
     /// Result of this call is not checked, so as a user you are not sure
     /// if everything completed successfully. Errors are not emitted
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicWriteFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func writeValue(_ data: Data, type: CBCharacteristicWriteType) -> Single<Characteristic> {
         return service.peripheral.writeValue(data, for: self, type: type)
     }
@@ -86,6 +126,16 @@ public class Characteristic {
     /// Function that allow to observe value updates for `Characteristic` instance.
     /// - Returns: `Observable` that emits `Next` with `Characteristic` instance every time when value has changed.
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdate() -> Observable<Characteristic> {
         return service.peripheral.observeValueUpdate(for: self)
     }
@@ -93,6 +143,16 @@ public class Characteristic {
     /// Function that triggers read of current value of the `Characteristic` instance.
     /// Read is called after subscription to `Observable` is made.
     /// - Returns: `Single` which emits `next` with given characteristic when value is ready to read.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func readValue() -> Single<Characteristic> {
         return service.peripheral.readValue(for: self)
     }
@@ -106,6 +166,16 @@ public class Characteristic {
     /// - returns: `Observable` emitting `next` with `Characteristic` when given characteristic has been changed.
     ///
     /// This is **infinite** stream of values.
+    ///
+    /// Observable can ends with following errors:
+    /// * `BluetoothError.characteristicReadFailed`
+    /// * `BluetoothError.peripheralDisconnected`
+    /// * `BluetoothError.destroyed`
+    /// * `BluetoothError.bluetoothUnsupported`
+    /// * `BluetoothError.bluetoothUnauthorized`
+    /// * `BluetoothError.bluetoothPoweredOff`
+    /// * `BluetoothError.bluetoothInUnknownState`
+    /// * `BluetoothError.bluetoothResetting`
     public func observeValueUpdateAndSetNotification() -> Observable<Characteristic> {
         return service.peripheral.observeValueUpdateAndSetNotification(for: self)
     }

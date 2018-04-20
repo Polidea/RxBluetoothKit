@@ -21,7 +21,7 @@ importblekit_pattern="s/import CoreBluetooth/&\n@testable import RxBluetoothKit/
 # change all occurance of CoreBluetooth classes to mock classes (e.g. CBPeripheral to CBPeripheralMock)
 mock_pattern="s/\b(CBPeripheral|CBCentralManager|CBService|CBCharacteristic|CBDescriptor|CBL2CAPChannel|CBPeer|PeripheralProvider|CBPeripheralDelegateWrapper|CBCentralManagerDelegateWrapper|Connector|CharacteristicNotificationManager)\b/&Mock/g"
 # change all occurance of RxBluetoothKit classes in testable classes (e.g. change Peripheral to _Peripheral)
-testable_pattern="s/\b(Peripheral|CentralManager|Service|Characteristic|Descriptor|BluetoothError|ScannedPeripheral|ScanOperation|RestoredState|PeripheralProvider|Connector|CharacteristicNotificationManager)\b/_&/g"
+testable_pattern="s/\b(Peripheral|CentralManager|Service|Characteristic|Descriptor|BluetoothError|ScannedPeripheral|RestoredState|PeripheralProvider|Connector|CharacteristicNotificationManager)\b/_&/g"
 # remove all public's
 removepublic_pattern="s/\bpublic \b//g"
 
@@ -41,7 +41,6 @@ create_testable_file Characteristic
 create_testable_file Descriptor
 create_testable_file BluetoothError
 create_testable_file ScannedPeripheral
-create_testable_file ScanOperation
 create_testable_file RestoredState
 create_testable_file PeripheralProvider
 create_testable_file Connector

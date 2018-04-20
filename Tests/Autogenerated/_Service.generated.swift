@@ -47,6 +47,16 @@ class _Service {
     /// characteristics will be discovered. If you'll pass empty array - none of them will be discovered.
     /// - Returns: `Single` that emits `next` with array of `_Characteristic` instances, once they're discovered.
     /// If not all requested characteristics are discovered, `RxError.noElements` error is emmited.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.characteristicsDiscoveryFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?) -> Single<[_Characteristic]> {
         return peripheral.discoverCharacteristics(characteristicUUIDs, for: self)
     }
@@ -56,7 +66,17 @@ class _Service {
     /// - Parameter includedServiceUUIDs: Identifiers of included services that should be discovered. If `nil` - all of the
     /// included services will be discovered. If you'll pass empty array - none of them will be discovered.
     /// - Returns: `Single` that emits `next` with array of `_Service` instances, once they're discovered.
-    // If not all requested services are discovered, `RxError.noElements` error is emmited.
+    /// If not all requested services are discovered, `RxError.noElements` error is emmited.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.includedServicesDiscoveryFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func discoverIncludedServices(_ includedServiceUUIDs: [CBUUID]?) -> Single<[_Service]> {
         return peripheral.discoverIncludedServices(includedServiceUUIDs, for: self)
     }
