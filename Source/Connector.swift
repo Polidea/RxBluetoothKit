@@ -70,7 +70,7 @@ class Connector {
             )
 
             guard connectingStarted else {
-                observer.onError(BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral))
+                observer.onError(BluetoothError.peripheralIsAlreadyObservingConnection(peripheral))
                 return Disposables.create()
             }
 

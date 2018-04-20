@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.10.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.12.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 import CoreBluetooth
@@ -260,8 +260,8 @@ class PeripheralProviderMock: NSObject {
 class ConnectorMock: NSObject {
     var centralManager: CBCentralManagerMock!
     var delegateWrapper: CBCentralManagerDelegateWrapperMock!
-    var connectingBox: ThreadSafeBox<[UUID]>!
-    var disconnectingBox: ThreadSafeBox<[UUID]>!
+    var connectedBox: ThreadSafeBox<Set<UUID>>!
+    var disconnectingBox: ThreadSafeBox<Set<UUID>>!
 
     override init() {
     }
@@ -333,6 +333,7 @@ class CharacteristicNotificationManagerMock: NSObject {
     var peripheral: CBPeripheralMock!
     var delegateWrapper: CBPeripheralDelegateWrapperMock!
     var uuidToActiveObservableMap: [CBUUID: Observable<_Characteristic>]!
+    var uuidToActiveObservablesCountMap: [CBUUID: Int]!
     var lock: NSLock!
 
     override init() {
@@ -365,15 +366,8 @@ class CharacteristicNotificationManagerMock: NSObject {
     }
 
     var setNotifyValueParams: [(Bool, _Characteristic)] = []
-    var setNotifyValueReturns: [Single<_Characteristic>] = []
-    var setNotifyValueReturn: Single<_Characteristic>?
-    func setNotifyValue(_ enabled: Bool, for characteristic: _Characteristic) -> Single<_Characteristic> {
+    func setNotifyValue(_ enabled: Bool, for characteristic: _Characteristic) {
         setNotifyValueParams.append((enabled, characteristic))
-        if setNotifyValueReturns.isEmpty {
-            return setNotifyValueReturn!
-        } else {
-            return setNotifyValueReturns.removeFirst()
-        }
     }
 
 }
