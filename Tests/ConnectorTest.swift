@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2018 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import XCTest
 import RxTest
@@ -38,15 +16,16 @@ class ConnectorTest: XCTestCase {
     let subscribeTime = TestScheduler.Defaults.subscribed
     let disposeTime = TestScheduler.Defaults.disposed
     
-    func testConnectedPeripheral() {
-        let (peripheral, obs) = setUpObserver(options: nil)
-        peripheralMock.uuidIdentifier = UUID()
+    func testPeripheralConnectedOutsideLibrary() {
+        _ = setUpObserver(options: nil)
+        let uuid = UUID()
+        peripheralMock.uuidIdentifier = uuid
         peripheralMock.state = .connected
         
         testScheduler.advanceTo(subscribeTime)
-        
-        XCTAssertEqual(obs.events.count, 1, "should receive error event")
-        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral), "should receive correct error event")
+
+        XCTAssertTrue(connector.connectedBox.read({ $0.contains(uuid) }), "should set peripheral as connected")
+        XCTAssertEqual(centralManagerMock.connectParams.count, 0, "should not call connect")
     }
     
     func testAlreadyConnectingPeripheral() {
@@ -58,7 +37,7 @@ class ConnectorTest: XCTestCase {
         testScheduler.advanceTo(subscribeTime)
         
         XCTAssertEqual(obs.events.count, 1, "should receive error event")
-        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral), "should receive correct error event")
+        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsAlreadyObservingConnection(peripheral), "should receive correct error event")
     }
     
     func testDisconnectingPeripheral() {
@@ -71,13 +50,13 @@ class ConnectorTest: XCTestCase {
         
         testScheduler.advanceTo(subscribeTime)
         
-        XCTAssertEqual(obs.events.count, 0, "should not receive anyevent when disconnecting")
-        XCTAssertFalse(connector.connectingBox.read({ $0.contains(uuid) }), "should not set peripheral as connecting")
+        XCTAssertEqual(obs.events.count, 0, "should not receive any event when disconnecting")
+        XCTAssertFalse(connector.connectedBox.read({ $0.contains(uuid) }), "should not set peripheral as connected")
         XCTAssertTrue(connector.disconnectingBox.read({ $0.contains(uuid) }), "should still have peripheral as disconnecting set")
         
         testScheduler.advanceTo(subscribeTime + 100)
         
-        XCTAssertTrue(connector.connectingBox.read({ $0.contains(uuid) }), "should set peripheral as connecting")
+        XCTAssertTrue(connector.connectedBox.read({ $0.contains(uuid) }), "should set peripheral as connected")
         XCTAssertFalse(connector.disconnectingBox.read({ $0.contains(uuid) }), "should unset peripheral as disconnecting")
         XCTAssertEqual(centralManagerMock.connectParams.count, 1, "should call connect")
     }
@@ -100,7 +79,7 @@ class ConnectorTest: XCTestCase {
         
         testScheduler.advanceTo(subscribeTime)
         
-        XCTAssertTrue(connector.connectingBox.read({ $0.contains(uuid) }), "should add peripheral uuid to connecting state")
+        XCTAssertTrue(connector.connectedBox.read({ $0.contains(uuid) }), "should add peripheral uuid to connected state")
     }
     
     func testConnectedEvent() {
@@ -144,10 +123,9 @@ class ConnectorTest: XCTestCase {
     }
     
     func testCancellingConnectionWhenConnectedOnDispose() {
-        let (_, _, uuid) = setUpConnectableObserver()
+        let (_, _, _) = setUpConnectableObserver()
         
         testScheduler.advanceTo(subscribeTime)
-        connector.connectingBox.write { $0.remove(uuid) }
         peripheralMock.state = .connected
         testScheduler.advanceTo(disposeTime)
         
@@ -159,7 +137,7 @@ class ConnectorTest: XCTestCase {
         let (_, _, uuid) = setUpConnectableObserver()
         
         testScheduler.advanceTo(subscribeTime)
-        connector.connectingBox.write { $0.insert(uuid) }
+        connector.connectedBox.write { $0.insert(uuid) }
         peripheralMock.state = .disconnected
         testScheduler.advanceTo(disposeTime)
         
@@ -171,7 +149,7 @@ class ConnectorTest: XCTestCase {
         let (_, _, uuid) = setUpConnectableObserver()
         
         testScheduler.advanceTo(subscribeTime)
-        connector.connectingBox.write { $0.remove(uuid) }
+        connector.connectedBox.write { $0.remove(uuid) }
         peripheralMock.state = .disconnected
         testScheduler.advanceTo(disposeTime)
         
@@ -210,7 +188,7 @@ class ConnectorTest: XCTestCase {
             centralManager: centralManagerMock,
             delegateWrapper: wrapperMock
         )
-        connector.connectingBox.write { $0.formUnion(connectingUuids) }
+        connector.connectedBox.write { $0.formUnion(connectingUuids) }
         connector.disconnectingBox.write { $0.formUnion(disconnectingUuids) }
         testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
         disposeBag = DisposeBag()

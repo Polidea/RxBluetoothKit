@@ -1,40 +1,57 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2018 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import RxSwift
+import CoreBluetooth
 
 /// Closure that receives `RestoredState` as a parameter
 public typealias OnWillRestoreState = (RestoredState) -> Void
 
 extension CentralManager {
 
-    convenience init(queue: DispatchQueue = .main,
-                     options: [String: AnyObject]? = nil,
-                     onWillRestoreState: OnWillRestoreState? = nil) {
+    // MARK: State restoration
+
+    // swiftlint:disable line_length
+
+    /// Creates new `CentralManager` instance, which supports bluetooth state restoration.
+    /// - warning: If you pass background queue to the method make sure to observe results on main thread
+    /// for UI related code.
+    /// - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used
+    /// and all operations and events are executed and received on main thread.
+    /// - parameter options: An optional dictionary containing initialization options for a central manager.
+    /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
+    /// - parameter onWillRestoreState: Closure called when state has been restored.
+    ///
+    /// - seealso: `RestoredState`
+    public convenience init(queue: DispatchQueue = .main,
+                            options: [String: AnyObject]? = nil,
+                            onWillRestoreState: OnWillRestoreState? = nil) {
         self.init(queue: queue, options: options)
         if let onWillRestoreState = onWillRestoreState {
             listenOnWillRestoreState(onWillRestoreState)
         }
+    }
+
+    // swiftlint:enable line_length
+
+    /// Creates new `CentralManager`
+    /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
+    /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
+    /// - parameter peripheralProvider: Provider for providing peripherals and peripheral wrappers
+    /// - parameter connector: Connector instance which is used for establishing connection with peripherals
+    /// - parameter onWillRestoreState: Closure called when state has been restored.
+    convenience init(
+        centralManager: CBCentralManager,
+        delegateWrapper: CBCentralManagerDelegateWrapper,
+        peripheralProvider: PeripheralProvider,
+        connector: Connector,
+        onWillRestoreState: @escaping OnWillRestoreState
+    ) {
+        self.init(
+            centralManager: centralManager,
+            delegateWrapper: delegateWrapper,
+            peripheralProvider: peripheralProvider,
+            connector: connector
+        )
+        listenOnWillRestoreState(onWillRestoreState)
     }
 
     /// Emits `RestoredState` instance, when state of `CentralManager` has been restored,

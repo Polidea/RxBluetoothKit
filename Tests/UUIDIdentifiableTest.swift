@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2018 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import XCTest
 import CoreBluetooth
@@ -39,7 +17,7 @@ class UUIDIdentifiableTest: XCTestCase {
             TestElement(uuid: CBUUID(string: "0x0002")),
             TestElement(uuid: CBUUID(string: "0x0003"))
         ]
-        let result = filterUUIDItems(uuids: filterList, items: sourceElements)
+        let result = filterUUIDItems(uuids: filterList, items: sourceElements, requireAll: true)
         
         XCTAssertNotNil(result, "should return a result")
         XCTAssertEqual(result!, [sourceElements[1], sourceElements[3]], "should filter elements")
@@ -51,7 +29,7 @@ class UUIDIdentifiableTest: XCTestCase {
             CBUUID(string: "0x0003"),
         ]
         
-        let result = filterUUIDItems(uuids: filterList, items: [TestElement]())
+        let result = filterUUIDItems(uuids: filterList, items: [TestElement](), requireAll: true)
         
         XCTAssertNil(result, "should return nil")
     }
@@ -66,7 +44,7 @@ class UUIDIdentifiableTest: XCTestCase {
             TestElement(uuid: CBUUID(string: "0x0000")),
             TestElement(uuid: CBUUID(string: "0x0001"))
         ]
-        let result = filterUUIDItems(uuids: filterList, items: sourceElements)
+        let result = filterUUIDItems(uuids: filterList, items: sourceElements, requireAll: true)
         
         XCTAssertNil(result, "should return nil")
     }
@@ -80,7 +58,7 @@ class UUIDIdentifiableTest: XCTestCase {
         let sourceElements = [
             TestElement(uuid: CBUUID(string: "0x0000"))
         ]
-        let result = filterUUIDItems(uuids: filterList, items: sourceElements)
+        let result = filterUUIDItems(uuids: filterList, items: sourceElements, requireAll: true)
         
         XCTAssertNil(result, "should return nil")
     }
@@ -90,7 +68,7 @@ class UUIDIdentifiableTest: XCTestCase {
             TestElement(uuid: CBUUID(string: "0x0000")),
             TestElement(uuid: CBUUID(string: "0x0001"))
         ]
-        let result = filterUUIDItems(uuids: [CBUUID](), items: sourceElements)
+        let result = filterUUIDItems(uuids: [CBUUID](), items: sourceElements, requireAll: true)
         
         XCTAssertNotNil(result, "should return a result")
         XCTAssertEqual(result!, sourceElements, "should return all elements")
@@ -101,10 +79,37 @@ class UUIDIdentifiableTest: XCTestCase {
             TestElement(uuid: CBUUID(string: "0x0000")),
             TestElement(uuid: CBUUID(string: "0x0001"))
         ]
-        let result = filterUUIDItems(uuids: nil, items: sourceElements)
+        let result = filterUUIDItems(uuids: nil, items: sourceElements, requireAll: true)
         
         XCTAssertNotNil(result, "should return a result")
         XCTAssertEqual(result!, sourceElements, "should return all elements")
+    }
+    
+    func testItemsFilterNotAllItemsRequired() {
+        let filterList = [
+            CBUUID(string: "0x0001"),
+            CBUUID(string: "0x0002")
+        ]
+        
+        let sourceElements = [
+            TestElement(uuid: CBUUID(string: "0x0000")),
+            TestElement(uuid: CBUUID(string: "0x0001"))
+        ]
+        let result = filterUUIDItems(uuids: filterList, items: sourceElements, requireAll: false)
+        
+        XCTAssertNotNil(result, "should return a result")
+        XCTAssertEqual(result!, [sourceElements[1]], "should return found elements")
+    }
+    
+    func testItemsFilterNotAllItemsRequiredNoElementsFount() {
+        let filterList = [
+            CBUUID(string: "0x0000"),
+            CBUUID(string: "0x0001")
+        ]
+        let result = filterUUIDItems(uuids: filterList, items: [TestElement](), requireAll: false)
+        
+        XCTAssertNotNil(result, "should return a result")
+        XCTAssertEqual(result!, [], "should return empty array")
     }
 }
 

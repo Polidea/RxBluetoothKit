@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2018 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import RxSwift
 import CoreBluetooth
@@ -27,7 +5,7 @@ import CoreBluetooth
 
 // swiftlint:disable line_length
 
-/// Error received when device disconnection even occurs
+/// Error received when device disconnection event occurs
 typealias DisconnectionReason = Error
 
 /// _CentralManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
@@ -37,9 +15,10 @@ typealias DisconnectionReason = Error
 /// by calling and observing returned value of `observeState()` and then chaining it with `scanForPeripherals(_:options:)`:
 /// ```
 /// centralManager.observeState
-///     .filter { $0 == .PoweredOn }
+///     .startWith(centralManager.state)
+///     .filter { $0 == .poweredOn }
 ///     .take(1)
-///     .flatMap { manager.scanForPeripherals(nil) }
+///     .flatMap { centralManager.scanForPeripherals(nil) }
 /// ```
 /// As a result you will receive `_ScannedPeripheral` which contains `_Peripheral` object, `AdvertisementData` and
 /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other operations.
@@ -67,8 +46,8 @@ class _CentralManager {
     /// Creates new `_CentralManager`
     /// - parameter centralManager: Central instance which is used to perform all of the necessary operations
     /// - parameter delegateWrapper: Wrapper on CoreBluetooth's central manager callbacks.
-    /// - parameter peripheralDelegateProvider: Provider for peripheral delegate wrapper.
-    /// - parameter onWillRestoreState: An optional closure to be called when central manager state will restore. Supported only on iOS.
+    /// - parameter peripheralProvider: Provider for providing peripherals and peripheral wrappers
+    /// - parameter connector: ConnectorMock instance which is used for establishing connection with peripherals.
     init(
         centralManager: CBCentralManagerMock,
         delegateWrapper: CBCentralManagerDelegateWrapperMock,
@@ -86,7 +65,6 @@ class _CentralManager {
     /// - warning: If you pass background queue to the method make sure to observe results on main thread for UI related code.
     /// - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
     /// - parameter options: An optional dictionary containing initialization options for a central manager.
-    /// - parameter onWillRestoreState: An optional closure to be called when central manager state will restore. Supported only on iOS.
     /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
     convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
@@ -109,15 +87,14 @@ class _CentralManager {
 
     // MARK: State
 
-    /// Current state of `_CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Current state of `_CentralManager` as `BluetoothState`.
+    /// Current state of `_CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
     var state: BluetoothState {
         return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
     }
 
-    /// Continuous state of `_CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/reference/corebluetooth/cbmanager/1648600-state).
-    /// - returns: Observable that emits `Next` immediately after subscribtion with current state of Bluetooth. Later,
-    /// whenever state changes events are emitted. Observable is infinite : doesn't generate `Complete`.
+    /// Continuous state of `_CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
+    /// - returns: Observable that emits `next` event whenever state changes.
+    ///
     /// It's **infinite** stream, so `.complete` is never called.
     func observeState() -> Observable<BluetoothState> {
         return self.delegateWrapper.didUpdateState.asObservable()
@@ -143,11 +120,21 @@ class _CentralManager {
     /// As a result you will receive `_ScannedPeripheral` which contains `_Peripheral` object, `AdvertisementData` and
     /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other
     /// operations.
+    ///
     /// - seealso: `_Peripheral`
     ///
     /// - parameter serviceUUIDs: Services of peripherals to search for. Nil value will accept all peripherals.
     /// - parameter options: Optional scanning options.
     /// - returns: Infinite stream of scanned peripherals.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.scanInProgress`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
                     -> Observable<_ScannedPeripheral> {
         return .deferred { [weak self] in
@@ -200,9 +187,20 @@ class _CentralManager {
     /// following `_BluetoothError.peripheralConnectionFailed` or `_BluetoothError.peripheralDisconnected` emission.
     /// Additionally you can pass optional [dictionary](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options)
     /// to customise the behaviour of connection.
+    ///
     /// - parameter peripheral: The `_Peripheral` to which `_CentralManager` is attempting to establish connection.
     /// - parameter options: Dictionary to customise the behaviour of connection.
     /// - returns: `Observable` which emits next event after connection is established.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.peripheralIsAlreadyObservingConnection`
+    /// * `_BluetoothError.peripheralConnectionFailed`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func establishConnection(_ peripheral: _Peripheral, options: [String: Any]? = nil) -> Observable<_Peripheral> {
         let observable = connector.establishConnection(with: peripheral, options: options)
         return ensure(.poweredOn, observable: observable)
@@ -233,9 +231,19 @@ class _CentralManager {
     // MARK: Connection and disconnection observing
 
     /// Emits `_Peripheral` instance when it's connected.
+    ///
     /// - parameter peripheral: Optional `_Peripheral` which is observed for connection. When not specified it will observe fo any `_Peripheral`.
     /// - returns: Observable which emits next events when `peripheral` was connected.
+    ///
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func observeConnect(for peripheral: _Peripheral? = nil) -> Observable<_Peripheral> {
         let observable = delegateWrapper.didConnectPeripheral
             .filter { peripheral != nil ? ($0 == peripheral!.peripheral) : true }
@@ -250,8 +258,17 @@ class _CentralManager {
     /// - parameter peripheral: Optional `_Peripheral` which is observed for disconnection. When not specified it will observe for any `_Peripheral`.
     /// - returns: Observable which emits next events when `_Peripheral` instance was disconnected.
     /// It provides optional error which may contain more information about the cause of the disconnection
-    /// if it wasn't the `cancelConnection` call.
+    /// if it wasn't the `cancelPeripheralConnection` call.
+    ///
     /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func observeDisconnect(for peripheral: _Peripheral? = nil) -> Observable<(_Peripheral, DisconnectionReason?)> {
         let observable = delegateWrapper.didDisconnectPeripheral
             .filter { peripheral != nil ? ($0.0 == peripheral!.peripheral) : true }

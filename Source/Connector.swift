@@ -1,36 +1,12 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2018 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import RxSwift
 import CoreBluetooth
 
-/**
- `Connector` is a class that is responsible for establishing connection with peripherals.
- */
+/// `Connector` is a class that is responsible for establishing connection with peripherals.
 class Connector {
     let centralManager: CBCentralManager
     let delegateWrapper: CBCentralManagerDelegateWrapper
-    let connectingBox: ThreadSafeBox<Set<UUID>> = ThreadSafeBox(value: [])
+    let connectedBox: ThreadSafeBox<Set<UUID>> = ThreadSafeBox(value: [])
     let disconnectingBox: ThreadSafeBox<Set<UUID>> = ThreadSafeBox(value: [])
 
     init(
@@ -41,10 +17,8 @@ class Connector {
         self.delegateWrapper = delegateWrapper
     }
 
-    /**
-     Establishes connection with a given `Peripheral`.
-     For more information see `CentralManager.establishConnection(with:options:)`
-    */
+    /// Establishes connection with a given `Peripheral`.
+    /// For more information see `CentralManager.establishConnection(with:options:)`
     func establishConnection(with peripheral: Peripheral, options: [String: Any]? = nil)
         -> Observable<Peripheral> {
             return .deferred { [weak self] in
@@ -90,13 +64,13 @@ class Connector {
                 return Disposables.create()
             }
 
-            let connectingStarted = strongSelf.connectingBox.compareAndSet(
-                compare: { !peripheral.isConnected && !$0.contains(peripheral.identifier) },
+            let connectingStarted = strongSelf.connectedBox.compareAndSet(
+                compare: { !$0.contains(peripheral.identifier) },
                 set: { $0.insert(peripheral.identifier) }
             )
 
             guard connectingStarted else {
-                observer.onError(BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral))
+                observer.onError(BluetoothError.peripheralIsAlreadyObservingConnection(peripheral))
                 return Disposables.create()
             }
 
@@ -104,21 +78,27 @@ class Connector {
             let failToConnectObservable = strongSelf.createFailToConnectObservable(for: peripheral)
             let disconnectedObservable = strongSelf.createDisconnectedObservable(for: peripheral)
 
-            let disposable = connectedObservable.amb(failToConnectObservable)
-                .do(onNext: { observer.onNext($0) })
-                .flatMap { _ in disconnectedObservable }
-                .subscribe(onError: { observer.onError($0) })
+            let disposable: Disposable
+            if peripheral.isConnected {
+                disposable = disconnectedObservable.subscribe(onError: { observer.onError($0) })
+                observer.onNext(peripheral)
+            } else {
+                disposable = connectedObservable.amb(failToConnectObservable)
+                    .do(onNext: { observer.onNext($0) })
+                    .flatMap { _ in disconnectedObservable }
+                    .subscribe(onError: { observer.onError($0) })
 
-            strongSelf.centralManager.connect(peripheral.peripheral, options: options)
+                strongSelf.centralManager.connect(peripheral.peripheral, options: options)
+            }
 
             return Disposables.create { [weak self] in
                 guard let strongSelf = self else { return }
                 disposable.dispose()
-                let isConnecting = strongSelf.connectingBox.read { $0.contains(peripheral.identifier) }
-                if isConnecting || peripheral.isConnected {
+                let isConnected = strongSelf.connectedBox.read { $0.contains(peripheral.identifier) }
+                if isConnected {
                     strongSelf.disconnectingBox.write { $0.insert(peripheral.identifier) }
                     strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-                    strongSelf.connectingBox.write { $0.remove(peripheral.identifier) }
+                    strongSelf.connectedBox.write { $0.remove(peripheral.identifier) }
                 }
             }
         }
@@ -129,10 +109,6 @@ class Connector {
             .filter { $0 == peripheral.peripheral }
             .take(1)
             .map { _ in peripheral }
-            .do(onNext: { [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.connectingBox.write { $0.remove(peripheral.identifier) }
-            })
     }
 
     fileprivate func createDisconnectedObservable(for peripheral: Peripheral) -> Observable<Peripheral> {
@@ -141,6 +117,7 @@ class Connector {
             .take(1)
             .do(onNext: { [weak self] _ in
                 guard let strongSelf = self else { return }
+                strongSelf.connectedBox.write { $0.remove(peripheral.identifier) }
                 strongSelf.disconnectingBox.write { $0.remove(peripheral.identifier) }
             })
             .map { (_, error) -> Peripheral in
@@ -154,7 +131,7 @@ class Connector {
             .take(1)
             .do(onNext: { [weak self] _ in
                 guard let strongSelf = self else { return }
-                strongSelf.connectingBox.write { $0.remove(peripheral.identifier) }
+                strongSelf.connectedBox.write { $0.remove(peripheral.identifier) }
             })
             .map { (_, error) -> Peripheral in
                 throw BluetoothError.peripheralConnectionFailed(peripheral, error)

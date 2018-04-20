@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2017 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import CoreBluetooth
 @testable import RxBluetoothKit
@@ -39,7 +17,7 @@ enum _BluetoothError: Error {
     case bluetoothInUnknownState
     case bluetoothResetting
     // _Peripheral
-    case peripheralIsConnectingOrAlreadyConnected(_Peripheral)
+    case peripheralIsAlreadyObservingConnection(_Peripheral)
     case peripheralConnectionFailed(_Peripheral, Error?)
     case peripheralDisconnected(_Peripheral, Error?)
     case peripheralRSSIReadFailed(_Peripheral, Error?)
@@ -51,6 +29,7 @@ enum _BluetoothError: Error {
     case characteristicWriteFailed(_Characteristic, Error?)
     case characteristicReadFailed(_Characteristic, Error?)
     case characteristicNotifyChangeFailed(_Characteristic, Error?)
+    case characteristicSetNotifyValueFailed(_Characteristic, Error?)
     // Descriptors
     case descriptorsDiscoveryFailed(_Characteristic, Error?)
     case descriptorWriteFailed(_Descriptor, Error?)
@@ -84,12 +63,12 @@ extension _BluetoothError: CustomStringConvertible {
             return "Bluetooth is in unknown state"
         case .bluetoothResetting:
             return "Bluetooth is resetting"
-            // _Peripheral
-        case .peripheralIsConnectingOrAlreadyConnected:
+        // _Peripheral
+        case .peripheralIsAlreadyObservingConnection:
             return """
-            _Peripheral is already connected or is in connecting state.
-            You cannot connect to peripheral when you have previously connected to it
-            or there is ongoing connection try.
+            _Peripheral connection is already being observed.
+            You cannot try to establishConnection to peripheral when you have ongoing
+            connection (previously establishConnection subscription was not disposed).
             """
         case let .peripheralConnectionFailed(_, err):
             return "Connection error has occured: \(err?.localizedDescription ?? "-")"
@@ -97,12 +76,12 @@ extension _BluetoothError: CustomStringConvertible {
             return "Connection error has occured: \(err?.localizedDescription ?? "-")"
         case let .peripheralRSSIReadFailed(_, err):
             return "RSSI read failed : \(err?.localizedDescription ?? "-")"
-            // Services
+        // Services
         case let .servicesDiscoveryFailed(_, err):
             return "Services discovery error has occured: \(err?.localizedDescription ?? "-")"
         case let .includedServicesDiscoveryFailed(_, err):
             return "Included services discovery error has occured: \(err?.localizedDescription ?? "-")"
-            // Characteristics
+        // Characteristics
         case let .characteristicsDiscoveryFailed(_, err):
             return "Characteristics discovery error has occured: \(err?.localizedDescription ?? "-")"
         case let .characteristicWriteFailed(_, err):
@@ -111,7 +90,9 @@ extension _BluetoothError: CustomStringConvertible {
             return "_Characteristic read error has occured: \(err?.localizedDescription ?? "-")"
         case let .characteristicNotifyChangeFailed(_, err):
             return "_Characteristic notify change error has occured: \(err?.localizedDescription ?? "-")"
-            // Descriptors
+        case let .characteristicSetNotifyValueFailed(_, err):
+            return "_Characteristic isNotyfing value change error has occured: \(err?.localizedDescription ?? "-")"
+        // Descriptors
         case let .descriptorsDiscoveryFailed(_, err):
             return "_Descriptor discovery error has occured: \(err?.localizedDescription ?? "-")"
         case let .descriptorWriteFailed(_, err):
@@ -156,20 +137,21 @@ func == (lhs: _BluetoothError, rhs: _BluetoothError) -> Bool {
     case (.bluetoothPoweredOff, .bluetoothPoweredOff): return true
     case (.bluetoothInUnknownState, .bluetoothInUnknownState): return true
     case (.bluetoothResetting, .bluetoothResetting): return true
-        // Services
+    // Services
     case let (.servicesDiscoveryFailed(l, _), .servicesDiscoveryFailed(r, _)): return l == r
     case let (.includedServicesDiscoveryFailed(l, _), .includedServicesDiscoveryFailed(r, _)): return l == r
-        // Peripherals
-    case let (.peripheralIsConnectingOrAlreadyConnected(l), .peripheralIsConnectingOrAlreadyConnected(r)): return l == r
+    // Peripherals
+    case let (.peripheralIsAlreadyObservingConnection(l), .peripheralIsAlreadyObservingConnection(r)): return l == r
     case let (.peripheralConnectionFailed(l, _), .peripheralConnectionFailed(r, _)): return l == r
     case let (.peripheralDisconnected(l, _), .peripheralDisconnected(r, _)): return l == r
     case let (.peripheralRSSIReadFailed(l, _), .peripheralRSSIReadFailed(r, _)): return l == r
-        // Characteristics
+    // Characteristics
     case let (.characteristicsDiscoveryFailed(l, _), .characteristicsDiscoveryFailed(r, _)): return l == r
     case let (.characteristicWriteFailed(l, _), .characteristicWriteFailed(r, _)): return l == r
     case let (.characteristicReadFailed(l, _), .characteristicReadFailed(r, _)): return l == r
     case let (.characteristicNotifyChangeFailed(l, _), .characteristicNotifyChangeFailed(r, _)): return l == r
-        // Descriptors
+    case let (.characteristicSetNotifyValueFailed(l, _), .characteristicSetNotifyValueFailed(r, _)): return l == r
+    // Descriptors
     case let (.descriptorsDiscoveryFailed(l, _), .descriptorsDiscoveryFailed(r, _)): return l == r
     case let (.descriptorWriteFailed(l, _), .descriptorWriteFailed(r, _)): return l == r
     case let (.descriptorReadFailed(l, _), .descriptorReadFailed(r, _)): return l == r

@@ -8,12 +8,18 @@ RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices m
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
 * 3.0 version supports Swift 3.0 and 3.1
-* 4.0 version of the library supports Swift 3.2 and 4.0
+* 5.0 version of the library supports Swift 3.2 and 4.0
 
 
-For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active), or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
+## Documentation & Support
 
-Read the official announcement at [Polidea Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/).
+Documentation can be found [here](https://polidea.github.io/RxBluetoothKit/).
+
+Want to talk about it? Ask questions? Give feedback? Join our discussion on [Gitter](https://gitter.im/RxBLELibraries/RxBluetoothKit?utm_source=share-link&utm_medium=link&utm_campaign=share-link)!
+
+For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active) or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub.
+
+Follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/) blog to get all the news and updates!
 
 ## Features
 - [x] CBCentralManger RxSwift support
@@ -21,7 +27,6 @@ Read the official announcement at [Polidea Blog](https://www.polidea.com/blog/Rx
 - [x] Scan sharing
 - [x] Scan queueing
 - [x] Bluetooth error bubbling
-- [x] [Documentation](http://cocoadocs.org/docsets/RxBluetoothKit/4.0.0/)
 
 ## Sample
 In Example folder you can find application we've provided to you. It's a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.
@@ -54,7 +59,7 @@ Versions >= 4.0 of the library integrate with the Swift Package Manager. In orde
 Library is built on top of Apple's CoreBluetooth.
 It has multiple components, that should be familiar to you:
 
-- BluetoothManager
+- CentralManager
 - ScannedPeripheral
 - Peripheral
 - Service
@@ -65,9 +70,9 @@ Every one of them is backed by it's CB counterpart hidden behind layer of abstra
 
 ## Usage
 
-To begin work you should create an instance of BluetoothManager. Doing it is really easy - all you need to specify is queue(main queue is used by default):
+To begin work you should create an instance of CentralManager. Doing it is really easy - all you need to specify is queue(main queue is used by default):
 ```swift
-let manager = BluetoothManager(queue: .main)
+let manager = CentralManager(queue: .main)
 ```
 You are responsible for maintaining instance of manager object, and passing it between parts of your app.
 **Note:** All operations are executed in queue which you have provided, so make sure to observe UI related effects in main thread when it's needed.
@@ -77,10 +82,10 @@ To start any interaction, with bluetooth devices, you have to first scan some of
 #### Basic
 
 ```swift
-manager.scanForPeripherals(withServices: [serviceIds])
-.flatMap { scannedPeripheral in
-	let advertisement = scannedPeripheral.advertisement
-}
+manager.scanForPeripherals(withServices: serviceIds)
+    .subscribe(onNext: { scannedPeripheral in
+        let advertisementData = scannedPeripheral.advertisementData
+    })
 ```
 This is the simplest version of this operation. After subscription to observable, scan is performed infinitely.  What you receive from method is `ScannedPeripheral` instance, that provides access to following information:
 - Peripheral: object that you can use, to perform actions like connecting, discovering services etc.
@@ -106,26 +111,28 @@ As you can see: thanks to all available RxSwift operators, in a simple way you m
 #### Waiting for proper BluetoothState
 In a following scenario: just after app launch, you want to perform scans. But, there are some problems with this approach - in order to perform work with bluetooth, you're manager should be in **.poweredOn** state. Specially for this case, our library provides you with another observable, that you should use for monitoring state.
 ```swift
-let stateObservable = manager.rx_state
+let stateObservable = manager.observeState()
 ```
-After subscribe, this observable will immediately emit next event with current value of BluetoothManager state, and later will fire every time state changes.
-You could easily chain it with operation you want to perform after changing to proper state. Let's see how it looks with scanning:
+This observable will emit next event with new value of BluetoothManager state every time state changes.
+You could easily chain it with operation you want to perform after changing to proper state. To get current bluetooth state, use `CentralManager.state`
+property. Let's see how it looks with scanning:
 ```swift
-manager.rx_state
+manager.observeState()
+	.startWith(manager.state)
 	.filter { $0 == .poweredOn }
 	.timeout(3.0, scheduler)
 	.take(1)
-	.flatMap { manager.scanForPeripherals(withServices: [serviceId]) }
+	.flatMap { _ in manager.scanForPeripherals(withServices: [serviceId]) }
 ```
-Firstly, filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use **take** to be sure, that after getting .PoweredOn state, nothing else ever will be emitted by the observable.
+Firstly, use `CentralManager.state` as a start value, next filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use **take** to be sure, that after getting .poweredOn state, nothing else ever will be emitted by the observable.
 In last `flatMap` operation bluetooth is ready to perform further operations.
 
 ### Connecting
-After receiving scanned peripheral, to do something with it, we need to first call connect.
+After receiving scanned peripheral, to do something with it, we need to first call `establishConnection`.
 It's really straightforward: just flatMap result into another Observable!
 ```swift
 manager.scanForPeripherals(withServices: [serviceId]).take(1)
-	.flatMap { $0.peripheral.connect() }
+	.flatMap { $0.peripheral.establishConnection() }
 	.subscribe(onNext: { peripheral in
 		print("Connected to: \(peripheral)")
 	})
@@ -134,12 +141,12 @@ manager.scanForPeripherals(withServices: [serviceId]).take(1)
 
 ### Discovering services
 After connecting, the most common task is to discover Services.
-Because all of wanted services are discovered at once, method returns `Observable<[Service]>`.  In order to make it into `Observable<Service>` and fire for each of service discovered, we advice you to use our RxSwift operator `Observable.from()`
+Because all of wanted services are discovered at once, method returns `Single<[Service]>`.  In order to make it into `Observable<Service>` and fire for each of service discovered, we advice you to use our RxSwift operator `Observable.from()`
 
 Here's how it works in RxBluetoothKit:
 ```swift
-peripheral.connect()
-	.flatMap { $0.discoverServices([serviceId]) }
+peripheral.establishConnection()
+	.flatMap { $0.discoverServices([serviceId]) }.asObservable()
 	.flatMap { Observable.from($0) }
 	.subscribe(onNext: { service in
 		print("Discovered service: \(service)")
@@ -151,10 +158,10 @@ Discovering characteristics method is very similar to **discoverServices**.
 This time API's returning `Observable<[Characteristic]>` and to process one
 characteristic at a time, you need to once again use `Observable.from()`
 ```swift
-peripheral.connect()
-	.flatMap { $0.discoverServices([serviceId]) }
+peripheral.establishConnection()
+	.flatMap { $0.discoverServices([serviceId]) }.asObservable()
 	.flatMap { Observable.from($0) }
-	.flatMap { $0.discoverCharacteristics([characteristicId])}
+	.flatMap { $0.discoverCharacteristics([characteristicId])}.asObservable()
 	.flatMap { Observable.from($0) }
 	.subscribe(onNext: { characteristic in
 		print("Discovered characteristic: \(characteristic)")
@@ -166,10 +173,10 @@ Once you've got characteristic, next common step is to read value from it.
 In order to do that, you should use `readValue()` function defined on `Characteristic`. It returns `Observable<Characteristic>` which emits element, when value of characteristic is ready to read.
 We decided to return `Characteristic` instead of `NSData` due to one purpose - to allow you chain operations on characteristic in easy way.
 ```swift
-peripheral.connect()
-	.flatMap { $0.discoverServices([serviceId]) }
+peripheral.establishConnection()
+	.flatMap { $0.discoverServices([serviceId]) }.asObservable()
 	.flatMap { Observable.from($0) }
-	.flatMap { $0.discoverCharacteristics([characteristicId])}
+	.flatMap { $0.discoverCharacteristics([characteristicId])}.asObservable()
 	.flatMap { Observable.from($0) }
 	.flatMap { $0.readValue() }
 	.subscribe(onNext: {
@@ -181,23 +188,20 @@ peripheral.connect()
 Notifying on characteristic value changes? Nothing easier.
 After subscribing observable returned by this method, you will get proper message every single time:
 ```swift
-characteristic.setNotificationAndMonitorUpdates()
+let disposable = characteristic.observeValueUpdateAndSetNotification()
 	.subscribe(onNext: {
 		let newValue = $0.value
 	})
 ```
-If you are not interested anymore in updates, just use this:
+If you are not interested anymore in updates, just unsubscribe:
 ```swift
-characteristic.setNotifyValue(false)
-	.subscribe(onNext: { characteristic in
-		//Notification are now disabled.
-	})
+disposable.dispose()
 ```
 
 ### Writing value to characteristic
 While deciding to write to characteristic you have two writing options, that determine write behavior:
-- WithResponse
-- WithoutResponse
+- withResponse
+- withoutResponse
 
 Choosing `withResponse`, you're waiting to receive .next event on Observable while device has confirmed that value has been written to it. Also, if any error has ocurred - you will receive `.error` on Observable.
 On the other hand - if you decided to go with `withoutResponse` - you're receiving Characteristic just after write command has been called. Also, no errors will be emitted.
@@ -238,19 +242,21 @@ enum DeviceService: String, ServiceIdentifier {
 After implementing these types, whole set of new new methods is becoming available.
 Earlier implementation of reading from characteristic looked like that:
 ```swift
-peripheral.connect()
-    .flatMap { Observable.from($0.discoverServices([serviceId])) }
-    .flatMap { Observable.from($0.discoverCharacteristics([characteristicId])}
-    .flatMap { $0.readValue }
-    .subscribe(onNext: {
-        let data = $0.value
-    })
+peripheral.establishConnection()
+	.flatMap { $0.discoverServices([serviceId]) }.asObservable()
+	.flatMap { Observable.from($0) }
+	.flatMap { $0.discoverCharacteristics([characteristicId])}.asObservable()
+	.flatMap { Observable.from($0) }
+	.flatMap { $0.readValue() }
+	.subscribe(onNext: {
+		let data = $0.value
+	})
 ```
 
 When you use new `CharacteristicIdentifier` protocol, you could do it way simpler:
 
 ```swift
-peripheral.connect()
+peripheral.establishConnection()
     .flatMap { $0.readValue(for: DeviceCharacteristic.manufacturerName)
     .subscribe(onNext: {
         let data = $0.value
@@ -264,44 +270,38 @@ We really encourage you to use these versions of methods in order to make your c
 Here you'll find other useful functionalities of library
 
 #### Bluetooth state restoration
-By giving proper identifier to `BluetoothManager` in constructor(`options` property), you can achieve state restoration functionality. Later, just make sure to subscribe to `listenOnRestoredState` observable, and inspect `RestoredState` instance, which consists any useful info about restored state.
+By giving proper identifier to `CentralManager` in constructor(`options` property), you can achieve state restoration functionality. Later, just make sure to subscribe to `listenOnRestoredState` observable, and inspect `RestoredState` instance, which consists any useful info about restored state.
 
 #### Monitoring state of Bluetooth
-Used earlier `rx_state` is very useful function on `BluetoothManager`. While subscribed, it emits `next` immediately with current `BluetoothState`.
-After that, it emits new element after state changes.
+Used earlier `observeState` is very useful function on `CentralManager`. It emits `next` event with new value of BluetoothManager state every time it changes. To get current bluetooth state, you should use `CentralManager.state`
+property.
 
 #### Monitor connection state of Peripheral
-Property `rx_isConnected` on `Peripheral` instance allows monitoring for changes in Peripheral connection state. Immediately after subscribtion `.next` with current state is emitted. After that, it emits new element after connection state changes.
+Property `isConnected` on `Peripheral` allows checking if Peripheral is connected. To monitor Peripheral connection state changes use `observeConnection` method. It emits new element after connection state changes.
 
 #### Retrieving Peripherals
-`BluetoothManager` also lets to retrieve peripherals in two ways:
-- via its identifier using array of `NSUUID` objects,
+`CentralManager` also lets to retrieve peripherals in two ways:
+- via its identifier using array of `UUID` objects,
 - connected ones via services identifiers using array of `CBUUID` objects.
-In both cases, return type is `Observable<[Peripheral]>`, which emits .Next, and after that immediately .Complete is received.
+In both cases, return type is `[Peripheral]`.
 
 #### Cancel connection
-Connection can be cancelled - just use `cancelConnection` method on `Peripheral`, or `BluetoothManager`.
-Emits next, while disconnection confirmation is received.
+Connection can be cancelled. To do this dispose Disposable that you get during Peripheral connection.
 
 #### Read RSSI
 Triggers read of Peripheral RSSI value. To do it, call `readRSSI()` on Peripheral instance.
-Method returns `Observable<Peripheral, Int>`. Peripheral is returned in order to enable chaining.
+Method returns `Single<(Peripheral, Int)>`. Peripheral is returned in order to enable chaining.
 
 #### Monitor services modification
-When you want to know, when services are modified, call `monitorServicesModification() -> Observable<(Peripheral, [Service])>` on Peripheral. Next event is generated each time, when service changes.
+When you want to know, when services are modified, call `observeServicesModification() -> Observable<(Peripheral, [Service])>` on Peripheral. Next event is generated each time, when service changes.
 
 #### Monitor name update
-Call `monitorNameUpdate() -> Observable<(Peripheral, String?)>` in order to know, when peripheral changes its name.
+Call `observeNameUpdate() -> Observable<(Peripheral, String?)>` in order to know, when peripheral changes its name.
 
 #### Monitoring write
-By calling `monitorWrite(for: characteristic: Characteristic) -> Observable<Characteristic>` you're able to receive event each time, when value is being written to characteristic.
+By calling `observeWrite(for characteristic: Characteristic) -> Observable<Characteristic>` you're able to receive event each time, when value is being written to characteristic.
 
 ### Additional features
-
-#### Scan sharing & queueing
-Library supports scan sharing, which helps if you want to perform multiple scans at once in your application.
-Thanks to that, if you want to perform scan B, while scan A is in progress, if your identifiers used to start scan B are subset of identifiers used by scan A - scan is shared.
-Also, thanks to queueing, if it's not subset - it'll be queued until scan A will be stopped.
 
 #### Error bubbling
 Library supports **complex** Bluetooth error handling functionalities. Errors from Bluetooth delegate methods are propagated into all of the API calls. So for example - if during services discovery bluetooth state changes to `.poweredOff`, proper error containing this information will be propagated into `discoverServices` call.
@@ -309,6 +309,8 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 ## Requirements
 - iOS 8.0+
 - OSX 10.10+
+- watchOS 4.0+
+- tvOS 11.0+
 - Xcode 7.3+
 
 ## Authors
@@ -331,4 +333,4 @@ Maciek Oczko (maciek.oczko@polidea.com)
 
 ## License
 
-RxBluetoothKit is available under the MIT license. See the LICENSE file for more info.
+RxBluetoothKit is available under the Apache License, Version 2.0. See the LICENSE file for more info.

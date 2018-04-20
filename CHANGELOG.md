@@ -1,7 +1,33 @@
+# 5.0.1
+- Added method to observe notyfing state change for the characteristic (#229)
+- Aligned the API for `establishConnection` with the rest of the implementation
+- Made restore state api public (#224)
+- Enabled getting an `Observable<Peripheral>` from already connected peripheral provided by the system (#238)
+- Fixed writting without response on older systems (#241)
+- Added queues for discovery requests (fixed #235)
+- Added support for XCode 9.3 and swift 4.1
+
+# 5.0
+- Changed `BluetoothManager` to `CentralManager`
+- Reimplemented connection and notification API's
+- Added watchOS and tvOS targets
+- Added support for L2CAP
+- Rewritten unit tests
+
+# 4.0.2
+- Allow projects that depend on RxBluetoothKit to update RxSwift to 4.1.0 and newer.
+
+# 4.0.1
+- Add missing logs for CBPeripheral and CBCentralManager classes.
+- Fixed implementation of scanning subscription queue.
+
 # 4.0
 - App updated to newest iOS & macOS SDK
 - Swift 4 adoption
 - Possible memory leaks removed
+
+# 3.1.2
+- Fix building on macOS with the newest SDK
 
 # 3.1.1
 - `listenedOnRestoredState` should not be missing events from delegate now in case of race condition

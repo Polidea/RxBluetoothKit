@@ -12,11 +12,9 @@
 		0A339D761FA1C10B008385C8 /* CBCentralManagerDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */; };
 		0A339D771FA1C10D008385C8 /* CBPeripheralDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3311F9EAD5300A12E10 /* CBPeripheralDelegateWrapper.swift */; };
 		0A7B27D11F9F1710003F950E /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7B27D01F9F1710003F950E /* RxSwift.framework */; };
-		0A7B27D21F9F176D003F950E /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */; };
 		0A7B27D51F9F176D003F950E /* CentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0E1CBE3DEE005DEA5B /* CentralManager.swift */; };
 		0A7B27D61F9F176D003F950E /* AdvertisementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */; };
 		0A7B27D71F9F176D003F950E /* BluetoothState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EF38C81D86EE1F00F9F468 /* BluetoothState.swift */; };
-		0A7B27D81F9F1771003F950E /* Observable+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */; };
 		0A7B27D91F9F1771003F950E /* Unimplemented.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */; };
 		0A7B27DA1F9F1771003F950E /* Observable+Absorb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */; };
 		0A7B27DB1F9F1771003F950E /* Boxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */; };
@@ -31,7 +29,6 @@
 		0A7B27EA1F9F177A003F950E /* Peripheral+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */; };
 		0A7B27ED1F9F177C003F950E /* Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C121CBE3DEE005DEA5B /* Descriptor.swift */; };
 		0A7B27FC1F9F190F003F950E /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7B27F31F9F190F003F950E /* RxBluetoothKit.framework */; };
-		0A7B28131F9F1964003F950E /* ObservableTest+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666FD0A1CCE431B005E81CE /* ObservableTest+QueueSubscribeOn.swift */; };
 		0A7B28141F9F1964003F950E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666FD0B1CCE431B005E81CE /* Utilities.swift */; };
 		0A7B28151F9F1AE1003F950E /* RxBluetoothKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A7B28181F9F1B05003F950E /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7B28171F9F1B05003F950E /* RxSwift.framework */; };
@@ -42,14 +39,12 @@
 		0A7B28211F9F1B25003F950E /* Peripheral+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */; };
 		0A7B28231F9F1B29003F950E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C231CBE3DEE005DEA5B /* Service.swift */; };
 		0A7B28271F9F1B2E003F950E /* Characteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C101CBE3DEE005DEA5B /* Characteristic.swift */; };
-		0A7B28281F9F1B33003F950E /* Observable+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */; };
 		0A7B28291F9F1B33003F950E /* Unimplemented.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */; };
 		0A7B282A1F9F1B33003F950E /* Observable+Absorb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */; };
 		0A7B282B1F9F1B33003F950E /* Boxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */; };
 		0A7B282C1F9F1B33003F950E /* BluetoothError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */; };
 		0A7B282D1F9F1B33003F950E /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
 		0A7B282E1F9F1B33003F950E /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
-		0A7B282F1F9F1B39003F950E /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */; };
 		0A7B28321F9F1B39003F950E /* CentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0E1CBE3DEE005DEA5B /* CentralManager.swift */; };
 		0A7B28331F9F1B39003F950E /* AdvertisementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */; };
 		0A7B28341F9F1B39003F950E /* BluetoothState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EF38C81D86EE1F00F9F468 /* BluetoothState.swift */; };
@@ -139,9 +134,7 @@
 		2666FD8E1CCE457C005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */; };
 		2666FD9D1CCE45E3005E81CE /* RxBluetoothKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2666FDAD1CCE4626005E81CE /* RxBluetoothKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FDA31CCE4626005E81CE /* RxBluetoothKit.framework */; };
-		2666FDD71CCE46E1005E81CE /* ObservableTest+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666FD0A1CCE431B005E81CE /* ObservableTest+QueueSubscribeOn.swift */; };
 		2666FDD81CCE46E1005E81CE /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666FD0B1CCE431B005E81CE /* Utilities.swift */; };
-		2666FDDD1CCE46E2005E81CE /* ObservableTest+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666FD0A1CCE431B005E81CE /* ObservableTest+QueueSubscribeOn.swift */; };
 		2666FDDE1CCE46E2005E81CE /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666FD0B1CCE431B005E81CE /* Utilities.swift */; };
 		2666FE171CCE4731005E81CE /* Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C121CBE3DEE005DEA5B /* Descriptor.swift */; };
 		2666FE191CCE4731005E81CE /* ScannedPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C211CBE3DEE005DEA5B /* ScannedPeripheral.swift */; };
@@ -150,12 +143,10 @@
 		2666FE1D1CCE4731005E81CE /* Peripheral+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */; };
 		2666FE1F1CCE4731005E81CE /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C231CBE3DEE005DEA5B /* Service.swift */; };
 		2666FE231CCE4731005E81CE /* Characteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C101CBE3DEE005DEA5B /* Characteristic.swift */; };
-		2666FE241CCE4731005E81CE /* Observable+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */; };
 		2666FE251CCE4731005E81CE /* Unimplemented.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */; };
 		2666FE271CCE4731005E81CE /* Observable+Absorb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */; };
 		2666FE291CCE4731005E81CE /* Boxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */; };
 		2666FE2A1CCE4731005E81CE /* BluetoothError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */; };
-		2666FE2B1CCE4731005E81CE /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */; };
 		2666FE2E1CCE4731005E81CE /* CentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0E1CBE3DEE005DEA5B /* CentralManager.swift */; };
 		2666FE2F1CCE4731005E81CE /* AdvertisementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */; };
 		2666FE321CCE4732005E81CE /* Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C121CBE3DEE005DEA5B /* Descriptor.swift */; };
@@ -164,12 +155,10 @@
 		2666FE381CCE4732005E81CE /* Peripheral+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */; };
 		2666FE3A1CCE4732005E81CE /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C231CBE3DEE005DEA5B /* Service.swift */; };
 		2666FE3E1CCE4732005E81CE /* Characteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C101CBE3DEE005DEA5B /* Characteristic.swift */; };
-		2666FE3F1CCE4732005E81CE /* Observable+QueueSubscribeOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */; };
 		2666FE401CCE4732005E81CE /* Unimplemented.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */; };
 		2666FE421CCE4732005E81CE /* Observable+Absorb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */; };
 		2666FE441CCE4732005E81CE /* Boxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */; };
 		2666FE451CCE4732005E81CE /* BluetoothError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0D1CBE3DEE005DEA5B /* BluetoothError.swift */; };
-		2666FE461CCE4732005E81CE /* ScanOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */; };
 		2666FE491CCE4732005E81CE /* CentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0E1CBE3DEE005DEA5B /* CentralManager.swift */; };
 		2666FE4A1CCE4732005E81CE /* AdvertisementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1299C0C1CBE3DEE005DEA5B /* AdvertisementData.swift */; };
 		26752FA61D89C630003D8D38 /* BluetoothState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EF38C81D86EE1F00F9F468 /* BluetoothState.swift */; };
@@ -200,6 +189,8 @@
 		4C6A2CE9203ECFE00085EE1E /* PeripheralTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6A2CE7203ECFBF0085EE1E /* PeripheralTest.swift */; };
 		4C6A2CEA203ECFE10085EE1E /* PeripheralTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6A2CE7203ECFBF0085EE1E /* PeripheralTest.swift */; };
 		4C6A2CEB203ECFE20085EE1E /* PeripheralTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6A2CE7203ECFBF0085EE1E /* PeripheralTest.swift */; };
+		4C77E4982061397E00FAF1A9 /* CentralManagerTest+StateRestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C77E496206137AC00FAF1A9 /* CentralManagerTest+StateRestore.swift */; };
+		4C77E49B20613B5400FAF1A9 /* _CentralManager+RestoredState.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C77E49920613B1800FAF1A9 /* _CentralManager+RestoredState.generated.swift */; };
 		4CB5044620457A2200031AA7 /* PeripheralTest+DescriptorsDiscover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB5044420457A1F00031AA7 /* PeripheralTest+DescriptorsDiscover.swift */; };
 		4CB5044720457A2300031AA7 /* PeripheralTest+DescriptorsDiscover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB5044420457A1F00031AA7 /* PeripheralTest+DescriptorsDiscover.swift */; };
 		4CB5044820457A2400031AA7 /* PeripheralTest+DescriptorsDiscover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB5044420457A1F00031AA7 /* PeripheralTest+DescriptorsDiscover.swift */; };
@@ -316,11 +307,10 @@
 		1DCA1EEE2028628D0090D14E /* _CharacteristicNotificationManager.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _CharacteristicNotificationManager.generated.swift; sourceTree = "<group>"; };
 		1DCA1EF42028680D0090D14E /* CharacteristicNotificationManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicNotificationManagerTest.swift; sourceTree = "<group>"; };
 		26509A761CC1270100EBA319 /* DeviceIdentifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceIdentifiers.swift; sourceTree = "<group>"; };
-		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		26509A781CC1275E00EBA319 /* Peripheral+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Peripheral+Convenience.swift"; sourceTree = "<group>"; };
 		2666FCED1CCE42A5005E81CE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
 		2666FCEE1CCE42A5005E81CE /* RxBluetoothKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RxBluetoothKit.h; path = Source/RxBluetoothKit.h; sourceTree = "<group>"; };
 		2666FD061CCE430F005E81CE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2666FD0A1CCE431B005E81CE /* ObservableTest+QueueSubscribeOn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "ObservableTest+QueueSubscribeOn.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		2666FD0B1CCE431B005E81CE /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		2666FD841CCE457C005E81CE /* RxBluetoothKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxBluetoothKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2666FD8D1CCE457C005E81CE /* RxBluetoothKit iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RxBluetoothKit iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -338,6 +328,8 @@
 		4C6A2CDD203DBAAA0085EE1E /* UUIDIdentifiableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDIdentifiableTest.swift; sourceTree = "<group>"; };
 		4C6A2CE2203DC7840085EE1E /* ArrayTest+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArrayTest+Utils.swift"; sourceTree = "<group>"; };
 		4C6A2CE7203ECFBF0085EE1E /* PeripheralTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralTest.swift; sourceTree = "<group>"; };
+		4C77E496206137AC00FAF1A9 /* CentralManagerTest+StateRestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CentralManagerTest+StateRestore.swift"; sourceTree = "<group>"; };
+		4C77E49920613B1800FAF1A9 /* _CentralManager+RestoredState.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "_CentralManager+RestoredState.generated.swift"; sourceTree = "<group>"; };
 		4CB5044420457A1F00031AA7 /* PeripheralTest+DescriptorsDiscover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeripheralTest+DescriptorsDiscover.swift"; sourceTree = "<group>"; };
 		4CB50449204582D300031AA7 /* PeripheralTest+DescriptorsOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeripheralTest+DescriptorsOperation.swift"; sourceTree = "<group>"; };
 		4CB5044E2046B23000031AA7 /* PeripheralTest+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeripheralTest+Extension.swift"; sourceTree = "<group>"; };
@@ -355,10 +347,8 @@
 		A1299C101CBE3DEE005DEA5B /* Characteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Characteristic.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C121CBE3DEE005DEA5B /* Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Descriptor.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Observable+Absorb.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Observable+QueueSubscribeOn.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C161CBE3DEE005DEA5B /* Peripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Peripheral.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A1299C211CBE3DEE005DEA5B /* ScannedPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannedPeripheral.swift; sourceTree = "<group>"; };
-		A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanOperation.swift; sourceTree = "<group>"; };
 		A1299C231CBE3DEE005DEA5B /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unimplemented.swift; sourceTree = "<group>"; };
 		BB2FF3311F9EAD5300A12E10 /* CBPeripheralDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralDelegateWrapper.swift; sourceTree = "<group>"; };
@@ -464,6 +454,7 @@
 				1D417F87200F436900354750 /* CentralManagerTest+ScanForPeripherals.swift */,
 				1D417F8B200F877100354750 /* BaseCentralManagerTest.swift */,
 				1D6474DD2021E31500A1029F /* ConnectorTest.swift */,
+				4C77E496206137AC00FAF1A9 /* CentralManagerTest+StateRestore.swift */,
 			);
 			name = CentralManager;
 			sourceTree = "<group>";
@@ -471,6 +462,7 @@
 		1D8116C61FFE0EE500147BF5 /* Autogenerated */ = {
 			isa = PBXGroup;
 			children = (
+				4C77E49920613B1800FAF1A9 /* _CentralManager+RestoredState.generated.swift */,
 				4CB504532046CDA900031AA7 /* _Peripheral+Convenience.generated.swift */,
 				1DCA1EEE2028628D0090D14E /* _CharacteristicNotificationManager.generated.swift */,
 				1DAAB03420245F150023BAC0 /* _PeripheralProvider.generated.swift */,
@@ -517,7 +509,6 @@
 		265CD5F91CBED2E4007120AB /* CentralManager */ = {
 			isa = PBXGroup;
 			children = (
-				A1299C221CBE3DEE005DEA5B /* ScanOperation.swift */,
 				A1299C0E1CBE3DEE005DEA5B /* CentralManager.swift */,
 				1D1C9827201B195000DCF299 /* CentralManager+RestoredState.swift */,
 				1D9C50AE2021CC70006B21E4 /* Connector.swift */,
@@ -532,7 +523,6 @@
 		265CD5FA1CBED323007120AB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				A1299C151CBE3DEE005DEA5B /* Observable+QueueSubscribeOn.swift */,
 				A1299C241CBE3DEE005DEA5B /* Unimplemented.swift */,
 				A1299C131CBE3DEE005DEA5B /* Observable+Absorb.swift */,
 				A1299C0F1CBE3DEE005DEA5B /* Boxes.swift */,
@@ -627,7 +617,6 @@
 				1DCA1EF3202867E30090D14E /* CharacteristicNotificationManager */,
 				1DC423432008F0D3009994B1 /* Peripheral */,
 				1D1BC8A220064A9E004C5F36 /* CentralManager */,
-				2666FD0A1CCE431B005E81CE /* ObservableTest+QueueSubscribeOn.swift */,
 				2666FD0B1CCE431B005E81CE /* Utilities.swift */,
 				1D6474E12022F83100A1029F /* ThreadSafeBoxTest.swift */,
 				4C2DDDF6203C5E61006F48C6 /* ObservableTest+Absorb.swift */,
@@ -908,7 +897,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Polidea;
 				TargetAttributes = {
 					0A7B27C61F9F1682003F950E = {
@@ -1097,13 +1086,11 @@
 				0A7B27E71F9F177A003F950E /* Peripheral.swift in Sources */,
 				0A7B27DE1F9F1771003F950E /* Logging.swift in Sources */,
 				0A7B27DB1F9F1771003F950E /* Boxes.swift in Sources */,
-				0A7B27D21F9F176D003F950E /* ScanOperation.swift in Sources */,
 				0A7B27E31F9F1776003F950E /* Service.swift in Sources */,
 				0A7B27DA1F9F1771003F950E /* Observable+Absorb.swift in Sources */,
 				0A339D761FA1C10B008385C8 /* CBCentralManagerDelegateWrapper.swift in Sources */,
 				1D9C50B12021CC70006B21E4 /* Connector.swift in Sources */,
 				0A339D771FA1C10D008385C8 /* CBPeripheralDelegateWrapper.swift in Sources */,
-				0A7B27D81F9F1771003F950E /* Observable+QueueSubscribeOn.swift in Sources */,
 				0A7B27D51F9F176D003F950E /* CentralManager.swift in Sources */,
 				0A7B27E61F9F177A003F950E /* ScannedPeripheral.swift in Sources */,
 				0A7B27DC1F9F1771003F950E /* BluetoothError.swift in Sources */,
@@ -1126,7 +1113,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A7B28281F9F1B33003F950E /* Observable+QueueSubscribeOn.swift in Sources */,
 				0A7B28291F9F1B33003F950E /* Unimplemented.swift in Sources */,
 				0A7B28321F9F1B39003F950E /* CentralManager.swift in Sources */,
 				0A339D741FA1C0ED008385C8 /* CBPeripheralDelegateWrapper.swift in Sources */,
@@ -1134,7 +1120,6 @@
 				0A7B28201F9F1B25003F950E /* DeviceIdentifiers.swift in Sources */,
 				0A339D751FA1C10A008385C8 /* CBCentralManagerDelegateWrapper.swift in Sources */,
 				1D9C50B22021CC70006B21E4 /* Connector.swift in Sources */,
-				0A7B282F1F9F1B39003F950E /* ScanOperation.swift in Sources */,
 				0A7B282C1F9F1B33003F950E /* BluetoothError.swift in Sources */,
 				0A7B281E1F9F1B25003F950E /* Peripheral.swift in Sources */,
 				0A7B282A1F9F1B33003F950E /* Observable+Absorb.swift in Sources */,
@@ -1158,7 +1143,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A7B28131F9F1964003F950E /* ObservableTest+QueueSubscribeOn.swift in Sources */,
 				4CB5044820457A2400031AA7 /* PeripheralTest+DescriptorsDiscover.swift in Sources */,
 				4CB5044D204582D700031AA7 /* PeripheralTest+DescriptorsOperation.swift in Sources */,
 				1D490B681FFF8E1200D3F871 /* _Descriptor.generated.swift in Sources */,
@@ -1201,12 +1185,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2666FE3F1CCE4732005E81CE /* Observable+QueueSubscribeOn.swift in Sources */,
 				2666FE491CCE4732005E81CE /* CentralManager.swift in Sources */,
 				2666FE401CCE4732005E81CE /* Unimplemented.swift in Sources */,
 				2666FE371CCE4732005E81CE /* DeviceIdentifiers.swift in Sources */,
 				26EF38C91D86EE1F00F9F468 /* BluetoothState.swift in Sources */,
-				2666FE461CCE4732005E81CE /* ScanOperation.swift in Sources */,
 				BB2FF3351F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift in Sources */,
 				2666FE351CCE4732005E81CE /* Peripheral.swift in Sources */,
 				D74B16851ED417AA006D5996 /* Logging.swift in Sources */,
@@ -1239,6 +1221,7 @@
 				4CB5044620457A2200031AA7 /* PeripheralTest+DescriptorsDiscover.swift in Sources */,
 				4CB5044B204582D500031AA7 /* PeripheralTest+DescriptorsOperation.swift in Sources */,
 				1D490B581FFF8E1000D3F871 /* _Descriptor.generated.swift in Sources */,
+				4C77E49B20613B5400FAF1A9 /* _CentralManager+RestoredState.generated.swift in Sources */,
 				4C2E13FB20401EC300143D4D /* PeripheralTest+Service.swift in Sources */,
 				4C6A2CDF203DBABB0085EE1E /* UUIDIdentifiableTest.swift in Sources */,
 				1DCA1EF02028629A0090D14E /* _CharacteristicNotificationManager.generated.swift in Sources */,
@@ -1247,6 +1230,7 @@
 				1D417F88200F436900354750 /* CentralManagerTest+ScanForPeripherals.swift in Sources */,
 				1D490B591FFF8E1000D3F871 /* _Peripheral.generated.swift in Sources */,
 				1D6474E22022F83100A1029F /* ThreadSafeBoxTest.swift in Sources */,
+				4C77E4982061397E00FAF1A9 /* CentralManagerTest+StateRestore.swift in Sources */,
 				4C2DDDF8203C5F10006F48C6 /* ObservableTest+Absorb.swift in Sources */,
 				1D490B6E1FFF8EBD00D3F871 /* _ScannedPeripheral.generated.swift in Sources */,
 				2666FDDE1CCE46E2005E81CE /* Utilities.swift in Sources */,
@@ -1256,7 +1240,6 @@
 				1D490B531FFF8E1000D3F871 /* _BluetoothError.generated.swift in Sources */,
 				1DCA1EF52028680D0090D14E /* CharacteristicNotificationManagerTest.swift in Sources */,
 				1D490B761FFF8F5500D3F871 /* _RestoredState.generated.swift in Sources */,
-				2666FDDD1CCE46E2005E81CE /* ObservableTest+QueueSubscribeOn.swift in Sources */,
 				4C2E13F720401D5D00143D4D /* BasePeripheralTest.swift in Sources */,
 				1D49C69A201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift in Sources */,
 				1D6474DE2021E31500A1029F /* ConnectorTest.swift in Sources */,
@@ -1278,12 +1261,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2666FE241CCE4731005E81CE /* Observable+QueueSubscribeOn.swift in Sources */,
 				2666FE2E1CCE4731005E81CE /* CentralManager.swift in Sources */,
 				2666FE251CCE4731005E81CE /* Unimplemented.swift in Sources */,
 				D74B16861ED417AA006D5996 /* Logging.swift in Sources */,
 				2666FE1C1CCE4731005E81CE /* DeviceIdentifiers.swift in Sources */,
-				2666FE2B1CCE4731005E81CE /* ScanOperation.swift in Sources */,
 				FA947A3C1EB1C42F000ED0B1 /* UUIDIdentifiable.swift in Sources */,
 				1D9C50B02021CC70006B21E4 /* Connector.swift in Sources */,
 				2666FE1A1CCE4731005E81CE /* Peripheral.swift in Sources */,
@@ -1331,7 +1312,6 @@
 				1D490B5B1FFF8E1100D3F871 /* _BluetoothError.generated.swift in Sources */,
 				1DCA1EF62028680D0090D14E /* CharacteristicNotificationManagerTest.swift in Sources */,
 				1D490B771FFF8F5500D3F871 /* _RestoredState.generated.swift in Sources */,
-				2666FDD71CCE46E1005E81CE /* ObservableTest+QueueSubscribeOn.swift in Sources */,
 				4C2E13F820401D5E00143D4D /* BasePeripheralTest.swift in Sources */,
 				1D49C69B201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift in Sources */,
 				1D6474DF2021E31500A1029F /* ConnectorTest.swift in Sources */,
@@ -1744,12 +1724,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1783,7 +1765,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1803,12 +1785,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1835,7 +1819,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

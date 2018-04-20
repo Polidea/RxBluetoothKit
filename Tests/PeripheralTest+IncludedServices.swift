@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2018 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import XCTest
 @testable
 import RxBluetoothKit
@@ -119,6 +97,51 @@ class PeripheralIncludedServicesTest: BasePeripheralTest {
         
         XCTAssertEqual(peripheral.peripheral.discoverIncludedServicesParams.count, 1, "should call discover included services for the peripheral")
         XCTAssertServiceList(observable: obs, uuids: mockServices.map { $0.uuid })
+    }
+    
+    func testDiscoveryQueue() {
+        let mockServices = [
+            createService(uuid: "0x0000"),
+            createService(uuid: "0x0001")
+        ]
+        
+        let obs0: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable {
+            self.peripheral.discoverIncludedServices(nil, for: self.service).asObservable()
+        }
+        let obs1: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable {
+            self.peripheral.discoverIncludedServices([mockServices[0].uuid], for: self.service).asObservable()
+        }
+        let obs2: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable {
+            self.peripheral.discoverIncludedServices([mockServices[1].uuid], for: self.service).asObservable()
+        }
+        testScheduler.scheduleAt(subscribeTime + 100) {
+            self.service.service.includedServices = [mockServices[0]]
+            self.peripheral.delegateWrapper.peripheralDidDiscoverIncludedServicesForService.asObserver().onNext((self.service.service, nil))
+        }
+        testScheduler.scheduleAt(subscribeTime + 200) {
+            self.service.service.includedServices = mockServices
+            self.peripheral.delegateWrapper.peripheralDidDiscoverIncludedServicesForService.asObserver().onNext((self.service.service, nil))
+        }
+        testScheduler.scheduleAt(subscribeTime + 300) {
+            self.service.service.includedServices = mockServices
+            self.peripheral.delegateWrapper.peripheralDidDiscoverIncludedServicesForService.asObserver().onNext((self.service.service, nil))
+        }
+        
+        testScheduler.advanceTo(subscribeTime + 100)
+        
+        XCTAssertEqual(peripheral.peripheral.discoverIncludedServicesParams.count, 3, "should call discover included services 3 times")
+        XCTAssertEqual(obs0.events.count, 0, "should not receive event for first request")
+        XCTAssertServiceList(observable: obs1, uuids: [mockServices[0].uuid])
+        XCTAssertEqual(obs2.events.count, 0, "should not receive event for third request")
+        
+        testScheduler.advanceTo(subscribeTime + 200)
+        
+        XCTAssertServiceList(observable: obs2, uuids: [mockServices[1].uuid] )
+        XCTAssertEqual(obs0.events.count, 0, "should not receive event for first request")
+        
+        testScheduler.advanceTo(subscribeTime + 300)
+        
+        XCTAssertServiceList(observable: obs0, uuids: mockServices.map { $0.uuid } )
     }
     
     func testDiscoverIncludedServicesForDisconnectedPeripheral() {

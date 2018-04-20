@@ -1,7 +1,7 @@
 language: objective-c
-osx_image: xcode9
+osx_image: xcode9.3
 xcode_project: RxBluetoothKit.xcodeproj
-xcode_sdk: iphonesimulator11.0
+xcode_sdk: iphonesimulator11.3
 
 env:
         matrix:
@@ -13,7 +13,7 @@ before_install:
         - brew update
         - brew outdated carthage || brew upgrade carthage
 before_script:
-        - carthage checkout --no-use-binaries
+        - carthage checkout
         - travis_retry carthage build --platform "${TARGET}"
 script:
         - ./scripts/all-build.sh "${TARGET}"

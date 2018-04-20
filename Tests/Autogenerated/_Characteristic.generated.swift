@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2017 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import RxSwift
 import CoreBluetooth
@@ -29,7 +7,9 @@ import CoreBluetooth
 
 /// _Characteristic is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBCharacteristicMock](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCharacteristic_Class/)
 class _Characteristic {
+    /// Intance of CoreBluetooth characteristic class
     let characteristic: CBCharacteristicMock
+
     /// _Service which contains this characteristic
     let service: _Service
 
@@ -69,59 +49,134 @@ class _Characteristic {
     }
 
     /// Function that triggers descriptors discovery for characteristic.
-    /// - returns: `Single` that emits `Next` with array of `_Descriptor` instances, once they're discovered.
+    /// - returns: `Single` that emits `next` with array of `_Descriptor` instances, once they're discovered.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.descriptorsDiscoveryFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func discoverDescriptors() -> Single<[_Descriptor]> {
         return service.peripheral.discoverDescriptors(for: self)
     }
 
     /// Function that allow to observe writes that happened for characteristic.
-    /// - Returns: `Observable` that emits `Next` with `_Characteristic` instance every time when write has happened.
-    /// It's **infinite** stream, so `.Complete` is never called.
+    /// - Returns: `Observable` that emits `next` with `_Characteristic` instance every time when write has happened.
+    /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.characteristicWriteFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func observeWrite() -> Observable<_Characteristic> {
         return service.peripheral.observeWrite(for: self)
     }
 
+    /// Function that allows to know the exact time, when isNotyfing value has changed on a characteristic.
+    ///
+    /// - returns: `Observable` emitting `_Characteristic` when isNoytfing value has changed.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.characteristicSetNotifyValueFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
+    func observeNotifyValue() -> Observable<_Characteristic> {
+        return service.peripheral.observeNotifyValue(for: self)
+    }
+
     /// Function that triggers write of data to characteristic. Write is called after subscribtion to `Observable` is made.
     /// Behavior of this function strongly depends on [CBCharacteristicWriteType](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBPeripheral_Class/#//apple_ref/swift/enum/c:@E@CBCharacteristicWriteType), so be sure to check this out before usage of the method.
-    /// - parameter forCharacteristic: `_Descriptor` instance to write value to.
-    /// - parameter type: Type of write operation. Possible values: `.WithResponse`, `.WithoutResponse`
+    /// - parameter data: `Data` that'll be written to the `_Characteristic`
+    /// - parameter type: Type of write operation. Possible values: `.withResponse`, `.withoutResponse`
     /// - returns: `Single` whose emission depends on `CBCharacteristicWriteType` passed to the function call.
     /// Behavior is following:
     ///
-    /// - `WithResponse` -  `Observable` emits `Next` with `_Characteristic` instance write was confirmed without any errors.
+    /// - `withResponse` -  `Observable` emits `next` with `_Characteristic` instance write was confirmed without any errors.
     /// If any problem has happened, errors are emitted.
-    /// - `WithoutResponse` - `Observable` emits `Next` with `_Characteristic` instance once write was called.
+    /// - `withoutResponse` - `Observable` emits `next` with `_Characteristic` instance once write was called.
     /// Result of this call is not checked, so as a user you are not sure
     /// if everything completed successfully. Errors are not emitted
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.characteristicWriteFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func writeValue(_ data: Data, type: CBCharacteristicWriteType) -> Single<_Characteristic> {
         return service.peripheral.writeValue(data, for: self, type: type)
     }
 
     /// Function that allow to observe value updates for `_Characteristic` instance.
     /// - Returns: `Observable` that emits `Next` with `_Characteristic` instance every time when value has changed.
-    /// It's **infinite** stream, so `.Complete` is never called.
+    /// It's **infinite** stream, so `.complete` is never called.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.characteristicReadFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func observeValueUpdate() -> Observable<_Characteristic> {
         return service.peripheral.observeValueUpdate(for: self)
     }
 
     /// Function that triggers read of current value of the `_Characteristic` instance.
     /// Read is called after subscription to `Observable` is made.
-    /// - Returns: `Single` which emits `Next` with given characteristic when value is ready to read.
+    /// - Returns: `Single` which emits `next` with given characteristic when value is ready to read.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.characteristicReadFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func readValue() -> Single<_Characteristic> {
         return service.peripheral.readValue(for: self)
     }
 
-    /**
-     Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
-     Returned observable will emit `_Characteristic` on every notification change.
-     It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.
-     
-     Notification is automaticaly unregistered once this observable is unsubscribed
-     
-     - returns: `Observable` emitting `Next` with `_Characteristic` when give characteristic has been changed.
-     
-     This is **infinite** stream of values.
-     */
+    /// Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
+    /// Returned observable will emit `_Characteristic` on every notification change.
+    /// It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.
+    ///
+    /// Notification is automaticaly unregistered once this observable is unsubscribed
+    ///
+    /// - returns: `Observable` emitting `next` with `_Characteristic` when given characteristic has been changed.
+    ///
+    /// This is **infinite** stream of values.
+    ///
+    /// Observable can ends with following errors:
+    /// * `_BluetoothError.characteristicReadFailed`
+    /// * `_BluetoothError.peripheralDisconnected`
+    /// * `_BluetoothError.destroyed`
+    /// * `_BluetoothError.bluetoothUnsupported`
+    /// * `_BluetoothError.bluetoothUnauthorized`
+    /// * `_BluetoothError.bluetoothPoweredOff`
+    /// * `_BluetoothError.bluetoothInUnknownState`
+    /// * `_BluetoothError.bluetoothResetting`
     func observeValueUpdateAndSetNotification() -> Observable<_Characteristic> {
         return service.peripheral.observeValueUpdateAndSetNotification(for: self)
     }

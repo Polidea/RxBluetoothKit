@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2018 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import Foundation
 import CoreBluetooth
 @testable import RxBluetoothKit
@@ -45,8 +23,14 @@ struct _RestoredState {
     var peripherals: [_Peripheral] {
         let objects = restoredStateData[CBCentralManagerRestoredStatePeripheralsKey] as? [AnyObject]
         guard let arrayOfAnyObjects = objects else { return [] }
-        return arrayOfAnyObjects.flatMap { $0 as? CBPeripheralMock }
-            .map { centralManager.retrievePeripheral(for: $0) }
+
+        #if swift(>=4.1)
+            let cbPeripherals = arrayOfAnyObjects.compactMap { $0 as? CBPeripheralMock }
+        #else
+            let cbPeripherals = arrayOfAnyObjects.flatMap { $0 as? CBPeripheralMock }
+        #endif
+
+        return cbPeripherals.map { centralManager.retrievePeripheral(for: $0) }
     }
 
     /// Dictionary that contains all of the peripheral scan options that were being used
@@ -61,8 +45,14 @@ struct _RestoredState {
     var services: [_Service] {
         let objects = restoredStateData[CBCentralManagerRestoredStateScanServicesKey] as? [AnyObject]
         guard let arrayOfAnyObjects = objects else { return [] }
-        return arrayOfAnyObjects.flatMap { $0 as? CBServiceMock }
-            .map { _Service(peripheral: centralManager.retrievePeripheral(for: $0.peripheral),
+
+        #if swift(>=4.1)
+            let cbServices = arrayOfAnyObjects.compactMap { $0 as? CBServiceMock }
+        #else
+            let cbServices = arrayOfAnyObjects.flatMap { $0 as? CBServiceMock }
+        #endif
+
+        return cbServices.map { _Service(peripheral: centralManager.retrievePeripheral(for: $0.peripheral),
                            service: $0) }
     }
 }

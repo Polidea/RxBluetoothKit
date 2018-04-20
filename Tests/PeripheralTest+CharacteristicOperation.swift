@@ -1,25 +1,3 @@
-// The MIT License (MIT)
-//
-// Copyright (c) 2018 Polidea
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 import XCTest
 @testable
 import RxBluetoothKit
@@ -198,6 +176,48 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         testScheduler.advanceTo(subscribeTime + 200)
         
         XCTAssertEqual(obs.events.count, 1, "should reveive one event")
+        XCTAssertEqual(obs.events[0].value.element, characteristic, "should receive event for correct characteristic")
+    }
+    
+     func testObserveCharacteristicIsNotifyingValue() {
+        let mockCharacteristic = createCharacteristic(uuid: "0x0001", service: service)
+        let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)
+
+        let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
+            self.peripheral.observeNotifyValue(for: characteristic)
+        }
+
+        let updateEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
+            next(subscribeTime + 100, (mockCharacteristic, nil)),
+            next(subscribeTime + 200, (mockCharacteristic, nil))
+        ]
+        
+        testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic).disposed(by: disposeBag)
+
+        testScheduler.advanceTo(subscribeTime + 200)
+        
+        XCTAssertEqual(obs.events.count, 2, "Should receive two events")
+        XCTAssertEqual(obs.events[0].value.element, characteristic, "should receive event for correct characteristic")
+    }
+    
+    func testCharacteristicIsNotifyingValueChange() {
+        let mockCharacteristic = createCharacteristic(uuid: "0x0001", service: service)
+        let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)
+        
+        let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
+            characteristic.observeNotifyValue()
+        }
+        
+        let updateEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
+            next(subscribeTime + 100, (mockCharacteristic, nil)),
+            next(subscribeTime + 200, (mockCharacteristic, nil))
+        ]
+        
+        testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic).disposed(by: disposeBag)
+        
+        testScheduler.advanceTo(subscribeTime + 200)
+        
+        XCTAssertEqual(obs.events.count, 2, "Should receive two events")
         XCTAssertEqual(obs.events[0].value.element, characteristic, "should receive event for correct characteristic")
     }
     
