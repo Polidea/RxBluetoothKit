@@ -119,15 +119,15 @@ final class RxBluetoothKitService {
     func discoverServices(for peripheral: Peripheral) {
         let isConnected = peripheral.isConnected
         
-        let createConnectedObservable = { return peripheral.discoverServices(nil).asObservable() }
-        let createDisconnectedObservable = {
+        let connectedObservableCreator = { return peripheral.discoverServices(nil).asObservable() }
+        let connectObservableCreator = {
             return peripheral.establishConnection()
                 .do(onNext: { [weak self] _ in
                     self?.observeDisconnect(for: peripheral)
                 })
                 .flatMap { $0.discoverServices(nil) }
         }
-        let observable = isConnected ? createConnectedObservable(): createDisconnectedObservable()
+        let observable = isConnected ? connectedObservableCreator(): connectObservableCreator()
         let disposable = observable.subscribe(onNext: { [weak self] services in
                     self?.discoveredServicesSubject.onNext(Result.success(services))
                 }, onError: { [weak self] error in
