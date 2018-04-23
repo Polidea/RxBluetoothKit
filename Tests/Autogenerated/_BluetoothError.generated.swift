@@ -18,6 +18,8 @@ enum _BluetoothError: Error {
     case bluetoothResetting
     // _Peripheral
     case peripheralIsAlreadyObservingConnection(_Peripheral)
+    @available(*, deprecated: 5.0.2, renamed: "_BluetoothError.peripheralIsAlreadyObservingConnection")
+    case peripheralIsConnectingOrAlreadyConnected(_Peripheral)
     case peripheralConnectionFailed(_Peripheral, Error?)
     case peripheralDisconnected(_Peripheral, Error?)
     case peripheralRSSIReadFailed(_Peripheral, Error?)
@@ -64,7 +66,7 @@ extension _BluetoothError: CustomStringConvertible {
         case .bluetoothResetting:
             return "Bluetooth is resetting"
         // _Peripheral
-        case .peripheralIsAlreadyObservingConnection:
+        case .peripheralIsAlreadyObservingConnection, .peripheralIsConnectingOrAlreadyConnected:
             return """
             _Peripheral connection is already being observed.
             You cannot try to establishConnection to peripheral when you have ongoing
@@ -142,6 +144,9 @@ func == (lhs: _BluetoothError, rhs: _BluetoothError) -> Bool {
     case let (.includedServicesDiscoveryFailed(l, _), .includedServicesDiscoveryFailed(r, _)): return l == r
     // Peripherals
     case let (.peripheralIsAlreadyObservingConnection(l), .peripheralIsAlreadyObservingConnection(r)): return l == r
+    case let (.peripheralIsConnectingOrAlreadyConnected(l), .peripheralIsConnectingOrAlreadyConnected(r)): return l == r
+    case let (.peripheralIsAlreadyObservingConnection(l), .peripheralIsConnectingOrAlreadyConnected(r)): return l == r
+    case let (.peripheralIsConnectingOrAlreadyConnected(l), .peripheralIsAlreadyObservingConnection(r)): return l == r
     case let (.peripheralConnectionFailed(l, _), .peripheralConnectionFailed(r, _)): return l == r
     case let (.peripheralDisconnected(l, _), .peripheralDisconnected(r, _)): return l == r
     case let (.peripheralRSSIReadFailed(l, _), .peripheralRSSIReadFailed(r, _)): return l == r
