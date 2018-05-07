@@ -9,8 +9,6 @@ extension CentralManager {
 
     // MARK: State restoration
 
-    // swiftlint:disable line_length
-
     /// Creates new `CentralManager` instance, which supports bluetooth state restoration.
     /// - warning: If you pass background queue to the method make sure to observe results on main thread
     /// for UI related code.

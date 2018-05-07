@@ -9,6 +9,9 @@ public enum BluetoothError: Error {
     case destroyed
     // Emitted when `CentralManager.scanForPeripherals` called and there is already ongoing scan
     case scanInProgress
+    // Emitted when `PeripheralManager.startAdvertising` called and there is already ongoing advertisement
+    case advertisingInProgress
+    case advertisingStartFailed(Error)
     // States
     case bluetoothUnsupported
     case bluetoothUnauthorized
@@ -35,7 +38,7 @@ public enum BluetoothError: Error {
     case descriptorsDiscoveryFailed(Characteristic, Error?)
     case descriptorWriteFailed(Descriptor, Error?)
     case descriptorReadFailed(Descriptor, Error?)
-    //L2CAP
+    // L2CAP
     case openingL2CAPChannelFailed(Peripheral, Error?)
 }
 
@@ -54,6 +57,13 @@ extension BluetoothError: CustomStringConvertible {
             Tried to scan for peripheral when there is already ongoing scan.
             You can have only 1 ongoing scanning, please check documentation of CentralManager for more details
             """
+        case .advertisingInProgress:
+            return """
+            Tried to advertise when there is already advertising ongoing.
+            You can have only 1 ongoing advertising, please check documentation of PeripheralManager for more details
+            """
+        case let .advertisingStartFailed(err):
+            return "Start advertising error occured: \(err.localizedDescription)"
         case .bluetoothUnsupported:
             return "Bluetooth is unsupported"
         case .bluetoothUnauthorized:
@@ -132,6 +142,8 @@ extension BluetoothError: Equatable {}
 public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     switch (lhs, rhs) {
     case (.scanInProgress, .scanInProgress): return true
+    case (.advertisingInProgress, .advertisingInProgress): return true
+    case (.advertisingStartFailed, .advertisingStartFailed): return true
     // States
     case (.bluetoothUnsupported, .bluetoothUnsupported): return true
     case (.bluetoothUnauthorized, .bluetoothUnauthorized): return true

@@ -12,9 +12,9 @@ import RxSwift
     typealias MethodName = String
 
     class Utils {
-        static let classNamesToMock = ["CBManager", "CBAttribute", "CBCentralManager", "CBPeripheral", "CBDescriptor", "CBService", "CBCharacteristic", "CBL2CAPChannel", "CBPeer", "PeripheralProvider", "Connector", "CharacteristicNotificationManager"]
-        static let classNamesToTestable = ["Peripheral", "CentralManager", "Characteristic"]
-        static let delegateWrapperNamesToMock = ["CBPeripheralDelegateWrapper", "CBCentralManagerDelegateWrapper"]
+        static let classNamesToMock = ["CBManager", "CBAttribute", "CBCentralManager", "CBPeripheralManager", "CBPeripheral", "CBDescriptor", "CBService", "CBCharacteristic", "CBL2CAPChannel", "CBPeer", "PeripheralProvider", "Connector", "CharacteristicNotificationManager"]
+        static let classNamesToTestable = ["Peripheral", "CentralManager", "PeripheralManager", "Characteristic"]
+        static let delegateWrapperNamesToMock = ["CBPeripheralDelegateWrapper", "CBCentralManagerDelegateWrapper", "CBPeripheralManagerDelegateWrapper"]
         static let namesToMock = classNamesToMock + delegateWrapperNamesToMock
 
         static func capitalizeFirstLetter(_ text: String) -> String {
@@ -53,7 +53,8 @@ import RxSwift
         }
 
         static func changeTypeName(_ typeName: String) -> String {
-            var result = changeTypeNameToTestable(typeName)            
+            let name = typeName.components(separatedBy: "\n")[0]
+            var result = changeTypeNameToTestable(name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))            
             return changeTypeNameToMock(result)
         }
 

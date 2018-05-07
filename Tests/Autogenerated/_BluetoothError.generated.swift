@@ -10,6 +10,9 @@ enum _BluetoothError: Error {
     case destroyed
     // Emitted when `_CentralManager.scanForPeripherals` called and there is already ongoing scan
     case scanInProgress
+    // Emitted when `_PeripheralManager.startAdvertising` called and there is already ongoing advertisement
+    case advertisingInProgress
+    case advertisingStartFailed(Error)
     // States
     case bluetoothUnsupported
     case bluetoothUnauthorized
@@ -36,7 +39,7 @@ enum _BluetoothError: Error {
     case descriptorsDiscoveryFailed(_Characteristic, Error?)
     case descriptorWriteFailed(_Descriptor, Error?)
     case descriptorReadFailed(_Descriptor, Error?)
-    //L2CAP
+    // L2CAP
     case openingL2CAPChannelFailed(_Peripheral, Error?)
 }
 
@@ -55,6 +58,13 @@ extension _BluetoothError: CustomStringConvertible {
             Tried to scan for peripheral when there is already ongoing scan.
             You can have only 1 ongoing scanning, please check documentation of _CentralManager for more details
             """
+        case .advertisingInProgress:
+            return """
+            Tried to advertise when there is already advertising ongoing.
+            You can have only 1 ongoing advertising, please check documentation of _PeripheralManager for more details
+            """
+        case let .advertisingStartFailed(err):
+            return "Start advertising error occured: \(err.localizedDescription)"
         case .bluetoothUnsupported:
             return "Bluetooth is unsupported"
         case .bluetoothUnauthorized:
@@ -133,6 +143,8 @@ extension _BluetoothError: Equatable {}
 func == (lhs: _BluetoothError, rhs: _BluetoothError) -> Bool {
     switch (lhs, rhs) {
     case (.scanInProgress, .scanInProgress): return true
+    case (.advertisingInProgress, .advertisingInProgress): return true
+    case (.advertisingStartFailed, .advertisingStartFailed): return true
     // States
     case (.bluetoothUnsupported, .bluetoothUnsupported): return true
     case (.bluetoothUnauthorized, .bluetoothUnauthorized): return true

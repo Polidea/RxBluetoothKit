@@ -17,7 +17,9 @@ excluded:
   - Tests
 
   
-line_length: 120
+line_length: 
+  warning: 120
+  ignores_comments: true
 # they can set both implicitly with an array
 type_body_length:
   - 300 # warning

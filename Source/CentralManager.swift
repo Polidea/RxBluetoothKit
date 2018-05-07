@@ -2,8 +2,6 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
-// swiftlint:disable line_length
-
 /// Error received when device disconnection event occurs
 public typealias DisconnectionReason = Error
 
@@ -90,10 +88,6 @@ public class CentralManager: ManagerType {
 
     // MARK: State
 
-    /// Continuous state of `CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
-    /// - returns: Observable that emits `next` event whenever state changes.
-    ///
-    /// It's **infinite** stream, so `.complete` is never called.
     public func observeState() -> Observable<BluetoothState> {
         return self.delegateWrapper.didUpdateState.asObservable()
     }
@@ -161,7 +155,7 @@ public class CentralManager: ManagerType {
 
                 strongSelf.manager.scanForPeripherals(withServices: serviceUUIDs, options: options)
 
-                return Disposables.create {
+                return Disposables.create { [weak self] in
                     guard let strongSelf = self else { return }
                     // When disposed, stop scan and dispose scanning
                     strongSelf.manager.stopScan()
@@ -286,22 +280,6 @@ public class CentralManager: ManagerType {
     }
 
     // MARK: Internal functions
-
-    /// Ensure that `state` is and will be the only state of `CentralManager` during subscription.
-    /// Otherwise error is emitted.
-    /// - parameter state: `BluetoothState` which should be present during subscription.
-    /// - parameter observable: Observable into which potential errors should be merged.
-    /// - returns: New observable which merges errors with source observable.
-    func ensure<T>(_ state: BluetoothState, observable: Observable<T>) -> Observable<T> {
-        return .deferred { [weak self] in
-            guard let strongSelf = self else { throw BluetoothError.destroyed }
-            let statesObservable = strongSelf.observeState()
-                .startWith(strongSelf.state)
-                .filter { $0 != state && BluetoothError(state: $0) != nil }
-                .map { state -> T in throw BluetoothError(state: state)! }
-            return .absorb(statesObservable, observable)
-        }
-    }
 
     /// Ensure that specified `peripheral` is connected during subscription.
     /// - parameter peripheral: `Peripheral` which should be connected during subscription.

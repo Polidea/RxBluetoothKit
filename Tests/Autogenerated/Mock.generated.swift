@@ -79,6 +79,88 @@ class CBCentralManagerMock: CBManagerMock {
     }
 
 }
+class CBPeripheralManagerMock: CBManagerMock {
+    var delegate: CBPeripheralManagerDelegate?
+    var isAdvertising: Bool!
+    var logDescription: String!
+
+    override init() {
+    }
+    init(delegate: CBPeripheralManagerDelegate?, queue: DispatchQueue?, options: [String : Any]? = nil) {
+    }
+    init(delegate: CBPeripheralManagerDelegate?, queue: DispatchQueue?) {
+    }
+
+    var authorizationStatusParams: [()] = []
+    var authorizationStatusReturns: [CBPeripheralManagerAuthorizationStatus] = []
+    var authorizationStatusReturn: CBPeripheralManagerAuthorizationStatus?
+    func authorizationStatus() -> CBPeripheralManagerAuthorizationStatus {
+        authorizationStatusParams.append(())
+        if authorizationStatusReturns.isEmpty {
+            return authorizationStatusReturn!
+        } else {
+            return authorizationStatusReturns.removeFirst()
+        }
+    }
+
+    var startAdvertisingParams: [([String : Any]?)] = []
+    func startAdvertising(_ advertisementData: [String : Any]?) {
+        startAdvertisingParams.append((advertisementData))
+    }
+
+    var stopAdvertisingParams: [()] = []
+    func stopAdvertising() {
+        stopAdvertisingParams.append(())
+    }
+
+    var setDesiredConnectionLatencyParams: [(CBPeripheralManagerConnectionLatency, CBCentral)] = []
+    func setDesiredConnectionLatency(_ latency: CBPeripheralManagerConnectionLatency, for central: CBCentral) {
+        setDesiredConnectionLatencyParams.append((latency, central))
+    }
+
+    var addParams: [(CBMutableService)] = []
+    func add(_ service: CBMutableService) {
+        addParams.append((service))
+    }
+
+    var removeParams: [(CBMutableService)] = []
+    func remove(_ service: CBMutableService) {
+        removeParams.append((service))
+    }
+
+    var removeAllServicesParams: [()] = []
+    func removeAllServices() {
+        removeAllServicesParams.append(())
+    }
+
+    var respondParams: [(CBATTRequest, CBATTError.Code)] = []
+    func respond(to request: CBATTRequest, withResult result: CBATTError.Code) {
+        respondParams.append((request, result))
+    }
+
+    var updateValueParams: [(Data, CBMutableCharacteristic, [CBCentral]?)] = []
+    var updateValueReturns: [Bool] = []
+    var updateValueReturn: Bool?
+    func updateValue(_ value: Data, for characteristic: CBMutableCharacteristic, onSubscribedCentrals centrals: [CBCentral]?) -> Bool {
+        updateValueParams.append((value, characteristic, centrals))
+        if updateValueReturns.isEmpty {
+            return updateValueReturn!
+        } else {
+            return updateValueReturns.removeFirst()
+        }
+    }
+
+    var publishL2CAPChannelParams: [(Bool)] = []
+    func publishL2CAPChannel(withEncryption encryptionRequired: Bool) {
+        publishL2CAPChannelParams.append((encryptionRequired))
+    }
+
+    var unpublishL2CAPChannelParams: [(CBL2CAPPSM)] = []
+    func unpublishL2CAPChannel(_ PSM: CBL2CAPPSM) {
+        unpublishL2CAPChannelParams.append((PSM))
+    }
+
+}
 class CBPeripheralMock: CBPeerMock {
     var delegate: CBPeripheralDelegate?
     var name: String?
@@ -87,7 +169,6 @@ class CBPeripheralMock: CBPeerMock {
     var services: [CBServiceMock]?
     var canSendWriteWithoutResponse: Bool!
     var logDescription: String!
-    var uuidIdentifier: UUID!
 
     override init() {
     }
@@ -198,6 +279,7 @@ class CBL2CAPChannelMock: NSObject {
     var inputStream: InputStream!
     var outputStream: OutputStream!
     var psm: CBL2CAPPSM!
+    var logDescription: String!
 
     override init() {
     }
@@ -205,6 +287,7 @@ class CBL2CAPChannelMock: NSObject {
 }
 class CBPeerMock: NSObject {
     var identifier: UUID!
+    var uuidIdentifier: UUID!
 
     override init() {
     }
@@ -472,6 +555,61 @@ class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    }
+
+}
+class CBPeripheralManagerDelegateWrapperMock: NSObject , CBPeripheralManagerDelegate {
+    var didUpdateState = PublishSubject<BluetoothState>()
+    var isReady = PublishSubject<Void>()
+    var didStartAdvertising = PublishSubject<Error?>()
+    var didReceiveRead = PublishSubject<CBATTRequest>()
+    var willRestoreState = ReplaySubject<[String: Any]>.create(bufferSize: 1)
+    var didAddService = PublishSubject<(CBServiceMock, Error?)>()
+    var didReceiveWrite = PublishSubject<[CBATTRequest]>()
+    var didSubscribeTo = PublishSubject<(CBCentral, CBCharacteristicMock)>()
+    var didUnsubscribeFrom = PublishSubject<(CBCentral, CBCharacteristicMock)>()
+    var didPublishL2CAPChannel = PublishSubject<(CBL2CAPPSM, Error?)>()
+    var didUnpublishL2CAPChannel = PublishSubject<(CBL2CAPPSM, Error?)>()
+    var _didOpenChannel: Any?
+    var didOpenChannel: PublishSubject<(CBL2CAPChannelMock?, Error?)>!
+
+    override init() {
+    }
+
+    func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
+    }
+
+    func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
+    }
+
+    func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, willRestoreState dict: [String: Any]) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didAdd service: CBService, error: Error?) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didPublishL2CAPChannel PSM: CBL2CAPPSM, error: Error?) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didUnpublishL2CAPChannel PSM: CBL2CAPPSM, error: Error?) {
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didOpen channel: CBL2CAPChannel?, error: Error?) {
     }
 
 }
