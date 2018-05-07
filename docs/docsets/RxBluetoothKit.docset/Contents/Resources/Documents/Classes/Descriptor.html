@@ -177,7 +177,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Descriptor.swift#L11">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L11">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -207,7 +207,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Descriptor.swift#L14">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L14">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -237,7 +237,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Descriptor.swift#L17-L19">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L17-L19">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -267,7 +267,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Descriptor.swift#L22-L24">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L22-L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -287,6 +287,19 @@ Descriptors provide more information about a characteristic’s value.</p>
                       <div class="abstract">
                         <p>Function that allow to observe writes that happened for descriptor.</p>
 
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21descriptorWriteFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -302,7 +315,7 @@ Descriptors provide more information about a characteristic’s value.</p>
 It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Descriptor.swift#L40-L42">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L50-L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -321,6 +334,19 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never 
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Function that triggers write of data to descriptor. Write is called after subscribtion to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21descriptorWriteFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -355,7 +381,7 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never 
                         <p><code>Single</code> that emits <code>Next</code> with <code>Descriptor</code> instance, once value is written successfully.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Descriptor.swift#L47-L49">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L67-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -375,6 +401,19 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never 
                       <div class="abstract">
                         <p>Function that allow to observe value updates for <code>Descriptor</code> instance.</p>
 
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20descriptorReadFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -390,7 +429,7 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never 
 It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Descriptor.swift#L54-L56">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L84-L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -411,6 +450,19 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never 
                         <p>Function that triggers read of current value of the <code>Descriptor</code> instance.
 Read is called after subscription to <code>Observable</code> is made.</p>
 
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20descriptorReadFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -425,7 +477,7 @@ Read is called after subscription to <code>Observable</code> is made.</p>
                         <p><code>Single</code> which emits <code>next</code> with given descriptor when value is ready to read.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Descriptor.swift#L61-L63">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L101-L103">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -435,7 +487,7 @@ Read is called after subscription to <code>Observable</code> is made.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-04-10)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-07)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
