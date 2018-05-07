@@ -135,6 +135,7 @@ class _Peripheral {
     /// YES if the remote device has space to send a write without response. If this value is NO,
     /// the value will be set to YES after the current writes have been flushed, and
     /// `peripheralIsReadyToSendWriteWithoutResponse:` will be called.
+    @available(iOS 11.0, macOS 10.13, tvOS 11.0, watchOS 4.0, *)
     var canSendWriteWithoutResponse: Bool {
         return peripheral.canSendWriteWithoutResponse
     }
