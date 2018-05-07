@@ -13,7 +13,7 @@ opt_in_rules: # some rules are only opt-in
   # swiftlint rules
 excluded:
   - Carthage
-  - Example
+  - ExampleApp
   - Tests
 
   
