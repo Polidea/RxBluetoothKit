@@ -175,7 +175,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Service.swift#L9">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L9">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -205,7 +205,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Service.swift#L12">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L12">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -235,7 +235,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Service.swift#L15-L17">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L15-L17">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -265,7 +265,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Service.swift#L20-L22">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L20-L22">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -295,7 +295,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Service.swift#L25-L29">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L25-L29">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -325,7 +325,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Service.swift#L32-L36">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L32-L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -345,6 +345,19 @@
                       <div class="abstract">
                         <p>Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
 subscribtion to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO30characteristicsDiscoveryFailedAcA7ServiceC_s0D0_pSgtcACmF">BluetoothError.characteristicsDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -381,7 +394,7 @@ characteristics will be discovered. If you&rsquo;ll pass empty array - none of t
 If not all requested characteristics are discovered, <code>RxError.noElements</code> error is emmited.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Service.swift#L49-L51">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L59-L61">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -399,7 +412,21 @@ If not all requested characteristics are discovered, <code>RxError.noElements</c
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Function that triggers included services discovery for specified services. Discovery is called after
+subscribtion to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO31includedServicesDiscoveryFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.includedServicesDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -410,8 +437,33 @@ If not all requested characteristics are discovered, <code>RxError.noElements</c
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>includedServiceUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifiers of included services that should be discovered. If <code>nil</code> - all of the
+included services will be discovered. If you&rsquo;ll pass empty array - none of them will be discovered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits <code>next</code> with array of <code>Service</code> instances, once they&rsquo;re discovered.
+If not all requested services are discovered, <code>RxError.noElements</code> error is emmited.</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/Service.swift#L59-L61">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L79-L81">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -421,7 +473,7 @@ If not all requested characteristics are discovered, <code>RxError.noElements</c
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-04-10)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-07)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

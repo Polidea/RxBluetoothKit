@@ -193,7 +193,7 @@ peripheral&rsquo;s RSSI registered during discovery. You can then <code>establis
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L28">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L28">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -272,7 +272,7 @@ For more info about it please refer to <a href="https://developer.apple.com/libr
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L68-L78">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L68-L78">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -304,7 +304,7 @@ RxBluetoothKit library (e.g. CBCentralManager was used in some other library or 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L83-L85">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L83-L85">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -345,7 +345,7 @@ RxBluetoothKit library (e.g. CBCentralManager was used in some other library or 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L90-L92">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L90-L92">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -381,7 +381,7 @@ RxBluetoothKit library (e.g. CBCentralManager was used in some other library or 
                         <p>Observable that emits <code>next</code> event whenever state changes.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L98-L100">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L98-L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -433,6 +433,18 @@ operations.</p>
 
 </div>
 
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO14scanInProgressA2CmF">BluetoothError.scanInProgress</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -479,7 +491,7 @@ operations.</p>
                         <p>Infinite stream of scanned peripherals.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L127-L168">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L137-L178">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -515,6 +527,19 @@ On the other hand when the connection is interrupted or failed by the device or 
 following <code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO26peripheralConnectionFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralConnectionFailed</a></code> or <code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code> emission.
 Additionally you can pass optional <a href="https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/#//apple_ref/doc/constant_group/Peripheral_Connection_Options">dictionary</a>
 to customise the behaviour of connection.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO38peripheralIsAlreadyObservingConnectionAcA10PeripheralCcACmF">BluetoothError.peripheralIsAlreadyObservingConnection</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO26peripheralConnectionFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralConnectionFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -561,7 +586,7 @@ to customise the behaviour of connection.</p>
                         <p><code>Observable</code> which emits next event after connection is established.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L182-L185">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L203-L206">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -627,7 +652,7 @@ all of the specified <code><a href="../Classes/Service.html">Service</a></code>&
 <code><a href="../Classes/Service.html">Service</a></code>s with UUIDs specified in the <code>serviceUUIDs</code> parameter.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L195-L198">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L216-L219">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -680,7 +705,7 @@ all of the specified <code><a href="../Classes/Service.html">Service</a></code>&
                         <p>Retrieved <code><a href="../Classes/Peripheral.html">Peripheral</a></code>s.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L204-L207">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L225-L228">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -712,6 +737,17 @@ all of the specified <code><a href="../Classes/Service.html">Service</a></code>&
                         <p>Emits <code><a href="../Classes/Peripheral.html">Peripheral</a></code> instance when it&rsquo;s connected.</p>
 
 <p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -746,7 +782,7 @@ all of the specified <code><a href="../Classes/Service.html">Service</a></code>&
                         <p>Observable which emits next events when <code>peripheral</code> was connected.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L216-L224">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L246-L254">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -767,6 +803,17 @@ all of the specified <code><a href="../Classes/Service.html">Service</a></code>&
                         <p>Emits <code><a href="../Classes/Peripheral.html">Peripheral</a></code> instance when it&rsquo;s disconnected.</p>
 
 <p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
 
                       </div>
                       <div class="declaration">
@@ -803,7 +850,7 @@ It provides optional error which may contain more information about the cause of
 if it wasn&rsquo;t the <code>cancelPeripheralConnection</code> call.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager.swift#L233-L249">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L271-L287">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -902,7 +949,7 @@ For more info about it please refer to <a href="https://developer.apple.com/libr
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.1/Source/CentralManager+RestoredState.swift#L24-L31">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager+RestoredState.swift#L24-L31">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -912,7 +959,7 @@ For more info about it please refer to <a href="https://developer.apple.com/libr
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-04-10)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-07)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

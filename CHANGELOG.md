@@ -1,3 +1,9 @@
+# 5.0.2
+- Changed error name from `BluetoothError.peripheralIsConnectingOrAlreadyConnected` to `BluetoothError.peripheralIsAlreadyObservingConnection` - old error has been deprecated (#245)
+- To each method, that returns observable, added documentation with a list of errors that this observable can return (#225)
+- Rewritten example app that is now using RxBluetoothKit 5.x (#240, #220)
+- Added available annotation for `canSendWriteWithoutResponse` property (#253)
+
 # 5.0.1
 - Added method to observe notyfing state change for the characteristic (#229)
 - Aligned the API for `establishConnection` with the rest of the implementation
