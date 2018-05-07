@@ -38,6 +38,7 @@ class ConnectorTest: XCTestCase {
         
         XCTAssertEqual(obs.events.count, 1, "should receive error event")
         XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsAlreadyObservingConnection(peripheral), "should receive correct error event")
+        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral), "should receive correct error event")
     }
     
     func testDisconnectingPeripheral() {
