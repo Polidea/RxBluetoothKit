@@ -8,11 +8,24 @@ import RxSwift
 
 // MARK: - generated class mocks
 
-class CBCentralManagerMock: NSObject {
+class CBManagerMock: NSObject {
+    var state: CBManagerState!
+
+    override init() {
+    }
+
+}
+class CBAttributeMock: NSObject {
+    var uuid: CBUUID!
+
+    override init() {
+    }
+
+}
+class CBCentralManagerMock: CBManagerMock {
     var delegate: CBCentralManagerDelegate?
     var isScanning: Bool!
     var logDescription: String!
-    var state: CBManagerState!
 
     override init() {
     }
@@ -66,7 +79,7 @@ class CBCentralManagerMock: NSObject {
     }
 
 }
-class CBPeripheralMock: NSObject {
+class CBPeripheralMock: CBPeerMock {
     var delegate: CBPeripheralDelegate?
     var name: String?
     var rssi: NSNumber?
@@ -75,7 +88,6 @@ class CBPeripheralMock: NSObject {
     var canSendWriteWithoutResponse: Bool!
     var logDescription: String!
     var uuidIdentifier: UUID!
-    var identifier: UUID!
 
     override init() {
     }
@@ -148,29 +160,27 @@ class CBPeripheralMock: NSObject {
     }
 
 }
-class CBDescriptorMock: NSObject {
+class CBDescriptorMock: CBAttributeMock {
     var characteristic: CBCharacteristicMock!
     var value: Any?
     var logDescription: String!
-    var uuid: CBUUID!
 
     override init() {
     }
 
 }
-class CBServiceMock: NSObject {
+class CBServiceMock: CBAttributeMock {
     var peripheral: CBPeripheralMock!
     var isPrimary: Bool!
     var includedServices: [CBServiceMock]?
     var characteristics: [CBCharacteristicMock]?
     var logDescription: String!
-    var uuid: CBUUID!
 
     override init() {
     }
 
 }
-class CBCharacteristicMock: NSObject {
+class CBCharacteristicMock: CBAttributeMock {
     var service: CBServiceMock!
     var properties: CBCharacteristicProperties!
     var value: Data?
@@ -178,7 +188,6 @@ class CBCharacteristicMock: NSObject {
     var isBroadcasted: Bool!
     var isNotifying: Bool!
     var logDescription: String!
-    var uuid: CBUUID!
 
     override init() {
     }

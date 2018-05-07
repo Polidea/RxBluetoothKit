@@ -23,10 +23,14 @@ typealias DisconnectionReason = Error
 /// As a result you will receive `_ScannedPeripheral` which contains `_Peripheral` object, `AdvertisementData` and
 /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other operations.
 /// - seealso: `_Peripheral`
-class _CentralManager {
+class _CentralManager: _ManagerType {
 
     /// Implementation of CBCentralManagerMock
-    let centralManager: CBCentralManagerMock
+    let manager: CBCentralManagerMock
+
+    /// Implementation of CBCentralManagerMock
+    @available(*, deprecated: 5.1.0, renamed: "_CentralManager.manager")
+    var centralManager: CBCentralManagerMock { return manager }
 
     let peripheralProvider: PeripheralProviderMock
 
@@ -54,7 +58,7 @@ class _CentralManager {
         peripheralProvider: PeripheralProviderMock,
         connector: ConnectorMock
     ) {
-        self.centralManager = centralManager
+        self.manager = centralManager
         self.delegateWrapper = delegateWrapper
         self.peripheralProvider = peripheralProvider
         self.connector = connector
@@ -82,15 +86,10 @@ class _CentralManager {
     /// This method is useful in cases when delegate of CBCentralManagerMock was reassigned outside of
     /// RxBluetoothKit library (e.g. CBCentralManagerMock was used in some other library or used in non-reactive way)
     func attach() {
-        centralManager.delegate = delegateWrapper
+        manager.delegate = delegateWrapper
     }
 
     // MARK: State
-
-    /// Current state of `_CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
-    var state: BluetoothState {
-        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
-    }
 
     /// Continuous state of `_CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
     /// - returns: Observable that emits `next` event whenever state changes.
@@ -161,12 +160,12 @@ class _CentralManager {
                         }
                         .subscribe(observer)
 
-                strongSelf.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
+                strongSelf.manager.scanForPeripherals(withServices: serviceUUIDs, options: options)
 
                 return Disposables.create {
                     guard let strongSelf = self else { return }
                     // When disposed, stop scan and dispose scanning
-                    strongSelf.centralManager.stopScan()
+                    strongSelf.manager.stopScan()
                     do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
                         strongSelf.scanDisposable?.dispose()
                         strongSelf.scanDisposable = nil
@@ -215,7 +214,7 @@ class _CentralManager {
     /// - returns: Retrieved `_Peripheral`s. They are in connected state and contain all of the
     /// `_Service`s with UUIDs specified in the `serviceUUIDs` parameter.
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [_Peripheral] {
-        return centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
+        return manager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
             .map { self.retrievePeripheral(for: $0) }
     }
 
@@ -224,7 +223,7 @@ class _CentralManager {
     /// - parameter identifiers: List of `_Peripheral`'s identifiers which should be retrieved.
     /// - returns: Retrieved `_Peripheral`s.
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> [_Peripheral] {
-        return centralManager.retrievePeripherals(withIdentifiers: identifiers)
+        return manager.retrievePeripherals(withIdentifiers: identifiers)
             .map { self.retrievePeripheral(for: $0) }
     }
 

@@ -12,7 +12,7 @@ import RxSwift
     typealias MethodName = String
 
     class Utils {
-        static let classNamesToMock = ["CBCentralManager", "CBPeripheral", "CBDescriptor", "CBService", "CBCharacteristic", "CBL2CAPChannel", "CBPeer", "PeripheralProvider", "Connector", "CharacteristicNotificationManager"]
+        static let classNamesToMock = ["CBManager", "CBAttribute", "CBCentralManager", "CBPeripheral", "CBDescriptor", "CBService", "CBCharacteristic", "CBL2CAPChannel", "CBPeer", "PeripheralProvider", "Connector", "CharacteristicNotificationManager"]
         static let classNamesToTestable = ["Peripheral", "CentralManager", "Characteristic"]
         static let delegateWrapperNamesToMock = ["CBPeripheralDelegateWrapper", "CBCentralManagerDelegateWrapper"]
         static let namesToMock = classNamesToMock + delegateWrapperNamesToMock
@@ -106,9 +106,10 @@ import RxSwift
 // MARK: - generated class mocks
 
 <%_ for classNameToMock in Utils.classNamesToMock { 
-        let typeToMock = type[classNameToMock]! -%>
-class <%= typeToMock.name %>Mock: NSObject {
-<%_     for variable in typeToMock.allVariables { -%>
+        let typeToMock = type[classNameToMock]!
+        let supertypeName = Utils.changeTypeName(typeToMock.supertype?.name ?? "NSObject") -%>
+class <%= typeToMock.name %>Mock: <%= supertypeName %> {
+<%_     for variable in typeToMock.variables { -%>
     <%= Utils.printVariable(variable) %>
 <%      } -%>
 
