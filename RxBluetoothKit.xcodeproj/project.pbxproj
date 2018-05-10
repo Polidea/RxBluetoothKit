@@ -123,6 +123,7 @@
 		1D73E85220A43033009167AA /* CBCentral+Uuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73E84E20A43033009167AA /* CBCentral+Uuid.swift */; };
 		1D73E85320A431F0009167AA /* PeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA3453720A07FA800F7D629 /* PeripheralManager.swift */; };
 		1D73E85420A43338009167AA /* PeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA3453720A07FA800F7D629 /* PeripheralManager.swift */; };
+		1D73E85620A434B0009167AA /* PeripheralManager+RestoredState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73E85520A434B0009167AA /* PeripheralManager+RestoredState.swift */; };
 		1D8116C81FFE0F1700147BF5 /* Mock.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8116C71FFE0F1700147BF5 /* Mock.generated.swift */; };
 		1D8116C91FFE0F1700147BF5 /* Mock.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8116C71FFE0F1700147BF5 /* Mock.generated.swift */; };
 		1D8116CA1FFE0F1700147BF5 /* Mock.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8116C71FFE0F1700147BF5 /* Mock.generated.swift */; };
@@ -335,6 +336,7 @@
 		1D73E84520A32D0B009167AA /* PeripheralManagerTest+StartAdvertising.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeripheralManagerTest+StartAdvertising.swift"; sourceTree = "<group>"; };
 		1D73E84920A32D26009167AA /* BasePeripheralManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePeripheralManagerTest.swift; sourceTree = "<group>"; };
 		1D73E84E20A43033009167AA /* CBCentral+Uuid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CBCentral+Uuid.swift"; sourceTree = "<group>"; };
+		1D73E85520A434B0009167AA /* PeripheralManager+RestoredState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeripheralManager+RestoredState.swift"; sourceTree = "<group>"; };
 		1D8116C71FFE0F1700147BF5 /* Mock.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mock.generated.swift; sourceTree = "<group>"; };
 		1D9C509A202064CC006B21E4 /* Array+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Utils.swift"; sourceTree = "<group>"; };
 		1D9C50AE2021CC70006B21E4 /* Connector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connector.swift; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 			isa = PBXGroup;
 			children = (
 				1DA3453720A07FA800F7D629 /* PeripheralManager.swift */,
+				1D73E85520A434B0009167AA /* PeripheralManager+RestoredState.swift */,
 				1DA3453C20A0819400F7D629 /* CBPeripheralManagerDelegateWrapper.swift */,
 				1D73E83720A3289B009167AA /* StartAdvertisingResult.swift */,
 			);
@@ -1304,6 +1307,7 @@
 				1D9C50AF2021CC70006B21E4 /* Connector.swift in Sources */,
 				1D1C9828201B195000DCF299 /* CentralManager+RestoredState.swift in Sources */,
 				2666FE3E1CCE4732005E81CE /* Characteristic.swift in Sources */,
+				1D73E85620A434B0009167AA /* PeripheralManager+RestoredState.swift in Sources */,
 				2666FE321CCE4732005E81CE /* Descriptor.swift in Sources */,
 				1DA3453820A07FA800F7D629 /* PeripheralManager.swift in Sources */,
 				2666FE4A1CCE4732005E81CE /* AdvertisementData.swift in Sources */,

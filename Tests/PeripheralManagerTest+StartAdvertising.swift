@@ -5,6 +5,14 @@ import CoreBluetooth
 @testable
 import RxBluetoothKit
 
+extension StartAdvertisingResult: Equatable {}
+public func == (lhs: StartAdvertisingResult, rhs: StartAdvertisingResult) -> Bool {
+    switch (lhs, rhs) {
+    case (.started, .started): return true
+    default: return false
+    }
+}
+
 class PeripheralManagerTest_StartAdvertising: BasePeripheralManagerTest {
 
     var testScheduler: TestScheduler!
@@ -64,15 +72,21 @@ class PeripheralManagerTest_StartAdvertising: BasePeripheralManagerTest {
 
     func testProperOngoingResult() {
         let observer = setUpStartAdvertising(nil)
-
         peripheralManagerMock.state = .poweredOn
         peripheralManagerMock.isAdvertising = true
+        manager.restoredAdvertisementData = [:]
 
         testScheduler.advanceTo(subscribeTime)
 
         XCTAssertEqual(observer.events.count, 1, "should get ongoing advertising result")
-        XCTAssertEqual(observer.events[0].value.element!, StartAdvertisingResult.ongoing, "should get ongoing advertising result")
-        XCTAssertTrue(manager.isAdvertisingOngoing, "should set isAdvertisingOngoing to true")
+        XCTAssertNotNil(observer.events[0].value.element, "should get ongoing advertising result")
+        let ongoing: Bool
+        if case StartAdvertisingResult.ongoing(let result) = observer.events[0].value.element! {
+            ongoing = result != nil
+        } else {
+            ongoing = false
+        }
+        XCTAssertTrue(ongoing, "should get ongoing advertising result")
     }
 
     func testThrowErrorWhenStartAdvertisingFailed() {

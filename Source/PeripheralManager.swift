@@ -12,6 +12,7 @@ class PeripheralManager: ManagerType {
     private let advertisingLock = NSLock()
     /// Is there ongoing advertising
     var isAdvertisingOngoing = false
+    var restoredAdvertisementData: RestoredAdvertisementData?
 
     // MARK: Initialization
 
@@ -71,7 +72,8 @@ class PeripheralManager: ManagerType {
 
                 var disposable: Disposable? = nil
                 if strongSelf.manager.isAdvertising {
-                    observer.onNext(.ongoing)
+                    observer.onNext(.ongoing(strongSelf.restoredAdvertisementData))
+                    strongSelf.restoredAdvertisementData = nil
                 } else {
                     disposable = strongSelf.delegateWrapper.didStartAdvertising
                         .take(1)
