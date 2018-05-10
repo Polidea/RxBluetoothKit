@@ -33,11 +33,20 @@ class _PeripheralManager: _ManagerType {
     convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
         let delegateWrapper = CBPeripheralManagerDelegateWrapperMock()
+        #if os(iOS) || os(macOS)
         let peripheralManager = CBPeripheralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
+        #else
+        let peripheralManager = CBPeripheralManagerMock()
+        peripheralManager.delegate = delegateWrapper
+        #endif
         self.init(peripheralManager: peripheralManager, delegateWrapper: delegateWrapper)
     }
 
     // MARK: State
+
+    var state: BluetoothState {
+        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
+    }
 
     func observeState() -> Observable<BluetoothState> {
         return self.delegateWrapper.didUpdateState.asObservable()

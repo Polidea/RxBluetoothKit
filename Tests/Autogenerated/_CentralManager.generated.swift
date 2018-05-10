@@ -89,6 +89,10 @@ class _CentralManager: _ManagerType {
 
     // MARK: State
 
+    var state: BluetoothState {
+        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
+    }
+
     func observeState() -> Observable<BluetoothState> {
         return self.delegateWrapper.didUpdateState.asObservable()
     }

@@ -4,7 +4,7 @@ import CoreBluetooth
 @testable import RxBluetoothKit
 
 protocol _ManagerType: class {
-    associatedtype Manager: CBManagerMock
+    associatedtype Manager
 
     /// Implementation of CBManagerMock
     var manager: Manager { get }
@@ -20,10 +20,6 @@ protocol _ManagerType: class {
 }
 
 extension _ManagerType {
-    var state: BluetoothState {
-        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
-    }
-
     /// Ensure that `state` is and will be the only state of `_CentralManager` during subscription.
     /// Otherwise error is emitted.
     /// - parameter state: `BluetoothState` which should be present during subscription.

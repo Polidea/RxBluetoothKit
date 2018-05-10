@@ -32,19 +32,28 @@ class PeripheralManager: ManagerType {
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil) {
         let delegateWrapper = CBPeripheralManagerDelegateWrapper()
+        #if os(iOS) || os(macOS)
         let peripheralManager = CBPeripheralManager(delegate: delegateWrapper, queue: queue, options: options)
+        #else
+        let peripheralManager = CBPeripheralManager()
+        peripheralManager.delegate = delegateWrapper
+        #endif
         self.init(peripheralManager: peripheralManager, delegateWrapper: delegateWrapper)
     }
 
     // MARK: State
 
-    func observeState() -> Observable<BluetoothState> {
+    public var state: BluetoothState {
+        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
+    }
+
+    public func observeState() -> Observable<BluetoothState> {
         return self.delegateWrapper.didUpdateState.asObservable()
     }
 
     // MARK: Advertising
 
-    func startAdvertising(_ advertisementData: [String: Any]?) -> Observable<StartAdvertisingResult> {
+    public func startAdvertising(_ advertisementData: [String: Any]?) -> Observable<StartAdvertisingResult> {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             let observable: Observable<StartAdvertisingResult> = Observable.create { [weak self] observer in

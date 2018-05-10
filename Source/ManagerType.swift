@@ -3,7 +3,7 @@ import RxSwift
 import CoreBluetooth
 
 public protocol ManagerType: class {
-    associatedtype Manager: CBManager
+    associatedtype Manager
 
     /// Implementation of CBManager
     var manager: Manager { get }
@@ -19,10 +19,6 @@ public protocol ManagerType: class {
 }
 
 public extension ManagerType {
-    var state: BluetoothState {
-        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
-    }
-
     /// Ensure that `state` is and will be the only state of `CentralManager` during subscription.
     /// Otherwise error is emitted.
     /// - parameter state: `BluetoothState` which should be present during subscription.
