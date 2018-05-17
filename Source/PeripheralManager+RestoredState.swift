@@ -3,7 +3,7 @@ import RxSwift
 import CoreBluetooth
 
 /// Closure that receives restored state dict as a parameter
-public typealias OnWillRestorePeripheralManagerState = ([String: Any]) -> Void
+public typealias OnWillRestorePeripheralManagerState = (PeripheralManagerRestoredState) -> Void
 
 extension PeripheralManager {
 
@@ -16,15 +16,15 @@ extension PeripheralManager {
     /// and all operations and events are executed and received on main thread.
     /// - parameter options: An optional dictionary containing initialization options for a peripheral manager.
     /// For more info about it please refer to [Peripheral Manager initialization options](https://developer.apple.com/documentation/corebluetooth/cbperipheralmanager/peripheral_manager_initialization_options)
-    /// - parameter onWillRestoreState: Closure called when state has been restored.
+    /// - parameter onWillRestorePeripheralManagerState: Closure called when state has been restored.
     ///
     /// - seealso: `RestoredState`
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil,
-                            onWillRestoreState: OnWillRestorePeripheralManagerState? = nil) {
+                            onWillRestorePeripheralManagerState: OnWillRestorePeripheralManagerState? = nil) {
         self.init(queue: queue, options: options)
-        if let onWillRestoreState = onWillRestoreState {
-            listenOnWillRestoreState(onWillRestoreState)
+        if let onWillRestorePeripheralManagerState = onWillRestorePeripheralManagerState {
+            listenOnWillRestoreState(onWillRestorePeripheralManagerState)
         }
     }
 
@@ -35,13 +35,13 @@ extension PeripheralManager {
     convenience init(
         peripheralManager: CBPeripheralManager,
         delegateWrapper: CBPeripheralManagerDelegateWrapper,
-        onWillRestoreState: @escaping OnWillRestorePeripheralManagerState
+        onWillRestorePeripheralManagerState: @escaping OnWillRestorePeripheralManagerState
         ) {
         self.init(
             peripheralManager: peripheralManager,
             delegateWrapper: delegateWrapper
         )
-        listenOnWillRestoreState(onWillRestoreState)
+        listenOnWillRestoreState(onWillRestorePeripheralManagerState)
     }
 
     /// Emits restored state dict instance, when state of `PeripheralManager` has been restored,
@@ -53,9 +53,8 @@ extension PeripheralManager {
             .take(1)
             .subscribe(onNext: { [weak self] restoredState in
                 guard let strongSelf = self else { return }
-                // swiftlint:disable line_length
-                strongSelf.restoredAdvertisementData = restoredState[CBPeripheralManagerRestoredStateAdvertisementDataKey] as? RestoredAdvertisementData
-                // swiftlint:enable line_length
+                let restoredState = PeripheralManagerRestoredState(restoredStateDictionary: restoredState)
+                strongSelf.restoredAdvertisementData = restoredState.advertisementData
                 handler(restoredState)
             })
     }

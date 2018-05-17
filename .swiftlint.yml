@@ -15,6 +15,7 @@ excluded:
   - Carthage
   - ExampleApp
   - Tests
+  - .build
 
   
 line_length: 

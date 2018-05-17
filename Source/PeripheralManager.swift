@@ -98,4 +98,123 @@ class PeripheralManager: ManagerType {
             return strongSelf.ensure(.poweredOn, observable: observable)
         }
     }
+
+    // MARK: Services
+
+    public func add(_ service: CBMutableService) -> Single<CBService> {
+        let observable = delegateWrapper
+            .didAddService
+            .filter { $0.0 == service }
+            .take(1)
+            .map { (cbService, error) -> (CBService) in
+                if let error = error {
+                    throw BluetoothError.addingServiceFailed(cbService, error)
+                }
+                return cbService
+            }
+        return ensureValidStateAndCallIfSucceeded(for: observable) {
+            [weak self] in
+            self?.manager.add(service)
+        }.asSingle()
+    }
+
+    public func remove(_ service: CBMutableService) {
+        manager.remove(service)
+    }
+
+    public func removeAllServices() {
+        manager.removeAllServices()
+    }
+
+    // MARK: Read & Write
+
+    public func observeDidReceiveRead() -> Observable<CBATTRequest> {
+        return ensure(.poweredOn, observable: delegateWrapper.didReceiveRead)
+    }
+
+    public func observeDidReceiveWrite() -> Observable<[CBATTRequest]> {
+        return ensure(.poweredOn, observable: delegateWrapper.didReceiveWrite)
+    }
+
+    public func respond(to request: CBATTRequest, withResult result: CBATTError.Code) {
+        manager.respond(to: request, withResult: result)
+    }
+
+    // MARK: Updating value
+
+    public func updateValue(
+        _ value: Data,
+        for characteristic: CBMutableCharacteristic,
+        onSubscribedCentrals centrals: [CBCentral]?) -> Bool {
+        return manager.updateValue(value, for: characteristic, onSubscribedCentrals: centrals)
+    }
+
+    public func observeIsReadyToUpdateSubscribers() -> Observable<Void> {
+        return ensure(.poweredOn, observable: delegateWrapper.isReady)
+    }
+
+    // MARK: Subscribing
+
+    public func observeOnSubscribe() -> Observable<(CBCentral, CBCharacteristic)> {
+        return ensure(.poweredOn, observable: delegateWrapper.didSubscribeTo)
+    }
+
+    public func observeOnUnsubscribe() -> Observable<(CBCentral, CBCharacteristic)> {
+        return ensure(.poweredOn, observable: delegateWrapper.didUnsubscribeFrom)
+    }
+
+    // MARK: Internal functions
+
+    public func ensureValidStateAndCallIfSucceeded<T>(for observable: Observable<T>,
+                                                      postSubscriptionCall call: @escaping () -> Void
+        ) -> Observable<T> {
+        let operation = Observable<T>.deferred {
+            call()
+            return .empty()
+        }
+        return ensure(.poweredOn, observable: Observable.merge([observable, operation]))
+    }
+
+    // MARK: L2CAP
+
+    #if os(iOS) || os(tvOS) || os(watchOS)
+    @available(iOS 11, tvOS 11, watchOS 4, *)
+    public func publishL2CAPChannel(withEncryption encryptionRequired: Bool) -> Observable<CBL2CAPPSM> {
+        return .deferred { [weak self] in
+            guard let strongSelf = self else { throw BluetoothError.destroyed }
+            let observable: Observable<CBL2CAPPSM> = Observable.create { [weak self] observer in
+                guard let strongSelf = self else {
+                    observer.onError(BluetoothError.destroyed)
+                    return Disposables.create()
+                }
+
+                var result: CBL2CAPPSM? = nil
+                let disposable = strongSelf.delegateWrapper.didPublishL2CAPChannel
+                    .take(1)
+                    .map { (cbl2cappSm, error) -> (CBL2CAPPSM) in
+                        if let error = error {
+                            throw BluetoothError.publishingL2CAPChanngelFailed(cbl2cappSm, error)
+                        }
+                        result = cbl2cappSm
+                        return cbl2cappSm
+                    }
+                    .subscribe(onNext: { observer.onNext($0) }, onError: { observer.onError($0)})
+                strongSelf.manager.publishL2CAPChannel(withEncryption: encryptionRequired)
+                return Disposables.create { [weak self] in
+                    guard let strongSelf = self else { return }
+                    disposable.dispose()
+                    if let result = result {
+                        strongSelf.manager.unpublishL2CAPChannel(result)
+                    }
+                }
+            }
+            return strongSelf.ensure(.poweredOn, observable: observable)
+        }
+    }
+
+    @available(iOS 11, tvOS 11, watchOS 4, *)
+    public func observeDidOpenL2CAPChannel() -> Observable<(CBL2CAPChannel?, Error?)> {
+        return ensure(.poweredOn, observable: delegateWrapper.didOpenChannel)
+    }
+    #endif
 }

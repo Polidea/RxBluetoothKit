@@ -14,7 +14,7 @@ class CentralManagerTest_StateRestore: BaseCentralManagerTest {
     func testRestoreStateCallbackCalling() {
         setUpProperties()
         var calledCount: Int = 0
-        var restoredState: _RestoredState?
+        var restoredState: _CentralManagerRestoredState?
         manager = _CentralManager(
             centralManager: centralManagerMock,
             delegateWrapper: wrapperMock,

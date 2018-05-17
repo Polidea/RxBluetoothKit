@@ -25,7 +25,6 @@ public class CentralManager: ManagerType {
     /// Implementation of CBCentralManager
     public let manager: CBCentralManager
 
-    /// Implementation of CBCentralManager
     @available(*, deprecated: 5.1.0, renamed: "CentralManager.manager")
     public var centralManager: CBCentralManager { return manager }
 

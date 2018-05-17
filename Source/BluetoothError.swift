@@ -28,6 +28,7 @@ public enum BluetoothError: Error {
     // Services
     case servicesDiscoveryFailed(Peripheral, Error?)
     case includedServicesDiscoveryFailed(Peripheral, Error?)
+    case addingServiceFailed(CBService, Error?)
     // Characteristics
     case characteristicsDiscoveryFailed(Service, Error?)
     case characteristicWriteFailed(Characteristic, Error?)
@@ -40,6 +41,7 @@ public enum BluetoothError: Error {
     case descriptorReadFailed(Descriptor, Error?)
     // L2CAP
     case openingL2CAPChannelFailed(Peripheral, Error?)
+    case publishingL2CAPChanngelFailed(CBL2CAPPSM, Error?)
 }
 
 extension BluetoothError: CustomStringConvertible {
@@ -92,6 +94,8 @@ extension BluetoothError: CustomStringConvertible {
             return "Services discovery error has occured: \(err?.localizedDescription ?? "-")"
         case let .includedServicesDiscoveryFailed(_, err):
             return "Included services discovery error has occured: \(err?.localizedDescription ?? "-")"
+        case let .addingServiceFailed(_, err):
+            return "Adding PeripheralManager service error has occured: \(err?.localizedDescription ?? "-")"
         // Characteristics
         case let .characteristicsDiscoveryFailed(_, err):
             return "Characteristics discovery error has occured: \(err?.localizedDescription ?? "-")"
@@ -112,6 +116,8 @@ extension BluetoothError: CustomStringConvertible {
             return "Descriptor read error has occured: \(err?.localizedDescription ?? "-")"
         case let .openingL2CAPChannelFailed(_, err):
             return "Opening L2CAP channel error has occured: \(err?.localizedDescription ?? "-")"
+        case let .publishingL2CAPChanngelFailed(_, err):
+            return "Publishing L2CAP channgel error has occured: \(err?.localizedDescription ?? "-")"
         }
     }
 }
@@ -153,6 +159,7 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     // Services
     case let (.servicesDiscoveryFailed(l, _), .servicesDiscoveryFailed(r, _)): return l == r
     case let (.includedServicesDiscoveryFailed(l, _), .includedServicesDiscoveryFailed(r, _)): return l == r
+    case let (.addingServiceFailed(l, _), .addingServiceFailed(r, _)): return l == r
     // Peripherals
     case let (.peripheralIsAlreadyObservingConnection(l), .peripheralIsAlreadyObservingConnection(r)): return l == r
     case let (.peripheralIsConnectingOrAlreadyConnected(l), .peripheralIsConnectingOrAlreadyConnected(r)): return l == r
@@ -173,6 +180,7 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case let (.descriptorReadFailed(l, _), .descriptorReadFailed(r, _)): return l == r
     // L2CAP
     case let (.openingL2CAPChannelFailed(l, _), .openingL2CAPChannelFailed(r, _)): return l == r
+    case let (.publishingL2CAPChanngelFailed(l, _), .publishingL2CAPChanngelFailed(r, _)): return l == r
     default: return false
     }
 }
