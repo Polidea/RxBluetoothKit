@@ -11,10 +11,10 @@ public enum StartAdvertisingResult {
     /// to ongoing advertising without calling `CBPeripheralManager.startAdvertising`.
     /// The reason behind that is that we want to give user possibility to stop advertising in
     /// such state.
-    /// In most cases it happens when app went from background with ongoing advertising - in that case you will receive `RestoredAdvertisementData` param, so you can know with what `advertisementData` it was started before app wen background.
+    /// In most cases it happens when app went from background with ongoing advertising - in that case you will receive `RestoredAdvertisementData` param, so you can know with what `advertisementData` it was started before app went background.
     /// WARNING: remember that this is not really calling `CBPeripheralManager.startAdvertising`
     /// so it might be not started with `advertisementData` param that you've provided. If you
     /// want to start with different `advertisementData` then you will need to dispose
     /// advertising observable and call `startAdvertising` again.
-    case ongoing(RestoredAdvertisementData?)
+    case attachedToExternalAdvertising(RestoredAdvertisementData?)
 }

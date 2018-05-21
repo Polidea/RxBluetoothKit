@@ -132,45 +132,42 @@ public class CentralManager: ManagerType {
     /// * `BluetoothError.bluetoothResetting`
     public func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
                     -> Observable<ScannedPeripheral> {
-        return .deferred { [weak self] in
-            guard let strongSelf = self else { throw BluetoothError.destroyed }
-            let observable: Observable<ScannedPeripheral> = Observable.create { [weak self] observer in
-                guard let strongSelf = self else {
-                    observer.onError(BluetoothError.destroyed)
-                    return Disposables.create()
-                }
-                strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                if strongSelf.scanDisposable != nil {
-                    observer.onError(BluetoothError.scanInProgress)
-                    return Disposables.create()
-                }
-                strongSelf.scanDisposable = strongSelf.delegateWrapper.didDiscoverPeripheral
-                        .flatMap { [weak self] (cbPeripheral, advertisment, rssi) -> Observable<ScannedPeripheral> in
-                            guard let strongSelf = self else {
-                                throw BluetoothError.destroyed
-                            }
-                            let peripheral = strongSelf.retrievePeripheral(for: cbPeripheral)
-                            let advertismentData = AdvertisementData(advertisementData: advertisment)
-                            return .just(ScannedPeripheral(peripheral: peripheral,
-                                    advertisementData: advertismentData, rssi: rssi))
+        let observable: Observable<ScannedPeripheral> = Observable.create { [weak self] observer in
+            guard let strongSelf = self else {
+                observer.onError(BluetoothError.destroyed)
+                return Disposables.create()
+            }
+            strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+            if strongSelf.scanDisposable != nil {
+                observer.onError(BluetoothError.scanInProgress)
+                return Disposables.create()
+            }
+            strongSelf.scanDisposable = strongSelf.delegateWrapper.didDiscoverPeripheral
+                    .flatMap { [weak self] (cbPeripheral, advertisment, rssi) -> Observable<ScannedPeripheral> in
+                        guard let strongSelf = self else {
+                            throw BluetoothError.destroyed
                         }
-                        .subscribe(observer)
-
-                strongSelf.manager.scanForPeripherals(withServices: serviceUUIDs, options: options)
-
-                return Disposables.create { [weak self] in
-                    guard let strongSelf = self else { return }
-                    // When disposed, stop scan and dispose scanning
-                    strongSelf.manager.stopScan()
-                    do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                        strongSelf.scanDisposable?.dispose()
-                        strongSelf.scanDisposable = nil
+                        let peripheral = strongSelf.retrievePeripheral(for: cbPeripheral)
+                        let advertismentData = AdvertisementData(advertisementData: advertisment)
+                        return .just(ScannedPeripheral(peripheral: peripheral,
+                                advertisementData: advertismentData, rssi: rssi))
                     }
+                    .subscribe(observer)
+
+            strongSelf.manager.scanForPeripherals(withServices: serviceUUIDs, options: options)
+
+            return Disposables.create { [weak self] in
+                guard let strongSelf = self else { return }
+                // When disposed, stop scan and dispose scanning
+                strongSelf.manager.stopScan()
+                do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+                    strongSelf.scanDisposable?.dispose()
+                    strongSelf.scanDisposable = nil
                 }
             }
-
-            return strongSelf.ensure(.poweredOn, observable: observable)
         }
+
+        return ensure(.poweredOn, observable: observable)
     }
 
     // MARK: Peripheral's Connection Management

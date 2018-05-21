@@ -81,7 +81,7 @@ class PeripheralManagerTest_StartAdvertising: BasePeripheralManagerTest {
         XCTAssertEqual(observer.events.count, 1, "should get ongoing advertising result")
         XCTAssertNotNil(observer.events[0].value.element, "should get ongoing advertising result")
         let ongoing: Bool
-        if case StartAdvertisingResult.ongoing(let result) = observer.events[0].value.element! {
+        if case StartAdvertisingResult.attachedToExternalAdvertising(let result) = observer.events[0].value.element! {
             ongoing = result != nil
         } else {
             ongoing = false
