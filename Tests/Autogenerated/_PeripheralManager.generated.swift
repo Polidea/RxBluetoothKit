@@ -103,7 +103,7 @@ class _PeripheralManager: _ManagerType {
     func add(_ service: CBMutableService) -> Single<CBServiceMock> {
         let observable = delegateWrapper
             .didAddService
-            .filter { $0.0 == service }
+            .filter { $0.0.uuid == service.uuid }
             .take(1)
             .map { (cbService, error) -> (CBServiceMock) in
                 if let error = error {
@@ -127,15 +127,15 @@ class _PeripheralManager: _ManagerType {
 
     // MARK: Read & Write
 
-    func observeDidReceiveRead() -> Observable<CBATTRequest> {
+    func observeDidReceiveRead() -> Observable<CBATTRequestMock> {
         return ensure(.poweredOn, observable: delegateWrapper.didReceiveRead)
     }
 
-    func observeDidReceiveWrite() -> Observable<[CBATTRequest]> {
+    func observeDidReceiveWrite() -> Observable<[CBATTRequestMock]> {
         return ensure(.poweredOn, observable: delegateWrapper.didReceiveWrite)
     }
 
-    func respond(to request: CBATTRequest, withResult result: CBATTError.Code) {
+    func respond(to request: CBATTRequestMock, withResult result: CBATTError.Code) {
         manager.respond(to: request, withResult: result)
     }
 
@@ -144,7 +144,7 @@ class _PeripheralManager: _ManagerType {
     func updateValue(
         _ value: Data,
         for characteristic: CBMutableCharacteristic,
-        onSubscribedCentrals centrals: [CBCentral]?) -> Bool {
+        onSubscribedCentrals centrals: [CBCentralMock]?) -> Bool {
         return manager.updateValue(value, for: characteristic, onSubscribedCentrals: centrals)
     }
 
@@ -154,24 +154,12 @@ class _PeripheralManager: _ManagerType {
 
     // MARK: Subscribing
 
-    func observeOnSubscribe() -> Observable<(CBCentral, CBCharacteristicMock)> {
+    func observeOnSubscribe() -> Observable<(CBCentralMock, CBCharacteristicMock)> {
         return ensure(.poweredOn, observable: delegateWrapper.didSubscribeTo)
     }
 
-    func observeOnUnsubscribe() -> Observable<(CBCentral, CBCharacteristicMock)> {
+    func observeOnUnsubscribe() -> Observable<(CBCentralMock, CBCharacteristicMock)> {
         return ensure(.poweredOn, observable: delegateWrapper.didUnsubscribeFrom)
-    }
-
-    // MARK: Internal functions
-
-    func ensureValidStateAndCallIfSucceeded<T>(for observable: Observable<T>,
-                                                      postSubscriptionCall call: @escaping () -> Void
-        ) -> Observable<T> {
-        let operation = Observable<T>.deferred {
-            call()
-            return .empty()
-        }
-        return ensure(.poweredOn, observable: Observable.merge([observable, operation]))
     }
 
     // MARK: L2CAP
@@ -190,7 +178,7 @@ class _PeripheralManager: _ManagerType {
                 .take(1)
                 .map { (cbl2cappSm, error) -> (CBL2CAPPSM) in
                     if let error = error {
-                        throw _BluetoothError.publishingL2CAPChanngelFailed(cbl2cappSm, error)
+                        throw _BluetoothError.publishingL2CAPChannelFailed(cbl2cappSm, error)
                     }
                     result = cbl2cappSm
                     return cbl2cappSm
@@ -213,4 +201,16 @@ class _PeripheralManager: _ManagerType {
         return ensure(.poweredOn, observable: delegateWrapper.didOpenChannel)
     }
     #endif
+
+    // MARK: Internal functions
+
+    func ensureValidStateAndCallIfSucceeded<T>(for observable: Observable<T>,
+                                                      postSubscriptionCall call: @escaping () -> Void
+        ) -> Observable<T> {
+        let operation = Observable<T>.deferred {
+            call()
+            return .empty()
+        }
+        return ensure(.poweredOn, observable: Observable.merge([observable, operation]))
+    }
 }

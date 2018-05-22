@@ -113,8 +113,8 @@ class CBPeripheralManagerMock: CBManagerMock {
         stopAdvertisingParams.append(())
     }
 
-    var setDesiredConnectionLatencyParams: [(CBPeripheralManagerConnectionLatency, CBCentral)] = []
-    func setDesiredConnectionLatency(_ latency: CBPeripheralManagerConnectionLatency, for central: CBCentral) {
+    var setDesiredConnectionLatencyParams: [(CBPeripheralManagerConnectionLatency, CBCentralMock)] = []
+    func setDesiredConnectionLatency(_ latency: CBPeripheralManagerConnectionLatency, for central: CBCentralMock) {
         setDesiredConnectionLatencyParams.append((latency, central))
     }
 
@@ -133,15 +133,15 @@ class CBPeripheralManagerMock: CBManagerMock {
         removeAllServicesParams.append(())
     }
 
-    var respondParams: [(CBATTRequest, CBATTError.Code)] = []
-    func respond(to request: CBATTRequest, withResult result: CBATTError.Code) {
+    var respondParams: [(CBATTRequestMock, CBATTError.Code)] = []
+    func respond(to request: CBATTRequestMock, withResult result: CBATTError.Code) {
         respondParams.append((request, result))
     }
 
-    var updateValueParams: [(Data, CBMutableCharacteristic, [CBCentral]?)] = []
+    var updateValueParams: [(Data, CBMutableCharacteristic, [CBCentralMock]?)] = []
     var updateValueReturns: [Bool] = []
     var updateValueReturn: Bool?
-    func updateValue(_ value: Data, for characteristic: CBMutableCharacteristic, onSubscribedCentrals centrals: [CBCentral]?) -> Bool {
+    func updateValue(_ value: Data, for characteristic: CBMutableCharacteristic, onSubscribedCentrals centrals: [CBCentralMock]?) -> Bool {
         updateValueParams.append((value, characteristic, centrals))
         if updateValueReturns.isEmpty {
             return updateValueReturn!
@@ -169,6 +169,7 @@ class CBPeripheralMock: CBPeerMock {
     var services: [CBServiceMock]?
     var canSendWriteWithoutResponse: Bool!
     var logDescription: String!
+    var uuidIdentifier: UUID!
 
     override init() {
     }
@@ -287,6 +288,25 @@ class CBL2CAPChannelMock: NSObject {
 }
 class CBPeerMock: NSObject {
     var identifier: UUID!
+
+    override init() {
+    }
+
+}
+class CBATTRequestMock: NSObject {
+    var central: CBCentralMock!
+    var characteristic: CBCharacteristicMock!
+    var offset: Int!
+    var value: Data?
+    var logDescription: String!
+
+    override init() {
+    }
+
+}
+class CBCentralMock: CBPeerMock {
+    var maximumUpdateValueLength: Int!
+    var logDescription: String!
     var uuidIdentifier: UUID!
 
     override init() {
@@ -562,12 +582,12 @@ class CBPeripheralManagerDelegateWrapperMock: NSObject , CBPeripheralManagerDele
     var didUpdateState = PublishSubject<BluetoothState>()
     var isReady = PublishSubject<Void>()
     var didStartAdvertising = PublishSubject<Error?>()
-    var didReceiveRead = PublishSubject<CBATTRequest>()
+    var didReceiveRead = PublishSubject<CBATTRequestMock>()
     var willRestoreState = ReplaySubject<[String: Any]>.create(bufferSize: 1)
     var didAddService = PublishSubject<(CBServiceMock, Error?)>()
-    var didReceiveWrite = PublishSubject<[CBATTRequest]>()
-    var didSubscribeTo = PublishSubject<(CBCentral, CBCharacteristicMock)>()
-    var didUnsubscribeFrom = PublishSubject<(CBCentral, CBCharacteristicMock)>()
+    var didReceiveWrite = PublishSubject<[CBATTRequestMock]>()
+    var didSubscribeTo = PublishSubject<(CBCentralMock, CBCharacteristicMock)>()
+    var didUnsubscribeFrom = PublishSubject<(CBCentralMock, CBCharacteristicMock)>()
     var didPublishL2CAPChannel = PublishSubject<(CBL2CAPPSM, Error?)>()
     var didUnpublishL2CAPChannel = PublishSubject<(CBL2CAPPSM, Error?)>()
     var _didOpenChannel: Any?

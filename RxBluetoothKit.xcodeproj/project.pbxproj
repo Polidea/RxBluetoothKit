@@ -93,6 +93,14 @@
 		1D49C69A201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D49C699201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift */; };
 		1D49C69B201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D49C699201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift */; };
 		1D49C69C201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D49C699201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift */; };
+		1D4CC1A120B4012400C14A9D /* PeripheralManagerTest+AddService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CC1A020B4012400C14A9D /* PeripheralManagerTest+AddService.swift */; };
+		1D4CC1A220B4012400C14A9D /* PeripheralManagerTest+AddService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CC1A020B4012400C14A9D /* PeripheralManagerTest+AddService.swift */; };
+		1D4CC1A320B4012400C14A9D /* PeripheralManagerTest+AddService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CC1A020B4012400C14A9D /* PeripheralManagerTest+AddService.swift */; };
+		1D4CC1A520B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CC1A420B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift */; };
+		1D4CC1A620B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CC1A420B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift */; };
+		1D4CC1A720B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CC1A420B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift */; };
+		1D4CC1A920B41CF700C14A9D /* PeripheralManagerTest+PublishL2CAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CC1A820B41CF700C14A9D /* PeripheralManagerTest+PublishL2CAP.swift */; };
+		1D4CC1AB20B41CF700C14A9D /* PeripheralManagerTest+PublishL2CAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4CC1A820B41CF700C14A9D /* PeripheralManagerTest+PublishL2CAP.swift */; };
 		1D6474DA2021D87F00A1029F /* _Connector.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6474D82021D85F00A1029F /* _Connector.generated.swift */; };
 		1D6474DB2021D88000A1029F /* _Connector.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6474D82021D85F00A1029F /* _Connector.generated.swift */; };
 		1D6474DC2021D88100A1029F /* _Connector.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6474D82021D85F00A1029F /* _Connector.generated.swift */; };
@@ -334,6 +342,9 @@
 		1D490B711FFF8F1D00D3F871 /* _ScanOperation.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _ScanOperation.generated.swift; sourceTree = "<group>"; };
 		1D490B751FFF8F5500D3F871 /* _RestoredState.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _RestoredState.generated.swift; sourceTree = "<group>"; };
 		1D49C699201B6568000610F8 /* CentralManagerTest+ObserveConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CentralManagerTest+ObserveConnect.swift"; sourceTree = "<group>"; };
+		1D4CC1A020B4012400C14A9D /* PeripheralManagerTest+AddService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeripheralManagerTest+AddService.swift"; sourceTree = "<group>"; };
+		1D4CC1A420B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeripheralManagerTest+Observables.swift"; sourceTree = "<group>"; };
+		1D4CC1A820B41CF700C14A9D /* PeripheralManagerTest+PublishL2CAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeripheralManagerTest+PublishL2CAP.swift"; sourceTree = "<group>"; };
 		1D6474D82021D85F00A1029F /* _Connector.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Connector.generated.swift; sourceTree = "<group>"; };
 		1D6474DD2021E31500A1029F /* ConnectorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectorTest.swift; sourceTree = "<group>"; };
 		1D6474E12022F83100A1029F /* ThreadSafeBoxTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeBoxTest.swift; sourceTree = "<group>"; };
@@ -527,6 +538,9 @@
 			children = (
 				1D73E84520A32D0B009167AA /* PeripheralManagerTest+StartAdvertising.swift */,
 				1D73E84920A32D26009167AA /* BasePeripheralManagerTest.swift */,
+				1D4CC1A020B4012400C14A9D /* PeripheralManagerTest+AddService.swift */,
+				1D4CC1A420B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift */,
+				1D4CC1A820B41CF700C14A9D /* PeripheralManagerTest+PublishL2CAP.swift */,
 			);
 			name = PeripheralManager;
 			sourceTree = "<group>";
@@ -1254,12 +1268,14 @@
 				4CB5044820457A2400031AA7 /* PeripheralTest+DescriptorsDiscover.swift in Sources */,
 				4CB5044D204582D700031AA7 /* PeripheralTest+DescriptorsOperation.swift in Sources */,
 				1D490B681FFF8E1200D3F871 /* _Descriptor.generated.swift in Sources */,
+				1D4CC1A320B4012400C14A9D /* PeripheralManagerTest+AddService.swift in Sources */,
 				4C2E13FD20401EC300143D4D /* PeripheralTest+Service.swift in Sources */,
 				4C6A2CE1203DBABD0085EE1E /* UUIDIdentifiableTest.swift in Sources */,
 				1D73E84C20A32D26009167AA /* BasePeripheralManagerTest.swift in Sources */,
 				1DCA1EF22028629C0090D14E /* _CharacteristicNotificationManager.generated.swift in Sources */,
 				1D6474DC2021D88100A1029F /* _Connector.generated.swift in Sources */,
 				4C6A2CEB203ECFE20085EE1E /* PeripheralTest.swift in Sources */,
+				1D4CC1A720B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift in Sources */,
 				1D417F8A200F436900354750 /* CentralManagerTest+ScanForPeripherals.swift in Sources */,
 				1D490B691FFF8E1200D3F871 /* _Peripheral.generated.swift in Sources */,
 				1D6474E42022F83100A1029F /* ThreadSafeBoxTest.swift in Sources */,
@@ -1289,6 +1305,7 @@
 				1DC42350200CEDFE009994B1 /* CentralManagerTest+ObserveDisconnect.swift in Sources */,
 				4CB504572046CE0500031AA7 /* _Peripheral+Convenience.generated.swift in Sources */,
 				1D490B741FFF8F1D00D3F871 /* _ScanOperation.generated.swift in Sources */,
+				1D4CC1AB20B41CF700C14A9D /* PeripheralManagerTest+PublishL2CAP.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1351,6 +1368,7 @@
 				1D490B591FFF8E1000D3F871 /* _Peripheral.generated.swift in Sources */,
 				1D6474E22022F83100A1029F /* ThreadSafeBoxTest.swift in Sources */,
 				4C77E4982061397E00FAF1A9 /* CentralManagerTest+StateRestore.swift in Sources */,
+				1D4CC1A120B4012400C14A9D /* PeripheralManagerTest+AddService.swift in Sources */,
 				4C2DDDF8203C5F10006F48C6 /* ObservableTest+Absorb.swift in Sources */,
 				1D490B6E1FFF8EBD00D3F871 /* _ScannedPeripheral.generated.swift in Sources */,
 				2666FDDE1CCE46E2005E81CE /* Utilities.swift in Sources */,
@@ -1368,6 +1386,7 @@
 				1D73E84120A32CC3009167AA /* _PeripheralManager.generated.swift in Sources */,
 				1D1C981C2019E8CF00DCF299 /* _CentralManager.generated.swift in Sources */,
 				1DAAB03920245F260023BAC0 /* _PeripheralProvider.generated.swift in Sources */,
+				1D4CC1A920B41CF700C14A9D /* PeripheralManagerTest+PublishL2CAP.swift in Sources */,
 				4CB9A0A2204447B200FF9516 /* PeripheralTest+CharacteristicOperation.swift in Sources */,
 				1D490B5A1FFF8E1000D3F871 /* _Service.generated.swift in Sources */,
 				4C2E13FF20405B0900143D4D /* PeripheralTest+IncludedServices.swift in Sources */,
@@ -1375,6 +1394,7 @@
 				4C6A2CE4203DC7C10085EE1E /* ArrayTest+Utils.swift in Sources */,
 				4CB9A09E2044166400FF9516 /* PeripheralTest+CharacteristicsDiscover.swift in Sources */,
 				1DC4234E200CEDFE009994B1 /* CentralManagerTest+ObserveDisconnect.swift in Sources */,
+				1D4CC1A520B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift in Sources */,
 				4CB504552046CE0100031AA7 /* _Peripheral+Convenience.generated.swift in Sources */,
 				1D6E36D120A07849009900A6 /* _ManagerType.generated.swift in Sources */,
 				1D490B721FFF8F1D00D3F871 /* _ScanOperation.generated.swift in Sources */,
@@ -1425,12 +1445,14 @@
 				1D8116C91FFE0F1700147BF5 /* Mock.generated.swift in Sources */,
 				4CB5044720457A2300031AA7 /* PeripheralTest+DescriptorsDiscover.swift in Sources */,
 				4CB5044C204582D700031AA7 /* PeripheralTest+DescriptorsOperation.swift in Sources */,
+				1D4CC1A220B4012400C14A9D /* PeripheralManagerTest+AddService.swift in Sources */,
 				1D490B601FFF8E1100D3F871 /* _Descriptor.generated.swift in Sources */,
 				4C2E13FC20401EC300143D4D /* PeripheralTest+Service.swift in Sources */,
 				1D73E84B20A32D26009167AA /* BasePeripheralManagerTest.swift in Sources */,
 				4C6A2CE0203DBABC0085EE1E /* UUIDIdentifiableTest.swift in Sources */,
 				1DCA1EF12028629B0090D14E /* _CharacteristicNotificationManager.generated.swift in Sources */,
 				1D6474DB2021D88000A1029F /* _Connector.generated.swift in Sources */,
+				1D4CC1A620B40F7D00C14A9D /* PeripheralManagerTest+Observables.swift in Sources */,
 				4C6A2CEA203ECFE10085EE1E /* PeripheralTest.swift in Sources */,
 				1D417F89200F436900354750 /* CentralManagerTest+ScanForPeripherals.swift in Sources */,
 				1D490B611FFF8E1100D3F871 /* _Peripheral.generated.swift in Sources */,

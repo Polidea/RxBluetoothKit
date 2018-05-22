@@ -102,7 +102,7 @@ class PeripheralManager: ManagerType {
     public func add(_ service: CBMutableService) -> Single<CBService> {
         let observable = delegateWrapper
             .didAddService
-            .filter { $0.0 == service }
+            .filter { $0.0.uuid == service.uuid }
             .take(1)
             .map { (cbService, error) -> (CBService) in
                 if let error = error {
@@ -161,18 +161,6 @@ class PeripheralManager: ManagerType {
         return ensure(.poweredOn, observable: delegateWrapper.didUnsubscribeFrom)
     }
 
-    // MARK: Internal functions
-
-    public func ensureValidStateAndCallIfSucceeded<T>(for observable: Observable<T>,
-                                                      postSubscriptionCall call: @escaping () -> Void
-        ) -> Observable<T> {
-        let operation = Observable<T>.deferred {
-            call()
-            return .empty()
-        }
-        return ensure(.poweredOn, observable: Observable.merge([observable, operation]))
-    }
-
     // MARK: L2CAP
 
     #if os(iOS) || os(tvOS) || os(watchOS)
@@ -189,7 +177,7 @@ class PeripheralManager: ManagerType {
                 .take(1)
                 .map { (cbl2cappSm, error) -> (CBL2CAPPSM) in
                     if let error = error {
-                        throw BluetoothError.publishingL2CAPChanngelFailed(cbl2cappSm, error)
+                        throw BluetoothError.publishingL2CAPChannelFailed(cbl2cappSm, error)
                     }
                     result = cbl2cappSm
                     return cbl2cappSm
@@ -212,4 +200,16 @@ class PeripheralManager: ManagerType {
         return ensure(.poweredOn, observable: delegateWrapper.didOpenChannel)
     }
     #endif
+
+    // MARK: Internal functions
+
+    func ensureValidStateAndCallIfSucceeded<T>(for observable: Observable<T>,
+                                                      postSubscriptionCall call: @escaping () -> Void
+        ) -> Observable<T> {
+        let operation = Observable<T>.deferred {
+            call()
+            return .empty()
+        }
+        return ensure(.poweredOn, observable: Observable.merge([observable, operation]))
+    }
 }
