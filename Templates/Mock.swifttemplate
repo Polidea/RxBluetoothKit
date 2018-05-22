@@ -135,13 +135,14 @@ class <%= typeToMock.name %>Mock: <%= supertypeName %> {
             let methodReturnsName = "\(formattedName)Returns"
             let methodReturnName = "\(formattedName)Return"
             let isReturningType = !method.returnTypeName.isVoid 
+            let isStaticText = method.isClass ? "static " : ""
             let methodReturnDeclaration = isReturningType ? " -> \(Utils.changeTypeName(method.returnTypeName.name))" : "" -%>
-    var <%= methodParamsName %>: [(<%= Utils.printMethodParamTypes(method) %>)] = []
+    <%= isStaticText %>var <%= methodParamsName %>: [(<%= Utils.printMethodParamTypes(method) %>)] = []
 <%      if isReturningType { -%>
-    var <%= methodReturnsName %>: [<%= Utils.changeTypeName(method.returnTypeName.name) %>] = []
-    var <%= methodReturnName %>: <%= Utils.changeTypeName(method.returnTypeName.name) %>?
+    <%= isStaticText %>var <%= methodReturnsName %>: [<%= Utils.changeTypeName(method.returnTypeName.name) %>] = []
+    <%= isStaticText %>var <%= methodReturnName %>: <%= Utils.changeTypeName(method.returnTypeName.name) %>?
 <%      } -%>
-    func <%= Utils.printMethodName(method) %><%= methodReturnDeclaration %> {
+    <%= isStaticText %>func <%= Utils.printMethodName(method) %><%= methodReturnDeclaration %> {
         <%= methodParamsName %>.append((<%= method.parameters.reduce("", { "\($0)\($1.name), " }).dropLast(2) %>))
 <%          if isReturningType { -%>
         if <%= methodReturnsName %>.isEmpty {

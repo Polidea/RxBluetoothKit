@@ -70,7 +70,7 @@ class PeripheralManagerTest_StartAdvertising: BasePeripheralManagerTest {
         XCTAssertTrue(manager.isAdvertisingOngoing, "should set isAdvertisingOngoing to true")
     }
 
-    func testProperOngoingResult() {
+    func testProperAttachedToExternalAdvertisingResult() {
         let observer = setUpStartAdvertising(nil)
         peripheralManagerMock.state = .poweredOn
         peripheralManagerMock.isAdvertising = true
@@ -78,15 +78,15 @@ class PeripheralManagerTest_StartAdvertising: BasePeripheralManagerTest {
 
         testScheduler.advanceTo(subscribeTime)
 
-        XCTAssertEqual(observer.events.count, 1, "should get ongoing advertising result")
-        XCTAssertNotNil(observer.events[0].value.element, "should get ongoing advertising result")
+        XCTAssertEqual(observer.events.count, 1, "should get attached to external advertising result")
+        XCTAssertNotNil(observer.events[0].value.element, "should get attached to external advertising result")
         let ongoing: Bool
         if case StartAdvertisingResult.attachedToExternalAdvertising(let result) = observer.events[0].value.element! {
             ongoing = result != nil
         } else {
             ongoing = false
         }
-        XCTAssertTrue(ongoing, "should get ongoing advertising result")
+        XCTAssertTrue(ongoing, "should get attached to external advertising result")
     }
 
     func testThrowErrorWhenStartAdvertisingFailed() {

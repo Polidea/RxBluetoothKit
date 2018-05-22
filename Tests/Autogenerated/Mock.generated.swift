@@ -91,10 +91,10 @@ class CBPeripheralManagerMock: CBManagerMock {
     init(delegate: CBPeripheralManagerDelegate?, queue: DispatchQueue?) {
     }
 
-    var authorizationStatusParams: [()] = []
-    var authorizationStatusReturns: [CBPeripheralManagerAuthorizationStatus] = []
-    var authorizationStatusReturn: CBPeripheralManagerAuthorizationStatus?
-    func authorizationStatus() -> CBPeripheralManagerAuthorizationStatus {
+    static var authorizationStatusParams: [()] = []
+    static var authorizationStatusReturns: [CBPeripheralManagerAuthorizationStatus] = []
+    static var authorizationStatusReturn: CBPeripheralManagerAuthorizationStatus?
+    static func authorizationStatus() -> CBPeripheralManagerAuthorizationStatus {
         authorizationStatusParams.append(())
         if authorizationStatusReturns.isEmpty {
             return authorizationStatusReturn!
