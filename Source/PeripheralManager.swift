@@ -2,11 +2,11 @@ import Foundation
 import CoreBluetooth
 import RxSwift
 
-/// PeripheralManager is a class implementing ReactiveX API which wraps all Core Bluetooth Peripheral's functions allowing to
-/// advertising, publishing L2CAP channels and more.
-/// You can start using this class by add services and starting advertising.
+/// PeripheralManager is a class implementing ReactiveX API which wraps all the Core Bluetooth Peripheral's functions, that allow to
+/// advertise, to publish L2CAP channels and more.
+/// You can start using this class by adding services and starting advertising.
 /// Before calling any public `PeripheralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
-/// by calling and observing returned value of `observeState()` and then chaining it with `add(_:)` with `startAdvertising(_:)`:
+/// by `observeState()`, observing it's value and then chaining it with `add(_:)` with `startAdvertising(_:)`:
 /// ```
 /// let disposable = centralManager.observeState
 ///     .startWith(centralManager.state)
@@ -15,7 +15,7 @@ import RxSwift
 ///     .flatMap { centralManager.add(myService) }
 ///     .flatMap { centralManager.startAdvertising(myAdvertisementData) }
 /// ```
-/// As a result your peripheral will start advertising. To stop advertising simply dispose it:
+/// As a result, your peripheral will start advertising. To stop advertising simply dispose it:
 /// ```
 /// disposable.dispose()
 /// ```
@@ -85,12 +85,12 @@ class PeripheralManager: ManagerType {
     /// refer to ``StartAdvertisingResult` documentation.
     ///
     /// There can be only one ongoing advertising (CoreBluetooth limit).
-    /// It will return `advertisingInProgress` error if this method will be called when
+    /// It will return `advertisingInProgress` error if this method is called when
     /// it is already advertising.
     ///
     /// Advertising is automatically stopped just after disposing of the subscription.
     ///
-    /// It can return `BluetoothError.advertisingStartFailed` error when start advertisement failed
+    /// It can return `BluetoothError.advertisingStartFailed` error, when start advertisement failed
     ///
     /// - parameter advertisementData: Services of peripherals to search for. Nil value will accept all peripherals.
     /// - returns: Infinite observable which emit `StartAdvertisingResult` when advertisement started.
@@ -149,9 +149,9 @@ class PeripheralManager: ManagerType {
 
     // MARK: Services
 
-    /// Function that triggers `CBPeripheralManager.add(_:)` method and waits for
+    /// Function that triggers `CBPeripheralManager.add(_:)` and waits for
     /// delegate `CBPeripheralManagerDelegate.peripheralManager(_:didAdd:error:)` result.
-    /// If it will receive non nil error in result than `Observable` will emit `BluetoothError.addingServiceFailed` error.
+    /// If it receives a non nil in the result, it will emit `BluetoothError.addingServiceFailed` error.
     /// Add method is called after subscription to `Observable` is made.
     /// - Parameter service: `Characteristic` to read value from
     /// - Returns: `Single` which emits `next` with given characteristic when value is ready to read.
@@ -294,7 +294,7 @@ class PeripheralManager: ManagerType {
 
     #if os(iOS) || os(tvOS) || os(watchOS)
 
-    /// Starts publishing L2CAP channel on subscription. It create inifinite observable
+    /// Starts publishing L2CAP channel on a subscription. It creates an infinite observable
     /// which emits only one next value, of `CBL2CAPPSM` type, just
     /// after L2CAP channel has been published.
     ///
