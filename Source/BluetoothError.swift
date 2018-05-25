@@ -41,7 +41,7 @@ public enum BluetoothError: Error {
     case descriptorReadFailed(Descriptor, Error?)
     // L2CAP
     case openingL2CAPChannelFailed(Peripheral, Error?)
-    case publishingL2CAPChanngelFailed(CBL2CAPPSM, Error?)
+    case publishingL2CAPChannelFailed(CBL2CAPPSM, Error?)
 }
 
 extension BluetoothError: CustomStringConvertible {
@@ -116,8 +116,8 @@ extension BluetoothError: CustomStringConvertible {
             return "Descriptor read error has occured: \(err?.localizedDescription ?? "-")"
         case let .openingL2CAPChannelFailed(_, err):
             return "Opening L2CAP channel error has occured: \(err?.localizedDescription ?? "-")"
-        case let .publishingL2CAPChanngelFailed(_, err):
-            return "Publishing L2CAP channgel error has occured: \(err?.localizedDescription ?? "-")"
+        case let .publishingL2CAPChannelFailed(_, err):
+            return "Publishing L2CAP channel error has occured: \(err?.localizedDescription ?? "-")"
         }
     }
 }
@@ -180,7 +180,7 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case let (.descriptorReadFailed(l, _), .descriptorReadFailed(r, _)): return l == r
     // L2CAP
     case let (.openingL2CAPChannelFailed(l, _), .openingL2CAPChannelFailed(r, _)): return l == r
-    case let (.publishingL2CAPChanngelFailed(l, _), .publishingL2CAPChanngelFailed(r, _)): return l == r
+    case let (.publishingL2CAPChannelFailed(l, _), .publishingL2CAPChannelFailed(r, _)): return l == r
     default: return false
     }
 }

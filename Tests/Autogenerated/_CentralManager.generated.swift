@@ -12,7 +12,7 @@ typealias DisconnectionReason = Error
 /// public `_CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
 /// by calling and observing returned value of `observeState()` and then chaining it with `scanForPeripherals(_:options:)`:
 /// ```
-/// centralManager.observeState
+/// let disposable = centralManager.observeState
 ///     .startWith(centralManager.state)
 ///     .filter { $0 == .poweredOn }
 ///     .take(1)
@@ -20,6 +20,10 @@ typealias DisconnectionReason = Error
 /// ```
 /// As a result you will receive `_ScannedPeripheral` which contains `_Peripheral` object, `AdvertisementData` and
 /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other operations.
+/// You can also simply stop scanning with just disposing it:
+/// ```
+/// disposable.dispose()
+/// ```
 /// - seealso: `_Peripheral`
 class _CentralManager: _ManagerType {
 

@@ -19,7 +19,7 @@ cd "${DIR}"
 # added import RxBluetoothKit to classes
 importblekit_pattern="s/import CoreBluetooth/&\n@testable import RxBluetoothKit/g"
 # change all occurance of CoreBluetooth classes to mock classes (e.g. CBPeripheral to CBPeripheralMock)
-mock_pattern="s/\b(CBManager|CBPeripheral|CBCentralManager|CBPeripheralManager|CBService|CBCharacteristic|CBDescriptor|CBL2CAPChannel|CBPeer|PeripheralProvider|CBPeripheralDelegateWrapper|CBCentralManagerDelegateWrapper|CBPeripheralManagerDelegateWrapper|Connector|CharacteristicNotificationManager)\b/&Mock/g"
+mock_pattern="s/\b(CBManager|CBPeripheral|CBCentralManager|CBPeripheralManager|CBService|CBCharacteristic|CBDescriptor|CBL2CAPChannel|CBPeer|CBATTRequest|CBCentral|PeripheralProvider|CBPeripheralDelegateWrapper|CBCentralManagerDelegateWrapper|CBPeripheralManagerDelegateWrapper|Connector|CharacteristicNotificationManager)\b/&Mock/g"
 # change all occurance of RxBluetoothKit classes in testable classes (e.g. change Peripheral to _Peripheral)
 testable_pattern="s/\b(ManagerType|Peripheral|CentralManager|PeripheralManager|Service|Characteristic|Descriptor|BluetoothError|ScannedPeripheral|CentralManagerRestoredState|RestoredState|PeripheralProvider|Connector|CharacteristicNotificationManager)\b/_&/g"
 # remove all public's
