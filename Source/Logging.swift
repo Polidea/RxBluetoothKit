@@ -190,6 +190,31 @@ extension CBDescriptor: Loggable {
     }
 }
 
+extension CBPeripheralManager: Loggable {
+    @objc var logDescription: String {
+        return "PeripheralManager(\(UInt(bitPattern: ObjectIdentifier(self))))"
+    }
+}
+
+extension CBATTRequest: Loggable {
+    @objc var logDescription: String {
+        return "ATTRequest(\(UInt(bitPattern: ObjectIdentifier(self)))"
+    }
+}
+
+extension CBCentral: Loggable {
+    @objc var logDescription: String {
+        return "CBCentral(uuid: \(uuidIdentifier))"
+    }
+}
+
+@available(iOS 11.0, macOS 10.13, tvOS 11.0, watchOS 4.0, *)
+extension CBL2CAPChannel: Loggable {
+    @objc var logDescription: String {
+        return "CBL2CAPChannel(\(UInt(bitPattern: ObjectIdentifier(self)))"
+    }
+}
+
 extension Array where Element: Loggable {
     var logDescription: String {
         return "[\(map { $0.logDescription }.joined(separator: ", "))]"

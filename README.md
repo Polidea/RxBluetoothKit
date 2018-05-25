@@ -23,13 +23,14 @@ Follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_sim
 
 ## Features
 - [x] CBCentralManger RxSwift support
+- [x] CBPeripheralManger RxSwift support
 - [x] CBPeripheral RxSwift support
 - [x] Scan sharing
 - [x] Scan queueing
 - [x] Bluetooth error bubbling
 
 ## Sample
-In Example folder you can find application we've provided to you. It's a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.
+In ExampleApp folder you can find application we've provided to you. It's a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.
 
 ## Installation
 
@@ -60,6 +61,7 @@ Library is built on top of Apple's CoreBluetooth.
 It has multiple components, that should be familiar to you:
 
 - CentralManager
+- PeripheralManager
 - ScannedPeripheral
 - Peripheral
 - Service
