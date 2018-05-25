@@ -13,7 +13,7 @@
     <a title="Classes  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">RxBluetoothKit Docs</a> (82% documented)</p>
+        <p><a href="index.html">RxBluetoothKit Docs</a> (78% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -65,11 +65,17 @@
               <li class="nav-group-task">
                 <a href="Enums/BluetoothState.html">BluetoothState</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/PeripheralManager.html">PeripheralManager</a>
+              </li>
               <li class="nav-group-task">
                 <a href="Extensions/Reactive.html">Reactive</a>
               </li>
@@ -105,6 +111,9 @@
                 <a href="Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/ManagerType.html">ManagerType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
               </li>
             </ul>
@@ -114,6 +123,12 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/RestoredState.html">RestoredState</a>
@@ -127,7 +142,16 @@
                 <a href="Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
               </li>
               <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
               </li>
             </ul>
           </li>
@@ -161,7 +185,7 @@ discover, connect to remote peripheral devices and more.
 You can start using this class by discovering available services of nearby peripherals. Before calling any
 public <code>CentralManager</code>&lsquo;s functions you should make sure that Bluetooth is turned on and powered on. It can be done
 by calling and observing returned value of <code>observeState()</code> and then chaining it with <code>scanForPeripherals(_:options:)</code>:</p>
-<pre class="highlight swift"><code><span class="n">centralManager</span><span class="o">.</span><span class="n">observeState</span>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposable</span> <span class="o">=</span> <span class="n">centralManager</span><span class="o">.</span><span class="n">observeState</span>
     <span class="o">.</span><span class="nf">startWith</span><span class="p">(</span><span class="n">centralManager</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
     <span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="o">.</span><span class="n">poweredOn</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -169,7 +193,10 @@ by calling and observing returned value of <code>observeState()</code> and then 
 </code></pre>
 
 <p>As a result you will receive <code><a href="Classes/ScannedPeripheral.html">ScannedPeripheral</a></code> which contains <code><a href="Classes/Peripheral.html">Peripheral</a></code> object, <code><a href="Structs/AdvertisementData.html">AdvertisementData</a></code> and
-peripheral&rsquo;s RSSI registered during discovery. You can then <code>establishConnection(_:options:)</code> and do other operations.</p>
+peripheral&rsquo;s RSSI registered during discovery. You can then <code>establishConnection(_:options:)</code> and do other operations.
+You can also simply stop scanning with just disposing it:</p>
+<pre class="highlight swift"><code><span class="n">disposable</span><span class="o">.</span><span class="nf">dispose</span><span class="p">()</span>
+</code></pre>
 <div class="aside aside-seealso">
     <p class="aside-title">Seealso</p>
     <code><a href="Classes/Peripheral.html">Peripheral</a></code>
@@ -182,12 +209,12 @@ peripheral&rsquo;s RSSI registered during discovery. You can then <code>establis
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">CentralManager</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">CentralManager</span><span class="p">:</span> <span class="kt"><a href="Protocols/ManagerType.html">ManagerType</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L25-L326">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/CentralManager.swift#L27-L307">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -222,7 +249,7 @@ peripheral&rsquo;s RSSI registered during discovery. You can then <code>establis
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Characteristic.swift#L8-L182">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Characteristic.swift#L6-L180">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -259,7 +286,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L8-L104">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L8-L104">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -294,7 +321,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Logging.swift#L6-L95">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Logging.swift#L6-L95">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -330,7 +357,7 @@ allowing to talk to peripheral like discovering characteristics, services and al
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Peripheral.swift#L10-L856">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Peripheral.swift#L10-L856">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -366,7 +393,7 @@ To perform further actions <code>peripheral</code> instance variable can be used
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/ScannedPeripheral.swift#L6-L22">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/ScannedPeripheral.swift#L6-L22">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -401,7 +428,7 @@ To perform further actions <code>peripheral</code> instance variable can be used
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Service.swift#L7-L82">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Service.swift#L6-L81">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -411,7 +438,7 @@ To perform further actions <code>peripheral</code> instance variable can be used
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-07)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-25)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

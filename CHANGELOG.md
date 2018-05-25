@@ -1,3 +1,7 @@
+# 5.1.0
+- Added support for `CBPeripheralManager`. Read `PeripheralManager` documentation for more info (#166)
+- Deprecated `RestoredState` and `CentralManager.init(queue:options:onWillRestoreCentralManagerState:)`. From now on please use corresponding `CentralManagerRestoredState` and `CentralManager.init(queue:options:onWillRestoreCentralManagerState:)`
+
 # 5.0.2
 - Changed error name from `BluetoothError.peripheralIsConnectingOrAlreadyConnected` to `BluetoothError.peripheralIsAlreadyObservingConnection` - old error has been deprecated (#245)
 - To each method, that returns observable, added documentation with a list of errors that this observable can return (#225)

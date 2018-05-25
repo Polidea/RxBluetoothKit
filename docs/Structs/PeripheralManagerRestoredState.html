@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DescriptorIdentifier Protocol Reference</title>
+    <title>PeripheralManagerRestoredState Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/DescriptorIdentifier" class="dashAnchor"></a>
-    <a title="DescriptorIdentifier Protocol Reference"></a>
+    <a name="//apple_ref/swift/Struct/PeripheralManagerRestoredState" class="dashAnchor"></a>
+    <a title="PeripheralManagerRestoredState Structure Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">RxBluetoothKit Docs</a> (78% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">RxBluetoothKit Reference</a>
         <img id="carat" src="../img/carat.png" />
-        DescriptorIdentifier Protocol Reference
+        PeripheralManagerRestoredState Structure Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -161,14 +161,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>DescriptorIdentifier</h1>
+            <h1>PeripheralManagerRestoredState</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">DescriptorIdentifier</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">PeripheralManagerRestoredState</span></code></pre>
 
                 </div>
               </div>
-            <p>DescriptorIdentifier protocol specifies how information about descriptors of device should look like.</p>
+            <p>Convenience class which helps reading state of restored PeripheralManager.</p>
 
           </section>
           <section class="section task-group-section">
@@ -177,9 +177,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit20DescriptorIdentifierP4uuidSo6CBUUIDCvp"></a>
-                    <a name="//apple_ref/swift/Property/uuid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit20DescriptorIdentifierP4uuidSo6CBUUIDCvp">uuid</a>
+                    <a name="/s:14RxBluetoothKit30PeripheralManagerRestoredStateV08restoredG4Datas10DictionaryVySSypGvp"></a>
+                    <a name="//apple_ref/swift/Property/restoredStateData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit30PeripheralManagerRestoredStateV08restoredG4Datas10DictionaryVySSypGvp">restoredStateData</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -187,19 +187,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unique identifier of a descriptor.</p>
+                        <p>Restored state dictionary.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">uuid</span><span class="p">:</span> <span class="kt">CBUUID</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">restoredStateData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/DeviceIdentifiers.swift#L48">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/PeripheralManagerRestoredState.swift#L8">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -207,9 +207,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit20DescriptorIdentifierP14characteristicAA014CharacteristicE0_pvp"></a>
-                    <a name="//apple_ref/swift/Property/characteristic" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit20DescriptorIdentifierP14characteristicAA014CharacteristicE0_pvp">characteristic</a>
+                    <a name="/s:14RxBluetoothKit30PeripheralManagerRestoredStateV8servicesSaySo16CBMutableServiceCGvp"></a>
+                    <a name="//apple_ref/swift/Property/services" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit30PeripheralManagerRestoredStateV8servicesSaySo16CBMutableServiceCGvp">services</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -217,19 +217,52 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><code><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></code> instance that this descriptor belongs to.</p>
+                        <p>An array of CBMutableService objects that contains all of the services that
+were published to the local peripheral’s database at the time the app was
+terminated by the system.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">services</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBMutableService</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/DeviceIdentifiers.swift#L50">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/PeripheralManagerRestoredState.swift#L19-L22">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit30PeripheralManagerRestoredStateV17advertisementDatas10DictionaryVySSypGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/advertisementData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit30PeripheralManagerRestoredStateV17advertisementDatas10DictionaryVySSypGSgvp">advertisementData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A dictionary containing the data that the peripheral manager was advertising
+at the time the app was terminated by the system.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">advertisementData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/PeripheralManagerRestoredState.swift#L26-L28">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

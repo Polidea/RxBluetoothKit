@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RestoredState Structure Reference</title>
+    <title>ManagerType Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Struct/RestoredState" class="dashAnchor"></a>
-    <a title="RestoredState Structure Reference"></a>
+    <a name="//apple_ref/swift/Protocol/ManagerType" class="dashAnchor"></a>
+    <a title="ManagerType Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">RxBluetoothKit Docs</a> (78% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">RxBluetoothKit Reference</a>
         <img id="carat" src="../img/carat.png" />
-        RestoredState Structure Reference
+        ManagerType Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -161,14 +161,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>RestoredState</h1>
+            <h1>ManagerType</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">RestoredState</span><span class="p">:</span> <span class="kt">CentralManagerRestoredStateType</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ManagerType</span><span class="p">:</span> <span class="kd">class</span></code></pre>
 
                 </div>
               </div>
-            <p>Deprecated, use CentralManager.init(queue:options:onWillRestoreCentralManagerState:) instead</p>
+            <p>Undocumented</p>
 
           </section>
           <section class="section task-group-section">
@@ -177,9 +177,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit13RestoredStateV08restoredE4Datas10DictionaryVySSypGvp"></a>
-                    <a name="//apple_ref/swift/Property/restoredStateData" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV08restoredE4Datas10DictionaryVySSypGvp">restoredStateData</a>
+                    <a name="/s:14RxBluetoothKit11ManagerTypeP0D0"></a>
+                    <a name="//apple_ref/swift/Alias/Manager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypeP0D0">Manager</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -194,12 +194,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">restoredStateData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Manager</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/RestoredState.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/ManagerType.swift#L">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -207,9 +207,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit13RestoredStateV14centralManagerAA07CentralG0Cvp"></a>
-                    <a name="//apple_ref/swift/Property/centralManager" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV14centralManagerAA07CentralG0Cvp">centralManager</a>
+                    <a name="/s:14RxBluetoothKit11ManagerTypeP7manager0D0Qzvp"></a>
+                    <a name="//apple_ref/swift/Property/manager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypeP7manager0D0Qzvp">manager</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -217,19 +217,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Implementation of CBManager</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">centralManager</span><span class="p">:</span> <span class="kt"><a href="../Classes/CentralManager.html">CentralManager</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ManagerType.html#/s:14RxBluetoothKit11ManagerTypeP0D0">Manager</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/RestoredState.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/ManagerType.swift#L9">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -237,9 +237,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit13RestoredStateV11peripheralsSayAA10PeripheralCGvp"></a>
-                    <a name="//apple_ref/swift/Property/peripherals" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV11peripheralsSayAA10PeripheralCGvp">peripherals</a>
+                    <a name="/s:14RxBluetoothKit11ManagerTypeP5stateAA0B5StateOvp"></a>
+                    <a name="//apple_ref/swift/Property/state" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypeP5stateAA0B5StateOvp">state</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -247,19 +247,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Current state of <code><a href="../Classes/CentralManager.html">CentralManager</a></code> instance described by <code><a href="../Enums/BluetoothState.html">BluetoothState</a></code> which is equivalent to
+<a href="https://developer.apple.com/documentation/corebluetooth/cbmanagerstate">CBManagerState</a>.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">peripherals</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Enums/BluetoothState.html">BluetoothState</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/RestoredState.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/ManagerType.swift#L12">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -267,9 +268,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit13RestoredStateV11scanOptionss10DictionaryVySSyXlGSgvp"></a>
-                    <a name="//apple_ref/swift/Property/scanOptions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV11scanOptionss10DictionaryVySSyXlGSgvp">scanOptions</a>
+                    <a name="/s:14RxBluetoothKit11ManagerTypeP12observeState0A5Swift10ObservableCyAA0bG0OGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeState()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypeP12observeState0A5Swift10ObservableCyAA0bG0OGyF">observeState()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -277,49 +278,98 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Continuous state of <code>CBManager</code> instance described by <code><a href="../Enums/BluetoothState.html">BluetoothState</a></code> which is equivalent to  <a href="https://developer.apple.com/documentation/corebluetooth/cbmanagerstate">CBManagerState</a>.</p>
+
+<p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">scanOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">observeState</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Enums/BluetoothState.html">BluetoothState</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> event whenever state changes.</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/RestoredState.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/ManagerType.swift#L18">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit13RestoredStateV8servicesSayAA7ServiceCGvp"></a>
-                    <a name="//apple_ref/swift/Property/services" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit13RestoredStateV8servicesSayAA7ServiceCGvp">services</a>
+                    <a name="/s:14RxBluetoothKit11ManagerTypePAAE6ensure0A5Swift10ObservableCyqd__GAA0B5StateO_AH10observabletlF"></a>
+                    <a name="//apple_ref/swift/Method/ensure(_:observable:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypePAAE6ensure0A5Swift10ObservableCyqd__GAA0B5StateO_AH10observabletlF">ensure(_:observable:)</a>
                     </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Ensure that <code><a href="../Protocols/ManagerType.html#/s:14RxBluetoothKit11ManagerTypeP5stateAA0B5StateOvp">state</a></code> is and will be the only state of <code><a href="../Classes/CentralManager.html">CentralManager</a></code> during subscription.
+Otherwise error is emitted.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">services</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">ensure</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Enums/BluetoothState.html">BluetoothState</a></span><span class="p">,</span> <span class="nv">observable</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>state</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Enums/BluetoothState.html">BluetoothState</a></code> which should be present during subscription.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>observable</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Observable into which potential errors should be merged.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>New observable which merges errors with source observable.</p>
+                      </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/RestoredState.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/ManagerType.swift#L27-L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
