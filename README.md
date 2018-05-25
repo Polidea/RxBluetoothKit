@@ -22,8 +22,8 @@ For support head to [StackOverflow](http://stackoverflow.com/questions/tagged/rx
 Follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/) blog to get all the news and updates!
 
 ## Features
-- [x] CBCentralManger RxSwift support
-- [x] CBPeripheralManger RxSwift support
+- [x] CBCentralManager RxSwift support
+- [x] CBPeripheralManager RxSwift support
 - [x] CBPeripheral RxSwift support
 - [x] Scan sharing
 - [x] Scan queueing

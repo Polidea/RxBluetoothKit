@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DescriptorIdentifier Protocol Reference</title>
+    <title>StartAdvertisingResult Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/DescriptorIdentifier" class="dashAnchor"></a>
-    <a title="DescriptorIdentifier Protocol Reference"></a>
+    <a name="//apple_ref/swift/Enum/StartAdvertisingResult" class="dashAnchor"></a>
+    <a title="StartAdvertisingResult Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">RxBluetoothKit Docs</a> (78% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">RxBluetoothKit Reference</a>
         <img id="carat" src="../img/carat.png" />
-        DescriptorIdentifier Protocol Reference
+        StartAdvertisingResult Enumeration Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -161,14 +161,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>DescriptorIdentifier</h1>
+            <h1>StartAdvertisingResult</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">DescriptorIdentifier</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">StartAdvertisingResult</span></code></pre>
 
                 </div>
               </div>
-            <p>DescriptorIdentifier protocol specifies how information about descriptors of device should look like.</p>
+            <p>Enum result that is returned as a result of <code>PeripheralManager.startAdvertising</code> method</p>
 
           </section>
           <section class="section task-group-section">
@@ -177,9 +177,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit20DescriptorIdentifierP4uuidSo6CBUUIDCvp"></a>
-                    <a name="//apple_ref/swift/Property/uuid" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit20DescriptorIdentifierP4uuidSo6CBUUIDCvp">uuid</a>
+                    <a name="/s:14RxBluetoothKit22StartAdvertisingResultO7startedA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/started" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit22StartAdvertisingResultO7startedA2CmF">started</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -187,29 +187,33 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unique identifier of a descriptor.</p>
+                        <p>Advertising started properly with specified <code>advertisementData</code></p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">uuid</span><span class="p">:</span> <span class="kt">CBUUID</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">started</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/DeviceIdentifiers.swift#L48">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/StartAdvertisingResult.swift#L8">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit20DescriptorIdentifierP14characteristicAA014CharacteristicE0_pvp"></a>
-                    <a name="//apple_ref/swift/Property/characteristic" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit20DescriptorIdentifierP14characteristicAA014CharacteristicE0_pvp">characteristic</a>
+                    <a name="/s:14RxBluetoothKit22StartAdvertisingResultO018attachedToExternalE0ACs10DictionaryVySSypGSgcACmF"></a>
+                    <a name="//apple_ref/swift/Element/attachedToExternalAdvertising" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit22StartAdvertisingResultO018attachedToExternalE0ACs10DictionaryVySSypGSgcACmF">attachedToExternalAdvertising</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -217,19 +221,28 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><code><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></code> instance that this descriptor belongs to.</p>
+                        <p>This is a special case meaning that there is already ongoing advertising that has been started
+outside of <code>RxBluetoothKit</code> library and <code>PeripherlManager.startAdvertising</code> did only attached
+to ongoing advertising without calling <code>CBPeripheralManager.startAdvertising</code>.
+The reason behind that is that we want to give user possibility to stop advertising in
+such state.
+In most cases it happens when app went from background with ongoing advertising - in that case you will receive <code><a href="../Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a></code> param, so you can know with what <code>advertisementData</code> it was started before app went background.
+WARNING: remember that this is not really calling <code>CBPeripheralManager.startAdvertising</code>
+so it might be not started with <code>advertisementData</code> param that you&rsquo;ve provided. If you
+want to start with different <code>advertisementData</code> then you will need to dispose
+advertising observable and call <code>startAdvertising</code> again.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">attachedToExternalAdvertising</span><span class="p">(</span><span class="kt"><a href="../Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a></span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/DeviceIdentifiers.swift#L50">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/StartAdvertisingResult.swift#L19">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

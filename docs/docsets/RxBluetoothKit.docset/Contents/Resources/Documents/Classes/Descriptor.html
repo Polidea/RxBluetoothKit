@@ -14,7 +14,7 @@
     <a title="Descriptor Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit Docs</a> (82% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (78% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -66,11 +66,17 @@
               <li class="nav-group-task">
                 <a href="../Enums/BluetoothState.html">BluetoothState</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="../Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/PeripheralManager.html">PeripheralManager</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Extensions/Reactive.html">Reactive</a>
               </li>
@@ -106,6 +112,9 @@
                 <a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/ManagerType.html">ManagerType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
               </li>
             </ul>
@@ -115,6 +124,12 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Structs/RestoredState.html">RestoredState</a>
@@ -128,7 +143,16 @@
                 <a href="../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
               </li>
             </ul>
           </li>
@@ -177,7 +201,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L11">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L11">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -207,7 +231,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L14">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L14">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -237,7 +261,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L17-L19">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L17-L19">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -267,7 +291,7 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L22-L24">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L22-L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -315,7 +339,7 @@ Descriptors provide more information about a characteristic’s value.</p>
 It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L50-L52">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L50-L52">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -381,7 +405,7 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never 
                         <p><code>Single</code> that emits <code>Next</code> with <code>Descriptor</code> instance, once value is written successfully.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L67-L69">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L67-L69">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -429,7 +453,7 @@ It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never 
 It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L84-L86">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L84-L86">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -477,7 +501,7 @@ Read is called after subscription to <code>Observable</code> is made.</p>
                         <p><code>Single</code> which emits <code>next</code> with given descriptor when value is ready to read.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/Descriptor.swift#L101-L103">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.0/Source/Descriptor.swift#L101-L103">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -487,7 +511,7 @@ Read is called after subscription to <code>Observable</code> is made.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-07)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-25)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
