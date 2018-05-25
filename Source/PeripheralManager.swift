@@ -6,7 +6,7 @@ import RxSwift
 /// advertise, to publish L2CAP channels and more.
 /// You can start using this class by adding services and starting advertising.
 /// Before calling any public `PeripheralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
-/// by `observeState()`, observing it's value and then chaining it with `add(_:)` with `startAdvertising(_:)`:
+/// by `observeState()`, observing it's value and then chaining it with `add(_:)` and `startAdvertising(_:)`:
 /// ```
 /// let disposable = centralManager.observeState
 ///     .startWith(centralManager.state)
