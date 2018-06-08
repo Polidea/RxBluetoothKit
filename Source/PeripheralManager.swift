@@ -19,7 +19,7 @@ import RxSwift
 /// ```
 /// disposable.dispose()
 /// ```
-class PeripheralManager: ManagerType {
+public class PeripheralManager: ManagerType {
 
     /// Implementation of CBPeripheralManager
     public let manager: CBPeripheralManager
