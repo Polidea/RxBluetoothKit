@@ -1,3 +1,6 @@
+# 5.1.1
+- Fixed `PeripheralManager` not public (#264)
+
 # 5.1.0
 - Added support for `CBPeripheralManager`. Read `PeripheralManager` documentation for more info (#166)
 - Deprecated `RestoredState` and `CentralManager.init(queue:options:onWillRestoreCentralManagerState:)`. From now on please use corresponding `CentralManagerRestoredState` and `CentralManager.init(queue:options:onWillRestoreCentralManagerState:)`

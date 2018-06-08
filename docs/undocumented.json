@@ -995,13 +995,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/paweljaneczek/Workspace/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
-      "line": 19,
-      "symbol": "CentralManagerRestoredState.centralManager",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/paweljaneczek/Workspace/RxBluetoothKit/Source/ManagerType.swift",
       "line": null,
       "symbol": "ManagerType",
