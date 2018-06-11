@@ -1,3 +1,6 @@
+# 4.0.3
+- Update Cartfile.resolved and generate binary framework for XCode 9.4.
+
 # 4.0.2
 - Allow projects that depend on RxBluetoothKit to update RxSwift to 4.1.0 and newer.
 
