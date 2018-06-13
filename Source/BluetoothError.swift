@@ -9,6 +9,9 @@ public enum BluetoothError: Error {
     case destroyed
     // Emitted when `CentralManager.scanForPeripherals` called and there is already ongoing scan
     case scanInProgress
+    // Emitted when `PeripheralManager.startAdvertising` called and there is already ongoing advertisement
+    case advertisingInProgress
+    case advertisingStartFailed(Error)
     // States
     case bluetoothUnsupported
     case bluetoothUnauthorized
@@ -25,6 +28,7 @@ public enum BluetoothError: Error {
     // Services
     case servicesDiscoveryFailed(Peripheral, Error?)
     case includedServicesDiscoveryFailed(Peripheral, Error?)
+    case addingServiceFailed(CBService, Error?)
     // Characteristics
     case characteristicsDiscoveryFailed(Service, Error?)
     case characteristicWriteFailed(Characteristic, Error?)
@@ -35,8 +39,9 @@ public enum BluetoothError: Error {
     case descriptorsDiscoveryFailed(Characteristic, Error?)
     case descriptorWriteFailed(Descriptor, Error?)
     case descriptorReadFailed(Descriptor, Error?)
-    //L2CAP
+    // L2CAP
     case openingL2CAPChannelFailed(Peripheral, Error?)
+    case publishingL2CAPChannelFailed(CBL2CAPPSM, Error?)
 }
 
 extension BluetoothError: CustomStringConvertible {
@@ -54,6 +59,13 @@ extension BluetoothError: CustomStringConvertible {
             Tried to scan for peripheral when there is already ongoing scan.
             You can have only 1 ongoing scanning, please check documentation of CentralManager for more details
             """
+        case .advertisingInProgress:
+            return """
+            Tried to advertise when there is already advertising ongoing.
+            You can have only 1 ongoing advertising, please check documentation of PeripheralManager for more details
+            """
+        case let .advertisingStartFailed(err):
+            return "Start advertising error occured: \(err.localizedDescription)"
         case .bluetoothUnsupported:
             return "Bluetooth is unsupported"
         case .bluetoothUnauthorized:
@@ -82,6 +94,8 @@ extension BluetoothError: CustomStringConvertible {
             return "Services discovery error has occured: \(err?.localizedDescription ?? "-")"
         case let .includedServicesDiscoveryFailed(_, err):
             return "Included services discovery error has occured: \(err?.localizedDescription ?? "-")"
+        case let .addingServiceFailed(_, err):
+            return "Adding PeripheralManager service error has occured: \(err?.localizedDescription ?? "-")"
         // Characteristics
         case let .characteristicsDiscoveryFailed(_, err):
             return "Characteristics discovery error has occured: \(err?.localizedDescription ?? "-")"
@@ -102,6 +116,8 @@ extension BluetoothError: CustomStringConvertible {
             return "Descriptor read error has occured: \(err?.localizedDescription ?? "-")"
         case let .openingL2CAPChannelFailed(_, err):
             return "Opening L2CAP channel error has occured: \(err?.localizedDescription ?? "-")"
+        case let .publishingL2CAPChannelFailed(_, err):
+            return "Publishing L2CAP channel error has occured: \(err?.localizedDescription ?? "-")"
         }
     }
 }
@@ -132,6 +148,8 @@ extension BluetoothError: Equatable {}
 public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     switch (lhs, rhs) {
     case (.scanInProgress, .scanInProgress): return true
+    case (.advertisingInProgress, .advertisingInProgress): return true
+    case (.advertisingStartFailed, .advertisingStartFailed): return true
     // States
     case (.bluetoothUnsupported, .bluetoothUnsupported): return true
     case (.bluetoothUnauthorized, .bluetoothUnauthorized): return true
@@ -141,6 +159,7 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     // Services
     case let (.servicesDiscoveryFailed(l, _), .servicesDiscoveryFailed(r, _)): return l == r
     case let (.includedServicesDiscoveryFailed(l, _), .includedServicesDiscoveryFailed(r, _)): return l == r
+    case let (.addingServiceFailed(l, _), .addingServiceFailed(r, _)): return l == r
     // Peripherals
     case let (.peripheralIsAlreadyObservingConnection(l), .peripheralIsAlreadyObservingConnection(r)): return l == r
     case let (.peripheralIsConnectingOrAlreadyConnected(l), .peripheralIsConnectingOrAlreadyConnected(r)): return l == r
@@ -161,6 +180,7 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     case let (.descriptorReadFailed(l, _), .descriptorReadFailed(r, _)): return l == r
     // L2CAP
     case let (.openingL2CAPChannelFailed(l, _), .openingL2CAPChannelFailed(r, _)): return l == r
+    case let (.publishingL2CAPChannelFailed(l, _), .publishingL2CAPChannelFailed(r, _)): return l == r
     default: return false
     }
 }

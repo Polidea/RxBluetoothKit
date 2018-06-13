@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PeripheralManager Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/PeripheralManager" class="dashAnchor"></a>
+    <a title="PeripheralManager Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (80% documented)</p>
+        <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">RxBluetoothKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        PeripheralManager Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CentralManager.html">CentralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Characteristic.html">Characteristic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Descriptor.html">Descriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Peripheral.html">Peripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PeripheralManager.html">PeripheralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxBluetoothKitLog/LogLevel.html">– LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Service.html">Service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothError.html">BluetoothError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothState.html">BluetoothState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Reactive.html">Reactive</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA0B5ErrorO_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA10DescriptorC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA10PeripheralC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA14CharacteristicC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA7ServiceC_ADtF">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ManagerType.html">ManagerType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RestoredState.html">RestoredState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>PeripheralManager</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">PeripheralManager</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ManagerType.html">ManagerType</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>PeripheralManager is a class implementing ReactiveX API which wraps all the Core Bluetooth Peripheral&rsquo;s functions, that allow to
+advertise, to publish L2CAP channels and more.
+You can start using this class by adding services and starting advertising.
+Before calling any public <code>PeripheralManager</code>&lsquo;s functions you should make sure that Bluetooth is turned on and powered on. It can be done
+by <code>observeState()</code>, observing it&rsquo;s value and then chaining it with <code>add(_:)</code> and <code>startAdvertising(_:)</code>:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposable</span> <span class="o">=</span> <span class="n">centralManager</span><span class="o">.</span><span class="n">observeState</span>
+    <span class="o">.</span><span class="nf">startWith</span><span class="p">(</span><span class="n">centralManager</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="o">.</span><span class="n">poweredOn</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">centralManager</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="n">myService</span><span class="p">)</span> <span class="p">}</span>
+    <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">centralManager</span><span class="o">.</span><span class="nf">startAdvertising</span><span class="p">(</span><span class="n">myAdvertisementData</span><span class="p">)</span> <span class="p">}</span>
+</code></pre>
+
+<p>As a result, your peripheral will start advertising. To stop advertising simply dispose it:</p>
+<pre class="highlight swift"><code><span class="n">disposable</span><span class="o">.</span><span class="nf">dispose</span><span class="p">()</span>
+</code></pre>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC7managerSo012CBPeripheralE0Cvp"></a>
+                    <a name="//apple_ref/swift/Property/manager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC7managerSo012CBPeripheralE0Cvp">manager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Implementation of CBPeripheralManager</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt">CBPeripheralManager</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L25">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initialization"></a>
+                <a name="//apple_ref/swift/Section/Initialization" class="dashAnchor"></a>
+                <a href="#/Initialization">
+                  <h3 class="section-name">Initialization</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerCACSo13DispatchQueueC5queue_s10DictionaryVySSyXlGSg7optionstcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(queue:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerCACSo13DispatchQueueC5queue_s10DictionaryVySSyXlGSg7optionstcfc">init(queue:options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates new <code>PeripheralManager</code> instance. By default all operations and events are executed and received on main thread.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If you pass background queue to the method make sure to observe results on main thread for UI related code.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Queue on which bluetooth callbacks are received. By default main thread is used.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional dictionary containing initialization options for a peripheral manager.
+For more info about it please refer to <a href="https://developer.apple.com/documentation/corebluetooth/cbperipheralmanager/peripheral_manager_initialization_options">Peripheral Manager initialization options</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L51-L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/State"></a>
+                <a name="//apple_ref/swift/Section/State" class="dashAnchor"></a>
+                <a href="#/State">
+                  <h3 class="section-name">State</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit11ManagerTypeP5stateAA0B5StateOvp"></a>
+                    <a name="//apple_ref/swift/Property/state" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypeP5stateAA0B5StateOvp">state</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Enums/BluetoothState.html">BluetoothState</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L71-L73">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit11ManagerTypeP12observeState0A5Swift10ObservableCyAA0bG0OGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeState()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypeP12observeState0A5Swift10ObservableCyAA0bG0OGyF">observeState()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeState</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Enums/BluetoothState.html">BluetoothState</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L75-L77">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Advertising"></a>
+                <a name="//apple_ref/swift/Section/Advertising" class="dashAnchor"></a>
+                <a href="#/Advertising">
+                  <h3 class="section-name">Advertising</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC16startAdvertising0A5Swift10ObservableCyAA05StartG6ResultOGs10DictionaryVySSypGSgF"></a>
+                    <a name="//apple_ref/swift/Method/startAdvertising(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC16startAdvertising0A5Swift10ObservableCyAA05StartG6ResultOGs10DictionaryVySSypGSgF">startAdvertising(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Starts peripheral advertising on subscription. It create inifinite observable
+which emits only one next value, of enum type <code><a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a></code>, just
+after advertising start succeeds.
+For more info of what specific <code><a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a></code> enum cases means please
+refer to `<code><a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a></code> documentation.</p>
+
+<p>There can be only one ongoing advertising (CoreBluetooth limit).
+It will return <code>advertisingInProgress</code> error if this method is called when
+it is already advertising.</p>
+
+<p>Advertising is automatically stopped just after disposing of the subscription.</p>
+
+<p>It can return <code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22advertisingStartFailedACs0D0_pcACmF">BluetoothError.advertisingStartFailed</a></code> error, when start advertisement failed</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21advertisingInProgressA2CmF">BluetoothError.advertisingInProgress</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22advertisingStartFailedACs0D0_pcACmF">BluetoothError.advertisingStartFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">startAdvertising</span><span class="p">(</span><span class="n">_</span> <span class="nv">advertisementData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>advertisementData</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Services of peripherals to search for. Nil value will accept all peripherals.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Infinite observable which emit <code><a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a></code> when advertisement started.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L107-L148">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Services"></a>
+                <a name="//apple_ref/swift/Section/Services" class="dashAnchor"></a>
+                <a href="#/Services">
+                  <h3 class="section-name">Services</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC3add0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSo9CBServiceCGSo16CBMutableServiceCF"></a>
+                    <a name="//apple_ref/swift/Method/add(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC3add0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSo9CBServiceCGSo16CBMutableServiceCF">add(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers <code>CBPeripheralManager.add(_:)</code> and waits for
+delegate <code>CBPeripheralManagerDelegate.peripheralManager(_:didAdd:error:)</code> result.
+If it receives a non nil in the result, it will emit <code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19addingServiceFailedACSo9CBServiceC_s0D0_pSgtcACmF">BluetoothError.addingServiceFailed</a></code> error.
+Add method is called after subscription to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19addingServiceFailedACSo9CBServiceC_s0D0_pSgtcACmF">BluetoothError.addingServiceFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="n">_</span> <span class="nv">service</span><span class="p">:</span> <span class="kt">CBMutableService</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt">CBService</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>service</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Characteristic.html">Characteristic</a></code> to read value from</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> which emits <code>next</code> with given characteristic when value is ready to read.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L167-L182">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC6removeySo16CBMutableServiceCF"></a>
+                    <a name="//apple_ref/swift/Method/remove(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC6removeySo16CBMutableServiceCF">remove(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Wrapper for <code>CBPeripheralManager.remove(_:)</code> method</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">remove</span><span class="p">(</span><span class="n">_</span> <span class="nv">service</span><span class="p">:</span> <span class="kt">CBMutableService</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L185-L187">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC17removeAllServicesyyF"></a>
+                    <a name="//apple_ref/swift/Method/removeAllServices()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC17removeAllServicesyyF">removeAllServices()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Wrapper for <code>CBPeripheralManager.removeAllServices()</code> method</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">removeAllServices</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L190-L192">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Read%20&amp;%20Write"></a>
+                <a name="//apple_ref/swift/Section/Read &amp; Write" class="dashAnchor"></a>
+                <a href="#/Read%20&amp;%20Write">
+                  <h3 class="section-name">Read &amp; Write</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC21observeDidReceiveRead0A5Swift10ObservableCySo12CBATTRequestCGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeDidReceiveRead()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC21observeDidReceiveRead0A5Swift10ObservableCySo12CBATTRequestCGyF">observeDidReceiveRead()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous observer for <code>CBPeripheralManagerDelegate.peripheralManager(_:didReceiveRead:)</code> results</p>
+
+<p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeDidReceiveRead</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">CBATTRequest</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> event whenever didReceiveRead occurs.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L208-L210">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC22observeDidReceiveWrite0A5Swift10ObservableCySaySo12CBATTRequestCGGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeDidReceiveWrite()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC22observeDidReceiveWrite0A5Swift10ObservableCySaySo12CBATTRequestCGGyF">observeDidReceiveWrite()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous observer for <code>CBPeripheralManagerDelegate.peripheralManager(_:didReceiveWrite:)</code> results</p>
+
+<p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeDidReceiveWrite</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">CBATTRequest</span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> event whenever didReceiveWrite occurs.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L224-L226">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC7respondySo12CBATTRequestC2to_SC10CBATTErrorV4CodeO10withResulttF"></a>
+                    <a name="//apple_ref/swift/Method/respond(to:withResult:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC7respondySo12CBATTRequestC2to_SC10CBATTErrorV4CodeO10withResulttF">respond(to:withResult:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Wrapper for <code>CBPeripheralManager.respond(to:withResult:)</code> method</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">respond</span><span class="p">(</span><span class="n">to</span> <span class="nv">request</span><span class="p">:</span> <span class="kt">CBATTRequest</span><span class="p">,</span> <span class="n">withResult</span> <span class="nv">result</span><span class="p">:</span> <span class="kt">CBATTError</span><span class="o">.</span><span class="kt">Code</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L229-L231">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Updating%20value"></a>
+                <a name="//apple_ref/swift/Section/Updating value" class="dashAnchor"></a>
+                <a href="#/Updating%20value">
+                  <h3 class="section-name">Updating value</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC11updateValueSb10Foundation4DataV_So23CBMutableCharacteristicC3forSaySo9CBCentralCGSg20onSubscribedCentralstF"></a>
+                    <a name="//apple_ref/swift/Method/updateValue(_:for:onSubscribedCentrals:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC11updateValueSb10Foundation4DataV_So23CBMutableCharacteristicC3forSaySo9CBCentralCGSg20onSubscribedCentralstF">updateValue(_:for:onSubscribedCentrals:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Wrapper for <code>CBPeripheralManager.updateValue(_:for:onSubscribedCentrals:)</code> method</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">updateValue</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span>
+    <span class="k">for</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt">CBMutableCharacteristic</span><span class="p">,</span>
+    <span class="n">onSubscribedCentrals</span> <span class="nv">centrals</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBCentral</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L236-L241">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC33observeIsReadyToUpdateSubscribers0A5Swift10ObservableCyytGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeIsReadyToUpdateSubscribers()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC33observeIsReadyToUpdateSubscribers0A5Swift10ObservableCyytGyF">observeIsReadyToUpdateSubscribers()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous observer for <code>CBPeripheralManagerDelegate.peripheralManagerIsReady(toUpdateSubscribers:)</code> results</p>
+
+<p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeIsReadyToUpdateSubscribers</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> event whenever isReadyToUpdateSubscribers occurs.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L255-L257">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Subscribing"></a>
+                <a name="//apple_ref/swift/Section/Subscribing" class="dashAnchor"></a>
+                <a href="#/Subscribing">
+                  <h3 class="section-name">Subscribing</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC18observeOnSubscribe0A5Swift10ObservableCySo9CBCentralC_So16CBCharacteristicCtGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeOnSubscribe()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC18observeOnSubscribe0A5Swift10ObservableCySo9CBCentralC_So16CBCharacteristicCtGyF">observeOnSubscribe()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous observer for <code>CBPeripheralManagerDelegate.peripheralManager(_:central:didSubscribeTo:)</code> results</p>
+
+<p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeOnSubscribe</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">CBCentral</span><span class="p">,</span> <span class="kt">CBCharacteristic</span><span class="p">)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> event whenever didSubscribeTo occurs.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L273-L275">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC20observeOnUnsubscribe0A5Swift10ObservableCySo9CBCentralC_So16CBCharacteristicCtGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeOnUnsubscribe()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC20observeOnUnsubscribe0A5Swift10ObservableCySo9CBCentralC_So16CBCharacteristicCtGyF">observeOnUnsubscribe()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous observer for <code>CBPeripheralManagerDelegate.peripheralManager(_:central:didUnsubscribeFrom:)</code> results</p>
+
+<p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeOnUnsubscribe</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">CBCentral</span><span class="p">,</span> <span class="kt">CBCharacteristic</span><span class="p">)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> event whenever didUnsubscribeFrom occurs.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L289-L291">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/L2CAP"></a>
+                <a name="//apple_ref/swift/Section/L2CAP" class="dashAnchor"></a>
+                <a href="#/L2CAP">
+                  <h3 class="section-name">L2CAP</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC19publishL2CAPChannel0A5Swift10ObservableCys6UInt16VGSb14withEncryption_tF"></a>
+                    <a name="//apple_ref/swift/Method/publishL2CAPChannel(withEncryption:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC19publishL2CAPChannel0A5Swift10ObservableCys6UInt16VGSb14withEncryption_tF">publishL2CAPChannel(withEncryption:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Starts publishing L2CAP channel on a subscription. It creates an infinite observable
+which emits only one next value, of <code>CBL2CAPPSM</code> type, just
+after L2CAP channel has been published.</p>
+
+<p>Channel is automatically unpublished just after disposing of the subscription.</p>
+
+<p>It can return <code>publishingL2CAPChannelFailed</code> error when publishing channel failed</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO28publishingL2CAPChannelFailedACs6UInt16V_s0D0_pSgtcACmF">BluetoothError.publishingL2CAPChannelFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">publishL2CAPChannel</span><span class="p">(</span><span class="n">withEncryption</span> <span class="nv">encryptionRequired</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">CBL2CAPPSM</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>encryptionRequired</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Publishing channel with or without encryption.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Infinite observable which emit <code>CBL2CAPPSM</code> when channel published.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L317-L345">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC26observeDidOpenL2CAPChannel0A5Swift10ObservableCySo04CBL2J0CSg_s5Error_pSgtGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeDidOpenL2CAPChannel()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC26observeDidOpenL2CAPChannel0A5Swift10ObservableCySo04CBL2J0CSg_s5Error_pSgtGyF">observeDidOpenL2CAPChannel()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous observer for <code>CBPeripheralManagerDelegate.peripheralManager(_:didOpen:error:)</code> results</p>
+
+<p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeDidOpenL2CAPChannel</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">CBL2CAPChannel</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> event whenever didOpen occurs.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager.swift#L360-L362">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/State%20restoration"></a>
+                <a name="//apple_ref/swift/Section/State restoration" class="dashAnchor"></a>
+                <a href="#/State%20restoration">
+                  <h3 class="section-name">State restoration</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerCACSo13DispatchQueueC5queue_s10DictionaryVySSyXlGSg7optionsyAA0dE13RestoredStateVcSg013onWillRestoredeL0tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(queue:options:onWillRestorePeripheralManagerState:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerCACSo13DispatchQueueC5queue_s10DictionaryVySSyXlGSg7optionsyAA0dE13RestoredStateVcSg013onWillRestoredeL0tcfc">init(queue:options:onWillRestorePeripheralManagerState:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates new <code>PeripheralManager</code> instance, which supports bluetooth state restoration.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If you pass background queue to the method make sure to observe results on main thread
+for UI related code.
+
+</div>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <p><code><a href="../Structs/RestoredState.html">RestoredState</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">onWillRestorePeripheralManagerState</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Queue on which bluetooth callbacks are received. By default main thread is used
+and all operations and events are executed and received on main thread.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional dictionary containing initialization options for a peripheral manager.
+For more info about it please refer to <a href="https://developer.apple.com/documentation/corebluetooth/cbperipheralmanager/peripheral_manager_initialization_options">Peripheral Manager initialization options</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>onWillRestorePeripheralManagerState</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Closure called when state has been restored.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager+RestoredState.swift#L22-L29">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-06-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

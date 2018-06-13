@@ -3,7 +3,6 @@ import CoreBluetooth
 @testable import RxBluetoothKit
 import RxSwift
 
-// swiftlint:disable line_length
 /// _Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBServiceMock](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
 class _Service {
     /// Intance of CoreBluetooth service class

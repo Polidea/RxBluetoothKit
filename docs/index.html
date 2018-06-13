@@ -13,7 +13,7 @@
     <a title="RxBluetoothKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">RxBluetoothKit Docs</a> (82% documented)</p>
+        <p><a href="index.html">RxBluetoothKit Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -43,6 +43,9 @@
                 <a href="Classes/Peripheral.html">Peripheral</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/PeripheralManager.html">PeripheralManager</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a>
               </li>
               <li class="nav-group-task">
@@ -64,6 +67,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/BluetoothState.html">BluetoothState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
               </li>
             </ul>
           </li>
@@ -105,6 +111,9 @@
                 <a href="Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/ManagerType.html">ManagerType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
               </li>
             </ul>
@@ -114,6 +123,12 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/RestoredState.html">RestoredState</a>
@@ -127,7 +142,16 @@
                 <a href="Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
               </li>
               <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
               </li>
             </ul>
           </li>
@@ -162,7 +186,8 @@ Provides nice API to work with, and makes your code more readable, reliable and 
 <h2 id='features' class='heading'>Features</h2>
 
 <ul>
-<li>[x] CBCentralManger RxSwift support</li>
+<li>[x] CBCentralManager RxSwift support</li>
+<li>[x] CBPeripheralManager RxSwift support</li>
 <li>[x] CBPeripheral RxSwift support</li>
 <li>[x] Scan sharing</li>
 <li>[x] Scan queueing</li>
@@ -170,7 +195,7 @@ Provides nice API to work with, and makes your code more readable, reliable and 
 </ul>
 <h2 id='sample' class='heading'>Sample</h2>
 
-<p>In Example folder you can find application we&rsquo;ve provided to you. It&rsquo;s a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.</p>
+<p>In ExampleApp folder you can find application we&rsquo;ve provided to you. It&rsquo;s a great place to dig in, once you want to see everything in action. App provides most of the common usages of RxBluetoothKit.</p>
 <h2 id='installation' class='heading'>Installation</h2>
 <h3 id='cocoapods' class='heading'>CocoaPods</h3>
 
@@ -199,6 +224,7 @@ It has multiple components, that should be familiar to you:</p>
 
 <ul>
 <li>CentralManager</li>
+<li>PeripheralManager</li>
 <li>ScannedPeripheral</li>
 <li>Peripheral</li>
 <li>Service</li>
@@ -252,7 +278,7 @@ Fortunately, this is also really easy to do, thanks to awesome RxSwift operators
 </code></pre>
 
 <p>This observable will emit next event with new value of BluetoothManager state every time state changes.
-You could easily chain it with operation you want to perform after changing to proper state. To get current bluetooth state, use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOvp">CentralManager.state</a></code>
+You could easily chain it with operation you want to perform after changing to proper state. To get current bluetooth state, use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit11ManagerTypeP5stateAA0B5StateOvp">CentralManager.state</a></code>
 property. Let&rsquo;s see how it looks with scanning:</p>
 <pre class="highlight swift"><code><span class="n">manager</span><span class="o">.</span><span class="nf">observeState</span><span class="p">()</span>
     <span class="o">.</span><span class="nf">startWith</span><span class="p">(</span><span class="n">manager</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
@@ -262,7 +288,7 @@ property. Let&rsquo;s see how it looks with scanning:</p>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="n">manager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="nv">withServices</span><span class="p">:</span> <span class="p">[</span><span class="n">serviceId</span><span class="p">])</span> <span class="p">}</span>
 </code></pre>
 
-<p>Firstly, use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOvp">CentralManager.state</a></code> as a start value, next filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use <strong>take</strong> to be sure, that after getting .poweredOn state, nothing else ever will be emitted by the observable.
+<p>Firstly, use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit11ManagerTypeP5stateAA0B5StateOvp">CentralManager.state</a></code> as a start value, next filter .poweredOn from states stream. Like above, we want to apply timeout policy to state changes. Also, we use <strong>take</strong> to be sure, that after getting .poweredOn state, nothing else ever will be emitted by the observable.
 In last <code>flatMap</code> operation bluetooth is ready to perform further operations.</p>
 <h3 id='connecting' class='heading'>Connecting</h3>
 
@@ -404,7 +430,7 @@ We really encourage you to use these versions of methods in order to make your c
 <p>By giving proper identifier to <code><a href="Classes/CentralManager.html">CentralManager</a></code> in constructor(<code>options</code> property), you can achieve state restoration functionality. Later, just make sure to subscribe to <code>listenOnRestoredState</code> observable, and inspect <code><a href="Structs/RestoredState.html">RestoredState</a></code> instance, which consists any useful info about restored state.</p>
 <h4 id='monitoring-state-of-bluetooth' class='heading'>Monitoring state of Bluetooth</h4>
 
-<p>Used earlier <code>observeState</code> is very useful function on <code><a href="Classes/CentralManager.html">CentralManager</a></code>. It emits <code>next</code> event with new value of BluetoothManager state every time it changes. To get current bluetooth state, you should use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC5stateAA0B5StateOvp">CentralManager.state</a></code>
+<p>Used earlier <code>observeState</code> is very useful function on <code><a href="Classes/CentralManager.html">CentralManager</a></code>. It emits <code>next</code> event with new value of BluetoothManager state every time it changes. To get current bluetooth state, you should use <code><a href="Classes/CentralManager.html#/s:14RxBluetoothKit11ManagerTypeP5stateAA0B5StateOvp">CentralManager.state</a></code>
 property.</p>
 <h4 id='monitor-connection-state-of-peripheral' class='heading'>Monitor connection state of Peripheral</h4>
 
@@ -470,7 +496,7 @@ To keep code in order, we advice you to use SwiftLint. In repository, we provide
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-07)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-06-08)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

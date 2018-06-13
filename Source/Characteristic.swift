@@ -2,8 +2,6 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
-// swiftlint:disable line_length
-
 /// Characteristic is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBCharacteristic](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCharacteristic_Class/)
 public class Characteristic {
     /// Intance of CoreBluetooth characteristic class

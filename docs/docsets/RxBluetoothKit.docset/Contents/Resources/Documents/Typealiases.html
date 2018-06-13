@@ -13,7 +13,7 @@
     <a title="Type Aliases  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">RxBluetoothKit Docs</a> (82% documented)</p>
+        <p><a href="index.html">RxBluetoothKit Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -43,6 +43,9 @@
                 <a href="Classes/Peripheral.html">Peripheral</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/PeripheralManager.html">PeripheralManager</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a>
               </li>
               <li class="nav-group-task">
@@ -64,6 +67,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/BluetoothState.html">BluetoothState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
               </li>
             </ul>
           </li>
@@ -105,6 +111,9 @@
                 <a href="Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/ManagerType.html">ManagerType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
               </li>
             </ul>
@@ -114,6 +123,12 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a>
               </li>
               <li class="nav-group-task">
                 <a href="Structs/RestoredState.html">RestoredState</a>
@@ -127,7 +142,16 @@
                 <a href="Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
               </li>
               <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
               </li>
             </ul>
           </li>
@@ -156,7 +180,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Closure that receives <code><a href="Structs/RestoredState.html">RestoredState</a></code> as a parameter</p>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
@@ -168,7 +192,37 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager+RestoredState.swift#L6">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/CentralManager+RestoredState.swift#L">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea"></a>
+                    <a name="//apple_ref/swift/Alias/OnWillRestoreCentralManagerState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Closure that receives <code><a href="Structs/RestoredState.html">RestoredState</a></code> as a parameter</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">OnWillRestoreCentralManagerState</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/CentralManager+RestoredState.swift#L8">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -202,7 +256,75 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.0.2/Source/CentralManager.swift#L8">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/CentralManager.swift#L6">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea"></a>
+                    <a name="//apple_ref/swift/Alias/OnWillRestorePeripheralManagerState" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Closure that receives restored state dict as a parameter</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">OnWillRestorePeripheralManagerState</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/PeripheralManager+RestoredState.swift#L6">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit25RestoredAdvertisementDataa"></a>
+                    <a name="//apple_ref/swift/Alias/RestoredAdvertisementData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">RestoredAdvertisementData</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.1.1/Source/StartAdvertisingResult.swift#L">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -212,7 +334,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-05-07)</p>
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-06-08)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

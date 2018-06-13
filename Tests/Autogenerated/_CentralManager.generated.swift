@@ -3,8 +3,6 @@ import RxSwift
 import CoreBluetooth
 @testable import RxBluetoothKit
 
-// swiftlint:disable line_length
-
 /// Error received when device disconnection event occurs
 typealias DisconnectionReason = Error
 
@@ -14,7 +12,7 @@ typealias DisconnectionReason = Error
 /// public `_CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
 /// by calling and observing returned value of `observeState()` and then chaining it with `scanForPeripherals(_:options:)`:
 /// ```
-/// centralManager.observeState
+/// let disposable = centralManager.observeState
 ///     .startWith(centralManager.state)
 ///     .filter { $0 == .poweredOn }
 ///     .take(1)
@@ -22,11 +20,18 @@ typealias DisconnectionReason = Error
 /// ```
 /// As a result you will receive `_ScannedPeripheral` which contains `_Peripheral` object, `AdvertisementData` and
 /// peripheral's RSSI registered during discovery. You can then `establishConnection(_:options:)` and do other operations.
+/// You can also simply stop scanning with just disposing it:
+/// ```
+/// disposable.dispose()
+/// ```
 /// - seealso: `_Peripheral`
-class _CentralManager {
+class _CentralManager: _ManagerType {
 
     /// Implementation of CBCentralManagerMock
-    let centralManager: CBCentralManagerMock
+    let manager: CBCentralManagerMock
+
+    @available(*, deprecated: 5.1.0, renamed: "_CentralManager.manager")
+    var centralManager: CBCentralManagerMock { return manager }
 
     let peripheralProvider: PeripheralProviderMock
 
@@ -54,7 +59,7 @@ class _CentralManager {
         peripheralProvider: PeripheralProviderMock,
         connector: ConnectorMock
     ) {
-        self.centralManager = centralManager
+        self.manager = centralManager
         self.delegateWrapper = delegateWrapper
         self.peripheralProvider = peripheralProvider
         self.connector = connector
@@ -82,20 +87,15 @@ class _CentralManager {
     /// This method is useful in cases when delegate of CBCentralManagerMock was reassigned outside of
     /// RxBluetoothKit library (e.g. CBCentralManagerMock was used in some other library or used in non-reactive way)
     func attach() {
-        centralManager.delegate = delegateWrapper
+        manager.delegate = delegateWrapper
     }
 
     // MARK: State
 
-    /// Current state of `_CentralManager` instance described by `BluetoothState` which is equivalent to [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
     var state: BluetoothState {
-        return BluetoothState(rawValue: centralManager.state.rawValue) ?? .unsupported
+        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
     }
 
-    /// Continuous state of `_CentralManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
-    /// - returns: Observable that emits `next` event whenever state changes.
-    ///
-    /// It's **infinite** stream, so `.complete` is never called.
     func observeState() -> Observable<BluetoothState> {
         return self.delegateWrapper.didUpdateState.asObservable()
     }
@@ -137,45 +137,42 @@ class _CentralManager {
     /// * `_BluetoothError.bluetoothResetting`
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
                     -> Observable<_ScannedPeripheral> {
-        return .deferred { [weak self] in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            let observable: Observable<_ScannedPeripheral> = Observable.create { [weak self] observer in
-                guard let strongSelf = self else {
-                    observer.onError(_BluetoothError.destroyed)
-                    return Disposables.create()
-                }
-                strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                if strongSelf.scanDisposable != nil {
-                    observer.onError(_BluetoothError.scanInProgress)
-                    return Disposables.create()
-                }
-                strongSelf.scanDisposable = strongSelf.delegateWrapper.didDiscoverPeripheral
-                        .flatMap { [weak self] (cbPeripheral, advertisment, rssi) -> Observable<_ScannedPeripheral> in
-                            guard let strongSelf = self else {
-                                throw _BluetoothError.destroyed
-                            }
-                            let peripheral = strongSelf.retrievePeripheral(for: cbPeripheral)
-                            let advertismentData = AdvertisementData(advertisementData: advertisment)
-                            return .just(_ScannedPeripheral(peripheral: peripheral,
-                                    advertisementData: advertismentData, rssi: rssi))
+        let observable: Observable<_ScannedPeripheral> = Observable.create { [weak self] observer in
+            guard let strongSelf = self else {
+                observer.onError(_BluetoothError.destroyed)
+                return Disposables.create()
+            }
+            strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+            if strongSelf.scanDisposable != nil {
+                observer.onError(_BluetoothError.scanInProgress)
+                return Disposables.create()
+            }
+            strongSelf.scanDisposable = strongSelf.delegateWrapper.didDiscoverPeripheral
+                    .flatMap { [weak self] (cbPeripheral, advertisment, rssi) -> Observable<_ScannedPeripheral> in
+                        guard let strongSelf = self else {
+                            throw _BluetoothError.destroyed
                         }
-                        .subscribe(observer)
-
-                strongSelf.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
-
-                return Disposables.create {
-                    guard let strongSelf = self else { return }
-                    // When disposed, stop scan and dispose scanning
-                    strongSelf.centralManager.stopScan()
-                    do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                        strongSelf.scanDisposable?.dispose()
-                        strongSelf.scanDisposable = nil
+                        let peripheral = strongSelf.retrievePeripheral(for: cbPeripheral)
+                        let advertismentData = AdvertisementData(advertisementData: advertisment)
+                        return .just(_ScannedPeripheral(peripheral: peripheral,
+                                advertisementData: advertismentData, rssi: rssi))
                     }
+                    .subscribe(observer)
+
+            strongSelf.manager.scanForPeripherals(withServices: serviceUUIDs, options: options)
+
+            return Disposables.create { [weak self] in
+                guard let strongSelf = self else { return }
+                // When disposed, stop scan and dispose scanning
+                strongSelf.manager.stopScan()
+                do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+                    strongSelf.scanDisposable?.dispose()
+                    strongSelf.scanDisposable = nil
                 }
             }
-
-            return strongSelf.ensure(.poweredOn, observable: observable)
         }
+
+        return ensure(.poweredOn, observable: observable)
     }
 
     // MARK: _Peripheral's Connection Management
@@ -215,7 +212,7 @@ class _CentralManager {
     /// - returns: Retrieved `_Peripheral`s. They are in connected state and contain all of the
     /// `_Service`s with UUIDs specified in the `serviceUUIDs` parameter.
     func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [_Peripheral] {
-        return centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
+        return manager.retrieveConnectedPeripherals(withServices: serviceUUIDs)
             .map { self.retrievePeripheral(for: $0) }
     }
 
@@ -224,7 +221,7 @@ class _CentralManager {
     /// - parameter identifiers: List of `_Peripheral`'s identifiers which should be retrieved.
     /// - returns: Retrieved `_Peripheral`s.
     func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> [_Peripheral] {
-        return centralManager.retrievePeripherals(withIdentifiers: identifiers)
+        return manager.retrievePeripherals(withIdentifiers: identifiers)
             .map { self.retrievePeripheral(for: $0) }
     }
 
@@ -288,22 +285,6 @@ class _CentralManager {
     }
 
     // MARK: Internal functions
-
-    /// Ensure that `state` is and will be the only state of `_CentralManager` during subscription.
-    /// Otherwise error is emitted.
-    /// - parameter state: `BluetoothState` which should be present during subscription.
-    /// - parameter observable: Observable into which potential errors should be merged.
-    /// - returns: New observable which merges errors with source observable.
-    func ensure<T>(_ state: BluetoothState, observable: Observable<T>) -> Observable<T> {
-        return .deferred { [weak self] in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            let statesObservable = strongSelf.observeState()
-                .startWith(strongSelf.state)
-                .filter { $0 != state && _BluetoothError(state: $0) != nil }
-                .map { state -> T in throw _BluetoothError(state: state)! }
-            return .absorb(statesObservable, observable)
-        }
-    }
 
     /// Ensure that specified `peripheral` is connected during subscription.
     /// - parameter peripheral: `_Peripheral` which should be connected during subscription.

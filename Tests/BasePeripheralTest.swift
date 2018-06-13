@@ -21,7 +21,7 @@ class BasePeripheralTest: XCTestCase {
         testScheduler = TestScheduler(initialClock: 0, resolution: 1.0, simulateProcessingDelay: false)
         disposeBag = DisposeBag()
         
-        centralManagerMock.centralManager.state = .poweredOn
+        centralManagerMock.manager.state = .poweredOn
     }
     
     // MARK: - Utils

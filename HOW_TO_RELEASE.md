@@ -4,7 +4,7 @@
 - add new change log to `Changelog.md`
 - change `RxBluetoothKit.podspec` with new library version
 - generate new doc by running script `./scripts/generate-docs.sh x.x.x`
-- push new commit with that changes
+- create new Pull Request with that changes and merge it
 - create new release on github
 - create archive by running `carthage build --no-skip-current && carthage archive RxBluetoothKit`
 - add those archive to github release that was created before
