@@ -366,7 +366,7 @@ class _PeripheralManager: _ManagerType {
     // MARK: Internal functions
 
     func ensureValidStateAndCallIfSucceeded<T>(for observable: Observable<T>,
-                                                      postSubscriptionCall call: @escaping () -> Void
+                                               postSubscriptionCall call: @escaping () -> Void
         ) -> Observable<T> {
         let operation = Observable<T>.deferred {
             call()

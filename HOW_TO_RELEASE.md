@@ -4,8 +4,7 @@
 - add new change log to `Changelog.md`
 - change `RxBluetoothKit.podspec` with new library version
 - generate new doc by running script `./scripts/generate-docs.sh x.x.x`
-- create new Pull Request with that changes and merge it
-- create new release on github
 - create archive by running `carthage build --no-skip-current && carthage archive RxBluetoothKit`
-- add those archive to github release that was created before
+- create new Pull Request with that changes and merge it
+- create new release on github abd add archive previously created
 - add library to cocoapods trunk by running: `pod trunk push RxBluetoothKit.podspec`

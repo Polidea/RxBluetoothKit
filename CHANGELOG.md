@@ -1,3 +1,6 @@
+# 5.1.2
+- Updated RxSwift to 4.2 with support for XCode 9.4 (#268)
+
 # 5.1.1
 - Fixed `PeripheralManager` not public (#264)
 

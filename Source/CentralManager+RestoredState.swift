@@ -63,6 +63,7 @@ extension CentralManager {
         listenOnWillRestoreState(onWillRestoreCentralManagerState)
     }
 
+    @available(*, deprecated: 5.1.0, message: "listenOnWillRestoreState(:OnWillRestoreCentralManagerState) instead")
     func listenOnWillRestoreState(_ handler: @escaping OnWillRestoreState) {
         _ = restoreStateObservable
             .map { RestoredState(centralManagerRestoredState: $0) }
