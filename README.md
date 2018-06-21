@@ -10,6 +10,9 @@ Provides nice API to work with, and makes your code more readable, reliable and 
 * 3.0 version supports Swift 3.0 and 3.1
 * 5.0 version of the library supports Swift 3.2 and 4.0
 
+#### Migrating to 5.x
+
+If you are already using version below 5.x and want to upgrade [here](https://github.com/Polidea/RxBluetoothKit/blob/master/GUID_FOR_MIGRATING_TO_5.md) you will find guide for doing this.
 
 ## Documentation & Support
 
@@ -317,9 +320,8 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 
 ## Authors
 
-- Przemysław Lenart, przemek.lenart@polidea.com~
+- Przemysław Lenart, przemek.lenart@polidea.com
 - Kacper Harasim, kacper.harasim@polidea.com
-
 
 
 ## Contributing
@@ -330,8 +332,19 @@ To keep code in order, we advice you to use SwiftLint. In repository, we provide
 
 Maciek Oczko (maciek.oczko@polidea.com)
 
-[moogle19](https://github.com/moogle19)
-[abeintopalo](https://github.com/abeintopalo)
+Paweł Janeczek (pawel.janeczek@polidea.com)
+
+Michał Laskowski (michal.laskowski@polidea.com)
+
+Kamil Kosowski (kamil.kosowski@polidea.com)
+
+Paweł Ścibek (pawel.scibek@polidea.com)
+
+Bartosz Stelmaszuk (bartosz.stelmaszuk@polidea.com)
+
+Krzysztof Siejkowski (krzysztof.siejkowski@polidea.com)
+
+[moogle19](https://github.com/moogle19), [abeintopalo](https://github.com/abeintopalo), [DevAndArtist](https://github.com/DevAndArtist), [HAKASHUN](https://github.com/HAKASHUN), [fnazarios](https://github.com/fnazarios), [robnadin](https://github.com/robnadin), [Orgmir](https://github.com/Orgmir), [cwalcott](https://github.com/cwalcott), [KrauseFx](https://github.com/KrauseFx)
 
 ## License
 
