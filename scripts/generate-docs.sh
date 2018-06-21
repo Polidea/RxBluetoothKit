@@ -30,5 +30,6 @@ fi
 
 jazzy \
 	--github-file-prefix https://github.com/Polidea/RxBluetoothKit/tree/${LIBRARY_VERSION} \
-	--module-version ${LIBRARY_VERSION}
+	--module-version ${LIBRARY_VERSION} \
+        --swift-version 4.1.2
 

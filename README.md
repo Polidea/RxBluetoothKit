@@ -8,7 +8,8 @@ RxBluetoothKit is an Bluetooth library that makes interaction with BLE devices m
 Provides nice API to work with, and makes your code more readable, reliable and easier to maintain.
 
 * 3.0 version supports Swift 3.0 and 3.1
-* 5.0 version of the library supports Swift 3.2 and 4.0
+* 5.0 version supports Swift 3.2 and 4.0
+* 5.1.2 version supports Swift 4.1
 
 #### Migrating to 5.x
 
