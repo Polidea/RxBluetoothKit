@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>LogLevel Enumeration Reference</title>
+    <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../../js/jquery.min.js" defer></script>
+    <script src="../../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Enum/LogLevel" class="dashAnchor"></a>
+    <a title="LogLevel Enumeration Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../../index.html">RxBluetoothKit Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../../index.html">RxBluetoothKit Reference</a>
+        <img id="carat" src="../../img/carat.png" />
+        LogLevel Enumeration Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/CentralManager.html">CentralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Characteristic.html">Characteristic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Descriptor.html">Descriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Peripheral.html">Peripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/PeripheralManager.html">PeripheralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/RxBluetoothKitLog/LogLevel.html">– LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/ScannedPeripheral.html">ScannedPeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Service.html">Service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Enums/BluetoothError.html">BluetoothError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/BluetoothState.html">BluetoothState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Extensions/Reactive.html">Reactive</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:14RxBluetoothKit2eeoiSbAA0B5ErrorO_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:14RxBluetoothKit2eeoiSbAA10DescriptorC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:14RxBluetoothKit2eeoiSbAA10PeripheralC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:14RxBluetoothKit2eeoiSbAA14CharacteristicC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:14RxBluetoothKit2eeoiSbAA7ServiceC_ADtF">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/ManagerType.html">ManagerType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/RestoredState.html">RestoredState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>LogLevel</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">LogLevel</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
+                </div>
+              </div>
+            <p>Log levels for internal logging mechanism.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0abC3LogC0D5LevelO4noneA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/none" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0abC3LogC0D5LevelO4noneA2EmF">none</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Logging is disabled</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="k">none</span> <span class="o">=</span> <span class="mi">255</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0abC3LogC0D5LevelO7verboseA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/verbose" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0abC3LogC0D5LevelO7verboseA2EmF">verbose</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>All logs are monitored.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0abC3LogC0D5LevelO5debugA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/debug" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0abC3LogC0D5LevelO5debugA2EmF">debug</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Only debug logs and of higher importance are logged.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">debug</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0abC3LogC0D5LevelO4infoA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/info" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0abC3LogC0D5LevelO4infoA2EmF">info</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Only info logs and of higher importance are logged.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">info</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0abC3LogC0D5LevelO7warningA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/warning" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0abC3LogC0D5LevelO7warningA2EmF">warning</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Only warning logs and of higher importance are logged.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">warning</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0abC3LogC0D5LevelO5errorA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/error" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0abC3LogC0D5LevelO5errorA2EmF">error</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Only error logs and of higher importance are logged.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">4</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s10ComparableP1loiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&lt;(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s10ComparableP1loiSbx_xtFZ">&lt;(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s10ComparableP2leoiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&lt;=(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s10ComparableP2leoiSbx_xtFZ">&lt;=(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s10ComparableP1goiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&gt;(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s10ComparableP1goiSbx_xtFZ">&gt;(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&gt;</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s10ComparableP2geoiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/&gt;=(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s10ComparableP2geoiSbx_xtFZ">&gt;=(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s9EquatableP2eeoiSbx_xtFZ"></a>
+                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s9EquatableP2eeoiSbx_xtFZ">==(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt"><a href="../../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-07-03)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
