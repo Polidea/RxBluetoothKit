@@ -1,3 +1,6 @@
+# 5.1.3
+- Changed back deployment target from 10.0 to 8.0. (#275)
+
 # 5.1.2
 - Updated RxSwift to 4.2 with support for XCode 9.4 (#268)
 
