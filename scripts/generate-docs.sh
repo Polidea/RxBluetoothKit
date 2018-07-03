@@ -3,7 +3,7 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "${DIR}"
 
-cd ../Documentation
+cd ..
 
 RED='\033[0;31m'
 NC='\033[0m'
