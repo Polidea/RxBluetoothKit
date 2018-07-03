@@ -3,7 +3,7 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "${DIR}"
 
-cd ..
+cd ../Documentation
 
 RED='\033[0;31m'
 NC='\033[0m'
@@ -30,6 +30,5 @@ fi
 
 jazzy \
 	--github-file-prefix https://github.com/Polidea/RxBluetoothKit/tree/${LIBRARY_VERSION} \
-	--module-version ${LIBRARY_VERSION} \
-        --swift-version 4.1.2
+	--module-version ${LIBRARY_VERSION}
 

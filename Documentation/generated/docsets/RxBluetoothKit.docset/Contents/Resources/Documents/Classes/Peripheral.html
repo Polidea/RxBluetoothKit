@@ -1,0 +1,2734 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Peripheral Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Peripheral" class="dashAnchor"></a>
+    <a title="Peripheral Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">RxBluetoothKit Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">RxBluetoothKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Peripheral Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CentralManager.html">CentralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Characteristic.html">Characteristic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Descriptor.html">Descriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Peripheral.html">Peripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PeripheralManager.html">PeripheralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxBluetoothKitLog/LogLevel.html">– LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Service.html">Service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothError.html">BluetoothError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothState.html">BluetoothState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Reactive.html">Reactive</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA0B5ErrorO_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA10DescriptorC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA10PeripheralC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA14CharacteristicC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiSbAA7ServiceC_ADtF">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ManagerType.html">ManagerType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RestoredState.html">RestoredState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Peripheral</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Peripheral</span></code></pre>
+
+                </div>
+              </div>
+            <p>Peripheral is a class implementing ReactiveX API which wraps all Core Bluetooth functions
+allowing to talk to peripheral like discovering characteristics, services and all of the read/write calls.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC7managerAA14CentralManagerCXovp"></a>
+                    <a name="//apple_ref/swift/Property/manager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC7managerAA14CentralManagerCXovp">manager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Intance of CentralManager which is used to the bluetooth communication</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">unowned</span> <span class="k">let</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/CentralManager.html">CentralManager</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC10peripheralSo12CBPeripheralCvp"></a>
+                    <a name="//apple_ref/swift/Property/peripheral" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC10peripheralSo12CBPeripheralCvp">peripheral</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Implementation of peripheral</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt">CBPeripheral</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC6attachyyF"></a>
+                    <a name="//apple_ref/swift/Method/attach()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC6attachyyF">attach()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Attaches RxBluetoothKit delegate to CBPeripheral.
+This method is useful in cases when delegate of CBPeripheral was reassigned outside of
+RxBluetoothKit library (e.g. CBPeripheral was used in some other library or used in non-reactive way)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">attach</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC11isConnectedSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isConnected" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC11isConnectedSbvp">isConnected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Value indicating if peripheral is currently in connected state.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isConnected</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC5stateSC17CBPeripheralStateOvp"></a>
+                    <a name="//apple_ref/swift/Property/state" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC5stateSC17CBPeripheralStateOvp">state</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Current state of <code>Peripheral</code> instance described by <a href="https://developer.apple.com/documentation/corebluetooth/cbperipheralstate">CBPeripheralState</a>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">CBPeripheralState</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Current state of <code>Peripheral</code> as <code>CBPeripheralState</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC4nameSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC4nameSSSgvp">name</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Current name of <code>Peripheral</code> instance. Analogous to <a href="https://developer.apple.com/documentation/corebluetooth/cbperipheral/1519029-name">name</a> of <code>CBPeripheral</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC10identifier10Foundation4UUIDVvp"></a>
+                    <a name="//apple_ref/swift/Property/identifier" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC10identifier10Foundation4UUIDVvp">identifier</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unique identifier of <code>Peripheral</code> instance. Assigned once peripheral is discovered by the system.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">UUID</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC8servicesSayAA7ServiceCGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/services" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC8servicesSayAA7ServiceCGSgvp">services</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A list of services that have been discovered. Analogous to <a href="https://developer.apple.com/documentation/corebluetooth/cbperipheral/1518978-services">services</a> of <code>CBPeripheral</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">services</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC27canSendWriteWithoutResponseSbvp"></a>
+                    <a name="//apple_ref/swift/Property/canSendWriteWithoutResponse" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC27canSendWriteWithoutResponseSbvp">canSendWriteWithoutResponse</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>YES if the remote device has space to send a write without response. If this value is NO,
+the value will be set to YES after the current writes have been flushed, and
+<code>peripheralIsReadyToSendWriteWithoutResponse:</code> will be called.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, OSX 10.13, tvOS 11.0, watchOS 4.0, *)</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">canSendWriteWithoutResponse</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Connecting"></a>
+                <a name="//apple_ref/swift/Section/Connecting" class="dashAnchor"></a>
+                <a href="#/Connecting">
+                  <h3 class="section-name">Connecting</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC17observeConnection0A5Swift10ObservableCySbGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeConnection()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC17observeConnection0A5Swift10ObservableCySbGyF">observeConnection()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous value indicating if peripheral is in connected state. This is continuous value, which emits <code>.next</code> whenever state change occurs</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeConnection</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC19establishConnection0A5Swift10ObservableCyACGs10DictionaryVySSypGSg7options_tF"></a>
+                    <a name="//apple_ref/swift/Method/establishConnection(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC19establishConnection0A5Swift10ObservableCyACGs10DictionaryVySSypGSg7options_tF">establishConnection(options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Establishes connection with a given <code>Peripheral</code>.
+For more information look into <code>CentralManager.establishConnection(with:options:)</code> because this method calls it directly.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO38peripheralIsAlreadyObservingConnectionAcA10PeripheralCcACmF">BluetoothError.peripheralIsAlreadyObservingConnection</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO26peripheralConnectionFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralConnectionFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">establishConnection</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Peripheral</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Dictionary to customise the behaviour of connection.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Observable</code> which emits <code>next</code> event after connection is established.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Services"></a>
+                <a name="//apple_ref/swift/Section/Services" class="dashAnchor"></a>
+                <a href="#/Services">
+                  <h3 class="section-name">Services</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC16discoverServices0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA7ServiceCGGSaySo6CBUUIDCGSgF"></a>
+                    <a name="//apple_ref/swift/Method/discoverServices(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC16discoverServices0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA7ServiceCGGSaySo6CBUUIDCGSgF">discoverServices(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Triggers discover of specified services of peripheral. If the servicesUUIDs parameter is nil, all the available services of the
+peripheral are returned; setting the parameter to nil is considerably slower and is not recommended.
+If all of the specified services are already discovered - these are returned without doing any underlying Bluetooth operations.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23servicesDiscoveryFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.servicesDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverServices</span><span class="p">(</span><span class="n">_</span> <span class="nv">serviceUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>serviceUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of <a href="https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/">CBUUID</a>
+objects that you are interested in. Here, each <a href="https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBUUID_Class/">CBUUID</a>
+object represents a UUID that identifies the type of service you want to discover.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits <code>next</code> with array of <code><a href="../Classes/Service.html">Service</a></code> instances, once they&rsquo;re discovered.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC24discoverIncludedServices0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA7ServiceCGGSaySo6CBUUIDCGSg_AK3fortF"></a>
+                    <a name="//apple_ref/swift/Method/discoverIncludedServices(_:for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC24discoverIncludedServices0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA7ServiceCGGSaySo6CBUUIDCGSg_AK3fortF">discoverIncludedServices(_:for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers included services discovery for specified services. Discovery is called after
+subscribtion to <code>Observable</code> is made.
+If all of the specified included services are already discovered - these are returned without doing any underlying Bluetooth
+operations.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO31includedServicesDiscoveryFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.includedServicesDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverIncludedServices</span><span class="p">(</span><span class="n">_</span> <span class="nv">includedServiceUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?,</span> <span class="k">for</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>includedServiceUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifiers of included services that should be discovered. If <code>nil</code> - all of the
+included services will be discovered. If you&rsquo;ll pass empty array - none of them will be discovered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>service</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Service of which included services should be discovered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits <code>next</code> with array of <code><a href="../Classes/Service.html">Service</a></code> instances, once they&rsquo;re discovered.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Characteristics"></a>
+                <a name="//apple_ref/swift/Section/Characteristics" class="dashAnchor"></a>
+                <a href="#/Characteristics">
+                  <h3 class="section-name">Characteristics</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC23discoverCharacteristics0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA14CharacteristicCGGSaySo6CBUUIDCGSg_AA7ServiceC3fortF"></a>
+                    <a name="//apple_ref/swift/Method/discoverCharacteristics(_:for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC23discoverCharacteristics0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA14CharacteristicCGGSaySo6CBUUIDCGSg_AA7ServiceC3fortF">discoverCharacteristics(_:for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers characteristics discovery for specified Services and identifiers. Discovery is called after
+subscribtion to <code>Observable</code> is made.
+If all of the specified characteristics are already discovered - these are returned without doing any underlying Bluetooth operations.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO30characteristicsDiscoveryFailedAcA7ServiceC_s0D0_pSgtcACmF">BluetoothError.characteristicsDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverCharacteristics</span><span class="p">(</span><span class="n">_</span> <span class="nv">characteristicUUIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">CBUUID</span><span class="p">]?,</span> <span class="k">for</span> <span class="nv">service</span><span class="p">:</span> <span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristicUUIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifiers of characteristics that should be discovered. If <code>nil</code> - all of the
+characteristics will be discovered. If you&rsquo;ll pass empty array - none of them will be discovered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>service</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Service of which characteristics should be discovered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits <code>next</code> with array of <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instances, once they&rsquo;re discovered.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC12observeWrite0A5Swift10ObservableCyAA14CharacteristicCGAISg3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeWrite(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC12observeWrite0A5Swift10ObservableCyAA14CharacteristicCGAISg3for_tF">observeWrite(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe writes that happened for characteristic.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO25characteristicWriteFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeWrite</span><span class="p">(</span><span class="k">for</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional <code><a href="../Classes/Characteristic.html">Characteristic</a></code> of which value changes should be observed. When not specified it will observe for any <code><a href="../Classes/Characteristic.html">Characteristic</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> with <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance every time when write has happened.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC23maximumWriteValueLengthSiSC016CBCharacteristicF4TypeO3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/maximumWriteValueLength(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC23maximumWriteValueLengthSiSC016CBCharacteristicF4TypeO3for_tF">maximumWriteValueLength(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The maximum amount of data, in bytes, that can be sent to a characteristic in a single write.</p>
+<div class="aside aside-seealso">
+    <p class="aside-title">Seealso</p>
+    <code><a href="../Classes/Peripheral.html#/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCG10Foundation4DataV_AK3forSC25CBCharacteristicWriteTypeO4typetF">writeValue(_:for:type:)</a></code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available(OSX 10.12, iOS 9.0, *)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">maximumWriteValueLength</span><span class="p">(</span><span class="k">for</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">CBCharacteristicWriteType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of write operation. Possible values: <code>.withResponse</code>, <code>.withoutResponse</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCG10Foundation4DataV_AK3forSC25CBCharacteristicWriteTypeO4typetF"></a>
+                    <a name="//apple_ref/swift/Method/writeValue(_:for:type:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCG10Foundation4DataV_AK3forSC25CBCharacteristicWriteTypeO4typetF">writeValue(_:for:type:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers write of data to characteristic. Write is called after subscribtion to <code>Observable</code> is made.
+Behavior of this function strongly depends on <a href="https://developer.apple.com/documentation/corebluetooth/cbcharacteristicwritetype">CBCharacteristicWriteType</a>,
+so be sure to check this out before usage of the method.</p>
+
+<p>Behavior is following:</p>
+
+<ul>
+<li><code>withResponse</code> -  Observable emits <code>next</code> with <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance write was confirmed without any errors.
+Immediately after that <code>complete</code> is called. If any problem has happened, errors are emitted.</li>
+<li><p><code>withoutResponse</code> - Observable emits <code>next</code> with <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance once write was called.
+Immediately after that <code>.complete</code> is called. Result of this call is not checked, so as a user you are not sure
+if everything completed successfully. Errors are not emitted. It ensures that peripheral is ready to write
+without response by listening to the proper delegate method</p></li>
+</ul>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO25characteristicWriteFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span>
+                       <span class="k">for</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">,</span>
+                       <span class="nv">type</span><span class="p">:</span> <span class="kt">CBCharacteristicWriteType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Data that&rsquo;ll be written to <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance to write value to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of write operation. Possible values: <code>.withResponse</code>, <code>.withoutResponse</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emition depends on <code>CBCharacteristicWriteType</code> passed to the function call.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC18observeValueUpdate0A5Swift10ObservableCyAA14CharacteristicCGAISg3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdate(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC18observeValueUpdate0A5Swift10ObservableCyAA14CharacteristicCGAISg3for_tF">observeValueUpdate(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe value updates for <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO24characteristicReadFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdate</span><span class="p">(</span><span class="k">for</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional <code><a href="../Classes/Characteristic.html">Characteristic</a></code> of which value changes should be observed. When not specified it will observe for any <code><a href="../Classes/Characteristic.html">Characteristic</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> with <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance every time when value has changed.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCGAK3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/readValue(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCGAK3for_tF">readValue(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers read of current value of the <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance.
+Read is called after subscription to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO24characteristicReadFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicReadFailed</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValue</span><span class="p">(</span><span class="k">for</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Characteristic.html">Characteristic</a></code> to read value from</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> which emits <code>next</code> with given characteristic when value is ready to read.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC36observeValueUpdateAndSetNotification0A5Swift10ObservableCyAA14CharacteristicCGAI3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdateAndSetNotification(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC36observeValueUpdateAndSetNotification0A5Swift10ObservableCyAA14CharacteristicCGAI3for_tF">observeValueUpdateAndSetNotification(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
+Returned observable will emit <code><a href="../Classes/Characteristic.html">Characteristic</a></code> on every notification change.
+It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.</p>
+
+<p>Notification is automaticaly unregistered once this observable is unsubscribed</p>
+
+<p>This is <strong>infinite</strong> stream of values.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO24characteristicReadFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdateAndSetNotification</span><span class="p">(</span><span class="k">for</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Characteristic.html">Characteristic</a></code> for notification setup.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Observable</code> emitting <code><a href="../Classes/Characteristic.html">Characteristic</a></code> when given characteristic has been changed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC18observeNotifyValue0A5Swift10ObservableCyAA14CharacteristicCGAI3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeNotifyValue(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC18observeNotifyValue0A5Swift10ObservableCyAA14CharacteristicCGAI3for_tF">observeNotifyValue(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Use this function in order to know the exact time, when isNotyfing value has changed on a Characteristic.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO34characteristicSetNotifyValueFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicSetNotifyValueFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeNotifyValue</span><span class="p">(</span><span class="k">for</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Characteristic.html">Characteristic</a></code> which you observe for isNotyfing changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Observable</code> emitting <code><a href="../Classes/Characteristic.html">Characteristic</a></code> when given characteristic has changed it&rsquo;s isNoytfing value.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Descriptors"></a>
+                <a name="//apple_ref/swift/Section/Descriptors" class="dashAnchor"></a>
+                <a href="#/Descriptors">
+                  <h3 class="section-name">Descriptors</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC19discoverDescriptors0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA10DescriptorCGGAA14CharacteristicC3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/discoverDescriptors(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC19discoverDescriptors0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA10DescriptorCGGAA14CharacteristicC3for_tF">discoverDescriptors(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers descriptors discovery for characteristic
+If all of the descriptors are already discovered - these are returned without doing any underlying Bluetooth operations.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO26descriptorsDiscoveryFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.descriptorsDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverDescriptors</span><span class="p">(</span><span class="k">for</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance for which descriptors should be discovered.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits <code>next</code> with array of <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instances, once they&rsquo;re discovered.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC12observeWrite0A5Swift10ObservableCyAA10DescriptorCGAISg3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeWrite(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC12observeWrite0A5Swift10ObservableCyAA10DescriptorCGAISg3for_tF">observeWrite(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe writes that happened for descriptor.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21descriptorWriteFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeWrite</span><span class="p">(</span><span class="k">for</span> <span class="nv">descriptor</span><span class="p">:</span> <span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>descriptor</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional <code><a href="../Classes/Descriptor.html">Descriptor</a></code> of which value changes should be observed. When not specified it will observe for any <code><a href="../Classes/Descriptor.html">Descriptor</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> with <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance every time when write has happened.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC18observeValueUpdate0A5Swift10ObservableCyAA10DescriptorCGAISg3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdate(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC18observeValueUpdate0A5Swift10ObservableCyAA10DescriptorCGAISg3for_tF">observeValueUpdate(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe value updates for <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20descriptorReadFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdate</span><span class="p">(</span><span class="k">for</span> <span class="nv">descriptor</span><span class="p">:</span> <span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>descriptor</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional <code><a href="../Classes/Descriptor.html">Descriptor</a></code> of which value changes should be observed. When not specified it will observe for any <code><a href="../Classes/Descriptor.html">Descriptor</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> with <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance every time when value has changed.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCGAK3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/readValue(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCGAK3for_tF">readValue(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers read of current value of the <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance.
+Read is called after subscription to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20descriptorReadFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValue</span><span class="p">(</span><span class="k">for</span> <span class="nv">descriptor</span><span class="p">:</span> <span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>descriptor</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Descriptor.html">Descriptor</a></code> to read value from</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> which emits <code>next</code> with given descriptor when value is ready to read.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCG10Foundation4DataV_AK3fortF"></a>
+                    <a name="//apple_ref/swift/Method/writeValue(_:for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCG10Foundation4DataV_AK3fortF">writeValue(_:for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers write of data to descriptor. Write is called after subscribtion to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21descriptorWriteFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="k">for</span> <span class="nv">descriptor</span><span class="p">:</span> <span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Data</code> that&rsquo;ll be written to <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>descriptor</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance to write value to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits <code>next</code> with <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance, once value is written successfully.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Other%20methods"></a>
+                <a name="//apple_ref/swift/Section/Other methods" class="dashAnchor"></a>
+                <a href="#/Other%20methods">
+                  <h3 class="section-name">Other methods</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC8readRSSI0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAC_SitGyF"></a>
+                    <a name="//apple_ref/swift/Method/readRSSI()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC8readRSSI0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAC_SitGyF">readRSSI()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers read of <code>Peripheral</code> RSSI value. Read is called after subscription to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO24peripheralRSSIReadFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralRSSIReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readRSSI</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">Peripheral</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits tuple: <code>(Peripheral, Int)</code> once new RSSI value is read.
+<code>Int</code> is new RSSI value, <code>Peripheral</code> is returned to allow easier chaining.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC17observeNameUpdate0A5Swift10ObservableCyAC_SSSgtGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeNameUpdate()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC17observeNameUpdate0A5Swift10ObservableCyAC_SSSgtGyF">observeNameUpdate()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow user to observe incoming <code><a href="../Classes/Peripheral.html#/s:14RxBluetoothKit10PeripheralC4nameSSSgvp">name</a></code> property changes of <code>Peripheral</code> instance.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeNameUpdate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">Peripheral</span><span class="p">,</span> <span class="kt">String</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Observable</code> that emits tuples: <code>(Peripheral, String?)</code> when name has changed.
+It&rsquo;s <code>optional String</code> because peripheral could also lost his name.
+It&rsquo;s <strong>infinite</strong> stream of values, so <code>.complete</code> is never emitted.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC27observeServicesModification0A5Swift10ObservableCyAC_SayAA7ServiceCGtGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeServicesModification()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC27observeServicesModification0A5Swift10ObservableCyAC_SayAA7ServiceCGtGyF">observeServicesModification()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe incoming service modifications for <code>Peripheral</code> instance.
+In case you&rsquo;re interested what exact changes might occur - please refer to
+<a href="https://developer.apple.com/documentation/corebluetooth/cbperipheraldelegate/1518865-peripheral">Apple Documentation</a></p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeServicesModification</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">Peripheral</span><span class="p">,</span> <span class="p">[</span><span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="p">])</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Observable</code> that emits tuples: <code>(Peripheral, [Service])</code> when services were modified.
+It&rsquo;s <strong>infinite</strong> stream of values, so <code>.complete</code> is never emitted.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC36observeWriteWithoutResponseReadiness0A5Swift10ObservableCyytGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeWriteWithoutResponseReadiness()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC36observeWriteWithoutResponseReadiness0A5Swift10ObservableCyytGyF">observeWriteWithoutResponseReadiness()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Resulting observable emits next element if call to <code>writeValue:forCharacteristic:type:</code> has failed,
+to indicate when peripheral is again ready to send characteristic value updates again.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeWriteWithoutResponseReadiness</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC16openL2CAPChannel0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSo04CBL2G0CGs6UInt16V3PSM_tF"></a>
+                    <a name="//apple_ref/swift/Method/openL2CAPChannel(PSM:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC16openL2CAPChannel0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSo04CBL2G0CGs6UInt16V3PSM_tF">openL2CAPChannel(PSM:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to open L2CAP channel for <code>Peripheral</code> instance.
+For more information, please refer to
+<a href="https://developer.apple.com/videos/play/wwdc2017/712/">What’s New in CoreBluetooth, 712, WWDC 2017</a></p>
+<div class="aside aside-since">
+    <p class="aside-title">Since</p>
+    iOS 11, tvOS 11, watchOS 4
+
+</div>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO25openingL2CAPChannelFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.openingL2CAPChannelFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">openL2CAPChannel</span><span class="p">(</span><span class="kt">PSM</span><span class="p">:</span> <span class="kt">CBL2CAPPSM</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt">CBL2CAPChannel</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC7service0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA7ServiceCGAA0K10Identifier_p4with_tF"></a>
+                    <a name="//apple_ref/swift/Method/service(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC7service0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA7ServiceCGAA0K10Identifier_p4with_tF">service(with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function used to receive service with given identifier. It&rsquo;s taken from cache if it&rsquo;s available,
+or directly by <code>discoverServices</code> call</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code>RxError.noElements</code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23servicesDiscoveryFailedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.servicesDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">service</span><span class="p">(</span><span class="n">with</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ServiceIdentifier.html">ServiceIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Service.html">Service</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Unique identifier of Service</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> which emits <code>next</code> event, when specified service has been found.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC14characteristic0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCGAA0K10Identifier_p4with_tF"></a>
+                    <a name="//apple_ref/swift/Method/characteristic(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC14characteristic0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCGAA0K10Identifier_p4with_tF">characteristic(with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function used to receive characteristic with given identifier. If it&rsquo;s available it&rsquo;s taken from cache.
+Otherwise - directly by <code>discoverCharacteristics</code> call</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code>RxError.noElements</code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO30characteristicsDiscoveryFailedAcA7ServiceC_s0D0_pSgtcACmF">BluetoothError.characteristicsDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">characteristic</span><span class="p">(</span><span class="n">with</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Unique identifier of Characteristic, that has information
+about service which characteristic belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> which emits <code>next</code> event, when specified characteristic has been found.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC10descriptor0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCGAA0K10Identifier_p4with_tF"></a>
+                    <a name="//apple_ref/swift/Method/descriptor(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC10descriptor0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCGAA0K10Identifier_p4with_tF">descriptor(with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function used to receive descriptor with given identifier. If it&rsquo;s available it&rsquo;s taken from cache.
+Otherwise - directly by <code>discoverDescriptor</code> call</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code>RxError.noElements</code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO26descriptorsDiscoveryFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.descriptorsDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">descriptor</span><span class="p">(</span><span class="n">with</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Unique identifier of Descriptor, that has information
+about characteristic which descriptor belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> which emits <code>next</code> event, when specified descriptor has been found.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC12observeWrite0A5Swift10ObservableCyAA14CharacteristicCGAA0I10Identifier_p3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeWrite(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC12observeWrite0A5Swift10ObservableCyAA14CharacteristicCGAA0I10Identifier_p3for_tF">observeWrite(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe writes that happened for characteristic.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO25characteristicWriteFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeWrite</span><span class="p">(</span><span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifier of characteristic of which value writes should be observed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> with <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance every time when write has happened.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCG10Foundation4DataV_AA0L10Identifier_p3forSC25CBCharacteristicWriteTypeO4typetF"></a>
+                    <a name="//apple_ref/swift/Method/writeValue(_:for:type:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCG10Foundation4DataV_AA0L10Identifier_p3forSC25CBCharacteristicWriteTypeO4typetF">writeValue(_:for:type:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers write of data to characteristic. Write is called after subscribtion to <code>Observable</code> is made.
+Behavior of this function strongly depends on <a href="https://developer.apple.com/documentation/corebluetooth/cbcharacteristicwritetype">CBCharacteristicWriteType</a>,
+so be sure to check this out before usage of the method.</p>
+
+<ul>
+<li><code>WithResponse</code> -  Observable emits <code>next</code> with <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance write was confirmed without any errors.
+Immediately after that <code>complete</code> is called. If any problem has happened, errors are emitted.</li>
+<li><code>WithoutResponse</code> - Observable emits <code>next</code> with <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance once write was called.
+Immediately after that <code>.complete</code> is called. Result of this call is not checked, so as a user you are not sure
+if everything completed successfully. Errors are not emitted</li>
+</ul>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO25characteristicWriteFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span><span class="p">,</span>
+                       <span class="nv">type</span><span class="p">:</span> <span class="kt">CBCharacteristicWriteType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Data that&rsquo;ll be written  written to <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forCharacteristicWithIdentifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>unique identifier of characteristic, which also holds information about service characteristic belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of write operation. Possible values: <code>.withResponse</code>, <code>.withoutResponse</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emition depends on <code>CBCharacteristicWriteType</code> passed to the function call.
+Behavior is following:</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC18observeValueUpdate0A5Swift10ObservableCyAA14CharacteristicCGAA0J10Identifier_p3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdate(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC18observeValueUpdate0A5Swift10ObservableCyAA14CharacteristicCGAA0J10Identifier_p3for_tF">observeValueUpdate(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe value updates for <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO24characteristicReadFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdate</span><span class="p">(</span><span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>unique identifier of characteristic, which also holds information about service that characteristic belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> with <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance every time when value has changed.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCGAA0L10Identifier_p3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/readValue(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA14CharacteristicCGAA0L10Identifier_p3for_tF">readValue(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers read of current value of the <code><a href="../Classes/Characteristic.html">Characteristic</a></code> instance.
+Read is called after subscription to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO24characteristicReadFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValue</span><span class="p">(</span><span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>unique identifier of characteristic, which also holds information about service that characteristic belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits <code>next</code> with given characteristic when value is ready to read. Immediately after that
+<code>.complete</code> is emitted.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC36observeValueUpdateAndSetNotification0A5Swift10ObservableCyAA14CharacteristicCGAA0M10Identifier_p3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdateAndSetNotification(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC36observeValueUpdateAndSetNotification0A5Swift10ObservableCyAA14CharacteristicCGAA0M10Identifier_p3for_tF">observeValueUpdateAndSetNotification(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Setup characteristic notification in order to receive callbacks when given characteristic has been changed.
+Returned observable will emit <code><a href="../Classes/Characteristic.html">Characteristic</a></code> on every notification change.
+It is possible to setup more observables for the same characteristic and the lifecycle of the notification will be shared among them.</p>
+
+<p>Notification is automaticaly unregistered once this observable is unsubscribed</p>
+
+<p>This is <strong>infinite</strong> stream of values.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO24characteristicReadFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.characteristicReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdateAndSetNotification</span><span class="p">(</span><span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Characteristic.html">Characteristic</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>characteristic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Characteristic.html">Characteristic</a></code> for notification setup.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Observable</code> emitting <code><a href="../Classes/Characteristic.html">Characteristic</a></code> when given characteristic has been changed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC19discoverDescriptors0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA10DescriptorCGGAA24CharacteristicIdentifier_p3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/discoverDescriptors(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC19discoverDescriptors0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA10DescriptorCGGAA24CharacteristicIdentifier_p3for_tF">discoverDescriptors(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers descriptors discovery for characteristic</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO26descriptorsDiscoveryFailedAcA14CharacteristicC_s0D0_pSgtcACmF">BluetoothError.descriptorsDiscoveryFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">discoverDescriptors</span><span class="p">(</span><span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="kt">Single</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits <code>next</code> with array of <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instances, once they&rsquo;re discovered.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC12observeWrite0A5Swift10ObservableCyAA10DescriptorCGAA0I10Identifier_p3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeWrite(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC12observeWrite0A5Swift10ObservableCyAA10DescriptorCGAA0I10Identifier_p3for_tF">observeWrite(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe writes that happened for descriptor.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21descriptorWriteFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeWrite</span><span class="p">(</span><span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> with <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance every time when write has happened.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCG10Foundation4DataV_AA0L10Identifier_p3fortF"></a>
+                    <a name="//apple_ref/swift/Method/writeValue(_:for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC10writeValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCG10Foundation4DataV_AA0L10Identifier_p3fortF">writeValue(_:for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers write of data to descriptor. Write is called after subscribtion to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21descriptorWriteFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorWriteFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">writeValue</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a></span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>Data</code> that&rsquo;ll be written to <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>Single</code> that emits <code>next</code> with <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance, once value is written successfully.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC18observeValueUpdate0A5Swift10ObservableCyAA10DescriptorCGAA0J10Identifier_p3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/observeValueUpdate(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC18observeValueUpdate0A5Swift10ObservableCyAA10DescriptorCGAA0J10Identifier_p3for_tF">observeValueUpdate(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that allow to observe value updates for <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20descriptorReadFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeValueUpdate</span><span class="p">(</span><span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>unique identifier of descriptor, which also holds information about characteristic that descriptor belongs to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> with <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance every time when value has changed.
+It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit10PeripheralC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCGAA0L10Identifier_p3for_tF"></a>
+                    <a name="//apple_ref/swift/Method/readValue(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit10PeripheralC9readValue0A5Swift17PrimitiveSequenceVyAE11SingleTraitOAA10DescriptorCGAA0L10Identifier_p3for_tF">readValue(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function that triggers read of current value of the <code><a href="../Classes/Descriptor.html">Descriptor</a></code> instance.
+Read is called after subscription to <code>Observable</code> is made.</p>
+
+<p>Observable can ends with following errors:</p>
+
+<ul>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20descriptorReadFailedAcA10DescriptorC_s0D0_pSgtcACmF">BluetoothError.descriptorReadFailed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO22peripheralDisconnectedAcA10PeripheralC_s0D0_pSgtcACmF">BluetoothError.peripheralDisconnected</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO9destroyedA2CmF">BluetoothError.destroyed</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO20bluetoothUnsupportedA2CmF">BluetoothError.bluetoothUnsupported</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO21bluetoothUnauthorizedA2CmF">BluetoothError.bluetoothUnauthorized</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO19bluetoothPoweredOffA2CmF">BluetoothError.bluetoothPoweredOff</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO23bluetoothInUnknownStateA2CmF">BluetoothError.bluetoothInUnknownState</a></code></li>
+<li><code><a href="../Enums/BluetoothError.html#/s:14RxBluetoothKit0B5ErrorO18bluetoothResettingA2CmF">BluetoothError.bluetoothResetting</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">readValue</span><span class="p">(</span><span class="k">for</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt"><a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Single</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/Descriptor.html">Descriptor</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code><a href="../Classes/Descriptor.html">Descriptor</a></code> to read value from</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable which emits <code>next</code> with given descriptor when value is ready to read. Immediately after that
+<code>.complete</code> is emitted.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2018-07-03)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
