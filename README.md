@@ -27,7 +27,7 @@ With just 9 lines it started scanning, connecting to the peripheral, discovering
 * [Connecting to peripheral](https://github.com/Polidea/RxBluetoothKit/wiki/4.-Connecting-to-peripheral)
 * [Discovering peripheral's services and characteristics](https://github.com/Polidea/RxBluetoothKit/wiki/5.-Discovering-services-&-characteristics)
 * [Reading & Writing to characteristic's value](https://github.com/Polidea/RxBluetoothKit/wiki/6.-Reading-&-Writing-to-characteristic-value)
-* [Monitoring charcteristic value change](https://github.com/Polidea/RxBluetoothKit/wiki/7.-Monitoring-characteristic-value-change)
+* [Monitoring characteristic value change](https://github.com/Polidea/RxBluetoothKit/wiki/7.-Monitoring-characteristic-value-change)
 * Opening L2CAP channels
 * [Convenience helper methods](https://github.com/Polidea/RxBluetoothKit/wiki/8.-Convenience-helper-methods)
 * [And a lot more!](https://github.com/Polidea/RxBluetoothKit/wiki/9.-Other-functionalities)
