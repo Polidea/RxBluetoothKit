@@ -412,7 +412,8 @@ class _Peripheral {
     /// - parameter data: Data that'll be written to `_Characteristic` instance
     /// - parameter characteristic: `_Characteristic` instance to write value to.
     /// - parameter type: Type of write operation. Possible values: `.withResponse`, `.withoutResponse`
-    /// - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
+    /// - parameter canSendWriteWithoutResponseCheckEnabled: check if canSendWriteWithoutResponse should be enabled. Done because of internal MacOS bug.
+    /// - returns: Observable that emission depends on `CBCharacteristicWriteType` passed to the function call.
     ///
     /// Observable can ends with following errors:
     /// * `_BluetoothError.characteristicWriteFailed`
@@ -425,7 +426,8 @@ class _Peripheral {
     /// * `_BluetoothError.bluetoothResetting`
     func writeValue(_ data: Data,
                            for characteristic: _Characteristic,
-                           type: CBCharacteristicWriteType) -> Single<_Characteristic> {
+                           type: CBCharacteristicWriteType,
+                           canSendWriteWithoutResponseCheckEnabled: Bool = true) -> Single<_Characteristic> {
         let writeOperationPerformingAndListeningObservable = { [weak self] (observable: Observable<_Characteristic>)
             -> Observable<_Characteristic> in
             guard let strongSelf = self else { return Observable.error(_BluetoothError.destroyed) }
@@ -443,7 +445,7 @@ class _Peripheral {
                     guard let strongSelf = self else { throw _BluetoothError.destroyed }
                     return strongSelf.observeWriteWithoutResponseReadiness()
                         .map { _ in true }
-                        .startWith(strongSelf.canSendWriteWithoutResponse)
+                        .startWith( canSendWriteWithoutResponseCheckEnabled ? strongSelf.canSendWriteWithoutResponse : true)
                         .filter { $0 }
                         .take(1)
                         .flatMap { _ in
