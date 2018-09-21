@@ -411,7 +411,8 @@ public class Peripheral {
     /// - parameter data: Data that'll be written to `Characteristic` instance
     /// - parameter characteristic: `Characteristic` instance to write value to.
     /// - parameter type: Type of write operation. Possible values: `.withResponse`, `.withoutResponse`
-    /// - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
+    /// - parameter canSendWriteWithoutResponseCheckEnabled: check if canSendWriteWithoutResponse should be enabled. Done because of internal MacOS bug.
+    /// - returns: Observable that emission depends on `CBCharacteristicWriteType` passed to the function call.
     ///
     /// Observable can ends with following errors:
     /// * `BluetoothError.characteristicWriteFailed`
@@ -424,7 +425,8 @@ public class Peripheral {
     /// * `BluetoothError.bluetoothResetting`
     public func writeValue(_ data: Data,
                            for characteristic: Characteristic,
-                           type: CBCharacteristicWriteType) -> Single<Characteristic> {
+                           type: CBCharacteristicWriteType,
+                           canSendWriteWithoutResponseCheckEnabled: Bool = true) -> Single<Characteristic> {
         let writeOperationPerformingAndListeningObservable = { [weak self] (observable: Observable<Characteristic>)
             -> Observable<Characteristic> in
             guard let strongSelf = self else { return Observable.error(BluetoothError.destroyed) }
@@ -442,7 +444,7 @@ public class Peripheral {
                     guard let strongSelf = self else { throw BluetoothError.destroyed }
                     return strongSelf.observeWriteWithoutResponseReadiness()
                         .map { _ in true }
-                        .startWith(strongSelf.canSendWriteWithoutResponse)
+                        .startWith(canSendWriteWithoutResponseCheckEnabled ? strongSelf.canSendWriteWithoutResponse : true)
                         .filter { $0 }
                         .take(1)
                         .flatMap { _ in
