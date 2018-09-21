@@ -1,3 +1,8 @@
+# 5.1.4
+- Updated RxSwift library to version 4.3
+- fix API MISUSE when calling stop scan on dispose (#283)
+- add option to disable checking of canSendWriteWithoutReponse while writing (#282)
+
 # 5.1.3
 - Changed back deployment target from 10.0 to 8.0. (#275)
 
