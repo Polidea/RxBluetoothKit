@@ -42,6 +42,8 @@ public class CentralManager: ManagerType {
     /// Ongoing scan disposable
     private var scanDisposable: Disposable?
 
+    private var disposeBag = DisposeBag()
+
     /// Connector instance is used for establishing connection with peripherals
     private let connector: Connector
 
@@ -80,6 +82,17 @@ public class CentralManager: ManagerType {
             peripheralProvider: PeripheralProvider(),
             connector: Connector(centralManager: centralManager, delegateWrapper: delegateWrapper)
         )
+    }
+
+
+    private func setupObjects() {
+        delegateWrapper.didDisconnectPeripheral.subscribe(onNext: { [unowned self] (peripheral, _) in
+            self.peripheralProvider.clearPeripheral(peripheral)
+        }).disposed(by: disposeBag)
+
+        delegateWrapper.didUpdateState.filter { $0 != .poweredOn }.subscribe(onNext: { [unowned self] _ in
+            self.peripheralProvider.clearAllPeripherals()
+        }).disposed(by: disposeBag)
     }
 
     /// Attaches RxBluetoothKit delegate to CBCentralManager.

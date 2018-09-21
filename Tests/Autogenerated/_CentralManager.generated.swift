@@ -164,7 +164,9 @@ class _CentralManager: _ManagerType {
             return Disposables.create { [weak self] in
                 guard let strongSelf = self else { return }
                 // When disposed, stop scan and dispose scanning
-                strongSelf.manager.stopScan()
+                if strongSelf.state == .poweredOn {
+                    strongSelf.manager.stopScan()
+                }
                 do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
                     strongSelf.scanDisposable?.dispose()
                     strongSelf.scanDisposable = nil

@@ -70,4 +70,14 @@ class PeripheralProvider {
             return peripherals.first(where: { $0.peripheral == cbPeripheral})
         }
     }
+
+    func clearAllPeripherals() {
+        //TODO: poweredOn -> poweredOff
+        peripheralsBox.write { peripherals in peripherals.removeAll()  }
+        delegateWrappersBox.write { wrappers in  wrappers.removeAll() }
+    }
+
+    func clearPeripheral(_ peripheral: Peripheral) {
+        //TODO: when disconnected
+    }
 }

@@ -445,7 +445,7 @@ class _Peripheral {
                     guard let strongSelf = self else { throw _BluetoothError.destroyed }
                     return strongSelf.observeWriteWithoutResponseReadiness()
                         .map { _ in true }
-                        .startWith( canSendWriteWithoutResponseCheckEnabled ? strongSelf.canSendWriteWithoutResponse : true)
+                        .startWith(canSendWriteWithoutResponseCheckEnabled ? strongSelf.canSendWriteWithoutResponse : true)
                         .filter { $0 }
                         .take(1)
                         .flatMap { _ in
