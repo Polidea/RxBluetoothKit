@@ -27,10 +27,10 @@ fi
 IOS_VERSION="$1"
 
 if [ -z "$IOS_VERSION" ]; then
-	echo "Please specify ios version to compile (default 11.4):"
+	echo "Please specify ios version to compile (default 12.0):"
 	read IOS_VERSION
 	if [ -z "$IOS_VERSION" ]; then
-		IOS_VERSION="11.4"
+		IOS_VERSION="12.0"
 	fi
 fi
 
