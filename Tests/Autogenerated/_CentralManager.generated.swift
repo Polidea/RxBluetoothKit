@@ -168,6 +168,7 @@ class _CentralManager: _ManagerType {
                     strongSelf.manager.stopScan()
                 }
                 do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
+                    strongSelf.peripheralProvider.clearCache()
                     strongSelf.scanDisposable?.dispose()
                     strongSelf.scanDisposable = nil
                 }

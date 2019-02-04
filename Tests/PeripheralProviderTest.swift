@@ -58,4 +58,16 @@ class PeripheralProviderTest: XCTestCase {
         
         XCTAssertTrue(result === nextResult, "should reuse previously created Peripheral Delegate")
     }
+    
+    func testClearCache() {
+        let arg = CBPeripheralMock()
+        arg.uuidIdentifier = UUID()
+        
+        let result = provider.provideDelegateWrapper(for: arg)
+        provider.clearCache()
+        let nextResult = provider.provideDelegateWrapper(for: arg)
+        
+        XCTAssertTrue(result !== nextResult, "should create different Peripheral Delegate after cache is cleared")
+        
+    }
 }

@@ -367,6 +367,14 @@ class PeripheralProviderMock: NSObject {
             return findReturns.removeFirst()
         }
     }
+    func clearCache() {
+        peripheralsBox.writeSync {
+            $0.removeAll()
+        }
+        delegateWrappersBox.writeSync {
+            $0.removeAll()
+        }
+    }
 
 }
 class ConnectorMock: NSObject {

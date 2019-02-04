@@ -43,6 +43,16 @@ class PeripheralProvider {
             return createAndAddToBox(cbPeripheral, manager: centralManager)
         }
     }
+    
+    /// Provides a way to clear cache
+    func clearCache() {
+        peripheralsBox.writeSync {
+            $0.removeAll()
+        }
+        delegateWrappersBox.writeSync {
+            $0.removeAll()
+        }
+    }
 
     fileprivate func createAndAddToBox(_ cbPeripheral: CBPeripheral, manager: CentralManager) -> Peripheral {
         peripheralsBox.compareAndSet(
