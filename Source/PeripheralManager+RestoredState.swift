@@ -52,9 +52,9 @@ extension PeripheralManager {
             .willRestoreState
             .take(1)
             .subscribe(onNext: { [weak self] restoredState in
-                guard let strongSelf = self else { return }
+                guard let self = self else { return }
                 let restoredState = PeripheralManagerRestoredState(restoredStateDictionary: restoredState)
-                strongSelf.restoredAdvertisementData = restoredState.advertisementData
+                self.restoredAdvertisementData = restoredState.advertisementData
                 handler(restoredState)
             })
     }

@@ -23,26 +23,26 @@ class _Connector {
     func establishConnection(with peripheral: _Peripheral, options: [String: Any]? = nil)
         -> Observable<_Peripheral> {
             return .deferred { [weak self] in
-                guard let strongSelf = self else {
+                guard let self = self else {
                     return Observable.error(_BluetoothError.destroyed)
                 }
 
-                let connectionObservable = strongSelf.createConnectionObservable(for: peripheral, options: options)
+                let connectionObservable = self.createConnectionObservable(for: peripheral, options: options)
 
-                let waitForDisconnectObservable = strongSelf.delegateWrapper.didDisconnectPeripheral
+                let waitForDisconnectObservable = self.delegateWrapper.didDisconnectPeripheral
                     .filter { $0.0 == peripheral.peripheral }
                     .take(1)
                     .do(onNext: { [weak self] _ in
-                        guard let strongSelf = self else { return }
-                        strongSelf.disconnectingBox.write { $0.remove(peripheral.identifier) }
+                        guard let self = self else { return }
+                        self.disconnectingBox.write { $0.remove(peripheral.identifier) }
                     })
                     .map { _ in peripheral }
                 let isDisconnectingObservable: Observable<_Peripheral> = Observable.create { observer in
-                    var isDiconnecting = strongSelf.disconnectingBox.read { $0.contains(peripheral.identifier) }
+                    var isDiconnecting = self.disconnectingBox.read { $0.contains(peripheral.identifier) }
                     let isDisconnected = peripheral.state == .disconnected
                     // it means that peripheral is already disconnected, but we didn't update disconnecting box
                     if isDiconnecting && isDisconnected {
-                        strongSelf.disconnectingBox.write { $0.remove(peripheral.identifier) }
+                        self.disconnectingBox.write { $0.remove(peripheral.identifier) }
                         isDiconnecting = false
                     }
                     if !isDiconnecting {
@@ -60,12 +60,12 @@ class _Connector {
         options: [String: Any]? = nil
     ) -> Observable<_Peripheral> {
         return Observable.create { [weak self] observer in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 observer.onError(_BluetoothError.destroyed)
                 return Disposables.create()
             }
 
-            let connectingStarted = strongSelf.connectedBox.compareAndSet(
+            let connectingStarted = self.connectedBox.compareAndSet(
                 compare: { !$0.contains(peripheral.identifier) },
                 set: { $0.insert(peripheral.identifier) }
             )
@@ -75,9 +75,9 @@ class _Connector {
                 return Disposables.create()
             }
 
-            let connectedObservable = strongSelf.createConnectedObservable(for: peripheral)
-            let failToConnectObservable = strongSelf.createFailToConnectObservable(for: peripheral)
-            let disconnectedObservable = strongSelf.createDisconnectedObservable(for: peripheral)
+            let connectedObservable = self.createConnectedObservable(for: peripheral)
+            let failToConnectObservable = self.createFailToConnectObservable(for: peripheral)
+            let disconnectedObservable = self.createDisconnectedObservable(for: peripheral)
 
             let disposable: Disposable
             if peripheral.isConnected {
@@ -89,17 +89,17 @@ class _Connector {
                     .flatMap { _ in disconnectedObservable }
                     .subscribe(onError: { observer.onError($0) })
 
-                strongSelf.centralManager.connect(peripheral.peripheral, options: options)
+                self.centralManager.connect(peripheral.peripheral, options: options)
             }
 
             return Disposables.create { [weak self] in
-                guard let strongSelf = self else { return }
+                guard let self = self else { return }
                 disposable.dispose()
-                let isConnected = strongSelf.connectedBox.read { $0.contains(peripheral.identifier) }
+                let isConnected = self.connectedBox.read { $0.contains(peripheral.identifier) }
                 if isConnected {
-                    strongSelf.disconnectingBox.write { $0.insert(peripheral.identifier) }
-                    strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
-                    strongSelf.connectedBox.write { $0.remove(peripheral.identifier) }
+                    self.disconnectingBox.write { $0.insert(peripheral.identifier) }
+                    self.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+                    self.connectedBox.write { $0.remove(peripheral.identifier) }
                 }
             }
         }
@@ -117,9 +117,9 @@ class _Connector {
             .filter { $0.0 == peripheral.peripheral }
             .take(1)
             .do(onNext: { [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.connectedBox.write { $0.remove(peripheral.identifier) }
-                strongSelf.disconnectingBox.write { $0.remove(peripheral.identifier) }
+                guard let self = self else { return }
+                self.connectedBox.write { $0.remove(peripheral.identifier) }
+                self.disconnectingBox.write { $0.remove(peripheral.identifier) }
             })
             .map { (_, error) -> _Peripheral in
                 throw _BluetoothError.peripheralDisconnected(peripheral, error)
@@ -131,8 +131,8 @@ class _Connector {
             .filter { $0.0 == peripheral.peripheral }
             .take(1)
             .do(onNext: { [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.connectedBox.write { $0.remove(peripheral.identifier) }
+                guard let self = self else { return }
+                self.connectedBox.write { $0.remove(peripheral.identifier) }
             })
             .map { (_, error) -> _Peripheral in
                 throw _BluetoothError.peripheralConnectionFailed(peripheral, error)

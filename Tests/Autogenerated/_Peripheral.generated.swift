@@ -209,15 +209,15 @@ class _Peripheral {
         }
         let observable = peripheralDidDiscoverServices
             .filter { [weak self] (services, error) in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                guard let cachedServices = strongSelf.services, error == nil else { return true }
+                guard let self = self else { throw _BluetoothError.destroyed }
+                guard let cachedServices = self.services, error == nil else { return true }
                 let foundRequestedServices = serviceUUIDs != nil && filterUUIDItems(uuids: serviceUUIDs, items: cachedServices, requireAll: true) != nil
-                return foundRequestedServices || strongSelf.remainingServicesDiscoveryRequest.read { $0 == 0 }
+                return foundRequestedServices || self.remainingServicesDiscoveryRequest.read { $0 == 0 }
             }
             .flatMap { [weak self] (_, error) -> Observable<[_Service]> in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                guard let cachedServices = strongSelf.services, error == nil else {
-                    throw _BluetoothError.servicesDiscoveryFailed(strongSelf, error)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                guard let cachedServices = self.services, error == nil else {
+                    throw _BluetoothError.servicesDiscoveryFailed(self, error)
                 }
                 if let filteredServices = filterUUIDItems(uuids: serviceUUIDs, items: cachedServices, requireAll: false) {
                     return .just(filteredServices)
@@ -266,21 +266,21 @@ class _Peripheral {
         let observable = peripheralDidDiscoverIncludedServicesForService
             .filter { $0.0 == service.service }
             .filter { [weak self] (cbService, error) in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                guard let self = self else { throw _BluetoothError.destroyed }
                 guard let includedCBServices = cbService.includedServices, error == nil else { return true }
 
-                let includedServices = includedCBServices.map { _Service(peripheral: strongSelf, service: $0) }
+                let includedServices = includedCBServices.map { _Service(peripheral: self, service: $0) }
                 let foundRequestedServices = includedServiceUUIDs != nil && filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices, requireAll: true) != nil
-                return foundRequestedServices || strongSelf.remainingIncludedServicesDiscoveryRequest.read { array in
+                return foundRequestedServices || self.remainingIncludedServicesDiscoveryRequest.read { array in
                     return (array[cbService.uuid] ?? 0) == 0
                 }
             }
             .flatMap { [weak self] (cbService, error) -> Observable<[_Service]> in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                guard let self = self else { throw _BluetoothError.destroyed }
                 guard let includedRxServices = cbService.includedServices, error == nil else {
-                    throw _BluetoothError.includedServicesDiscoveryFailed(strongSelf, error)
+                    throw _BluetoothError.includedServicesDiscoveryFailed(self, error)
                 }
-                let includedServices = includedRxServices.map { _Service(peripheral: strongSelf, service: $0) }
+                let includedServices = includedRxServices.map { _Service(peripheral: self, service: $0) }
                 if let filteredServices = filterUUIDItems(uuids: includedServiceUUIDs, items: includedServices, requireAll: false) {
                     return .just(filteredServices)
                 }
@@ -330,12 +330,12 @@ class _Peripheral {
         let observable = peripheralDidDiscoverCharacteristicsForService
             .filter { $0.0 == service.service }
             .filter { [weak self] (cbService, error) in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                guard let self = self else { throw _BluetoothError.destroyed }
                 guard let cbCharacteristics = cbService.characteristics, error == nil else { return true }
 
                 let characteristics = cbCharacteristics.map { _Characteristic(characteristic: $0, service: service) }
                 let foundRequestedCharacteristis = characteristicUUIDs != nil && filterUUIDItems(uuids: characteristicUUIDs, items: characteristics, requireAll: true) != nil
-                return foundRequestedCharacteristis || strongSelf.remainingCharacteristicsDiscoveryRequest.read { array in
+                return foundRequestedCharacteristis || self.remainingCharacteristicsDiscoveryRequest.read { array in
                     return (array[cbService.uuid] ?? 0) == 0
                 }
             }
@@ -382,8 +382,8 @@ class _Peripheral {
             .peripheralDidWriteValueForCharacteristic
             .filter { characteristic != nil ? ($0.0 == characteristic!.characteristic) : true }
             .map { [weak self] (cbCharacteristic, error) -> _Characteristic in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                let characteristic = characteristic ?? _Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                let characteristic = characteristic ?? _Characteristic(characteristic: cbCharacteristic, peripheral: self)
                 if let error = error {
                     throw _BluetoothError.characteristicWriteFailed(characteristic, error)
                 }
@@ -433,8 +433,8 @@ class _Peripheral {
                            canSendWriteWithoutResponseCheckEnabled: Bool = true) -> Single<_Characteristic> {
         let writeOperationPerformingAndListeningObservable = { [weak self] (observable: Observable<_Characteristic>)
             -> Observable<_Characteristic> in
-            guard let strongSelf = self else { return Observable.error(_BluetoothError.destroyed) }
-            return strongSelf.ensureValidPeripheralStateAndCallIfSucceeded(
+            guard let self = self else { return Observable.error(_BluetoothError.destroyed) }
+            return self.ensureValidPeripheralStateAndCallIfSucceeded(
                 for: observable,
                 postSubscriptionCall: { [weak self] in
                     self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
@@ -476,8 +476,8 @@ class _Peripheral {
             .peripheralDidUpdateValueForCharacteristic
             .filter { characteristic != nil ? ($0.0 == characteristic!.characteristic) : true }
             .map { [weak self] (cbCharacteristic, error) -> _Characteristic in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                let characteristic = characteristic ?? _Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                let characteristic = characteristic ?? _Characteristic(characteristic: cbCharacteristic, peripheral: self)
                 if let error = error {
                     throw _BluetoothError.characteristicReadFailed(characteristic, error)
                 }
@@ -546,8 +546,8 @@ class _Peripheral {
         return delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic
             .filter { $0.0 == characteristic.characteristic }
             .map { [weak self] (cbCharacteristic, error) -> _Characteristic in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                let characteristic = _Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                let characteristic = _Characteristic(characteristic: cbCharacteristic, peripheral: self)
                 if let error = error {
                     throw _BluetoothError.characteristicSetNotifyValueFailed(characteristic, error)
                 }
@@ -615,8 +615,8 @@ class _Peripheral {
             .peripheralDidWriteValueForDescriptor
             .filter { descriptor != nil ? ($0.0 == descriptor!.descriptor) : true }
             .map { [weak self] (cbDescriptor, error) -> _Descriptor in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                let descriptor = descriptor ?? _Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                let descriptor = descriptor ?? _Descriptor(descriptor: cbDescriptor, peripheral: self)
                 if let error = error {
                     throw _BluetoothError.descriptorWriteFailed(descriptor, error)
                 }
@@ -644,8 +644,8 @@ class _Peripheral {
             .peripheralDidUpdateValueForDescriptor
             .filter { descriptor != nil ? ($0.0 == descriptor!.descriptor) : true }
             .map { [weak self] (cbDescriptor, error) -> _Descriptor in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                let descriptor = descriptor ?? _Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                let descriptor = descriptor ?? _Descriptor(descriptor: cbDescriptor, peripheral: self)
                 if let error = error {
                     throw _BluetoothError.descriptorReadFailed(descriptor, error)
                 }
@@ -722,11 +722,11 @@ class _Peripheral {
             .peripheralDidReadRSSI
             .take(1)
             .map { [weak self] (rssi, error) -> (_Peripheral, Int) in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                guard let self = self else { throw _BluetoothError.destroyed }
                 if let error = error {
-                    throw _BluetoothError.peripheralRSSIReadFailed(strongSelf, error)
+                    throw _BluetoothError.peripheralRSSIReadFailed(self, error)
                 }
-                return (strongSelf, rssi)
+                return (self, rssi)
         }
 
         return ensureValidPeripheralStateAndCallIfSucceeded(
@@ -752,8 +752,8 @@ class _Peripheral {
     /// * `_BluetoothError.bluetoothResetting`
     func observeNameUpdate() -> Observable<(_Peripheral, String?)> {
         let observable = delegateWrapper.peripheralDidUpdateName.map { [weak self] name -> (_Peripheral, String?) in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            return (strongSelf, name)
+            guard let self = self else { throw _BluetoothError.destroyed }
+            return (self, name)
         }
         return ensureValidPeripheralState(for: observable)
     }
@@ -776,11 +776,11 @@ class _Peripheral {
     func observeServicesModification() -> Observable<(_Peripheral, [_Service])> {
         let observable = delegateWrapper.peripheralDidModifyServices
             .map { [weak self] services -> [_Service] in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                return services.map { _Service(peripheral: strongSelf, service: $0) } }
+                guard let self = self else { throw _BluetoothError.destroyed }
+                return services.map { _Service(peripheral: self, service: $0) } }
             .map { [weak self] services -> (_Peripheral, [_Service]) in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                return (strongSelf, services)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                return (self, services)
         }
         return ensureValidPeripheralState(for: observable)
     }
@@ -816,11 +816,11 @@ class _Peripheral {
             .map {($0.0 as? CBL2CAPChannelMock, $0.1)}
             .take(1)
             .flatMap { [weak self] (channel, error) -> Observable<CBL2CAPChannelMock> in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
+                guard let self = self else { throw _BluetoothError.destroyed }
                 if let channel = channel, error == nil {
                     return .just(channel)
                 } else {
-                    throw _BluetoothError.openingL2CAPChannelFailed(strongSelf, error)
+                    throw _BluetoothError.openingL2CAPChannelFailed(self, error)
                 }
         }
 

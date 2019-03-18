@@ -26,9 +26,9 @@ public extension ManagerType {
     /// - returns: New observable which merges errors with source observable.
     func ensure<T>(_ state: BluetoothState, observable: Observable<T>) -> Observable<T> {
         return .deferred { [weak self] in
-            guard let strongSelf = self else { throw BluetoothError.destroyed }
-            let statesObservable = strongSelf.observeState()
-                .startWith(strongSelf.state)
+            guard let self = self else { throw BluetoothError.destroyed }
+            let statesObservable = self.observeState()
+                .startWith(self.state)
                 .filter { $0 != state && BluetoothError(state: $0) != nil }
                 .map { state -> T in throw BluetoothError(state: state)! }
             return .absorb(statesObservable, observable)

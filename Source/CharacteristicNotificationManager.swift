@@ -17,35 +17,35 @@ class CharacteristicNotificationManager {
 
     func observeValueUpdateAndSetNotification(for characteristic: Characteristic) -> Observable<Characteristic> {
         return .deferred { [weak self] in
-            guard let strongSelf = self else { throw BluetoothError.destroyed }
-            strongSelf.lock.lock(); defer { strongSelf.lock.unlock()}
+            guard let self = self else { throw BluetoothError.destroyed }
+            self.lock.lock(); defer { self.lock.unlock()}
 
-            if let activeObservable = strongSelf.uuidToActiveObservableMap[characteristic.uuid] {
+            if let activeObservable = self.uuidToActiveObservableMap[characteristic.uuid] {
                 return activeObservable
             }
 
-            let notificationObserable = strongSelf.createValueUpdateObservable(for: characteristic)
+            let notificationObserable = self.createValueUpdateObservable(for: characteristic)
             let observable = notificationObserable
                 .do(onSubscribed: { [weak self] in
-                    guard let strongSelf = self else { return }
-                    strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                    let counter = strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 0
-                    strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] = counter + 1
+                    guard let self = self else { return }
+                    self.lock.lock(); defer { self.lock.unlock() }
+                    let counter = self.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 0
+                    self.uuidToActiveObservablesCountMap[characteristic.uuid] = counter + 1
                     self?.setNotifyValue(true, for: characteristic)
                 }, onDispose: { [weak self] in
-                    guard let strongSelf = self else { return }
-                    strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                    let counter = strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 1
-                    strongSelf.uuidToActiveObservablesCountMap[characteristic.uuid] = counter - 1
+                    guard let self = self else { return }
+                    self.lock.lock(); defer { self.lock.unlock() }
+                    let counter = self.uuidToActiveObservablesCountMap[characteristic.uuid] ?? 1
+                    self.uuidToActiveObservablesCountMap[characteristic.uuid] = counter - 1
 
                     if counter <= 1 {
-                        strongSelf.uuidToActiveObservableMap.removeValue(forKey: characteristic.uuid)
-                        strongSelf.setNotifyValue(false, for: characteristic)
+                        self.uuidToActiveObservableMap.removeValue(forKey: characteristic.uuid)
+                        self.setNotifyValue(false, for: characteristic)
                     }
                 })
                 .share()
 
-            strongSelf.uuidToActiveObservableMap[characteristic.uuid] = observable
+            self.uuidToActiveObservableMap[characteristic.uuid] = observable
             return observable
         }
     }
