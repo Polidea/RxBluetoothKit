@@ -94,10 +94,10 @@ final class RxBluetoothKitService {
         .subscribeOn(MainScheduler.instance)
         .timeout(4.0, scheduler: scheduler)
         .flatMap { [weak self] _ -> Observable<ScannedPeripheral> in
-            guard let `self` = self else {
+            guard let strongSelf = self else {
                 return Observable.empty()
             }
-            return self.centralManager.scanForPeripherals(withServices: nil)
+            return strongSelf.centralManager.scanForPeripherals(withServices: nil)
         }.subscribe(onNext: { [weak self] scannedPeripheral in
                     self?.scanningSubject.onNext(Result.success(scannedPeripheral))
                 }, onError: { [weak self] error in
