@@ -50,8 +50,8 @@ class PeripheralProvider {
                 return !peripherals.contains(where: { $0.peripheral == cbPeripheral })
             },
             set: { [weak self] peripherals in
-                guard let strongSelf = self else { return }
-                let delegateWrapper = strongSelf.provideDelegateWrapper(for: cbPeripheral)
+                guard let self = self else { return }
+                let delegateWrapper = self.provideDelegateWrapper(for: cbPeripheral)
                 let newPeripheral = Peripheral(
                     manager: manager,
                     peripheral: cbPeripheral,

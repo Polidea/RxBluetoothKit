@@ -83,8 +83,8 @@ extension CentralManager {
             .willRestoreState
             .take(1)
             .flatMap { [weak self] dict -> Observable<CentralManagerRestoredState> in
-                guard let strongSelf = self else { throw BluetoothError.destroyed }
-                return .just(CentralManagerRestoredState(restoredStateDictionary: dict, centralManager: strongSelf))
+                guard let self = self else { throw BluetoothError.destroyed }
+                return .just(CentralManagerRestoredState(restoredStateDictionary: dict, centralManager: self))
             }
     }
 }

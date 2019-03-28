@@ -138,38 +138,38 @@ class _CentralManager: _ManagerType {
     func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String: Any]? = nil)
                     -> Observable<_ScannedPeripheral> {
         let observable: Observable<_ScannedPeripheral> = Observable.create { [weak self] observer in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 observer.onError(_BluetoothError.destroyed)
                 return Disposables.create()
             }
-            strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-            if strongSelf.scanDisposable != nil {
+            self.lock.lock(); defer { self.lock.unlock() }
+            if self.scanDisposable != nil {
                 observer.onError(_BluetoothError.scanInProgress)
                 return Disposables.create()
             }
-            strongSelf.scanDisposable = strongSelf.delegateWrapper.didDiscoverPeripheral
+            self.scanDisposable = self.delegateWrapper.didDiscoverPeripheral
                     .flatMap { [weak self] (cbPeripheral, advertisment, rssi) -> Observable<_ScannedPeripheral> in
-                        guard let strongSelf = self else {
+                        guard let self = self else {
                             throw _BluetoothError.destroyed
                         }
-                        let peripheral = strongSelf.retrievePeripheral(for: cbPeripheral)
+                        let peripheral = self.retrievePeripheral(for: cbPeripheral)
                         let advertismentData = AdvertisementData(advertisementData: advertisment)
                         return .just(_ScannedPeripheral(peripheral: peripheral,
                                 advertisementData: advertismentData, rssi: rssi))
                     }
                     .subscribe(observer)
 
-            strongSelf.manager.scanForPeripherals(withServices: serviceUUIDs, options: options)
+            self.manager.scanForPeripherals(withServices: serviceUUIDs, options: options)
 
             return Disposables.create { [weak self] in
-                guard let strongSelf = self else { return }
+                guard let self = self else { return }
                 // When disposed, stop scan and dispose scanning
-                if strongSelf.state == .poweredOn {
-                    strongSelf.manager.stopScan()
+                if self.state == .poweredOn {
+                    self.manager.stopScan()
                 }
-                do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                    strongSelf.scanDisposable?.dispose()
-                    strongSelf.scanDisposable = nil
+                do { self.lock.lock(); defer { self.lock.unlock() }
+                    self.scanDisposable?.dispose()
+                    self.scanDisposable = nil
                 }
             }
         }
@@ -247,8 +247,8 @@ class _CentralManager: _ManagerType {
         let observable = delegateWrapper.didConnectPeripheral
             .filter { peripheral != nil ? ($0 == peripheral!.peripheral) : true }
             .map { [weak self] (cbPeripheral: CBPeripheralMock) -> _Peripheral in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                return peripheral ?? strongSelf.retrievePeripheral(for: cbPeripheral)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                return peripheral ?? self.retrievePeripheral(for: cbPeripheral)
             }
       return ensure(.poweredOn, observable: observable)
     }
@@ -272,8 +272,8 @@ class _CentralManager: _ManagerType {
         let observable = delegateWrapper.didDisconnectPeripheral
             .filter { peripheral != nil ? ($0.0 == peripheral!.peripheral) : true }
             .map { [weak self] (cbPeripheral, error) -> (_Peripheral, DisconnectionReason?) in
-                guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                let peripheral = peripheral ?? strongSelf.retrievePeripheral(for: cbPeripheral)
+                guard let self = self else { throw _BluetoothError.destroyed }
+                let peripheral = peripheral ?? self.retrievePeripheral(for: cbPeripheral)
                 return (peripheral, error)
             }
         return ensure(.poweredOn, observable: observable)

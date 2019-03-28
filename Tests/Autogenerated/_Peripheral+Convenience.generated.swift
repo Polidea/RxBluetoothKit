@@ -24,12 +24,12 @@ extension _Peripheral {
     /// * `_BluetoothError.bluetoothResetting`
     func service(with identifier: ServiceIdentifier) -> Single<_Service> {
         return .deferred { [weak self] in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            if let services = strongSelf.services,
+            guard let self = self else { throw _BluetoothError.destroyed }
+            if let services = self.services,
                 let service = services.first(where: { $0.uuid == identifier.uuid }) {
                 return .just(service)
             } else {
-                return strongSelf.discoverServices([identifier.uuid])
+                return self.discoverServices([identifier.uuid])
                     .map {
                         if let service = $0.first {
                             return service
@@ -58,8 +58,8 @@ extension _Peripheral {
     /// * `_BluetoothError.bluetoothResetting`
     func characteristic(with identifier: CharacteristicIdentifier) -> Single<_Characteristic> {
         return .deferred { [weak self] in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            return strongSelf.service(with: identifier.service)
+            guard let self = self else { throw _BluetoothError.destroyed }
+            return self.service(with: identifier.service)
                 .flatMap { service -> Single<_Characteristic> in
                     if let characteristics = service.characteristics, let characteristic = characteristics.first(where: {
                         $0.uuid == identifier.uuid
@@ -95,8 +95,8 @@ extension _Peripheral {
     /// * `_BluetoothError.bluetoothResetting`
     func descriptor(with identifier: DescriptorIdentifier) -> Single<_Descriptor> {
         return .deferred { [weak self] in
-            guard let strongSelf = self else { throw _BluetoothError.destroyed }
-            return strongSelf.characteristic(with: identifier.characteristic)
+            guard let self = self else { throw _BluetoothError.destroyed }
+            return self.characteristic(with: identifier.characteristic)
                 .flatMap { characteristic -> Single<_Descriptor> in
                     if let descriptors = characteristic.descriptors,
                         let descriptor = descriptors.first(where: { $0.uuid == identifier.uuid }) {

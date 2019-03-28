@@ -107,24 +107,24 @@ class _PeripheralManager: _ManagerType {
     /// * `_BluetoothError.bluetoothResetting`
     func startAdvertising(_ advertisementData: [String: Any]?) -> Observable<StartAdvertisingResult> {
         let observable: Observable<StartAdvertisingResult> = Observable.create { [weak self] observer in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 observer.onError(_BluetoothError.destroyed)
                 return Disposables.create()
             }
-            strongSelf.advertisingLock.lock(); defer { strongSelf.advertisingLock.unlock() }
-            if strongSelf.isAdvertisingOngoing {
+            self.advertisingLock.lock(); defer { self.advertisingLock.unlock() }
+            if self.isAdvertisingOngoing {
                 observer.onError(_BluetoothError.advertisingInProgress)
                 return Disposables.create()
             }
 
-            strongSelf.isAdvertisingOngoing = true
+            self.isAdvertisingOngoing = true
 
             var disposable: Disposable? = nil
-            if strongSelf.manager.isAdvertising {
-                observer.onNext(.attachedToExternalAdvertising(strongSelf.restoredAdvertisementData))
-                strongSelf.restoredAdvertisementData = nil
+            if self.manager.isAdvertising {
+                observer.onNext(.attachedToExternalAdvertising(self.restoredAdvertisementData))
+                self.restoredAdvertisementData = nil
             } else {
-                disposable = strongSelf.delegateWrapper.didStartAdvertising
+                disposable = self.delegateWrapper.didStartAdvertising
                     .take(1)
                     .map { error in
                         if let error = error {
@@ -133,14 +133,14 @@ class _PeripheralManager: _ManagerType {
                         return .started
                     }
                     .subscribe(onNext: { observer.onNext($0) }, onError: { observer.onError($0)})
-                strongSelf.manager.startAdvertising(advertisementData)
+                self.manager.startAdvertising(advertisementData)
             }
             return Disposables.create { [weak self] in
-                guard let strongSelf = self else { return }
+                guard let self = self else { return }
                 disposable?.dispose()
-                strongSelf.manager.stopAdvertising()
-                do { strongSelf.advertisingLock.lock(); defer { strongSelf.advertisingLock.unlock() }
-                    strongSelf.isAdvertisingOngoing = false
+                self.manager.stopAdvertising()
+                do { self.advertisingLock.lock(); defer { self.advertisingLock.unlock() }
+                    self.isAdvertisingOngoing = false
                 }
             }
         }
@@ -317,13 +317,13 @@ class _PeripheralManager: _ManagerType {
     @available(iOS 11, tvOS 11, watchOS 4, *)
     func publishL2CAPChannel(withEncryption encryptionRequired: Bool) -> Observable<CBL2CAPPSM> {
         let observable: Observable<CBL2CAPPSM> = Observable.create { [weak self] observer in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 observer.onError(_BluetoothError.destroyed)
                 return Disposables.create()
             }
 
             var result: CBL2CAPPSM? = nil
-            let disposable = strongSelf.delegateWrapper.didPublishL2CAPChannel
+            let disposable = self.delegateWrapper.didPublishL2CAPChannel
                 .take(1)
                 .map { (cbl2cappSm, error) -> (CBL2CAPPSM) in
                     if let error = error {
@@ -333,12 +333,12 @@ class _PeripheralManager: _ManagerType {
                     return cbl2cappSm
                 }
                 .subscribe(onNext: { observer.onNext($0) }, onError: { observer.onError($0)})
-            strongSelf.manager.publishL2CAPChannel(withEncryption: encryptionRequired)
+            self.manager.publishL2CAPChannel(withEncryption: encryptionRequired)
             return Disposables.create { [weak self] in
-                guard let strongSelf = self else { return }
+                guard let self = self else { return }
                 disposable.dispose()
                 if let result = result {
-                    strongSelf.manager.unpublishL2CAPChannel(result)
+                    self.manager.unpublishL2CAPChannel(result)
                 }
             }
         }
