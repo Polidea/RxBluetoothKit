@@ -63,6 +63,7 @@ class CharacteristicNotificationManager {
     }
 
     private func setNotifyValue(_ enabled: Bool, for characteristic: Characteristic) {
+        guard peripheral.state == .connected else { return }
         peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
     }
 }
