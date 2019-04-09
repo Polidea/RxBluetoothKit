@@ -158,6 +158,44 @@ class PeripheralCharacteristicsDiscoverTest: BasePeripheralTest {
         XCTAssertError(obs.events[0].value, _BluetoothError.peripheralDisconnected(peripheral, nil), "should receive peripheral disconnected error")
     }
 
+    func testDiscoverCharacteristicsForConnectedPeripheralAfterADisconnection() {
+        let mockCharacteristics = [
+            createCharacteristic(uuid: "0x0000"),
+            createCharacteristic(uuid: "0x0001")
+        ]
+
+        let obs: ScheduledObservable<[_Characteristic]> = testScheduler.scheduleObservable {
+            self.peripheral.discoverCharacteristics(nil, for: self.service).asObservable()
+        }
+        
+        testScheduler.scheduleAt(subscribeTime + 100) {
+            self.centralManagerMock.delegateWrapper.didDisconnectPeripheral.onNext((self.peripheral.peripheral, nil))
+        }
+        
+        testScheduler.advanceTo(subscribeTime + 100)
+        
+        XCTAssertEqual(obs.events.count, 1, "should receive one event")
+        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralDisconnected(peripheral, nil), "should receive peripheral disconnected error")
+        
+        // Check that after reconnection the service discovery still works
+        let time = ObservableScheduleTimes(createTime: subscribeTime + 200, subscribeTime: subscribeTime + 300, disposeTime: subscribeTime + 1000)
+        let obs1: ScheduledObservable<[_Characteristic]> = testScheduler.scheduleObservable(time: time) {
+            self.peripheral.discoverCharacteristics(nil, for: self.service).asObservable()
+        }
+        
+        testScheduler.advanceTo(subscribeTime + 400)
+        
+        testScheduler.scheduleAt(subscribeTime + 500) {
+            self.service.service.characteristics = mockCharacteristics
+            self.peripheral.delegateWrapper.peripheralDidDiscoverCharacteristicsForService.asObserver().onNext((self.service.service, nil))
+        }
+        
+        testScheduler.advanceTo(subscribeTime + 600)
+        
+        XCTAssertEqual(peripheral.peripheral.discoverCharacteristicsParams.count, 2, "should call discover characteristics twice")
+        XCTAssertCharacteristicsList(observable: obs1, uuids: mockCharacteristics.map { $0.uuid })
+    }
+
     func testDiscoverCharacteristicsForDisabledBluetooth() {
         let obs: ScheduledObservable<[_Characteristic]> = testScheduler.scheduleObservable {
             self.peripheral.discoverCharacteristics(nil, for: self.service).asObservable()
