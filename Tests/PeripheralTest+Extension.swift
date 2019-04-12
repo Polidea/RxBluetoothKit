@@ -189,7 +189,7 @@ class PeripheralExtensionTest: BasePeripheralTest {
         let mockCharacteristic = createCharacteristic(uuid: "0x0001")
         let serviceId = ServiceData(uuid: mockService.uuid)
         let characteristicId = CharacteristicData(uuid: mockCharacteristic.uuid, service: serviceId)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
         
         self.peripheral.peripheral.services = [mockService]
         mockService.characteristics = [mockCharacteristic]
@@ -315,7 +315,7 @@ class PeripheralExtensionTest: BasePeripheralTest {
         let serviceId = ServiceData(uuid: mockService.uuid)
         let characteristicId = CharacteristicData(uuid: mockCharacteristic.uuid, service: serviceId)
         let descriptorId = DescriptorData(uuid: mockDescriptor.uuid, characteristic: characteristicId)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
 
         self.peripheral.peripheral.services = [mockService]
         mockService.characteristics = [mockCharacteristic]

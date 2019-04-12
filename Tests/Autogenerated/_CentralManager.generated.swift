@@ -30,7 +30,7 @@ class _CentralManager: _ManagerType {
     /// Implementation of CBCentralManagerMock
     let manager: CBCentralManagerMock
 
-    @available(*, deprecated: 5.1.0, renamed: "_CentralManager.manager")
+    @available(*, deprecated, renamed: "_CentralManager.manager")
     var centralManager: CBCentralManagerMock { return manager }
 
     let peripheralProvider: PeripheralProviderMock

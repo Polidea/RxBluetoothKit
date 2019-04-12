@@ -454,6 +454,8 @@ class _Peripheral {
         case .withResponse:
             return writeOperationPerformingAndListeningObservable(observeWrite(for: characteristic).take(1))
                 .asSingle()
+        @unknown default:
+            return .error(_BluetoothError.unknownWriteType)
         }
     }
 

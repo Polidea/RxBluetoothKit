@@ -2,7 +2,7 @@ import Foundation
 import CoreBluetooth
 
 /// Deprecated, use CentralManager.init(queue:options:onWillRestoreCentralManagerState:) instead
-@available(*, deprecated: 5.1.0, renamed: "CentralManagerRestoredStateType")
+@available(*, deprecated, renamed: "CentralManagerRestoredStateType")
 public struct RestoredState: CentralManagerRestoredStateType {
     let centralManagerRestoredState: CentralManagerRestoredState
 

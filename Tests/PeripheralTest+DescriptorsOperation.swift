@@ -65,7 +65,7 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
 
     func testWriteValue() {
         let descriptor = _Descriptor(descriptor: createDescriptor(uuid: "0x0002", characteristic: characteristic), peripheral: peripheral)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
 
         let obs: ScheduledObservable<_Descriptor> = testScheduler.scheduleObservable {
             self.peripheral.writeValue(data, for: descriptor).asObservable()

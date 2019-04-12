@@ -144,6 +144,8 @@ extension CBCharacteristicWriteType: Loggable {
         switch self {
         case .withResponse: return "withResponse"
         case .withoutResponse: return "withoutResponse"
+        @unknown default:
+            return "unknown write type"
         }
     }
 }

@@ -3,7 +3,7 @@ import CoreBluetooth
 @testable import RxBluetoothKit
 
 /// Deprecated, use _CentralManager.init(queue:options:onWillRestoreCentralManagerState:) instead
-@available(*, deprecated: 5.1.0, renamed: "CentralManagerRestoredStateType")
+@available(*, deprecated, renamed: "CentralManagerRestoredStateType")
 struct _RestoredState: CentralManagerRestoredStateType {
     let centralManagerRestoredState: _CentralManagerRestoredState
 
