@@ -44,9 +44,11 @@ With just 9 lines it started scanning, connecting to the peripheral, discovering
 
 # Recent Changes
 
-**5.1.2**
+**5.2.0**
 
-* Updated RxSwift to 4.2 with support for XCode 9.4 (#268)
+* Added support for Xcode 10.2 and Swift 5 (#321)
+* Fixed "API MISUSE" after canceling notification state when bluetooth is powered off (#319)
+* Fixed problems when `discoverServices` doesn't emit any result (#309)
 
 [All previous changes](CHANGELOG.md)
 
