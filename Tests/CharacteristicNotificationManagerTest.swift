@@ -19,6 +19,7 @@ class CharacteristicNotificationManagerTest: XCTestCase {
     override func setUp() {
         super.setUp()
         setUpProperties()
+        peripheralMock.state = .connected
     }
     
     func testObserversNotifyCalls() {
