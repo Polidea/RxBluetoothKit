@@ -183,6 +183,7 @@ class ConnectorTest: XCTestCase {
     func setUpProperties(connectingUuids: [UUID] = [], disconnectingUuids: [UUID] = []) {
         peripheralMock = CBPeripheralMock()
         centralManagerMock = CBCentralManagerMock()
+        centralManagerMock.state = .poweredOn
         wrapperMock = CBCentralManagerDelegateWrapperMock()
         connector = _Connector(
             centralManager: centralManagerMock,

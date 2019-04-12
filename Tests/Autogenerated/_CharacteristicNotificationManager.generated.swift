@@ -64,6 +64,11 @@ class _CharacteristicNotificationManager {
     }
 
     private func setNotifyValue(_ enabled: Bool, for characteristic: _Characteristic) {
+        guard peripheral.state == .connected else {
+            RxBluetoothKitLog.w("\(peripheral.logDescription) is not connected." +
+                " Changing notification state for not connected peripheral is not possible.")
+            return
+        }
         peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
     }
 }
