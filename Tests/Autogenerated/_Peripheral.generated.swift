@@ -63,6 +63,26 @@ class _Peripheral {
     }
 
     private func setupSubjects() {
+        manager.delegateWrapper
+            .didDisconnectPeripheral
+            .filter { [weak self] peripheral, _ in
+                peripheral.uuidIdentifier == self?.peripheral.uuidIdentifier
+            }
+            .subscribe(onNext: { [weak self] _ in
+                self?.remainingServicesDiscoveryRequest.writeSync { value in
+                    value = 0
+                }
+
+                self?.remainingIncludedServicesDiscoveryRequest.writeSync { array in
+                    array.removeAll()
+                }
+
+                self?.remainingCharacteristicsDiscoveryRequest.writeSync { array in
+                    array.removeAll()
+                }
+            })
+            .disposed(by: disposeBag)
+
         delegateWrapper.peripheralDidDiscoverServices.subscribe { [weak self] event in
             self?.remainingServicesDiscoveryRequest.writeSync { value in
                 if value > 0 {
@@ -846,7 +866,7 @@ class _Peripheral {
 
     /// Function that merges given observable with error streams of invalid Central Manager states.
     /// - parameter observable: `Observable` to be transformed
-    /// - returns: Source `Observable` which listens on state chnage errors as well
+    /// - returns: Source `Observable` which listens on state change errors as well
     func ensureValidPeripheralState<T>(for observable: Observable<T>) -> Observable<T> {
         return Observable<T>.absorb(
             manager.ensurePeripheralIsConnected(self),
