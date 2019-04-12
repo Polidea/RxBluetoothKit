@@ -63,7 +63,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     
     func testWriteValueWithResponse() {
         let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
             self.peripheral.writeValue(data, for: characteristic, type: .withResponse).asObservable()
@@ -89,7 +89,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     
     func testWriteValueWithoutResponse() {
         let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
         peripheral.peripheral.canSendWriteWithoutResponse = true
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
@@ -108,7 +108,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
 
     func testWriteValueWithoutResponseWithCanSendWriteWithoutResponseCheckDisabled() {
         let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
         peripheral.peripheral.canSendWriteWithoutResponse = false
 
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
@@ -127,7 +127,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     
     func testWriteValueWithoutResponseWaitingOnReadiness() {
         let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
         peripheral.peripheral.canSendWriteWithoutResponse = false
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {

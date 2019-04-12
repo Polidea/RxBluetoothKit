@@ -102,3 +102,4 @@ Remember to follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_
 * 3.0 version supports Swift 3.0 and 3.1
 * 5.0 version supports Swift 3.2 and 4.0
 * 5.1.2 version supports Swift 4.1
+* 5.2 version supports Swift 5.0 and 4.2

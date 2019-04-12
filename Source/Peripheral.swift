@@ -473,6 +473,8 @@ public class Peripheral {
         case .withResponse:
             return writeOperationPerformingAndListeningObservable(observeWrite(for: characteristic).take(1))
                 .asSingle()
+        @unknown default:
+            return .error(BluetoothError.unknownWriteType)
         }
     }
 

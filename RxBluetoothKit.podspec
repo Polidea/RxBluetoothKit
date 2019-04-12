@@ -17,11 +17,12 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.10'
   s.watchos.deployment_target = '4.0'
   s.tvos.deployment_target = '11.0'
+  s.swift_version = '5.0'
 
   s.requires_arc = true
 
   s.source_files = 'Source/*.swift'
   s.osx.exclude_files = 'Source/RestoredState.swift', 'Source/CentralManager+RestoredState.swift', 'Source/CentralManagerRestoredState.swift'
   s.frameworks   = 'CoreBluetooth'
-  s.dependency 'RxSwift', '~> 4.0'
+  s.dependency 'RxSwift', '~> 4.5'
 end

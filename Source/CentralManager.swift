@@ -29,7 +29,7 @@ public class CentralManager: ManagerType {
     /// Implementation of CBCentralManager
     public let manager: CBCentralManager
 
-    @available(*, deprecated: 5.1.0, renamed: "CentralManager.manager")
+    @available(*, deprecated, renamed: "CentralManager.manager")
     public var centralManager: CBCentralManager { return manager }
 
     let peripheralProvider: PeripheralProvider
