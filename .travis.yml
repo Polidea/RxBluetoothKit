@@ -2,22 +2,21 @@ language: objective-c
 osx_image: xcode10.2
 xcode_project: RxBluetoothKit.xcodeproj
 xcode_sdk: iphonesimulator12.2
-
 env:
-        matrix:
-                - TARGET=iOS
-                - TARGET=macOS
-                - TARGET=tvOS
-                - TARGET=watchOS
+  matrix:
+  - TARGET=iOS
+  - TARGET=macOS
+  - TARGET=tvOS
+  - TARGET=watchOS
+  global:
+    secure: qLf5ZVbFqKsIL2Vcnmo18U6hPoSDFtc2ZuFJLQS6ge0tP+1JfprBlKuwVRYsPXSDsRxeUZFPkcGOaiHpxfX+kt3TBXLZrYRvSXN/R8HWkaAd3hGoT89mW3Mj/It2pwadpALVN1rLJL4tuNW0deVjeTcbrWG+g38nK4JfWq18Z6DSmW6sSWKBFnlZCfnnTWqYZU2iqKP9gsQG+N3Ee4bc0za/MhMJzXkU7U7wvuXQWRp4kc5BLLyvFtWLbs1buWWjlwCODQATUHBhgAv9PRbPJ/+ZjFUkFu4w5NSCDEaYofvMqRpVJgkAsr/s/YdRZMOHUxxSGZZDOTAnSlnTOG/HHzOq9LFiZGbCxP+hh2d/hfaETNP8qbJLFkzapGzTxNxnf+mqZqs6DSL49e8KcwiWdC62VWOE4Ea3GeCUFZ/Yqmew2YYEx53Hc/p+sEcR6znFzbhDCyERyMDoG9p/T8cffdrOdhZYT1+1ee1Dxv5CTuzEoSziX2X+nyZna2dI7SG4r5ZNAmYoA9LTT6URxEiXRz4EZEA7Sewx4G4VeYzFeXj+B8fZjrmfNPuAOVWdBRae5AKC6TlZmtsqsSBce67uTypBl9XQ2nGPvj7+WDuW52J7lYrK6m9UVK1UEEpweMK34E5uyAss7iaEAjPN9Pg9aEBtf4D34wjavpHFX0Qd0l4=
 before_install:
-        - brew update
-        - brew outdated carthage || brew upgrade carthage
+- brew update
+- brew outdated carthage || brew upgrade carthage
 before_script:
-        - carthage checkout
-        - travis_retry carthage build --platform "${TARGET}"
+- travis_retry carthage bootstrap --platform "${TARGET}"
 script:
-        - ./scripts/all-build.sh "${TARGET}"
-        - ./scripts/all-tests.sh "${TARGET}"
-
+- ./scripts/all-build.sh "${TARGET}"
+- ./scripts/all-tests.sh "${TARGET}"
 after_success:
-        - sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
+- sleep 5
