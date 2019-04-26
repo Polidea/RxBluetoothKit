@@ -1532,6 +1532,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=watchos*]" = "arm64_32 armv7k";
+				"VALID_ARCHS[sdk=watchsimulator*]" = "x86_64 i386";
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Debug;
@@ -1564,6 +1567,9 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=watchos*]" = "arm64_32 armv7k";
+				"VALID_ARCHS[sdk=watchsimulator*]" = "x86_64 i386";
 				WATCHOS_DEPLOYMENT_TARGET = 4.0;
 			};
 			name = Release;
@@ -1598,6 +1604,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 11.0;
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=appletvos*]" = arm64;
+				"VALID_ARCHS[sdk=appletvsimulator*]" = "x86_64 i386";
 			};
 			name = Debug;
 		};
@@ -1630,6 +1639,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 11.0;
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=appletvos*]" = arm64;
+				"VALID_ARCHS[sdk=appletvsimulator*]" = "x86_64 i386";
 			};
 			name = Release;
 		};
@@ -1709,6 +1721,9 @@
 				PRODUCT_NAME = RxBluetoothKit;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 arm64e armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
 			};
 			name = Debug;
 		};
@@ -1735,6 +1750,9 @@
 				PRODUCT_NAME = RxBluetoothKit;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 arm64e armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
 			};
 			name = Release;
 		};
@@ -1794,6 +1812,8 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=macosx*]" = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -1821,6 +1841,8 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=macosx*]" = "i386 x86_64";
 			};
 			name = Release;
 		};
