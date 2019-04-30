@@ -74,23 +74,23 @@ public class RxBluetoothKitLog: ReactiveCompatible {
     }
 
     static func v(_ message: @autoclosure () -> String) {
-        log(with: .verbose, message: message)
+        log(with: .verbose, message: message())
     }
 
     static func d(_ message: @autoclosure () -> String) {
-        log(with: .debug, message: message)
+        log(with: .debug, message: message())
     }
 
     static func i(_ message: @autoclosure () -> String) {
-        log(with: .info, message: message)
+        log(with: .info, message: message())
     }
 
     static func w(_ message: @autoclosure () -> String) {
-        log(with: .warning, message: message)
+        log(with: .warning, message: message())
     }
 
     static func e(_ message: @autoclosure () -> String) {
-        log(with: .error, message: message)
+        log(with: .error, message: message())
     }
 }
 
@@ -144,6 +144,8 @@ extension CBCharacteristicWriteType: Loggable {
         switch self {
         case .withResponse: return "withResponse"
         case .withoutResponse: return "withoutResponse"
+        @unknown default:
+            return "unknown write type"
         }
     }
 }

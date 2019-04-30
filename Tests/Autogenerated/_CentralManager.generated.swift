@@ -30,7 +30,7 @@ class _CentralManager: _ManagerType {
     /// Implementation of CBCentralManagerMock
     let manager: CBCentralManagerMock
 
-    @available(*, deprecated: 5.1.0, renamed: "_CentralManager.manager")
+    @available(*, deprecated, renamed: "_CentralManager.manager")
     var centralManager: CBCentralManagerMock { return manager }
 
     let peripheralProvider: PeripheralProviderMock
@@ -164,7 +164,9 @@ class _CentralManager: _ManagerType {
             return Disposables.create { [weak self] in
                 guard let strongSelf = self else { return }
                 // When disposed, stop scan and dispose scanning
-                strongSelf.manager.stopScan()
+                if strongSelf.state == .poweredOn {
+                    strongSelf.manager.stopScan()
+                }
                 do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
                     strongSelf.scanDisposable?.dispose()
                     strongSelf.scanDisposable = nil

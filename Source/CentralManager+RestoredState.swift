@@ -2,7 +2,7 @@ import Foundation
 import RxSwift
 import CoreBluetooth
 
-@available(*, deprecated: 5.1.0, renamed: "OnWillRestoreCentralManagerState")
+@available(*, deprecated, renamed: "OnWillRestoreCentralManagerState")
 public typealias OnWillRestoreState = (RestoredState) -> Void
 /// Closure that receives `RestoredState` as a parameter
 public typealias OnWillRestoreCentralManagerState = (CentralManagerRestoredState) -> Void
@@ -12,7 +12,7 @@ extension CentralManager {
     // MARK: State restoration
 
     /// Deprecated, use CentralManager.init(queue:options:onWillRestoreCentralManagerState:) instead
-    @available(*, deprecated: 5.1.0, renamed: "CentralManager.init(queue:options:onWillRestoreCentralManagerState:)")
+    @available(*, deprecated, renamed: "CentralManager.init(queue:options:onWillRestoreCentralManagerState:)")
     public convenience init(queue: DispatchQueue = .main,
                             options: [String: AnyObject]? = nil,
                             onWillRestoreState: OnWillRestoreState? = nil) {
@@ -63,6 +63,7 @@ extension CentralManager {
         listenOnWillRestoreState(onWillRestoreCentralManagerState)
     }
 
+    @available(*, deprecated, message: "listenOnWillRestoreState(:OnWillRestoreCentralManagerState) instead")
     func listenOnWillRestoreState(_ handler: @escaping OnWillRestoreState) {
         _ = restoreStateObservable
             .map { RestoredState(centralManagerRestoredState: $0) }

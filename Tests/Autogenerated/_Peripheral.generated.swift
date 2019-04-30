@@ -63,6 +63,26 @@ class _Peripheral {
     }
 
     private func setupSubjects() {
+        manager.delegateWrapper
+            .didDisconnectPeripheral
+            .filter { [weak self] peripheral, _ in
+                peripheral.uuidIdentifier == self?.peripheral.uuidIdentifier
+            }
+            .subscribe(onNext: { [weak self] _ in
+                self?.remainingServicesDiscoveryRequest.writeSync { value in
+                    value = 0
+                }
+
+                self?.remainingIncludedServicesDiscoveryRequest.writeSync { array in
+                    array.removeAll()
+                }
+
+                self?.remainingCharacteristicsDiscoveryRequest.writeSync { array in
+                    array.removeAll()
+                }
+            })
+            .disposed(by: disposeBag)
+
         delegateWrapper.peripheralDidDiscoverServices.subscribe { [weak self] event in
             self?.remainingServicesDiscoveryRequest.writeSync { value in
                 if value > 0 {
@@ -135,9 +155,12 @@ class _Peripheral {
     /// YES if the remote device has space to send a write without response. If this value is NO,
     /// the value will be set to YES after the current writes have been flushed, and
     /// `peripheralIsReadyToSendWriteWithoutResponse:` will be called.
-    @available(iOS 11.0, macOS 10.13, tvOS 11.0, watchOS 4.0, *)
     var canSendWriteWithoutResponse: Bool {
-        return peripheral.canSendWriteWithoutResponse
+        if #available(iOS 11.0, macOS 10.13, tvOS 11.0, watchOS 4.0, *) {
+            return peripheral.canSendWriteWithoutResponse
+        } else {
+            return true
+        }
     }
 
     // MARK: Connecting
@@ -412,7 +435,8 @@ class _Peripheral {
     /// - parameter data: Data that'll be written to `_Characteristic` instance
     /// - parameter characteristic: `_Characteristic` instance to write value to.
     /// - parameter type: Type of write operation. Possible values: `.withResponse`, `.withoutResponse`
-    /// - returns: Observable that emition depends on `CBCharacteristicWriteType` passed to the function call.
+    /// - parameter canSendWriteWithoutResponseCheckEnabled: check if canSendWriteWithoutResponse should be enabled. Done because of internal MacOS bug.
+    /// - returns: Observable that emission depends on `CBCharacteristicWriteType` passed to the function call.
     ///
     /// Observable can ends with following errors:
     /// * `_BluetoothError.characteristicWriteFailed`
@@ -425,7 +449,8 @@ class _Peripheral {
     /// * `_BluetoothError.bluetoothResetting`
     func writeValue(_ data: Data,
                            for characteristic: _Characteristic,
-                           type: CBCharacteristicWriteType) -> Single<_Characteristic> {
+                           type: CBCharacteristicWriteType,
+                           canSendWriteWithoutResponseCheckEnabled: Bool = true) -> Single<_Characteristic> {
         let writeOperationPerformingAndListeningObservable = { [weak self] (observable: Observable<_Characteristic>)
             -> Observable<_Characteristic> in
             guard let strongSelf = self else { return Observable.error(_BluetoothError.destroyed) }
@@ -438,25 +463,19 @@ class _Peripheral {
         }
         switch type {
         case .withoutResponse:
-            if #available(iOS 11.0, macOS 10.13, tvOS 11.0, watchOS 4.0, *) {
-                return Observable<_Characteristic>.deferred { [weak self] in
-                    guard let strongSelf = self else { throw _BluetoothError.destroyed }
-                    return strongSelf.observeWriteWithoutResponseReadiness()
-                        .map { _ in true }
-                        .startWith(strongSelf.canSendWriteWithoutResponse)
-                        .filter { $0 }
-                        .take(1)
-                        .flatMap { _ in
-                            writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
-                        }
-                    }.asSingle()
-            } else {
-                return writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
-                    .asSingle()
-            }
+            return observeWriteWithoutResponseReadiness()
+                .map { _ in true }
+                .startWith(canSendWriteWithoutResponseCheckEnabled ? canSendWriteWithoutResponse : true)
+                .filter { $0 }
+                .take(1)
+                .flatMap { _ in
+                    writeOperationPerformingAndListeningObservable(Observable.just(characteristic))
+                }.asSingle()
         case .withResponse:
             return writeOperationPerformingAndListeningObservable(observeWrite(for: characteristic).take(1))
                 .asSingle()
+        @unknown default:
+            return .error(_BluetoothError.unknownWriteType)
         }
     }
 
@@ -847,7 +866,7 @@ class _Peripheral {
 
     /// Function that merges given observable with error streams of invalid Central Manager states.
     /// - parameter observable: `Observable` to be transformed
-    /// - returns: Source `Observable` which listens on state chnage errors as well
+    /// - returns: Source `Observable` which listens on state change errors as well
     func ensureValidPeripheralState<T>(for observable: Observable<T>) -> Observable<T> {
         return Observable<T>.absorb(
             manager.ensurePeripheralIsConnected(self),

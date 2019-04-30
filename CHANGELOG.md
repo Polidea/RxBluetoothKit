@@ -1,3 +1,19 @@
+# 5.2.0
+- Added support for Xcode 10.2 and Swift 5 (#321)
+- Fixed "API MISUSE" after canceling notification state when bluetooth is powered off (#319)
+- Fixed problems when `discoverServices` doesn't emit any result (#309)
+
+# 5.1.4
+- Updated RxSwift library to version 4.3
+- fix API MISUSE when calling stop scan on dispose (#283)
+- add option to disable checking of canSendWriteWithoutReponse while writing (#282)
+
+# 5.1.3
+- Changed back deployment target from 10.0 to 8.0. (#275)
+
+# 5.1.2
+- Updated RxSwift to 4.2 with support for XCode 9.4 (#268)
+
 # 5.1.1
 - Fixed `PeripheralManager` not public (#264)
 

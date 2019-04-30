@@ -63,7 +63,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     
     func testWriteValueWithResponse() {
         let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
             self.peripheral.writeValue(data, for: characteristic, type: .withResponse).asObservable()
@@ -89,7 +89,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     
     func testWriteValueWithoutResponse() {
         let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
         peripheral.peripheral.canSendWriteWithoutResponse = true
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
@@ -105,10 +105,29 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         XCTAssertEqual(obs.events[0].value.element, characteristic, "should receive next events with characteristic")
         XCTAssertTrue(obs.events[1].value == .completed, "should receive completed event")
     }
+
+    func testWriteValueWithoutResponseWithCanSendWriteWithoutResponseCheckDisabled() {
+        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
+        let data = Data([0, 1, 2, 3])
+        peripheral.peripheral.canSendWriteWithoutResponse = false
+
+        let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
+					self.peripheral.writeValue(data, for: characteristic, type: .withoutResponse, canSendWriteWithoutResponseCheckEnabled: false).asObservable()
+        }
+
+        testScheduler.advanceTo(subscribeTime)
+
+        XCTAssertEqual(peripheral.peripheral.writeValueWithTypeParams.count, 1, "should call writeValueWithType method for the peripheral")
+        let params = peripheral.peripheral.writeValueWithTypeParams[0]
+        XCTAssertTrue(params.0 == data && params.1 == characteristic.characteristic && params.2 == .withoutResponse, "should call writeValueWithType with correct parameters")
+        XCTAssertEqual(obs.events.count, 2, "should not receive two events immediately after subscription")
+        XCTAssertEqual(obs.events[0].value.element, characteristic, "should receive next events with characteristic")
+        XCTAssertTrue(obs.events[1].value == .completed, "should receive completed event")
+    }
     
     func testWriteValueWithoutResponseWaitingOnReadiness() {
         let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
-        let data = Data(bytes: [0, 1, 2, 3])
+        let data = Data([0, 1, 2, 3])
         peripheral.peripheral.canSendWriteWithoutResponse = false
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {

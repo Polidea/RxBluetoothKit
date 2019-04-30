@@ -20,7 +20,7 @@ public enum BluetoothError: Error {
     case bluetoothResetting
     // Peripheral
     case peripheralIsAlreadyObservingConnection(Peripheral)
-    @available(*, deprecated: 5.0.2, renamed: "BluetoothError.peripheralIsAlreadyObservingConnection")
+    @available(*, deprecated, renamed: "BluetoothError.peripheralIsAlreadyObservingConnection")
     case peripheralIsConnectingOrAlreadyConnected(Peripheral)
     case peripheralConnectionFailed(Peripheral, Error?)
     case peripheralDisconnected(Peripheral, Error?)
@@ -42,6 +42,8 @@ public enum BluetoothError: Error {
     // L2CAP
     case openingL2CAPChannelFailed(Peripheral, Error?)
     case publishingL2CAPChannelFailed(CBL2CAPPSM, Error?)
+    // Unknown
+    case unknownWriteType
 }
 
 extension BluetoothError: CustomStringConvertible {
@@ -118,6 +120,9 @@ extension BluetoothError: CustomStringConvertible {
             return "Opening L2CAP channel error has occured: \(err?.localizedDescription ?? "-")"
         case let .publishingL2CAPChannelFailed(_, err):
             return "Publishing L2CAP channel error has occured: \(err?.localizedDescription ?? "-")"
+        // Unknown
+        case .unknownWriteType:
+            return "Unknown write type"
         }
     }
 }
@@ -181,6 +186,8 @@ public func == (lhs: BluetoothError, rhs: BluetoothError) -> Bool {
     // L2CAP
     case let (.openingL2CAPChannelFailed(l, _), .openingL2CAPChannelFailed(r, _)): return l == r
     case let (.publishingL2CAPChannelFailed(l, _), .publishingL2CAPChannelFailed(r, _)): return l == r
+    // Unknown
+    case (.unknownWriteType, .unknownWriteType): return true
     default: return false
     }
 }

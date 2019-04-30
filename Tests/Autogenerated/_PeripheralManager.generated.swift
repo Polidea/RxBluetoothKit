@@ -119,7 +119,7 @@ class _PeripheralManager: _ManagerType {
 
             strongSelf.isAdvertisingOngoing = true
 
-            var disposable: Disposable? = nil
+            var disposable: Disposable?
             if strongSelf.manager.isAdvertising {
                 observer.onNext(.attachedToExternalAdvertising(strongSelf.restoredAdvertisementData))
                 strongSelf.restoredAdvertisementData = nil
@@ -322,7 +322,7 @@ class _PeripheralManager: _ManagerType {
                 return Disposables.create()
             }
 
-            var result: CBL2CAPPSM? = nil
+            var result: CBL2CAPPSM?
             let disposable = strongSelf.delegateWrapper.didPublishL2CAPChannel
                 .take(1)
                 .map { (cbl2cappSm, error) -> (CBL2CAPPSM) in
@@ -366,7 +366,7 @@ class _PeripheralManager: _ManagerType {
     // MARK: Internal functions
 
     func ensureValidStateAndCallIfSucceeded<T>(for observable: Observable<T>,
-                                                      postSubscriptionCall call: @escaping () -> Void
+                                               postSubscriptionCall call: @escaping () -> Void
         ) -> Observable<T> {
         let operation = Observable<T>.deferred {
             call()

@@ -155,6 +155,44 @@ class PeripheralServiceTest: BasePeripheralTest {
         XCTAssertEqual(obs.events.count, 1, "should receive one event")
         XCTAssertError(obs.events[0].value, _BluetoothError.peripheralDisconnected(peripheral, nil), "should receive peripheral disconnected error")
     }
+
+    func testDiscoverServicesForConnectedPeripheralAfterADisconnection() {
+        let mockServices = [
+            createService(uuid: "0x0000"),
+            createService(uuid: "0x0001")
+        ]
+
+        let obs: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable {
+            self.peripheral.discoverServices(nil).asObservable()
+        }
+
+        testScheduler.scheduleAt(subscribeTime + 100) {
+            self.centralManagerMock.delegateWrapper.didDisconnectPeripheral.onNext((self.peripheral.peripheral, nil))
+        }
+
+        testScheduler.advanceTo(subscribeTime + 100)
+
+        XCTAssertEqual(obs.events.count, 1, "should receive one event")
+        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralDisconnected(peripheral, nil), "should receive peripheral disconnected error")
+
+        // Check that after reconnection the service discovery still works
+        let time = ObservableScheduleTimes(createTime: subscribeTime + 200, subscribeTime: subscribeTime + 300, disposeTime: subscribeTime + 1000)
+        let obs1: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable(time: time) {
+            self.peripheral.discoverServices(nil).asObservable()
+        }
+
+        testScheduler.advanceTo(subscribeTime + 400)
+
+        testScheduler.scheduleAt(subscribeTime + 500) {
+            self.peripheral.peripheral.services = mockServices
+            self.peripheral.delegateWrapper.peripheralDidDiscoverServices.asObserver().onNext((mockServices, nil))
+        }
+
+        testScheduler.advanceTo(subscribeTime + 600)
+
+        XCTAssertEqual(peripheral.peripheral.discoverServicesParams.count, 2, "should call discover services for the peripheral")
+        XCTAssertServiceList(observable: obs1, uuids: mockServices.map { $0.uuid })
+    }
     
     func testDiscoverServicesForDisabledBluetooth() {
         let obs: ScheduledObservable<[_Service]> = testScheduler.scheduleObservable {

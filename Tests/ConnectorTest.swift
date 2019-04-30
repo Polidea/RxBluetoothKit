@@ -38,7 +38,6 @@ class ConnectorTest: XCTestCase {
         
         XCTAssertEqual(obs.events.count, 1, "should receive error event")
         XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsAlreadyObservingConnection(peripheral), "should receive correct error event")
-        XCTAssertError(obs.events[0].value, _BluetoothError.peripheralIsConnectingOrAlreadyConnected(peripheral), "should receive correct error event")
     }
     
     func testDisconnectingPeripheral() {
@@ -184,6 +183,7 @@ class ConnectorTest: XCTestCase {
     func setUpProperties(connectingUuids: [UUID] = [], disconnectingUuids: [UUID] = []) {
         peripheralMock = CBPeripheralMock()
         centralManagerMock = CBCentralManagerMock()
+        centralManagerMock.state = .poweredOn
         wrapperMock = CBCentralManagerDelegateWrapperMock()
         connector = _Connector(
             centralManager: centralManagerMock,

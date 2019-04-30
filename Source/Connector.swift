@@ -96,8 +96,10 @@ class Connector {
                 disposable.dispose()
                 let isConnected = strongSelf.connectedBox.read { $0.contains(peripheral.identifier) }
                 if isConnected {
-                    strongSelf.disconnectingBox.write { $0.insert(peripheral.identifier) }
-                    strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+                    if strongSelf.centralManager.state == .poweredOn {
+                        strongSelf.disconnectingBox.write { $0.insert(peripheral.identifier) }
+                        strongSelf.centralManager.cancelPeripheralConnection(peripheral.peripheral)
+                    }
                     strongSelf.connectedBox.write { $0.remove(peripheral.identifier) }
                 }
             }

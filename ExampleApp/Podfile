@@ -1,10 +1,10 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, ’11.0’
+platform :ios, '11.0'
 use_frameworks!
 
 def shared_pods
-  pod 'RxSwift', '~> 4.0’
-  pod 'RxCocoa', '~> 4.0’
+  pod 'RxSwift', '~> 4.0'
+  pod 'RxCocoa', '~> 4.0'
 end
 
 def rx_bluetooth_kit
