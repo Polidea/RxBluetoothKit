@@ -43,7 +43,7 @@ class ConnectorTest: XCTestCase {
     func testDisconnectingPeripheral() {
         let uuid = UUID()
         let (_, obs) = setUpObserver(options: nil, disconnectingUuids: [uuid])
-        let disconnectEvent: Recorded<Event<(CBPeripheralMock, Error?)>> = next(subscribeTime + 100, (peripheralMock, TestError.error))
+        let disconnectEvent: Recorded<Event<(CBPeripheralMock, Error?)>> = Recorded.next(subscribeTime + 100, (peripheralMock, TestError.error))
         testScheduler.createHotObservable([disconnectEvent]).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         peripheralMock.uuidIdentifier = uuid
         peripheralMock.state = .disconnecting
@@ -84,8 +84,8 @@ class ConnectorTest: XCTestCase {
     
     func testConnectedEvent() {
         let (peripheral, obs, _) = setUpConnectableObserver()
-        let connectEvent: Recorded<Event<CBPeripheralMock>> = next(subscribeTime + 100, peripheralMock)
-        let failEvent: Recorded<Event<(CBPeripheralMock, Error?)>> = next(subscribeTime + 101, (peripheralMock, nil))
+        let connectEvent: Recorded<Event<CBPeripheralMock>> = Recorded.next(subscribeTime + 100, peripheralMock)
+        let failEvent: Recorded<Event<(CBPeripheralMock, Error?)>> = Recorded.next(subscribeTime + 101, (peripheralMock, nil))
         testScheduler.createHotObservable([connectEvent]).subscribe(wrapperMock.didConnectPeripheral).disposed(by: disposeBag)
         testScheduler.createHotObservable([failEvent]).subscribe(wrapperMock.didFailToConnectPeripheral).disposed(by: disposeBag)
         
@@ -97,8 +97,8 @@ class ConnectorTest: XCTestCase {
     
     func testConnectFailEvent() {
         let (peripheral, obs, _) = setUpConnectableObserver()
-        let connectEvent: Recorded<Event<CBPeripheralMock>> = next(subscribeTime + 100, peripheralMock)
-        let failEvent: Recorded<Event<(CBPeripheralMock, Error?)>> = next(subscribeTime + 99, (peripheralMock, TestError.error))
+        let connectEvent: Recorded<Event<CBPeripheralMock>> = Recorded.next(subscribeTime + 100, peripheralMock)
+        let failEvent: Recorded<Event<(CBPeripheralMock, Error?)>> = Recorded.next(subscribeTime + 99, (peripheralMock, TestError.error))
         testScheduler.createHotObservable([connectEvent]).subscribe(wrapperMock.didConnectPeripheral).disposed(by: disposeBag)
         testScheduler.createHotObservable([failEvent]).subscribe(wrapperMock.didFailToConnectPeripheral).disposed(by: disposeBag)
         
@@ -110,8 +110,8 @@ class ConnectorTest: XCTestCase {
     
     func testDisconnectedEvent() {
         let (peripheral, obs, _) = setUpConnectableObserver()
-        let connectEvent: Recorded<Event<CBPeripheralMock>> = next(subscribeTime + 100, peripheralMock)
-        let disconnectEvent: Recorded<Event<(CBPeripheralMock, Error?)>> = next(subscribeTime + 200, (peripheralMock, TestError.error))
+        let connectEvent: Recorded<Event<CBPeripheralMock>> = Recorded.next(subscribeTime + 100, peripheralMock)
+        let disconnectEvent: Recorded<Event<(CBPeripheralMock, Error?)>> = Recorded.next(subscribeTime + 200, (peripheralMock, TestError.error))
         testScheduler.createHotObservable([connectEvent]).subscribe(wrapperMock.didConnectPeripheral).disposed(by: disposeBag)
         testScheduler.createHotObservable([disconnectEvent]).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         

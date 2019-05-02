@@ -93,7 +93,7 @@ class PeripheralManagerTest_StartAdvertising: BasePeripheralManagerTest {
         let observer = setUpStartAdvertising(nil)
         peripheralManagerMock.state = .poweredOn
         let events: [Recorded<Event<Error?>>] = [
-            next(subscribeTime + 100, TestError.error)
+            Recorded.next(subscribeTime + 100, TestError.error)
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didStartAdvertising).disposed(by: disposeBag)
 
@@ -107,7 +107,7 @@ class PeripheralManagerTest_StartAdvertising: BasePeripheralManagerTest {
         let observer = setUpStartAdvertising(nil)
         peripheralManagerMock.state = .poweredOn
         let events: [Recorded<Event<Error?>>] = [
-            next(subscribeTime + 100, nil)
+            Recorded.next(subscribeTime + 100, nil)
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didStartAdvertising).disposed(by: disposeBag)
 

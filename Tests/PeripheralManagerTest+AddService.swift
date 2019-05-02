@@ -30,7 +30,7 @@ class PeripheralManagerTest_AddService: BasePeripheralManagerTest {
         let service = createMutableService()
         let obs = setUpAddService(service)
         let events: [Recorded<Event<(CBServiceMock, Error?)>>] = [
-            error(subscribeTime + 100, TestError.error)
+            Recorded.error(subscribeTime + 100, TestError.error)
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didAddService).disposed(by: disposeBag)
         peripheralManagerMock.state = .poweredOn
@@ -50,7 +50,7 @@ class PeripheralManagerTest_AddService: BasePeripheralManagerTest {
         let resultServiceMock = CBServiceMock()
         resultServiceMock.uuid = createUuid()
         let events: [Recorded<Event<(CBServiceMock, Error?)>>] = [
-            next(subscribeTime + 100, (resultServiceMock, TestError.error))
+            Recorded.next(subscribeTime + 100, (resultServiceMock, TestError.error))
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didAddService).disposed(by: disposeBag)
         peripheralManagerMock.state = .poweredOn
@@ -70,7 +70,7 @@ class PeripheralManagerTest_AddService: BasePeripheralManagerTest {
         let resultServiceMock = CBServiceMock()
         resultServiceMock.uuid = CBUUID(string: "D7E9576D-B058-4704-B60B-DF5AD022A9F1")
         let events: [Recorded<Event<(CBServiceMock, Error?)>>] = [
-            next(subscribeTime + 100, (resultServiceMock, TestError.error))
+            Recorded.next(subscribeTime + 100, (resultServiceMock, TestError.error))
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didAddService).disposed(by: disposeBag)
         peripheralManagerMock.state = .poweredOn
@@ -88,7 +88,7 @@ class PeripheralManagerTest_AddService: BasePeripheralManagerTest {
         let resultServiceMock = CBServiceMock()
         resultServiceMock.uuid = createUuid()
         let events: [Recorded<Event<(CBServiceMock, Error?)>>] = [
-            next(subscribeTime + 100, (resultServiceMock, nil))
+            Recorded.next(subscribeTime + 100, (resultServiceMock, nil))
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didAddService).disposed(by: disposeBag)
         peripheralManagerMock.state = .poweredOn

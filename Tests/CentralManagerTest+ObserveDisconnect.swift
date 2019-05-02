@@ -55,17 +55,17 @@ class CentralManagerTest_ObserveDisconnect: BaseCentralManagerTest {
     func testDeviceDisconnectedEvent() {
         let (peripheral, obs) = setUpObserveDisconnect()
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
-            next(subscribeTime - 100, (peripheral.peripheral, nil)),
-            next(subscribeTime + 100, (peripheral.peripheral, nil)),
-            next(subscribeTime + 101, (peripheral.peripheral, _BluetoothError.bluetoothResetting)),
-            next(subscribeTime + 102, (CBPeripheralMock(), nil)),
+            Recorded.next(subscribeTime - 100, (peripheral.peripheral, nil)),
+            Recorded.next(subscribeTime + 100, (peripheral.peripheral, nil)),
+            Recorded.next(subscribeTime + 101, (peripheral.peripheral, _BluetoothError.bluetoothResetting)),
+            Recorded.next(subscribeTime + 102, (CBPeripheralMock(), nil)),
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
 
         let expectedEvents: [Recorded<Event<(_Peripheral, DisconnectionReason?)>>] = [
-            next(subscribeTime + 100, (peripheral, nil)),
-            next(subscribeTime + 101, (peripheral, _BluetoothError.bluetoothResetting))
+            Recorded.next(subscribeTime + 100, (peripheral, nil)),
+            Recorded.next(subscribeTime + 101, (peripheral, _BluetoothError.bluetoothResetting))
         ]
         
         testScheduler.advanceTo(subscribeTime + 200)
@@ -77,9 +77,9 @@ class CentralManagerTest_ObserveDisconnect: BaseCentralManagerTest {
         let peripheralMocks = [CBPeripheralMock(), CBPeripheralMock()]
         let obs = setUpObserveDisconnectWithoutPeripheral(peripheralMocks: peripheralMocks)
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
-            next(subscribeTime - 100, (CBPeripheralMock(), nil)),
-            next(subscribeTime + 100, (peripheralMocks[0], nil)),
-            next(subscribeTime + 101, (peripheralMocks[1], _BluetoothError.bluetoothResetting)),
+            Recorded.next(subscribeTime - 100, (CBPeripheralMock(), nil)),
+            Recorded.next(subscribeTime + 100, (peripheralMocks[0], nil)),
+            Recorded.next(subscribeTime + 101, (peripheralMocks[1], _BluetoothError.bluetoothResetting)),
             ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
@@ -96,18 +96,18 @@ class CentralManagerTest_ObserveDisconnect: BaseCentralManagerTest {
     func testErrorAfterDeviceDisconnectedEvent() {
         let (peripheral, obs) = setUpObserveDisconnect()
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
-            next(subscribeTime + 100, (peripheral.peripheral, nil)),
+            Recorded.next(subscribeTime + 100, (peripheral.peripheral, nil)),
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         let stateEvents: [Recorded<Event<BluetoothState>>] = [
-            next(subscribeTime + 101, .unknown)
+            Recorded.next(subscribeTime + 101, .unknown)
         ]
         testScheduler.createHotObservable(stateEvents).subscribe(wrapperMock.didUpdateState).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
         
         let expectedEvents: [Recorded<Event<(_Peripheral, DisconnectionReason?)>>] = [
-            next(subscribeTime + 100, (peripheral, nil)),
-            next(subscribeTime + 101, (peripheral, _BluetoothError(state: .unknown)))
+            Recorded.next(subscribeTime + 100, (peripheral, nil)),
+            Recorded.next(subscribeTime + 101, (peripheral, _BluetoothError(state: .unknown)))
         ]
         let expectedError = _BluetoothError(state: .unknown)!
         
@@ -122,11 +122,11 @@ class CentralManagerTest_ObserveDisconnect: BaseCentralManagerTest {
         let peripheralMock = CBPeripheralMock()
         let obs = setUpObserveDisconnectWithoutPeripheral(peripheralMocks: [peripheralMock])
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
-            next(subscribeTime + 100, (peripheralMock, nil)),
+            Recorded.next(subscribeTime + 100, (peripheralMock, nil)),
             ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         let stateEvents: [Recorded<Event<BluetoothState>>] = [
-            next(subscribeTime + 101, .unknown)
+            Recorded.next(subscribeTime + 101, .unknown)
         ]
         testScheduler.createHotObservable(stateEvents).subscribe(wrapperMock.didUpdateState).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
@@ -143,7 +143,7 @@ class CentralManagerTest_ObserveDisconnect: BaseCentralManagerTest {
     
     private func testErrorEvent(with obs: ScheduledObservable<(_Peripheral, DisconnectionReason?)>) {
         let events: [Recorded<Event<(CBPeripheralMock, Error?)>>] = [
-            error(subscribeTime + 100, TestError.error)
+            Recorded.error(subscribeTime + 100, TestError.error)
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didDisconnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
