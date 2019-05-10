@@ -28,8 +28,8 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
         }
         
         let writeEvents: [Recorded<Event<(CBDescriptorMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockDescriptors[0], nil)),
-            next(subscribeTime + 200, (mockDescriptors[1], nil))
+            Recorded.next(subscribeTime + 100, (mockDescriptors[0], nil)),
+            Recorded.next(subscribeTime + 200, (mockDescriptors[1], nil))
         ]
         testScheduler.createHotObservable(writeEvents).subscribe(peripheral.delegateWrapper.peripheralDidWriteValueForDescriptor).disposed(by: disposeBag)
         
@@ -52,8 +52,8 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
         }
 
         let writeEvents: [Recorded<Event<(CBDescriptorMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockDescriptors[0], nil)),
-            next(subscribeTime + 200, (mockDescriptors[1], nil))
+            Recorded.next(subscribeTime + 100, (mockDescriptors[0], nil)),
+            Recorded.next(subscribeTime + 200, (mockDescriptors[1], nil))
         ]
         testScheduler.createHotObservable(writeEvents).subscribe(peripheral.delegateWrapper.peripheralDidWriteValueForDescriptor).disposed(by: disposeBag)
 
@@ -100,8 +100,8 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
         }
 
         let updateEvents: [Recorded<Event<(CBDescriptorMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockDescriptors[0], nil)),
-            next(subscribeTime + 200, (mockDescriptors[1], nil))
+            Recorded.next(subscribeTime + 100, (mockDescriptors[0], nil)),
+            Recorded.next(subscribeTime + 200, (mockDescriptors[1], nil))
         ]
         testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateValueForDescriptor).disposed(by: disposeBag)
 
@@ -124,8 +124,8 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
         }
 
         let updateEvents: [Recorded<Event<(CBDescriptorMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockDescriptors[0], nil)),
-            next(subscribeTime + 200, (mockDescriptors[1], nil))
+            Recorded.next(subscribeTime + 100, (mockDescriptors[0], nil)),
+            Recorded.next(subscribeTime + 200, (mockDescriptors[1], nil))
         ]
         testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateValueForDescriptor).disposed(by: disposeBag)
 

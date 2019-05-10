@@ -49,7 +49,7 @@ class PeripheralManagerTest_PublishL2CAP: BasePeripheralManagerTest {
         let observer = setUpPublishL2CAP(true)
         peripheralManagerMock.state = .poweredOn
         let events: [Recorded<Event<(CBL2CAPPSM, Error?)>>] = [
-            next(subscribeTime + 100, (10, TestError.error))
+            Recorded.next(subscribeTime + 100, (10, TestError.error))
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didPublishL2CAPChannel).disposed(by: disposeBag)
 
@@ -63,7 +63,7 @@ class PeripheralManagerTest_PublishL2CAP: BasePeripheralManagerTest {
         let observer = setUpPublishL2CAP(true)
         peripheralManagerMock.state = .poweredOn
         let events: [Recorded<Event<(CBL2CAPPSM, Error?)>>] = [
-            next(subscribeTime + 100, (10, nil))
+            Recorded.next(subscribeTime + 100, (10, nil))
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didPublishL2CAPChannel).disposed(by: disposeBag)
 
@@ -77,7 +77,7 @@ class PeripheralManagerTest_PublishL2CAP: BasePeripheralManagerTest {
         _ = setUpPublishL2CAP(true)
         peripheralManagerMock.state = .poweredOn
         let events: [Recorded<Event<(CBL2CAPPSM, Error?)>>] = [
-            next(subscribeTime + 100, (10, nil))
+            Recorded.next(subscribeTime + 100, (10, nil))
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didPublishL2CAPChannel).disposed(by: disposeBag)
 

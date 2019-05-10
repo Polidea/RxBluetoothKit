@@ -65,10 +65,10 @@ class CharacteristicNotificationManagerTest: XCTestCase {
         let (char2, obs2) = createAndSetUpObservable(characteristicMock: charMock2, time: createTimes(withOffset: 100))
         let (char3, obs3) = createAndSetUpObservable(characteristicMock: charMock3, time: createTimes(withOffset: 200))
         let events: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime - 100, (char1.characteristic, nil)),
-            next(subscribeTime, (char1.characteristic, nil)),
-            next(subscribeTime + 100, (char2.characteristic, nil)),
-            next(subscribeTime + 200, (char3.characteristic, nil)),
+            Recorded.next(subscribeTime - 100, (char1.characteristic, nil)),
+            Recorded.next(subscribeTime, (char1.characteristic, nil)),
+            Recorded.next(subscribeTime + 100, (char2.characteristic, nil)),
+            Recorded.next(subscribeTime + 200, (char3.characteristic, nil)),
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.peripheralDidUpdateValueForCharacteristic).disposed(by: disposeBag)
         
@@ -89,10 +89,10 @@ class CharacteristicNotificationManagerTest: XCTestCase {
         let (char1, obs1) = createAndSetUpObservable(characteristicMock: charMock1, time: createTimes(withOffset: 0))
         let (char2, obs2) = createAndSetUpObservable(characteristicMock: charMock2, time: createTimes(withOffset: 100))
         let events: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime, (char1.characteristic, nil)),
-            next(subscribeTime + 50, (char1.characteristic, TestError.error)),
-            next(subscribeTime + 100, (char2.characteristic, nil)),
-            next(subscribeTime + 150, (char2.characteristic, TestError.error)),
+            Recorded.next(subscribeTime, (char1.characteristic, nil)),
+            Recorded.next(subscribeTime + 50, (char1.characteristic, TestError.error)),
+            Recorded.next(subscribeTime + 100, (char2.characteristic, nil)),
+            Recorded.next(subscribeTime + 150, (char2.characteristic, TestError.error)),
             ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.peripheralDidUpdateValueForCharacteristic).disposed(by: disposeBag)
         
@@ -126,8 +126,8 @@ class CharacteristicNotificationManagerTest: XCTestCase {
         let (_, obs2) = createAndSetUpObservable(characteristicMock: charMock2, time: createTimes(withOffset: 100))
         
         let events: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime + 50, (char1.characteristic, TestError.error)),
-            next(subscribeTime + 100, (char1.characteristic, nil))
+            Recorded.next(subscribeTime + 50, (char1.characteristic, TestError.error)),
+            Recorded.next(subscribeTime + 100, (char1.characteristic, nil))
             ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.peripheralDidUpdateValueForCharacteristic).disposed(by: disposeBag)
         

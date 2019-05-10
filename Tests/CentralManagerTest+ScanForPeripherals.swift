@@ -73,15 +73,15 @@ class CentralManagerTest_ScanForPeripherals: BaseCentralManagerTest {
             _Peripheral(manager: manager, peripheral: peripheralMocks[2], delegateWrapper: CBPeripheralDelegateWrapperMock())
         ]
         let events: [Recorded<Event<DiscoverResult>>] = [
-            next(subscribeTime - 100, (peripheralMocks[0], [:], 10)),
-            next(subscribeTime + 100, (peripheralMocks[1], [CBAdvertisementDataLocalNameKey: "value1"], 20)),
-            next(subscribeTime + 101, (peripheralMocks[2], [CBAdvertisementDataIsConnectable: true], 30)),
+            Recorded.next(subscribeTime - 100, (peripheralMocks[0], [:], 10)),
+            Recorded.next(subscribeTime + 100, (peripheralMocks[1], [CBAdvertisementDataLocalNameKey: "value1"], 20)),
+            Recorded.next(subscribeTime + 101, (peripheralMocks[2], [CBAdvertisementDataIsConnectable: true], 30)),
             ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didDiscoverPeripheral).disposed(by: disposeBag)
         
         let expectedEvents: [Recorded<Event<_ScannedPeripheral>>] = [
-            next(subscribeTime + 100, createScannedPeripheral(peripheralMocks[1], [CBAdvertisementDataLocalNameKey: "value1"], 20)),
-            next(subscribeTime + 101, createScannedPeripheral(peripheralMocks[2], [CBAdvertisementDataIsConnectable: true], 20))
+            Recorded.next(subscribeTime + 100, createScannedPeripheral(peripheralMocks[1], [CBAdvertisementDataLocalNameKey: "value1"], 20)),
+            Recorded.next(subscribeTime + 101, createScannedPeripheral(peripheralMocks[2], [CBAdvertisementDataIsConnectable: true], 20))
         ]
         
         testScheduler.advanceTo(subscribeTime + 200)

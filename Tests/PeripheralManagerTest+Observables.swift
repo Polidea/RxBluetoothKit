@@ -150,7 +150,7 @@ class PeripheralManagerTest_Observables: BasePeripheralManagerTest {
     private func testObserveError<T>(observableCreator: () -> ScheduledObservable<T>, retrieveSubject: () -> PublishSubject<T>) {
         let obs = observableCreator()
         let events: [Recorded<Event<T>>] = [
-            error(subscribeTime + 100, TestError.error)
+            Recorded.error(subscribeTime + 100, TestError.error)
         ]
         testScheduler.createHotObservable(events).subscribe(retrieveSubject()).disposed(by: disposeBag)
         peripheralManagerMock.state = .poweredOn
@@ -171,7 +171,7 @@ class PeripheralManagerTest_Observables: BasePeripheralManagerTest {
     private func testObserveSuccess<T>(observableCreator: () -> ScheduledObservable<T>, success: T, retrieveSubject: () -> PublishSubject<T>, elementEqual: (T, T) -> Bool) {
         let obs = observableCreator()
         let events: [Recorded<Event<T>>] = [
-            next(subscribeTime + 100, success)
+            Recorded.next(subscribeTime + 100, success)
         ]
         testScheduler.createHotObservable(events).subscribe(retrieveSubject()).disposed(by: disposeBag)
         peripheralManagerMock.state = .poweredOn

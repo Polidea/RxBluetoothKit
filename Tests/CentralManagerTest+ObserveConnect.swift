@@ -52,9 +52,9 @@ class CentralManagerTest_ObserveConnect: BaseCentralManagerTest {
     func testDeviceConnectedEvent() {
         let (peripheral, obs) = setUpObserveConnect()
         let events: [Recorded<Event<CBPeripheralMock>>] = [
-            next(subscribeTime - 100, peripheral.peripheral),
-            next(subscribeTime + 100, peripheral.peripheral),
-            next(subscribeTime + 102, CBPeripheralMock()),
+            Recorded.next(subscribeTime - 100, peripheral.peripheral),
+            Recorded.next(subscribeTime + 100, peripheral.peripheral),
+            Recorded.next(subscribeTime + 102, CBPeripheralMock()),
             ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didConnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
@@ -69,9 +69,9 @@ class CentralManagerTest_ObserveConnect: BaseCentralManagerTest {
         let peripheralMocks = [CBPeripheralMock(), CBPeripheralMock()]
         let obs = setUpObserveConnectWithoutPeripheral(peripheralMocks: peripheralMocks)
         let events: [Recorded<Event<CBPeripheralMock>>] = [
-            next(subscribeTime - 100, CBPeripheralMock()),
-            next(subscribeTime + 100, peripheralMocks[0]),
-            next(subscribeTime + 102, peripheralMocks[1]),
+            Recorded.next(subscribeTime - 100, CBPeripheralMock()),
+            Recorded.next(subscribeTime + 100, peripheralMocks[0]),
+            Recorded.next(subscribeTime + 102, peripheralMocks[1]),
             ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didConnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
@@ -86,12 +86,12 @@ class CentralManagerTest_ObserveConnect: BaseCentralManagerTest {
     func testErrorAfterConnectedEvent() {
         let (peripheral, obs) = setUpObserveConnect()
         let events: [Recorded<Event<CBPeripheralMock>>] = [
-            next(subscribeTime + 100, peripheral.peripheral),
+            Recorded.next(subscribeTime + 100, peripheral.peripheral),
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didConnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
         let stateEvents: [Recorded<Event<BluetoothState>>] = [
-            next(subscribeTime + 101, .unknown)
+            Recorded.next(subscribeTime + 101, .unknown)
         ]
         testScheduler.createHotObservable(stateEvents).subscribe(wrapperMock.didUpdateState).disposed(by: disposeBag)
         
@@ -106,12 +106,12 @@ class CentralManagerTest_ObserveConnect: BaseCentralManagerTest {
         let peripheralMock = CBPeripheralMock()
         let obs = setUpObserveConnectWithoutPeripheral(peripheralMocks: [peripheralMock])
         let events: [Recorded<Event<CBPeripheralMock>>] = [
-            next(subscribeTime + 100, peripheralMock),
+            Recorded.next(subscribeTime + 100, peripheralMock),
             ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didConnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn
         let stateEvents: [Recorded<Event<BluetoothState>>] = [
-            next(subscribeTime + 101, .unknown)
+            Recorded.next(subscribeTime + 101, .unknown)
         ]
         testScheduler.createHotObservable(stateEvents).subscribe(wrapperMock.didUpdateState).disposed(by: disposeBag)
         
@@ -126,7 +126,7 @@ class CentralManagerTest_ObserveConnect: BaseCentralManagerTest {
     
     private func testErrorEvent(with obs: ScheduledObservable<_Peripheral>) {
         let events: [Recorded<Event<CBPeripheralMock>>] = [
-            error(subscribeTime + 100, TestError.error)
+            Recorded.error(subscribeTime + 100, TestError.error)
         ]
         testScheduler.createHotObservable(events).subscribe(wrapperMock.didConnectPeripheral).disposed(by: disposeBag)
         centralManagerMock.state = .poweredOn

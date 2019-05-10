@@ -26,8 +26,8 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         }
 
         let writeEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockCharacteristics[0], nil)),
-            next(subscribeTime + 200, (mockCharacteristics[1], nil))
+            Recorded.next(subscribeTime + 100, (mockCharacteristics[0], nil)),
+            Recorded.next(subscribeTime + 200, (mockCharacteristics[1], nil))
         ]
         testScheduler.createHotObservable(writeEvents).subscribe(peripheral.delegateWrapper.peripheralDidWriteValueForCharacteristic).disposed(by: disposeBag)
         
@@ -50,8 +50,8 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         }
         
         let writeEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockCharacteristics[0], nil)),
-            next(subscribeTime + 200, (mockCharacteristics[1], nil))
+            Recorded.next(subscribeTime + 100, (mockCharacteristics[0], nil)),
+            Recorded.next(subscribeTime + 200, (mockCharacteristics[1], nil))
         ]
         testScheduler.createHotObservable(writeEvents).subscribe(peripheral.delegateWrapper.peripheralDidWriteValueForCharacteristic).disposed(by: disposeBag)
         
@@ -163,8 +163,8 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         }
         
         let updateEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockCharacteristics[0], nil)),
-            next(subscribeTime + 200, (mockCharacteristics[1], nil))
+            Recorded.next(subscribeTime + 100, (mockCharacteristics[0], nil)),
+            Recorded.next(subscribeTime + 200, (mockCharacteristics[1], nil))
         ]
         testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateValueForCharacteristic).disposed(by: disposeBag)
         
@@ -187,8 +187,8 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         }
         
         let updateEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockCharacteristics[0], nil)),
-            next(subscribeTime + 200, (mockCharacteristics[1], nil))
+            Recorded.next(subscribeTime + 100, (mockCharacteristics[0], nil)),
+            Recorded.next(subscribeTime + 200, (mockCharacteristics[1], nil))
         ]
         testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateValueForCharacteristic).disposed(by: disposeBag)
         
@@ -207,8 +207,8 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         }
 
         let updateEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockCharacteristic, nil)),
-            next(subscribeTime + 200, (mockCharacteristic, nil))
+            Recorded.next(subscribeTime + 100, (mockCharacteristic, nil)),
+            Recorded.next(subscribeTime + 200, (mockCharacteristic, nil))
         ]
         
         testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic).disposed(by: disposeBag)
@@ -228,8 +228,8 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
         }
         
         let updateEvents: [Recorded<Event<(CBCharacteristicMock, Error?)>>] = [
-            next(subscribeTime + 100, (mockCharacteristic, nil)),
-            next(subscribeTime + 200, (mockCharacteristic, nil))
+            Recorded.next(subscribeTime + 100, (mockCharacteristic, nil)),
+            Recorded.next(subscribeTime + 200, (mockCharacteristic, nil))
         ]
         
         testScheduler.createHotObservable(updateEvents).subscribe(peripheral.delegateWrapper.peripheralDidUpdateNotificationStateForCharacteristic).disposed(by: disposeBag)
