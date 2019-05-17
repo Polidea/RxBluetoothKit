@@ -13,6 +13,7 @@ env:
 before_install:
 - brew update
 - brew outdated carthage || brew upgrade carthage
+- brew list gnu-sed || brew install gnu-sed
 before_script:
 - travis_retry carthage bootstrap --platform "${TARGET}"
 script:
