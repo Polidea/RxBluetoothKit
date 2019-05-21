@@ -1,3 +1,6 @@
+# 5.2.1
+- Updated RxSwift to version 5.0 (#335)
+
 # 5.2.0
 - Added support for Xcode 10.2 and Swift 5 (#321)
 - Fixed "API MISUSE" after canceling notification state when bluetooth is powered off (#319)
