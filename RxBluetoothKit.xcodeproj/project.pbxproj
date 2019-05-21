@@ -265,6 +265,7 @@
 		D74B16861ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
 		FA947A3B1EB1C41C000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
 		FA947A3C1EB1C42F000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
+		FDA404272294386300386BB8 /* RxBluetoothKitLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA404262294386300386BB8 /* RxBluetoothKitLogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -415,6 +416,7 @@
 		BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentralManagerDelegateWrapper.swift; sourceTree = "<group>"; };
 		D74B16841ED417AA006D5996 /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDIdentifiable.swift; sourceTree = "<group>"; };
+		FDA404262294386300386BB8 /* RxBluetoothKitLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBluetoothKitLogger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -634,6 +636,7 @@
 				FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */,
 				D74B16841ED417AA006D5996 /* Logging.swift */,
 				1D9C509A202064CC006B21E4 /* Array+Utils.swift */,
+				FDA404262294386300386BB8 /* RxBluetoothKitLogger.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -1311,6 +1314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2666FE491CCE4732005E81CE /* CentralManager.swift in Sources */,
+				FDA404272294386300386BB8 /* RxBluetoothKitLogger.swift in Sources */,
 				1D73E84F20A43033009167AA /* CBCentral+Uuid.swift in Sources */,
 				2666FE401CCE4732005E81CE /* Unimplemented.swift in Sources */,
 				1D6E36C820A07057009900A6 /* ManagerType.swift in Sources */,
