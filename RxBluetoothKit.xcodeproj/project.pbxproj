@@ -266,6 +266,9 @@
 		FA947A3B1EB1C41C000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
 		FA947A3C1EB1C42F000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
 		FDA404272294386300386BB8 /* RxBluetoothKitLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA404262294386300386BB8 /* RxBluetoothKitLogger.swift */; };
+		FDA404282294532D00386BB8 /* RxBluetoothKitLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA404262294386300386BB8 /* RxBluetoothKitLogger.swift */; };
+		FDA404292294532E00386BB8 /* RxBluetoothKitLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA404262294386300386BB8 /* RxBluetoothKitLogger.swift */; };
+		FDA4042A2294532F00386BB8 /* RxBluetoothKitLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA404262294386300386BB8 /* RxBluetoothKitLogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1198,6 +1201,7 @@
 				0A7B27E71F9F177A003F950E /* Peripheral.swift in Sources */,
 				0A7B27DE1F9F1771003F950E /* Logging.swift in Sources */,
 				0A7B27DB1F9F1771003F950E /* Boxes.swift in Sources */,
+				FDA404292294532E00386BB8 /* RxBluetoothKitLogger.swift in Sources */,
 				0A7B27E31F9F1776003F950E /* Service.swift in Sources */,
 				0A7B27DA1F9F1771003F950E /* Observable+Absorb.swift in Sources */,
 				1D73E85320A431F0009167AA /* PeripheralManager.swift in Sources */,
@@ -1233,6 +1237,7 @@
 				0A7B28291F9F1B33003F950E /* Unimplemented.swift in Sources */,
 				0A7B28321F9F1B39003F950E /* CentralManager.swift in Sources */,
 				0A339D741FA1C0ED008385C8 /* CBPeripheralDelegateWrapper.swift in Sources */,
+				FDA4042A2294532F00386BB8 /* RxBluetoothKitLogger.swift in Sources */,
 				0A7B282E1F9F1B33003F950E /* Logging.swift in Sources */,
 				0A7B28201F9F1B25003F950E /* DeviceIdentifiers.swift in Sources */,
 				1D73E85420A43338009167AA /* PeripheralManager.swift in Sources */,
@@ -1409,6 +1414,7 @@
 				1DA3453920A07FA800F7D629 /* PeripheralManager.swift in Sources */,
 				2666FE2E1CCE4731005E81CE /* CentralManager.swift in Sources */,
 				2666FE251CCE4731005E81CE /* Unimplemented.swift in Sources */,
+				FDA404282294532D00386BB8 /* RxBluetoothKitLogger.swift in Sources */,
 				D74B16861ED417AA006D5996 /* Logging.swift in Sources */,
 				2666FE1C1CCE4731005E81CE /* DeviceIdentifiers.swift in Sources */,
 				FA947A3C1EB1C42F000ED0B1 /* UUIDIdentifiable.swift in Sources */,
