@@ -7,6 +7,18 @@ public class RxBluetoothKitLog: ReactiveCompatible {
 
     fileprivate static let subject = PublishSubject<String>()
 
+    /// Set new log level.
+    /// - Parameter logLevel: New log level to be applied.
+    public static func setLogLevel(_ logLevel: RxBluetoothKitLog.LogLevel) {
+        RxBluetoothKitLogger.defaultLogger.setLogLevel(logLevel)
+    }
+
+    /// Get current log level.
+    /// - Returns: Currently set log level.
+    public static func getLogLevel() -> RxBluetoothKitLog.LogLevel {
+        return RxBluetoothKitLogger.defaultLogger.getLogLevel()
+    }
+
     private init() {
     }
 
@@ -33,13 +45,17 @@ public class RxBluetoothKitLog: ReactiveCompatible {
         function: StaticString,
         line: UInt
     ) {
+        let loggedMessage = message()
         RxBluetoothKitLogger.defaultLogger.log(
-            message(),
+            loggedMessage,
             level: logLevel,
             file: file,
             function: function,
             line: line
         )
+        if getLogLevel() <= logLevel {
+            subject.onNext(loggedMessage)
+        }
     }
 
     static func v(
