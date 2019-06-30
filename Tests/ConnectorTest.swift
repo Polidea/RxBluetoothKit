@@ -25,7 +25,8 @@ class ConnectorTest: XCTestCase {
         testScheduler.advanceTo(subscribeTime)
 
         XCTAssertTrue(connector.connectedBox.read({ $0.contains(uuid) }), "should set peripheral as connected")
-        XCTAssertEqual(centralManagerMock.connectParams.count, 0, "should not call connect")
+        XCTAssertEqual(centralManagerMock.connectParams.count, 1, "should call connect")
+        XCTAssertEqual(centralManagerMock.connectParams[0].0, peripheralMock, "should call connect with proper params")
     }
     
     func testAlreadyConnectingPeripheral() {

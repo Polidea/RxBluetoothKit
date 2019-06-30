@@ -90,6 +90,8 @@ Check [our Wiki](https://github.com/Polidea/RxBluetoothKit/wiki) with guidelines
 
 Remember to follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/) blog to get all the news and updates!
 
+Learn more about Polidea's BLE services [here](https://www.polidea.com/services/ble).
+
 # Requirements
 
 - iOS 8.0+

@@ -78,18 +78,25 @@ class Connector {
             let failToConnectObservable = strongSelf.createFailToConnectObservable(for: peripheral)
             let disconnectedObservable = strongSelf.createDisconnectedObservable(for: peripheral)
 
-            let disposable: Disposable
-            if peripheral.isConnected {
-                disposable = disconnectedObservable.subscribe(onError: { observer.onError($0) })
-                observer.onNext(peripheral)
-            } else {
-                disposable = connectedObservable.amb(failToConnectObservable)
-                    .do(onNext: { observer.onNext($0) })
-                    .flatMap { _ in disconnectedObservable }
-                    .subscribe(onError: { observer.onError($0) })
+            let disposable = connectedObservable.amb(failToConnectObservable)
+                .do(onNext: { observer.onNext($0) })
+                .flatMap { _ in disconnectedObservable }
+                .subscribe(onError: { observer.onError($0) })
 
-                strongSelf.centralManager.connect(peripheral.peripheral, options: options)
-            }
+            // Apple recommends to always connect to a peripheral after retrieving it.
+            // https://developer.apple.com/library/archive/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/BestPracticesForInteractingWithARemotePeripheralDevice/BestPracticesForInteractingWithARemotePeripheralDevice.html#//apple_ref/doc/uid/TP40013257-CH6-SW9
+            //
+            // Excerpts from "Reconnecting to Peripherals"
+            //
+            // "Retrieve a list of known peripherals—peripherals that you’ve discovered or connected to in the past—using the
+            // retrievePeripheralsWithIdentifiers: method. If the peripheral you’re looking for is in the list, try to connect to it."
+            //
+            // "Assuming that the user finds and selects the desired peripheral, connect it locally to your app by calling the
+            // connectPeripheral:options: method of the CBCentralManager class. (Even though the device is already connected to
+            // the system, you must still connect it locally to your app to begin exploring and interacting with it.) When the local
+            // connection is established, the central manager calls the centralManager:didConnectPeripheral: method of its delegate
+            // object, and the peripheral device is successfully reconnected."
+            strongSelf.centralManager.connect(peripheral.peripheral, options: options)
 
             return Disposables.create { [weak self] in
                 guard let strongSelf = self else { return }
