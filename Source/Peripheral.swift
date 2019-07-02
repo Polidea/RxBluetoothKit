@@ -829,8 +829,7 @@ public class Peripheral {
     /// * `BluetoothError.bluetoothPoweredOff`
     /// * `BluetoothError.bluetoothInUnknownState`
     /// * `BluetoothError.bluetoothResetting`
-    #if os(iOS) || os(tvOS) || os(watchOS)
-    @available(iOS 11, tvOS 11, watchOS 4, *)
+    @available(iOS 11, macOS 10.14, tvOS 11, watchOS 4, *)
     public func openL2CAPChannel(PSM: CBL2CAPPSM) -> Single<CBL2CAPChannel> {
         let observable = delegateWrapper
             .peripheralDidOpenL2CAPChannel
@@ -849,7 +848,6 @@ public class Peripheral {
             self?.peripheral.openL2CAPChannel(PSM)
         }).asSingle()
     }
-    #endif
 
     // MARK: Internal functions
 
