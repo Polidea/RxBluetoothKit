@@ -14,7 +14,7 @@
     <a title="RxBluetoothKitLog Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit Docs</a> (80% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit 5.3.0 Docs</a> (80% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -70,6 +70,9 @@
                 <a href="../Enums/BluetoothState.html">BluetoothState</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/RxBluetoothKitLogger.html">RxBluetoothKitLogger</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
               </li>
             </ul>
@@ -110,6 +113,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Logger.html">Logger</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ManagerType.html">ManagerType</a>
@@ -177,37 +183,6 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit0abC3LogC0D5LevelO"></a>
-                    <a name="//apple_ref/swift/Enum/LogLevel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit0abC3LogC0D5LevelO">LogLevel</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Log levels for internal logging mechanism.</p>
-
-                        <a href="../Classes/RxBluetoothKitLog/LogLevel.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">LogLevel</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.2.1/Source/Logging.swift#L16-L29">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:14RxBluetoothKit0abC3LogC03setD5LevelyyAC0dF0OFZ"></a>
                     <a name="//apple_ref/swift/Method/setLogLevel(_:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:14RxBluetoothKit0abC3LogC03setD5LevelyyAC0dF0OFZ">setLogLevel(_:)</a>
@@ -225,7 +200,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">setLogLevel</span><span class="p">(</span><span class="n">_</span> <span class="nv">logLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog/LogLevel.html">LogLevel</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">setLogLevel</span><span class="p">(</span><span class="n">_</span> <span class="nv">logLevel</span><span class="p">:</span> <span class="kt">RxBluetoothKitLog</span><span class="o">.</span><span class="kt"><a href="../Classes/RxBluetoothKitLog/LogLevel.html">LogLevel</a></span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -249,7 +224,7 @@
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.2.1/Source/Logging.swift#L33-L35">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logging.swift#L12-L14">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -274,7 +249,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">getLogLevel</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog/LogLevel.html">LogLevel</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">getLogLevel</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">RxBluetoothKitLog</span><span class="o">.</span><span class="kt"><a href="../Classes/RxBluetoothKitLog/LogLevel.html">LogLevel</a></span></code></pre>
 
                         </div>
                       </div>
@@ -283,7 +258,38 @@
                         <p>Currently set log level.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.2.1/Source/Logging.swift#L39-L41">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logging.swift#L18-L20">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit0abC3LogC0D5LevelO"></a>
+                    <a name="//apple_ref/swift/Enum/LogLevel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0abC3LogC0D5LevelO">LogLevel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Log levels for internal logging mechanism.</p>
+
+                        <a href="../Classes/RxBluetoothKitLog/LogLevel.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">LogLevel</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logging.swift#L26-L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -293,8 +299,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2019-05-17)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2019 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2019-07-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

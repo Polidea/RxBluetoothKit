@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Logger Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/Logger" class="dashAnchor"></a>
+    <a title="Logger Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">RxBluetoothKit 5.3.0 Docs</a> (80% documented)</p>
+        <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">RxBluetoothKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Logger Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CentralManager.html">CentralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Characteristic.html">Characteristic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Descriptor.html">Descriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Peripheral.html">Peripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PeripheralManager.html">PeripheralManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RxBluetoothKitLog/LogLevel.html">– LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ScannedPeripheral.html">ScannedPeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Service.html">Service</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothError.html">BluetoothError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BluetoothState.html">BluetoothState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RxBluetoothKitLogger.html">RxBluetoothKitLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Reactive.html">Reactive</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiySbAA0B5ErrorO_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiySbAA10DescriptorC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiySbAA10PeripheralC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiySbAA14CharacteristicC_ADtF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:14RxBluetoothKit2eeoiySbAA7ServiceC_ADtF">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CharacteristicIdentifier.html">CharacteristicIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DescriptorIdentifier.html">DescriptorIdentifier</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Logger.html">Logger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ManagerType.html">ManagerType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ServiceIdentifier.html">ServiceIdentifier</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AdvertisementData.html">AdvertisementData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CentralManagerRestoredState.html">CentralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/PeripheralManagerRestoredState.html">PeripheralManagerRestoredState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RestoredState.html">RestoredState</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit19DisconnectionReasona">DisconnectionReason</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14RxBluetoothKit25RestoredAdvertisementDataa">RestoredAdvertisementData</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Logger</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Logger</span></code></pre>
+
+                </div>
+              </div>
+            <p>Simple logging interface.</p>
+
+<p>An application that wants RxBluetoothKit to use its logging solution will
+need to provide a type that conforms to this signature and assign it to
+<code><a href="../Enums/RxBluetoothKitLogger.html#/s:14RxBluetoothKit0abC6LoggerO07defaultD0AA0D0_pvpZ">RxBluetoothKitLogger.defaultLogger</a></code>.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOs12StaticStringVANSutF"></a>
+                    <a name="//apple_ref/swift/Method/log(_:level:file:function:line:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOs12StaticStringVANSutF">log(_:level:file:function:line:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Logs the given message (using StaticString parameters).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">log</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">StaticString</span><span class="p">,</span> <span class="nv">function</span><span class="p">:</span> <span class="kt">StaticString</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>message</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message to be logger.
+     Provided as a closure to avoid performing interpolation if
+     the message is not going to be logged.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>level</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The severity of the message.
+   A logger can use this flag to decide if to log or ignore
+   this specific message.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>file</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The file name of the file where the message was created.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>function</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The function name where the message was created.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>line</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The line number in the file where the message was created.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logger.swift#L19">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOS2SSutF"></a>
+                    <a name="//apple_ref/swift/Method/log(_:level:file:function:line:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOS2SSutF">log(_:level:file:function:line:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Logs the given message (using regular String parameters).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">log</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">function</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>message</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message to be logger.
+     Provided as a closure to avoid performing interpolation if
+     the message is not going to be logged.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>level</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The severity of the message.
+   A logger can use this flag to decide if to log or ignore
+   this specific message.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>file</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The file name of the file where the message was created.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>function</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The function name where the message was created.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>line</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The line number in the file where the message was created.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logger.swift#L39">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit6LoggerP11setLogLevelyyAA0abcF0C0fG0OF"></a>
+                    <a name="//apple_ref/swift/Method/setLogLevel(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP11setLogLevelyyAA0abcF0C0fG0OF">setLogLevel(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set new log level.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setLogLevel</span><span class="p">(</span><span class="n">_</span> <span class="nv">logLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>logLevel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>New log level to be applied.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logger.swift#L49">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit6LoggerP11getLogLevelAA0abcF0C0fG0OyF"></a>
+                    <a name="//apple_ref/swift/Method/getLogLevel()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP11getLogLevelAA0abcF0C0fG0OyF">getLogLevel()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get current log level.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getLogLevel</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Currently set log level.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logger.swift#L53">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2019-07-26)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
