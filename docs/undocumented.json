@@ -1024,34 +1024,6 @@
     },
     {
       "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
-      "line": null,
-      "symbol": "ManagerType",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
-      "line": null,
-      "symbol": "ManagerType",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
-      "line": null,
-      "symbol": "ManagerType",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
-      "line": null,
-      "symbol": "ManagerType",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
       "line": 5,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.protocol",
@@ -1107,24 +1079,31 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/Peripheral.swift",
-      "line": 834,
-      "symbol": "Peripheral.openL2CAPChannel(PSM:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "line": 21,
+      "symbol": "ManagerType",
+      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/Peripheral.swift",
-      "line": 834,
-      "symbol": "Peripheral.openL2CAPChannel(PSM:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "line": 21,
+      "symbol": "ManagerType",
+      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/Peripheral.swift",
-      "line": 834,
-      "symbol": "Peripheral.openL2CAPChannel(PSM:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "line": 21,
+      "symbol": "ManagerType",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "line": 21,
+      "symbol": "ManagerType",
+      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {

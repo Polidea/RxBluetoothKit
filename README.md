@@ -51,9 +51,11 @@ With just 9 lines it started scanning, connecting to the peripheral, discovering
 
 # Recent Changes
 
-**5.2.1**
+**5.3.0**
 
-* Updated RxSwift to version 5.0 (#335)
+* Always connect to retrieved peripherals first (#337)
+* Addded a customisation point for injecting a logger (#341)
+* Fixed L2CAP API to support OSX 10.14 (#345)
 
 [All previous changes](CHANGELOG.md)
 

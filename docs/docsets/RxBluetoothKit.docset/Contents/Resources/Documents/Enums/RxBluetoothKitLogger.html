@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ScannedPeripheral Class Reference</title>
+    <title>RxBluetoothKitLogger Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/ScannedPeripheral" class="dashAnchor"></a>
-    <a title="ScannedPeripheral Class Reference"></a>
+    <a name="//apple_ref/swift/Enum/RxBluetoothKitLogger" class="dashAnchor"></a>
+    <a title="RxBluetoothKitLogger Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">RxBluetoothKit 5.3.0 Docs</a> (80% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">RxBluetoothKit Reference</a>
         <img id="carat" src="../img/carat.png" />
-        ScannedPeripheral Class Reference
+        RxBluetoothKitLogger Enumeration Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -167,15 +167,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>ScannedPeripheral</h1>
+            <h1>RxBluetoothKitLogger</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ScannedPeripheral</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">RxBluetoothKitLogger</span></code></pre>
 
                 </div>
               </div>
-            <p>Represents instance of scanned peripheral - containing it&rsquo;s advertisment data, rssi and peripheral itself.
-To perform further actions <code>peripheral</code> instance variable can be used ia. to maintain connection.</p>
+            <p>Namespace for assigning the default logger.</p>
 
           </section>
           <section class="section task-group-section">
@@ -184,9 +183,9 @@ To perform further actions <code>peripheral</code> instance variable can be used
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit17ScannedPeripheralC10peripheralAA0E0Cvp"></a>
-                    <a name="//apple_ref/swift/Property/peripheral" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit17ScannedPeripheralC10peripheralAA0E0Cvp">peripheral</a>
+                    <a name="/s:14RxBluetoothKit0abC6LoggerO07defaultD0AA0D0_pvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/defaultLogger" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit0abC6LoggerO07defaultD0AA0D0_pvpZ">defaultLogger</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -194,79 +193,19 @@ To perform further actions <code>peripheral</code> instance variable can be used
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><code><a href="../Classes/Peripheral.html">Peripheral</a></code> instance, that allows to perform further bluetooth actions.</p>
+                        <p>The default logger that will be used by RxBluetoothKit</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt"><a href="../Classes/Peripheral.html">Peripheral</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">defaultLogger</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Logger.html">Logger</a></span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ScannedPeripheral.swift#L9">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:14RxBluetoothKit17ScannedPeripheralC17advertisementDataAA013AdvertisementG0Vvp"></a>
-                    <a name="//apple_ref/swift/Property/advertisementData" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit17ScannedPeripheralC17advertisementDataAA013AdvertisementG0Vvp">advertisementData</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Advertisement data of scanned peripheral</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">advertisementData</span><span class="p">:</span> <span class="kt"><a href="../Structs/AdvertisementData.html">AdvertisementData</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ScannedPeripheral.swift#L12">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:14RxBluetoothKit17ScannedPeripheralC4rssiSo8NSNumberCvp"></a>
-                    <a name="//apple_ref/swift/Property/rssi" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit17ScannedPeripheralC4rssiSo8NSNumberCvp">rssi</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Scanned peripheral&rsquo;s RSSI value.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">rssi</span><span class="p">:</span> <span class="kt">NSNumber</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ScannedPeripheral.swift#L15">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/RxBluetoothKitLogger.swift#L6">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
