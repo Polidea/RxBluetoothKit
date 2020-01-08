@@ -97,9 +97,11 @@ Check [our Wiki](https://github.com/Polidea/RxBluetoothKit/wiki) with guidelines
 * [StackOverflow](http://stackoverflow.com/questions/tagged/rxiosble?sort=active) if you have a problem
 * Or open [an issue](https://github.com/Polidea/RxBluetoothKit/issues/new) on GitHub
 
-Remember to follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/) blog to get all the news and updates!
+Remember to follow [Polidea's Blog](https://www.polidea.com/blog/RxBluetoothKit_The_most_simple_way_to_code_BLE_devices/?utm_source=Github&utm_medium=Npaid&utm_campaign=Blog&utm_term=Article&utm_content=GH_NOP_BLG_ART_BLD01) blog to get all the news and updates!
 
-Learn more about Polidea's BLE services [here](https://www.polidea.com/services/ble).
+[Contact us](https://www.polidea.com/project/?utm_source=Github&utm_medium=Npaid&utm_campaign=Kontakt&utm_term=Code&utm_content=GH_NOP_KKT_COD_RBK001)
+
+Learn more about Polidea's BLE services [here](https://www.polidea.com/services/ble/?utm_source=Github&utm_medium=Npaid&utm_campaign=Tech_BLE&utm_term=Code&utm_content=GH_NOP_BLE_COD_RBK001).
 
 # Requirements
 
