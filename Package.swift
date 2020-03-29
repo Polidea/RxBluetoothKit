@@ -21,7 +21,8 @@ let package = Package(
                 exclude: [
                     "Example",
                     "Tests",
-                    "Source/Info.plist"
+                    "Source/Info.plist",
+                    "Source/RxBluetoothKit.h"
                 ],
                 sources: [
                     "Source"
