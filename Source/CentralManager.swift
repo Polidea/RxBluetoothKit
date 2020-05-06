@@ -11,8 +11,7 @@ public typealias DisconnectionReason = Error
 /// public `CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
 /// by calling and observing returned value of `observeState()` and then chaining it with `scanForPeripherals(_:options:)`:
 /// ```
-/// let disposable = centralManager.observeState
-///     .startWith(centralManager.state)
+/// let disposable = centralManager.observeState()
 ///     .filter { $0 == .poweredOn }
 ///     .take(1)
 ///     .flatMap { centralManager.scanForPeripherals(nil) }
@@ -92,11 +91,19 @@ public class CentralManager: ManagerType {
     // MARK: State
 
     public var state: BluetoothState {
-        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
+        return BluetoothState(rawValue: manager.state.rawValue) ?? .unknown
     }
 
     public func observeState() -> Observable<BluetoothState> {
-        return self.delegateWrapper.didUpdateState.asObservable()
+        return Observable.deferred { [weak self] in
+            guard let self = self else {
+                RxBluetoothKitLog.w("observeState - CentralManager deallocated")
+                return .never()
+            }
+
+            return self.delegateWrapper.didUpdateState.asObservable()
+                .startWith(self.state)
+        }
     }
 
     // MARK: Scanning

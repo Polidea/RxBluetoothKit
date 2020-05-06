@@ -9,8 +9,7 @@ import RxSwift
 /// Before calling any public `_PeripheralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
 /// by `observeState()`, observing it's value and then chaining it with `add(_:)` and `startAdvertising(_:)`:
 /// ```
-/// let disposable = centralManager.observeState
-///     .startWith(centralManager.state)
+/// let disposable = centralManager.observeState()
 ///     .filter { $0 == .poweredOn }
 ///     .take(1)
 ///     .flatMap { centralManager.add(myService) }
@@ -70,11 +69,19 @@ class _PeripheralManager: _ManagerType {
     // MARK: State
 
     var state: BluetoothState {
-        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
+        return BluetoothState(rawValue: manager.state.rawValue) ?? .unknown
     }
 
     func observeState() -> Observable<BluetoothState> {
-        return self.delegateWrapper.didUpdateState.asObservable()
+        return Observable.deferred { [weak self] in
+            guard let self = self else {
+                RxBluetoothKitLog.w("observeState - _PeripheralManager deallocated")
+                return .never()
+            }
+
+            return self.delegateWrapper.didUpdateState.asObservable()
+                .startWith(self.state)
+        }
     }
 
     // MARK: Advertising

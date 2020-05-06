@@ -12,7 +12,7 @@ public protocol ManagerType: class {
     var state: BluetoothState { get }
 
     /// Continuous state of `CBManager` instance described by `BluetoothState` which is equivalent to  [CBManagerState](https://developer.apple.com/documentation/corebluetooth/cbmanagerstate).
-    /// - returns: Observable that emits `next` event whenever state changes.
+    /// - returns: Observable that emits `next` event starting with current state and whenever state changes.
     ///
     /// It's **infinite** stream, so `.complete` is never called.
     func observeState() -> Observable<BluetoothState>
@@ -28,7 +28,6 @@ public extension ManagerType {
         return .deferred { [weak self] in
             guard let strongSelf = self else { throw BluetoothError.destroyed }
             let statesObservable = strongSelf.observeState()
-                .startWith(strongSelf.state)
                 .filter { $0 != state && BluetoothError(state: $0) != nil }
                 .map { state -> T in throw BluetoothError(state: state)! }
             return .absorb(statesObservable, observable)
