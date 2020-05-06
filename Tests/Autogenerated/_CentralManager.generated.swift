@@ -286,6 +286,25 @@ class _CentralManager: _ManagerType {
                 }
     }
 
+
+    // MARK: ANCS
+
+    /// Emits boolean values according to ancsAuthorized property on a CBPeripheralMock.
+    ///
+    /// - parameter peripheral: `_Peripheral` which is observed for ancsAuthorized chances.
+    /// - returns: Observable which emits next events when `ancsAuthorized` property changes on a peripheral.
+    #if !os(macOS)
+    @available(iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func observeANCSAuthorized(for peripheral: _Peripheral) -> Observable<Bool> {
+        let observable = delegateWrapper.didUpdateANCSAuthorizationForPeripheral
+            .asObservable()
+            .filter { $0 == peripheral.peripheral }
+            .map { $0.ancsAuthorized }
+
+        return ensure(.poweredOn, observable: observable)
+    }
+    #endif
+
     // MARK: Internal functions
 
     /// Ensure that specified `peripheral` is connected during subscription.
