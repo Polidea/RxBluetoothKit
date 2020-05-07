@@ -285,7 +285,6 @@ public class CentralManager: ManagerType {
                 }
     }
 
-
     // MARK: ANCS
 
     /// Emits boolean values according to ancsAuthorized property on a CBPeripheral.
@@ -298,7 +297,10 @@ public class CentralManager: ManagerType {
         let observable = delegateWrapper.didUpdateANCSAuthorizationForPeripheral
             .asObservable()
             .filter { $0 == peripheral.peripheral }
-            .map { $0.ancsAuthorized }
+            // ancsAuthorized is a Bool by default, but the testing framework
+            // will use Bool! instead. In order to support that we are converting
+            // to optional and unwrapping the value.
+            .map { ($0.ancsAuthorized as Bool?)! }
 
         return ensure(.poweredOn, observable: observable)
     }
