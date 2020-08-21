@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "RxBluetoothKit",
+    platforms: [
+        .macOS(.v10_10), .iOS(.v8), .tvOS(.v11), .watchOS(.v4)
+    ],
     products: [
         .library(name: "RxBluetoothKit", targets: ["RxBluetoothKit"])
     ],
