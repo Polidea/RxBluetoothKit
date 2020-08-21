@@ -1,7 +1,7 @@
-language: objective-c
-osx_image: xcode10.2
+language: swift
+osx_image: xcode11.6
 xcode_project: RxBluetoothKit.xcodeproj
-xcode_sdk: iphonesimulator12.2
+xcode_sdk: iphonesimulator13.6
 env:
   matrix:
   - TARGET=iOS
