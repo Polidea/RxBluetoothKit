@@ -9,10 +9,11 @@ typealias DisconnectionReason = Error
 /// _CentralManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
 /// discover, connect to remote peripheral devices and more.
 /// You can start using this class by discovering available services of nearby peripherals. Before calling any
-/// public `_CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
-/// by calling and observing returned value of `observeState()` and then chaining it with `scanForPeripherals(_:options:)`:
+/// public `_CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on.
+/// It can be done by calling and observing returned value of `observeStateWithInitialValue()` and then
+/// chaining it with `scanForPeripherals(_:options:)`:
 /// ```
-/// let disposable = centralManager.observeState()
+/// let disposable = centralManager.observeStateWithInitialValue()
 ///     .filter { $0 == .poweredOn }
 ///     .take(1)
 ///     .flatMap { centralManager.scanForPeripherals(nil) }
@@ -96,6 +97,10 @@ class _CentralManager: _ManagerType {
     }
 
     func observeState() -> Observable<BluetoothState> {
+        return self.delegateWrapper.didUpdateState.asObservable()
+    }
+
+    func observeStateWithInitialValue() -> Observable<BluetoothState> {
         return Observable.deferred { [weak self] in
             guard let self = self else {
                 RxBluetoothKitLog.w("observeState - _CentralManager deallocated")

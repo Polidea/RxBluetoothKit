@@ -6,9 +6,9 @@ import RxSwift
 /// advertise, to publish L2CAP channels and more.
 /// You can start using this class by adding services and starting advertising.
 /// Before calling any public `PeripheralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
-/// by `observeState()`, observing it's value and then chaining it with `add(_:)` and `startAdvertising(_:)`:
+/// by `observeStateWithInitialValue()`, observing it's value and then chaining it with `add(_:)` and `startAdvertising(_:)`:
 /// ```
-/// let disposable = centralManager.observeState()
+/// let disposable = centralManager.observeStateWithInitialValue()
 ///     .filter { $0 == .poweredOn }
 ///     .take(1)
 ///     .flatMap { centralManager.add(myService) }
@@ -72,6 +72,10 @@ public class PeripheralManager: ManagerType {
     }
 
     public func observeState() -> Observable<BluetoothState> {
+        return self.delegateWrapper.didUpdateState.asObservable()
+    }
+
+    public func observeStateWithInitialValue() -> Observable<BluetoothState> {
         return Observable.deferred { [weak self] in
             guard let self = self else {
                 RxBluetoothKitLog.w("observeState - PeripheralManager deallocated")
