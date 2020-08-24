@@ -257,6 +257,8 @@ public class Peripheral {
             observable = .just(characteristic)
         case .withResponse:
             observable = monitorWrite(for: characteristic).take(1)
+        @unknown default:
+            observable = .unimplemented()
         }
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,

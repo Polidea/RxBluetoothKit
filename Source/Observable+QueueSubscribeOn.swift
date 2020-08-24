@@ -49,7 +49,7 @@ class SerializedSubscriptionQueue {
         lock.lock(); defer { lock.unlock() }
         // Find index of observable which should be unsubscribed
         // and remove it from queue
-        if let index = queue.index(where: { $0 === observable }) {
+        if let index = queue.firstIndex(where: { $0 === observable }) {
             queue.remove(at: index)
             // If first item was unsubscribed, subscribe on next one
             // if available
@@ -99,7 +99,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
 
     /// Part of producer implementation. We need to make sure that we can optimize
     /// scheduling of a work (taken from RxSwift source code)
-    func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
+    func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.Element == Element {
         if !CurrentThreadScheduler.isScheduleRequired {
             return run(observer: observer)
         }
@@ -109,7 +109,7 @@ class QueueSubscribeOn<Element>: Cancelable, ObservableType, ObserverType, Delay
     }
 
     /// After original subscription we need to place it on queue for delayed execution if required.
-    func run<O: ObserverType>(observer: O) -> Disposable where O.E == Element {
+    func run<O: ObserverType>(observer: O) -> Disposable where O.Element == Element {
         self.observer = observer.asObserver()
         queue.queueSubscription(observable: self)
         return self
@@ -140,7 +140,7 @@ extension ObservableType {
     /// - parameter queue: Queue on which scheduled subscriptions will be executed in sequentially.
     /// - returns: The source which will be subscribe when queue is empty or previous
     /// observable was completed or disposed.
-    func queueSubscribe(on queue: SerializedSubscriptionQueue) -> Observable<E> {
+    func queueSubscribe(on queue: SerializedSubscriptionQueue) -> Observable<Element> {
         return QueueSubscribeOn(source: asObservable(), queue: queue).asObservable()
     }
 

@@ -157,7 +157,7 @@ public class BluetoothManager {
                         strongSelf.centralManager.stopScan()
                         disposable.dispose()
                         do { strongSelf.lock.lock(); defer { strongSelf.lock.unlock() }
-                            if let index = strongSelf.scanQueue.index(where: { $0 == scanOperationBox.value! }) {
+                            if let index = strongSelf.scanQueue.firstIndex(where: { $0 == scanOperationBox.value! }) {
                                 strongSelf.scanQueue.remove(at: index)
                             }
                         }

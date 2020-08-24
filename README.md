@@ -9,6 +9,7 @@ Provides nice API to work with, and makes your code more readable, reliable and 
 
 * 3.0 version supports Swift 3.0 and 3.1
 * 4.0 version of the library supports Swift 3.2 and 4.0
+* 4.1 version supports Swift 5.0 and 5.1
 
 
 ## Documentation & Support
@@ -314,7 +315,7 @@ Library supports **complex** Bluetooth error handling functionalities. Errors fr
 ## Requirements
 - iOS 8.0+
 - OSX 10.10+
-- Xcode 7.3+
+- Xcode 10.2+
 
 ## Authors
 

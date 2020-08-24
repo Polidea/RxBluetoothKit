@@ -1,20 +1,18 @@
 language: objective-c
-osx_image: xcode9
+osx_image: xcode10.3
 xcode_project: RxBluetoothKit.xcodeproj
 xcode_sdk: iphonesimulator11.0
-
 env:
-        matrix:
-                - TARGET=iOS
-                - TARGET=macOS
-before_install:
-        - brew update
-        - brew outdated carthage || brew upgrade carthage
-before_script:
-        - carthage checkout --no-use-binaries
-        - travis_retry carthage build --platform "${TARGET}"
-script:
-        ./scripts/all-tests.sh "${TARGET}"
+  matrix:
+  - TARGET=iOS
+  - TARGET=macOS
 
+before_install:
+- brew update
+- brew outdated carthage || brew upgrade carthage
+before_script:
+- travis_retry carthage bootstrap --platform "${TARGET}"
+script:
+- ./scripts/all-tests.sh "${TARGET}"
 after_success:
-        - sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
+- sleep 5
