@@ -14,7 +14,7 @@ before_install:
 - brew outdated carthage || brew upgrade carthage
 - brew list gnu-sed || brew install gnu-sed
 before_script:
-- travis_retry carthage bootstrap --platform "${TARGET}"
+- travis_retry carthage build --no-use-binaries --platform "${TARGET}" --cache-builds
 script:
 - ./scripts/all-build.sh "${TARGET}"
 - ./scripts/all-tests.sh "${TARGET}"
