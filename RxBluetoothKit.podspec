@@ -24,5 +24,5 @@ Pod::Spec.new do |s|
   s.source_files = 'Source/*.swift'
   s.osx.exclude_files = 'Source/RestoredState.swift', 'Source/CentralManager+RestoredState.swift', 'Source/CentralManagerRestoredState.swift'
   s.frameworks   = 'CoreBluetooth'
-  s.dependency 'RxSwift', '~> 5.0'
+  s.dependency 'RxSwift', '~> 5.1'
 end
