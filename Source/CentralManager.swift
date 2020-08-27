@@ -8,11 +8,11 @@ public typealias DisconnectionReason = Error
 /// CentralManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager's functions allowing to
 /// discover, connect to remote peripheral devices and more.
 /// You can start using this class by discovering available services of nearby peripherals. Before calling any
-/// public `CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on. It can be done
-/// by calling and observing returned value of `observeState()` and then chaining it with `scanForPeripherals(_:options:)`:
+/// public `CentralManager`'s functions you should make sure that Bluetooth is turned on and powered on.
+/// It can be done by calling and observing returned value of `observeStateWithInitialValue()` and then
+/// chaining it with `scanForPeripherals(_:options:)`:
 /// ```
-/// let disposable = centralManager.observeState
-///     .startWith(centralManager.state)
+/// let disposable = centralManager.observeStateWithInitialValue()
 ///     .filter { $0 == .poweredOn }
 ///     .take(1)
 ///     .flatMap { centralManager.scanForPeripherals(nil) }
@@ -92,11 +92,23 @@ public class CentralManager: ManagerType {
     // MARK: State
 
     public var state: BluetoothState {
-        return BluetoothState(rawValue: manager.state.rawValue) ?? .unsupported
+        return BluetoothState(rawValue: manager.state.rawValue) ?? .unknown
     }
 
     public func observeState() -> Observable<BluetoothState> {
         return self.delegateWrapper.didUpdateState.asObservable()
+    }
+
+    public func observeStateWithInitialValue() -> Observable<BluetoothState> {
+        return Observable.deferred { [weak self] in
+            guard let self = self else {
+                RxBluetoothKitLog.w("observeState - CentralManager deallocated")
+                return .never()
+            }
+
+            return self.delegateWrapper.didUpdateState.asObservable()
+                .startWith(self.state)
+        }
     }
 
     // MARK: Scanning
