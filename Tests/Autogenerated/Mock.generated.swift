@@ -574,6 +574,7 @@ class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
     var didConnectPeripheral = PublishSubject<CBPeripheralMock>()
     var didFailToConnectPeripheral = PublishSubject<(CBPeripheralMock, Error?)>()
     var didDisconnectPeripheral = PublishSubject<(CBPeripheralMock, Error?)>()
+    var didUpdateANCSAuthorizationForPeripheral = PublishSubject<(CBPeripheralMock)>()
 
     override init() {
     }
@@ -595,6 +596,11 @@ class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
     }
+
+    #if !os(macOS)
+    func centralManager(_ central: CBCentralManager, didUpdateANCSAuthorizationFor peripheral: CBPeripheral) {
+    }
+    #endif
 }
 class CBPeripheralManagerDelegateWrapperMock: NSObject , CBPeripheralManagerDelegate {
     var didUpdateState = PublishSubject<BluetoothState>()
