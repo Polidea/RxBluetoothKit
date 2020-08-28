@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.16.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.0.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 import CoreBluetooth
@@ -10,6 +10,7 @@ import RxSwift
 
 class CBManagerMock: NSObject {
     var state: CBManagerState!
+    @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *) lazy var authorization: CBManagerAuthorization! = nil
 
     override init() {
     }
@@ -23,6 +24,7 @@ class CBAttributeMock: NSObject {
 
 }
 class CBCentralManagerMock: CBManagerMock {
+    class Feature {}
     var delegate: CBCentralManagerDelegate?
     var isScanning: Bool!
     var logDescription: String!
@@ -32,6 +34,18 @@ class CBCentralManagerMock: CBManagerMock {
     init(delegate: CBCentralManagerDelegate?, queue: DispatchQueue?, options: [String : Any]? = nil) {
     }
     init(delegate: CBCentralManagerDelegate?, queue: DispatchQueue?) {
+    }
+
+    static var supportsParams: [(CBCentralManagerMock.Feature)] = []
+    static var supportsReturns: [Bool] = []
+    static var supportsReturn: Bool?
+    static func supports(_ features: CBCentralManagerMock.Feature) -> Bool {
+        supportsParams.append((features))
+        if supportsReturns.isEmpty {
+            return supportsReturn!
+        } else {
+            return supportsReturns.removeFirst()
+        }
     }
 
     var retrievePeripheralsParams: [([UUID])] = []
@@ -76,6 +90,11 @@ class CBCentralManagerMock: CBManagerMock {
     var cancelPeripheralConnectionParams: [(CBPeripheralMock)] = []
     func cancelPeripheralConnection(_ peripheral: CBPeripheralMock) {
         cancelPeripheralConnectionParams.append((peripheral))
+    }
+
+    var registerForConnectionEventsParams: [([CBConnectionEventMatchingOption : Any]?)] = []
+    func registerForConnectionEvents(options: [CBConnectionEventMatchingOption : Any]? = nil) {
+        registerForConnectionEventsParams.append((options))
     }
 
 }
@@ -547,7 +566,6 @@ class CBPeripheralDelegateWrapperMock: NSObject , CBPeripheralDelegate {
 
     func peripheral(_ peripheral: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
     }
-
 }
 class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
     var didUpdateState = PublishSubject<BluetoothState>()
@@ -578,11 +596,6 @@ class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
     }
-
-    #if !os(macOS)
-    func centralManager(_ central: CBCentralManager, didUpdateANCSAuthorizationFor peripheral: CBPeripheral) {
-    }
-    #endif
 }
 class CBPeripheralManagerDelegateWrapperMock: NSObject , CBPeripheralManagerDelegate {
     var didUpdateState = PublishSubject<BluetoothState>()
@@ -637,5 +650,4 @@ class CBPeripheralManagerDelegateWrapperMock: NSObject , CBPeripheralManagerDele
 
     func peripheralManager(_ peripheral: CBPeripheralManager, didOpen channel: CBL2CAPChannel?, error: Error?) {
     }
-
 }
