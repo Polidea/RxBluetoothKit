@@ -105,11 +105,11 @@ Learn more about Polidea's BLE services [here](https://www.polidea.com/services/
 
 # Requirements
 
-- iOS 8.0+
-- OSX 10.10+
+- iOS 9.0+
+- OSX 10.13+
 - watchOS 4.0+
 - tvOS 11.0+
-- Xcode 7.3+
+- Xcode 11.4+
 
 ## Swift versions
 * 3.0 version supports Swift 3.0 and 3.1
