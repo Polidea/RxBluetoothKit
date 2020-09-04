@@ -1002,10 +1002,24 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
-      "line": 19,
-      "symbol": "CentralManagerRestoredState.centralManager",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
+      "line": 308,
+      "symbol": "CentralManager.observeANCSAuthorized(for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
+      "line": 308,
+      "symbol": "CentralManager.observeANCSAuthorized(for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
+      "line": 308,
+      "symbol": "CentralManager.observeANCSAuthorized(for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
@@ -1023,6 +1037,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
+      "line": 19,
+      "symbol": "CentralManagerRestoredState.centralManager",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
       "line": 5,
       "symbol": "ManagerType",
@@ -1080,28 +1101,28 @@
     },
     {
       "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
-      "line": 21,
+      "line": 27,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
-      "line": 21,
+      "line": 27,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
-      "line": 21,
+      "line": 27,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
-      "line": 21,
+      "line": 27,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
