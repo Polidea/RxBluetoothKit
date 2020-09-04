@@ -8,14 +8,22 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/Service" class="dashAnchor"></a>
     <a title="Service Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit 5.3.0 Docs</a> (80% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit 6.0.0 Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -170,12 +178,17 @@
             <h1>Service</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Service</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Service</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
 
                 </div>
               </div>
             <p>Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with <a href="https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/">CBService</a></p>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L6-L81">Show on GitHub</a>
+              </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -205,7 +218,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L8">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L8">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -235,7 +248,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L11">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L11">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -265,7 +278,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L14-L16">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L14-L16">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -295,7 +308,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L19-L21">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L19-L21">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -325,7 +338,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L24-L28">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L24-L28">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -355,7 +368,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L31-L35">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L31-L35">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -365,7 +378,7 @@
                     <code>
                     <a name="/s:14RxBluetoothKit7ServiceC23discoverCharacteristicsy0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA14CharacteristicCGGSaySo6CBUUIDCGSgF"></a>
                     <a name="//apple_ref/swift/Method/discoverCharacteristics(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC23discoverCharacteristicsy0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA14CharacteristicCGGSaySo6CBUUIDCGSgF">discoverCharacteristics(_:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC23discoverCharacteristicsy0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayAA14CharacteristicCGGSaySo6CBUUIDCGSgF">discoverCharacteristics(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -424,7 +437,7 @@ characteristics will be discovered. If you&rsquo;ll pass empty array - none of t
 If not all requested characteristics are discovered, <code>RxError.noElements</code> error is emmited.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L58-L60">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L58-L60">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -434,7 +447,7 @@ If not all requested characteristics are discovered, <code>RxError.noElements</c
                     <code>
                     <a name="/s:14RxBluetoothKit7ServiceC24discoverIncludedServicesy0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayACGGSaySo6CBUUIDCGSgF"></a>
                     <a name="//apple_ref/swift/Method/discoverIncludedServices(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC24discoverIncludedServicesy0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayACGGSaySo6CBUUIDCGSgF">discoverIncludedServices(_:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit7ServiceC24discoverIncludedServicesy0A5Swift17PrimitiveSequenceVyAE11SingleTraitOSayACGGSaySo6CBUUIDCGSgF">discoverIncludedServices(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -493,7 +506,7 @@ included services will be discovered. If you&rsquo;ll pass empty array - none of
 If not all requested services are discovered, <code>RxError.noElements</code> error is emmited.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L78-L80">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L78-L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -503,8 +516,8 @@ If not all requested services are discovered, <code>RxError.noElements</code> er
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2019-07-26)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2020-09-04)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

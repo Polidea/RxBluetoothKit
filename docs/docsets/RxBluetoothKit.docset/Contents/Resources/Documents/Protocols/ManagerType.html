@@ -8,14 +8,22 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/ManagerType" class="dashAnchor"></a>
     <a title="ManagerType Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit 5.3.0 Docs</a> (80% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit 6.0.0 Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -170,12 +178,16 @@
             <h1>ManagerType</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ManagerType</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                 </div>
               </div>
             <p>Undocumented</p>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/ManagerType.swift#L5-L25">Show on GitHub</a>
+              </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -205,7 +217,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ManagerType.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/ManagerType.swift#L">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -235,7 +247,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ManagerType.swift#L9">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/ManagerType.swift#L9">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -266,7 +278,7 @@
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ManagerType.swift#L12">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/ManagerType.swift#L12">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -302,21 +314,53 @@
                         <p>Observable that emits <code>next</code> event whenever state changes.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ManagerType.swift#L18">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/ManagerType.swift#L18">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit11ManagerTypeP28observeStateWithInitialValue0A5Swift10ObservableCyAA0bG0OGyF"></a>
+                    <a name="//apple_ref/swift/Method/observeStateWithInitialValue()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypeP28observeStateWithInitialValue0A5Swift10ObservableCyAA0bG0OGyF">observeStateWithInitialValue()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Continuous state of <code>CBManager</code> instance described by <code><a href="../Enums/BluetoothState.html">BluetoothState</a></code> which is equivalent to  <a href="https://developer.apple.com/documentation/corebluetooth/cbmanagerstate">CBManagerState</a>.</p>
+
+<p>It&rsquo;s <strong>infinite</strong> stream, so <code>.complete</code> is never called.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">observeStateWithInitialValue</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Enums/BluetoothState.html">BluetoothState</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Observable that emits <code>next</code> event starting with current state and whenever state changes.</p>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/ManagerType.swift#L24">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
                     <a name="/s:14RxBluetoothKit11ManagerTypePAAE6ensure_10observable0A5Swift10ObservableCyqd__GAA0B5StateO_AItlF"></a>
                     <a name="//apple_ref/swift/Method/ensure(_:observable:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypePAAE6ensure_10observable0A5Swift10ObservableCyqd__GAA0B5StateO_AItlF">ensure(_:observable:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit11ManagerTypePAAE6ensure_10observable0A5Swift10ObservableCyqd__GAA0B5StateO_AItlF">ensure(_:<wbr>observable:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -375,7 +419,7 @@ Otherwise error is emitted.</p>
                         <p>New observable which merges errors with source observable.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ManagerType.swift#L27-L36">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/ManagerType.swift#L33-L41">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -385,8 +429,8 @@ Otherwise error is emitted.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2019-07-26)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2020-09-04)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -8,14 +8,22 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/Logger" class="dashAnchor"></a>
     <a title="Logger Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit 5.3.0 Docs</a> (80% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit 6.0.0 Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -170,6 +178,7 @@
             <h1>Logger</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Logger</span></code></pre>
 
                 </div>
@@ -180,6 +189,9 @@
 need to provide a type that conforms to this signature and assign it to
 <code><a href="../Enums/RxBluetoothKitLogger.html#/s:14RxBluetoothKit0abC6LoggerO07defaultD0AA0D0_pvpZ">RxBluetoothKitLogger.defaultLogger</a></code>.</p>
 
+              <div class="slightly-smaller">
+                <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Logger.swift#L6-L54">Show on GitHub</a>
+              </div>
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -189,7 +201,7 @@ need to provide a type that conforms to this signature and assign it to
                     <code>
                     <a name="/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOs12StaticStringVANSutF"></a>
                     <a name="//apple_ref/swift/Method/log(_:level:file:function:line:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOs12StaticStringVANSutF">log(_:level:file:function:line:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOs12StaticStringVANSutF">log(_:<wbr>level:<wbr>file:<wbr>function:<wbr>line:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -204,7 +216,13 @@ need to provide a type that conforms to this signature and assign it to
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">log</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">StaticString</span><span class="p">,</span> <span class="nv">function</span><span class="p">:</span> <span class="kt">StaticString</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">log</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span>
+    <span class="nv">file</span><span class="p">:</span> <span class="kt">StaticString</span><span class="p">,</span>
+    <span class="nv">function</span><span class="p">:</span> <span class="kt">StaticString</span><span class="p">,</span>
+    <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span>
+<span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -280,7 +298,7 @@ need to provide a type that conforms to this signature and assign it to
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logger.swift#L19">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Logger.swift#L19">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -290,7 +308,7 @@ need to provide a type that conforms to this signature and assign it to
                     <code>
                     <a name="/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOS2SSutF"></a>
                     <a name="//apple_ref/swift/Method/log(_:level:file:function:line:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOS2SSutF">log(_:level:file:function:line:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP3log_5level4file8function4lineySSyXK_AA0abC3LogC0J5LevelOS2SSutF">log(_:<wbr>level:<wbr>file:<wbr>function:<wbr>line:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -305,7 +323,13 @@ need to provide a type that conforms to this signature and assign it to
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">log</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">function</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">log</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kd">@autoclosure</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Classes/RxBluetoothKitLog.html">RxBluetoothKitLog</a></span><span class="o">.</span><span class="kt">LogLevel</span><span class="p">,</span>
+    <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">function</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span>
+<span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -381,7 +405,7 @@ need to provide a type that conforms to this signature and assign it to
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logger.swift#L39">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Logger.swift#L39">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -391,7 +415,7 @@ need to provide a type that conforms to this signature and assign it to
                     <code>
                     <a name="/s:14RxBluetoothKit6LoggerP11setLogLevelyyAA0abcF0C0fG0OF"></a>
                     <a name="//apple_ref/swift/Method/setLogLevel(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP11setLogLevelyyAA0abcF0C0fG0OF">setLogLevel(_:)</a>
+                    <a class="token" href="#/s:14RxBluetoothKit6LoggerP11setLogLevelyyAA0abcF0C0fG0OF">setLogLevel(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -430,7 +454,7 @@ need to provide a type that conforms to this signature and assign it to
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logger.swift#L49">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Logger.swift#L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -464,7 +488,7 @@ need to provide a type that conforms to this signature and assign it to
                         <p>Currently set log level.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logger.swift#L53">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Logger.swift#L53">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -474,8 +498,8 @@ need to provide a type that conforms to this signature and assign it to
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2019-07-26)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2020-09-04)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

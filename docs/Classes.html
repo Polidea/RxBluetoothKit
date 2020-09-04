@@ -8,14 +8,22 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Section/Classes" class="dashAnchor"></a>
     <a title="Classes  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">RxBluetoothKit 5.3.0 Docs</a> (80% documented)</p>
+        <p><a href="index.html">RxBluetoothKit 6.0.0 Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -190,10 +198,10 @@
                         <p>CentralManager is a class implementing ReactiveX API which wraps all Core Bluetooth Manager&rsquo;s functions allowing to
 discover, connect to remote peripheral devices and more.
 You can start using this class by discovering available services of nearby peripherals. Before calling any
-public <code>CentralManager</code>&lsquo;s functions you should make sure that Bluetooth is turned on and powered on. It can be done
-by calling and observing returned value of <code>observeState()</code> and then chaining it with <code>scanForPeripherals(_:options:)</code>:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposable</span> <span class="o">=</span> <span class="n">centralManager</span><span class="o">.</span><span class="n">observeState</span>
-    <span class="o">.</span><span class="nf">startWith</span><span class="p">(</span><span class="n">centralManager</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+public <code>CentralManager</code>&lsquo;s functions you should make sure that Bluetooth is turned on and powered on.
+It can be done by calling and observing returned value of <code>observeStateWithInitialValue()</code> and then
+chaining it with <code>scanForPeripherals(_:options:)</code>:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposable</span> <span class="o">=</span> <span class="n">centralManager</span><span class="o">.</span><span class="nf">observeStateWithInitialValue</span><span class="p">()</span>
     <span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="o">.</span><span class="n">poweredOn</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">centralManager</span><span class="o">.</span><span class="nf">scanForPeripherals</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span> <span class="p">}</span>
@@ -221,15 +229,11 @@ You can also simply stop scanning with just disposing it:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/CentralManager.swift#L27-L309">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L27-L342">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -252,19 +256,16 @@ You can also simply stop scanning with just disposing it:</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Characteristic</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Characteristic</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Characteristic.swift#L6-L180">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Characteristic.swift#L6-L180">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -289,19 +290,16 @@ Descriptors provide more information about a characteristic’s value.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Descriptor</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Descriptor</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Descriptor.swift#L8-L104">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Descriptor.swift#L8-L104">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -328,15 +326,11 @@ Descriptors provide more information about a characteristic’s value.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Logging.swift#L6-L105">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Logging.swift#L6-L105">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -360,19 +354,16 @@ allowing to talk to peripheral like discovering characteristics, services and al
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Peripheral</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Peripheral</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Peripheral.swift#L10-L873">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Peripheral.swift#L10-L873">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -390,9 +381,8 @@ allowing to talk to peripheral like discovering characteristics, services and al
 advertise, to publish L2CAP channels and more.
 You can start using this class by adding services and starting advertising.
 Before calling any public <code>PeripheralManager</code>&lsquo;s functions you should make sure that Bluetooth is turned on and powered on. It can be done
-by <code>observeState()</code>, observing it&rsquo;s value and then chaining it with <code>add(_:)</code> and <code>startAdvertising(_:)</code>:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposable</span> <span class="o">=</span> <span class="n">centralManager</span><span class="o">.</span><span class="n">observeState</span>
-    <span class="o">.</span><span class="nf">startWith</span><span class="p">(</span><span class="n">centralManager</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+by <code>observeStateWithInitialValue()</code>, observing it&rsquo;s value and then chaining it with <code>add(_:)</code> and <code>startAdvertising(_:)</code>:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposable</span> <span class="o">=</span> <span class="n">centralManager</span><span class="o">.</span><span class="nf">observeStateWithInitialValue</span><span class="p">()</span>
     <span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">==</span> <span class="o">.</span><span class="n">poweredOn</span> <span class="p">}</span>
     <span class="o">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="o">.</span><span class="n">flatMap</span> <span class="p">{</span> <span class="n">centralManager</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="n">myService</span><span class="p">)</span> <span class="p">}</span>
@@ -414,15 +404,11 @@ by <code>observeState()</code>, observing it&rsquo;s value and then chaining it 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/PeripheralManager.swift#L22-L376">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L21-L387">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -450,15 +436,11 @@ To perform further actions <code>peripheral</code> instance variable can be used
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/ScannedPeripheral.swift#L6-L22">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/ScannedPeripheral.swift#L6-L22">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -481,11 +463,12 @@ To perform further actions <code>peripheral</code> instance variable can be used
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Service</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Service</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/5.3.0/Source/Service.swift#L6-L81">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/Service.swift#L6-L81">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -495,8 +478,8 @@ To perform further actions <code>peripheral</code> instance variable can be used
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2019-07-26)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2020-09-04)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
