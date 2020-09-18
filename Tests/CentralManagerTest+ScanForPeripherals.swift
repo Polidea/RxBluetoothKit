@@ -96,7 +96,25 @@ class CentralManagerTest_ScanForPeripherals: BaseCentralManagerTest {
             XCTAssertEqual(element.advertisementData.isConnectable, expected.advertisementData.isConnectable, "should receive correct advertisement data for event index \(eventIndex)")
         }
     }
-    
+
+    func testScanInProgress() {
+        let observer = setUpScanForPeripherals(withServices: nil, options: nil)
+        centralManagerMock.state = .poweredOn
+
+        XCTAssertFalse(manager.isScanInProgress)
+        let scanningDisposable = self.manager.scanForPeripherals(withServices: nil, options: nil)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                XCTAssertTrue(self.manager.isScanInProgress)
+            })
+
+        testScheduler.advanceTo(subscribeTime)
+        XCTAssertEqual(observer.events.count, 1, "should receive 1 scan event")
+
+        scanningDisposable.dispose()
+        XCTAssertFalse(manager.isScanInProgress)
+    }
+
     // Mark: - Utilities
     
     private func createScannedPeripheral(_ peripheral: CBPeripheralMock, _ advertisementData: [String: Any], _ rssi: NSNumber) -> _ScannedPeripheral {
