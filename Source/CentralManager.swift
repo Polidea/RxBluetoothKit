@@ -113,6 +113,12 @@ public class CentralManager: ManagerType {
 
     // MARK: Scanning
 
+    /// Value indicating if manager is currently scanning.
+    public var isScanInProgress: Bool {
+        lock.lock(); defer { lock.unlock() }
+        return scanDisposable != nil
+    }
+
     /// Scans for `Peripheral`s after subscription to returned observable. First parameter `serviceUUIDs` is
     /// an array of `Service` UUIDs which needs to be implemented by a peripheral to be discovered. If user don't want to
     /// filter any peripherals, `nil` can be used instead. Additionally dictionary of
