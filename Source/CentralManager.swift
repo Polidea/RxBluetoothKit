@@ -70,10 +70,14 @@ public class CentralManager: ManagerType {
     /// - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
     /// - parameter options: An optional dictionary containing initialization options for a central manager.
     /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
+    /// - parameter cbCentralManager: Optional instance of `CBCentralManager` to be used as a `manager`. If you
+    /// skip this parameter, there will be created an instance of `CBCentralManager` using given queue and options.
     public convenience init(queue: DispatchQueue = .main,
-                            options: [String: AnyObject]? = nil) {
+                            options: [String: AnyObject]? = nil,
+                            cbCentralManager: CBCentralManager? = nil) {
         let delegateWrapper = CBCentralManagerDelegateWrapper()
-        let centralManager = CBCentralManager(delegate: delegateWrapper, queue: queue, options: options)
+        let centralManager = cbCentralManager != nil ?
+            cbCentralManager! : CBCentralManager(delegate: delegateWrapper, queue: queue, options: options)
         self.init(
             centralManager: centralManager,
             delegateWrapper: delegateWrapper,
