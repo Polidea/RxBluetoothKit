@@ -55,8 +55,8 @@ class _PeripheralManager: _ManagerType {
                             cbPeripheralManager: CBPeripheralManagerMock? = nil) {
         let delegateWrapper = CBPeripheralManagerDelegateWrapperMock()
         #if os(iOS) || os(macOS)
-        let peripheralManager = cbPeripheralManager != nil ?
-            cbPeripheralManager! : CBPeripheralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
+        let peripheralManager = cbPeripheralManager ??
+            CBPeripheralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
         #else
         let peripheralManager = CBPeripheralManagerMock()
         peripheralManager.delegate = delegateWrapper

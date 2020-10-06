@@ -77,8 +77,8 @@ class _CentralManager: _ManagerType {
                             options: [String: AnyObject]? = nil,
                             cbCentralManager: CBCentralManagerMock? = nil) {
         let delegateWrapper = CBCentralManagerDelegateWrapperMock()
-        let centralManager = cbCentralManager != nil ?
-            cbCentralManager! : CBCentralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
+        let centralManager = cbCentralManager ??
+            CBCentralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
         self.init(
             centralManager: centralManager,
             delegateWrapper: delegateWrapper,

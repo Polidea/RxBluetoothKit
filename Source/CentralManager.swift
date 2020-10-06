@@ -76,8 +76,8 @@ public class CentralManager: ManagerType {
                             options: [String: AnyObject]? = nil,
                             cbCentralManager: CBCentralManager? = nil) {
         let delegateWrapper = CBCentralManagerDelegateWrapper()
-        let centralManager = cbCentralManager != nil ?
-            cbCentralManager! : CBCentralManager(delegate: delegateWrapper, queue: queue, options: options)
+        let centralManager = cbCentralManager ??
+            CBCentralManager(delegate: delegateWrapper, queue: queue, options: options)
         self.init(
             centralManager: centralManager,
             delegateWrapper: delegateWrapper,

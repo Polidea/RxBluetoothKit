@@ -54,8 +54,8 @@ public class PeripheralManager: ManagerType {
                             cbPeripheralManager: CBPeripheralManager? = nil) {
         let delegateWrapper = CBPeripheralManagerDelegateWrapper()
         #if os(iOS) || os(macOS)
-        let peripheralManager = cbPeripheralManager != nil ?
-            cbPeripheralManager! : CBPeripheralManager(delegate: delegateWrapper, queue: queue, options: options)
+        let peripheralManager = cbPeripheralManager ??
+            CBPeripheralManager(delegate: delegateWrapper, queue: queue, options: options)
         #else
         let peripheralManager = CBPeripheralManager()
         peripheralManager.delegate = delegateWrapper
