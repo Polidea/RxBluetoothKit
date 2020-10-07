@@ -71,10 +71,14 @@ class _CentralManager: _ManagerType {
     /// - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
     /// - parameter options: An optional dictionary containing initialization options for a central manager.
     /// For more info about it please refer to [Central Manager initialization options](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCentralManager_Class/index.html)
+    /// - parameter cbCentralManager: Optional instance of `CBCentralManagerMock` to be used as a `manager`. If you
+    /// skip this parameter, there will be created an instance of `CBCentralManagerMock` using given queue and options.
     convenience init(queue: DispatchQueue = .main,
-                            options: [String: AnyObject]? = nil) {
+                            options: [String: AnyObject]? = nil,
+                            cbCentralManager: CBCentralManagerMock? = nil) {
         let delegateWrapper = CBCentralManagerDelegateWrapperMock()
-        let centralManager = CBCentralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
+        let centralManager = cbCentralManager ??
+            CBCentralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
         self.init(
             centralManager: centralManager,
             delegateWrapper: delegateWrapper,

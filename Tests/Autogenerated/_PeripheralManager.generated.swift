@@ -48,11 +48,15 @@ class _PeripheralManager: _ManagerType {
     /// - parameter queue: Queue on which bluetooth callbacks are received. By default main thread is used.
     /// - parameter options: An optional dictionary containing initialization options for a peripheral manager.
     /// For more info about it please refer to [_Peripheral Manager initialization options](https://developer.apple.com/documentation/corebluetooth/cbperipheralmanager/peripheral_manager_initialization_options)
+    /// - parameter cbPeripheralManager: Optional instance of `CBPeripheralManagerMock` to be used as a `manager`. If you
+    /// skip this parameter, there will be created an instance of `CBPeripheralManagerMock` using given queue and options.
     convenience init(queue: DispatchQueue = .main,
-                            options: [String: AnyObject]? = nil) {
+                            options: [String: AnyObject]? = nil,
+                            cbPeripheralManager: CBPeripheralManagerMock? = nil) {
         let delegateWrapper = CBPeripheralManagerDelegateWrapperMock()
         #if os(iOS) || os(macOS)
-        let peripheralManager = CBPeripheralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
+        let peripheralManager = cbPeripheralManager ??
+            CBPeripheralManagerMock(delegate: delegateWrapper, queue: queue, options: options)
         #else
         let peripheralManager = CBPeripheralManagerMock()
         peripheralManager.delegate = delegateWrapper
