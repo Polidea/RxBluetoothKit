@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D72C58A2539C65000456D1A /* RxBluetoothKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8D72C5892539C65000456D1A /* RxBluetoothKit */; };
 		8DA476A625399CFA00B79A0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA476A525399CFA00B79A0A /* AppDelegate.swift */; };
 		8DA476A825399CFA00B79A0A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA476A725399CFA00B79A0A /* SceneDelegate.swift */; };
 		8DA476AA25399CFA00B79A0A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA476A925399CFA00B79A0A /* ViewController.swift */; };
@@ -30,12 +31,56 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D72C58A2539C65000456D1A /* RxBluetoothKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D72C5812539C32100456D1A /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				8DA476A525399CFA00B79A0A /* AppDelegate.swift */,
+				8DA476A725399CFA00B79A0A /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		8D72C5822539C33500456D1A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8DA476BB25399D7C00B79A0A /* ExampleApp.entitlements */,
+				8DA476AE25399CFD00B79A0A /* Assets.xcassets */,
+				8DA476B025399CFD00B79A0A /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8D72C5832539C34400456D1A /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				8D72C5862539C3BD00456D1A /* Central */,
+				8D72C5872539C3C700456D1A /* Peripheral */,
+				8DA476A925399CFA00B79A0A /* ViewController.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		8D72C5862539C3BD00456D1A /* Central */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Central;
+			sourceTree = "<group>";
+		};
+		8D72C5872539C3C700456D1A /* Peripheral */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Peripheral;
+			sourceTree = "<group>";
+		};
 		8DA4769925399CFA00B79A0A = {
 			isa = PBXGroup;
 			children = (
@@ -55,12 +100,9 @@
 		8DA476A425399CFA00B79A0A /* ExampleApp */ = {
 			isa = PBXGroup;
 			children = (
-				8DA476BB25399D7C00B79A0A /* ExampleApp.entitlements */,
-				8DA476A525399CFA00B79A0A /* AppDelegate.swift */,
-				8DA476A725399CFA00B79A0A /* SceneDelegate.swift */,
-				8DA476A925399CFA00B79A0A /* ViewController.swift */,
-				8DA476AE25399CFD00B79A0A /* Assets.xcassets */,
-				8DA476B025399CFD00B79A0A /* LaunchScreen.storyboard */,
+				8D72C5832539C34400456D1A /* Screens */,
+				8D72C5822539C33500456D1A /* Supporting Files */,
+				8D72C5812539C32100456D1A /* Application */,
 				8DA476B325399CFD00B79A0A /* Info.plist */,
 			);
 			path = ExampleApp;
@@ -82,6 +124,9 @@
 			dependencies = (
 			);
 			name = ExampleApp;
+			packageProductDependencies = (
+				8D72C5892539C65000456D1A /* RxBluetoothKit */,
+			);
 			productName = ExampleApp;
 			productReference = 8DA476A225399CFA00B79A0A /* ExampleApp.app */;
 			productType = "com.apple.product-type.application";
@@ -109,6 +154,9 @@
 				Base,
 			);
 			mainGroup = 8DA4769925399CFA00B79A0A;
+			packageReferences = (
+				8D72C5882539C65000456D1A /* XCRemoteSwiftPackageReference "RxBluetoothKit" */,
+			);
 			productRefGroup = 8DA476A325399CFA00B79A0A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -276,7 +324,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ExampleApp/ExampleApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "ExampleApp/Supporting Files/ExampleApp.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -302,7 +350,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ExampleApp/ExampleApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "ExampleApp/Supporting Files/ExampleApp.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -345,6 +393,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8D72C5882539C65000456D1A /* XCRemoteSwiftPackageReference "RxBluetoothKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Polidea/RxBluetoothKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8D72C5892539C65000456D1A /* RxBluetoothKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8D72C5882539C65000456D1A /* XCRemoteSwiftPackageReference "RxBluetoothKit" */;
+			productName = RxBluetoothKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8DA4769A25399CFA00B79A0A /* Project object */;
 }
