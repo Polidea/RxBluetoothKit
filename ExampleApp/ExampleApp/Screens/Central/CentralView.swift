@@ -31,6 +31,14 @@ class CentralView: UIView {
         return button
     }()
 
+    let readValueLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Read value: --"
+        label.font = UIFont.systemFont(ofSize: 20.0)
+        label.textColor = .green
+        return label
+    }()
+
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -43,7 +51,8 @@ class CentralView: UIView {
     private func setupLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
-        [serviceUuidTextField, characteristicUuidTextField, connectButton].forEach(stackView.addArrangedSubview)
+        [serviceUuidTextField, characteristicUuidTextField,
+         connectButton, readValueLabel].forEach(stackView.addArrangedSubview)
 
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor),

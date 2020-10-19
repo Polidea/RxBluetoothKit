@@ -24,16 +24,23 @@ class PeripheralView: UIView {
         return textField
     }()
 
+    let advertiseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Advertise", for: .normal)
+        button.setImage(UIImage(systemName: "wave.3.right"), for: .normal)
+        return button
+    }()
+
     let valueTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Value (String)"
         return textField
     }()
 
-    let advertiseButton: UIButton = {
+    let updateValueButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Advertise", for: .normal)
-        button.setImage(UIImage(systemName: "wave.3.right"), for: .normal)
+        button.setTitle("Update value", for: .normal)
+        button.setImage(UIImage(systemName: "icloud.and.arrow.up.fill"), for: .normal)
         return button
     }()
 
@@ -49,7 +56,8 @@ class PeripheralView: UIView {
     private func setupLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
-        [serviceUuidTextField, characteristicUuidTextField, valueTextField, advertiseButton].forEach(stackView.addArrangedSubview)
+        [serviceUuidTextField, characteristicUuidTextField,
+         advertiseButton, valueTextField, updateValueButton].forEach(stackView.addArrangedSubview)
 
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor),

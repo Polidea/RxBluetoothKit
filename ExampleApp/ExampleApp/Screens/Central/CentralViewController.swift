@@ -22,6 +22,7 @@ class CentralViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        centralView.readValueLabel.isEnabled = false
         centralView.connectButton.addTarget(self, action: #selector(handleConnectButton), for: .touchUpInside)
     }
 
@@ -49,16 +50,21 @@ class CentralViewController: UIViewController {
             .flatMap { $0.scanForPeripherals(withServices: [serviceUuid]) }
             .take(1)
             .flatMap { $0.peripheral.establishConnection() }
+            .do(onNext: { [weak self] _ in self?.centralView.readValueLabel.isEnabled = true })
             .flatMap { $0.discoverServices([serviceUuid]) }
             .flatMap { Observable.from($0) }
             .flatMap { $0.discoverCharacteristics([characteristicUuid]) }
             .flatMap { Observable.from($0) }
-            .flatMap { $0.readValue() }
-            .subscribe(onNext: {
-                guard let data = $0.value else { return }
-                print(String(data: data, encoding: .utf8))
+            .flatMap { $0.observeValueUpdateAndSetNotification() }
+            .subscribe(onNext: { [weak self] in
+                guard let data = $0.value, let string = String(data: data, encoding: .utf8) else { return }
+                self?.updateValue(string)
             })
             .disposed(by: disposeBag)
+    }
+
+    private func updateValue(_ value: String) {
+        centralView.readValueLabel.text = "Read value: " + value
     }
 
 }
