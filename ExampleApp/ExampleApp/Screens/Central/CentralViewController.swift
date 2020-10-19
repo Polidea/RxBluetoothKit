@@ -50,13 +50,14 @@ class CentralViewController: UIViewController {
             .take(1)
             .flatMap { $0.peripheral.establishConnection() }
             .flatMap { $0.discoverServices([serviceUuid]) }
-            .take(1)
-            .compactMap { $0.first }
+            .flatMap { Observable.from($0) }
             .flatMap { $0.discoverCharacteristics([characteristicUuid]) }
-            .take(1)
-            .compactMap { $0.first }
+            .flatMap { Observable.from($0) }
             .flatMap { $0.readValue() }
-            .subscribe(onNext: { print($0) })
+            .subscribe(onNext: {
+                guard let data = $0.value else { return }
+                print(String(data: data, encoding: .utf8))
+            })
             .disposed(by: disposeBag)
     }
 
