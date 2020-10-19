@@ -14,6 +14,8 @@
 		8DA476AA25399CFA00B79A0A /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA476A925399CFA00B79A0A /* WelcomeViewController.swift */; };
 		8DA476AF25399CFD00B79A0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DA476AE25399CFD00B79A0A /* Assets.xcassets */; };
 		8DA476B225399CFD00B79A0A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DA476B025399CFD00B79A0A /* LaunchScreen.storyboard */; };
+		8DB15AA6253D801C00DECF92 /* CentralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AA5253D801C00DECF92 /* CentralViewController.swift */; };
+		8DB15AA9253D804A00DECF92 /* CentralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AA8253D804A00DECF92 /* CentralView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		8DA476B125399CFD00B79A0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8DA476B325399CFD00B79A0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DA476BB25399D7C00B79A0A /* ExampleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ExampleApp.entitlements; sourceTree = "<group>"; };
+		8DB15AA5253D801C00DECF92 /* CentralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralViewController.swift; sourceTree = "<group>"; };
+		8DB15AA8253D804A00DECF92 /* CentralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,8 @@
 		8D72C5862539C3BD00456D1A /* Central */ = {
 			isa = PBXGroup;
 			children = (
+				8DB15AA5253D801C00DECF92 /* CentralViewController.swift */,
+				8DB15AA8253D804A00DECF92 /* CentralView.swift */,
 			);
 			path = Central;
 			sourceTree = "<group>";
@@ -194,7 +200,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DB15AA9253D804A00DECF92 /* CentralView.swift in Sources */,
 				8DA476AA25399CFA00B79A0A /* WelcomeViewController.swift in Sources */,
+				8DB15AA6253D801C00DECF92 /* CentralViewController.swift in Sources */,
 				8DA476A625399CFA00B79A0A /* AppDelegate.swift in Sources */,
 				8DA476A825399CFA00B79A0A /* SceneDelegate.swift in Sources */,
 				8D72C58F2539C87300456D1A /* WelcomeView.swift in Sources */,

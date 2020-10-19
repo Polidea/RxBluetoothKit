@@ -4,8 +4,8 @@ class WelcomeView: UIView {
 
     init() {
         super.init(frame: .zero)
+        backgroundColor = .systemBackground
         setupLayout()
-        backgroundColor = .white
     }
 
     required init?(coder: NSCoder) { nil }
