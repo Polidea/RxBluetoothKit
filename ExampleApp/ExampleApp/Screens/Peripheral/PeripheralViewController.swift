@@ -51,8 +51,10 @@ class PeripheralViewController: UIViewController {
               let data = value.data(using: .utf8),
               let characteristic = self.characteristic else { return }
 
-        let result = manager.updateValue(data, for: characteristic, onSubscribedCentrals: nil)
-        print("updating value: \(result)")
+        let updated = manager.updateValue(data, for: characteristic, onSubscribedCentrals: nil)
+        if !updated {
+            AlertPresenter.presentError(with: "Updating error", on: navigationController)
+        }
     }
 
     private func createService(uuidString: String) -> CBMutableService {
