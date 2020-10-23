@@ -77,10 +77,15 @@ class PeripheralViewController: UIViewController {
         Observable.combineLatest(managerIsOn, Observable.just(manager)) { $1 }
             .flatMap { $0.add(service) }
             .flatMap { [manager] in manager.startAdvertising($0.advertisingData) }
-            .subscribe(onNext: { [weak self] in
-                print("advertising started! \($0)")
-                self?.setUpdate(enabled: true)
-            })
+            .subscribe(
+                onNext: { [weak self] in
+                    print("advertising started! \($0)")
+                    self?.setUpdate(enabled: true)
+                },
+                onError: { [weak self] in
+                    AlertPresenter.presentError(with: $0.localizedDescription, on: self?.navigationController)
+                }
+            )
             .disposed(by: disposeBag)
     }
 

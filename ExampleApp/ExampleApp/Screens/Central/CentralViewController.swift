@@ -48,6 +48,7 @@ class CentralViewController: UIViewController {
 
         Observable.combineLatest(managerIsOn, Observable.just(manager)) { $1 }
             .flatMap { $0.scanForPeripherals(withServices: [serviceUuid]) }
+            .timeout(.seconds(7), scheduler: MainScheduler.instance)
             .take(1)
             .flatMap { $0.peripheral.establishConnection() }
             .do(onNext: { [weak self] _ in self?.centralView.readValueLabel.isEnabled = true })
@@ -56,10 +57,15 @@ class CentralViewController: UIViewController {
             .flatMap { $0.discoverCharacteristics([characteristicUuid]) }
             .flatMap { Observable.from($0) }
             .flatMap { $0.observeValueUpdateAndSetNotification() }
-            .subscribe(onNext: { [weak self] in
-                guard let data = $0.value, let string = String(data: data, encoding: .utf8) else { return }
-                self?.updateValue(string)
-            })
+            .subscribe(
+                onNext: { [weak self] in
+                    guard let data = $0.value, let string = String(data: data, encoding: .utf8) else { return }
+                    self?.updateValue(string)
+                },
+                onError: { [weak self] in
+                    AlertPresenter.presentError(with: $0.localizedDescription, on: self?.navigationController)
+                }
+            )
             .disposed(by: disposeBag)
     }
 
