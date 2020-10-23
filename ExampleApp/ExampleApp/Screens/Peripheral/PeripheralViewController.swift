@@ -32,8 +32,32 @@ class PeripheralViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private lazy var manager = PeripheralManager()
     private var characteristic: CBMutableCharacteristic?
+    private var advertisement: Disposable?
+    private var isAdvertising = false {
+        didSet {
+            let text = isAdvertising ? "Stop Advertising" : "Advertise"
+            peripheralView.advertiseButton.setTitle(text, for: .normal)
+
+            setUpdate(enabled: isAdvertising)
+        }
+    }
 
     @objc private func handleAdvertiseButton() {
+        isAdvertising ? handleAdvertisingStop() : handleAdvertisingStart()
+    }
+
+    @objc private func handleUpdateValueButton() {
+        guard let value = peripheralView.valueTextField.text,
+              let data = value.data(using: .utf8),
+              let characteristic = self.characteristic else { return }
+
+        let updated = manager.updateValue(data, for: characteristic, onSubscribedCentrals: nil)
+        if !updated {
+            AlertPresenter.presentError(with: "Updating error", on: navigationController)
+        }
+    }
+
+    private func handleAdvertisingStart() {
         guard let serviceUuidString = peripheralView.serviceUuidTextField.text,
               let characteristicUuidString = peripheralView.characteristicUuidTextField.text,
               let value = peripheralView.valueTextField.text else { return }
@@ -46,15 +70,11 @@ class PeripheralViewController: UIViewController {
         self.characteristic = characteristic
     }
 
-    @objc private func handleUpdateValueButton() {
-        guard let value = peripheralView.valueTextField.text,
-              let data = value.data(using: .utf8),
-              let characteristic = self.characteristic else { return }
-
-        let updated = manager.updateValue(data, for: characteristic, onSubscribedCentrals: nil)
-        if !updated {
-            AlertPresenter.presentError(with: "Updating error", on: navigationController)
-        }
+    private func handleAdvertisingStop() {
+        advertisement?.dispose()
+        advertisement = nil
+        characteristic = nil
+        isAdvertising.toggle()
     }
 
     private func createService(uuidString: String) -> CBMutableService {
@@ -76,19 +96,18 @@ class PeripheralViewController: UIViewController {
         let managerIsOn = manager.observeStateWithInitialValue()
             .filter { $0 == .poweredOn }
 
-        Observable.combineLatest(managerIsOn, Observable.just(manager)) { $1 }
+        advertisement = Observable.combineLatest(managerIsOn, Observable.just(manager)) { $1 }
             .flatMap { $0.add(service) }
             .flatMap { [manager] in manager.startAdvertising($0.advertisingData) }
             .subscribe(
                 onNext: { [weak self] in
                     print("advertising started! \($0)")
-                    self?.setUpdate(enabled: true)
+                    self?.isAdvertising.toggle()
                 },
                 onError: { [weak self] in
                     AlertPresenter.presentError(with: $0.localizedDescription, on: self?.navigationController)
                 }
             )
-            .disposed(by: disposeBag)
     }
 
     private func setUpdate(enabled: Bool) {
