@@ -1,6 +1,6 @@
 import UIKit
 
-class CentralView: UIView {
+class CentralSpecificView: UIView {
 
     init() {
         super.init(frame: .zero)

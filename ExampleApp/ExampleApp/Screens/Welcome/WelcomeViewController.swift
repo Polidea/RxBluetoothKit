@@ -16,7 +16,7 @@ class WelcomeViewController: UIViewController {
     }
 
     @objc func handleCentralButtonTap() {
-        let centralController = CentralViewController()
+        let centralController = CentralSpecificViewController()
         navigationController?.pushViewController(centralController, animated: true)
     }
 

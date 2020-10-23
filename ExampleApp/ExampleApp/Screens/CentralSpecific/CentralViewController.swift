@@ -3,7 +3,7 @@ import RxBluetoothKit
 import RxSwift
 import UIKit
 
-class CentralViewController: UIViewController {
+class CentralSpecificViewController: UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
