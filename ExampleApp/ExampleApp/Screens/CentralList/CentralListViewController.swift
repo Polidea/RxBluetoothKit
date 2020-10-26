@@ -43,6 +43,17 @@ class CentralListViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let peripheral = scannedPeripherals[indexPath.row]
+
+        peripheral.peripheral.establishConnection()
+            .subscribe(
+                onNext: { [weak self] in self?.presentServicesController(with: $0) },
+                onError: { [weak self] in AlertPresenter.presentError(with: $0.localizedDescription, on: self?.navigationController) }
+            )
+            .disposed(by: disposeBag)
+    }
+
     // MARK: - Private
 
     private var scannedPeripherals: [ScannedPeripheral] = [] {
@@ -68,6 +79,11 @@ class CentralListViewController: UITableViewController {
             }
             .subscribe(onNext: { [weak self] in self?.scannedPeripherals.append($0) })
             .disposed(by: disposeBag)
+    }
+
+    private func presentServicesController(with peripheral: Peripheral) {
+        let controller = CentralSericesViewController(peripheral: peripheral)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
 }
