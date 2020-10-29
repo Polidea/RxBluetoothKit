@@ -27,7 +27,7 @@ class CentralViewController: UIViewController {
     }
 
     @objc func handleListButtonTap() {
-        let controller = CentralListViewController()
+        let controller = CentralListViewController(bluetoothProvider: BluetoothProvider())
         navigationController?.pushViewController(controller, animated: true)
     }
 

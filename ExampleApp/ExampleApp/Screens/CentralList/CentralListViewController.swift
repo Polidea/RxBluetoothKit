@@ -4,7 +4,8 @@ import UIKit
 
 class CentralListViewController: UITableViewController {
 
-    init() {
+    init(bluetoothProvider: BluetoothProvider) {
+        self.bluetoothProvider = bluetoothProvider
         super.init(nibName: nil, bundle: nil)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -19,6 +20,7 @@ class CentralListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(CentralListCell.self, forCellReuseIdentifier: CentralListCell.reuseId)
+        setupBindings()
     }
 
     // MARK: - TableView
@@ -62,17 +64,16 @@ class CentralListViewController: UITableViewController {
         }
     }
 
-    private lazy var manager = CentralManager()
+    private let bluetoothProvider: BluetoothProvider
+
     private let disposeBag = DisposeBag()
 
     @objc private func startSearch() {
-        let managerIsOn = manager.observeStateWithInitialValue()
-            .filter { $0 == .poweredOn }
-            .compactMap { [weak self] _ in self?.manager }
+        bluetoothProvider.startScanning()
+    }
 
-        managerIsOn
-            .flatMap { $0.scanForPeripherals(withServices: nil) }
-            .timeout(.seconds(7), scheduler: MainScheduler.instance)
+    private func setupBindings() {
+        bluetoothProvider.scannedPeripheral
             .filter { [weak self] newPeripheral in
                 guard let `self` = self else { return false }
                 return !self.scannedPeripherals.contains(where: { $0.peripheral.identifier == newPeripheral.peripheral.identifier })

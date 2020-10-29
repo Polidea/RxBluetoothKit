@@ -26,6 +26,7 @@
 		8DB15AA9253D804A00DECF92 /* CentralSpecificView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AA8253D804A00DECF92 /* CentralSpecificView.swift */; };
 		8DB15AAC253D938700DECF92 /* PeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AAB253D938700DECF92 /* PeripheralViewController.swift */; };
 		8DB15AAF253D93A800DECF92 /* PeripheralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AAE253D93A800DECF92 /* PeripheralView.swift */; };
+		8DF924BB254ADE2C0027627D /* BluetoothProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF924BA254ADE2C0027627D /* BluetoothProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		8DB15AA8253D804A00DECF92 /* CentralSpecificView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralSpecificView.swift; sourceTree = "<group>"; };
 		8DB15AAB253D938700DECF92 /* PeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralViewController.swift; sourceTree = "<group>"; };
 		8DB15AAE253D93A800DECF92 /* PeripheralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralView.swift; sourceTree = "<group>"; };
+		8DF924BA254ADE2C0027627D /* BluetoothProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,12 +181,21 @@
 		8DA476A425399CFA00B79A0A /* ExampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				8DF924B9254ADE0B0027627D /* BluetoothProvider */,
 				8D72C5832539C34400456D1A /* Screens */,
 				8D72C5822539C33500456D1A /* Supporting Files */,
 				8D72C5812539C32100456D1A /* Application */,
 				8DA476B325399CFD00B79A0A /* Info.plist */,
 			);
 			path = ExampleApp;
+			sourceTree = "<group>";
+		};
+		8DF924B9254ADE0B0027627D /* BluetoothProvider */ = {
+			isa = PBXGroup;
+			children = (
+				8DF924BA254ADE2C0027627D /* BluetoothProvider.swift */,
+			);
+			path = BluetoothProvider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,6 +286,7 @@
 				8D76F72B2546B5D200FF4DDB /* CentralServicesViewController.swift in Sources */,
 				8D896D5825430E7200FD5FE5 /* CentralListCell.swift in Sources */,
 				8D896D4B2542FCE400FD5FE5 /* CentralListViewController.swift in Sources */,
+				8DF924BB254ADE2C0027627D /* BluetoothProvider.swift in Sources */,
 				8DA476A825399CFA00B79A0A /* SceneDelegate.swift in Sources */,
 				8DB15AAF253D93A800DECF92 /* PeripheralView.swift in Sources */,
 				8D72C58F2539C87300456D1A /* WelcomeView.swift in Sources */,
