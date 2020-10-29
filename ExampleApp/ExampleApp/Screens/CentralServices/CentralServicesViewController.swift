@@ -4,8 +4,9 @@ import UIKit
 
 class CentralSericesViewController: UITableViewController {
 
-    init(peripheral: Peripheral) {
+    init(peripheral: Peripheral, bluetoothProvider: BluetoothProvider) {
         self.peripheral = peripheral
+        self.bluetoothProvider = bluetoothProvider
         super.init(nibName: nil, bundle: nil)
 
         navigationItem.title = "Peripheral's services"
@@ -61,6 +62,7 @@ class CentralSericesViewController: UITableViewController {
     // MARK: - Private
 
     private let peripheral: Peripheral
+    private let bluetoothProvider: BluetoothProvider
     private let didAppearSubject = PublishSubject<Void>()
     private let disposeBag = DisposeBag()
 
@@ -86,18 +88,6 @@ class CentralSericesViewController: UITableViewController {
     private func pushCharacteristicsController(with characteristics: [Characteristic]) {
         let controller = CharacteristicsViewController(characteristics: characteristics)
         navigationController?.pushViewController(controller, animated: true)
-    }
-
-}
-
-extension Error {
-
-    var printable: String {
-        if let bleError = self as? BluetoothError {
-            return bleError.description
-        }
-
-        return localizedDescription
     }
 
 }

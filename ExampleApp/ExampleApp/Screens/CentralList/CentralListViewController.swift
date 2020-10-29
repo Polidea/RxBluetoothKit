@@ -19,6 +19,7 @@ class CentralListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         tableView.register(CentralListCell.self, forCellReuseIdentifier: CentralListCell.reuseId)
         setupBindings()
     }
@@ -50,7 +51,7 @@ class CentralListViewController: UITableViewController {
 
         peripheral.peripheral.establishConnection()
             .subscribe(
-                onNext: { [weak self] in self?.presentServicesController(with: $0) },
+                onNext: { [weak self] in self?.pushServicesController(with: $0) },
                 onError: { [weak self] in AlertPresenter.presentError(with: $0.localizedDescription, on: self?.navigationController) }
             )
             .disposed(by: disposeBag)
@@ -65,7 +66,6 @@ class CentralListViewController: UITableViewController {
     }
 
     private let bluetoothProvider: BluetoothProvider
-
     private let disposeBag = DisposeBag()
 
     @objc private func startSearch() {
@@ -82,8 +82,8 @@ class CentralListViewController: UITableViewController {
             .disposed(by: disposeBag)
     }
 
-    private func presentServicesController(with peripheral: Peripheral) {
-        let controller = CentralSericesViewController(peripheral: peripheral)
+    private func pushServicesController(with peripheral: Peripheral) {
+        let controller = CentralSericesViewController(peripheral: peripheral, bluetoothProvider: bluetoothProvider)
         navigationController?.pushViewController(controller, animated: true)
     }
 

@@ -27,6 +27,7 @@
 		8DB15AAC253D938700DECF92 /* PeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AAB253D938700DECF92 /* PeripheralViewController.swift */; };
 		8DB15AAF253D93A800DECF92 /* PeripheralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AAE253D93A800DECF92 /* PeripheralView.swift */; };
 		8DF924BB254ADE2C0027627D /* BluetoothProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF924BA254ADE2C0027627D /* BluetoothProvider.swift */; };
+		8DF924C3254AE4F40027627D /* Error+Printable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF924C2254AE4F40027627D /* Error+Printable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		8DB15AAB253D938700DECF92 /* PeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralViewController.swift; sourceTree = "<group>"; };
 		8DB15AAE253D93A800DECF92 /* PeripheralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralView.swift; sourceTree = "<group>"; };
 		8DF924BA254ADE2C0027627D /* BluetoothProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothProvider.swift; sourceTree = "<group>"; };
+		8DF924C2254AE4F40027627D /* Error+Printable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Printable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 		8DA476A425399CFA00B79A0A /* ExampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				8DF924C1254AE4E80027627D /* Utilities */,
 				8DF924B9254ADE0B0027627D /* BluetoothProvider */,
 				8D72C5832539C34400456D1A /* Screens */,
 				8D72C5822539C33500456D1A /* Supporting Files */,
@@ -196,6 +199,14 @@
 				8DF924BA254ADE2C0027627D /* BluetoothProvider.swift */,
 			);
 			path = BluetoothProvider;
+			sourceTree = "<group>";
+		};
+		8DF924C1254AE4E80027627D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				8DF924C2254AE4F40027627D /* Error+Printable.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DF924C3254AE4F40027627D /* Error+Printable.swift in Sources */,
 				8D896D552542FFE000FD5FE5 /* CentralView.swift in Sources */,
 				8D4839A2254AAC0900266106 /* CharacteristicsViewController.swift in Sources */,
 				8D76F7352546C4DA00FF4DDB /* CentralServiceCell.swift in Sources */,
