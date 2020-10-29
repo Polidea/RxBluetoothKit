@@ -8,7 +8,7 @@ class CentralSericesViewController: UITableViewController {
         self.peripheral = peripheral
         super.init(nibName: nil, bundle: nil)
 
-        navigationItem.title = peripheral.identifier.uuidString
+        navigationItem.title = "Peripheral's services"
     }
 
     required init?(coder: NSCoder) { nil }
@@ -48,6 +48,16 @@ class CentralSericesViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let service = services[indexPath.row]
+        service.discoverCharacteristics(nil)
+            .subscribe(
+                onSuccess: { [weak self] in self?.pushCharacteristicsController(with: $0) },
+                onError: { [weak self] in AlertPresenter.presentError(with: $0.printable, on: self?.navigationController) }
+            )
+            .disposed(by: disposeBag)
+    }
+
     // MARK: - Private
 
     private let peripheral: Peripheral
@@ -71,6 +81,11 @@ class CentralSericesViewController: UITableViewController {
                 }
             )
             .disposed(by: disposeBag)
+    }
+
+    private func pushCharacteristicsController(with characteristics: [Characteristic]) {
+        let controller = CharacteristicsViewController(characteristics: characteristics)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
 }
