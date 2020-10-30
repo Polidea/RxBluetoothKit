@@ -31,7 +31,7 @@ class BluetoothProvider {
     }
 
     func readValue(for characteristic: Characteristic) -> Observable<String> {
-        return characteristic.observeValueUpdateAndSetNotification()
+        return characteristic.readValue().asObservable()
             .map { $0.value.flatMap { String(data: $0, encoding: .utf8) } ?? "-" }
     }
 

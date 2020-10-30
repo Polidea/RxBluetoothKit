@@ -19,13 +19,11 @@ class CharacteristicsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        setupReadingValues()
+        tableView.register(CharacteristicCell.self, forCellReuseIdentifier: CharacteristicCell.reuseId)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewDidAppearSubject.onNext(())
     }
 
     // MARK: - TableView
@@ -35,13 +33,20 @@ class CharacteristicsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        characteristicInfos.count
+        characteristics.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let info = characteristicInfos[indexPath.row]
-        cell.textLabel?.text = info.id.uuidString + ": " + info.value
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CharacteristicCell.reuseId, for: indexPath) as? CharacteristicCell else {
+            fatalError("Something went horribly wrong :(")
+        }
+
+        let characterstic = characteristics[indexPath.row]
+        cell.identifierLabel.text = characterstic.uuid.uuidString
+        [cell.readButton, cell.updateButton, cell.writeButton].forEach { $0.tag = indexPath.row }
+        cell.readButton.addTarget(self, action: #selector(handleReadButton), for: .touchUpInside)
+        cell.updateButton.addTarget(self, action: #selector(handleUpdateButton), for: .touchUpInside)
+        cell.writeButton.addTarget(self, action: #selector(handleWriteButton), for: .touchUpInside)
         return cell
     }
 
@@ -49,39 +54,22 @@ class CharacteristicsViewController: UITableViewController {
 
     private let characteristics: [Characteristic]
     private let bluetoothProvider: BluetoothProvider
-    private var characteristicInfos: [CharacteristicInfo] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    private let viewDidAppearSubject = PublishSubject<Void>()
-    private let disposeBag = DisposeBag()
 
-    private func setupReadingValues() {
-        viewDidAppearSubject.asObservable()
-            .take(1)
-            .flatMap { [characteristics] in Observable.from(characteristics) }
-            .flatMap { [bluetoothProvider] in
-                Observable.combineLatest(bluetoothProvider.readValue(for: $0), Observable.just($0))
-            }
-            .map { value, characteristic in CharacteristicInfo(id: characteristic.uuid, value: value) }
-            .subscribe(
-                onNext: { [weak self] info in
-                    self?.update(with: info)
-                },
-                onError: { [weak self] in
-                    AlertPresenter.presentError(with: $0.printable, on: self?.navigationController)
-                }
-            )
-            .disposed(by: disposeBag)
+    @objc private func handleReadButton(_ sender: UIButton) {
+        let characteristic = characteristics[sender.tag]
+        let controller = CharacteristicReadViewController(
+            characteristic: characteristic,
+            bluetoothProvider: bluetoothProvider
+        )
+        navigationController?.pushViewController(controller, animated: true)
     }
 
-    private func update(with info: CharacteristicInfo) {
-        if let firstIndex = characteristicInfos.firstIndex(of: info) {
-            characteristicInfos[firstIndex] = characteristicInfos[firstIndex].withValue(info.value)
-        } else {
-            characteristicInfos.append(info)
-        }
+    @objc private func handleUpdateButton(_ sender: UIButton) {
+        print("update \(sender.tag)")
+    }
+
+    @objc private func handleWriteButton(_ sender: UIButton) {
+        print("write \(sender.tag)")
     }
 
 }
