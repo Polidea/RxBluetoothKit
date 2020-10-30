@@ -1,6 +1,6 @@
 import UIKit
 
-class PeripheralView: UIView {
+class PeripheralUpdateView: UIView {
 
     init() {
         super.init(frame: .zero)

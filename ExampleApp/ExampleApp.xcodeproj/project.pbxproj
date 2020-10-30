@@ -25,8 +25,8 @@
 		8DA476B225399CFD00B79A0A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DA476B025399CFD00B79A0A /* LaunchScreen.storyboard */; };
 		8DB15AA6253D801C00DECF92 /* CentralSpecificViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AA5253D801C00DECF92 /* CentralSpecificViewController.swift */; };
 		8DB15AA9253D804A00DECF92 /* CentralSpecificView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AA8253D804A00DECF92 /* CentralSpecificView.swift */; };
-		8DB15AAC253D938700DECF92 /* PeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AAB253D938700DECF92 /* PeripheralViewController.swift */; };
-		8DB15AAF253D93A800DECF92 /* PeripheralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AAE253D93A800DECF92 /* PeripheralView.swift */; };
+		8DB15AAC253D938700DECF92 /* PeripheralUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AAB253D938700DECF92 /* PeripheralUpdateViewController.swift */; };
+		8DB15AAF253D93A800DECF92 /* PeripheralUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB15AAE253D93A800DECF92 /* PeripheralUpdateView.swift */; };
 		8DF924BB254ADE2C0027627D /* BluetoothProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF924BA254ADE2C0027627D /* BluetoothProvider.swift */; };
 		8DF924C3254AE4F40027627D /* Error+Printable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF924C2254AE4F40027627D /* Error+Printable.swift */; };
 /* End PBXBuildFile section */
@@ -52,8 +52,8 @@
 		8DA476BB25399D7C00B79A0A /* ExampleApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ExampleApp.entitlements; sourceTree = "<group>"; };
 		8DB15AA5253D801C00DECF92 /* CentralSpecificViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralSpecificViewController.swift; sourceTree = "<group>"; };
 		8DB15AA8253D804A00DECF92 /* CentralSpecificView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralSpecificView.swift; sourceTree = "<group>"; };
-		8DB15AAB253D938700DECF92 /* PeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralViewController.swift; sourceTree = "<group>"; };
-		8DB15AAE253D93A800DECF92 /* PeripheralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralView.swift; sourceTree = "<group>"; };
+		8DB15AAB253D938700DECF92 /* PeripheralUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralUpdateViewController.swift; sourceTree = "<group>"; };
+		8DB15AAE253D93A800DECF92 /* PeripheralUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralUpdateView.swift; sourceTree = "<group>"; };
 		8DF924BA254ADE2C0027627D /* BluetoothProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothProvider.swift; sourceTree = "<group>"; };
 		8DF924C2254AE4F40027627D /* Error+Printable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Printable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,7 +107,7 @@
 				8D896D502542FFA900FD5FE5 /* Central */,
 				8D72C5862539C3BD00456D1A /* CentralSpecific */,
 				8D896D492542FCB100FD5FE5 /* CentralList */,
-				8D72C5872539C3C700456D1A /* Peripheral */,
+				8D72C5872539C3C700456D1A /* PeripheralUpdate */,
 				8D72C58D2539C86600456D1A /* Welcome */,
 			);
 			path = Screens;
@@ -122,13 +122,13 @@
 			path = CentralSpecific;
 			sourceTree = "<group>";
 		};
-		8D72C5872539C3C700456D1A /* Peripheral */ = {
+		8D72C5872539C3C700456D1A /* PeripheralUpdate */ = {
 			isa = PBXGroup;
 			children = (
-				8DB15AAB253D938700DECF92 /* PeripheralViewController.swift */,
-				8DB15AAE253D93A800DECF92 /* PeripheralView.swift */,
+				8DB15AAB253D938700DECF92 /* PeripheralUpdateViewController.swift */,
+				8DB15AAE253D93A800DECF92 /* PeripheralUpdateView.swift */,
 			);
-			path = Peripheral;
+			path = PeripheralUpdate;
 			sourceTree = "<group>";
 		};
 		8D72C58D2539C86600456D1A /* Welcome */ = {
@@ -295,7 +295,7 @@
 				8DB15AA9253D804A00DECF92 /* CentralSpecificView.swift in Sources */,
 				8DA476AA25399CFA00B79A0A /* WelcomeViewController.swift in Sources */,
 				8DB15AA6253D801C00DECF92 /* CentralSpecificViewController.swift in Sources */,
-				8DB15AAC253D938700DECF92 /* PeripheralViewController.swift in Sources */,
+				8DB15AAC253D938700DECF92 /* PeripheralUpdateViewController.swift in Sources */,
 				8DA476A625399CFA00B79A0A /* AppDelegate.swift in Sources */,
 				8D896D522542FFB300FD5FE5 /* CentralViewController.swift in Sources */,
 				8D896D472542D7C500FD5FE5 /* AlertPresenter.swift in Sources */,
@@ -304,7 +304,7 @@
 				8D896D4B2542FCE400FD5FE5 /* CentralListViewController.swift in Sources */,
 				8DF924BB254ADE2C0027627D /* BluetoothProvider.swift in Sources */,
 				8DA476A825399CFA00B79A0A /* SceneDelegate.swift in Sources */,
-				8DB15AAF253D93A800DECF92 /* PeripheralView.swift in Sources */,
+				8DB15AAF253D93A800DECF92 /* PeripheralUpdateView.swift in Sources */,
 				8D72C58F2539C87300456D1A /* WelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

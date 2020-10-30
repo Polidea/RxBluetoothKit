@@ -3,7 +3,7 @@ import RxBluetoothKit
 import RxSwift
 import UIKit
 
-class PeripheralViewController: UIViewController {
+class PeripheralUpdateViewController: UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -13,7 +13,7 @@ class PeripheralViewController: UIViewController {
 
     // MARK: - View
 
-    private(set) lazy var peripheralView = PeripheralView()
+    private(set) lazy var peripheralView = PeripheralUpdateView()
 
     override func loadView() {
         view = peripheralView
