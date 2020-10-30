@@ -21,7 +21,7 @@ class WelcomeViewController: UIViewController {
     }
 
     @objc func handlePeripheralButtonTap() {
-        let peripheralController = PeripheralUpdateViewController()
+        let peripheralController = PeripheralViewController()
         navigationController?.pushViewController(peripheralController, animated: true)
     }
 
