@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D4839A2254AAC0900266106 /* CharacteristicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4839A1254AAC0900266106 /* CharacteristicsViewController.swift */; };
+		8D61CC8B254C321200952B2B /* CharacteristicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D61CC8A254C321200952B2B /* CharacteristicInfo.swift */; };
 		8D72C58A2539C65000456D1A /* RxBluetoothKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8D72C5892539C65000456D1A /* RxBluetoothKit */; };
 		8D72C58F2539C87300456D1A /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D72C58E2539C87300456D1A /* WelcomeView.swift */; };
 		8D76F72B2546B5D200FF4DDB /* CentralServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D76F72A2546B5D200FF4DDB /* CentralServicesViewController.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		8D4839A1254AAC0900266106 /* CharacteristicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicsViewController.swift; sourceTree = "<group>"; };
+		8D61CC8A254C321200952B2B /* CharacteristicInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicInfo.swift; sourceTree = "<group>"; };
 		8D72C58E2539C87300456D1A /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		8D76F72A2546B5D200FF4DDB /* CentralServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralServicesViewController.swift; sourceTree = "<group>"; };
 		8D76F7342546C4D900FF4DDB /* CentralServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralServiceCell.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				8D4839A1254AAC0900266106 /* CharacteristicsViewController.swift */,
+				8D61CC8A254C321200952B2B /* CharacteristicInfo.swift */,
 			);
 			path = CentralServiceChacacteristics;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 			files = (
 				8DF924C3254AE4F40027627D /* Error+Printable.swift in Sources */,
 				8D896D552542FFE000FD5FE5 /* CentralView.swift in Sources */,
+				8D61CC8B254C321200952B2B /* CharacteristicInfo.swift in Sources */,
 				8D4839A2254AAC0900266106 /* CharacteristicsViewController.swift in Sources */,
 				8D76F7352546C4DA00FF4DDB /* CentralServiceCell.swift in Sources */,
 				8DB15AA9253D804A00DECF92 /* CentralSpecificView.swift in Sources */,

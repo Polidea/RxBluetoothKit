@@ -35,13 +35,13 @@ class CharacteristicsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        values.count
+        characteristicInfos.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let value = values[indexPath.row]
-        cell.textLabel?.text = value
+        let info = characteristicInfos[indexPath.row]
+        cell.textLabel?.text = info.id.uuidString + ": " + info.value
         return cell
     }
 
@@ -49,7 +49,7 @@ class CharacteristicsViewController: UITableViewController {
 
     private let characteristics: [Characteristic]
     private let bluetoothProvider: BluetoothProvider
-    private var values: [String] = [] {
+    private var characteristicInfos: [CharacteristicInfo] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -61,14 +61,27 @@ class CharacteristicsViewController: UITableViewController {
         viewDidAppearSubject.asObservable()
             .take(1)
             .flatMap { [characteristics] in Observable.from(characteristics) }
-            .flatMap { [bluetoothProvider] in bluetoothProvider.readValue(for: $0) }
+            .flatMap { [bluetoothProvider] in
+                Observable.combineLatest(bluetoothProvider.readValue(for: $0), Observable.just($0))
+            }
+            .map { value, characteristic in CharacteristicInfo(id: characteristic.uuid, value: value) }
             .subscribe(
-                onNext: { [weak self] in self?.values.append($0) },
+                onNext: { [weak self] info in
+                    self?.update(with: info)
+                },
                 onError: { [weak self] in
                     AlertPresenter.presentError(with: $0.printable, on: self?.navigationController)
                 }
             )
             .disposed(by: disposeBag)
+    }
+
+    private func update(with info: CharacteristicInfo) {
+        if let firstIndex = characteristicInfos.firstIndex(of: info) {
+            characteristicInfos[firstIndex] = characteristicInfos[firstIndex].withValue(info.value)
+        } else {
+            characteristicInfos.append(info)
+        }
     }
 
 }
