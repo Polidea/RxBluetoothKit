@@ -51,9 +51,10 @@ class CentralSericesViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let service = services[indexPath.row]
-        service.discoverCharacteristics(nil)
+
+        bluetoothProvider.characteristics(for: service)
             .subscribe(
-                onSuccess: { [weak self] in self?.pushCharacteristicsController(with: $0) },
+                onNext: { [weak self] in self?.pushCharacteristicsController(with: $0) },
                 onError: { [weak self] in AlertPresenter.presentError(with: $0.printable, on: self?.navigationController) }
             )
             .disposed(by: disposeBag)
@@ -75,7 +76,7 @@ class CentralSericesViewController: UITableViewController {
     private func setupBindings() {
         didAppearSubject
             .take(1)
-            .flatMap { [peripheral] in peripheral.discoverServices(nil) }
+            .flatMap { [bluetoothProvider, peripheral] in bluetoothProvider.discoveredServices(for: peripheral) }
             .subscribe(
                 onNext: { [weak self] in self?.services = $0 },
                 onError: { [weak self] in
@@ -86,7 +87,7 @@ class CentralSericesViewController: UITableViewController {
     }
 
     private func pushCharacteristicsController(with characteristics: [Characteristic]) {
-        let controller = CharacteristicsViewController(characteristics: characteristics)
+        let controller = CharacteristicsViewController(characteristics: characteristics, bluetoothProvider: bluetoothProvider)
         navigationController?.pushViewController(controller, animated: true)
     }
 

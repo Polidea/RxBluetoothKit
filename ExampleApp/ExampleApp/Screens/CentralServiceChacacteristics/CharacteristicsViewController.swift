@@ -4,8 +4,9 @@ import UIKit
 
 class CharacteristicsViewController: UITableViewController {
 
-    init(characteristics: [Characteristic]) {
+    init(characteristics: [Characteristic], bluetoothProvider: BluetoothProvider) {
         self.characteristics = characteristics
+        self.bluetoothProvider = bluetoothProvider
         super.init(nibName: nil, bundle: nil)
 
         navigationItem.title = "Characteristics"
@@ -47,6 +48,7 @@ class CharacteristicsViewController: UITableViewController {
     // MARK: - Private
 
     private let characteristics: [Characteristic]
+    private let bluetoothProvider: BluetoothProvider
     private var values: [String] = [] {
         didSet {
             tableView.reloadData()
@@ -59,12 +61,9 @@ class CharacteristicsViewController: UITableViewController {
         viewDidAppearSubject.asObservable()
             .take(1)
             .flatMap { [characteristics] in Observable.from(characteristics) }
-            .flatMap { $0.readValue().asObservable() }
+            .flatMap { [bluetoothProvider] in bluetoothProvider.readValue(for: $0) }
             .subscribe(
-                onNext: { [weak self] in
-                    let value = $0.value.flatMap { String(data: $0, encoding: .utf8) } ?? "-"
-                    self?.values.append(value)
-                },
+                onNext: { [weak self] in self?.values.append($0) },
                 onError: { [weak self] in
                     AlertPresenter.presentError(with: $0.printable, on: self?.navigationController)
                 }

@@ -105,7 +105,7 @@ class PeripheralViewController: UIViewController {
                     self?.isAdvertising.toggle()
                 },
                 onError: { [weak self] in
-                    AlertPresenter.presentError(with: $0.localizedDescription, on: self?.navigationController)
+                    AlertPresenter.presentError(with: $0.printable, on: self?.navigationController)
                 }
             )
     }

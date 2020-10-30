@@ -21,7 +21,6 @@ class CentralListViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.register(CentralListCell.self, forCellReuseIdentifier: CentralListCell.reuseId)
-        setupBindings()
     }
 
     // MARK: - TableView
@@ -49,10 +48,10 @@ class CentralListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let peripheral = scannedPeripherals[indexPath.row]
 
-        peripheral.peripheral.establishConnection()
+        bluetoothProvider.connect(to: peripheral.peripheral)
             .subscribe(
                 onNext: { [weak self] in self?.pushServicesController(with: $0) },
-                onError: { [weak self] in AlertPresenter.presentError(with: $0.localizedDescription, on: self?.navigationController) }
+                onError: { [weak self] in AlertPresenter.presentError(with: $0.printable, on: self?.navigationController) }
             )
             .disposed(by: disposeBag)
     }
@@ -70,10 +69,6 @@ class CentralListViewController: UITableViewController {
 
     @objc private func startSearch() {
         bluetoothProvider.startScanning()
-    }
-
-    private func setupBindings() {
-        bluetoothProvider.scannedPeripheral
             .filter { [weak self] newPeripheral in
                 guard let `self` = self else { return false }
                 return !self.scannedPeripherals.contains(where: { $0.peripheral.identifier == newPeripheral.peripheral.identifier })

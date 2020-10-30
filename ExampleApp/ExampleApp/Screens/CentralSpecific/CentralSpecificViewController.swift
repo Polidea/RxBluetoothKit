@@ -63,7 +63,7 @@ class CentralSpecificViewController: UIViewController {
                     self?.updateValue(string)
                 },
                 onError: { [weak self] in
-                    AlertPresenter.presentError(with: $0.localizedDescription, on: self?.navigationController)
+                    AlertPresenter.presentError(with: $0.printable, on: self?.navigationController)
                 }
             )
             .disposed(by: disposeBag)

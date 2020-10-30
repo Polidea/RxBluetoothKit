@@ -3,11 +3,9 @@ import RxSwift
 
 class BluetoothProvider {
 
-    var scannedPeripheral: Observable<ScannedPeripheral> {
-        scannedPeripheralSubject.asObservable()
-    }
+    typealias ConnectedPeripheral = Peripheral
 
-    func startScanning() {
+    func startScanning() -> Observable<ScannedPeripheral> {
         let managerIsOn = manager.observeStateWithInitialValue()
             .filter { $0 == .poweredOn }
             .compactMap { [weak self] _ in self?.manager }
@@ -16,14 +14,33 @@ class BluetoothProvider {
             .flatMap { $0.scanForPeripherals(withServices: nil) }
             .timeout(.seconds(7), scheduler: MainScheduler.instance)
             .subscribe(scannedPeripheralSubject.asObserver())
+
+        return scannedPeripheralSubject.asObservable()
     }
 
-    func disconnect() {
+    func connect(to peripheral: Peripheral) -> Observable<ConnectedPeripheral> {
+        peripheral.establishConnection()
+    }
+
+    func discoveredServices(for peripheral: ConnectedPeripheral) -> Observable<[Service]> {
+        peripheral.discoverServices(nil).asObservable()
+    }
+
+    func characteristics(for service: Service) -> Observable<[Characteristic]> {
+        service.discoverCharacteristics(nil).asObservable()
+    }
+
+    func readValue(for characteristic: Characteristic) -> Observable<String> {
+        return characteristic.observeValueUpdateAndSetNotification()
+            .map { $0.value.flatMap { String(data: $0, encoding: .utf8) } ?? "-" }
+    }
+
+    func shutDown() {
         connection?.dispose()
     }
 
     deinit {
-        disconnect()
+        shutDown()
     }
 
     // MARK: - Private
