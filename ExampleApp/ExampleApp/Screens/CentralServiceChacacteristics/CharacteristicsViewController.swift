@@ -43,9 +43,9 @@ class CharacteristicsViewController: UITableViewController {
 
         let characterstic = characteristics[indexPath.row]
         cell.identifierLabel.text = characterstic.uuid.uuidString
-        [cell.readButton, cell.updateButton, cell.writeButton].forEach { $0.tag = indexPath.row }
+        [cell.readButton, cell.notifyButton, cell.writeButton].forEach { $0.tag = indexPath.row }
         cell.readButton.addTarget(self, action: #selector(handleReadButton), for: .touchUpInside)
-        cell.updateButton.addTarget(self, action: #selector(handleUpdateButton), for: .touchUpInside)
+        cell.notifyButton.addTarget(self, action: #selector(handleNotifyButton), for: .touchUpInside)
         cell.writeButton.addTarget(self, action: #selector(handleWriteButton), for: .touchUpInside)
         return cell
     }
@@ -64,8 +64,13 @@ class CharacteristicsViewController: UITableViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    @objc private func handleUpdateButton(_ sender: UIButton) {
-        print("update \(sender.tag)")
+    @objc private func handleNotifyButton(_ sender: UIButton) {
+        let characteristic = characteristics[sender.tag]
+        let controller = CharacteristicNotifyViewController(
+            characteristic: characteristic,
+            bluetoothProvider: bluetoothProvider
+        )
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     @objc private func handleWriteButton(_ sender: UIButton) {

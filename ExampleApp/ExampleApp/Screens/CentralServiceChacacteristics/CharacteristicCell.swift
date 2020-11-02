@@ -14,7 +14,7 @@ class CharacteristicCell: UITableViewCell {
     override func prepareForReuse() {
         identifierLabel.text = nil
         readButton.tag = 0
-        updateButton.tag = 0
+        notifyButton.tag = 0
         writeButton.tag = 0
     }
 
@@ -32,9 +32,9 @@ class CharacteristicCell: UITableViewCell {
         return button
     }()
 
-    let updateButton: UIButton = {
+    let notifyButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Update", for: .normal)
+        button.setTitle("Notify", for: .normal)
         return button
     }()
 
@@ -56,7 +56,7 @@ class CharacteristicCell: UITableViewCell {
     private func setupLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
-        [identifierLabel, readButton, updateButton, writeButton].forEach(stackView.addArrangedSubview)
+        [identifierLabel, readButton, notifyButton, writeButton].forEach(stackView.addArrangedSubview)
 
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8.0),

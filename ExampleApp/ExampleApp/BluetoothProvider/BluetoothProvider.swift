@@ -31,8 +31,13 @@ class BluetoothProvider {
     }
 
     func readValue(for characteristic: Characteristic) -> Observable<String> {
-        return characteristic.readValue().asObservable()
-            .map { $0.value.flatMap { String(data: $0, encoding: .utf8) } ?? "-" }
+        characteristic.readValue().asObservable()
+            .map { $0.stringValue }
+    }
+
+    func getValueUpdates(for characteristic: Characteristic) -> Observable<String> {
+        characteristic.observeValueUpdateAndSetNotification()
+            .map { $0.stringValue }
     }
 
     func shutDown() {
@@ -48,5 +53,13 @@ class BluetoothProvider {
     private let manager = CentralManager()
     private var connection: Disposable?
     private let scannedPeripheralSubject = PublishSubject<ScannedPeripheral>()
+
+}
+
+private extension Characteristic {
+
+    var stringValue: String {
+        self.value.flatMap { String(data: $0, encoding: .utf8) } ?? "-"
+    }
 
 }
