@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8D117DB3254FD1DE003807B3 /* CharacteristicNotifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D117DB2254FD1DE003807B3 /* CharacteristicNotifyViewController.swift */; };
 		8D117DB7254FD20D003807B3 /* CharacteristicNotifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D117DB6254FD20D003807B3 /* CharacteristicNotifyView.swift */; };
+		8D117DBC254FD47B003807B3 /* PeripheralWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D117DBB254FD47B003807B3 /* PeripheralWriteViewController.swift */; };
+		8D117DC0254FD4B2003807B3 /* PeripheralWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D117DBF254FD4B2003807B3 /* PeripheralWriteView.swift */; };
 		8D4839A2254AAC0900266106 /* CharacteristicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4839A1254AAC0900266106 /* CharacteristicsViewController.swift */; };
 		8D61CC8B254C321200952B2B /* CharacteristicInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D61CC8A254C321200952B2B /* CharacteristicInfo.swift */; };
 		8D61CC92254C479900952B2B /* PeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D61CC91254C479900952B2B /* PeripheralViewController.swift */; };
@@ -43,6 +45,8 @@
 /* Begin PBXFileReference section */
 		8D117DB2254FD1DE003807B3 /* CharacteristicNotifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicNotifyViewController.swift; sourceTree = "<group>"; };
 		8D117DB6254FD20D003807B3 /* CharacteristicNotifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicNotifyView.swift; sourceTree = "<group>"; };
+		8D117DBB254FD47B003807B3 /* PeripheralWriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralWriteViewController.swift; sourceTree = "<group>"; };
+		8D117DBF254FD4B2003807B3 /* PeripheralWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralWriteView.swift; sourceTree = "<group>"; };
 		8D4839A1254AAC0900266106 /* CharacteristicsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicsViewController.swift; sourceTree = "<group>"; };
 		8D61CC8A254C321200952B2B /* CharacteristicInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicInfo.swift; sourceTree = "<group>"; };
 		8D61CC91254C479900952B2B /* PeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +99,15 @@
 				8D117DB6254FD20D003807B3 /* CharacteristicNotifyView.swift */,
 			);
 			path = CharacteristicNotify;
+			sourceTree = "<group>";
+		};
+		8D117DBA254FD462003807B3 /* PeripheralWrite */ = {
+			isa = PBXGroup;
+			children = (
+				8D117DBB254FD47B003807B3 /* PeripheralWriteViewController.swift */,
+				8D117DBF254FD4B2003807B3 /* PeripheralWriteView.swift */,
+			);
+			path = PeripheralWrite;
 			sourceTree = "<group>";
 		};
 		8D4839A0254AABDC00266106 /* CentralServiceChacacteristics */ = {
@@ -157,15 +170,16 @@
 		8D72C5832539C34400456D1A /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				8D117DB1254FD1C5003807B3 /* CharacteristicNotify */,
-				8D61CCA3254C553500952B2B /* CharacteristicRead */,
-				8D61CC98254C4A6800952B2B /* PeripheralRead */,
+				8D117DBA254FD462003807B3 /* PeripheralWrite */,
 				8D896D502542FFA900FD5FE5 /* Central */,
 				8D896D492542FCB100FD5FE5 /* CentralList */,
 				8D4839A0254AABDC00266106 /* CentralServiceChacacteristics */,
 				8D76F7292546B5C500FF4DDB /* CentralServices */,
 				8D72C5862539C3BD00456D1A /* CentralSpecific */,
+				8D117DB1254FD1C5003807B3 /* CharacteristicNotify */,
+				8D61CCA3254C553500952B2B /* CharacteristicRead */,
 				8D61CC90254C478200952B2B /* Peripheral */,
+				8D61CC98254C4A6800952B2B /* PeripheralRead */,
 				8D72C5872539C3C700456D1A /* PeripheralUpdate */,
 				8D72C58D2539C86600456D1A /* Welcome */,
 			);
@@ -358,6 +372,7 @@
 				8D61CCA5254C554F00952B2B /* CharacteristicReadViewController.swift in Sources */,
 				8D76F7352546C4DA00FF4DDB /* CentralServiceCell.swift in Sources */,
 				8DB15AA9253D804A00DECF92 /* CentralSpecificView.swift in Sources */,
+				8D117DC0254FD4B2003807B3 /* PeripheralWriteView.swift in Sources */,
 				8DA476AA25399CFA00B79A0A /* WelcomeViewController.swift in Sources */,
 				8DB15AA6253D801C00DECF92 /* CentralSpecificViewController.swift in Sources */,
 				8DB15AAC253D938700DECF92 /* PeripheralUpdateViewController.swift in Sources */,
@@ -367,6 +382,7 @@
 				8D896D472542D7C500FD5FE5 /* AlertPresenter.swift in Sources */,
 				8D61CCA9254C558200952B2B /* CharacteristicReadView.swift in Sources */,
 				8D61CC9A254C4A7800952B2B /* PeripheralReadViewController.swift in Sources */,
+				8D117DBC254FD47B003807B3 /* PeripheralWriteViewController.swift in Sources */,
 				8D76F72B2546B5D200FF4DDB /* CentralServicesViewController.swift in Sources */,
 				8D896D5825430E7200FD5FE5 /* CentralListCell.swift in Sources */,
 				8D896D4B2542FCE400FD5FE5 /* CentralListViewController.swift in Sources */,

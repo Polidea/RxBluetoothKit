@@ -36,6 +36,9 @@ class PeripheralViewController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    @objc private func handleWriteButton() {}
+    @objc private func handleWriteButton() {
+        let controller = PeripheralWriteViewController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
 
 }
