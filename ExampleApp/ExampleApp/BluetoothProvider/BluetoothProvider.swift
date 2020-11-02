@@ -40,6 +40,11 @@ class BluetoothProvider {
             .map { $0.stringValue }
     }
 
+    func write(value: String, for characteristic: Characteristic) {
+        guard let data = value.data(using: .utf8) else { return }
+        _ = characteristic.writeValue(data, type: .withoutResponse).subscribe(onSuccess: { _ in print("written!") })
+    }
+
     func shutDown() {
         connection?.dispose()
     }

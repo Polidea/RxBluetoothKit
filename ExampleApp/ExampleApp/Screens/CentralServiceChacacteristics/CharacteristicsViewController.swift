@@ -74,7 +74,12 @@ class CharacteristicsViewController: UITableViewController {
     }
 
     @objc private func handleWriteButton(_ sender: UIButton) {
-        print("write \(sender.tag)")
+        let characteristic = characteristics[sender.tag]
+        let controller = CharacteristicWriteViewController(
+            characteristic: characteristic,
+            bluetoothProvider: bluetoothProvider
+        )
+        navigationController?.pushViewController(controller, animated: true)
     }
 
 }
