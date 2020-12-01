@@ -14,13 +14,13 @@ class PeripheralUpdateView: UIView {
 
     let serviceUuidTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Service UUID"
+        textField.placeholder = Labels.serviceUuidPlaceholder
         return textField
     }()
 
     let characteristicUuidTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Characteristic UUID"
+        textField.placeholder = Labels.characteristicUuidPlaceholder
         return textField
     }()
 

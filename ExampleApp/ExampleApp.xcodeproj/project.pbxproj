@@ -22,6 +22,7 @@
 		8D61CCA1254C4F8C00952B2B /* CharacteristicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D61CCA0254C4F8C00952B2B /* CharacteristicCell.swift */; };
 		8D61CCA5254C554F00952B2B /* CharacteristicReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D61CCA4254C554F00952B2B /* CharacteristicReadViewController.swift */; };
 		8D61CCA9254C558200952B2B /* CharacteristicReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D61CCA8254C558200952B2B /* CharacteristicReadView.swift */; };
+		8D6202CB2576DAB500E66BF6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6202CA2576DAB500E66BF6 /* Constants.swift */; };
 		8D72C58A2539C65000456D1A /* RxBluetoothKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8D72C5892539C65000456D1A /* RxBluetoothKit */; };
 		8D72C58F2539C87300456D1A /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D72C58E2539C87300456D1A /* WelcomeView.swift */; };
 		8D76F72B2546B5D200FF4DDB /* CentralServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D76F72A2546B5D200FF4DDB /* CentralServicesViewController.swift */; };
@@ -60,6 +61,7 @@
 		8D61CCA0254C4F8C00952B2B /* CharacteristicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicCell.swift; sourceTree = "<group>"; };
 		8D61CCA4254C554F00952B2B /* CharacteristicReadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicReadViewController.swift; sourceTree = "<group>"; };
 		8D61CCA8254C558200952B2B /* CharacteristicReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacteristicReadView.swift; sourceTree = "<group>"; };
+		8D6202CA2576DAB500E66BF6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8D72C58E2539C87300456D1A /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		8D76F72A2546B5D200FF4DDB /* CentralServicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralServicesViewController.swift; sourceTree = "<group>"; };
 		8D76F7342546C4D900FF4DDB /* CentralServiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralServiceCell.swift; sourceTree = "<group>"; };
@@ -183,7 +185,6 @@
 		8D72C5832539C34400456D1A /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				8D117DC2254FDAB5003807B3 /* CharacteristicWrite */,
 				8D896D502542FFA900FD5FE5 /* Central */,
 				8D896D492542FCB100FD5FE5 /* CentralList */,
 				8D4839A0254AABDC00266106 /* CentralServiceChacacteristics */,
@@ -191,6 +192,7 @@
 				8D72C5862539C3BD00456D1A /* CentralSpecific */,
 				8D117DB1254FD1C5003807B3 /* CharacteristicNotify */,
 				8D61CCA3254C553500952B2B /* CharacteristicRead */,
+				8D117DC2254FDAB5003807B3 /* CharacteristicWrite */,
 				8D61CC90254C478200952B2B /* Peripheral */,
 				8D61CC98254C4A6800952B2B /* PeripheralRead */,
 				8D72C5872539C3C700456D1A /* PeripheralUpdate */,
@@ -295,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				8DF924C2254AE4F40027627D /* Error+Printable.swift */,
+				8D6202CA2576DAB500E66BF6 /* Constants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				8D896D522542FFB300FD5FE5 /* CentralViewController.swift in Sources */,
 				8D896D472542D7C500FD5FE5 /* AlertPresenter.swift in Sources */,
 				8D61CCA9254C558200952B2B /* CharacteristicReadView.swift in Sources */,
+				8D6202CB2576DAB500E66BF6 /* Constants.swift in Sources */,
 				8D61CC9A254C4A7800952B2B /* PeripheralReadViewController.swift in Sources */,
 				8D117DBC254FD47B003807B3 /* PeripheralWriteViewController.swift in Sources */,
 				8D76F72B2546B5D200FF4DDB /* CentralServicesViewController.swift in Sources */,
