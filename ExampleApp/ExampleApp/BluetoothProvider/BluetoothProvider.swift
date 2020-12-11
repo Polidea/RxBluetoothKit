@@ -22,16 +22,16 @@ class BluetoothProvider {
         peripheral.establishConnection()
     }
 
-    func discoveredServices(for peripheral: ConnectedPeripheral) -> Observable<[Service]> {
-        peripheral.discoverServices(nil).asObservable()
+    func discoveredServices(for peripheral: ConnectedPeripheral) -> Single<[Service]> {
+        peripheral.discoverServices(nil)
     }
 
-    func characteristics(for service: Service) -> Observable<[Characteristic]> {
-        service.discoverCharacteristics(nil).asObservable()
+    func characteristics(for service: Service) -> Single<[Characteristic]> {
+        service.discoverCharacteristics(nil)
     }
 
-    func readValue(for characteristic: Characteristic) -> Observable<String> {
-        characteristic.readValue().asObservable()
+    func readValue(for characteristic: Characteristic) -> Single<String> {
+        characteristic.readValue()
             .map { $0.stringValue }
     }
 

@@ -22,10 +22,6 @@ class CharacteristicsViewController: UITableViewController {
         tableView.register(CharacteristicCell.self, forCellReuseIdentifier: CharacteristicCell.reuseId)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
     // MARK: - TableView
 
     override func numberOfSections(in tableView: UITableView) -> Int {

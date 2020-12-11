@@ -70,7 +70,7 @@ class CentralListViewController: UITableViewController {
     @objc private func startSearch() {
         bluetoothProvider.startScanning()
             .filter { [weak self] newPeripheral in
-                guard let `self` = self else { return false }
+                guard let self = self else { return false }
                 return !self.scannedPeripherals.contains(where: { $0.peripheral.identifier == newPeripheral.peripheral.identifier })
             }
             .subscribe(onNext: { [weak self] in self?.scannedPeripherals.append($0) })

@@ -54,7 +54,7 @@ class CentralSericesViewController: UITableViewController {
 
         bluetoothProvider.characteristics(for: service)
             .subscribe(
-                onNext: { [weak self] in self?.pushCharacteristicsController(with: $0) },
+                onSuccess: { [weak self] in self?.pushCharacteristicsController(with: $0) },
                 onError: { [weak self] in AlertPresenter.presentError(with: $0.printable, on: self?.navigationController) }
             )
             .disposed(by: disposeBag)
