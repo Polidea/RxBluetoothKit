@@ -77,6 +77,8 @@ class CentralSericesViewController: UITableViewController {
         didAppearSubject
             .take(1)
             .flatMap { [bluetoothProvider, peripheral] in bluetoothProvider.discoveredServices(for: peripheral) }
+                // discovering characterisics can take some time so it might be useful to block UI or show progress bar here,
+                // probably with .do(onSubscribe: { startProgressIndicator() }, onCompleted: { stopProgressIndicator() })
             .subscribe(
                 onNext: { [weak self] in self?.services = $0 },
                 onError: { [weak self] in
