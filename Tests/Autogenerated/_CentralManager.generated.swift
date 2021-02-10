@@ -299,7 +299,7 @@ class _CentralManager: _ManagerType {
                 return (peripheral, error)
             }
         return ensure(.poweredOn, observable: observable)
-                .catchError { error in
+                .catch { error in
                     if error is _BluetoothError, let peripheral = peripheral {
                         return .concat(.just((peripheral, error)), .error(error))
                     } else {
