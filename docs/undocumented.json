@@ -1,1265 +1,1265 @@
 {
   "warnings": [
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 11,
       "symbol": "BluetoothError.scanInProgress",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 11,
       "symbol": "BluetoothError.scanInProgress",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 11,
       "symbol": "BluetoothError.scanInProgress",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 11,
       "symbol": "BluetoothError.scanInProgress",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 13,
       "symbol": "BluetoothError.advertisingInProgress",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 13,
       "symbol": "BluetoothError.advertisingInProgress",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 13,
       "symbol": "BluetoothError.advertisingInProgress",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 13,
       "symbol": "BluetoothError.advertisingInProgress",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 14,
       "symbol": "BluetoothError.advertisingStartFailed(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 14,
       "symbol": "BluetoothError.advertisingStartFailed(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 14,
       "symbol": "BluetoothError.advertisingStartFailed(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 14,
       "symbol": "BluetoothError.advertisingStartFailed(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 16,
       "symbol": "BluetoothError.bluetoothUnsupported",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 16,
       "symbol": "BluetoothError.bluetoothUnsupported",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 16,
       "symbol": "BluetoothError.bluetoothUnsupported",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 16,
       "symbol": "BluetoothError.bluetoothUnsupported",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 17,
       "symbol": "BluetoothError.bluetoothUnauthorized",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 17,
       "symbol": "BluetoothError.bluetoothUnauthorized",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 17,
       "symbol": "BluetoothError.bluetoothUnauthorized",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 17,
       "symbol": "BluetoothError.bluetoothUnauthorized",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 18,
       "symbol": "BluetoothError.bluetoothPoweredOff",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 18,
       "symbol": "BluetoothError.bluetoothPoweredOff",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 18,
       "symbol": "BluetoothError.bluetoothPoweredOff",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 18,
       "symbol": "BluetoothError.bluetoothPoweredOff",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 19,
       "symbol": "BluetoothError.bluetoothInUnknownState",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 19,
       "symbol": "BluetoothError.bluetoothInUnknownState",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 19,
       "symbol": "BluetoothError.bluetoothInUnknownState",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 19,
       "symbol": "BluetoothError.bluetoothInUnknownState",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 20,
       "symbol": "BluetoothError.bluetoothResetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 20,
       "symbol": "BluetoothError.bluetoothResetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 20,
       "symbol": "BluetoothError.bluetoothResetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 20,
       "symbol": "BluetoothError.bluetoothResetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 22,
       "symbol": "BluetoothError.peripheralIsAlreadyObservingConnection(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 22,
       "symbol": "BluetoothError.peripheralIsAlreadyObservingConnection(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 22,
       "symbol": "BluetoothError.peripheralIsAlreadyObservingConnection(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 22,
       "symbol": "BluetoothError.peripheralIsAlreadyObservingConnection(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 24,
       "symbol": "BluetoothError.peripheralIsConnectingOrAlreadyConnected(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 24,
       "symbol": "BluetoothError.peripheralIsConnectingOrAlreadyConnected(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 24,
       "symbol": "BluetoothError.peripheralIsConnectingOrAlreadyConnected(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 24,
       "symbol": "BluetoothError.peripheralIsConnectingOrAlreadyConnected(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 25,
       "symbol": "BluetoothError.peripheralConnectionFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 25,
       "symbol": "BluetoothError.peripheralConnectionFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 25,
       "symbol": "BluetoothError.peripheralConnectionFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 25,
       "symbol": "BluetoothError.peripheralConnectionFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 26,
       "symbol": "BluetoothError.peripheralDisconnected(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 26,
       "symbol": "BluetoothError.peripheralDisconnected(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 26,
       "symbol": "BluetoothError.peripheralDisconnected(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 26,
       "symbol": "BluetoothError.peripheralDisconnected(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 27,
       "symbol": "BluetoothError.peripheralRSSIReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 27,
       "symbol": "BluetoothError.peripheralRSSIReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 27,
       "symbol": "BluetoothError.peripheralRSSIReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 27,
       "symbol": "BluetoothError.peripheralRSSIReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 29,
       "symbol": "BluetoothError.servicesDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 29,
       "symbol": "BluetoothError.servicesDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 29,
       "symbol": "BluetoothError.servicesDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 29,
       "symbol": "BluetoothError.servicesDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 30,
       "symbol": "BluetoothError.includedServicesDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 30,
       "symbol": "BluetoothError.includedServicesDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 30,
       "symbol": "BluetoothError.includedServicesDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 30,
       "symbol": "BluetoothError.includedServicesDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 31,
       "symbol": "BluetoothError.addingServiceFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 31,
       "symbol": "BluetoothError.addingServiceFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 31,
       "symbol": "BluetoothError.addingServiceFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 31,
       "symbol": "BluetoothError.addingServiceFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 33,
       "symbol": "BluetoothError.characteristicsDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 33,
       "symbol": "BluetoothError.characteristicsDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 33,
       "symbol": "BluetoothError.characteristicsDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 33,
       "symbol": "BluetoothError.characteristicsDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 34,
       "symbol": "BluetoothError.characteristicWriteFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 34,
       "symbol": "BluetoothError.characteristicWriteFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 34,
       "symbol": "BluetoothError.characteristicWriteFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 34,
       "symbol": "BluetoothError.characteristicWriteFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 35,
       "symbol": "BluetoothError.characteristicReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 35,
       "symbol": "BluetoothError.characteristicReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 35,
       "symbol": "BluetoothError.characteristicReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 35,
       "symbol": "BluetoothError.characteristicReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 36,
       "symbol": "BluetoothError.characteristicNotifyChangeFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 36,
       "symbol": "BluetoothError.characteristicNotifyChangeFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 36,
       "symbol": "BluetoothError.characteristicNotifyChangeFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 36,
       "symbol": "BluetoothError.characteristicNotifyChangeFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 37,
       "symbol": "BluetoothError.characteristicSetNotifyValueFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 37,
       "symbol": "BluetoothError.characteristicSetNotifyValueFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 37,
       "symbol": "BluetoothError.characteristicSetNotifyValueFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 37,
       "symbol": "BluetoothError.characteristicSetNotifyValueFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 39,
       "symbol": "BluetoothError.descriptorsDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 39,
       "symbol": "BluetoothError.descriptorsDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 39,
       "symbol": "BluetoothError.descriptorsDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 39,
       "symbol": "BluetoothError.descriptorsDiscoveryFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 40,
       "symbol": "BluetoothError.descriptorWriteFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 40,
       "symbol": "BluetoothError.descriptorWriteFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 40,
       "symbol": "BluetoothError.descriptorWriteFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 40,
       "symbol": "BluetoothError.descriptorWriteFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 41,
       "symbol": "BluetoothError.descriptorReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 41,
       "symbol": "BluetoothError.descriptorReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 41,
       "symbol": "BluetoothError.descriptorReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 41,
       "symbol": "BluetoothError.descriptorReadFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 43,
       "symbol": "BluetoothError.openingL2CAPChannelFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 43,
       "symbol": "BluetoothError.openingL2CAPChannelFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 43,
       "symbol": "BluetoothError.openingL2CAPChannelFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 43,
       "symbol": "BluetoothError.openingL2CAPChannelFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 44,
       "symbol": "BluetoothError.publishingL2CAPChannelFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 44,
       "symbol": "BluetoothError.publishingL2CAPChannelFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 44,
       "symbol": "BluetoothError.publishingL2CAPChannelFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 44,
       "symbol": "BluetoothError.publishingL2CAPChannelFailed(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 46,
       "symbol": "BluetoothError.unknownWriteType",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 46,
       "symbol": "BluetoothError.unknownWriteType",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 46,
       "symbol": "BluetoothError.unknownWriteType",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 46,
       "symbol": "BluetoothError.unknownWriteType",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 153,
       "symbol": "==(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 153,
       "symbol": "==(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 153,
       "symbol": "==(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothError.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothError.swift",
       "line": 153,
       "symbol": "==(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 6,
       "symbol": "BluetoothState.unknown",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 6,
       "symbol": "BluetoothState.unknown",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 6,
       "symbol": "BluetoothState.unknown",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 6,
       "symbol": "BluetoothState.unknown",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 7,
       "symbol": "BluetoothState.resetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 7,
       "symbol": "BluetoothState.resetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 7,
       "symbol": "BluetoothState.resetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 7,
       "symbol": "BluetoothState.resetting",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 8,
       "symbol": "BluetoothState.unsupported",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 8,
       "symbol": "BluetoothState.unsupported",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 8,
       "symbol": "BluetoothState.unsupported",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 8,
       "symbol": "BluetoothState.unsupported",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 9,
       "symbol": "BluetoothState.unauthorized",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 9,
       "symbol": "BluetoothState.unauthorized",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 9,
       "symbol": "BluetoothState.unauthorized",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 9,
       "symbol": "BluetoothState.unauthorized",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 10,
       "symbol": "BluetoothState.poweredOff",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 10,
       "symbol": "BluetoothState.poweredOff",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 10,
       "symbol": "BluetoothState.poweredOff",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 10,
       "symbol": "BluetoothState.poweredOff",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 11,
       "symbol": "BluetoothState.poweredOn",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 11,
       "symbol": "BluetoothState.poweredOn",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 11,
       "symbol": "BluetoothState.poweredOn",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/BluetoothState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/BluetoothState.swift",
       "line": 11,
       "symbol": "BluetoothState.poweredOn",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager+RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager+RestoredState.swift",
       "line": 6,
       "symbol": "OnWillRestoreState",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager+RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager+RestoredState.swift",
       "line": 6,
       "symbol": "OnWillRestoreState",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager+RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager+RestoredState.swift",
       "line": 6,
       "symbol": "OnWillRestoreState",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager.swift",
       "line": 33,
       "symbol": "CentralManager.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager.swift",
       "line": 33,
       "symbol": "CentralManager.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager.swift",
       "line": 33,
       "symbol": "CentralManager.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager.swift",
       "line": 33,
       "symbol": "CentralManager.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
-      "line": 308,
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager.swift",
+      "line": 318,
       "symbol": "CentralManager.observeANCSAuthorized(for:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
-      "line": 308,
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager.swift",
+      "line": 318,
       "symbol": "CentralManager.observeANCSAuthorized(for:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManager.swift",
-      "line": 308,
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManager.swift",
+      "line": 318,
       "symbol": "CentralManager.observeANCSAuthorized(for:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
       "line": 19,
       "symbol": "CentralManagerRestoredState.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
       "line": 19,
       "symbol": "CentralManagerRestoredState.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/CentralManagerRestoredState.swift",
       "line": 19,
       "symbol": "CentralManagerRestoredState.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 5,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 5,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 5,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 5,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 6,
       "symbol": "ManagerType.Manager",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 6,
       "symbol": "ManagerType.Manager",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 6,
       "symbol": "ManagerType.Manager",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 6,
       "symbol": "ManagerType.Manager",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 27,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 27,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 27,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/ManagerType.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/ManagerType.swift",
       "line": 27,
       "symbol": "ManagerType",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 9,
       "symbol": "RestoredState.restoredStateData",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 9,
       "symbol": "RestoredState.restoredStateData",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 9,
       "symbol": "RestoredState.restoredStateData",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 11,
       "symbol": "RestoredState.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 11,
       "symbol": "RestoredState.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 11,
       "symbol": "RestoredState.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 13,
       "symbol": "RestoredState.peripherals",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 13,
       "symbol": "RestoredState.peripherals",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 13,
       "symbol": "RestoredState.peripherals",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 15,
       "symbol": "RestoredState.scanOptions",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 15,
       "symbol": "RestoredState.scanOptions",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 15,
       "symbol": "RestoredState.scanOptions",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 17,
       "symbol": "RestoredState.services",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 17,
       "symbol": "RestoredState.services",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/RestoredState.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/RestoredState.swift",
       "line": 17,
       "symbol": "RestoredState.services",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/StartAdvertisingResult.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/StartAdvertisingResult.swift",
       "line": 3,
       "symbol": "RestoredAdvertisementData",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/StartAdvertisingResult.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/StartAdvertisingResult.swift",
       "line": 3,
       "symbol": "RestoredAdvertisementData",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/StartAdvertisingResult.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/StartAdvertisingResult.swift",
       "line": 3,
       "symbol": "RestoredAdvertisementData",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/minix/repos/RxBluetoothKit/Source/StartAdvertisingResult.swift",
+      "file": "/Users/smon/Developer/RxBluetoothKit/Source/StartAdvertisingResult.swift",
       "line": 3,
       "symbol": "RestoredAdvertisementData",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     }
   ],
-  "source_directory": "/Users/minix/repos/RxBluetoothKit"
+  "source_directory": "/Users/smon/Developer/RxBluetoothKit"
 }
