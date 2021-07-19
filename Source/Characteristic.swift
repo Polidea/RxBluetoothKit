@@ -41,7 +41,8 @@ public class Characteristic {
     }
 
     convenience init(characteristic: CBCharacteristic, peripheral: Peripheral) throws {
-        guard let service = characteristic.service else {
+        let maybeService: CBService? = characteristic.service
+        guard let service = maybeService else {
             throw BluetoothError.serviceDestroyed
         }
 

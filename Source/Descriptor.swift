@@ -29,9 +29,12 @@ public class Descriptor {
     }
 
     convenience init(descriptor: CBDescriptor, peripheral: Peripheral) throws {
+        let maybeCharacteristic: CBCharacteristic? = descriptor.characteristic
+        let maybeService: CBService? = maybeCharacteristic?.service
+        
         guard
-            let characteristic = descriptor.characteristic,
-            let service = characteristic.service
+            let characteristic = maybeCharacteristic,
+            let service = maybeService
         else {
             throw BluetoothError.serviceDestroyed
         }

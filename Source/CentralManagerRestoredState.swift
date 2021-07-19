@@ -63,7 +63,8 @@ public struct CentralManagerRestoredState: CentralManagerRestoredStateType {
         #endif
 
         return cbServices.compactMap {
-            guard let peripheral = $0.peripheral else {
+            let maybePeripheral: CBPeripheral? = $0.peripheral
+            guard let peripheral = maybePeripheral else {
                 return nil
             }
             
