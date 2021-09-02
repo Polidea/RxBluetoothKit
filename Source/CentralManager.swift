@@ -298,7 +298,7 @@ public class CentralManager: ManagerType {
                 return (peripheral, error)
             }
         return ensure(.poweredOn, observable: observable)
-                .catch { error in
+                .catchError { error in
                     if error is BluetoothError, let peripheral = peripheral {
                         return .concat(.just((peripheral, error)), .error(error))
                     } else {
