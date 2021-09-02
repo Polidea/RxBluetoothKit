@@ -62,7 +62,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     }
     
     func testWriteValueWithResponse() {
-        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
+        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)!
         let data = Data([0, 1, 2, 3])
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
@@ -88,7 +88,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     }
     
     func testWriteValueWithoutResponse() {
-        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
+        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)!
         let data = Data([0, 1, 2, 3])
         peripheral.peripheral.canSendWriteWithoutResponse = true
         
@@ -107,7 +107,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     }
 
     func testWriteValueWithoutResponseWithCanSendWriteWithoutResponseCheckDisabled() {
-        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
+        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)!
         let data = Data([0, 1, 2, 3])
         peripheral.peripheral.canSendWriteWithoutResponse = false
 
@@ -126,7 +126,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     }
     
     func testWriteValueWithoutResponseWaitingOnReadiness() {
-        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
+        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)!
         let data = Data([0, 1, 2, 3])
         peripheral.peripheral.canSendWriteWithoutResponse = false
         
@@ -200,7 +200,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     
      func testObserveCharacteristicIsNotifyingValue() {
         let mockCharacteristic = createCharacteristic(uuid: "0x0001", service: service)
-        let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)
+        let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)!
 
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
             self.peripheral.observeNotifyValue(for: characteristic)
@@ -221,7 +221,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     
     func testCharacteristicIsNotifyingValueChange() {
         let mockCharacteristic = createCharacteristic(uuid: "0x0001", service: service)
-        let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)
+        let characteristic = _Characteristic(characteristic: mockCharacteristic, peripheral: peripheral)!
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
             characteristic.observeNotifyValue()
@@ -241,7 +241,7 @@ class PeripheralCharacteristicOperationsTest: BasePeripheralTest {
     }
     
     func testReadValue() {
-        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)
+        let characteristic = _Characteristic(characteristic: createCharacteristic(uuid: "0x0001", service: service), peripheral: peripheral)!
         
         let obs: ScheduledObservable<_Characteristic> = testScheduler.scheduleObservable {
             self.peripheral.readValue(for: characteristic).asObservable()

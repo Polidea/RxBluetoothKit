@@ -64,7 +64,7 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
     }
 
     func testWriteValue() {
-        let descriptor = _Descriptor(descriptor: createDescriptor(uuid: "0x0002", characteristic: characteristic), peripheral: peripheral)
+        let descriptor = _Descriptor(descriptor: createDescriptor(uuid: "0x0002", characteristic: characteristic), peripheral: peripheral)!
         let data = Data([0, 1, 2, 3])
 
         let obs: ScheduledObservable<_Descriptor> = testScheduler.scheduleObservable {
@@ -136,7 +136,7 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
     }
 
     func testReadValue() {
-        let descriptor = _Descriptor(descriptor: createDescriptor(uuid: "0x0001", characteristic: characteristic), peripheral: peripheral)
+        let descriptor = _Descriptor(descriptor: createDescriptor(uuid: "0x0001", characteristic: characteristic), peripheral: peripheral)!
 
         let obs: ScheduledObservable<_Descriptor> = testScheduler.scheduleObservable {
             self.peripheral.readValue(for: descriptor).asObservable()
