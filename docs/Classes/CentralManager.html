@@ -17,7 +17,7 @@
     <a title="CentralManager Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit 6.0.0 Docs</a> (82% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit 7.0.0 Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
         <p class="header-right">
           <form role="search" action="../search.json">
@@ -207,7 +207,7 @@ You can also simply stop scanning with just disposing it:</p>
 </div>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L27-L342">Show on GitHub</a>
+                <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L27-L352">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -238,7 +238,7 @@ You can also simply stop scanning with just disposing it:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L30">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L30">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -268,7 +268,7 @@ You can also simply stop scanning with just disposing it:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -289,9 +289,9 @@ You can also simply stop scanning with just disposing it:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CentralManagerC5queue7optionsACSo012OS_dispatch_F0C_SDySSyXlGSgtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(queue:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CentralManagerC5queue7optionsACSo012OS_dispatch_F0C_SDySSyXlGSgtcfc">init(queue:<wbr>options:<wbr>)</a>
+                    <a name="/s:14RxBluetoothKit14CentralManagerC5queue7options02cbdE0ACSo012OS_dispatch_F0C_SDySSyXlGSgSo09CBCentralE0CSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(queue:options:cbCentralManager:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CentralManagerC5queue7options02cbdE0ACSo012OS_dispatch_F0C_SDySSyXlGSgSo09CBCentralE0CSgtcfc">init(queue:<wbr>options:<wbr>cbCentralManager:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -311,8 +311,9 @@ You can also simply stop scanning with just disposing it:</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                        <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">cbCentralManager</span><span class="p">:</span> <span class="kt">CBCentralManager</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -345,11 +346,24 @@ For more info about it please refer to <a href="https://developer.apple.com/libr
                                 </div>
                               </td>
                             </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cbCentralManager</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional instance of <code>CBCentralManager</code> to be used as a <code><a href="../Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC7managerSo09CBCentralE0Cvp">manager</a></code>. If you
+skip this parameter, there will be created an instance of <code>CBCentralManager</code> using given queue and options.</p>
+                                </div>
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L73-L83">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L75-L87">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -381,7 +395,7 @@ RxBluetoothKit library (e.g. CBCentralManager was used in some other library or 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L88-L90">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L92-L94">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -423,7 +437,7 @@ RxBluetoothKit library (e.g. CBCentralManager was used in some other library or 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L94-L96">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L98-L100">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -452,7 +466,7 @@ RxBluetoothKit library (e.g. CBCentralManager was used in some other library or 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L98-L100">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L102-L104">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -481,7 +495,7 @@ RxBluetoothKit library (e.g. CBCentralManager was used in some other library or 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L102-L112">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L106-L116">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -499,6 +513,36 @@ RxBluetoothKit library (e.g. CBCentralManager was used in some other library or 
                 </div>
               </div>
               <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14RxBluetoothKit14CentralManagerC16isScanInProgressSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isScanInProgress" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CentralManagerC16isScanInProgressSbvp">isScanInProgress</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Value indicating if manager is currently scanning.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isScanInProgress</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L121-L124">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -593,7 +637,7 @@ operations.</p>
                         <p>Infinite stream of scanned peripherals.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L149-L189">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L159-L199">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -690,7 +734,7 @@ to customise the behaviour of connection.</p>
                         <p><code>Observable</code> which emits next event after connection is established.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L214-L217">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L224-L227">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -758,7 +802,7 @@ all of the specified <code><a href="../Classes/Service.html">Service</a></code>&
 <code><a href="../Classes/Service.html">Service</a></code>s with UUIDs specified in the <code>serviceUUIDs</code> parameter.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L227-L230">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L237-L240">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -811,7 +855,7 @@ all of the specified <code><a href="../Classes/Service.html">Service</a></code>&
                         <p>Retrieved <code><a href="../Classes/Peripheral.html">Peripheral</a></code>s.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L236-L239">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L246-L249">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -890,7 +934,7 @@ all of the specified <code><a href="../Classes/Service.html">Service</a></code>&
                         <p>Observable which emits next events when <code>peripheral</code> was connected.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L257-L265">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L267-L275">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -958,7 +1002,7 @@ It provides optional error which may contain more information about the cause of
 if it wasn&rsquo;t the <code>cancelPeripheralConnection</code> call.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L282-L298">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L292-L308">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1001,7 +1045,7 @@ if it wasn&rsquo;t the <code>cancelPeripheralConnection</code> call.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager.swift#L308-L318">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager.swift#L318-L328">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1022,9 +1066,9 @@ if it wasn&rsquo;t the <code>cancelPeripheralConnection</code> call.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CentralManagerC5queue7options18onWillRestoreStateACSo012OS_dispatch_F0C_SDySSyXlGSgyAA08RestoredK0VcSgtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(queue:options:onWillRestoreState:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CentralManagerC5queue7options18onWillRestoreStateACSo012OS_dispatch_F0C_SDySSyXlGSgyAA08RestoredK0VcSgtcfc">init(queue:<wbr>options:<wbr>onWillRestoreState:<wbr>)</a>
+                    <a name="/s:14RxBluetoothKit14CentralManagerC5queue7options02cbdE018onWillRestoreStateACSo012OS_dispatch_F0C_SDySSyXlGSgSo09CBCentralE0CSgyAA08RestoredL0VcSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(queue:options:cbCentralManager:onWillRestoreState:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CentralManagerC5queue7options02cbdE018onWillRestoreStateACSo012OS_dispatch_F0C_SDySSyXlGSgSo09CBCentralE0CSgyAA08RestoredL0VcSgtcfc">init(queue:<wbr>options:<wbr>cbCentralManager:<wbr>onWillRestoreState:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1039,15 +1083,16 @@ if it wasn&rsquo;t the <code>cancelPeripheralConnection</code> call.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available(*, deprecated, renamed: "CentralManager.init(queue:options:onWillRestoreCentralManagerState:﹚")</span>
-<span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">deprecated</span><span class="p">,</span> <span class="nv">renamed</span><span class="p">:</span> <span class="s">"CentralManager.init(queue:options:onWillRestoreCentralManagerState:﹚"</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                         <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">cbCentralManager</span><span class="p">:</span> <span class="kt">CBCentralManager</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">onWillRestoreState</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:14RxBluetoothKit18OnWillRestoreStatea">OnWillRestoreState</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager+RestoredState.swift#L16-L23">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager+RestoredState.swift#L16-L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1055,9 +1100,9 @@ if it wasn&rsquo;t the <code>cancelPeripheralConnection</code> call.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit14CentralManagerC5queue7options013onWillRestoredE5StateACSo012OS_dispatch_F0C_SDySSyXlGSgyAA0de8RestoredK0VcSgtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(queue:options:onWillRestoreCentralManagerState:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit14CentralManagerC5queue7options013onWillRestoredE5StateACSo012OS_dispatch_F0C_SDySSyXlGSgyAA0de8RestoredK0VcSgtcfc">init(queue:<wbr>options:<wbr>onWillRestoreCentralManagerState:<wbr>)</a>
+                    <a name="/s:14RxBluetoothKit14CentralManagerC5queue7options02cbdE0013onWillRestoredE5StateACSo012OS_dispatch_F0C_SDySSyXlGSgSo09CBCentralE0CSgyAA0de8RestoredL0VcSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(queue:options:cbCentralManager:onWillRestoreCentralManagerState:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit14CentralManagerC5queue7options02cbdE0013onWillRestoredE5StateACSo012OS_dispatch_F0C_SDySSyXlGSgSo09CBCentralE0CSgyAA0de8RestoredL0VcSgtcfc">init(queue:<wbr>options:<wbr>cbCentralManager:<wbr>onWillRestoreCentralManagerState:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1082,8 +1127,9 @@ for UI related code.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                         <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">cbCentralManager</span><span class="p">:</span> <span class="kt">CBCentralManager</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">onWillRestoreCentralManagerState</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:14RxBluetoothKit32OnWillRestoreCentralManagerStatea">OnWillRestoreCentralManagerState</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1121,6 +1167,19 @@ For more info about it please refer to <a href="https://developer.apple.com/libr
                             <tr>
                               <td>
                                 <code>
+                                <em>cbCentralManager</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional instance of <code>CBCentralManager</code> to be used as a <code><a href="../Classes/CentralManager.html#/s:14RxBluetoothKit14CentralManagerC7managerSo09CBCentralE0Cvp">manager</a></code>.
+If you skip this parameter, there will be created an instance of <code>CBCentralManager</code> using given queue and options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
                                 <em>onWillRestoreCentralManagerState</em>
                                 </code>
                               </td>
@@ -1134,7 +1193,7 @@ For more info about it please refer to <a href="https://developer.apple.com/libr
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/CentralManager+RestoredState.swift#L35-L42">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/CentralManager+RestoredState.swift#L38-L46">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1144,8 +1203,8 @@ For more info about it please refer to <a href="https://developer.apple.com/libr
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2020-09-04)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2021-02-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

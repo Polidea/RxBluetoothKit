@@ -1,3 +1,6 @@
+# 7.0.0
+- Updated RxSwift version to 6.0 (#392)
+
 # 6.0.0
 - Increased deployment target for iOS to 9.0 and for osx to 10.13 (#379, #380)
 - Added support for observing ancsAuthorized property on peripheral. (#370)

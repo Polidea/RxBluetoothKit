@@ -17,7 +17,7 @@
     <a title="PeripheralManager Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">RxBluetoothKit 6.0.0 Docs</a> (82% documented)</p>
+        <p><a href="../index.html">RxBluetoothKit 7.0.0 Docs</a> (82% documented)</p>
         <p class="header-right"><a href="https://github.com/Polidea/RxBluetoothKit"><img src="../img/gh.png"/>View on GitHub</a></p>
         <p class="header-right">
           <form role="search" action="../search.json">
@@ -200,7 +200,7 @@ by <code>observeStateWithInitialValue()</code>, observing it&rsquo;s value and t
 </code></pre>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L21-L387">Show on GitHub</a>
+                <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L21-L391">Show on GitHub</a>
               </div>
           </section>
           <section class="section task-group-section">
@@ -231,7 +231,7 @@ by <code>observeStateWithInitialValue()</code>, observing it&rsquo;s value and t
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L24">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L24">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -252,9 +252,9 @@ by <code>observeStateWithInitialValue()</code>, observing it&rsquo;s value and t
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit17PeripheralManagerC5queue7optionsACSo012OS_dispatch_F0C_SDySSyXlGSgtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(queue:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC5queue7optionsACSo012OS_dispatch_F0C_SDySSyXlGSgtcfc">init(queue:<wbr>options:<wbr>)</a>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC5queue7options02cbdE0ACSo012OS_dispatch_F0C_SDySSyXlGSgSo012CBPeripheralE0CSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(queue:options:cbPeripheralManager:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC5queue7options02cbdE0ACSo012OS_dispatch_F0C_SDySSyXlGSgSo012CBPeripheralE0CSgtcfc">init(queue:<wbr>options:<wbr>cbPeripheralManager:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -274,8 +274,9 @@ by <code>observeStateWithInitialValue()</code>, observing it&rsquo;s value and t
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                        <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">cbPeripheralManager</span><span class="p">:</span> <span class="kt">CBPeripheralManager</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -308,11 +309,24 @@ For more info about it please refer to <a href="https://developer.apple.com/docu
                                 </div>
                               </td>
                             </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cbPeripheralManager</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional instance of <code>CBPeripheralManager</code> to be used as a <code><a href="../Classes/PeripheralManager.html#/s:14RxBluetoothKit17PeripheralManagerC7managerSo012CBPeripheralE0Cvp">manager</a></code>. If you
+skip this parameter, there will be created an instance of <code>CBPeripheralManager</code> using given queue and options.</p>
+                                </div>
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L50-L60">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L52-L64">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -354,7 +368,7 @@ For more info about it please refer to <a href="https://developer.apple.com/docu
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L70-L72">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L74-L76">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -383,7 +397,7 @@ For more info about it please refer to <a href="https://developer.apple.com/docu
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L74-L76">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L78-L80">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -412,7 +426,7 @@ For more info about it please refer to <a href="https://developer.apple.com/docu
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L78-L88">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L82-L92">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -503,7 +517,7 @@ it is already advertising.</p>
                         <p>Infinite observable which emit <code><a href="../Enums/StartAdvertisingResult.html">StartAdvertisingResult</a></code> when advertisement started.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L118-L159">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L122-L163">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -584,7 +598,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         <p><code>Single</code> which emits <code>next</code> with given characteristic when value is ready to read.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L178-L193">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L182-L197">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -614,7 +628,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L196-L198">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L200-L202">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -644,7 +658,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L201-L203">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L205-L207">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -704,7 +718,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         <p>Observable that emits <code>next</code> event whenever didReceiveRead occurs.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L219-L221">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L223-L225">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -751,7 +765,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         <p>Observable that emits <code>next</code> event whenever didReceiveWrite occurs.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L235-L237">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L239-L241">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -781,7 +795,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L240-L242">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L244-L246">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -827,7 +841,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L247-L252">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L251-L256">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -874,7 +888,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         <p>Observable that emits <code>next</code> event whenever isReadyToUpdateSubscribers occurs.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L266-L268">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L270-L272">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -934,7 +948,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         <p>Observable that emits <code>next</code> event whenever didSubscribeTo occurs.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L284-L286">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L288-L290">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -981,7 +995,7 @@ Add method is called after subscription to <code>Observable</code> is made.</p>
                         <p>Observable that emits <code>next</code> event whenever didUnsubscribeFrom occurs.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L300-L302">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L304-L306">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1037,7 +1051,7 @@ after L2CAP channel has been published.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11, tvOS 11, watchOS 4, *)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">11</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mi">11</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mi">4</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">func</span> <span class="nf">publishL2CAPChannel</span><span class="p">(</span><span class="n">withEncryption</span> <span class="nv">encryptionRequired</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">CBL2CAPPSM</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -1066,7 +1080,7 @@ after L2CAP channel has been published.</p>
                         <p>Infinite observable which emit <code>CBL2CAPPSM</code> when channel published.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L328-L356">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L332-L360">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1104,7 +1118,7 @@ after L2CAP channel has been published.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11, tvOS 11, watchOS 4, *)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">11</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mi">11</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mi">4</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">func</span> <span class="nf">observeDidOpenL2CAPChannel</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">CBL2CAPChannel</span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?)</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -1114,7 +1128,7 @@ after L2CAP channel has been published.</p>
                         <p>Observable that emits <code>next</code> event whenever didOpen occurs.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager.swift#L371-L373">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager.swift#L375-L377">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1135,9 +1149,9 @@ after L2CAP channel has been published.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14RxBluetoothKit17PeripheralManagerC5queue7options013onWillRestoredE5StateACSo012OS_dispatch_F0C_SDySSyXlGSgyAA0de8RestoredK0VcSgtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(queue:options:onWillRestorePeripheralManagerState:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC5queue7options013onWillRestoredE5StateACSo012OS_dispatch_F0C_SDySSyXlGSgyAA0de8RestoredK0VcSgtcfc">init(queue:<wbr>options:<wbr>onWillRestorePeripheralManagerState:<wbr>)</a>
+                    <a name="/s:14RxBluetoothKit17PeripheralManagerC5queue7options02cbdE0013onWillRestoredE5StateACSo012OS_dispatch_F0C_SDySSyXlGSgSo012CBPeripheralE0CSgyAA0de8RestoredL0VcSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(queue:options:cbPeripheralManager:onWillRestorePeripheralManagerState:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14RxBluetoothKit17PeripheralManagerC5queue7options02cbdE0013onWillRestoredE5StateACSo012OS_dispatch_F0C_SDySSyXlGSgSo012CBPeripheralE0CSgyAA0de8RestoredL0VcSgtcfc">init(queue:<wbr>options:<wbr>cbPeripheralManager:<wbr>onWillRestorePeripheralManagerState:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1162,8 +1176,9 @@ for UI related code.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">queue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                         <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">cbPeripheralManager</span><span class="p">:</span> <span class="kt">CBPeripheralManager</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">onWillRestorePeripheralManagerState</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:14RxBluetoothKit35OnWillRestorePeripheralManagerStatea">OnWillRestorePeripheralManagerState</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1201,6 +1216,19 @@ For more info about it please refer to <a href="https://developer.apple.com/docu
                             <tr>
                               <td>
                                 <code>
+                                <em>cbPeripheralManager</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional instance of <code>CBPeripheralManager</code> to be used as a <code><a href="../Classes/PeripheralManager.html#/s:14RxBluetoothKit17PeripheralManagerC7managerSo012CBPeripheralE0Cvp">manager</a></code>. If you
+skip this parameter, there will be created an instance of <code>CBPeripheralManager</code> using given queue and options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
                                 <em>onWillRestorePeripheralManagerState</em>
                                 </code>
                               </td>
@@ -1214,7 +1242,7 @@ For more info about it please refer to <a href="https://developer.apple.com/docu
                         </table>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/6.0.0/Source/PeripheralManager+RestoredState.swift#L22-L29">Show on GitHub</a>
+                        <a href="https://github.com/Polidea/RxBluetoothKit/tree/7.0.0/Source/PeripheralManager+RestoredState.swift#L24-L32">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -1224,8 +1252,8 @@ For more info about it please refer to <a href="https://developer.apple.com/docu
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2020-09-04)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2021 <a class="link" href="https://polidea.com" target="_blank" rel="external">Polidea</a>. All rights reserved. (Last updated: 2021-02-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
