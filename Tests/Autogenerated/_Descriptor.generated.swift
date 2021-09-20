@@ -29,9 +29,14 @@ class _Descriptor {
         self.characteristic = characteristic
     }
 
-    convenience init(descriptor: CBDescriptorMock, peripheral: _Peripheral) {
-        let service = _Service(peripheral: peripheral, service: descriptor.characteristic.service)
-        let characteristic = _Characteristic(characteristic: descriptor.characteristic, service: service)
+    convenience init?(descriptor: CBDescriptorMock, peripheral: _Peripheral) {
+
+        guard let _characteristic = descriptor.characteristic, let _service = _characteristic.service else {
+            return nil
+        }
+
+        let service = _Service(peripheral: peripheral, service: _service)
+        let characteristic = _Characteristic(characteristic: _characteristic, service: service)
         self.init(descriptor: descriptor, characteristic: characteristic)
     }
 
