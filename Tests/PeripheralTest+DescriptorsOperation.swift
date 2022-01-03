@@ -63,8 +63,8 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
         XCTAssertEqual(obs.events[0].value.element, descriptor, "should receive event for correct descriptor")
     }
 
-    func testWriteValue() {
-        let descriptor = _Descriptor(descriptor: createDescriptor(uuid: "0x0002", characteristic: characteristic), peripheral: peripheral)
+    func testWriteValue() throws {
+        let descriptor = XCTUnwrap(_Descriptor(descriptor: createDescriptor(uuid: "0x0002", characteristic: characteristic), peripheral: peripheral))
         let data = Data([0, 1, 2, 3])
 
         let obs: ScheduledObservable<_Descriptor> = testScheduler.scheduleObservable {
@@ -135,8 +135,8 @@ class PeripheralDescriptorOperationsTest: BasePeripheralTest {
         XCTAssertEqual(obs.events[0].value.element, descriptor, "should receive event for correct descriptor")
     }
 
-    func testReadValue() {
-        let descriptor = _Descriptor(descriptor: createDescriptor(uuid: "0x0001", characteristic: characteristic), peripheral: peripheral)
+    func testReadValue() throws {
+        let descriptor = XCTUnwrap(_Descriptor(descriptor: createDescriptor(uuid: "0x0001", characteristic: characteristic), peripheral: peripheral))
 
         let obs: ScheduledObservable<_Descriptor> = testScheduler.scheduleObservable {
             self.peripheral.readValue(for: descriptor).asObservable()
