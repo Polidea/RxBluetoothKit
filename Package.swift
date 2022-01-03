@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "RxBluetoothKit",
+    name: "RxBluetoothKit_Airthings",
     platforms: [
         .macOS(.v10_13), .iOS(.v9), .tvOS(.v11), .watchOS(.v4)
     ],

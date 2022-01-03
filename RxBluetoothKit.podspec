@@ -1,16 +1,20 @@
 Pod::Spec.new do |s|
-  s.name             = "RxBluetoothKit"
-  s.version          = "6.0.0"
+  s.name             = "RxBluetoothKit_Airthings"
+  s.version          = "6.1.0"
   s.summary          = "Bluetooth library for RxSwift"
 
   s.description      = <<-DESC
-  RxBluetoothKit is lightweight and easy to use Rx support for CoreBluetooth.
+  RxBluetoothKit is lightweight and easy to use Rx support for CoreBluetooth. 
+  RxBluetoothKit was developed by developers at Polidea and they were acquired [Info](https://pl.linkedin.com/company/polidea) 
+  The developers cannot involve with this project anymore therefore, Airthings ASA forked and maintain this project to support the latest iOS releases.  
+
+
                        DESC
 
   s.homepage         = "https://github.com/polidea/RxBluetoothKit"
   s.license          = 'Apache License, Version 2.0.'
   s.author           = { "Przemysław Lenart" => "przemek.lenart@polidea.com", "Kacper Harasim" => "kacper.harasim@polidea.com", "Michał Laskowski" => "michal.laskowski@polidea.com", "Paweł Janeczek" => "pawel.janeczek@polidea.com", "Bartosz Stelmaszuk" => "bartosz.stelmaszuk@polidea.com" }
-  s.source           = { :git => "https://github.com/polidea/RxBluetoothKit.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/Airthings/RxBluetoothKit.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/polidea'
 
   s.ios.deployment_target = '9.0'
