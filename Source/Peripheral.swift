@@ -403,6 +403,10 @@ public class Peripheral {
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                guard let characteristic = characteristic else {
+                    throw BluetoothError.unknownWriteType
+                }
+
                 if let error = error {
                     throw BluetoothError.characteristicWriteFailed(characteristic, error)
                 }
@@ -499,6 +503,9 @@ public class Peripheral {
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                guard let characteristic = characteristic else {
+                    throw BluetoothError.unknownWriteType
+                }
                 if let error = error {
                     throw BluetoothError.characteristicReadFailed(characteristic, error)
                 }
@@ -569,6 +576,9 @@ public class Peripheral {
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let characteristic = Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                guard let characteristic = characteristic else {
+                    throw BluetoothError.unknownWriteType
+                }
                 if let error = error {
                     throw BluetoothError.characteristicSetNotifyValueFailed(characteristic, error)
                 }
@@ -638,6 +648,9 @@ public class Peripheral {
             .map { [weak self] (cbDescriptor, error) -> Descriptor in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let descriptor = descriptor ?? Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
+                guard let descriptor = descriptor else {
+                    throw BluetoothError.unknownWriteType
+                }
                 if let error = error {
                     throw BluetoothError.descriptorWriteFailed(descriptor, error)
                 }
@@ -667,6 +680,9 @@ public class Peripheral {
             .map { [weak self] (cbDescriptor, error) -> Descriptor in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let descriptor = descriptor ?? Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
+                guard let descriptor = descriptor else {
+                    throw BluetoothError.unknownWriteType
+                }
                 if let error = error {
                     throw BluetoothError.descriptorReadFailed(descriptor, error)
                 }
