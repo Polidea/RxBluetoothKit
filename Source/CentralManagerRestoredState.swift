@@ -60,7 +60,9 @@ public struct CentralManagerRestoredState: CentralManagerRestoredStateType {
         let cbServices = arrayOfAnyObjects.flatMap { $0 as? CBService }
         #endif
 
-        return cbServices.map { Service(peripheral: centralManager.retrievePeripheral(for: $0.peripheral),
-                                        service: $0) }
+        return cbServices.compactMap { (service) in
+          service.peripheral.map { Service(peripheral: centralManager.retrievePeripheral(for: $0),
+                                           service: service)  }
+        }
     }
 }

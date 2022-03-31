@@ -314,7 +314,8 @@ public class Peripheral {
                     let oldValue = array[service.uuid] ?? 0
                     array[service.uuid] = oldValue + 1
                 }
-                self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service.service)
+                guard let service = service.service else { return }
+                self?.peripheral.discoverIncludedServices(includedServiceUUIDs, for: service)
             }
         )
         .asSingle()
@@ -377,7 +378,8 @@ public class Peripheral {
                     let oldValue = array[service.uuid] ?? 0
                     array[service.uuid] = oldValue + 1
                 }
-                self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service.service)
+                guard let service = service.service else { return }
+                self?.peripheral.discoverCharacteristics(characteristicUUIDs, for: service)
             }
         ).asSingle()
     }
@@ -456,7 +458,8 @@ public class Peripheral {
             return strongSelf.ensureValidPeripheralStateAndCallIfSucceeded(
                 for: observable,
                 postSubscriptionCall: { [weak self] in
-                    self?.peripheral.writeValue(data, for: characteristic.characteristic, type: type)
+                    guard let characteristic = characteristic.characteristic else { return }
+                    self?.peripheral.writeValue(data, for: characteristic, type: type)
                 }
             )
         }
@@ -519,7 +522,8 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.readValue(for: characteristic.characteristic)
+                guard let characteristic = characteristic.characteristic else { return }
+                self?.peripheral.readValue(for: characteristic)
             }
         ).asSingle()
     }
@@ -612,7 +616,8 @@ public class Peripheral {
         return ensureValidPeripheralStateAndCallIfSucceeded(
             for: observable,
             postSubscriptionCall: { [weak self] in
-                self?.peripheral.discoverDescriptors(for: characteristic.characteristic)
+                guard let characteristic = characteristic.characteristic else { return }
+                self?.peripheral.discoverDescriptors(for: characteristic)
             }
         ).asSingle()
     }

@@ -68,6 +68,7 @@ class CharacteristicNotificationManager {
                 " Changing notification state for not connected peripheral is not possible.")
             return
         }
-        peripheral.setNotifyValue(enabled, for: characteristic.characteristic)
+        guard let characteristic = characteristic.characteristic else { return }
+        peripheral.setNotifyValue(enabled, for: characteristic)
     }
 }

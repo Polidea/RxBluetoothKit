@@ -5,36 +5,36 @@ import RxSwift
 /// Service is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBService](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBService_Class/)
 public class Service {
     /// Intance of CoreBluetooth service class
-    public let service: CBService
+    public let service: CBService?
 
     /// Peripheral to which this service belongs
     public let peripheral: Peripheral
 
     /// True if service is primary service
     public var isPrimary: Bool {
-        return service.isPrimary
+        return service?.isPrimary ?? false
     }
 
     /// Service's UUID
     public var uuid: CBUUID {
-        return service.uuid
+        return service?.uuid ?? .init()
     }
 
     /// Service's included services
     public var includedServices: [Service]? {
-        return service.includedServices?.map {
+        return service?.includedServices?.map {
             Service(peripheral: peripheral, service: $0)
         }
     }
 
     /// Service's characteristics
     public var characteristics: [Characteristic]? {
-        return service.characteristics?.map {
+        return service?.characteristics?.map {
             Characteristic(characteristic: $0, service: self)
         }
     }
 
-    init(peripheral: Peripheral, service: CBService) {
+    init(peripheral: Peripheral, service: CBService?) {
         self.service = service
         self.peripheral = peripheral
     }

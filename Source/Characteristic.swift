@@ -5,43 +5,43 @@ import CoreBluetooth
 /// Characteristic is a class implementing ReactiveX which wraps CoreBluetooth functions related to interaction with [CBCharacteristic](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCharacteristic_Class/)
 public class Characteristic {
     /// Intance of CoreBluetooth characteristic class
-    public let characteristic: CBCharacteristic
+    public let characteristic: CBCharacteristic?
 
     /// Service which contains this characteristic
     public let service: Service
 
     /// Current value of characteristic. If value is not present - it's `nil`.
     public var value: Data? {
-        return characteristic.value
+        return characteristic?.value
     }
 
     /// The Bluetooth UUID of the `Characteristic` instance.
     public var uuid: CBUUID {
-        return characteristic.uuid
+        return characteristic?.uuid ?? .init()
     }
 
     /// Flag which is set to true if characteristic is currently notifying
     public var isNotifying: Bool {
-        return characteristic.isNotifying
+        return characteristic?.isNotifying ?? false
     }
 
     /// Properties of characteristic. For more info about this refer to [CBCharacteristicProperties](https://developer.apple.com/library/ios/documentation/CoreBluetooth/Reference/CBCharacteristic_Class/#//apple_ref/c/tdef/CBCharacteristicProperties)
     public var properties: CBCharacteristicProperties {
-        return characteristic.properties
+        return characteristic?.properties ?? .init()
     }
 
     /// Value of this property is an array of `Descriptor` objects. They provide more detailed information about characteristics value.
     public var descriptors: [Descriptor]? {
-        return characteristic.descriptors?.map { Descriptor(descriptor: $0, characteristic: self) }
+        return characteristic?.descriptors?.map { Descriptor(descriptor: $0, characteristic: self) }
     }
 
-    init(characteristic: CBCharacteristic, service: Service) {
+    init(characteristic: CBCharacteristic?, service: Service) {
         self.characteristic = characteristic
         self.service = service
     }
 
     convenience init(characteristic: CBCharacteristic, peripheral: Peripheral) {
-        let service = Service(peripheral: peripheral, service: characteristic.service)
+        let service = Service(peripheral: peripheral, service: characteristic.service!)
         self.init(characteristic: characteristic, service: service)
     }
 
