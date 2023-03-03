@@ -25,7 +25,7 @@ manager.scanForPeripherals(withServices: [serviceId])
     .flatMap { $0.readValue() }
     .subscribe(onNext: { print("Value: \($0.value)") })
 ```
-With just 9 lines it started scanning, connecting to the peripheral, discovering service and characteristics and read charecteristic's value!
+With just 9 lines it started scanning, connecting to the peripheral, discovering service and characteristics and read characteristics value!
 
 ## Central mode features
 
@@ -33,7 +33,7 @@ With just 9 lines it started scanning, connecting to the peripheral, discovering
 * [Scanning for peripherals](https://github.com/Polidea/RxBluetoothKit/wiki/3.-Scanning-peripherals)
 * [Connecting to peripheral](https://github.com/Polidea/RxBluetoothKit/wiki/4.-Connecting-to-peripheral)
 * [Discovering peripheral's services and characteristics](https://github.com/Polidea/RxBluetoothKit/wiki/5.-Discovering-services-&-characteristics)
-* [Reading & Writing to characteristic's value](https://github.com/Polidea/RxBluetoothKit/wiki/6.-Reading-&-Writing-to-characteristic-value)
+* [Reading & Writing to characteristics value](https://github.com/Polidea/RxBluetoothKit/wiki/6.-Reading-&-Writing-to-characteristic-value)
 * [Monitoring characteristic value change](https://github.com/Polidea/RxBluetoothKit/wiki/7.-Monitoring-characteristic-value-change)
 * Opening L2CAP channels
 * [Convenience helper methods](https://github.com/Polidea/RxBluetoothKit/wiki/8.-Convenience-helper-methods)
@@ -92,7 +92,7 @@ Versions >= 4.0 of the library integrate with the Swift Package Manager. In orde
 
 # Getting Started
 
-Check [our Wiki](https://github.com/Polidea/RxBluetoothKit/wiki) with guidelines to (almost) all library functionalites.
+Check [our Wiki](https://github.com/Polidea/RxBluetoothKit/wiki) with guidelines to (almost) all library functionalities.
 
 # Documentation & Support
 
