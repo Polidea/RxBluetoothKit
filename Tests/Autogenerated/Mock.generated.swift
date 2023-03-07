@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.1.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.0.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 import CoreBluetooth
 @testable
@@ -22,160 +22,17 @@ class CBAttributeMock: NSObject {
     }
 
 }
-class CBCentralManagerMock: CBManagerMock {
-    class Feature {}
-    var delegate: CBCentralManagerDelegate?
-    var isScanning: Bool!
+class CBCentralManagerMock: NSObject {
     var logDescription: String!
 
     override init() {
-    }
-    init(delegate: CBCentralManagerDelegate?, queue: DispatchQueue?, options: [String : Any]? = nil) {
-    }
-    init(delegate: CBCentralManagerDelegate?, queue: DispatchQueue?) {
-    }
-
-    static var supportsParams: [(CBCentralManagerMock.Feature)] = []
-    static var supportsReturns: [Bool] = []
-    static var supportsReturn: Bool?
-    static func supports(_ features: CBCentralManagerMock.Feature) -> Bool {
-        supportsParams.append((features))
-        if supportsReturns.isEmpty {
-            return supportsReturn!
-        } else {
-            return supportsReturns.removeFirst()
-        }
-    }
-
-    var retrievePeripheralsParams: [([UUID])] = []
-    var retrievePeripheralsReturns: [[CBPeripheralMock]] = []
-    var retrievePeripheralsReturn: [CBPeripheralMock]?
-    func retrievePeripherals(withIdentifiers identifiers: [UUID]) -> [CBPeripheralMock] {
-        retrievePeripheralsParams.append((identifiers))
-        if retrievePeripheralsReturns.isEmpty {
-            return retrievePeripheralsReturn!
-        } else {
-            return retrievePeripheralsReturns.removeFirst()
-        }
-    }
-
-    var retrieveConnectedPeripheralsParams: [([CBUUID])] = []
-    var retrieveConnectedPeripheralsReturns: [[CBPeripheralMock]] = []
-    var retrieveConnectedPeripheralsReturn: [CBPeripheralMock]?
-    func retrieveConnectedPeripherals(withServices serviceUUIDs: [CBUUID]) -> [CBPeripheralMock] {
-        retrieveConnectedPeripheralsParams.append((serviceUUIDs))
-        if retrieveConnectedPeripheralsReturns.isEmpty {
-            return retrieveConnectedPeripheralsReturn!
-        } else {
-            return retrieveConnectedPeripheralsReturns.removeFirst()
-        }
-    }
-
-    var scanForPeripheralsParams: [([CBUUID]?, [String : Any]?)] = []
-    func scanForPeripherals(withServices serviceUUIDs: [CBUUID]?, options: [String : Any]? = nil) {
-        scanForPeripheralsParams.append((serviceUUIDs, options))
-    }
-
-    var stopScanParams: [()] = []
-    func stopScan() {
-        stopScanParams.append(())
-    }
-
-    var connectParams: [(CBPeripheralMock, [String : Any]?)] = []
-    func connect(_ peripheral: CBPeripheralMock, options: [String : Any]? = nil) {
-        connectParams.append((peripheral, options))
-    }
-
-    var cancelPeripheralConnectionParams: [(CBPeripheralMock)] = []
-    func cancelPeripheralConnection(_ peripheral: CBPeripheralMock) {
-        cancelPeripheralConnectionParams.append((peripheral))
-    }
-
-    var registerForConnectionEventsParams: [([CBConnectionEventMatchingOption : Any]?)] = []
-    func registerForConnectionEvents(options: [CBConnectionEventMatchingOption : Any]? = nil) {
-        registerForConnectionEventsParams.append((options))
     }
 
 }
-class CBPeripheralManagerMock: CBManagerMock {
-    var delegate: CBPeripheralManagerDelegate?
-    var isAdvertising: Bool!
+class CBPeripheralManagerMock: NSObject {
     var logDescription: String!
 
     override init() {
-    }
-    init(delegate: CBPeripheralManagerDelegate?, queue: DispatchQueue?, options: [String : Any]? = nil) {
-    }
-    init(delegate: CBPeripheralManagerDelegate?, queue: DispatchQueue?) {
-    }
-
-    static var authorizationStatusParams: [()] = []
-    static var authorizationStatusReturns: [CBPeripheralManagerAuthorizationStatus] = []
-    static var authorizationStatusReturn: CBPeripheralManagerAuthorizationStatus?
-    static func authorizationStatus() -> CBPeripheralManagerAuthorizationStatus {
-        authorizationStatusParams.append(())
-        if authorizationStatusReturns.isEmpty {
-            return authorizationStatusReturn!
-        } else {
-            return authorizationStatusReturns.removeFirst()
-        }
-    }
-
-    var startAdvertisingParams: [([String : Any]?)] = []
-    func startAdvertising(_ advertisementData: [String : Any]?) {
-        startAdvertisingParams.append((advertisementData))
-    }
-
-    var stopAdvertisingParams: [()] = []
-    func stopAdvertising() {
-        stopAdvertisingParams.append(())
-    }
-
-    var setDesiredConnectionLatencyParams: [(CBPeripheralManagerConnectionLatency, CBCentralMock)] = []
-    func setDesiredConnectionLatency(_ latency: CBPeripheralManagerConnectionLatency, for central: CBCentralMock) {
-        setDesiredConnectionLatencyParams.append((latency, central))
-    }
-
-    var addParams: [(CBMutableService)] = []
-    func add(_ service: CBMutableService) {
-        addParams.append((service))
-    }
-
-    var removeParams: [(CBMutableService)] = []
-    func remove(_ service: CBMutableService) {
-        removeParams.append((service))
-    }
-
-    var removeAllServicesParams: [()] = []
-    func removeAllServices() {
-        removeAllServicesParams.append(())
-    }
-
-    var respondParams: [(CBATTRequestMock, CBATTError.Code)] = []
-    func respond(to request: CBATTRequestMock, withResult result: CBATTError.Code) {
-        respondParams.append((request, result))
-    }
-
-    var updateValueParams: [(Data, CBMutableCharacteristic, [CBCentralMock]?)] = []
-    var updateValueReturns: [Bool] = []
-    var updateValueReturn: Bool?
-    func updateValue(_ value: Data, for characteristic: CBMutableCharacteristic, onSubscribedCentrals centrals: [CBCentralMock]?) -> Bool {
-        updateValueParams.append((value, characteristic, centrals))
-        if updateValueReturns.isEmpty {
-            return updateValueReturn!
-        } else {
-            return updateValueReturns.removeFirst()
-        }
-    }
-
-    var publishL2CAPChannelParams: [(Bool)] = []
-    func publishL2CAPChannel(withEncryption encryptionRequired: Bool) {
-        publishL2CAPChannelParams.append((encryptionRequired))
-    }
-
-    var unpublishL2CAPChannelParams: [(CBL2CAPPSM)] = []
-    func unpublishL2CAPChannel(_ PSM: CBL2CAPPSM) {
-        unpublishL2CAPChannelParams.append((PSM))
     }
 
 }
@@ -187,8 +44,8 @@ class CBPeripheralMock: CBPeerMock {
     var services: [CBServiceMock]?
     var canSendWriteWithoutResponse: Bool!
     var ancsAuthorized: Bool!
-    var uuidIdentifier: UUID!
     var logDescription: String!
+    var uuidIdentifier: UUID!
 
     override init() {
     }
@@ -325,8 +182,8 @@ class CBATTRequestMock: NSObject {
 }
 class CBCentralMock: CBPeerMock {
     var maximumUpdateValueLength: Int!
-    var uuidIdentifier: UUID!
     var logDescription: String!
+    var uuidIdentifier: UUID!
 
     override init() {
     }
@@ -566,7 +423,7 @@ class CBPeripheralDelegateWrapperMock: NSObject , CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didOpen channel: CBL2CAPChannel?, error: Error?) {
     }
 }
-class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
+class CBCentralManagerDelegateWrapperMock: NSObject  {
     var didUpdateState = PublishSubject<BluetoothState>()
     var willRestoreState = ReplaySubject<[String: Any]>.create(bufferSize: 1)
     var didDiscoverPeripheral = PublishSubject<(CBPeripheralMock, [String: Any], NSNumber)>()
@@ -601,7 +458,7 @@ class CBCentralManagerDelegateWrapperMock: NSObject , CBCentralManagerDelegate {
     }
     #endif
 }
-class CBPeripheralManagerDelegateWrapperMock: NSObject , CBPeripheralManagerDelegate {
+class CBPeripheralManagerDelegateWrapperMock: NSObject  {
     var didUpdateState = PublishSubject<BluetoothState>()
     var isReady = PublishSubject<Void>()
     var didStartAdvertising = PublishSubject<Error?>()
