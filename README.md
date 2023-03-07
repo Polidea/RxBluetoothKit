@@ -92,7 +92,7 @@ Versions >= 4.0 of the library integrate with the Swift Package Manager. In orde
 
 # Getting Started
 
-Check [our Wiki](https://github.com/Polidea/RxBluetoothKit/wiki) with guidelines to (almost) all library functionalites.
+Check [our Wiki](https://github.com/Polidea/RxBluetoothKit/wiki) with guidelines to (almost) all library functionalities.
 
 # Documentation & Support
 
