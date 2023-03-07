@@ -253,7 +253,6 @@
 		4CB9A0A2204447B200FF9516 /* PeripheralTest+CharacteristicOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB9A0A1204447B200FF9516 /* PeripheralTest+CharacteristicOperation.swift */; };
 		4CB9A0A3204447B200FF9516 /* PeripheralTest+CharacteristicOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB9A0A1204447B200FF9516 /* PeripheralTest+CharacteristicOperation.swift */; };
 		4CB9A0A4204447B200FF9516 /* PeripheralTest+CharacteristicOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB9A0A1204447B200FF9516 /* PeripheralTest+CharacteristicOperation.swift */; };
-		A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F298B1CDCD6E400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
 		A10F29AD1CDCD98400593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
 		A10F29B01CDCD99900593284 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5E1CCE65EE005E81CE /* RxSwift.framework */; };
@@ -261,6 +260,8 @@
 		BB2FF3331F9EAF1600A12E10 /* CBPeripheralDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3311F9EAD5300A12E10 /* CBPeripheralDelegateWrapper.swift */; };
 		BB2FF3351F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */; };
 		BB2FF3361F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2FF3341F9EAF2B00A12E10 /* CBCentralManagerDelegateWrapper.swift */; };
+		D3C8B7B929B7521C00BC85DC /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; };
+		D3C8B7BA29B7521C00BC85DC /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2666FE5A1CCE65CD005E81CE /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D74B16851ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
 		D74B16861ED417AA006D5996 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B16841ED417AA006D5996 /* Logging.swift */; };
 		FA947A3B1EB1C41C000ED0B1 /* UUIDIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA947A3A1EB1C41C000ED0B1 /* UUIDIdentifiable.swift */; };
@@ -317,6 +318,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3C8B7BB29B7521C00BC85DC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D3C8B7BA29B7521C00BC85DC /* RxSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -457,7 +469,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10F298A1CDCD6E100593284 /* RxSwift.framework in Frameworks */,
+				D3C8B7B929B7521C00BC85DC /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -942,6 +954,7 @@
 				2666FD821CCE457C005E81CE /* Resources */,
 				26A66F951E263E8C00E62D8C /* Swiftlint script */,
 				1D1BC87C2003A2D7004C5F36 /* Generate testable files script */,
+				D3C8B7BB29B7521C00BC85DC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1017,7 +1030,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = Polidea;
 				TargetAttributes = {
 					0A7B27C61F9F1682003F950E = {
@@ -1617,7 +1630,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -1649,7 +1662,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -1668,7 +1681,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-tvOS.RxBluetoothKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1676,7 +1689,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -1695,14 +1708,14 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-tvOS.RxBluetoothKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -1710,8 +1723,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1723,7 +1735,7 @@
 				);
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-iOS";
 				PRODUCT_NAME = RxBluetoothKit;
@@ -1736,8 +1748,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1749,7 +1760,7 @@
 				);
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-iOS";
 				PRODUCT_NAME = RxBluetoothKit;
@@ -1766,7 +1777,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1782,7 +1793,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1796,6 +1807,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1808,7 +1820,7 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-macOS";
 				PRODUCT_NAME = RxBluetoothKit;
 				SDKROOT = macosx;
@@ -1823,6 +1835,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1835,7 +1848,7 @@
 				INFOPLIST_FILE = Source/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-macOS";
 				PRODUCT_NAME = RxBluetoothKit;
 				SDKROOT = macosx;
@@ -1849,14 +1862,15 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(FRAMEWORK_SEARCH_PATHS)";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-OSXTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1869,14 +1883,15 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(FRAMEWORK_SEARCH_PATHS)";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.polidea.RxBluetoothKit-OSXTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1908,6 +1923,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1934,7 +1950,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1970,6 +1986,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1990,7 +2007,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
