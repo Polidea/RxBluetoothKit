@@ -1,6 +1,5 @@
-// Generated using Sourcery 1.0.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.1.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-
 import CoreBluetooth
 @testable
 import RxBluetoothKit
@@ -188,8 +187,8 @@ class CBPeripheralMock: CBPeerMock {
     var services: [CBServiceMock]?
     var canSendWriteWithoutResponse: Bool!
     var ancsAuthorized: Bool!
-    var logDescription: String!
     var uuidIdentifier: UUID!
+    var logDescription: String!
 
     override init() {
     }
@@ -263,7 +262,7 @@ class CBPeripheralMock: CBPeerMock {
 
 }
 class CBDescriptorMock: CBAttributeMock {
-    var characteristic: CBCharacteristicMock!
+    var characteristic: CBCharacteristicMock?
     var value: Any?
     var logDescription: String!
 
@@ -272,7 +271,7 @@ class CBDescriptorMock: CBAttributeMock {
 
 }
 class CBServiceMock: CBAttributeMock {
-    var peripheral: CBPeripheralMock!
+    var peripheral: CBPeripheralMock?
     var isPrimary: Bool!
     var includedServices: [CBServiceMock]?
     var characteristics: [CBCharacteristicMock]?
@@ -283,7 +282,7 @@ class CBServiceMock: CBAttributeMock {
 
 }
 class CBCharacteristicMock: CBAttributeMock {
-    var service: CBServiceMock!
+    var service: CBServiceMock?
     var properties: CBCharacteristicProperties!
     var value: Data?
     var descriptors: [CBDescriptorMock]?
@@ -326,8 +325,8 @@ class CBATTRequestMock: NSObject {
 }
 class CBCentralMock: CBPeerMock {
     var maximumUpdateValueLength: Int!
-    var logDescription: String!
     var uuidIdentifier: UUID!
+    var logDescription: String!
 
     override init() {
     }

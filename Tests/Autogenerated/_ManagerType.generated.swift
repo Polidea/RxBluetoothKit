@@ -3,7 +3,7 @@ import RxSwift
 import CoreBluetooth
 @testable import RxBluetoothKit
 
-protocol _ManagerType: class {
+protocol _ManagerType: AnyObject {
     associatedtype Manager
 
     /// Implementation of CBManagerMock
