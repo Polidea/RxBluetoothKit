@@ -1,3 +1,6 @@
+# 6.0.1
+- iOS 17 support (#1, #2)
+
 # 6.0.0
 - Increased deployment target for iOS to 9.0 and for osx to 10.13 (#379, #380)
 - Added support for observing ancsAuthorized property on peripheral. (#370)
