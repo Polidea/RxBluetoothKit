@@ -298,13 +298,13 @@ public class CentralManager: ManagerType {
                 return (peripheral, error)
             }
         return ensure(.poweredOn, observable: observable)
-                .catchError { error in
-                    if error is BluetoothError, let peripheral = peripheral {
-                        return .concat(.just((peripheral, error)), .error(error))
-                    } else {
-                        return .error(error)
-                    }
+            .catch { error in
+                if error is BluetoothError, let peripheral = peripheral {
+                    return .concat(.just((peripheral, error)), .error(error))
+                } else {
+                    return .error(error)
                 }
+            }
     }
 
     // MARK: ANCS
