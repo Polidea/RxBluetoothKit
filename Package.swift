@@ -22,7 +22,7 @@ let package = Package(
                 ],
                 path: ".",
                 exclude: [
-                    "Example",
+                    "ExampleApp",
                     "Tests",
                     "Source/Info.plist",
                     "Source/RxBluetoothKit.h"
