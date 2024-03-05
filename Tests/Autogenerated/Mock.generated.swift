@@ -9,7 +9,7 @@ import RxSwift
 
 class CBManagerMock: NSObject {
     var state: CBManagerState!
-    @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *) lazy var authorization: CBManagerAuthorization! = nil
+    lazy var authorization: CBManagerAuthorization! = nil
 
     override init() {
     }
